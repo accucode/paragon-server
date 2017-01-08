@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -54,47 +54,47 @@ public class KmSimpleLineChart
     /**
      * If true, the x axis units will be forced to integers.
      */
-    private boolean _integerUnitsX;
+    private boolean                        _integerUnitsX;
 
     /**
      * If true, the y axis units will be forced to integers.
      */
-    private boolean _integerUnitsY;
+    private boolean                        _integerUnitsY;
 
     /**
      * By default, null values are displayed as zeroes.
      */
-    private boolean _skipNullValues;
+    private boolean                        _skipNullValues;
 
     /**
      * The title displayed along the x axis.
      */
-    private String _axisTitleX;
+    private String                         _axisTitleX;
 
     /**
      * The title displayed along the y axis.
      */
-    private String _axisTitleY;
+    private String                         _axisTitleY;
 
     /**
      * The background color used outside the plot area.
      */
-    private Color _backgroundColor;
+    private Color                          _backgroundColor;
 
     /**
      * The background color used inside the plot area.
      */
-    private Color _plotBackgroundColor;
+    private Color                          _plotBackgroundColor;
 
     /**
      * The color used for both horizontal and vertical grid lines.
      */
-    private Color _plotGridLineColor;
+    private Color                          _plotGridLineColor;
 
     /**
      * If true, the legend is displayed.
      */
-    private boolean _showsLegend;
+    private boolean                        _showsLegend;
 
     //##################################################
     //# constructor

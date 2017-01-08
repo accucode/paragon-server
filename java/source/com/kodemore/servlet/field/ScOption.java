@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,18 @@ package com.kodemore.servlet.field;
 
 import com.kodemore.utility.Kmu;
 
-public class ScOption
+public class ScOption<T>
 {
     //##################################################
     //# instance creation
     //##################################################
 
-    public static ScOption create(String text, Object value)
+    public static <T> ScOption<T> create(T value, String text)
     {
-        ScOption e;
-        e = new ScOption();
-        e.setText(text);
+        ScOption<T> e;
+        e = new ScOption<>();
         e.setValue(value);
+        e.setText(text);
         return e;
     }
 
@@ -43,7 +43,7 @@ public class ScOption
     //# variables
     //##################################################
 
-    private Object _value;
+    private T      _value;
     private String _text;
 
     //##################################################
@@ -56,16 +56,22 @@ public class ScOption
         _text = "";
     }
 
+    public ScOption(T value, String text)
+    {
+        _value = value;
+        _text = text;
+    }
+
     //##################################################
     //# value
     //##################################################
 
-    public Object getValue()
+    public T getValue()
     {
         return _value;
     }
 
-    public void setValue(Object e)
+    public void setValue(T e)
     {
         _value = e;
     }
@@ -75,7 +81,7 @@ public class ScOption
         return _value != null;
     }
 
-    public boolean hasValue(Object e)
+    public boolean hasValue(T e)
     {
         return Kmu.isEqual(_value, e);
     }

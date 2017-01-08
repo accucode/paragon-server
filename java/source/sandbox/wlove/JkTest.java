@@ -1,30 +1,33 @@
 package sandbox.wlove;
 
-import java.time.ZoneId;
-import java.util.Set;
+import com.kodemore.collection.KmList;
+import com.kodemore.utility.KmConstantsIF;
 
 public class JkTest
+    implements KmConstantsIF
 {
     //##################################################
     //# main
     //##################################################
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        System.out.println("--------------------");
+        printLine();
         new JkTest().run();
-        System.out.println("--------------------");
+        printLine();
         System.out.println("ok.");
     }
 
-    private void run()
+    private static void printLine()
     {
-        int n = 0;
-        Set<String> ids = ZoneId.getAvailableZoneIds();
-        for ( String id : ids )
-            n = Math.max(n, id.length());
+        System.out.println("--------------------");
+    }
 
-        System.out.println(n);
+    private void run() throws Exception
+    {
+        KmList<Integer> a = KmList.createWith(1, 2, 3);
+        KmList<Integer> b = KmList.createWith(3, 5, 5);
+        System.out.println(a.getNotIn(b).join());
     }
 
 }

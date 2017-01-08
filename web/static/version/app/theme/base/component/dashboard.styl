@@ -1,0 +1,158 @@
+/*****************************
+ ** dashboard
+ *****************************/
+
+.dashboard
+    content: normal; /* Stylus Compression Hack, see comment above. */
+
+/*****************************
+ ** landscape
+ *****************************/
+
+.dashboard-landscape
+    display:        flex
+    flex-direction: column
+
+.dashboard-landscape .dashboard-line
+    display:        flex
+    flex-direction: row
+    flex-grow:      1
+    flex-shrink:    1
+    flex-basis:     0
+    margin-top:     $dashboard-gap
+
+.dashboard-landscape .dashboard-line:first-child
+    margin-top:     0px
+
+.dashboard-landscape .dashboard-line > *
+    margin-left:    $dashboard-gap
+
+.dashboard-landscape .dashboard-line > *:first-child
+    margin-left:    0px
+
+/*****************************
+ ** portrait
+ *****************************/
+
+.dashboard-portrait
+    display:        flex
+    flex-direction: row
+
+.dashboard-portrait .dashboard-line
+    display:        flex
+    flex-direction: column
+    flex-grow:      1
+    flex-shrink:    1
+    flex-basis:     0
+    margin-left:    $dashboard-gap
+
+.dashboard-portrait .dashboard-line:first-child
+    margin-left:    0px
+
+.dashboard-portrait .dashboard-line > *
+    margin-top:     $dashboard-gap
+
+.dashboard-portrait .dashboard-line > *:first-child
+    margin-top:     0px
+
+/*****************************
+ ** panel
+ *****************************/
+
+.dashboard-panel
+    flex-grow:      1
+    flex-shrink:    1
+    flex-basis:     0
+
+/*******************************************************************
+ ** auto
+ *******************************************************************/
+
+.dashboard-auto
+    content: normal; /* Stylus Compression Hack, see comment above. */
+
+    @media (orientation: landscape)
+        display:            flex
+        flex-direction:     column
+
+        .dashboard-line
+            display:        flex
+            flex-direction: row
+            flex-grow:      1
+            flex-shrink:    1
+            flex-basis:     0
+            margin-top:     $dashboard-gap
+
+        .dashboard-line:first-child
+            margin-top:     0px
+
+        .dashboard-line > *
+            margin-left:    $dashboard-gap
+
+        .dashboard-line > *:first-child
+            margin-left:    0px
+
+    @media (orientation: portrait)
+        display:            flex
+        flex-direction:     row
+
+        .dashboard-line
+            display:        flex
+            flex-direction: column
+            flex-grow:      1
+            flex-shrink:    1
+            flex-basis:     0
+            margin-left:    $dashboard-gap
+
+        .dashboard-line:first-child
+            margin-left:    0px
+
+        .dashboard-line > *
+            margin-top:     $dashboard-gap
+
+        .dashboard-line > *:first-child
+            margin-top:     0px
+
+/*****************************
+ ** sample
+ *****************************/
+
+.dashboard-sample
+    content: normal; /* Stylus Compression Hack, see comment above. */
+
+.dashboard-sampleLandscape
+    display:            flex
+    flex-direction:     column
+    width:              $dashboard-sampleLongSize
+    height:             $dashboard-sampleShortSize
+
+.dashboard-sampleLandscape .dashboard-sampleLine
+    display:            flex
+    flex-direction:     row
+    flex-grow:          1
+    flex-shrink:        1
+    flex-basis:         0
+
+.dashboard-samplePortrait
+    display:            flex
+    flex-direction:     row
+    width:              $dashboard-sampleShortSize
+    height:             $dashboard-sampleLongSize
+
+.dashboard-samplePortrait .dashboard-sampleLine
+    display:            flex
+    flex-direction:     column
+    flex-grow:          1
+    flex-shrink:        1
+    flex-basis:         0
+
+.dashboard-samplePanel
+    padding:            $dashboard-samplePadding
+    border:             $dashboard-sampleBorder
+    background-color:   $dashboard-sampleBackground
+    font:               $dashboard-sampleFont
+    margin-left:        $dashboard-sampleGap
+    margin-top:         $dashboard-sampleGap
+    flex-grow:          1
+    flex-shrink:        1
+    flex-basis:         0

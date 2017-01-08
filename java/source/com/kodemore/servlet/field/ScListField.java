@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,164 +22,120 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.servlet.ScConstantsIF;
-import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.variable.ScLocalCss;
-import com.kodemore.servlet.variable.ScLocalObject;
-import com.kodemore.servlet.variable.ScLocalOptionList;
-import com.kodemore.servlet.variable.ScLocalStyle;
 
-public class ScListField
-    extends ScField<Object>
+public class ScListField<T>
+    extends ScAbstractSelectField<T>
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * HTML lists and dropdowns are both implemented using the
+     * SELECT element.  The dom determines which style to use
+     * based on the element's SIZE attribute.  If the SIZE is 1,
+     * it displays a dropdown, if the SIZE is >1 it displays a
+     * list.
+     *
+     * For consistency, and cross-browser compatibility, we always
+     * set the size to 2, which ensures the element is displayed as
+     * a list.
+     *
+     * To control the visual height of the list, you should use
+     * the css/style.
+     */
+    private static final int SELECT_SIZE    = 2;
+
+    /**
+     * This is the default height (px) for list fields.
+     */
+    private static final int DEFAULT_HEIGHT = 100;
+
+    //##################################################
+    //# static :: layout enum
+    //##################################################
+
+    /**
+     * The various layout options.
+     */
+    private static enum Layout
+    {
+        /**
+         * Treat the control as an inline element, with a fixed width.
+         * This is similar to the way a standalone input element works.
+         * This is the default.
+         */
+        inline,
+
+        /**
+         * Treat the control as a block element (not inline).
+         * The control will generally span an entire row, much like a div.
+         */
+        block,
+
+        /**
+         * For use inside a flexbox (row), the child will fill the available space.
+         */
+        flexFiller;
+    }
+
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
-
-    private ScLocalObject     _value;
-    private ScLocalOptionList _options;
-
-    /**
-     * If true (by default), the original value is included in the html data- attribute
-     * and the client-side browser uses javascript to track if changes are made.
-     */
-    private boolean _changeTracking;
+    private Layout  _layout;
+    private Integer _width;
+    private Integer _height;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScListField()
     {
-        super.install();
-
-        _css = new ScLocalCss();
-        _style = new ScLocalStyle();
-
-        _value = new ScLocalObject();
-        _options = new ScLocalOptionList();
-        _changeTracking = true;
+        layoutInline();
     }
 
     //##################################################
-    //# css
+    //# layout
     //##################################################
 
-    public String getCss()
+    public void layoutInline()
     {
-        return _css.getValue();
+        layoutInline(null, DEFAULT_HEIGHT);
     }
 
-    public void setCss(String e)
+    public void layoutInline(Integer width, Integer height)
     {
-        _css.setValue(e);
+        _layout = Layout.inline;
+        _width = width;
+        _height = height;
     }
 
-    public KmCssDefaultBuilder css()
+    public void layoutBlock()
     {
-        return _css.toDefaultBuilder();
+        layoutBlock(DEFAULT_HEIGHT);
     }
 
-    protected KmCssDefaultBuilder formatCss()
+    public void layoutBlock(int height)
     {
-        return css().getCopy().linkBox();
+        _layout = Layout.block;
+        _width = null;
+        _height = height;
     }
 
-    //##################################################
-    //# style
-    //##################################################
-
-    public String getStyle()
+    public void layoutFlexFiller()
     {
-        return _style.getValue();
+        layoutFlexFiller(DEFAULT_HEIGHT);
     }
 
-    public void setStyle(String e)
+    public void layoutFlexFiller(int height)
     {
-        _style.setValue(e);
-    }
-
-    public KmStyleBuilder style()
-    {
-        return _style.toBuilder();
-    }
-
-    protected KmStyleBuilder formatStyle()
-    {
-        return style();
-    }
-
-    public void show()
-    {
-        style().show();
-    }
-
-    public void hide()
-    {
-        style().hide();
-    }
-
-    //##################################################
-    //# value
-    //##################################################
-
-    @Override
-    public Object getValue()
-    {
-        return _value.getValue();
-    }
-
-    @Override
-    public void setValue(Object e)
-    {
-        _value.setValue(e);
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _value.resetValue();
-    }
-
-    //##################################################
-    //# change tracking
-    //##################################################
-
-    public boolean getChangeTracking()
-    {
-        return _changeTracking;
-    }
-
-    public void setChangeTracking(boolean e)
-    {
-        warnIfInstalled();
-        _changeTracking = e;
-    }
-
-    public void disableChangeTracking()
-    {
-        setChangeTracking(false);
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public String getStringValue()
-    {
-        return (String)getValue();
-    }
-
-    public Integer getIntegerValue()
-    {
-        return (Integer)getValue();
+        _layout = Layout.flexFiller;
+        _width = null;
+        _height = height;
     }
 
     //##################################################
@@ -187,119 +143,32 @@ public class ScListField
     //##################################################
 
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    protected int getSelectSize()
     {
-        out.open("select");
-        renderAttributesOn(out);
-        out.close();
-
-        renderOptionsOn(out);
-
-        out.end("select");
+        return SELECT_SIZE;
     }
 
     @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
+    protected void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
     {
-        super.renderAttributesOn(out);
+        css.listField();
+        style.width(_width);
+        style.height(_height);
 
-        // Hardcoded to 2.  Set height via css.
-        out.printAttribute("size", 2);
+        switch ( _layout )
+        {
+            case inline:
+                css.flexInlineRow();
+                break;
 
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
+            case block:
+                css.flexRow();
+                break;
 
-        if ( getChangeTracking() )
-            printOldValueAttributeOn(out, encode(getValue()));
+            case flexFiller:
+                css.flexInlineRow();
+                css.flexChildFiller();
+                break;
+        }
     }
-
-    private void renderOptionsOn(KmHtmlBuilder out)
-    {
-        for ( ScOption e : _options )
-            renderOptionOn(out, e);
-    }
-
-    private void renderOptionOn(KmHtmlBuilder out, ScOption e)
-    {
-        out.open("option");
-        out.printAttribute("value", encode(e.getValue()));
-
-        if ( e.hasValue(getValue()) )
-            out.printAttribute("selected", "selected");
-
-        out.close();
-
-        out.print(e.getText());
-        out.end("option");
-    }
-
-    //##################################################
-    //# parameters
-    //##################################################
-
-    @Override
-    public void readParameters(ScServletData data)
-    {
-        super.readParameters(data);
-
-        if ( hasKeyParameter(data) )
-            _value.setValue(decodeKeyParameter(data));
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public void addOption(Object value, String label)
-    {
-        _options.add(value, label);
-    }
-
-    /**
-     * Ensure value matches one of the options.  If not, set it to null.
-     */
-    public void ensureValidValue()
-    {
-        if ( isValueValid() )
-            return;
-
-        resetValue();
-    }
-
-    public boolean isValueValid()
-    {
-        Object value = getValue();
-
-        for ( ScOption e : _options )
-            if ( e.hasValue(value) )
-                return true;
-
-        return false;
-    }
-
-    //##################################################
-    //# editable
-    //##################################################
-
-    @Override
-    public boolean isEditable()
-    {
-        return true;
-    }
-
-    //##################################################
-    //# ajax
-    //##################################################
-
-    @Override
-    public void ajaxUpdateValue()
-    {
-        String value = encode(getValue());
-
-        ajax().setValue(value);
-
-        if ( getChangeTracking() )
-            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
-    }
-
 }

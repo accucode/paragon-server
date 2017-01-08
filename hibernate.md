@@ -53,52 +53,61 @@ Auto-gen
     The stf files are structurally similar to xml, but formatting in a 
     way that is (hopefully) easier to read and edit by hand.    
 
+    
 Auto-save
 =========
    
     Hibernate automatically saves any changes to domain models.
     If you retrieve a model from the database and modify it, those 
     changes will be automatically saved when the transaction finishes.
-    
-    You do NOT have to call "save" every time you make a change.
 
 
 Attaching Models
 ================
 
     Hibernate does not attempt to save every instance to the database.
-    To begin saving a particular instance you must tell hibernate about
+    To persist a particular instance you must tell hibernate about
     that instance the first time.  This is typically done with the 
-    convenience method saveDao().  As in:
+    convenience method daoAttach().  As in:
     
         MyUser e;
         e = new MyUser();
         e.setName("John Doe");
-        e.saveDao();
+        e.daoAttach();
         
     Once the instance has been attached to hibernate, any subsequent changes
-    will be automatically persisted without needing to call save again.
+    will be automatically persisted without needing to call attach again.
+    
     
 Deferred SQL
 ====================
 
-    In many cases, Hibernate does NOT execute sql immediately.  When
+    Hibernate does NOT execute sql immediately in most cases.  When
     possible, Hibernate defers multiple updates until the end of the 
     transaction and then runs then all at the same time.
 
+    
 Caching, first-level
 ====================
 
     One of the advantages of using Hibernate is automatic caching.
     The first type of caching occurs WITHIN a single transaction.
     Between the *begin* and *commit* hibernate caches all instances
-    that are retrieved from the database.  This means that you are 
-    guaranteed that the following is always true:
+    that are retrieved from the database. Although two instances 
+    may not have the same *identity* they do represent the same 
+    underlying data and changes to one are guaranteed to be reflected
+    in the other.
     
-        MyProduct a = hibernate.findProductByKey("123");
-        MyProduct b = hibernate.findProductByKey("123");
-        System.println(a == b); // always true.
+        String key = "123";
+        MyProduct a = hibernate.findProductByKey(key);
+        MyProduct b = hibernate.findProductByKey(key);
+        System.println(a == b); // may or may NOT be true.
+        
+        a.setName("aaa"); 
+        System.println(a.getName()); // aaa
+        System.println(b.getName()); // also aaa since a and b represent the same product.
     
+
 Caching, second-level
 =====================
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
@@ -110,7 +111,10 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     /**
      * This method is NOT SAFE for normal business operations.
      * This method is very fast and immediately deletes all records
-     * from the underlying table.  However, it bypasses hibernate.
+     * from the underlying table.  However, it causes hibernates
+     * sessions and caches to be incorrect.  Also, the truncate
+     * command does NOT respect database transactions and cannot be
+     * rolled back.
      */
     public void _truncate()
     {
@@ -132,11 +136,35 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      */
     private T getImmediate(K key, LockOptions lock)
     {
-        if ( key == null )
-            return null;
+        /**
+         * low_wyatt: ObjectNotFoundException
+         *
+         * When a user enters the application, we check to see if there
+         * is a cookie, and use it to automatically log them back in.
+         * This autoLogin process sometimes throws an ObjectNotFoundException.
+         *
+         * It is unclear why this exception is being thrown since get() is
+         * supposed to return null if the object is not found. Perhaps there
+         * is a background script that is deleting the pertinent record at
+         * roughly the same time that the user is trying to log in?
+         *
+         * Additional research is warranted, and this try-catch should really
+         * be removed once we determine the underlying problem. Per hibernate
+         * documentation ALL hibernate exceptions are considered unrecoverable
+         * so it may not be technically safe to continue after catching it.
+         */
+        try
+        {
+            if ( key == null )
+                return null;
 
-        Object o = getSession().get(getPersistentClass(), key, lock);
-        return cast(o);
+            Object o = getSession().get(getPersistentClass(), key, lock);
+            return cast(o);
+        }
+        catch ( ObjectNotFoundException ex )
+        {
+            return null;
+        }
     }
 
     /**
@@ -259,6 +287,6 @@ public abstract class KmAbstractDao<T, K extends Serializable>
 
     protected KmTimestamp getNowUtc()
     {
-        return KmClock.getNowUtc();
+        return KmClock.getUtcTimestamp();
     }
 }

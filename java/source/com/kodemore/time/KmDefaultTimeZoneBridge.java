@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,6 @@
 
 package com.kodemore.time;
 
-import java.time.ZoneId;
-
 /**
  * I am used as a default converter and simply assume that
  * the local timezone is always the same as utc.  Applications
@@ -33,8 +31,8 @@ public class KmDefaultTimeZoneBridge
     extends KmTimeZoneBridge
 {
     @Override
-    public ZoneId getLocalTimeZone()
+    public KmTimeZone getLocalZone()
     {
-        return ZoneId.systemDefault();
+        return KmTimeZone.Mountain;
     }
 }

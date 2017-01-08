@@ -13,19 +13,16 @@ public class MyPageContent
     private ScDiv _inner;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyPageContent()
     {
-        super.install();
-
-        setHtmlId(KmCssDefaultConstantsIF.ID_appContent);
+        setHtmlId(KmCssDefaultConstantsIF.ID_content);
 
         _inner = addDiv();
-        _inner.setHtmlId(KmCssDefaultConstantsIF.ID_appContentInner);
-        _inner.css().appContentInner();
+        _inner.setHtmlId(KmCssDefaultConstantsIF.ID_content_inner);
+        _inner.css().appContentInner().flexColumn();
     }
 
     //##################################################

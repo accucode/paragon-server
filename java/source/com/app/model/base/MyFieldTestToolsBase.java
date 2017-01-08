@@ -41,7 +41,9 @@ public abstract class MyFieldTestToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyFieldTestFilter());
         e.setFinder(new MyFieldTestFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

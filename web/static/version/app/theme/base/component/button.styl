@@ -1,0 +1,260 @@
+/*
+ * The styles for common buttons.
+ *
+ * Buttons are deceptively complex, and their styling needs to
+ * account for a number of visual and functional considerations.
+ * Before making changes to the style, make sure you are accounting
+ * for all of the following:
+ *
+ *      Default
+ *          The default appearance of a normal button on the screen.
+ *          This is the part people usually focus on and want to change.
+ *          However, care must be taken on to cause unwanted side-effects
+ *          when changing the basic appearance.
+ *
+ *      Focus
+ *          This is a business application that is often used by workers
+ *          as their primary data entry tool. Care has been taken to
+ *          support the use of the TAB key to navigate between elements.
+ *          Buttons must show a visual indication when they have tab focus.
+ *
+ *      Hover
+ *          Show a visual indication when the mouse is hovered over the
+ *          button. The hover effect provides a visual cue that the button
+ *          is clickable. There is no hover effect for disabled buttons.
+ *
+ *      Active
+ *          Show a visual cue when the button is depressed, typically by
+ *          a mouse click. Traditionally, this uses a shadow effect that
+ *          makes the button looked like it has been pressed 'down.'
+ *
+ *      Primary
+ *          The 'primary' button is the button that is activated when the
+ *          user pressed the ENTER key on a form. Each form may have only
+ *          one primary button.
+ *
+ *      Positive
+ *          A button used to indicate a positive action.
+ *          Positive buttons are typically used for actions such as:
+ *          save, next, continue. Each form should typically have only
+ *          one positive button. The form's positive button is often
+ *          also a primary/submit button, but not always.
+ *
+ *      Negative
+ *          A button used to indicate a negative action.
+ *          Negative buttons are typically used for actions such as:
+ *          cancel, abandon, abort. Each form should typically have only
+ *          one negative button.
+ *
+ *      Disabled
+ *          Disabled buttons cannot be activated by the user. In most cases,
+ *          it is better to leave the button enabled and to display a pertinent
+ *          message that explains why the action is currently not available.
+ *
+ *      Icon
+ *          A button styled as a floating image, WITHOUT the background or borders.
+ */
+
+
+/******************************
+ * base
+ ******************************/
+
+.button
+    box-sizing:         border-box
+
+    height:             $button-height                  if $button-height
+    min-width:          $button-minimumWidth            if $button-minimumWidth
+    padding:            $button-padding                 if $button-padding
+
+    overflow:           hidden
+    display:            inline-block
+    position:           relative
+
+    font:               $button-font                    if $button-font
+    text-decoration:    none
+    white-space:        nowrap
+
+    outline:            none
+    border-radius:      $button-radius                  if $button-radius
+
+    flex-shrink:        0
+    text-transform:     $button-textTransform           if $button-textTransform
+
+.button:focus
+    outline:            $button-focusOutline            if $button-focusOutline
+    outline-offset:     $button-focusOutlineOffset      if $button-focusOutlineOffset
+
+
+.button > img
+    margin:             $button-imageMargin              if $button-imageMargin
+    padding:            $button-imagePadding             if $button-imagePadding
+    width:              $button-imageWidth               if $button-imageWidth
+    height:             $button-imageHeight              if $button-imageHeight
+    border:             none
+
+
+.button > img.helpTriangle
+    position:           absolute
+    top:                0
+    right:              0
+    height:             $tooltip-triangleSize           if $tooltip-triangleSize
+    width:              $tooltip-triangleSize           if $tooltip-triangleSize
+    cursor:             help
+
+/******************************
+ * normal
+ ******************************/
+
+.button-normal
+    color:      $button-normalColor                     if $button-normalColor
+    background: $button-normalBackground                if $button-normalBackground
+    border:     $button-normalBorder                    if $button-normalBorder
+    box-shadow: $button-shadow                          if $button-shadow
+    cursor:     pointer
+
+.button-normal:hover
+    color:      $button-normalColor-hover               if $button-normalColor-hover
+    background: $button-normalBackground-hover          if $button-normalBackground-hover
+    border:     $button-normalBorder-hover              if $button-normalBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-normal:active
+    color:      $button-normalColor-active              if $button-normalColor-active
+    background: $button-normalBackground-active         if $button-normalBackground-active
+    border:     $button-normalBorder-active             if $button-normalBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * positive
+ ******************************/
+
+.button-positive
+    color:      $button-positiveColor                   if $button-positiveColor
+    background: $button-positiveBackground              if $button-positiveBackground
+    border:     $button-positiveBorder                  if $button-positiveBorder
+    box-shadow: $button-shadow                          if $button-shadow
+    cursor:     pointer
+
+.button-positive:hover
+    color:      $button-positiveColor-hover             if $button-positiveColor-hover
+    background: $button-positiveBackground-hover        if $button-positiveBackground-hover
+    border:     $button-positiveBorder-hover            if $button-positiveBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-positive:active
+    color:      $button-positiveColor-active            if $button-positiveColor-active
+    background: $button-positiveBackground-active       if $button-positiveBackground-active
+    border:     $button-positiveBorder-active           if $button-positiveBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * negative
+ ******************************/
+
+.button-negative
+    color:      $button-negativeColor                   if $button-negativeColor
+    background: $button-negativeBackground              if $button-negativeBackground
+    border:     $button-negativeBorder                  if $button-negativeBorder
+    box-shadow: $button-shadow                          if $button-shadow
+    cursor:     pointer
+
+.button-negative:hover
+    color:      $button-negativeColor-hover             if $button-negativeColor-hover
+    background: $button-negativeBackground-hover        if $button-negativeBackground-hover
+    border:     $button-negativeBorder-hover            if $button-negativeBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-negative:active
+    color:      $button-negativeColor-active            if $button-negativeColor-active
+    background: $button-negativeBackground-active       if $button-negativeBackground-active
+    border:     $button-negativeBorder-active           if $button-negativeBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * delete
+ ******************************/
+
+.button-delete
+    color:      $button-deleteColor                     if $button-deleteColor
+    background: $button-deleteBackground                if $button-deleteBackground
+    border:     $button-deleteBorder                    if $button-deleteBorder
+    box-shadow: $button-shadow                          if $button-shadow
+    cursor:     pointer
+
+.button-delete:hover
+    color:      $button-deleteColor-hover               if $button-deleteColor-hover
+    background: $button-deleteBackground-hover          if $button-deleteBackground-hover
+    border:     $button-deleteBorder-hover              if $button-deleteBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-delete:active
+    color:      $button-deleteColor-active              if $button-deleteColor-active
+    background: $button-deleteBackground-active         if $button-deleteBackground-active
+    border:     $button-deleteBorder-active             if $button-deleteBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * icon
+ ******************************/
+
+.button-icon
+    color:      $button-iconColor                       if $button-iconColor
+    background: $button-iconBackground                  if $button-iconBackground
+    border:     $button-iconBorder                      if $button-iconBorder
+    box-shadow: none
+    cursor:     pointer
+
+.button-icon:hover
+    color:      $button-iconColor-hover                 if $button-iconColor-hover
+    background: $button-iconBackground-hover            if $button-iconBackground-hover
+    border:     $button-iconBorder-hover                if $button-iconBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-icon:active
+    color:      $button-iconColor-active                if $button-iconColor-active
+    background: $button-iconBackground-active           if $button-iconBackground-active
+    border:     $button-iconBorder-active               if $button-iconBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * disabled
+ ******************************/
+
+.button-disabled
+    color:      $button-disabledColor                   if $button-disabledColor
+    background: $button-disabledBackground              if $button-disabledBackground
+    border:     $button-disabledBorder                  if $button-disabledBorder
+    box-shadow: $button-shadow                          if $button-shadow
+    cursor:     pointer
+
+.button-disabled:hover
+    color:      $button-disabledColor-hover             if $button-disabledColor-hover
+    background: $button-disabledBackground-hover        if $button-disabledBackground-hover
+    border:     $button-disabledBorder-hover            if $button-disabledBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+.button-disabled:active
+    color:      $button-disabledColor-active            if $button-disabledColor-active
+    background: $button-disabledBackground-active       if $button-disabledBackground-active
+    border:     $button-disabledBorder-active           if $button-disabledBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+/******************************
+ * primary
+ ******************************/
+
+.button-primary
+    font:       $button-primaryFont
+
+/*******************************************************************
+ ** layouts
+ *******************************************************************/
+
+.buttonBox                  { padding: 10px; white-space: nowrap; }
+.buttonBox > *              { margin-left: 5px;  }
+.buttonBox > *:first-child  { margin-left: 0;    }
+
+.buttonBox5                  { padding: 5px; white-space: nowrap; }
+.buttonBox5 > *              { margin-left: 5px;  }
+.buttonBox5 > *:first-child  { margin-left: 0;    }

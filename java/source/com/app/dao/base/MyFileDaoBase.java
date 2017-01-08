@@ -92,7 +92,7 @@ public abstract class MyFileDaoBase
     //# convenience
     //##################################################
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

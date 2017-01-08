@@ -1,0 +1,107 @@
+<response>
+      <control>
+            <status>success</status>
+            <senderid>Accu2015</senderid>
+            <controlid>controlId001</controlid>
+            <uniqueid>false</uniqueid>
+            <dtdversion>2.1</dtdversion>
+      </control>
+      <operation>
+            <authentication>
+                  <status>success</status>
+                  <userid>wlove</userid>
+                  <companyid>Accu2015</companyid>
+                  <sessiontimestamp>2016-10-18T15:31:40-07:00</sessiontimestamp>
+            </authentication>
+            <result>
+                  <status>success</status>
+                  <function>get_list</function>
+                  <controlid>controlId001</controlid>
+                  <listtype start="0" end="0" total="1345">customer</listtype>
+                  <data>
+                        <customer>
+                              <recordno>5486</recordno>
+                              <customerid>50000</customerid>
+                              <name>06-1275 Alladien</name>
+                              <parentid/>
+                              <termname>Net 30</termname>
+                              <custrepid>308</custrepid>
+                              <shippingmethod/>
+                              <custtype>Retail</custtype>
+                              <taxid/>
+                              <creditlimit/>
+                              <totaldue>0</totaldue>
+                              <territoryid/>
+                              <resaleno/>
+                              <deliveryoptions>
+                                    <deliveryoption>print</deliveryoption>
+                              </deliveryoptions>
+                              <accountlabel/>
+                              <glaccountno/>
+                              <glgroup/>
+                              <onhold>F</onhold>
+                              <comments/>
+                              <supdocid/>
+                              <whenmodified>07/15/2016 01:36:02</whenmodified>
+                              <status>active</status>
+                              <currency/>
+                              <primary>
+                                    <contactname/>
+                              </primary>
+                              <billto>
+                                    <contactname/>
+                              </billto>
+                              <shipto>
+                                    <contactname/>
+                              </shipto>
+                              <contactinfo>
+                                    <contact>
+                                          <contactname>06-1275 Alladien</contactname>
+                                          <printas>06-1275 Alladien</printas>
+                                          <companyname>06-1275 Alladien</companyname>
+                                          <taxable>true</taxable>
+                                          <taxgroup/>
+                                          <prefix/>
+                                          <firstname/>
+                                          <lastname/>
+                                          <initial/>
+                                          <phone1/>
+                                          <phone2/>
+                                          <cellphone/>
+                                          <pager/>
+                                          <fax/>
+                                          <email1/>
+                                          <email2/>
+                                          <url1/>
+                                          <url2/>
+                                          <mailaddress>
+                                                <address1>3775 NW 77th St</address1>
+                                                <address2/>
+                                                <city>Miami</city>
+                                                <state>FL</state>
+                                                <zip>33147</zip>
+                                                <country>United States</country>
+                                          </mailaddress>
+                                    </contact>
+                              </contactinfo>
+                              <vsoepricelist/>
+                              <contactlist>
+                                       <contactitem>
+                                             <category>BILLING ADDRESS</category>
+                                             <contactname>06-1275 Alladien</contactname>
+                                       </contactitem>
+                                       <contactitem>
+                                             <category>SHIPPING ADDRESS</category>
+                                             <contactname>06-1275 Alladien</contactname>
+                                       </contactitem>
+                              </contactlist>
+                              <pricelist/>
+                              <offsetglaccountno/>
+                              <visibility>
+                                    <visibility_type>Unrestricted</visibility_type>
+                              </visibility>
+                        </customer>
+                  </data>
+            </result>
+      </operation>
+</response>

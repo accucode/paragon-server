@@ -159,6 +159,7 @@ public class MyApplicationLogValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("applicationLog");
         e.setField("uid");
+        e.setRequired();
         return e;
     }
 

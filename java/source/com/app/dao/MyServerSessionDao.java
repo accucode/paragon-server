@@ -6,6 +6,7 @@ import com.kodemore.time.KmTimestamp;
 import com.app.criteria.MyServerSessionCriteria;
 import com.app.dao.base.MyServerSessionDaoBase;
 import com.app.model.MyServerSession;
+import com.app.model.MyUser;
 
 public class MyServerSessionDao
     extends MyServerSessionDaoBase
@@ -34,8 +35,21 @@ public class MyServerSessionDao
             return false;
 
         for ( MyServerSession e : v )
-            e.deleteDao();
+            e.daoDelete();
 
         return true;
+    }
+
+    /**
+     * Find the last touched server session for a user
+     */
+    public MyServerSession findLastTouchedFor(MyUser user)
+    {
+        MyServerSessionCriteria c;
+        c = createCriteria();
+        c.whereUserIs(user);
+        c.whereActive().isTrue();
+        c.sortOnLastTouchedUtcTs(false);
+        return c.findFirst();
     }
 }

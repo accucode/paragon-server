@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaPerformanceLogDetail_CreatedUtcTs
     @Override
     public String getHelp()
     {
-        return "The time when this log was created.  This is usually very very close to when the task ended (not started).";
+        return "The time when this log was created. This is usually very very close to when the task ended (not started).";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPerformanceLogDetail_CreatedUtcTs
         return getAccess().getPerformanceLogDetailDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPerformanceLogDetail_CreatedUtcTs
     {
         return model.getCreatedUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyPerformanceLogDetail model, KmTimestamp value)
     {
         model.setCreatedUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPerformanceLogDetail model, KmTimestamp value)
     {
         return model.hasCreatedUtcTs(value);
     }
-    
+
 }

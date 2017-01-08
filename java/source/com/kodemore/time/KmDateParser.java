@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -61,8 +61,8 @@ public class KmDateParser
     //##################################################
 
     // kludge: change to enum
-    public static final int ONE_NUMBER_MODE_NONE       = 0;
-    public static final int ONE_NUMBER_MODE_DAY_OFFSET = 1;
+    public static final int ONE_NUMBER_MODE_NONE                   = 0;
+    public static final int ONE_NUMBER_MODE_DAY_OFFSET             = 1;
 
     public static final int TWO_NUMBER_MODE_NONE                   = 0;
     public static final int TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR = 1;
@@ -70,22 +70,22 @@ public class KmDateParser
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_FIRST_DAY   = 3;
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_LAST_DAY    = 4;
 
-    public static final int THREE_NUMBER_MODE_NONE           = 0;
-    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR = 1;
-    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY = 2;
+    public static final int THREE_NUMBER_MODE_NONE                 = 0;
+    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR       = 1;
+    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY       = 2;
 
     //##################################################
     //# variables
     //##################################################
 
-    private char _separator;
-    private int  _centurySplitYear;
-    private int  _minimumYear;
-    private int  _maximumYear;
+    private char            _separator;
+    private int             _centurySplitYear;
+    private int             _minimumYear;
+    private int             _maximumYear;
 
-    private int _oneNumberMode;
-    private int _twoNumberMode;
-    private int _threeNumberMode;
+    private int             _oneNumberMode;
+    private int             _twoNumberMode;
+    private int             _threeNumberMode;
 
     //##################################################
     //# constructor
@@ -106,6 +106,10 @@ public class KmDateParser
     //# accessing
     //##################################################
 
+    //==================================================
+    //= separator
+    //==================================================
+
     public char getSeparator()
     {
         return _separator;
@@ -115,6 +119,20 @@ public class KmDateParser
     {
         _separator = e;
     }
+
+    public void setSeparatorDash()
+    {
+        setSeparator('-');
+    }
+
+    public void setSeparatorSlash()
+    {
+        setSeparator('-');
+    }
+
+    //==================================================
+    //= century split
+    //==================================================
 
     public int getCenturySplitYear()
     {
@@ -126,6 +144,10 @@ public class KmDateParser
         _centurySplitYear = e;
     }
 
+    //==================================================
+    //= min year
+    //==================================================
+
     public int getMinimumYear()
     {
         return _minimumYear;
@@ -135,6 +157,10 @@ public class KmDateParser
     {
         _minimumYear = e;
     }
+
+    //==================================================
+    //= max year
+    //==================================================
 
     public int getMaximumYear()
     {
@@ -405,22 +431,14 @@ public class KmDateParser
 
     public static void main(String args[])
     {
-        String[] arr =
-        {
-            "1/2/99",
-            "1/2/00",
-            "1/1",
-            "12/31",
-            "-1",
-            "0",
-            "1",
-        };
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-        {
-            String s = arr[i];
-            KmDate d = KmDateParser.parseDate(s);
-            System.out.println(Kmu.rightPad(s, 10) + d);
-        }
+        KmDateParser p;
+        p = new KmDateParser();
+        p.setSeparator('-');
+        p.setThreeNumberMode(KmDateParser.THREE_NUMBER_MODE_YEAR_MONTH_DAY);
+        String s = "2016-07-31";
+        KmDate d = p.parse(s);
+
+        System.out.println("    s: " + s);
+        System.out.println("    d: " + d);
     }
 }

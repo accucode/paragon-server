@@ -51,17 +51,18 @@ public class MyMetaHibernateCacheTest
         return "hibernateCacheTest";
     }
 
-    public static MyHibernateCacheTestValidator getValidator()
+    public MyHibernateCacheTestValidator getValidator()
     {
         return MyHibernateCacheTestValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "I am used to test the hibernate second level cache.";
     }
@@ -73,6 +74,7 @@ public class MyMetaHibernateCacheTest
     public static final MyMetaHibernateCacheTest_Uid Uid = new MyMetaHibernateCacheTest_Uid();
     public static final MyMetaHibernateCacheTest_Data Data = new MyMetaHibernateCacheTest_Data();
     public static final MyMetaHibernateCacheTest_LockVersion LockVersion = new MyMetaHibernateCacheTest_LockVersion();
+    public static final MyMetaHibernateCacheTest_DisplayString DisplayString = new MyMetaHibernateCacheTest_DisplayString();
 
     //##################################################
     //# associations

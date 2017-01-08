@@ -25,8 +25,8 @@ public class KmAuthnetCreateTransactionResponse
     //# variables
     //##################################################
 
-    private String   _directResponse;
-    private String[] _directResponseFields;
+    private String             _directResponse;
+    private String[]           _directResponseFields;
 
     //##################################################
     //# direct

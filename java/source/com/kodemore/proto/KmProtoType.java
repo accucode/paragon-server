@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelField;
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.hibernate.KmhPropertyCondition;
 import com.kodemore.utility.Kmu;
 
@@ -79,7 +79,7 @@ public abstract class KmProtoType
     //# sql
     //##################################################
 
-    public abstract String getDatabaseType(KmgModelType f);
+    public abstract String getDatabaseType(KmgModelFieldType f);
 
     public String getSqlSelect()
     {

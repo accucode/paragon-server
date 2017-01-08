@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,88 +24,15 @@ package com.kodemore.servlet.control;
 
 /**
  * I am used in conjuction with the ScCardFrame.
+ *
+ * The ScCardFrame can use most controls as children, and clients
+ * are NOT required to use the ScCard.  However, ScCard does have
+ * some convenience methods so we are not removing this helper class
+ * entirely (yet).
  */
 public class ScCard
     extends ScDiv
+    implements ScCardMixinIF
 {
-    //##################################################
-    //# init
-    //##################################################
-
-    @Override
-    protected void install()
-    {
-        super.install();
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    /**
-     * I am called immediately before this card is printed.
-     * I am called each (every) time the card is printed.
-     * Subclasses are generally NOT required to call super.
-     */
-    public void prePrint()
-    {
-        // subclass
-    }
-
-    //##################################################
-    //# ajax
-    //##################################################
-
-    /**
-     * Show this card within the frame using the frame's
-     * default animation effect.
-     */
-    public void ajaxPrint()
-    {
-        getFrame().ajaxPrint(this);
-    }
-
-    /**
-     * Show this card within the frame without any animation
-     * effect.
-     */
-    public void ajaxPrintFast()
-    {
-        getFrame().ajaxPrintFast(this);
-    }
-
-    protected void ajaxClose()
-    {
-        getFrame().ajaxClose(this);
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
-    @Override
-    public ScCardFrame getParent()
-    {
-        return (ScCardFrame)super.getParent();
-    }
-
-    public ScCardFrame getFrame()
-    {
-        return getParent();
-    }
-
-    //##################################################
-    //# abstract accessing
-    //##################################################
-
-    public void beDefault()
-    {
-        getFrame().setDefaultCard(this);
-    }
-
-    public boolean isDefault()
-    {
-        return getFrame().isDefaultCard(this);
-    }
-
+    // none
 }

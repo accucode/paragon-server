@@ -1,0 +1,392 @@
+/*****************************
+ ** tab book
+ *****************************/
+
+/*
+>>>>>>>>>>>
+    .book                       - wrapper around the entire book
+        .book-header            - wraps the tab box with a scrollbar
+            .book-tabBox        - wrapper for the tabs
+                .book-tab       - all tabs have this.
+                .book-secondary - added to tabs to indicate a secondar tab
+                .book-selected  - added to a single tab to indicate the selection.
+        .book-body              - wrapper for the card frame
+            .book-frame         - the cardFrame used to swap the contents
+        .book-overlay           - see comment below
+<<<<<<<<<<<<
+*/
+
+$book-borderSize                = 2px
+$book-borderStyle               = solid
+
+$book-tabRadius                 = 3px
+$book-tabColor                  = #000
+$book-tabBackground             = #eee
+$book-tabBackground-hover       = #fff
+$book-tabBorder                 = #aaa
+$book-tabIndent                 = 20px
+$book-tabGap                    = 5px
+
+$book-tallTabWidth              = 40px
+$book-tallTabHeight             = 120px
+
+$book-secondaryColor            = #000
+$book-secondaryBackground       = #ccc
+$book-secondaryBackground-hover = #ddd
+$book-secondaryBorder           = #aaa
+
+$book-selectedColor             = #000
+$book-selectedBackground        = #fb0
+$book-selectedBackground-hover  = #fc1
+$book-selectedBorder            = darken($book-selectedBackground, 10%)
+$book-selectedStickup           = 5px
+
+$book-labelHeight               = 30px
+$book-labelPaddingLeft          = 7px
+$book-labelPaddingBottom        = 7px
+
+// internal
+
+$book-tabTranslateX             = -1px * ($book-labelHeight)
+$book-tabTranslateY             = 0px
+
+
+//##########################################################
+//##
+//## container
+//##
+//##########################################################
+
+.book
+    box-sizing:                 border-box
+    display:                    flex
+    flex-direction:             column
+    overflow:                   hidden
+
+//##########################################################
+//##
+//## flavors
+//##
+//##########################################################
+
+.book-wide,
+.book-tall,
+.book-auto
+    /* noop - prevent compression */
+    content: normal
+
+//##########################################################
+//##
+//## wide
+//##
+//##########################################################
+
+//------------------------------
+//-- header
+//------------------------------
+
+.book-header
+    flex-shrink:                0
+    flex-grow:                  0
+
+    box-sizing:                 border-box
+    display:                    flex
+    flex-direction:             row
+
+    overflow-x:                 scroll
+    overflow-y:                 hidden
+
+//------------------------------
+//-- tab box
+//------------------------------
+
+.book-tabBox
+    flex-shrink:                1
+    flex-grow:                  1
+
+    box-sizing:                 border-box
+    display:                    flex
+    flex-direction:             row
+    justify-content:            flex-start
+    align-items:                flex-end
+
+//------------------------------
+//-- tab
+//------------------------------
+
+.book-tab
+    flex-shrink:                0
+    flex-grow:                  0
+
+    box-sizing:                 border-box
+    display:                    flex
+    flex-direction:             column
+    justify-content:            flex-end
+    align-items:                flex-start
+
+    overflow:                   hidden
+
+    color:                      $book-tabColor
+    background:                 $book-tabBackground
+
+    border:                     $book-borderSize $book-borderStyle $book-tabBorder
+    border-bottom:              none
+    border-top-left-radius:     $book-tabRadius
+    border-top-right-radius:    $book-tabRadius
+
+    cursor:                     pointer
+
+    padding-top:                0px
+    margin-top:                 $book-selectedStickup
+    margin-right:               $book-tabGap
+
+.book-tab:first-child
+    margin-left:                $book-tabIndent
+
+.book-tab:last-child
+    margin-right:               $book-tabIndent
+
+.book-tab:hover
+    background:                 $book-tabBackground-hover
+
+
+//------------------------------
+//-- secondary
+//------------------------------
+
+.book-secondary
+    color:                      $book-secondaryColor
+    background:                 $book-secondaryBackground
+    border-color:               $book-secondaryBorder
+
+.book-secondary:hover
+    background:                 $book-secondaryBackground-hover
+
+
+//------------------------------
+//-- selected
+//------------------------------
+
+.book-selected
+    color:                      $book-selectedColor
+    background:                 $book-selectedBackground
+    border-color:               $book-selectedBorder
+
+    padding-top:                $book-selectedStickup
+    margin-top:                 0px
+
+.book-selected:hover
+    background:                 $book-selectedBackground-hover
+
+//------------------------------
+//-- text
+//------------------------------
+
+.book-tab > span
+    display:                    block
+    margin:                     5px 10px
+    font:                       normal 1.6rem roboto
+    white-space:                nowrap
+
+//------------------------------
+//-- overlay
+//------------------------------
+
+/**
+ * Used to mask the scrollbars border below the selected tab.
+ * This makes the selected tab appear 'connected' to the scrollbar.
+ * The styling is applied by the css, but the position and width
+ * is updated dynamically via javascript.
+ *
+ * HIDDEN
+ * The overlay is currently hidden because because it gets out
+ * of sync when you resize the window. For now, we are leaving
+ * the existing style and javascript intact, but the overlay
+ * is simply hidden until we resolve the positioning issue.
+ * To enable, simply change the display to 'block'.
+ */
+.book-overlay
+    display:            none // block
+
+    box-sizing:         border-box
+    position:           absolute
+    left:               0px
+    top:                0px
+    width:              0px
+    height:             $book-borderSize
+    background:         $book-selectedBackground
+
+
+//------------------------------
+//-- body
+//------------------------------
+
+.book-body
+    flex-shrink:        1
+    flex-grow:          1
+    position:           relative
+
+.book-frame
+    box-sizing:         border-box
+    display:            flex
+    flex-direction:     column
+    justify-content:    flex-start
+    align-items:        flex-stretch
+
+    position:           absolute
+    left:               0px
+    right:              0px
+    top:                0px
+    bottom:             0px
+
+//------------------------------
+//-- scrollbar
+//------------------------------
+
+$book-scrollbarWidth    = 18px // multiple of 3
+
+.book-header::-webkit-scrollbar
+    width:              $book-scrollbarWidth
+    height:             $book-scrollbarWidth
+
+//------------------------------
+//-- scrollbar :: track
+//------------------------------
+
+.book-header::-webkit-scrollbar-track
+    background:                 $book-selectedBackground
+    border:                     $book-borderSize $book-borderStyle $book-selectedBorder
+    border-top-left-radius:     5px
+    border-top-right-radius:    5px
+
+.book-header::-webkit-scrollbar-track:hover
+    background:                 $book-selectedBackground
+
+.book-header::-webkit-scrollbar-track:active
+    background:                 $book-selectedBackground
+
+//------------------------------
+//-- scrollbar :: thumb
+//------------------------------
+
+.book-header::-webkit-scrollbar-thumb
+    background:                 lighten($book-selectedBackground, 40%)
+    background-clip:            padding-box
+    border:                     ($book-scrollbarWidth / 3) solid transparent
+    border-radius               ($book-scrollbarWidth)
+
+.book-header::-webkit-scrollbar-thumb:hover
+    background:                 lighten($book-selectedBackground, 50%)
+    background-clip:            padding-box
+
+.book-header::-webkit-scrollbar-thumb:active
+    background:                 darken($book-selectedBackground, 10%)
+    background-clip:            padding-box
+
+//------------------------------
+//-- scrollbar :: button
+//------------------------------
+
+.book-header::-webkit-scrollbar-button
+    width:          0px
+    height:         0px
+    background:     transparent
+
+//------------------------------
+//-- scrollbar :: corner
+//------------------------------
+
+.book-header::-webkit-scrollbar-corner
+    background:     transparent
+
+//------------------------------
+//-- scrollbar :: IE
+//------------------------------
+
+.book-header
+    scrollbar-face-color:       lighten($book-selectedBackground, 30%)
+    scrollbar-track-color:      $book-selectedBackground
+    scrollbar-arrow-color:      transparent
+    scrollbar-shadow-color:     transparent
+    scrollbar-highlight-color:  transparent
+    scrollbar-3dlight-color:    transparent
+    scrollbar-darkshadow-Color: transparent
+
+
+//##########################################################
+//##
+//## tall
+//##
+//##########################################################
+
+//------------------------------
+//-- tab
+//------------------------------
+
+.book-tall > .book-header > .book-tabBox > .book-tab
+    width:                      $book-tallTabWidth
+    height:                     $book-tallTabHeight
+    padding-top:                0px
+    margin-top:                 0px
+
+//------------------------------
+//-- selected
+//------------------------------
+
+.book-tall > .book-header > .book-tabBox > .book-selected
+    height:                     $book-tallTabHeight + $book-selectedStickup
+    padding-top:                0px
+    margin-top:                 0px
+
+//------------------------------
+//-- text
+//------------------------------
+
+.book-tall > .book-header > .book-tabBox > .book-tab > span
+    margin-left:                $book-labelPaddingLeft
+    margin-bottom:              $book-labelPaddingBottom
+
+    transform-origin:           top left
+    transform:                  rotate(-90deg) translate($book-tabTranslateX, $book-tabTranslateY)
+    height:                     30px
+    font:                       normal 1.8rem roboto
+
+//##########################################################
+//##
+//## auto
+//##
+//##########################################################
+
+@media (orientation: portrait)
+
+    //------------------------------
+    //-- tab
+    //------------------------------
+
+    .book-auto > .book-header > .book-tabBox > .book-tab
+        width:                      $book-tallTabWidth
+        height:                     $book-tallTabHeight
+        padding-top:                0px
+        margin-top:                 0px
+
+    //------------------------------
+    //-- selected
+    //------------------------------
+
+    .book-auto > .book-header > .book-tabBox > .book-selected
+        height:                     $book-tallTabHeight + $book-selectedStickup
+        padding-top:                0px
+        margin-top:                 0px
+
+    //------------------------------
+    //-- text
+    //------------------------------
+
+    .book-auto > .book-header > .book-tabBox > .book-tab > span
+        margin-left:                $book-labelPaddingLeft
+        margin-bottom:              $book-labelPaddingBottom
+
+        transform-origin:           top left
+        transform:                  rotate(-90deg) translate($book-tabTranslateX, $book-tabTranslateY)
+        height:                     30px
+        font:                       normal 1.8rem roboto

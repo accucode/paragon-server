@@ -3,7 +3,7 @@ package sandbox.wlove;
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDao;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
@@ -33,7 +33,7 @@ public class JkHqlTest
             System.out.println("e: " + e);
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

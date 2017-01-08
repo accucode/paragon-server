@@ -29,7 +29,7 @@ public class JkEmailBulkLoad
             email.addToRecipient("nobody@nowhere.com");
             email.setFromAddress("nobody@here.com");
             email.addTextPart("message");
-            email.attachDao();
+            email.daoAttach();
 
             System.out.println(i);
         }

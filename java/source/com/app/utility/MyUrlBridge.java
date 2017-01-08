@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.app.utility;
 
 import com.kodemore.servlet.utility.ScUrlBridge;
+import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.Kmu;
@@ -30,7 +31,8 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyDownload;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
+import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyUrlBridge
     extends ScUrlBridge
@@ -85,28 +87,12 @@ public class MyUrlBridge
     @Override
     public String getTheme(String... path)
     {
-        return getStatic("app/theme/default", join(path));
+        return getStatic("app/theme", MyServletConstantsIF.THEME_TOKEN, join(path));
     }
 
     public String getStatic(String... path)
     {
         return getWeb("static", getVersionFolder(), join(path));
-    }
-
-    //##################################################
-    //# third party
-    //##################################################
-
-    @Override
-    public String getGlyphishIcon(String... path)
-    {
-        return getStatic("glyphish/icons", join(path));
-    }
-
-    @Override
-    public String getLedIcon(String... path)
-    {
-        return getStatic("led-icons", join(path));
     }
 
     //##################################################
@@ -129,10 +115,10 @@ public class MyUrlBridge
         MyDownload d;
         d = new MyDownload();
         d.setName(name);
+        d.setTypeBytes();
+        d.setByteArray(value);
         d.setUser(user);
-        d.attachDao();
-
-        d.getFile().write(value);
+        d.daoAttach();
 
         return d.getUrl();
     }
@@ -148,7 +134,7 @@ public class MyUrlBridge
      */
     public String getVersionFolder()
     {
-        MyPropertyRegistry p = MyGlobals.getProperties();
+        MyProperties p = MyGlobals.getProperties();
         String mode = p.getWebResourceVersioning();
 
         if ( mode == null )
@@ -166,7 +152,7 @@ public class MyUrlBridge
         return getStaticVersionFolder();
     }
 
-    private String getStaticVersionFolder()
+    public String getStaticVersionFolder()
     {
         return "version";
     }
@@ -187,18 +173,36 @@ public class MyUrlBridge
         return prefix + "-" + suffix;
     }
 
-    public String fixRequestUri(String uri)
+    //##################################################
+    //# css
+    //##################################################
+
+    @Override
+    public String getResetCss()
     {
-        String a = getVersionFolder();
-        String b = getStaticVersionFolder();
+        return getCommon("css/reset.css");
+    }
 
-        if ( a.equals(b) )
-            return uri;
+    @Override
+    public String getThemeCss()
+    {
+        return getTheme("css/theme.css");
+    }
 
-        a = SLASH + a + SLASH;
-        b = SLASH + b + SLASH;
+    @Override
+    public String getCkEditorOverridesCss()
+    {
+        return getCommon("css/ckEditorOverrides.css");
+    }
 
-        return uri.replace(a, b);
+    //##################################################
+    //# icons
+    //##################################################
+
+    @Override
+    public String getErrorUrl()
+    {
+        return getTheme("image/error.png");
     }
 
     //##################################################
@@ -230,9 +234,69 @@ public class MyUrlBridge
     }
 
     @Override
+    public String getDeleteMaybeButtonUrl()
+    {
+        return MyButtonUrls.deleteMaybe();
+    }
+
+    @Override
     public String getRefreshButtonUrl()
     {
         return MyButtonUrls.refresh();
+    }
+
+    @Override
+    public String getAuditButtonUrl()
+    {
+        return MyButtonUrls.auditLog();
+    }
+
+    @Override
+    public String getBackButtonUrl()
+    {
+        return MyButtonUrls.back();
+    }
+
+    @Override
+    public String getSearchButtonUrl()
+    {
+        return MyButtonUrls.search();
+    }
+
+    @Override
+    public String getHelpIndicatorUrl()
+    {
+        return ScUrls.getThemeImage("helpTriangle.png");
+    }
+
+    @Override
+    public String getUpButtonUrl()
+    {
+        return MyButtonUrls.up();
+    }
+
+    @Override
+    public String getDownButtonUrl()
+    {
+        return MyButtonUrls.down();
+    }
+
+    @Override
+    public String getPopoutButtonUrl()
+    {
+        return MyButtonUrls.popout();
+    }
+
+    @Override
+    public String getExpandButtonUrl()
+    {
+        return MyButtonUrls.expand();
+    }
+
+    @Override
+    public String getShrinkButtonUrl()
+    {
+        return MyButtonUrls.shrink();
     }
 
     //##################################################
@@ -243,5 +307,4 @@ public class MyUrlBridge
     {
         return Kmu.joinUrlPath(path);
     }
-
 }

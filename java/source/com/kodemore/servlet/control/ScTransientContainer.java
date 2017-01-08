@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.variable.ScLocalList;
@@ -52,14 +49,11 @@ public class ScTransientContainer
     private ScLocalList<ScControl> _children;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTransientContainer()
     {
-        super.install();
-
         _children = new ScLocalList<>();
     }
 
@@ -67,7 +61,8 @@ public class ScTransientContainer
     //# children
     //##################################################
 
-    public KmList<ScControl> getChildren()
+    @Override
+    public final KmList<ScControl> getChildren()
     {
         return _children.getValue();
     }
@@ -105,25 +100,16 @@ public class ScTransientContainer
     }
 
     //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControlIF> getComponents()
-    {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getChildren());
-        return i;
-    }
-
-    //##################################################
     //# render
     //##################################################
 
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
+    {
+        renderChildrenOn(out);
+    }
+
+    protected void renderChildrenOn(KmHtmlBuilder out)
     {
         for ( ScControl e : getChildren() )
             e.renderOn(out);

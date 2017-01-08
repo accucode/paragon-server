@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaThreadTopic_HostAddress
     {
         return "The host machine on which the current owner is running. This is only used for auditing; not for coordinating ownership.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaThreadTopic_HostAddress
         return getAccess().getThreadTopicDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaThreadTopic_HostAddress
     {
         return model.getHostAddress();
     }
-    
+
     @Override
     public void setValueFor(MyThreadTopic model, String value)
     {
         model.setHostAddress(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, String value)
     {
         return model.hasHostAddress(value);
     }
-    
+
 }

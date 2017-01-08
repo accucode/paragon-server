@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,9 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public abstract class ScChildContainerElement
     extends ScContainerElement
@@ -38,14 +36,11 @@ public abstract class ScChildContainerElement
     private KmList<ScControl> _children;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScChildContainerElement()
     {
-        super.install();
-
         _children = new KmList<>();
     }
 
@@ -53,17 +48,31 @@ public abstract class ScChildContainerElement
     //# children
     //##################################################
 
+    @Override
     public KmList<ScControl> getChildren()
     {
         return _children;
     }
 
-    public ScControl getChildAt(int i)
+    public final ScControl getChildAt(int i)
     {
         return getChildren().getAt(i);
     }
 
-    public boolean hasChildren()
+    public final int getChildIndexFor(ScControl e)
+    {
+        if ( e == null )
+            return -1;
+
+        int n = getChildren().size();
+        for ( int i = 0; i < n; i++ )
+            if ( e == getChildAt(i) )
+                return i;
+
+        return -1;
+    }
+
+    public final boolean hasChildren()
     {
         return getChildren().isNotEmpty();
     }
@@ -72,43 +81,34 @@ public abstract class ScChildContainerElement
     public <T extends ScControl> T add(T e)
     {
         e.setParent(this);
-
         _children.add(e);
+        return e;
+    }
 
+    public <T extends ScControl> T prepend(T e)
+    {
+        e.setParent(this);
+        _children.add(0, e);
         return e;
     }
 
     @Override
-    public void clear()
+    public final void clear()
     {
         _children.clear();
     }
 
     @Override
-    public boolean isEmpty()
+    public final boolean isEmpty()
     {
         return getChildren().isEmpty();
-    }
-
-    //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControlIF> getComponents()
-    {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getChildren());
-        return i;
     }
 
     //##################################################
     //# render
     //##################################################
 
-    protected void renderSimpleElementOn(KmHtmlBuilder out, String tag)
+    protected final void renderSimpleElementOn(KmHtmlBuilder out, String tag)
     {
         out.open(tag);
         renderAttributesOn(out);
@@ -130,4 +130,18 @@ public abstract class ScChildContainerElement
         out.render(e);
     }
 
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        _children.compressMemory();
+    }
 }

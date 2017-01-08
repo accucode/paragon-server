@@ -40,7 +40,7 @@ public abstract class KmCommand
 
     protected KmTimestamp getNowUtc()
     {
-        return KmClock.getNowUtc();
+        return KmClock.getUtcTimestamp();
     }
 
     protected KmDate getTodayUtc()

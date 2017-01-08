@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+<!-- BEGIN_STANDARD_HEADER -->
+    <!-- imported from testStandardHeader.html -->
+
+    <!-- reset -->
+    <link rel="stylesheet" type="text/css" href="../static/version/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- jquery (not deferred) -->
+    <script src="../static/version/jquery/core/jquery-1.10.2.min.js"></script>
+    <script src="../static/version/jquery/core/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- jquery ui -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <script defer src="../static/version/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+
+    <!-- color picker -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/colorpicker-09.05.23/css/colorpicker.css">
+    <script defer src="../static/version/jquery/colorpicker-09.05.23/js/colorpicker.js"></script>
+
+    <!-- flexigrid -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/flexigrid-1.1/css/flexigrid.pack.css">
+    <script defer src="../static/version/jquery/flexigrid-1.1/js/flexigrid.js"></script>
+
+    <!-- akquinet toasts -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
+    <script defer src="../static/version/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
+
+    <!-- block ui -->
+    <script defer src="../static/version/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
+
+    <!-- cookie -->
+    <script defer src="../static/version/jquery/js-cookie-2.1.0/js.cookie.js"></script>
+
+    <!-- transit -->
+    <script defer src="../static/version/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
+
+    <!-- dropzone -->
+    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-4.3.0/dropzone.css">
+    <script defer src="../static/version/dropzone-4.3.0/dropzone.js"></script>
+
+    <!-- json -->
+    <script defer src="../static/version/json-2010.11.18/json2.js"></script>
+
+    <!-- Code39 Azalea -->
+    <!-- <link rel="stylesheet" type="text/css" href="../static/version/azaleaCode39/Code39Azalea.min.css"> -->
+
+    <!-- history -->
+    <script defer src="../static/version/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
+
+    <!-- scroll to -->
+    <script defer src="../static/version/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js"></script>
+
+    <!-- visible -->
+    <script defer src="../static/version/jquery/jquery-visible-master/jquery.visible.js"></script>
+
+    <!-- splitter -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/jcubic-splitter-0.14.0/css/jquery.splitter.css">
+    <script defer src="../static/version/jquery/jcubic-splitter-0.14.0/js/jquery.splitter-0.14.0.js"></script>
+
+    <!-- nvd3 charts 1.1.10 -->
+    <link rel="stylesheet" type="text/css" href="../static/version/nvd3-1.1.10/src/nv.d3.css">
+    <script defer src="../static/version/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/nv.d3.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/tooltip.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/utils.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/legend.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/axis.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/line.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/lineChart.js"></script>
+
+    <!-- ckEditor -->
+    <script defer src="../static/version/ckeditor-4.5.11/ckeditor.js"></script>
+    <script defer src="../static/version/ckeditor-4.5.11/adapters/jquery.js"></script>
+
+    <!-- moment -->
+    <script defer src="../static/version/moment/moment-2.14.1.min.js"></script>
+    <script defer src="../static/version/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="../static/version/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <!-- popr -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/popr-1.0.0/popr.css">
+    <script src="../static/version/jquery/popr-1.0.0/popr.js"></script>
+
+    <!-- kodemore -->
+    <script defer src="../static/version/app/common/script/kmExtensions.js"></script>
+    <script defer src="../static/version/app/common/script/kmu.js"></script>
+    <script defer src="../static/version/app/common/script/kmNavigator.js"></script>
+    <script defer src="../static/version/app/common/script/kmDropdownMenu.js"></script>
+    <script defer src="../static/version/app/common/script/kmTimeAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmDateAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmClock.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/theme.css">
+<!-- END_STANDARD_HEADER -->
+
+
+    <script type="text/javascript">
+        function myLoad()
+        {
+            myNotebook();
+        }
+
+        function myNotebook()
+        {
+            $("#notebook").tabs(
+            {
+                activate: function(ev,ui)
+                {
+                    console.log('.');
+                    console.log('activate, tab' + ui.newTab.prop('id'));
+                    console.log('activate, panel ' + ui.newPanel.prop('id'));
+                },
+                beforeActivate: function(ev,ui)
+                {
+                    return Kmu.showNoticeIfDirty();
+                }
+            });
+        }
+
+        function showTwo()
+        {
+            alert("No way to programatically select a tab?");
+        }
+
+    </script>
+
+    <style type="text/css">
+        .main
+        {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .tab
+        {
+         /**
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+         */
+        }
+
+        .tabContent
+        {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' class='main gap flex flexColumn'>
+
+    <!-- This is used by kmu.js => showNotice() -->
+    <div id="noticeDialog" title="Notice..." style="display:none">
+        <span id="noticeDialogMessage"></span>
+    </div>
+
+
+    <div class='boxGreen pad'>
+        Notebook content fill test.
+    </div>
+
+    <div id="notebook" class='flex flexColumn clearfix relative'>
+        <ul>
+            <li>
+                <a href="#tab1">One</a>
+            </li>
+            <li>
+                <a href="#tab2">Two</a>
+            </li>
+            <li>
+                <a href="#tab3">Three</a>
+            </li>
+            <li>
+                <a href="#tab4">Four</a>
+            </li>
+        </ul>
+        <div id="contentWrapper" class="relative flexFiller clearfix">
+            <div id="tab1" class="tab clearfix">
+                <div class="tabContent flex flexColumn clearfix">
+                    <div class="boxBlue pad flexFiller clearfix">
+                        CONTENT 1 - css: boxBlue pad flexFiller
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab">
+                <div class="tabContent flex flexColumn">
+                    <div class="boxGreen pad fill">
+                        CONTENT 2 - css: boxGreen pad fill
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="tab">
+                <div class="tabContent flex flexColumn">
+                    <div class="boxRed flexFiller pad">
+                        CONTENT 3 - css: boxRed flexFiller
+                    </div>
+                </div>
+            </div>
+            <div id="tab4" class="tab">
+                <div class="tabContent flex flexColumn">
+                    <div class="boxDarkGray pad">
+                        CONTENT 4 - css: boxDarkGray pad
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="boxGray pad">
+        Div below
+    </div>
+
+    <div class="boxGray pad">
+        <button onclick='showTwo();'>Two</button>
+    </div>
+
+
+</div>
+
+</body>
+</html>

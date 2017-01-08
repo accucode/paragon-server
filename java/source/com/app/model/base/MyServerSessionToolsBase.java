@@ -41,7 +41,9 @@ public abstract class MyServerSessionToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyServerSessionFilter());
         e.setFinder(new MyServerSessionFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

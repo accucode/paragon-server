@@ -20,9 +20,11 @@ public class KmJsonLiteral
     //# constructor
     //##################################################
 
-    public KmJsonLiteral(String e)
+    public KmJsonLiteral(CharSequence e)
     {
-        _value = e;
+        _value = e == null
+            ? null
+            : e.toString();
     }
 
     //##################################################

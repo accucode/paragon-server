@@ -107,6 +107,11 @@ public abstract class KmgModelAttribute
 
     public String getf_sqlColumn()
     {
-        throw new UnsupportedOperationException();
+        String msg = Kmu.format(
+            "Sql column not available for attribute %s.%s.",
+            getModel().getName(),
+            getName());
+
+        throw new UnsupportedOperationException(msg);
     }
 }

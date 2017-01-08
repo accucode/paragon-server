@@ -40,8 +40,8 @@ public class KmJsonPrettyPrinter
     //# variables
     //##################################################
 
-    private KmStringBuilder _out;
-    private int             _indent;
+    private KmStringBuilder   _out;
+    private int               _indent;
 
     //##################################################
     //# constructor

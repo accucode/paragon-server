@@ -32,6 +32,12 @@
         </id>
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="transactionUid"
             column="transactionUid"
             type="string"
@@ -50,26 +56,26 @@
             />
 
         <property
-            name="utcTs"
-            column="utcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
-            />
-
-        <property
-            name="modelType"
-            column="modelType"
+            name="domainType"
+            column="domainType"
             type="string"
             />
 
         <property
-            name="modelName"
-            column="modelName"
+            name="domainName"
+            column="domainName"
             type="string"
             />
 
         <property
-            name="modelUid"
-            column="modelUid"
+            name="domainUid"
+            column="domainUid"
+            type="string"
+            />
+
+        <property
+            name="domainBundleUid"
+            column="domainBundleUid"
             type="string"
             />
 

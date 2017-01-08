@@ -3,7 +3,6 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -43,8 +42,8 @@ public final class MyDialogTestPage
     private MyDialog    _dialog;
     private ScTextField _textField;
 
-    private MyDialog _nestedDialog;
-    private MyDialog _doubleNestedDialog;
+    private MyDialog    _nestedDialog;
+    private MyDialog    _doubleNestedDialog;
 
     //##################################################
     //# settings
@@ -79,7 +78,7 @@ public final class MyDialogTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
         root.addButton("Show", this::handleOpenDialog);
         root.onEscape().toast("Page escape");
 
@@ -108,10 +107,10 @@ public final class MyDialogTestPage
         _textField = fields.addTextField();
         _textField.setLabel("Some Text (try: close, confirm, or nav)");
 
-        ScFlexbox footer;
+        ScDiv footer;
         footer = dialog.showFooter();
-        footer.alignEnd();
-        footer.css().pad();
+        footer.css().flexRow().flexAlignEnd();
+        footer.css().buttonBox();
         footer.addSubmitButton();
 
         _dialog = dialog;
@@ -128,9 +127,9 @@ public final class MyDialogTestPage
         body.css().pad();
         body.addText("Are you sure?");
 
-        ScFlexbox footer;
+        ScDiv footer;
         footer = dialog.showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
         footer.addButton("Yes", this::handleYes).positive().primary();
         footer.addButton("No", this::handleNo).negative();
@@ -149,9 +148,9 @@ public final class MyDialogTestPage
         body.css().pad();
         body.addText("Are you REALLY sure?");
 
-        ScFlexbox footer;
+        ScDiv footer;
         footer = dialog.showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
         footer.addButton("Yes", this::handleDoubleYes).positive().primary();
         footer.addButton("No", this::handleDoubleNo).negative();

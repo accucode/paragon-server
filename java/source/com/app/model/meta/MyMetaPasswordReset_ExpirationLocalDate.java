@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaPasswordReset_ExpirationLocalDate
     @Override
     public String getHelp()
     {
-        return "The date and time when this request expires.";
+        return "The expiration date based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaPasswordReset_ExpirationLocalDate
     {
         return model.getExpirationLocalDate();
     }
-    
+
     @Override
     public boolean hasValueFor(MyPasswordReset model, KmDate value)
     {
         return model.hasExpirationLocalDate(value);
     }
-    
+
 }

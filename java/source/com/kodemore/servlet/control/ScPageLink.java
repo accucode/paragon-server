@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ import com.kodemore.servlet.script.ScBlockScript;
 
 /**
  * A link to start an page.
+ *
+ * The is automatically hidden if the current user does not have permission to view it.
  */
 public class ScPageLink
     extends ScAbstractLink
@@ -38,13 +40,12 @@ public class ScPageLink
     private ScPageIF _page;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScPageLink()
     {
-        super.install();
+        // none
     }
 
     //##################################################
@@ -59,6 +60,19 @@ public class ScPageLink
     public void setPage(ScPageIF e)
     {
         _page = e;
+    }
+
+    //##################################################
+    //# render
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        super.preRender();
+
+        boolean allowed = getPage().getSecurityManager().checkSecuritySilently();
+        setVisible(allowed);
     }
 
     //##################################################
@@ -86,4 +100,5 @@ public class ScPageLink
     {
         return null;
     }
+
 }

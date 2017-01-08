@@ -48,6 +48,11 @@ public class MyEmailJunction
         return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
     public KmhTimestampCondition whereSentUtcTs()
     {
         return new KmhTimestampCondition(context(), fullName(SENT_UTC_TS));

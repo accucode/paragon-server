@@ -163,6 +163,14 @@ public class KmgModel
         return _fields;
     }
 
+    public KmList<KmgModelField> getFieldsSorted()
+    {
+        KmList<KmgModelField> v;
+        v = _fields.getShallowCopy();
+        v.sortOn(e -> e.getName());
+        return v;
+    }
+
     public KmList<KmgModelField> getEditableFields()
     {
         KmList<KmgModelField> v = new KmList<>();
@@ -206,6 +214,14 @@ public class KmgModel
     public KmList<KmgModelCollection> getCollections()
     {
         return _collections;
+    }
+
+    public KmList<KmgModelCollection> getSortedCollections()
+    {
+        KmList<KmgModelCollection> copy;
+        copy = getCollections().getShallowCopy();
+        copy.sort(e -> e.getName());
+        return copy;
     }
 
     public KmgModelCollection getCollectionReferencing(KmgModelAssociation ref)
@@ -258,6 +274,11 @@ public class KmgModel
             if ( e.hasName(name) )
                 return e;
         return null;
+    }
+
+    public boolean hasAssociation(String name)
+    {
+        return getAssociation(name) != null;
     }
 
     public KmList<KmgModelAssociation> getAssocitionsWithPrimaryKeys()
@@ -394,6 +415,13 @@ public class KmgModel
         return getFields().isEmpty();
     }
 
+    public boolean hasPrimaryKeyUid()
+    {
+        KmList<KmgModelField> v = getPrimaryKeyFields();
+
+        return v.isSingleton() && v.getFirst().hasName("uid");
+    }
+
     //##################################################
     //# abstract accessing
     //##################################################
@@ -408,17 +436,13 @@ public class KmgModel
     {
         KmList<KmgModelField> v = getPrimaryKeyFields();
         if ( !v.isSingleton() )
-            throw newFatal("This model must have exactly one primary key field.");
+            throw newError("This model must have exactly one primary key field.");
         return getPrimaryKeyFields().getFirst();
     }
 
     public KmList<KmgModelField> getPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<>();
-        for ( KmgModelField e : getFields() )
-            if ( e.isPrimaryKey() )
-                v.add(e);
-        return v;
+        return getFields().select(e -> e.isPrimaryKey());
     }
 
     public boolean isSimplePrimaryKey()
@@ -428,37 +452,23 @@ public class KmgModel
 
     public KmList<KmgModelField> getNonPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<>();
-        for ( KmgModelField e : getFields() )
-            if ( !e.isPrimaryKey() )
-                v.add(e);
-        return v;
+        return getFields().select(e -> e.isNotPrimaryKey());
     }
 
     public KmList<KmgModelField> getEditableNonPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<>();
-        for ( KmgModelField e : getFields() )
-            if ( e.isEditable() && e.isNotPrimaryKey() )
-                v.add(e);
-        return v;
+        return getFields().select(e -> e.isEditable() && e.isNotPrimaryKey());
     }
 
     public KmList<KmgModelField> getGeneralFields()
     {
-        KmList<KmgModelField> v = new KmList<>();
-        for ( KmgModelField e : getFields() )
-            if ( e.isEditable() && e.isNotPrimaryKey() && e.isNotLockVersion() )
-                v.add(e);
-        return v;
+        return getFields().select(
+            e -> e.isEditable() && e.isNotPrimaryKey() && e.isNotLockVersion());
     }
 
     public KmgModelField getIdentityField()
     {
-        for ( KmgModelField f : getPrimaryKeyFields() )
-            if ( f.isIdentity() )
-                return f;
-        return null;
+        return getPrimaryKeyFields().detect(e -> e.isIdentity());
     }
 
     public KmList<KmgModelAttribute> getDatabaseAttributes()
@@ -479,10 +489,16 @@ public class KmgModel
 
     public boolean isSequenceIF()
     {
-        for ( KmgModelField e : getFields() )
-            if ( e.isSequence() )
-                return true;
-        return false;
+        return getFields().containsIf(e -> e.isSequence());
+    }
+
+    public boolean isBasicTimestampsIF()
+    {
+        return true
+            && hasField("createdUtcTs")
+            && hasField("updatedUtcTs")
+            && hasAssociation("createdBy")
+            && hasAssociation("updatedBy");
     }
 
     //##################################################
@@ -501,12 +517,7 @@ public class KmgModel
 
     public KmList<String> getFieldNames()
     {
-        KmList<String> v = new KmList<>();
-
-        for ( KmgModelField e : getFields() )
-            v.add(e.getName());
-
-        return v;
+        return getFields().collect(e -> e.getName());
     }
 
     public KmList<String> getOnChangeMethods()
@@ -536,6 +547,22 @@ public class KmgModel
 
         if ( hasDatabase() && getDatabase().getLockVersion() )
             addLockVersionField();
+
+        addDisplayStringField();
+    }
+
+    private void addDisplayStringField()
+    {
+        KmgModelField field;
+        field = addField();
+        field.setAbstract(true);
+        field.setName("displayString");
+        field.setType("abstractText");
+        field.setHelp(
+            "A human readable semi-unique value used to identify each model."
+                + " This typically uses something like the model's name or code which is"
+                + " expected to be unique enough to distinish between the different values"
+                + " within a particular project.");
     }
 
     private void parseModel(KmStfElement root)
@@ -610,7 +637,7 @@ public class KmgModel
                 i++;
 
         if ( i > 1 )
-            throw newFatal("Model cannot contain multiple (strong) parent associations.");
+            throw newError("Model cannot contain multiple (strong) parent associations.");
     }
 
     @Override
@@ -629,11 +656,7 @@ public class KmgModel
 
     public KmgModelField getLockVersionField()
     {
-        for ( KmgModelField e : getFields() )
-            if ( e.isLockVersion() )
-                return e;
-
-        return null;
+        return getFields().detect(e -> e.isLockVersion());
     }
 
     public boolean hasLockVersionField()
@@ -648,10 +671,10 @@ public class KmgModel
         e.setName("lockVersion");
         e.setType("lockVersion");
         e.setAuditLogMode("false");
-        e.setHelp(
-            ""
-                + "This is used to coordinate optimistic locking in the database. "
-                + "This is usually not displayed.");
+        e.setDefaultValue("0");
+        e.setHelp(""
+            + "This is used to coordinate optimistic locking in the database. "
+            + "This is usually not displayed.");
     }
 
     //##################################################
@@ -700,9 +723,9 @@ public class KmgModel
 
     public String getf_Superclass()
     {
-        if ( _superclass == null )
-            return getRoot().getDefaultModelSuperClass();
-        return _superclass;
+        return _superclass == null
+            ? getRoot().getDefaultModelSuperClass()
+            : _superclass;
     }
 
     public String getf_sqlTable()

@@ -18,7 +18,7 @@ KmNavigator.init = function(options)
 {
     KmNavigator.previousPrintDepth = undefined;
     KmNavigator.bind();
-    
+
     if ( options )
         KmNavigator.pushPage(options);
 }
@@ -28,7 +28,7 @@ KmNavigator.init = function(options)
  * The options parameter supports the following attributes:
  *
  *      url
- *          The url to be pushed. 
+ *          The url to be pushed.
  *          This is the only required attribute, and is pushed 'as is'.
  *          In most cases, this is a relative path and may include nothing
  *          except the query string (e.g.: "?page=somePage").
@@ -36,63 +36,82 @@ KmNavigator.init = function(options)
  *      title
  *          Although this may be used to update the browser's title, it is
  *          not well supported.  If no value is specified, we use the defaultTitle
- *          property defined above. 
+ *          property defined above.
  *
  *      replace
  *          If true, do a replaceState instead of a pushState.
  *
  *      handleStateChange
- *          By default, a push normally triggers the statechange event.  
+ *          By default, a push normally triggers the statechange event.
  *          If handleStateChange is false, the statechange event is temporarily ignored.
+ *
+ *      clearPageSession
+ *          If true, clear the page session before navigation
  *          
  *      changeTracking
- *      	If true (the default), check if there are any unsaved changes on the page.
- *      	If unsaved changes are found, warn the user before initiating the navigation.
+ *          If true (the default), check if there are any unsaved changes on the page.
+ *          If unsaved changes are found, warn the user before initiating the navigation.
+ *
+ *		changeScope
+ *			Optional string selector.
+ *			If set, changes are only checked inside this container.
+ *			If not set, check the entire page.
  */
 KmNavigator.pushPage = function(options)
 {
-	var pushFn = function()
-	{
-		var url = options.url;
-		
-		var title = options.title;
-		if ( !title )
-			title = KmNavigator.defaultTitle;
-		
-		var state = History.getState();
-		
-		var push = true;
-		if ( options.replace )
-			push = false;
-		
-		var data = {};
-		data.pageSession = KmNavigator.getPageSession();
-		
-		var inc = push && !state.url.endsWith(url);
-		if ( inc )
-			data.depth = KmNavigator.getNextDepth();
-		else
-			data.depth = state.data.depth;
-		
-		var handle = options.handleStateChange;
-		if ( handle === undefined )
-			handle = true;
-		
-		KmNavigator.unbind();
-		
-		if ( push )
-			History.pushState(data, title, url);
-		else
-			History.replaceState(data, title, url);
-		
-		KmNavigator.bind();
-		
-		if ( handle )
-			KmNavigator.handleStateChange();
-	};
-	
-	var warn = options.changeTracking;
-	Kmu.warnIfDirty(pushFn, warn);
+    var pushFn = function()
+    {
+        var url = options.url;
+
+        var title = options.title;
+        if ( !title )
+            title = KmNavigator.defaultTitle;
+
+        var state = History.getState();
+
+        if ( options.clearPageSession )
+            KmNavigator.clearPageSession();
+            
+        if ( options.globalSession && options.pageSession )
+            KmNavigator.updatePageSession(options.globalSession,options.pageSession)
+
+        var push = true;
+        if ( options.replace )
+            push = false;
+
+        var data = {};
+        data.globalSession = KmNavigator.getGlobalSession();
+        data.pageSession = KmNavigator.getPageSession();
+
+        var inc = push && !state.url.endsWith(url);
+        if ( inc )
+            data.depth = KmNavigator.getNextDepth();
+        else
+            data.depth = state.data.depth;
+
+        var handle = options.handleStateChange;
+        if ( handle === undefined )
+            handle = true;
+
+        KmNavigator.unbind();
+
+        if ( push )
+            History.pushState(data, title, url);
+        else
+            History.replaceState(data, title, url);
+
+        KmNavigator.bind();
+
+        if ( handle )
+            KmNavigator.handleStateChange();
+    };
+
+    Kmu.warnIfDirty(
+    {
+    	fn: pushFn, 
+    	changeTracking: options.changeTracking,
+    	changeScope: options.changeScope
+    });
 }
 
 KmNavigator.pushUrl = function(url)
@@ -108,57 +127,81 @@ KmNavigator.printCurrentPage = function()
         direction:      KmNavigator.getDirection(),
         changeTracking: false
     });
-    
-	KmNavigator.previousPrintDepth = KmNavigator.getDepth();    
+
+    KmNavigator.previousPrintDepth = KmNavigator.getDepth();
 }
 
 KmNavigator.getDirection = function()
 {
-	var previous = KmNavigator.previousPrintDepth;
-	var current  = KmNavigator.getDepth();
-	
-	if ( previous === undefined )
-	    return "unknown";
-	    
-	if ( current === undefined )
-	    return "unknown";
-	    
-	if ( current == previous )
-	    return "refresh";
-	    
-	if ( current < previous )
-	    return "back";
-	
-	if ( current > previous )
-	    return "forward";
+    var previous = KmNavigator.previousPrintDepth;
+    var current  = KmNavigator.getDepth();
 
-	return "unknown";
+    if ( previous === undefined )
+        return "unknown";
+
+    if ( current === undefined )
+        return "unknown";
+
+    if ( current == previous )
+        return "refresh";
+
+    if ( current < previous )
+        return "back";
+
+    if ( current > previous )
+        return "forward";
+
+    return "unknown";
 }
 
 KmNavigator.getPageSession = function()
 {
     var ps = History.getState().data.pageSession;
-    
+
     if ( ps === undefined )
-        ps = {};
-        
+        ps = '';
+
     return ps;
 }
+
+KmNavigator.getGlobalSession = function()
+{
+    var gs = History.getState().data.globalSession;
+
+    if ( gs === undefined )
+        gs = '';
+
+    return gs;
+}
+
+/**
+ * Clear the page session by setting it to an empty map ('m,0').
+ * See ScEncoder for more info on encoded maps.
+ * The global session is preserved. 
+ */
+KmNavigator.clearPageSession = function()
+{
+    var globalSession = KmNavigator.getGlobalSession();
+    var pageSession = 'm,0';
     
+    KmNavigator.updatePageSession(globalSession, pageSession);
+}
+
 /**
  * Update history state with the parameter specified.
  * This does NOT push (or pop) a page on the history stack.
- * This uses History.replaceState, but temporary unbinds the 
- * event listener to avoid an infinite loop.
- */ 
-KmNavigator.updatePageSession = function(map)
+ * This uses History.replaceState, and temporarily unbinds
+ * the event listener to avoid an infinite loop.
+ */
+KmNavigator.updatePageSession = function(globalSession, pageSession)
 {
     var state = History.getState();
-    
+
     var data;
     data = state.data;
-    data.pageSession = map;
-    
+    data.globalSession = globalSession;
+    data.pageSession = pageSession;
+
     var title = state.title;
     var url = state.url;
 
@@ -181,10 +224,10 @@ KmNavigator.printState = function()
 //****************************************
 //** state change
 //****************************************
-    
+
 /**
  * Bind the statechange event listener.
- * Clients should usually NOT call this directly. 
+ * Clients should usually NOT call this directly.
  */
 KmNavigator.bind = function()
 {
@@ -193,7 +236,7 @@ KmNavigator.bind = function()
 
 /**
  * Unbind the statechange event listener.
- * Clients should usually NOT call this directly. 
+ * Clients should usually NOT call this directly.
  */
 KmNavigator.unbind = function()
 {
@@ -201,7 +244,7 @@ KmNavigator.unbind = function()
 }
 
 /**
- * Handle a state change.  This is the callback that gets executed 
+ * Handle a state change.  This is the callback that gets executed
  * when the browser detects that the page has changed.  E.g.: when the
  * user presses the back button.
  */
@@ -213,18 +256,18 @@ KmNavigator.handleStateChange = function()
 //****************************************
 //** depth
 //****************************************
-    
+
 KmNavigator.getDepth = function()
 {
-	return History.getState().data.depth;
+    return History.getState().data.depth;
 }
 
 KmNavigator.getNextDepth = function()
 {
-	var i = KmNavigator.getDepth();
-	
-	if ( i === undefined )
-	    return 0;
-	    
-	return i + 1;
+    var i = KmNavigator.getDepth();
+
+    if ( i === undefined )
+        return 0;
+
+    return i + 1;
 }

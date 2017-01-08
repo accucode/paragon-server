@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,14 @@
 
 package com.kodemore.time;
 
-import com.kodemore.utility.KmNamedEnumIF;
+import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmEnumIF;
 
 /**
  * The days of a week: monday, tuesday, ...
  */
 public enum KmWeekDay
-    implements KmNamedEnumIF
+                implements KmEnumIF
 {
     //##################################################
     //# enum
@@ -36,19 +37,19 @@ public enum KmWeekDay
 
     /**
      * The enumerated values.
-     *   
+     *
      * The values are assumed to be in the correct sequence, Monday..Sunday.
      * This matches the ISO-8601 standard, and is consistent with standard
      * JDK APIs such as LocalDate and WeekDay.
      */
 
-    Monday("M", "Monday", "Mon"),
-    Tuesday("T", "Tuesday", "Tue"),
-    Wednesday("W", "Wednesday", "Wed"),
-    Thursday("H", "Thursday", "Thu"),
-    Friday("F", "Friday", "Fri"),
-    Saturday("S", "Saturday", "Sat"),
-    Sunday("U", "Sunday", "Sun");
+    Monday(KmConstantsIF.DOW_MONDAY, "Monday", "Mon"),
+    Tuesday(KmConstantsIF.DOW_TUESDAY, "Tuesday", "Tue"),
+    Wednesday(KmConstantsIF.DOW_WEDNESDAY, "Wednesday", "Wed"),
+    Thursday(KmConstantsIF.DOW_THURSDAY, "Thursday", "Thu"),
+    Friday(KmConstantsIF.DOW_FRIDAY, "Friday", "Fri"),
+    Saturday(KmConstantsIF.DOW_SATURDAY, "Saturday", "Sat"),
+    Sunday(KmConstantsIF.DOW_SUNDAY, "Sunday", "Sun");
 
     //##################################################
     //# constants
@@ -62,7 +63,7 @@ public enum KmWeekDay
      * are not required to directly match the first_day.
      */
     public static final KmWeekDay FIRST_DAY = Sunday;
-    public static final KmWeekDay LAST_DAY = FIRST_DAY.getPreviousDay();
+    public static final KmWeekDay LAST_DAY  = FIRST_DAY.getPreviousDay();
 
     //##################################################
     //# static
@@ -74,22 +75,35 @@ public enum KmWeekDay
         return values()[i - 1];
     }
 
+    public static KmWeekDay fromToken(String s)
+    {
+        for ( KmWeekDay e : values() )
+        {
+            if ( e.hasCode(s) )
+                return e;
+
+            if ( e.hasLabel(s) )
+                return e;
+        }
+        return null;
+    }
+
     //##################################################
     //# variables
     //##################################################
 
     private String _code;
-    private String _name;
+    private String _label;
     private String _abbreviation;
 
     //##################################################
     //# constructor
     //##################################################
 
-    private KmWeekDay(String code, String name, String abbr)
+    private KmWeekDay(String code, String label, String abbr)
     {
         _code = code;
-        _name = name;
+        _label = label;
         _abbreviation = abbr;
     }
 
@@ -97,15 +111,16 @@ public enum KmWeekDay
     //# accessing
     //##################################################
 
+    @Override
     public String getCode()
     {
         return _code;
     }
 
     @Override
-    public String getName()
+    public String getLabel()
     {
-        return _name;
+        return _label;
     }
 
     public String getAbbreviation()
@@ -121,7 +136,7 @@ public enum KmWeekDay
      * Get my 0-based index relative to the first day of the week.
      * For example if Wednesday is the first day of the week, then
      * Wed=0, Thu=1, Fri=2, etc...
-     * 
+     *
      * See also, getJdkIndex()
      */
     public int getIndex()
@@ -132,10 +147,10 @@ public enum KmWeekDay
     /**
      * Returns the index compatible with Calendar.
      * Values returned are 1..7, corresponding to Sunday..Saturday.
-     * 
-     * This implementation does NOT take multiple calendars 
-     * or countries into account, it simply assumes that Sunday 
-     * is the first day of the week as defined in Calendar for 
+     *
+     * This implementation does NOT take multiple calendars
+     * or countries into account, it simply assumes that Sunday
+     * is the first day of the week as defined in Calendar for
      * the United States.
      */
     public int getJdkIndex()
@@ -201,7 +216,7 @@ public enum KmWeekDay
     //##################################################
 
     /**
-     * Get the next week day.  
+     * Get the next week day.
      * This wraps around so that LAST_DAY.getNextDay == FIRST_DAY.
      */
     public KmWeekDay getNextDay()
@@ -215,7 +230,7 @@ public enum KmWeekDay
     }
 
     /**
-     * Get the previous week day.  
+     * Get the previous week day.
      * This wraps around so that FIRST_DAY.getPreviousDay == LAST_DAY.
      */
     public KmWeekDay getPreviousDay()
@@ -235,6 +250,6 @@ public enum KmWeekDay
     @Override
     public String toString()
     {
-        return getName();
+        return getLabel();
     }
 }

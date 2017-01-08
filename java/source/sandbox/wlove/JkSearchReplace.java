@@ -7,7 +7,7 @@ public class JkSearchReplace
 {
     public static void main(String[] args)
     {
-        String folder = "/projects/fieldService-server";
+        String folder = "/projects/core-server";
         String ext = "java";
         KmFile search = new KmFile("/temp/search.txt");
         KmFile replace = new KmFile("/temp/replace.txt");

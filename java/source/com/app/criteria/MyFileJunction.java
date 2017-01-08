@@ -43,6 +43,16 @@ public class MyFileJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
     public KmhStringCondition whereName()
     {
         return new KmhStringCondition(context(), fullName(NAME));
@@ -51,11 +61,6 @@ public class MyFileJunction
     public KmhStringCondition wherePath()
     {
         return new KmhStringCondition(context(), fullName(PATH));
-    }
-
-    public KmhTimestampCondition whereCreatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhStringCondition whereStatusCode()

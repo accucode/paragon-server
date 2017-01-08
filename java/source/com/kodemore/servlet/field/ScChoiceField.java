@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,25 +26,20 @@ import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmCssBuilder;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.servlet.variable.ScLocalCss;
-import com.kodemore.servlet.variable.ScLocalObject;
 import com.kodemore.servlet.variable.ScLocalOptionList;
-import com.kodemore.servlet.variable.ScLocalStyle;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.KmCodedEnumIF;
-import com.kodemore.utility.KmNamedEnumIF;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
 /**
@@ -52,178 +47,156 @@ import com.kodemore.validator.KmValidator;
  * essenitally a reskin of radio buttons with some additional convenience
  * methods.
  */
-public class ScChoiceField
-    extends ScField<Object>
-    implements ScElementIF
+public class ScChoiceField<T>
+    extends ScField<T>
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalOptionList _options;
-
-    private ScLocalObject _value;
-
-    private ScLocalBoolean _disabled;
-
-    @SuppressWarnings("rawtypes")
-    private KmValidator _validator;
-
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
-
-    private ScAction _onChangeAction;
+    /**
+     * The value of the field.
+     * The type must be compatible with ScEncoder.
+     */
+    private ScLocal<T>           _value;
 
     /**
-     * If true (the default), the value is encoded into an html data- attribute
-     * and the browser utilizes client-side utilizes to warn the user before
-     * ajax actions if the value has changed.
-     *
-     * Change tracking should be set during initial page initialization, and should
-     * NOT be modified while processing a page.
+     * The list of options to be displayed.
+     * The values must be the same type as the choice field's value.
      */
-    private boolean _changeTracking;
+    private ScLocalOptionList<T> _options;
+
+    /**
+     * If disabled, the user will not be able to change the value.
+     * Also disabled values are not sent to the server when the form is submitted.
+     * Enabled by default.
+     */
+    private ScLocalBoolean       _disabled;
+
+    /**
+     * The optional validator.
+     * Primarily used to check for required vs optional.
+     */
+    @SuppressWarnings("rawtypes")
+    private KmValidator          _validator;
+
+    /**
+     * If set, the action is called any time the web user
+     * changes the value in the browser.
+     */
+    private ScAction             _onChangeAction;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScChoiceField()
     {
-        super.install();
-
-        _options = new ScLocalOptionList();
-
-        _value = new ScLocalObject();
+        _value = new ScLocal<>();
+        _options = new ScLocalOptionList<>();
         _disabled = new ScLocalBoolean(false);
-
-        _css = new ScLocalCss();
-        _style = new ScLocalStyle();
-
-        _changeTracking = true;
     }
 
     //##################################################
-    //# html class
-    //##################################################
-
-    public String getCss()
-    {
-        return _css.getValue();
-    }
-
-    public void setCss(String e)
-    {
-        _css.setValue(e);
-    }
-
-    public KmCssDefaultBuilder css()
-    {
-        return _css.toDefaultBuilder();
-    }
-
-    //##################################################
-    //# html style
-    //##################################################
-
-    public String getStyle()
-    {
-        return _style.getValue();
-    }
-
-    public KmStyleBuilder style()
-    {
-        return _style.toBuilder();
-    }
-
-    @Override
-    public void show()
-    {
-        style().show();
-    }
-
-    @Override
-    public void hide()
-    {
-        style().hide();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<?> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<?> e)
-    {
-        _validator = e;
-    }
-
-    public void clearValidator()
-    {
-        setValidator(null);
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public void setRequired()
-    {
-        if ( hasValidator() )
-            getValidator().setRequired();
-        else
-            setValidator(new KmRequiredValidator<>());
-    }
-
-    public void setOptional()
-    {
-        if ( hasValidator() )
-            getValidator().setOptional();
-    }
-
-    //##################################################
-    //# session
+    //# html id
     //##################################################
 
     @Override
-    public void saveFieldValues()
+    public String getHtmlId()
     {
-        super.saveFieldValues();
+        return getKey();
+    }
+
+    public String getHtmlName()
+    {
+        return getKey();
+    }
+
+    //##################################################
+    //# value
+    //##################################################
+
+    @Override
+    public T getValue()
+    {
+        return _value.getValue();
+    }
+
+    @Override
+    public void setValue(T e)
+    {
+        _value.setValue(e);
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
         _value.saveValue();
     }
 
     @Override
-    public void resetFieldValues()
+    public void resetValue()
     {
-        super.resetFieldValues();
-        resetValue();
+        _value.resetValue();
     }
 
     //##################################################
-    //# change tracking
+    //# options
     //##################################################
 
-    public boolean getChangeTracking()
+    public void setOptions(KmList<ScOption<T>> v)
     {
-        return _changeTracking;
+        _options._setValue(v);
     }
 
-    public void setChangeTracking(boolean e)
+    public KmList<ScOption<T>> getOptions()
     {
-        warnIfInstalled();
-        _changeTracking = e;
+        return _options.getValue();
     }
 
-    public void disableChangeTracking()
+    /**
+     * Set the selected value to be the first (only) option
+     * if there is exactly one option available.
+     */
+    public void selectSingleOption()
     {
-        setChangeTracking(false);
+        if ( !getOptions().isSingleton() )
+            return;
+
+        T e = getOptions().getFirst().getValue();
+        setValue(e);
+    }
+
+    //##################################################
+    //# options
+    //##################################################
+
+    public void addOption(T value, String label)
+    {
+        _options.add(value, label);
+    }
+
+    public void addOption(ScOption<T> e)
+    {
+        _options.add(e.getValue(), e.getText());
+    }
+
+    public void addOption(T value)
+    {
+        String label = value == null
+            ? "<none>"
+            : getFormatter().formatAny(value);
+
+        addOption(value, label);
+    }
+
+    public void clearOptions()
+    {
+        _options.clear();
     }
 
     //##################################################
@@ -231,42 +204,28 @@ public class ScChoiceField
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    protected void readParameters_here(ScServletData data)
     {
-        super.readParameters(data);
+        if ( !data.hasParameter(getKey()) )
+            return;
 
-        if ( hasKeyParameter(data) )
-        {
-            String s = getKeyParameter(data);
-            Object e = decode(s);
-            setValue(e);
-        }
+        String s = data.getParameter(getKey());
+        T e = decodeUnchecked(s);
+        setValue(e);
     }
 
     //##################################################
     //# on change
     //##################################################
 
-    public ScAction getOnChangeAction()
-    {
-        return _onChangeAction;
-    }
-
-    public void setOnChangeAction(ScAction e)
+    public void onChange(ScAction e)
     {
         _onChangeAction = e;
     }
 
-    public ScAction setOnChangeAction(Runnable e)
+    public void onChange(Runnable e)
     {
-        ScAction action = newAction(e);
-        setOnChangeAction(action);
-        return action;
-    }
-
-    public boolean hasOnChangeAction()
-    {
-        return _onChangeAction != null;
+        onChange(newCheckedAction(e));
     }
 
     //##################################################
@@ -277,24 +236,107 @@ public class ScChoiceField
     protected void renderControlOn(KmHtmlBuilder out)
     {
         out.openDiv();
-        renderAttributesOn(out);
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute("name", getHtmlName());
+        out.printAttribute(getCss());
         out.close();
 
-        renderOptions(out, getOptions());
+        renderChangeTrackingOn(out);
+        renderOptionsOn(out, getOptions());
+        renderHelpOn(out);
 
         out.endDiv();
-
         out.getPostDom().run(formatRenderScript());
     }
+
+    protected KmCssBuilder getCss()
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.choiceField();
+        return css;
+    }
+
+    private void renderChangeTrackingOn(KmHtmlBuilder out)
+    {
+        if ( !getChangeTracking() )
+            return;
+
+        out.open("input");
+        out.printAttribute("id", getHiddenHtmlId());
+        out.printAttribute("type", "hidden");
+        out.printAttribute("value", encode(getValue()));
+        printOldValueAttributeOn(out, encode(getValue()));
+        out.close();
+    }
+
+    private void renderHelpOn(KmHtmlBuilder out)
+    {
+        if ( !hasHelp() )
+            return;
+
+        out.printHelpImage(getHelp());
+    }
+
+    private void renderOptionsOn(KmHtmlBuilder out, KmList<ScOption<T>> v)
+    {
+        int i = 0;
+        for ( ScOption<T> e : v )
+        {
+            String radioId = getHtmlId() + i;
+            i++;
+
+            renderOptionInputOn(out, e, radioId);
+            renderOptionLabelOn(out, e, radioId);
+        }
+    }
+
+    private void renderOptionInputOn(KmHtmlBuilder out, ScOption<T> e, String radioId)
+    {
+        out.open("input");
+        out.printAttribute("type", "radio");
+        out.printAttribute("id", radioId);
+        out.printAttribute("name", getHtmlName());
+        out.printAttribute("value", encode(e.getValue()));
+
+        if ( isDisabled() )
+            out.printAttribute("disabled", "disabled");
+
+        boolean checked = e.hasValue(getValue());
+        if ( checked )
+            out.printAttribute("checked", "checked");
+
+        out.close();
+        // no end tag
+    }
+
+    private void renderOptionLabelOn(KmHtmlBuilder out, ScOption<T> e, String radioId)
+    {
+        out.open("label");
+        out.printAttribute("for", radioId);
+        out.close();
+        out.print(e.getText());
+        out.end("label");
+    }
+
+    //##################################################
+    //# scripts
+    //##################################################
 
     private String formatRenderScript()
     {
         KmStringBuilder out;
         out = new KmStringBuilder();
-
         out.printfln("$('%s').buttonset();", getJquerySelector());
 
-        if ( hasOnChangeAction() )
+        // Update hidden field with selected value for change tracking;
+        if ( getChangeTracking() )
+            out.printfln(
+                "$('%s > input').change(function(){Kmu.updateChoiceHiddenField('%s');});",
+                getJquerySelector(),
+                getJquerySelector());
+
+        if ( _onChangeAction != null )
             out.printfln(
                 "$('%s > input').change(function(){%s});",
                 getJquerySelector(),
@@ -331,60 +373,6 @@ public class ScChoiceField
             KmCssDefaultConstantsIF.choiceFieldFocus);
     }
 
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
-
-        out.printAttribute(formatCss());
-    }
-
-    protected KmCssBuilder formatCss()
-    {
-        return css().inlineBlock();
-    }
-
-    private void renderOptions(KmHtmlBuilder out, KmList<ScOption> v)
-    {
-        if ( v == null )
-            return;
-
-        Object selection = getValue();
-
-        int i = 0;
-        for ( ScOption e : v )
-        {
-            String radioId = getHtmlId() + i;
-            i++;
-
-            out.open("input");
-            out.printAttribute("type", "radio");
-            out.printAttribute("id", radioId);
-            out.printAttribute("name", getHtmlName());
-
-            String value = encode(e.getValue());
-            out.printAttribute("value", value);
-
-            if ( isDisabled() )
-                out.printAttribute("disabled", true);
-
-            boolean checked = e.hasValue(selection);
-
-            if ( getChangeTracking() )
-                printOldCheckedAttributeOn(out, checked);
-
-            if ( checked )
-                out.printAttribute("checked");
-
-            out.close();
-            out.open("label");
-            out.printAttribute("for", radioId);
-            out.close();
-            out.print(e.getText());
-            out.end("label");
-        }
-    }
-
     //##################################################
     //# validate
     //##################################################
@@ -405,165 +393,6 @@ public class ScChoiceField
 
         setErrors(errors);
         return false;
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    @Override
-    public Object getValue()
-    {
-        return _value.getValue();
-    }
-
-    @Override
-    public void setValue(Object e)
-    {
-        _value.setValue(e);
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _value.resetValue();
-    }
-
-    public String getStringValue()
-    {
-        return (String)getValue();
-    }
-
-    public Integer getIntegerValue()
-    {
-        return (Integer)getValue();
-    }
-
-    public Boolean getBooleanValue()
-    {
-        return (Boolean)getValue();
-    }
-
-    public boolean hasValue(Object e)
-    {
-        return Kmu.isEqual(getValue(), e);
-    }
-
-    public void setOptions(KmList<ScOption> v)
-    {
-        _options._setValue(v);
-    }
-
-    public ScOption getOption(Object value)
-    {
-        for ( ScOption e : getOptions() )
-            if ( e.hasValue(value) )
-                return e;
-
-        return null;
-    }
-
-    public KmList<ScOption> getOptions()
-    {
-        return _options.getValue();
-    }
-
-    /**
-     * Set the selected value to be the first (only) option
-     * if there is exactly one option available.
-     */
-    public void selectSingleOption()
-    {
-        if ( getOptions().isSingleton() )
-            setValue(getOptions().getFirst().getValue());
-    }
-
-    //##################################################
-    //# options
-    //##################################################
-
-    public void addOption(Object value, String label)
-    {
-        _options.add(value, label);
-    }
-
-    public void addOption(ScOption e)
-    {
-        _options.add(e.getValue(), e.getText());
-    }
-
-    public void addOption(Object value)
-    {
-        String label = "";
-
-        if ( value != null )
-            label = value.toString();
-
-        addOption(value, label);
-    }
-
-    public void clearOptions()
-    {
-        _options.clear();
-    }
-
-    //##################################################
-    //# coded enums
-    //##################################################
-
-    public void setValue(KmCodedEnumIF e)
-    {
-        setValue(e.getCode());
-    }
-
-    public void addOption(KmCodedEnumIF e)
-    {
-        addOption(e.getCode(), e.getName());
-    }
-
-    public void addOptions(KmCodedEnumIF[] v)
-    {
-        for ( KmCodedEnumIF e : v )
-            addOption(e);
-    }
-
-    public void addCodedOptions(KmList<? extends KmCodedEnumIF> v)
-    {
-        for ( KmCodedEnumIF e : v )
-            addOption(e);
-    }
-
-    //##################################################
-    //# named enums
-    //##################################################
-
-    public void setValue(KmNamedEnumIF e)
-    {
-        setValue(e.ordinal());
-    }
-
-    public void addOption(KmNamedEnumIF e)
-    {
-        addOption(e.ordinal(), e.getName());
-    }
-
-    public void addOptions(KmNamedEnumIF[] v)
-    {
-        for ( KmNamedEnumIF e : v )
-            addOption(e);
-    }
-
-    public void addOptionRange(Integer first, Integer last)
-    {
-        if ( first <= last )
-        {
-            for ( int i = first; i <= last; i++ )
-                addOption(i);
-            return;
-        }
-
-        for ( int i = last; i >= first; i-- )
-            addOption(i);
     }
 
     //##################################################
@@ -611,15 +440,12 @@ public class ScChoiceField
 
     private String formatOnChange()
     {
-        if ( !hasOnChangeAction() )
-            return null;
-
         ScForm form = findFormWrapper();
         ScHtmlIdIF block = findBlockWrapper();
 
         ScActionScript s;
         s = new ScActionScript();
-        s.setAction(getOnChangeAction());
+        s.setAction(_onChangeAction);
         s.setForm(form);
         s.setBlockTarget(block);
 
@@ -631,29 +457,34 @@ public class ScChoiceField
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public ScHtmlIdAjax _htmlIdAjax()
     {
-        ajaxSetValue(getValue());
+        return ScHtmlIdAjax.createOnRoot(this);
     }
 
-    public void ajaxSetValue(Object e)
+    @Override
+    public void ajaxSetFieldValue(T value)
     {
-        String value = encode(e);
-
-        ajax().setValue(value);
-
-        if ( getChangeTracking() )
-            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(value, getChangeTracking());
     }
 
-    public void ajaxHide()
+    @Override
+    public void ajaxSetFieldValue(T value, boolean updateOldValue)
     {
-        ajax().hide();
-    }
+        KmList<ScOption<T>> options = getOptions();
+        if ( options.isEmpty() )
+            return;
 
-    public void ajaxShow()
-    {
-        ajax().show();
+        for ( ScOption<T> option : options )
+        {
+            boolean checked = option.hasValue(value);
+            ajaxSetOptionValue(getInputTargetFor(option), checked);
+        }
+
+        if ( updateOldValue )
+            ajaxSetHiddenValue(value);
+
+        getRootScript().run("%s.buttonset('refresh');", getJqueryReference());
     }
 
     /**
@@ -662,7 +493,10 @@ public class ScChoiceField
      */
     public void ajaxHideOption(Object value)
     {
-        ajax().run("Kmu.hideChoiceByValue('%s', '%s');", getJquerySelector(), encode(value));
+        getRootScript().run(
+            "Kmu.hideChoiceByValue('%s','%s');",
+            getJquerySelector(),
+            encode(value));
     }
 
     /**
@@ -671,7 +505,10 @@ public class ScChoiceField
      */
     public void ajaxShowOption(Object value)
     {
-        ajax().run("Kmu.showChoiceByValue('%s', '%s');", getJquerySelector(), encode(value));
+        getRootScript().run(
+            "Kmu.showChoiceByValue('%s','%s');",
+            getJquerySelector(),
+            encode(value));
     }
 
     /**
@@ -680,7 +517,10 @@ public class ScChoiceField
      */
     public void ajaxDisableOption(Object value)
     {
-        ajax().run("Kmu.disableChoiceByValue('%s', '%s');", getJquerySelector(), encode(value));
+        getRootScript().run(
+            "Kmu.disableChoiceByValue('%s','%s');",
+            getJquerySelector(),
+            encode(value));
     }
 
     /**
@@ -689,6 +529,57 @@ public class ScChoiceField
      */
     public void ajaxEnableOption(Object value)
     {
-        ajax().run("Kmu.enableChoiceByValue('%s', '%s');", getJquerySelector(), encode(value));
+        getRootScript().run(
+            "Kmu.enableChoiceByValue('%s','%s');",
+            getJquerySelector(),
+            encode(value));
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private String getHiddenHtmlId()
+    {
+        return getHtmlId() + "hidden";
+    }
+
+    private ScHtmlId getTargetForHiddenField()
+    {
+        String htmlId = getHiddenHtmlId();
+        ScBlockScript script = getRootScript();
+        return new ScHtmlId(htmlId, script);
+    }
+
+    private void ajaxSetHiddenValue(Object e)
+    {
+        String htmlValue = encode(e);
+
+        ScHtmlIdAjax ajax;
+        ajax = ScHtmlIdAjax.createOnRoot(getTargetForHiddenField());
+        ajax.setValue(htmlValue);
+
+        if ( getChangeTracking() )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+    }
+
+    private ScHtmlId getInputTargetFor(ScOption<T> e)
+    {
+        if ( getOptions().isEmpty() )
+            return null;
+
+        int i = getOptions().indexOf(e);
+
+        String htmlId = getHtmlId() + i;
+
+        ScBlockScript script = getRootScript();
+        return new ScHtmlId(htmlId, script);
+    }
+
+    private void ajaxSetOptionValue(ScHtmlId target, boolean checked)
+    {
+        ScHtmlIdAjax ajax = ScHtmlIdAjax.createOnRoot(target);
+
+        ajax.run("$('%s').prop('checked',%s);", target.getJquerySelector(), checked);
     }
 }

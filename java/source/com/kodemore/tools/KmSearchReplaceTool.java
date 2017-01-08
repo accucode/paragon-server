@@ -36,12 +36,12 @@ public class KmSearchReplaceTool
     //# variables
     //##################################################
 
-    private String _rootFolder;
-    private String _filePrefix;
-    private String _fileSuffix;
+    private String              _rootFolder;
+    private String              _filePrefix;
+    private String              _fileSuffix;
 
-    private String _searchText;
-    private String _replaceText;
+    private String              _searchText;
+    private String              _replaceText;
 
     //##################################################
     //# constuctor

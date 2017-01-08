@@ -2,7 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -14,7 +13,8 @@ import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDoubleField;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScDurationField;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScLongField;
@@ -57,22 +57,24 @@ public final class MyFieldTestPage
     //# variables
     //##################################################
 
-    private ScGroup             _fieldGroup;
-    private ScTextField         _textField;
-    private ScTextField         _readOnlyField;
-    private ScIntegerField      _integerField;
-    private ScDoubleField       _doubleField;
-    private ScLongField         _longField;
-    private ScDateField         _dateField;
-    private ScColorField        _colorField;
-    private ScAutoCompleteField _autoCompleteField;
-    private ScDropdown          _dropdown;
-    private ScCheckboxField     _checkboxField;
-    private ScRadioField        _radio1Field;
-    private ScRadioField        _radio2Field;
-    private ScRadioField        _radio3Field;
-    private ScListField         _listField;
-    private ScTextArea          _textArea;
+    private ScGroup                 _fieldGroup;
+    private ScTextField             _textField;
+    private ScTextField             _requiredTextField;
+    private ScTextField             _readOnlyField;
+    private ScIntegerField          _integerField;
+    private ScDurationField         _durationField;
+    private ScDoubleField           _doubleField;
+    private ScLongField             _longField;
+    private ScDateField             _dateField;
+    private ScColorField            _colorField;
+    private ScAutoCompleteField     _autoCompleteField;
+    private ScDropdownField<String> _dropdown;
+    private ScCheckboxField         _checkboxField;
+    private ScRadioField            _radio1Field;
+    private ScRadioField            _radio2Field;
+    private ScRadioField            _radio3Field;
+    private ScListField<String>     _listField;
+    private ScTextArea              _textArea;
 
     //##################################################
     //# settings
@@ -107,9 +109,11 @@ public final class MyFieldTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        root.css().fill();
+
         ScForm form;
         form = root.addForm();
-        form.css().fillOffset();
+        form.css().fill();
         form.setSubmitAction(this::handleSubmit);
 
         ScGroup group;
@@ -122,7 +126,7 @@ public final class MyFieldTestPage
 
         installFieldsOn(body);
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.showFooter().addButtonBox();
         footer.addSubmitButton();
         footer.addResetButton();
@@ -137,6 +141,11 @@ public final class MyFieldTestPage
         _textField.setLabel("Text");
         _textField.setWidthFull();
 
+        _requiredTextField = new ScTextField();
+        _requiredTextField.setLabel("Required");
+        _requiredTextField.setWidthFull();
+        _requiredTextField.setRequired();
+
         _readOnlyField = new ScTextField();
         _readOnlyField.setLabel("Text");
         _readOnlyField.setValue("readonly");
@@ -146,6 +155,10 @@ public final class MyFieldTestPage
         _integerField = new ScIntegerField();
         _integerField.setLabel("Integer");
         _integerField.setWidthFull();
+
+        _durationField = new ScDurationField();
+        _durationField.setLabel("Duration (secs)");
+        _durationField.setWidthFull();
 
         _doubleField = new ScDoubleField();
         _doubleField.setLabel("Double");
@@ -167,9 +180,9 @@ public final class MyFieldTestPage
         _autoCompleteField.setLabel("AutoComplete");
         _autoCompleteField.setCallback(this::getAutoCompleteOptions);
 
-        _dropdown = new ScDropdown();
+        _dropdown = new ScDropdownField<>();
         _dropdown.setLabel("Dropdown");
-        _dropdown.addNullAnyPrefix();
+        _dropdown.setNullAnyPrefix();
         _dropdown.addOption("Red");
         _dropdown.addOption("Blue");
         _dropdown.addOption("Green");
@@ -181,22 +194,21 @@ public final class MyFieldTestPage
 
         _radio1Field = new ScRadioField();
         _radio1Field.setLabel("Radio1");
-        _radio1Field.setValue("Radio1");
+        _radio1Field.setOptionValue("Radio1");
         _radio1Field.setHtmlName(radioName);
 
         _radio2Field = new ScRadioField();
         _radio2Field.setLabel("Radio2");
-        _radio2Field.setValue("Radio2");
+        _radio2Field.setOptionValue("Radio2");
         _radio2Field.setHtmlName(radioName);
 
         _radio3Field = new ScRadioField();
         _radio3Field.setLabel("Radio3");
-        _radio3Field.setValue("Radio3");
+        _radio3Field.setOptionValue("Radio3");
         _radio3Field.setHtmlName(radioName);
 
-        _listField = new ScListField();
+        _listField = new ScListField<>();
         _listField.setLabel("List");
-        _listField.style().height(100);
         _listField.addOption(null, "-select-");
         _listField.addOption("1", "one");
         _listField.addOption("2", "two");
@@ -205,14 +217,15 @@ public final class MyFieldTestPage
 
         _textArea = new ScTextArea();
         _textArea.setLabel("Text Area");
-        _textArea.style().width(300);
-        _textArea.style().height(80);
+        _textArea.layoutInline(300, 100);
 
         ScFieldTable fields;
         fields = root.addPad().addFieldTable();
         fields.add(_textField);
+        fields.add(_requiredTextField);
         fields.add(_readOnlyField);
         fields.add(_integerField);
+        fields.add(_durationField);
         fields.add(_doubleField);
         fields.add(_longField);
         fields.add(_dateField);
@@ -239,8 +252,8 @@ public final class MyFieldTestPage
         users = getAccess().findAllUsers();
 
         for ( MyUser e : users )
-            if ( e.getName().toLowerCase().contains(term.toLowerCase()) )
-                v.add(e.getName());
+            if ( e.getFullName().toLowerCase().contains(term.toLowerCase()) )
+                v.add(e.getFullName());
 
         return v;
     }
@@ -264,7 +277,7 @@ public final class MyFieldTestPage
         ajax().hideAllErrors();
         validate();
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast("Ok").success();
     }
 
@@ -273,6 +286,6 @@ public final class MyFieldTestPage
         ajax().hideAllErrors();
 
         _fieldGroup.resetFieldValues();
-        _fieldGroup.ajaxUpdateValues();
+        _fieldGroup.ajaxUpdateFieldValues();
     }
 }

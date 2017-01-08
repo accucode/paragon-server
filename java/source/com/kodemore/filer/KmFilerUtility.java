@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -139,15 +139,15 @@ public final class KmFilerUtility
     //# variables
     //##################################################
 
-    private FileInputStream  _fileInputStream;
-    private FileOutputStream _fileOutputStream;
+    private FileInputStream     _fileInputStream;
+    private FileOutputStream    _fileOutputStream;
 
     private KmFilerInputStream  _filerInputStream;
     private KmFilerOutputStream _filerOutputStream;
 
-    private boolean _debug      = false;
-    private boolean _compress   = false;
-    private int     _bufferSize = 2048;
+    private boolean             _debug      = false;
+    private boolean             _compress   = false;
+    private int                 _bufferSize = 2048;
 
     //##################################################
     //# accessing

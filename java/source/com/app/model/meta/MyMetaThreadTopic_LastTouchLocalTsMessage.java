@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -43,15 +44,15 @@ public class MyMetaThreadTopic_LastTouchLocalTsMessage
     @Override
     public String getLabel()
     {
-        return "Lasttouch";
+        return "Last Touch";
     }
 
     @Override
     public String getHelp()
     {
-        return "The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.";
+        return "The last touch timestamp converted to the user's local timezone, and formatted as a string that includes the timezone code.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaThreadTopic_LastTouchLocalTsMessage
     {
         return model.getLastTouchLocalTsMessage();
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, String value)
     {
         return model.hasLastTouchLocalTsMessage(value);
     }
-    
+
 }

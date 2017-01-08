@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyApplicationLogCriteria
@@ -647,8 +648,37 @@ public class MyApplicationLogCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyApplicationLogJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyApplicationLogJunction any()
+    {
+        return addOr();
+    }
+
+    public MyApplicationLogJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyApplicationLogJunction addNotAnd()
+    {
+        return new MyApplicationLogJunction(parent().addNotAnd());
+    }
+
+    public MyApplicationLogJunction addNotOr()
+    {
+        return new MyApplicationLogJunction(parent().addNotOr());
+    }
 
     public MyApplicationLogJunction addAnd()
     {

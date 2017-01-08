@@ -6,25 +6,29 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
 import com.kodemore.log.KmLog;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
+import com.kodemore.time.KmDuration;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmDisplayStringIF;
+import com.kodemore.utility.Kmu;
 
 import com.app.dao.core.MyDaoSession;
 import com.app.model.MyAuditLog;
-import com.app.model.MyAuditLogType;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.base.MyAuditLogInfo;
+import com.app.model.base.MyAuditLogType;
 import com.app.model.core.MyAbstractDomain;
+import com.app.utility.MyBasicTimestampsIF;
 import com.app.utility.MyGlobals;
 
 public class MyHibernateInterceptor
     extends EmptyInterceptor
 {
     //##################################################
-    //# events
+    //# save / add
     //##################################################
 
     @Override
@@ -40,6 +44,50 @@ public class MyHibernateInterceptor
         return true;
     }
 
+    private void auditAdd(Object entity, Object[] state, String[] propertyNames, Type[] types)
+    {
+        MyAbstractDomain domain = toAuditableDomain(entity);
+        if ( domain == null )
+            return;
+
+        String bundleUid = Kmu.newUid();
+        createAuditLog(
+            MyAuditLogType.Add,
+            domain,
+            bundleUid,
+            "uid",
+            null,
+            domain.formatPrimaryKey());
+
+        int n = state.length;
+        for ( int i = 0; i < n; i++ )
+        {
+            String field = propertyNames[i];
+            Type type = types[i];
+            Object value = state[i];
+
+            auditAdd(domain, bundleUid, field, type, value);
+        }
+    }
+
+    private void auditAdd(
+        MyAbstractDomain domain,
+        String bundleUid,
+        String field,
+        Type type,
+        Object value)
+    {
+        if ( !auditsFieldType(type) )
+            return;
+
+        if ( value != null )
+            createAuditLog(MyAuditLogType.Add, domain, bundleUid, field, null, value);
+    }
+
+    //##################################################
+    //# flush / update
+    //##################################################
+
     @Override
     public boolean onFlushDirty(
         Object entity,
@@ -54,49 +102,6 @@ public class MyHibernateInterceptor
         return true;
     }
 
-    @Override
-    public void onDelete(
-        Object entity,
-        Serializable id,
-        Object[] state,
-        String[] propertyNames,
-        Type[] types)
-    {
-        auditDelete(entity, state, propertyNames, types);
-    }
-
-    //##################################################
-    //# audit
-    //##################################################
-
-    private void auditAdd(Object entity, Object[] state, String[] propertyNames, Type[] types)
-    {
-        MyAbstractDomain model = toAuditableModel(entity);
-        if ( model == null )
-            return;
-
-        createAuditLog(MyAuditLogType.Add, model, "uid", null, model.formatPrimaryKey());
-
-        int n = state.length;
-        for ( int i = 0; i < n; i++ )
-        {
-            String field = propertyNames[i];
-            Type type = types[i];
-            Object value = state[i];
-
-            auditAdd(model, field, type, value);
-        }
-    }
-
-    private void auditAdd(MyAbstractDomain model, String field, Type type, Object value)
-    {
-        if ( !auditsFieldType(type) )
-            return;
-
-        if ( value != null )
-            createAuditLog(MyAuditLogType.Add, model, field, null, value);
-    }
-
     private void auditUpdate(
         Object entity,
         Object[] currentState,
@@ -104,9 +109,20 @@ public class MyHibernateInterceptor
         String[] propertyNames,
         Type[] types)
     {
-        MyAbstractDomain model = toAuditableModel(entity);
-        if ( model == null )
+        MyAbstractDomain domain = toAuditableDomain(entity);
+        if ( domain == null )
             return;
+
+        if ( domain instanceof MyBasicTimestampsIF )
+        {
+            KmTimestamp now = KmClock.getUtcTimestamp();
+            MyUser user = MyGlobals.getCurrentUser();
+
+            setState(domain, propertyNames, currentState, "updatedUtcTs", now);
+            setState(domain, propertyNames, currentState, "updatedBy", user);
+        }
+
+        String bundleUid = Kmu.newUid();
 
         int n = currentState.length;
         for ( int i = 0; i < n; i++ )
@@ -116,12 +132,13 @@ public class MyHibernateInterceptor
             Object value = currentState[i];
             Object oldValue = previousState[i];
 
-            auditUpdate(model, field, type, value, oldValue);
+            auditUpdate(domain, bundleUid, field, type, value, oldValue);
         }
     }
 
     private void auditUpdate(
-        MyAbstractDomain model,
+        MyAbstractDomain domain,
+        String bundleUid,
         String field,
         Type type,
         Object newValue,
@@ -135,16 +152,38 @@ public class MyHibernateInterceptor
         if ( matches )
             return;
 
-        createAuditLog(MyAuditLogType.Update, model, field, oldValue, newValue);
+        createAuditLog(MyAuditLogType.Update, domain, bundleUid, field, oldValue, newValue);
+    }
+
+    //##################################################
+    //# delete
+    //##################################################
+
+    @Override
+    public void onDelete(
+        Object entity,
+        Serializable id,
+        Object[] state,
+        String[] propertyNames,
+        Type[] types)
+    {
+        auditDelete(entity, state, propertyNames, types);
     }
 
     private void auditDelete(Object entity, Object[] state, String[] propertyNames, Type[] types)
     {
-        MyAbstractDomain model = toAuditableModel(entity);
-        if ( model == null )
+        MyAbstractDomain domain = toAuditableDomain(entity);
+        if ( domain == null )
             return;
 
-        createAuditLog(MyAuditLogType.Delete, model, "uid", model.formatPrimaryKey(), null);
+        String bundleUid = Kmu.newUid();
+        createAuditLog(
+            MyAuditLogType.Delete,
+            domain,
+            bundleUid,
+            "uid",
+            domain.formatPrimaryKey(),
+            null);
 
         int n = state.length;
         for ( int i = 0; i < n; i++ )
@@ -153,11 +192,16 @@ public class MyHibernateInterceptor
             Type type = types[i];
             Object oldValue = state[i];
 
-            auditDelete(model, field, type, oldValue);
+            auditDelete(domain, bundleUid, field, type, oldValue);
         }
     }
 
-    private void auditDelete(MyAbstractDomain model, String field, Type type, Object oldValue)
+    private void auditDelete(
+        MyAbstractDomain model,
+        String bundleUid,
+        String field,
+        Type type,
+        Object oldValue)
     {
         boolean trackType = auditsFieldType(type);
         if ( !trackType )
@@ -169,20 +213,7 @@ public class MyHibernateInterceptor
         if ( matches )
             return;
 
-        createAuditLog(MyAuditLogType.Delete, model, field, oldValue, newValue);
-    }
-
-    private MyAbstractDomain toAuditableModel(Object obj)
-    {
-        if ( !(obj instanceof MyAbstractDomain) )
-            return null;
-
-        MyAbstractDomain e = (MyAbstractDomain)obj;
-
-        if ( MyAuditLogInfo.isModelDisabled(e.getMetaName()) )
-            return null;
-
-        return e;
+        createAuditLog(MyAuditLogType.Delete, model, bundleUid, field, oldValue, newValue);
     }
 
     //##################################################
@@ -191,18 +222,19 @@ public class MyHibernateInterceptor
 
     private void createAuditLog(
         MyAuditLogType changeType,
-        MyAbstractDomain model,
+        MyAbstractDomain domain,
+        String bundleUid,
         String fieldName,
         Object oldValue,
         Object newValue)
     {
-        String modelType = model.getMetaName();
-        String modelName = model.getDisplayString();
+        String domainType = domain.getMetaName();
+        String domainName = domain.getDisplayString();
 
-        if ( MyAuditLogInfo.isFieldDisabled(modelType, fieldName) )
+        if ( MyAuditLogInfo.isFieldDisabled(domainType, fieldName) )
             return;
 
-        if ( MyAuditLogInfo.isFieldMasked(modelType, fieldName) )
+        if ( MyAuditLogInfo.isFieldMasked(domainType, fieldName) )
         {
             newValue = "***";
             oldValue = "***";
@@ -213,9 +245,10 @@ public class MyHibernateInterceptor
         e.setTransactionUid(getTransactionUid());
         e.setUser(getCurrentUser());
         e.setType(changeType);
-        e.setModelType(modelType);
-        e.setModelName(modelName);
-        e.setModelUid(model.formatPrimaryKey());
+        e.setDomainBundleUid(bundleUid);
+        e.setDomainType(domainType);
+        e.setDomainName(domainName);
+        e.setDomainUid(domain.formatPrimaryKey());
         e.setFieldName(fieldName);
         e.setNewValue(formatValue(newValue));
         e.setOldValue(formatValue(oldValue));
@@ -223,13 +256,13 @@ public class MyHibernateInterceptor
         applyFieldValueTo(e, newValue);
 
         e.truncateUid(true);
-        e.truncateModelName(true);
+        e.truncateDomainName(true);
         e.truncateFieldName(true);
         e.truncateNewValue(true);
         e.truncateOldValue(true);
         e.truncateStringValue(true);
 
-        e.attachDao();
+        e.daoAttach();
 
         if ( printsAuditLog() )
             KmLog.printfln("AUDIT LOG..." + e.formatMessage());
@@ -266,6 +299,9 @@ public class MyHibernateInterceptor
 
         if ( value instanceof KmTimestamp )
             return ((KmTimestamp)value).format_m_d_yyyy_hh_mm_ss();
+
+        if ( value instanceof KmDuration )
+            return ((KmDuration)value).format();
 
         if ( value instanceof KmDisplayStringIF )
             return ((KmDisplayStringIF)value).getDisplayString();
@@ -371,6 +407,19 @@ public class MyHibernateInterceptor
         }
     }
 
+    private MyAbstractDomain toAuditableDomain(Object obj)
+    {
+        if ( !(obj instanceof MyAbstractDomain) )
+            return null;
+
+        MyAbstractDomain e = (MyAbstractDomain)obj;
+
+        if ( MyAuditLogInfo.isModelDisabled(e.getMetaName()) )
+            return null;
+
+        return e;
+    }
+
     private boolean auditsFieldType(Type e)
     {
         if ( e.isEntityType() )
@@ -426,4 +475,24 @@ public class MyHibernateInterceptor
     {
         return MyGlobals.getProperties().getPrintAuditLog();
     }
+
+    private void setState(Object model, String[] names, Object[] values, String name, Object value)
+    {
+        int i = indexOf(names, name);
+        if ( i >= 0 )
+            values[i] = value;
+        else
+            KmLog.warnTrace("Unknown property: %s.%s.", model.getClass().getName(), name);
+    }
+
+    private int indexOf(String[] arr, String s)
+    {
+        int n = arr.length;
+        for ( int i = 0; i < n; i++ )
+            if ( arr[i].equals(s) )
+                return i;
+
+        return -1;
+    }
+
 }

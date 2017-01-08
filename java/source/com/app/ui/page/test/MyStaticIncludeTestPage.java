@@ -3,7 +3,6 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
@@ -49,7 +48,7 @@ public final class MyStaticIncludeTestPage
     //# variables
     //##################################################
 
-    private ScDiv _contents;
+    private ScDiv               _contents;
 
     //##################################################
     //# settings
@@ -84,15 +83,11 @@ public final class MyStaticIncludeTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fill();
+        root.css().fill().flexColumn();
 
-        ScFlexbox col;
-        col = root.addColumn();
-        col.css().fill();
-
-        ScFlexbox row;
-        row = col.addRow();
-        row.crossAlignCenter();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexCrossAlignCenter().flexChildStatic();
         row.css().boxBlue().gap();
 
         ScActionButton button;
@@ -102,8 +97,8 @@ public final class MyStaticIncludeTestPage
         row.addTextSpan("The contents below are loaded from:");
         row.addTextSpan(FILE).css().bold();
 
-        _contents = col.addFiller();
-        _contents.css().relative();
+        _contents = root.addDiv();
+        _contents.css().flexChildFiller().auto().relative();
     }
 
     //##################################################
@@ -122,7 +117,7 @@ public final class MyStaticIncludeTestPage
 
     private void handleReload()
     {
-        _contents.ajax().setContents(getStaticHtml());
+        _contents.ajaxSetContents(getStaticHtml());
     }
 
     //##################################################

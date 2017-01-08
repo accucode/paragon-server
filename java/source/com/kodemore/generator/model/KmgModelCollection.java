@@ -2,7 +2,7 @@ package com.kodemore.generator.model;
 
 import com.kodemore.generator.KmgElement;
 import com.kodemore.stf.KmStfElement;
-import com.kodemore.utility.KmNamedEnumIF;
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -19,51 +19,17 @@ public class KmgModelCollection
     //##################################################
 
     private enum Relation
-        implements KmNamedEnumIF
+                    implements KmEnumIF
     {
-        Children("children"),
-        WeakChildren("weakChildren");
-
-        public static Relation findName(String s)
-        {
-            for ( Relation e : values() )
-                if ( e.getName().equals(s) )
-                    return e;
-            return null;
-        }
-
-        private String _name;
-
-        private Relation(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        children(),
+        weakChildren();
     }
 
     private enum OnCopy
-        implements KmNamedEnumIF
+                    implements KmEnumIF
     {
-        Clear("clear"),
-        Copy("copy");
-
-        private String _name;
-
-        private OnCopy(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        clear,
+        copy;
     }
 
     //##################################################
@@ -99,6 +65,11 @@ public class KmgModelCollection
     public String getComment()
     {
         return _comment;
+    }
+
+    public boolean hasComment()
+    {
+        return Kmu.hasValue(getComment());
     }
 
     public String getType()
@@ -143,7 +114,7 @@ public class KmgModelCollection
 
     public boolean isRelationWeak()
     {
-        return _relation == Relation.WeakChildren;
+        return _relation == Relation.weakChildren;
     }
 
     public boolean isRelationStrong()
@@ -159,23 +130,23 @@ public class KmgModelCollection
     {
         switch ( _relation )
         {
-            case Children:
-                return OnCopy.Copy;
+            case children:
+                return OnCopy.copy;
 
-            case WeakChildren:
-                return OnCopy.Clear;
+            case weakChildren:
+                return OnCopy.clear;
         }
         return null;
     }
 
     public boolean isOnCopyClear()
     {
-        return getOnCopy() == OnCopy.Clear;
+        return getOnCopy() == OnCopy.clear;
     }
 
     public boolean isOnCopyCopy()
     {
-        return getOnCopy() == OnCopy.Copy;
+        return getOnCopy() == OnCopy.copy;
     }
 
     //##################################################
@@ -186,10 +157,10 @@ public class KmgModelCollection
     {
         switch ( _relation )
         {
-            case Children:
+            case children:
                 return "all-delete-orphan";
 
-            case WeakChildren:
+            case weakChildren:
                 return "save-update,evict,lock,replicate,merge,persist";
         }
         return null;
@@ -219,9 +190,9 @@ public class KmgModelCollection
         _sequence = parseString(e, "sequence", null);
 
         String s = parseRequiredString(e, "relation");
-        _relation = Relation.findName(s);
+        _relation = Relation.valueOf(s);
         if ( _relation == null )
-            throw newFatal("Unknown relation: " + s);
+            throw newError("Unknown relation: " + s);
 
         String elementModel = parseRequiredString(e, "elementModel");
         String elementField = parseRequiredString(e, "elementField");
@@ -239,27 +210,27 @@ public class KmgModelCollection
         KmgModelHibernateCollectionType ctype = getHibernateCollectionType();
 
         if ( ctype == null )
-            throw newFatal("Unknown hibernate collection type(%s).", getType());
+            throw newError("Unknown hibernate collection type(%s).", getType());
 
         if ( ctype.getUsesSequence() )
         {
             if ( Kmu.isEmpty(_sequence) )
-                throw newFatal("Sequence is required for collection type(%s)", getType());
+                throw newError("Sequence is required for collection type(%s)", getType());
 
             KmgModelField f = getSequenceField();
             if ( f == null )
             {
                 String modelName = getAssociation().getModel().getName();
-                throw newFatal("Sequence field(%s) not found in (%s).", _sequence, modelName);
+                throw newError("Sequence field(%s) not found in (%s).", _sequence, modelName);
             }
         }
 
         if ( !ctype.getUsesSequence() )
             if ( _sequence != null )
-                throw newFatal("Sequence not allowed for collection type(%s)", getType());
+                throw newError("Sequence not allowed for collection type(%s)", getType());
 
         if ( !getAssociation().isRelationParent() )
-            throw newFatal("The child association must have a Parent relation.");
+            throw newError("The child association must have a Parent relation.");
     }
 
     @Override
@@ -328,6 +299,11 @@ public class KmgModelCollection
             getf_ElementType());
     }
 
+    public String getf_WrapperTypeHtml()
+    {
+        return escapeHtml(getf_WrapperType());
+    }
+
     public String getf_WrapperImplType()
     {
         return Kmu.format(
@@ -335,6 +311,11 @@ public class KmgModelCollection
             getHibernateCollectionType().getJavaImplWrapper(),
             getf_ElementType(),
             getModel().getf_Class());
+    }
+
+    public String getf_WrapperImplTypeHtml()
+    {
+        return escapeHtml(getf_WrapperImplType());
     }
 
     public String getf_WrapperImplType_NoGeneric()
@@ -370,6 +351,21 @@ public class KmgModelCollection
     public String getf_inverse()
     {
         return getHibernateCollectionType().getInverse() + "";
+    }
+
+    public String getf_commentHtml()
+    {
+        return escapeHtml(getComment());
+    }
+
+    private String escapeHtml(String s)
+    {
+        if ( s == null )
+            return "";
+
+        s = Kmu.escapeHtml(s, true);
+        s = Kmu.replaceAll(s, "<br>", "<br><br>");
+        return s;
     }
 
     //##################################################

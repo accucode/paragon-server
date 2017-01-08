@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.hibernate.KmhStringCondition;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.field.ScTextField;
@@ -22,7 +22,7 @@ public class KmProtoString
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         String type = "varchar";
         int n = e.getMaximumLength();

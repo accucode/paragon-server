@@ -6,20 +6,20 @@ public class KmAuthnetConfiguration
     //# constants
     //##################################################
 
-    private static final String SCHEME = "https://";
-    private static final String PATH   = "/xml/v1/request.api";
+    private static final String SCHEME             = "https://";
+    private static final String PATH               = "/xml/v1/request.api";
 
-    private static final String TEST_DOMAIN       = "apitest.authorize.net";
-    private static final String PRODUCTION_DOMAIN = "api.authorize.net";
+    private static final String TEST_DOMAIN        = "apitest.authorize.net";
+    private static final String PRODUCTION_DOMAIN  = "api.authorize.net";
 
-    private static final String TEST_URL       = SCHEME + TEST_DOMAIN + PATH;
-    private static final String PRODUCTION_URL = SCHEME + PRODUCTION_DOMAIN + PATH;
+    private static final String TEST_URL           = SCHEME + TEST_DOMAIN + PATH;
+    private static final String PRODUCTION_URL     = SCHEME + PRODUCTION_DOMAIN + PATH;
 
     //##################################################
     //# variables
     //##################################################
 
-    private static boolean _usesProductionUrl = false;
+    private static boolean      _usesProductionUrl = false;
 
     //##################################################
     //# accessing

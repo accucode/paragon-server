@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,13 @@ package com.kodemore.html;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.script.ScSimpleBlockScript;
+import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
@@ -44,12 +46,12 @@ public class KmHtmlBuilder
     //# static
     //##################################################
 
-    private static final char CHAR_CR = '\r';
-    private static final char CHAR_LF = '\n';
+    private static final char   CHAR_CR               = '\r';
+    private static final char   CHAR_LF               = '\n';
 
-    private static final String CR   = "" + CHAR_CR;
-    private static final String LF   = "" + CHAR_LF;
-    private static final String CRLF = CR + LF;
+    private static final String CR                    = "" + CHAR_CR;
+    private static final String LF                    = "" + CHAR_LF;
+    private static final String CRLF                  = CR + LF;
 
     private static final String DATA_ATTRIBUTE_PREFIX = "data-";
 
@@ -60,7 +62,7 @@ public class KmHtmlBuilder
     /**
      * The buffer onto which the content is rendered.
      */
-    private KmStringBuilder _buffer;
+    private KmStringBuilder     _buffer;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -69,7 +71,7 @@ public class KmHtmlBuilder
      * offscreen, or hidden. This allows us to render and
      * initialize complex html before its made visible.
      */
-    private ScBlockScript _postDom;
+    private ScBlockScript       _postDom;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -79,7 +81,7 @@ public class KmHtmlBuilder
      * But a some scripts must be delayed until after the
      * html is visible; such as setFocus.
      */
-    private ScBlockScript _postRender;
+    private ScBlockScript       _postRender;
 
     //##################################################
     //# constructor
@@ -244,6 +246,9 @@ public class KmHtmlBuilder
         if ( out == null )
             return;
 
+        if ( !out.hasValue() )
+            return;
+
         printAttribute("style", out.getValue());
     }
 
@@ -305,6 +310,23 @@ public class KmHtmlBuilder
     {
         openDiv();
         printAttribute("class", css);
+        close();
+    }
+
+    public void beginDivIdCss(String id, String css)
+    {
+        openDiv();
+        printAttribute("id", id);
+        printAttribute("class", css);
+        close();
+    }
+
+    public void beginDivIdCss(String id, String css, String style)
+    {
+        openDiv();
+        printAttribute("id", id);
+        printAttribute("class", css);
+        printAttribute("style", style);
         close();
     }
 
@@ -376,7 +398,14 @@ public class KmHtmlBuilder
 
     public void beginHtml()
     {
-        begin("html");
+        beginHtml("en");
+    }
+
+    public void beginHtml(String lang)
+    {
+        open("html");
+        printAttribute("lang", lang);
+        close();
     }
 
     public void endHtml()
@@ -647,9 +676,9 @@ public class KmHtmlBuilder
         printBreak();
     }
 
-    public void printf(String format, Object... args)
+    public void printf(String msg, Object... args)
     {
-        String s = Kmu.format(format, args);
+        String s = Kmu.format(msg, args);
         print(s);
     }
 
@@ -658,9 +687,9 @@ public class KmHtmlBuilder
         println();
     }
 
-    public void printfln(String format, Object... args)
+    public void printfln(String msg, Object... args)
     {
-        String s = Kmu.format(format, args);
+        String s = Kmu.format(msg, args);
         println(s);
     }
 
@@ -767,6 +796,47 @@ public class KmHtmlBuilder
     }
 
     //##################################################
+    //# format
+    //##################################################
+
+    public void beginBold()
+    {
+        begin("b");
+    }
+
+    public void endBold()
+    {
+        end("b");
+    }
+
+    public void beginBulletList()
+    {
+        begin("ul");
+    }
+
+    public void endBulletList()
+    {
+        end("ul");
+    }
+
+    public void beginBullet()
+    {
+        begin("li");
+    }
+
+    public void endBullet()
+    {
+        end("li");
+    }
+
+    public void printBullet(String s)
+    {
+        beginBullet();
+        print(s);
+        endBullet();
+    }
+
+    //##################################################
     //# justified
     //##################################################
 
@@ -848,6 +918,9 @@ public class KmHtmlBuilder
 
     public void printImage(String url, Integer width, Integer height)
     {
+        if ( url == null )
+            return;
+
         open("img");
         printAttribute("src", url);
         printAttribute("border", "0");
@@ -857,9 +930,62 @@ public class KmHtmlBuilder
         close();
     }
 
+    public void printHelpImage(String msg)
+    {
+        printHelpImage(msg, null, null, null);
+    }
+
+    /**
+     * Print the help triangle in the upper right corner of the container.
+     * This uses absolute position; the container must have a non-static position.
+     *
+     * @param msg The message to display.  Do nothing if this is empty.
+     * @param x If non-null, adjust the x position; positive moves right.
+     * @param y If non-null, adjust the y position; positive moves up.
+     * @param z If non-null, override the z-index.
+     */
+    public void printHelpImage(String msg, Integer x, Integer y, Integer z)
+    {
+        if ( Kmu.isEmpty(msg) )
+            return;
+
+        String url = ScUrlBridge.getInstance().getHelpIndicatorUrl();
+
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.helpTriangle().helpTooltip();
+
+        KmStyleBuilder style = new KmStyleBuilder();
+
+        if ( x != null )
+            style.right(-x);
+
+        if ( y != null )
+            style.top(-y);
+
+        if ( z != null )
+            style.zIndex(z);
+
+        open("img");
+        printAttribute("src", url);
+        printAttribute("border", "0");
+        printAttribute("alt", "");
+        printAttribute(css);
+        printAttribute("title", msg);
+        printAttribute(style);
+
+        close();
+    }
+
     //##################################################
     //# link
     //##################################################
+
+    public void printLink(String href)
+    {
+        String text = href;
+        printLink(text, href);
+    }
 
     public void printLink(String text, String href)
     {
@@ -1122,6 +1248,11 @@ public class KmHtmlBuilder
     //##################################################
     //# char sequence
     //##################################################
+
+    public boolean isEmpty()
+    {
+        return _buffer.isEmpty();
+    }
 
     @Override
     public int length()

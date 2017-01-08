@@ -14,8 +14,7 @@ public abstract class MyHibernateConfigurationBase
     {
         installMapping("applicationLog");
         installMapping("auditLog");
-        installMapping("autoSignIn");
-        installMapping("depot");
+        installMapping("autoLogin");
         installMapping("download");
         installMapping("email");
         installMapping("emailPart");
@@ -24,21 +23,18 @@ public abstract class MyHibernateConfigurationBase
         installMapping("file");
         installMapping("hibernateCacheTest");
         installMapping("invitation");
-        installMapping("member");
-        installMapping("memberSkill");
+        installMapping("optimisticLock");
         installMapping("passwordReset");
         installMapping("patch");
         installMapping("performanceLogDetail");
         installMapping("performanceLogSummary");
         installMapping("project");
-        installMapping("region");
         installMapping("serverSession");
         installMapping("settings");
-        installMapping("skill");
+        installMapping("tenant");
         installMapping("threadTopic");
         installMapping("user");
         installMapping("userActivation");
-        installMapping("vendor");
     }
 
     protected abstract void installMapping(String clazz);

@@ -21,8 +21,11 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyThreadTopicBase
     extends MyAbstractDomain
     implements MyDomainIF
@@ -55,6 +58,7 @@ public abstract class MyThreadTopicBase
     public MyThreadTopicBase()
     {
         super();
+        setLockVersion(0);
     }
 
     //##################################################
@@ -68,7 +72,6 @@ public abstract class MyThreadTopicBase
 
     public void setCode(String e)
     {
-        checkReadOnly();
         e = Validator.getCodeValidator().convertOnly(e);
         code = e;
     }
@@ -109,7 +112,6 @@ public abstract class MyThreadTopicBase
 
     public void setOwnerUid(String e)
     {
-        checkReadOnly();
         e = Validator.getOwnerUidValidator().convertOnly(e);
         ownerUid = e;
     }
@@ -150,7 +152,6 @@ public abstract class MyThreadTopicBase
 
     public void setHostName(String e)
     {
-        checkReadOnly();
         e = Validator.getHostNameValidator().convertOnly(e);
         hostName = e;
     }
@@ -191,7 +192,6 @@ public abstract class MyThreadTopicBase
 
     public void setHostAddress(String e)
     {
-        checkReadOnly();
         e = Validator.getHostAddressValidator().convertOnly(e);
         hostAddress = e;
     }
@@ -232,7 +232,6 @@ public abstract class MyThreadTopicBase
 
     public void setLastStartUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getLastStartUtcTsValidator().convertOnly(e);
         lastStartUtcTs = e;
     }
@@ -263,7 +262,6 @@ public abstract class MyThreadTopicBase
 
     public void setLastEndUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getLastEndUtcTsValidator().convertOnly(e);
         lastEndUtcTs = e;
     }
@@ -294,7 +292,6 @@ public abstract class MyThreadTopicBase
 
     public void setLastTouchUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getLastTouchUtcTsValidator().convertOnly(e);
         lastTouchUtcTs = e;
     }
@@ -325,7 +322,6 @@ public abstract class MyThreadTopicBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -343,6 +339,22 @@ public abstract class MyThreadTopicBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -612,6 +624,24 @@ public abstract class MyThreadTopicBase
         code = null;
     }
 
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyThreadTopic getBasicCopy()
+    {
+        MyThreadTopic e;
+        e = new MyThreadTopic();
+        e.setOwnerUid(getOwnerUid());
+        e.setHostName(getHostName());
+        e.setHostAddress(getHostAddress());
+        e.setLastStartUtcTs(getLastStartUtcTs());
+        e.setLastEndUtcTs(getLastEndUtcTs());
+        e.setLastTouchUtcTs(getLastTouchUtcTs());
+        return e;
+    }
+
     //##################################################
     //# compare
     //##################################################
@@ -647,6 +677,7 @@ public abstract class MyThreadTopicBase
         if ( !Kmu.isEqual(getLastEndUtcTs(), e.getLastEndUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLastTouchUtcTs(), e.getLastTouchUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getLastStartLocalTs(), e.getLastStartLocalTs()) ) return false;
         if ( !Kmu.isEqual(getLastStartLocalTsMessage(), e.getLastStartLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getLastStartLocalDate(), e.getLastStartLocalDate()) ) return false;
@@ -722,4 +753,10 @@ public abstract class MyThreadTopicBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

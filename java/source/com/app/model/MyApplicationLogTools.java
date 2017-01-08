@@ -2,7 +2,7 @@ package com.app.model;
 
 import org.apache.log4j.Level;
 
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 
 import com.app.model.base.MyApplicationLogToolsBase;
 
@@ -31,22 +31,22 @@ public class MyApplicationLogTools
     //# convenience
     //##################################################
 
-    public ScDropdown newLevelDropdown()
+    public ScDropdownField<Integer> newLevelDropdown()
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScDropdownField<Integer> e;
+        e = new ScDropdownField<>();
         e.setLabel("Level");
 
-        addOption(e, Level.DEBUG);
-        addOption(e, Level.INFO);
-        addOption(e, Level.WARN);
-        addOption(e, Level.ERROR);
-        addOption(e, Level.FATAL);
+        addOptionTo(e, Level.DEBUG);
+        addOptionTo(e, Level.INFO);
+        addOptionTo(e, Level.WARN);
+        addOptionTo(e, Level.ERROR);
+        addOptionTo(e, Level.FATAL);
 
         return e;
     }
 
-    private void addOption(ScDropdown dd, Level level)
+    private void addOptionTo(ScDropdownField<Integer> dd, Level level)
     {
         dd.addOption(level.getSyslogEquivalent(), level.toString());
     }

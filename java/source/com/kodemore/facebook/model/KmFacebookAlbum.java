@@ -7,7 +7,7 @@ import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampParser;
 
 public class KmFacebookAlbum
-extends Object
+    extends Object
 {
     //##################################################
     //# constants

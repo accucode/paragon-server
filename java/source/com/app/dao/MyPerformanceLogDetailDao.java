@@ -52,7 +52,6 @@ public class MyPerformanceLogDetailDao
         e.setAverageMs(avg);
         e.setTotalMs(total);
         e.setCount(count);
-
         return e;
     }
 
@@ -76,7 +75,7 @@ public class MyPerformanceLogDetailDao
      */
     public boolean deleteOldLogs()
     {
-        int limit = 100;
+        int limit = 1000;
         KmTimestamp latest = getNowUtc().subtractWeek().getStartOfDay();
 
         MyPerformanceLogDetailFilter f;
@@ -89,9 +88,21 @@ public class MyPerformanceLogDetailDao
             return false;
 
         for ( MyPerformanceLogDetail e : v )
-            e.deleteDao();
+            e.daoDelete();
 
         return true;
+    }
+
+    public KmDate getFirstDateUtc()
+    {
+        MyPerformanceLogDetailCriteria c;
+        c = createCriteria();
+        c.selectMinimumCreatedUtcTs();
+
+        KmTimestamp ts = c.findTimestamp();
+        return ts == null
+            ? null
+            : ts.getDate();
     }
 
 }

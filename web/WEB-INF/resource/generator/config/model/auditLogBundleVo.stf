@@ -1,0 +1,115 @@
+model
+: name      = auditLogBundleVo
+: help...
+    ---
+    A summary of a bundle of changes made to a single domain model.
+    ---
+
+attributes
+
+    field
+    : name          = transactionUid
+    : help          = A unique identifier of the database transaction.
+    : type          = uid
+    : required      = true
+
+
+    association
+    : name      = user
+    : help      = The user that made this change.  May be null for automated updates.
+    : modelName = user
+    : relation  = reference
+    : required  = false
+
+
+    field
+    : name      = userName
+    : help      = The user's name (denormalized).
+    : type      = name
+    : required  = false
+
+
+    field
+    : name      = typeCode
+    : help      = The type of change.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Add)
+            value(#Update)
+            value(#Delete)
+
+
+    field
+    : name      = logUtcTs
+    : help      = The time this change was made.
+    : type      = timestamp
+    : default   = nowUtc()
+    : required  = true
+
+
+    field
+    : name      = domainType
+    : help      = The type of domain; e.g.: project, depot, salesOrderLine, etc.
+    : type      = name
+    : required  = true
+
+
+    abstractField
+    : name      = domainTypeLabel
+    : help...
+        ---
+        A more friendly format of the domain type.
+        E.g.: project => Project; salesOrderLine => Sales Order Line; etc.
+        ---
+    : type      = calculated
+
+
+    field
+    : name      = domainName
+    : help...
+        ---
+        The common, but non-unique name of the domain.
+        Models generally rely on long UIDs as their unique identifier so
+        we also store a domain's display string as a 'name'.  Although this name
+        is not guaranteed to be unique, it is generally human-readable and is usually
+        sufficient to identify which domain was affected.
+        ---
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = domainUid
+    : help      = The unique id of the domain model.
+    : type      = uid
+    : required  = true
+
+
+    field
+    : name      = domainBundleUid
+    : help...
+        ---
+        I am used to identity a bundle of logs related to a particular domain.
+        In many cases, a particular domain will have multiple fields modified at the
+        same time.  The bundle identifies this group of changes.  Sometimes multiple
+        bundles may occur within the same transaction for the same domain.
+        ---
+    : type      = uid
+    : required  = true
+
+
+    abstractField
+    : name      = displayUserName
+    : help      = The user's name for display
+    : type      = calculated
+    : label     = User
+
+
+    abstractField
+    : name      = displaySummary
+    : help      = The short summary describing the bundle.
+    : type      = calculated
+    : label     = Summary
+

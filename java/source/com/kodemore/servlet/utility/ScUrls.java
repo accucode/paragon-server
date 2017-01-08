@@ -1,5 +1,5 @@
 /*return
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,6 @@ public class ScUrls
     //# common
     //##################################################
 
-    public static String getCommonScript(String file)
-    {
-        return getBridge().getCommon("script", file);
-    }
-
     public static String getCommonImage(String file)
     {
         return getBridge().getCommon("image", file);
@@ -55,26 +50,6 @@ public class ScUrls
     public static String getThemeCss(String file)
     {
         return getBridge().getTheme("css", file);
-    }
-
-    //##################################################
-    //# third party
-    //##################################################
-
-    /**
-     * The the path to an icon in the Glyphish library.
-     */
-    public static String getGlyphishIcon(String... path)
-    {
-        return getBridge().getGlyphishIcon(path);
-    }
-
-    /**
-     * The the path to an icon in the LED-icons library.
-     */
-    public static String getLedIcon(String... path)
-    {
-        return getBridge().getLedIcon(path);
     }
 
     //##################################################

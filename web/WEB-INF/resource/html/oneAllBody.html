@@ -1,0 +1,11 @@
+    <!-- OneAll Social Login, this should be included in the html BODY. -->
+	<div id="oa_social_login"></div>
+	
+	<script type="text/javascript">
+	 var _oneall = _oneall || [];
+	 _oneall.push(['social_login', 'set_callback_uri', '${oneAllCallbackUrl}']);	 
+	 _oneall.push(['social_login', 'set_providers', ['google']]);
+	 _oneall.push(['social_login', 'set_custom_css_uri', 'https://secure.oneallcdn.com/css/api/themes/beveled_w35_h35_wc_v1.css']);
+	 _oneall.push(['social_login', 'set_grid_sizes', [2,1]]);
+	 _oneall.push(['social_login', 'do_render_ui', 'oa_social_login']);
+	</script>

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaPatch_InstalledLocalTsMessage
     @Override
     public String getHelp()
     {
-        return "The date and time when the patch was installed in this database.";
+        return "The installed timestamp converted to the user's local timezone, and formatted as a string that includes the timezone code.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaPatch_InstalledLocalTsMessage
     {
         return model.getInstalledLocalTsMessage();
     }
-    
+
     @Override
     public boolean hasValueFor(MyPatch model, String value)
     {
         return model.hasInstalledLocalTsMessage(value);
     }
-    
+
 }

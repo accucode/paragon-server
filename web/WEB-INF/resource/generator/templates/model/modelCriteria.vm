@@ -14,6 +14,7 @@ import ${package}.dao.base.*;
 import ${package}.dao.core.*;
 import ${package}.filter.*;
 import ${package}.model.*;
+import ${package}.model.base.*;
 import ${package}.model.meta.*;
 
 public class ${model.f_CriteriaClass}
@@ -192,7 +193,7 @@ $utility.protocol("association (${ass.f_Name})")
 
     public void groupBy${ass.f_PkName}()
     {
-        groupBy(${ass.f_NAME});
+        groupBy(${ass.f_PK_NAME});
     }
 
     public ${ass.modelReference.f_CriteriaClass} joinTo${ass.f_Name}()
@@ -235,7 +236,34 @@ $utility.protocol("collection (${col.f_Name})")
     }
 
 #end
-$utility.protocol("junction")
+$utility.protocol("junction :: alias")
+
+    public ${model.f_JunctionClass} all()
+    {
+        return addAnd();
+    }
+
+    public ${model.f_JunctionClass} any()
+    {
+        return addOr();
+    }
+
+    public ${model.f_JunctionClass} none()
+    {
+        return addNotOr();
+    }
+
+$utility.protocol("junction :: basic")
+
+    public ${model.f_JunctionClass} addNotAnd()
+    {
+        return new ${model.f_JunctionClass}(parent().addNotAnd());
+    }
+
+    public ${model.f_JunctionClass} addNotOr()
+    {
+        return new ${model.f_JunctionClass}(parent().addNotOr());
+    }
 
     public ${model.f_JunctionClass} addAnd()
     {

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaEmailPart_Data
     {
         return null;
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmailPart_Data
         return getAccess().getEmailPartDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmailPart_Data
     {
         return model.getData();
     }
-    
+
     @Override
     public void setValueFor(MyEmailPart model, KmBlob value)
     {
         model.setData(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmailPart model, KmBlob value)
     {
         return model.hasData(value);
     }
-    
+
 }

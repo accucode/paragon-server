@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -51,7 +52,7 @@ public class MyMetaInvitation_StatusName
     {
         return "The status of this invitation: pending, accepted, rejected, expired, or cancelled.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaInvitation_StatusName
     {
         return model.getStatusName();
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
         return model.hasStatusName(value);
     }
-    
+
 }

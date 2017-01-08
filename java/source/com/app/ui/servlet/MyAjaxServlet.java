@@ -11,13 +11,13 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyPerformanceLogBuffer;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPageRegistry;
-import com.app.ui.page.login.MySignInPage;
+import com.app.ui.page.login.MyLoginPage;
+import com.app.utility.MyAppNavigator;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyNavigator;
 import com.app.utility.MyUrls;
 
 public class MyAjaxServlet
@@ -45,8 +45,8 @@ public class MyAjaxServlet
 
     private void handle()
     {
+        KmTimer timer = KmTimer.run("ajax servlet");
         MyServletData data = getData();
-
         try
         {
             checkServerSession();
@@ -74,10 +74,15 @@ public class MyAjaxServlet
         {
             toastFatal(ex.formatDisplayMessage());
         }
-        catch ( RuntimeException ex )
+        catch ( Throwable ex )
         {
             KmLog.fatal(ex);
-            toastFatal("Unhandled exception: " + ex.getMessage());
+            ajax().openErrorDialog(ex);
+        }
+        finally
+        {
+            if ( getProperties().getPrintAjaxTime() )
+                KmLog.println(timer);
         }
     }
 
@@ -97,7 +102,7 @@ public class MyAjaxServlet
         }
         finally
         {
-            String name = Kmu.format("action... %s", e.getFullName());
+            String name = Kmu.format("action... %s", e.getName());
             MyPerformanceLogBuffer.push(name, t);
         }
     }
@@ -148,7 +153,7 @@ public class MyAjaxServlet
     {
         if ( requiresLoginFor(page) )
         {
-            MySignInPage.getInstance().ajaxEnterForWindowQuery();
+            MyLoginPage.getInstance().ajaxEnterForWindowQuery();
             return;
         }
 
@@ -182,7 +187,7 @@ public class MyAjaxServlet
 
     public ScPage getDefaultEntryPage()
     {
-        return MyNavigator.getEntryPage();
+        return MyAppNavigator.getEntryPage();
     }
 
     private boolean requiresLoginFor(ScPage page)
@@ -218,7 +223,7 @@ public class MyAjaxServlet
         ajax().toast(s).error().sticky();
     }
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

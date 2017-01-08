@@ -5,7 +5,7 @@ import com.kodemore.generator.KmgElement;
 import com.kodemore.meta.KmMetaAssociation;
 import com.kodemore.meta.KmMetaDaoAssociation;
 import com.kodemore.stf.KmStfElement;
-import com.kodemore.utility.KmNamedEnumIF;
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.Kmu;
 
 public class KmgModelAssociation
@@ -16,67 +16,22 @@ public class KmgModelAssociation
     //##################################################
 
     private enum Relation
-        implements KmNamedEnumIF
+                    implements KmEnumIF
     {
-        Child("child"),
-        Parent("parent"),
-        Reference("reference"),
-        WeakReference("weakReference"),
-        Calculated("calculated");
-
-        public static Relation findName(String s)
-        {
-            for ( Relation e : values() )
-                if ( e.getName().equals(s) )
-                    return e;
-            return null;
-        }
-
-        private String _name;
-
-        private Relation(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        child,
+        parent,
+        reference,
+        weakReference,
+        calculated;
     }
 
     private enum OnCopy
-        implements KmNamedEnumIF
+                    implements KmEnumIF
     {
-        Clear("clear"),
-        Share("share"),
-        Copy("copy"),
-        Noop("noop");
-
-        private String _name;
-
-        private OnCopy(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
-    }
-
-    //##################################################
-    //# constructor
-    //##################################################
-
-    public KmgModelAssociation(KmgElement parent)
-    {
-        super(parent);
-        _delegates = new KmList<>();
-        _onChangeMethods = new KmList<>();
+        clear,
+        share,
+        copy,
+        noop;
     }
 
     //##################################################
@@ -87,19 +42,21 @@ public class KmgModelAssociation
      * The name of the field.  The name should be all lower case
      * using a space to separate the words.
      */
-    private String _name;
+    private String                   _name;
+
+    private String                   _label;
 
     /**
      * A description suitable for display to users.
      */
-    private String _help;
+    private String                   _help;
 
     /**
      * Additional description intended for developers.
      */
-    private String _comment;
+    private String                   _comment;
 
-    private String _modelReferenceName;
+    private String                   _modelReferenceName;
 
     private KmList<KmgModelDelegate> _delegates;
 
@@ -111,19 +68,44 @@ public class KmgModelAssociation
      *      weakReference: car -> driver
      *
      */
-    private Relation _relation;
+    private Relation                 _relation;
 
-    private boolean _required;
+    private boolean                  _required;
 
-    private boolean _abstract;
+    private boolean                  _abstract;
 
     /**
      * The list of attributes that I depend on, and what
      * to do when any of those attributes changes.
      */
-    private KmgModelDependsOn _dependsOn;
+    private KmgModelDependsOn        _dependsOn;
 
-    private KmList<String> _onChangeMethods;
+    private KmList<String>           _onChangeMethods;
+
+    /**
+     * The optional default value.
+     */
+    private String                   _defaultValue;
+
+    /**
+     * There are currently three options.
+     *      - true (default), changes are logged normally.
+     *      - false, changes are NOT logged.
+     *      - mask, changes are logged but always report *** as the value.
+     */
+    private String                   _auditLogMode;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public KmgModelAssociation(KmgElement parent)
+    {
+        super(parent);
+        _delegates = new KmList<>();
+        _onChangeMethods = new KmList<>();
+        _auditLogMode = "true";
+    }
 
     //##################################################
     //# abstract
@@ -154,6 +136,17 @@ public class KmgModelAssociation
     public boolean hasName(String s)
     {
         return Kmu.isEqual(_name, s);
+    }
+
+    public String getLabel()
+    {
+        return _label;
+    }
+
+    public boolean hasLabel()
+    {
+        // emtpy string is a valid label.
+        return _label != null;
     }
 
     public String getHelp()
@@ -291,6 +284,45 @@ public class KmgModelAssociation
         _onChangeMethods.add(e);
     }
 
+    public String getDefaultValue()
+    {
+        return _defaultValue;
+    }
+
+    public boolean hasDefaultValue()
+    {
+        return Kmu.hasValue(getDefaultValue());
+    }
+
+    //==================================================
+    //= audit log mode
+    //==================================================
+
+    public String getAuditLogMode()
+    {
+        return _auditLogMode;
+    }
+
+    public void setAuditLogMode(String e)
+    {
+        _auditLogMode = e;
+    }
+
+    public boolean isAuditLogNormal()
+    {
+        return !(isAuditLogMasked() || isAuditLogDisabled());
+    }
+
+    public boolean isAuditLogMasked()
+    {
+        return _auditLogMode.equals("mask");
+    }
+
+    public boolean isAuditLogDisabled()
+    {
+        return _auditLogMode.equals("false");
+    }
+
     //##################################################
     //# relation
     //##################################################
@@ -302,42 +334,42 @@ public class KmgModelAssociation
 
     public boolean isRelationParent()
     {
-        return _relation == Relation.Parent;
+        return _relation == Relation.parent;
     }
 
     public OnCopy getOnCopy()
     {
         switch ( _relation )
         {
-            case Child:
-                return OnCopy.Copy;
+            case child:
+                return OnCopy.copy;
 
-            case Parent:
-            case WeakReference:
-                return OnCopy.Clear;
+            case parent:
+            case weakReference:
+                return OnCopy.clear;
 
-            case Reference:
-                return OnCopy.Share;
+            case reference:
+                return OnCopy.share;
 
-            case Calculated:
-                return OnCopy.Noop;
+            case calculated:
+                return OnCopy.noop;
         }
         return null;
     }
 
     public boolean isOnCopyClear()
     {
-        return getOnCopy() == OnCopy.Clear;
+        return getOnCopy() == OnCopy.clear;
     }
 
     public boolean isOnCopyCopy()
     {
-        return getOnCopy() == OnCopy.Copy;
+        return getOnCopy() == OnCopy.copy;
     }
 
     public boolean isOnCopyShare()
     {
-        return getOnCopy() == OnCopy.Share;
+        return getOnCopy() == OnCopy.share;
     }
 
     //##################################################
@@ -348,13 +380,13 @@ public class KmgModelAssociation
     {
         switch ( _relation )
         {
-            case Child:
+            case child:
                 return "all";
 
-            case Parent:
-            case Reference:
-            case WeakReference:
-            case Calculated:
+            case parent:
+            case reference:
+            case weakReference:
+            case calculated:
                 return "none";
         }
         throw new RuntimeException("Unhandled relation");
@@ -414,23 +446,40 @@ public class KmgModelAssociation
     @Override
     public void parse(KmStfElement x)
     {
-        checkAttributeKeys(x, "name", "help", "comment", "modelName", "relation", "required");
+        checkAttributeKeys(
+            x,
+            "name",
+            "help",
+            "label",
+            "comment",
+            "modelName",
+            "relation",
+            "required",
+            "default",
+            "auditLog");
+
         checkChildrenNames(x, "delegate", "dependsOn");
 
         _name = parseRequiredNameAttribute(x);
+        _label = parseString(x, "label", null);
         _help = parseString(x, "help", null);
         _comment = parseString(x, "comment", null);
         _modelReferenceName = parseRequiredName(x, "modelName");
         _required = parseBoolean(x, "required");
+        _defaultValue = parseString(x, "default", null);
+
+        _auditLogMode = parseString(x, "auditLog", "true");
+        if ( !Kmu.matchesAny(_auditLogMode, "true", "false", "mask") )
+            throw newError(x, "Unknown audit log: %s", _auditLogMode);
 
         if ( isAbstract() )
-            _relation = Relation.Calculated;
+            _relation = Relation.calculated;
         else
         {
             String s = parseRequiredString(x, "relation");
-            _relation = Relation.findName(s);
+            _relation = Relation.valueOf(s);
             if ( _relation == null )
-                throw newFatal("Invalid relation: " + s);
+                throw newError("Invalid relation: " + s);
         }
 
         KmList<KmStfElement> v = x.getChildren("delegate");
@@ -456,7 +505,7 @@ public class KmgModelAssociation
     public void validate()
     {
         if ( getModelReference() == null )
-            throw newFatal("Cannot resolve model reference: " + getModelReferenceName());
+            throw newError("Cannot resolve model reference: " + getModelReferenceName());
 
         validateRelation();
 
@@ -471,28 +520,28 @@ public class KmgModelAssociation
         KmgModelCollection ic = getInverseCollection();
         switch ( _relation )
         {
-            case Child:
+            case child:
                 if ( ic != null )
-                    throw newFatal("Child association should not have inverse collection.");
+                    throw newError("Child association should not have inverse collection.");
                 return;
 
-            case Parent:
+            case parent:
                 if ( ic == null )
-                    throw newFatal("Parent association must have inverse collection.");
+                    throw newError("Parent association must have inverse collection.");
                 return;
 
-            case Reference:
+            case reference:
                 if ( ic != null )
-                    throw newFatal("Reference association should not have inverse collection.");
+                    throw newError("Reference association should not have inverse collection.");
                 return;
 
-            case WeakReference:
+            case weakReference:
                 if ( ic != null )
-                    throw newFatal(
+                    throw newError(
                         "Weak reference association should not have inverse collection.");
                 return;
 
-            case Calculated:
+            case calculated:
                 return;
         }
     }
@@ -515,7 +564,7 @@ public class KmgModelAssociation
         KmList<KmgModelField> pks = getModelReference().getPrimaryKeyFields();
 
         if ( pks.size() != 1 )
-            throw newFatal("manyToOne must reference a model that has a single field primary key.");
+            throw newError("manyToOne must reference a model that has a single field primary key.");
 
         KmgModelField f = pks.getFirst();
         return f;
@@ -551,6 +600,36 @@ public class KmgModelAssociation
     public String getf_NAME()
     {
         return Kmu.formatAsConstant(getName());
+    }
+
+    public String getf_label()
+    {
+        if ( hasLabel() )
+            return getLabel();
+
+        return Kmu.formatCamelCaseAsWords(getf_Name());
+    }
+
+    public String getf_help()
+    {
+        return getHelp();
+    }
+
+    public String getf_helpHtml()
+    {
+        if ( !hasHelp() )
+            return "";
+
+        String s;
+        s = getHelp();
+        s = Kmu.escapeHtml(s, true);
+        s = Kmu.replaceAll(s, "<br>", "<br><br>");
+        return s;
+    }
+
+    public String getf_helpJavaString()
+    {
+        return Kmu.encodeJavaString(getHelp());
     }
 
     @Override
@@ -592,6 +671,11 @@ public class KmgModelAssociation
     public String getf_cascade()
     {
         return getCascade();
+    }
+
+    public String getf_defaultValue()
+    {
+        return getDefaultValue();
     }
 
     //##################################################

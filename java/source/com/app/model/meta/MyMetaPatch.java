@@ -51,17 +51,18 @@ public class MyMetaPatch
         return "patch";
     }
 
-    public static MyPatchValidator getValidator()
+    public MyPatchValidator getValidator()
     {
         return MyPatchValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "The list of all database patches. These are used to coordinate database migrations. During database migration checks, the list of patches on the file system are compared to the list of patches known in this table.  f";
     }
@@ -73,6 +74,7 @@ public class MyMetaPatch
     public static final MyMetaPatch_Name Name = new MyMetaPatch_Name();
     public static final MyMetaPatch_InstalledUtcTs InstalledUtcTs = new MyMetaPatch_InstalledUtcTs();
     public static final MyMetaPatch_Source Source = new MyMetaPatch_Source();
+    public static final MyMetaPatch_DisplayString DisplayString = new MyMetaPatch_DisplayString();
     public static final MyMetaPatch_InstalledLocalTs InstalledLocalTs = new MyMetaPatch_InstalledLocalTs();
     public static final MyMetaPatch_InstalledLocalTsMessage InstalledLocalTsMessage = new MyMetaPatch_InstalledLocalTsMessage();
     public static final MyMetaPatch_InstalledLocalDate InstalledLocalDate = new MyMetaPatch_InstalledLocalDate();

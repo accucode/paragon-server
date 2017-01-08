@@ -76,7 +76,7 @@ $utility.protocol("delete")
 
 $utility.protocol("convenience")
 
-    protected ${Prefix}DaoRegistry getAccess()
+    protected ${Prefix}DaoAccess getAccess()
     {
         return ${Prefix}Globals.getAccess();
     }

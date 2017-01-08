@@ -2,12 +2,11 @@ package com.app.filter;
 
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmNamedEnumIF;
-import com.kodemore.utility.Kmu;
+import com.kodemore.utility.KmEnumIF;
 
 import com.app.criteria.MyEmailCriteria;
 import com.app.filter.base.MyEmailFilterBase;
-import com.app.model.MyEmailStatus;
+import com.app.model.base.MyEmailStatus;
 
 public class MyEmailFilter
     extends MyEmailFilterBase
@@ -17,28 +16,18 @@ public class MyEmailFilter
     //##################################################
 
     public static enum Sort
-        implements KmNamedEnumIF
+        implements KmEnumIF
     {
-        Uid("Uid"),
-        CreatedUtcTs("CreatedUtcTs");
-
-        private String _name;
-
-        private Sort(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        Uid,
+        CreatedUtcTs;
     }
 
     //##################################################
     //# variables
     //##################################################
+
+    private Sort    _sort;
+    private boolean _ascending;
 
     private KmDate  _createdStartDate;
     private boolean _usesCreatedStartDate;
@@ -49,8 +38,77 @@ public class MyEmailFilter
     private String  _statusCode;
     private boolean _usesStatusCode;
 
-    private Sort    _sort;
-    private boolean _sortAscending;
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyEmailFilter()
+    {
+        sortOnUid();
+        sortAscending();
+    }
+
+    //##################################################
+    //# sort
+    //##################################################
+
+    public void sortOnUid()
+    {
+        setSort(Sort.Uid);
+    }
+
+    public void sortOnCreatedUtcTs()
+    {
+        setSort(Sort.CreatedUtcTs);
+    }
+
+    //==================================================
+    //= sort :: accessing
+    //==================================================
+
+    public Sort getSort()
+    {
+        return _sort;
+    }
+
+    public void setSort(Sort e)
+    {
+        _sort = e;
+    }
+
+    public void sortOn(int i)
+    {
+        setSort(Sort.values()[i]);
+    }
+
+    public boolean usesSort()
+    {
+        return _sort != null;
+    }
+
+    //==================================================
+    //= sort :: ascending
+    //==================================================
+
+    public boolean getAscending()
+    {
+        return _ascending;
+    }
+
+    public void setAscending(boolean e)
+    {
+        _ascending = e;
+    }
+
+    public void sortAscending()
+    {
+        setAscending(true);
+    }
+
+    public void sortDescending()
+    {
+        setAscending(false);
+    }
 
     //##################################################
     //# createdStartDate
@@ -109,64 +167,12 @@ public class MyEmailFilter
 
     public void setStatusCode(MyEmailStatus e)
     {
-        setStatusCode(Kmu.getCode(e));
+        setStatusCode(KmEnumIF.getCodeFor(e));
     }
 
     public boolean usesStatusCode()
     {
         return _usesStatusCode;
-    }
-
-    //##################################################
-    //# sort
-    //##################################################
-
-    public void sortOnId()
-    {
-        sortOn(Sort.Uid);
-    }
-
-    public void sortOnCreatedUtcTs()
-    {
-        sortOn(Sort.CreatedUtcTs);
-    }
-
-    //##################################################
-    //# sort (support)
-    //##################################################
-
-    public void sortOn(int i)
-    {
-        sortOn(Sort.values()[i]);
-    }
-
-    public void sortOn(Sort e)
-    {
-        _sort = e;
-    }
-
-    public boolean usesSort()
-    {
-        return _sort != null;
-    }
-
-    //##################################################
-    //# sort order
-    //##################################################
-
-    public void sortAscending()
-    {
-        sortAscending(true);
-    }
-
-    public void sortAscending(boolean e)
-    {
-        _sortAscending = e;
-    }
-
-    public void sortDescending()
-    {
-        sortAscending(false);
     }
 
     //##################################################
@@ -198,9 +204,10 @@ public class MyEmailFilter
         if ( !usesSort() )
             return;
 
-        boolean asc = _sortAscending;
+        Sort sort = getSort();
+        boolean asc = getAscending();
 
-        switch ( _sort )
+        switch ( sort )
         {
             case Uid:
                 c.sortOnUid(asc);

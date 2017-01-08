@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -103,7 +103,7 @@ public class KmDateUtility
         s = Kmu.replaceAll(s, "{mm}", pad2(d.getMonth()));
         s = Kmu.replaceAll(s, "{m}", d.getMonth() + "");
 
-        s = Kmu.replaceAll(s, "{dddd}", d.getWeekDay().getName());
+        s = Kmu.replaceAll(s, "{dddd}", d.getWeekDay().getLabel());
         s = Kmu.replaceAll(s, "{ddd}", d.getWeekDay().getAbbreviation());
         s = Kmu.replaceAll(s, "{dd}", pad2(d.getDay()));
         s = Kmu.replaceAll(s, "{d}", d.getDay() + "");
@@ -120,6 +120,7 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return ""
             + d.getMonth()
             + DATE_SEPARATOR
@@ -135,12 +136,24 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return ""
             + pad2(d.getMonth())
             + DATE_SEPARATOR
             + pad2(d.getDay())
             + DATE_SEPARATOR
             + pad2(getShortYear(d));
+    }
+
+    /**
+     * Format a date, e.g.: Jan 8, 1985 -> 1/8
+     */
+    public static String format_m_d(KmDate d)
+    {
+        if ( d == null )
+            return "";
+
+        return "" + d.getMonth() + DATE_SEPARATOR + d.getDay();
     }
 
     /**
@@ -177,6 +190,7 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return "" + pad4(d.getYear()) + pad2(d.getMonth()) + pad2(d.getDay());
     }
 
@@ -187,6 +201,7 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return "" + pad4(d.getYear()) + pad2(d.getMonth());
     }
 
@@ -212,6 +227,7 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return "" + pad2(d.getShortYear()) + pad2(d.getMonth()) + pad2(d.getDay());
     }
 
@@ -230,6 +246,7 @@ public class KmDateUtility
     {
         if ( d == null )
             return "";
+
         return "" + pad2(d.getMonth()) + DATE_SEPARATOR + pad4(d.getYear());
     }
 

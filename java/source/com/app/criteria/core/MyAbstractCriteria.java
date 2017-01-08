@@ -2,11 +2,11 @@ package com.app.criteria.core;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.hibernate.KmhModelCriteria;
-import com.kodemore.hibernate.KmhProjectionResult;
 import com.kodemore.hibernate.KmhProjectionRow;
 import com.kodemore.hibernate.basic.KmhCriteria;
 
-import com.app.model.MyNamedCountVo;
+import com.app.model.MyNamedDoubleVo;
+import com.app.model.MyNamedIntegerVo;
 
 public abstract class MyAbstractCriteria<T>
     extends KmhModelCriteria<T>
@@ -24,23 +24,43 @@ public abstract class MyAbstractCriteria<T>
     //# convenience
     //##################################################
 
-    public KmList<MyNamedCountVo> findNamedCounts()
+    public KmList<MyNamedIntegerVo> findNamedIntegers()
     {
-        KmList<MyNamedCountVo> v = new KmList<>();
+        KmList<MyNamedIntegerVo> v = new KmList<>();
 
-        KmhProjectionResult results = findResults();
-
-        for ( KmhProjectionRow row : results )
+        for ( KmhProjectionRow row : findResults() )
         {
             String name = row.nextString();
             Integer count = row.nextInteger();
 
-            MyNamedCountVo e;
-            e = new MyNamedCountVo();
+            MyNamedIntegerVo e;
+            e = new MyNamedIntegerVo();
             e.setName(name);
-            e.setCount(count);
+            e.setValue(count);
+
             v.add(e);
         }
+
+        return v;
+    }
+
+    public KmList<MyNamedDoubleVo> findNamedDoubles()
+    {
+        KmList<MyNamedDoubleVo> v = new KmList<>();
+
+        for ( KmhProjectionRow row : findResults() )
+        {
+            String name = row.nextString();
+            Double value = row.nextDouble();
+
+            MyNamedDoubleVo e;
+            e = new MyNamedDoubleVo();
+            e.setName(name);
+            e.setValue(value);
+
+            v.add(e);
+        }
+
         return v;
     }
 

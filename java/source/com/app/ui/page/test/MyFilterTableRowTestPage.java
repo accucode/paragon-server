@@ -1,10 +1,9 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
@@ -78,12 +77,12 @@ public final class MyFilterTableRowTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
 
         installBuildingSearchBox(root);
     }
 
-    private void installBuildingSearchBox(ScBox root)
+    private void installBuildingSearchBox(ScDiv root)
     {
         _searchAddressField = new ScTextField();
         _searchAddressField.setLabel("Address contains ");
@@ -109,9 +108,9 @@ public final class MyFilterTableRowTestPage
         fields = box.addFieldTable();
         fields.add(_searchAddressField);
 
-        ScFlexbox row;
-        row = fields.addRow();
-        row.crossAlignCenter();
+        ScDiv row;
+        row = fields.addFlexRow();
+        row.css().flexCrossAlignCenter();
         row.setLabel("Square Footage");
         row.add(_searchMinSquareFootageField);
         row.addNonBreakingSpace();

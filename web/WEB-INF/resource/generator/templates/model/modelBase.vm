@@ -15,13 +15,23 @@ import com.kodemore.utility.*;
 import ${package}.model.*;
 import ${package}.model.core.*;
 import ${package}.model.meta.*;
+import ${package}.model.support.*;
+import ${package}.ui.dashboard.core.*;
 import ${package}.utility.*;
 
+@SuppressWarnings("all")
 public abstract class $model.f_BaseClass
     extends $model.f_Superclass
+#if ( $model.hasPrimaryKeyUid() )
+    implements MyUidDomainIF
+#else
     implements MyDomainIF
+#end
 #if ( $model.isSequenceIF() )
     ,KmSequenceIF
+#end
+#if ( $model.isBasicTimestampsIF() )
+    ,MyBasicTimestampsIF
 #end
 {
 $utility.protocol("static")
@@ -44,6 +54,11 @@ $utility.protocol("constructor")
     {
         super();
 #foreach ( $e in $model.fields )
+#if ( $e.hasDefaultValue() )
+        ${e.f_setMethod}($e.f_defaultValue);
+#end
+#end
+#foreach ( $e in $model.associations )
 #if ( $e.hasDefaultValue() )
         ${e.f_setMethod}($e.f_defaultValue);
 #end
@@ -77,7 +92,6 @@ $utility.protocol("field (${field.Name})")
 #end
     public void ${field.f_setMethod}(${field.f_Type} e)
     {
-        checkReadOnly();
         e = Validator.get${field.f_Name}Validator().convertOnly(e);
 #if ( $field.onChangeMethods.isEmpty() )
         ${field.f_variable} = e;
@@ -211,7 +225,6 @@ $utility.protocol("${association.f_name}")
 
     public void ${association.f_setMethod}(${association.f_Type} e)
     {
-        checkReadOnly();
         ${association.f_variable} = e;
 #foreach ( $method in ${association.onChangeMethods} )
         ${method}();
@@ -220,7 +233,6 @@ $utility.protocol("${association.f_name}")
 
     public void _${association.f_setMethod}(${association.f_Type} e)
     {
-        checkReadOnly();
         ${association.f_variable} = e;
     }
 
@@ -276,7 +288,7 @@ $utility.protocol("${collection.f_Name} (collection)")
         return new ${collection.f_WrapperImplType_NoGeneric}(
             ${collection.f_implGetMethod}(),
             ($model.f_Class)this,
-            ${collection.f_ElementType}.Meta.${collection.f_ElementName}.getAdaptor());
+            ${collection.f_ElementType}.Meta.${collection.f_ElementName});
     }
 
 #if ( $collection.elementModel.isSequenceIF() )
@@ -317,6 +329,9 @@ $utility.protocol("${collection.f_Name} (collection)")
 
     public void add${collection.f_SingleName}(${collection.f_ElementType} e)
     {
+#if ( $collection.elementModel.isSequenceIF() )
+        e.setSequence(${collection.f_getMethod}().getNextSequence());
+#end
         ${collection.f_getMethod}().add(e);
     }
 
@@ -412,7 +427,7 @@ $utility.protocol("copy")
     {
         super.postCopy();
 #if ( $model.hasPrimaryKey() )
-        ${model.primaryKeyField.f_variable} = null;
+        ${model.primaryKeyField.f_variable} = ${model.primaryKeyField.f_defaultValue};
 #end
 #foreach ( $field in $model.postCopyFields )
         ${field.f_variable} = copy(${field.f_variable});
@@ -428,7 +443,11 @@ $utility.protocol("copy")
 #foreach ( $collection in $model.collections )
 
 #if ( $collection.isOnCopyCopy() )
+#if ( $collection.elementModel.isSequenceIF() )
+        ${collection.f_Type} old_${collection.f_variable} = getSorted${collection.f_Name}();
+#else
         ${collection.f_Type} old_${collection.f_variable} = ${collection.f_variable};
+#end
         ${collection.f_variable} = new ${collection.f_ImplType_NoGeneric}();
         for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
             add${collection.f_SingleName}(copy(e));
@@ -444,6 +463,28 @@ $utility.protocol("copy")
         for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
             add${collection.f_SingleName}(e);
 #end
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final ${model.f_Class} getBasicCopy()
+    {
+        ${model.f_Class} e;
+        e = new ${model.f_Class}();
+#foreach ( $field in $model.editableFields )
+#if ( $field.isNotPrimaryKey() )
+#if ( $field.isNotLockVersion() )
+        e.${field.f_setMethod}(${field.f_getMethod}());
+#end
+#end
+#end
+#if ( $model.isBasicTimestampsIF() )
+        resetBasicTimestamps();
+#end
+        return e;
     }
 
 $utility.protocol("compare")
@@ -554,4 +595,12 @@ $utility.protocol("convenience")
     {
         return Meta.getName();
     }
+
+#if ( $model.hasLockVersionField() )
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
+#end
 }

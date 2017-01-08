@@ -21,8 +21,11 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MySettingsBase
     extends MyAbstractDomain
     implements MyDomainIF
@@ -50,6 +53,7 @@ public abstract class MySettingsBase
     public MySettingsBase()
     {
         super();
+        setLockVersion(0);
     }
 
     //##################################################
@@ -63,7 +67,6 @@ public abstract class MySettingsBase
 
     public void setCode(Integer e)
     {
-        checkReadOnly();
         e = Validator.getCodeValidator().convertOnly(e);
         code = e;
     }
@@ -94,7 +97,6 @@ public abstract class MySettingsBase
 
     public void setSomeMessage(String e)
     {
-        checkReadOnly();
         e = Validator.getSomeMessageValidator().convertOnly(e);
         someMessage = e;
     }
@@ -135,7 +137,6 @@ public abstract class MySettingsBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -153,6 +154,22 @@ public abstract class MySettingsBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
 
@@ -194,6 +211,19 @@ public abstract class MySettingsBase
         code = null;
     }
 
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MySettings getBasicCopy()
+    {
+        MySettings e;
+        e = new MySettings();
+        e.setSomeMessage(getSomeMessage());
+        return e;
+    }
+
     //##################################################
     //# compare
     //##################################################
@@ -224,6 +254,7 @@ public abstract class MySettingsBase
     {
         if ( !Kmu.isEqual(getSomeMessage(), e.getSomeMessage()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 
@@ -287,4 +318,10 @@ public abstract class MySettingsBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

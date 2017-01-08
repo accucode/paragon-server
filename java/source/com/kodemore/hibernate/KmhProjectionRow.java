@@ -11,8 +11,8 @@ public class KmhProjectionRow
     //##################################################
 
     private KmhProjectionResult _parent;
-    private int                _row;
-    private int                _column;
+    private int                 _row;
+    private int                 _column;
 
     //##################################################
     //# constructor

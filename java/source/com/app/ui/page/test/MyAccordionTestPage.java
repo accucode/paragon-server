@@ -2,7 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScAccordion;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
@@ -67,25 +66,25 @@ public final class MyAccordionTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css();
 
         ScAccordion e;
         e = root.addAccordion();
 
-        ScBox tab;
-        tab = e.addBox();
+        ScDiv tab;
+        tab = e.addDiv();
         tab.setLabel("one");
         tab.addDiv().addText(Kmu.repeat("one ", 100));
 
-        tab = e.addBox();
+        tab = e.addDiv();
         tab.setLabel("two");
         tab.addDiv().addText(Kmu.repeat("two ", 100));
 
-        tab = e.addBox();
+        tab = e.addDiv();
         tab.setLabel("three");
         tab.addDiv().addText(Kmu.repeat("three ", 100));
 
-        tab = e.addBox();
+        tab = e.addDiv();
         tab.setLabel("four");
 
         ScDiv content;

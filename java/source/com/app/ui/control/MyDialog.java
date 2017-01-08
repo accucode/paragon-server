@@ -2,9 +2,8 @@ package com.app.ui.control;
 
 import com.kodemore.servlet.control.ScDialog;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyProject;
-import com.app.property.MyPropertyRegistry;
+import com.app.dao.base.MyDaoAccess;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 public class MyDialog
@@ -14,23 +13,23 @@ public class MyDialog
     //# convenience
     //##################################################
 
-    protected MyDaoRegistry getAccess()
+    protected MyGlobals getGlobals()
     {
-        return MyGlobals.getAccess();
+        return MyGlobals.instance;
     }
 
-    protected MyPropertyRegistry getProperties()
+    protected MyDaoAccess getAccess()
+    {
+        return getGlobals().getAccess();
+    }
+
+    protected MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }
 
-    protected void flushDao()
+    protected void daoFlush()
     {
         MyGlobals.getDaoSession().flush();
-    }
-
-    protected MyProject getCurrentProject()
-    {
-        return MyGlobals.getServerSession().getCurrentProject();
     }
 }

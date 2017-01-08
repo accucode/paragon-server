@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
@@ -68,7 +68,7 @@ public final class MyGradientTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto().flexRow().flexWrap().flexWrapAlignStart().gap().boxGray();
 
         addBoxDownTo(root, "white", "black");
         addBoxDownTo(root, "white", "blue");
@@ -77,16 +77,14 @@ public final class MyGradientTestPage
         addBoxDownTo(root, "white", "yellow", "blue", "red", "black");
     }
 
-    private ScBox addBoxDownTo(ScBox root, String... colors)
+    private ScDiv addBoxDownTo(ScDiv root, String... colors)
     {
-        ScBox box;
-        box = root.addBox();
-        box.css().pad().border().floatLeft();
-        box.style().width(200);
-        box.style().height(200);
-        box.style().gradientDown(colors);
-        box.addText(Kmu.join(colors));
-        return box;
+        ScDiv e;
+        e = root.addDiv();
+        e.css().border().size200().pad();
+        e.style().gradientDown(colors);
+        e.addText(Kmu.join(colors));
+        return e;
     }
 
     //##################################################

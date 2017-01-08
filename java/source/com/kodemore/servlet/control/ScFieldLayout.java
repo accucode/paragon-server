@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -38,14 +37,11 @@ public class ScFieldLayout
     private ScLocalBoolean _showsHelp;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScFieldLayout()
     {
-        super.install();
-
         _showsHelp = new ScLocalBoolean(true);
     }
 
@@ -69,19 +65,28 @@ public class ScFieldLayout
     }
 
     //##################################################
-    //# override
+    //# add
     //##################################################
 
     @Override
-    public <T extends ScControl> T add(T e)
+    public final <T extends ScControl> T add(T e)
     {
-        ScErrorWrapper w;
-        w = new ScErrorWrapper();
-        w.setChild(e);
-
-        super.add(w);
-
+        addWrapper(e);
         return e;
+    }
+
+    /**
+     * Add an errorWrapper around e, then adds that wrapper
+     * to myself. This is the same behavior as the more standard
+     * add() method, but this returns the errorWrapper.
+     */
+    public final <T extends ScControl> ScErrorWrapper addWrapper(T e)
+    {
+        ScErrorWrapper w = e instanceof ScErrorWrapper
+            ? (ScErrorWrapper)e
+            : new ScErrorWrapper(e);
+
+        return super.add(w);
     }
 
     //##################################################
@@ -99,52 +104,38 @@ public class ScFieldLayout
     {
         out.beginDivCss(KmCssDefaultConstantsIF.fieldLayoutRow);
 
-        renderLabelOn(out, e);
-        renderHelpOn(out, e);
-        renderFieldOn(out, e);
+        // See add() above.
+        ScErrorWrapper wrapper = (ScErrorWrapper)e;
+
+        renderLabelOn(out, wrapper);
+        renderFieldOn(out, wrapper);
 
         out.endDiv();
     }
 
-    private void renderLabelOn(KmHtmlBuilder out, ScControl e)
+    private void renderLabelOn(KmHtmlBuilder out, ScErrorWrapper wrapper)
     {
-        if ( !e.hasLabel() )
+        if ( !wrapper.hasLabel() )
+            return;
+
+        if ( !isVisible(wrapper.getChild()) )
             return;
 
         out.beginSpanCss(KmCssDefaultConstantsIF.fieldLayoutLabel);
-        out.print(e.getLabel());
+        out.print(wrapper.getLabel());
         out.endSpan();
     }
 
-    private void renderHelpOn(KmHtmlBuilder out, ScControl e)
+    private void renderFieldOn(KmHtmlBuilder out, ScErrorWrapper wrapper)
     {
-        if ( !getShowsHelp() )
-            return;
+        if ( wrapper.containsRequiredField() )
+        {
+            out.beginDivCss(KmCssDefaultConstantsIF.requiredStar);
+            out.print("*");
+            out.endDiv();
+        }
 
-        if ( !e.hasHelp() )
-            return;
-
-        out.printNonBreakingSpace();
-
-        KmCssDefaultBuilder css;
-        css = new KmCssDefaultBuilder();
-        css.formHelp();
-
-        KmStyleBuilder style;
-        style = new KmStyleBuilder();
-        // style.hide();
-
-        out.open("img");
-        out.printAttribute("title", e.getHelp());
-        out.printAttribute(css);
-        out.printAttribute(style);
-        out.close();
-        out.end("img");
-    }
-
-    private void renderFieldOn(KmHtmlBuilder out, ScControl e)
-    {
-        out.render(e);
+        out.render(wrapper);
     }
 
     @Override
@@ -153,4 +144,15 @@ public class ScFieldLayout
         return css().fieldLayout();
     }
 
+    //##################################################
+    //# visibility
+    //##################################################
+
+    private boolean isVisible(ScControl e)
+    {
+        if ( e instanceof ScVisibleIF )
+            return ((ScVisibleIF)e).getVisible();
+
+        return true;
+    }
 }

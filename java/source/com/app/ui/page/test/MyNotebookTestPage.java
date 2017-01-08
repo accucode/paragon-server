@@ -35,6 +35,12 @@ public final class MyNotebookTestPage
     }
 
     //##################################################
+    //# variables
+    //##################################################
+
+    private ScNotebook _notebook;
+
+    //##################################################
     //# settings
     //##################################################
 
@@ -67,11 +73,13 @@ public final class MyNotebookTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().pad();
+        root.css().fill().auto().boxGray().gap();
 
         ScNotebook book;
         book = root.addNotebook();
         book.setTabChangedAction(this::handleTabChange);
+        book.flexFill();
+        _notebook = book;
 
         ScText tab1;
         tab1 = book.addText();
@@ -87,6 +95,25 @@ public final class MyNotebookTestPage
         ScActionButton tab3;
         tab3 = book.addButton("Test", this::handleTest);
         tab3.setLabel("Three");
+
+        ScDiv tab4;
+        tab4 = book.addDiv();
+        tab4.setLabel("Four");
+        tab4.css().boxBlue().flexChildFiller();
+        tab4.addTextParagraph("Content has 'flexFiller' css style");
+
+        ScDiv tab5;
+        tab5 = book.addDiv();
+        tab5.setLabel("Five");
+        tab5.css().boxGreen().fill();
+        tab5.addTextParagraph("Content has 'fill' css style");
+        tab5.addButton("Button", newUncheckedAction(this::handleButtonClick));
+    }
+
+    private void handleButtonClick()
+    {
+        Integer i = _notebook.getSelectedTabIndex();
+        ajaxToast("Tab Index: " + i);
     }
 
     //##################################################
@@ -110,6 +137,6 @@ public final class MyNotebookTestPage
 
     private void handleTabChange()
     {
-        ajax().toast("Tab Changed");
+        ajax().toast("Tab Changed: " + _notebook.getSelectedTabIndex());
     }
 }

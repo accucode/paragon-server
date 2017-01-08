@@ -8,53 +8,91 @@ ${htmlAutoGenerationComment}
 <body>
 <h1>${model.f_name}</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>${model.f_help}</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
-#foreach ( $field in $model.fields )
+#foreach ( $field in $model.fieldsSorted )
 <tr>
   <td>${field.f_name}&nbsp;</td>
-  
-  <td>
-    #if ( $field.hasHelp() )
-        <i>Help</i><br>
-        ${field.f_help}<br>
-    #end
-    #if ( $field.hasComment() )
-        <br><i>Comment</i><br>
-        ${field.f_comment}
-    #end
-    &nbsp;
-  </td>
-  
+
   <td>${field.type.f_name}
-    #if ( $field.type.hasMinimumLength() )<br><nobr>min length: $field.type.f_minimumLength</nobr> #end
-    #if ( $field.type.hasMaximumLength() )<br><nobr>max length: $field.type.f_maximumLength</nobr> #end
+    #if ( $field.type.hasMinimumLength() )
+        <br><nobr>min length: $field.type.f_minimumLength</nobr>
+    #end
+    #if ( $field.type.hasMaximumLength() )
+        <br><nobr>max length: $field.type.f_maximumLength</nobr>
+    #end
     #if ( $field.type.validCharacters.size() > 0 )
-      <br>allows(
       #foreach( $ch in $field.type.validCharacters )
-        #if ( $foreachIndex > 0 )
-          ,&nbsp;
-        #end
-        $ch
+        <br><nobr>allows $ch</nobr>
       #end
-      )
     #end
   </td>
+
   <td>
-     #if ( $field.isIdentity() )    id<br>       #end
-     #if ( $field.isPrimaryKey() )  pk<br>       #end
-     #if ( $field.isRequired() )    required<br> #end
-     #if ( $field.isUnique() )      unique<br>   #end
+     #if ( $field.isAbstract() )            <nobr>abstract</nobr><br>    #end
+     #if ( $field.isIdentity() )            <nobr>identity</nobr><br>    #end
+     #if ( $field.isPrimaryKey() )          <nobr>primary key</nobr><br> #end
+     #if ( $field.isRequired() )            <nobr>required</nobr><br>    #end
+     #if ( $field.hasEnum() )               <nobr>enum</nobr><br>        #end
+     #if ( $field.isAuditLogDisabled() )    <nobr>audit disabled</nobr>  #end
+     #if ( $field.isAuditLogMasked() )      <nobr>audit masked</nobr>    #end
      &nbsp;
   </td>
+
+  <td>
+    ${field.f_helpHtml}
+    &nbsp;
+  </td>
+
+</tr>
+#end
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
+</tr>
+#foreach ( $col in $model.sortedCollections )
+<tr>
+  <td>${col.f_name}&nbsp;</td>
+
+  <td>
+      ${col.f_Type}
+      <br>${col.f_WrapperTypeHtml}
+      #if ( $col.hasSequenceField() )
+        <br>Sequenced On ${col.sequenceField.f_name}
+      #end
+  </td>
+
+  <td>
+    ${col.f_commentHtml}
+    &nbsp;
+  </td>
+
 </tr>
 #end
 </table>

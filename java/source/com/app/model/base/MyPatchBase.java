@@ -21,8 +21,11 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyPatchBase
     extends MyAbstractDomain
     implements MyDomainIF
@@ -50,7 +53,7 @@ public abstract class MyPatchBase
     public MyPatchBase()
     {
         super();
-        setInstalledUtcTs(getNowUtc());
+        setInstalledUtcTs(nowUtc());
     }
 
     //##################################################
@@ -64,7 +67,6 @@ public abstract class MyPatchBase
 
     public void setName(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValidator().convertOnly(e);
         name = e;
     }
@@ -105,7 +107,6 @@ public abstract class MyPatchBase
 
     public void setInstalledUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getInstalledUtcTsValidator().convertOnly(e);
         installedUtcTs = e;
     }
@@ -136,7 +137,6 @@ public abstract class MyPatchBase
 
     public void setSource(String e)
     {
-        checkReadOnly();
         e = Validator.getSourceValidator().convertOnly(e);
         source = e;
     }
@@ -164,6 +164,22 @@ public abstract class MyPatchBase
     public void truncateSource(boolean ellipses)
     {
         source = Kmu.truncate(source, 50000, ellipses);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -281,6 +297,20 @@ public abstract class MyPatchBase
         name = null;
     }
 
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyPatch getBasicCopy()
+    {
+        MyPatch e;
+        e = new MyPatch();
+        e.setInstalledUtcTs(getInstalledUtcTs());
+        e.setSource(getSource());
+        return e;
+    }
+
     //##################################################
     //# compare
     //##################################################
@@ -311,6 +341,7 @@ public abstract class MyPatchBase
     {
         if ( !Kmu.isEqual(getInstalledUtcTs(), e.getInstalledUtcTs()) ) return false;
         if ( !Kmu.isEqual(getSource(), e.getSource()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalTs(), e.getInstalledLocalTs()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalTsMessage(), e.getInstalledLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalDate(), e.getInstalledLocalDate()) ) return false;
@@ -373,4 +404,5 @@ public abstract class MyPatchBase
     {
         return Meta.getName();
     }
+
 }

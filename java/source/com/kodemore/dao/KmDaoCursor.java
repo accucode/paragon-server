@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,9 @@ import com.kodemore.collection.KmList;
 /**
  * Used to iterate through the database in a batch fashion.
  *
- * NOTE! : The session will be flushed and cleared at the beginning
- * of each batch.
+ * NOTE! : At the end of each back, the session will automatically
+ * be FLUSHED (not committed) and the in hibernate session cache will
+ * be cleared.
  *
  * Elements returned are guaranteed to be non-null.
  */
@@ -54,7 +55,7 @@ public abstract class KmDaoCursor<T>
      * to specify 0 when the first batch has not been
      * loaded yet.
      */
-    private int _currentBatchSize;
+    private int       _currentBatchSize;
 
     /**
      * The current index within the current batch.
@@ -62,19 +63,19 @@ public abstract class KmDaoCursor<T>
      * have already been returned depending on the state of
      * _ready.
      */
-    private int _index;
+    private int       _index;
 
     /**
      * The index is ready to return, or not.
      */
-    private boolean _ready;
+    private boolean   _ready;
 
     /**
      * Used to indicate that the end of the cursor has been reached.
      * This is typically set to true when findNextBatch returns
      * an empty list.
      */
-    private boolean _done;
+    private boolean   _done;
 
     //##################################################
     //# constructor

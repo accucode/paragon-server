@@ -13,50 +13,92 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The unique key.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
 
     field
     : name      = name
-    : help      = A file's ORIGINAL name. The name on our system is different. This may be initially unknown (null).
+    : help...
+        ---
+        A file's ORIGINAL name. The name on our system is different.
+        This may be initially unknown (null).
+        ---
     : type      = text100
+
+
+    //*****************************************************
+    //** path
+    //*****************************************************
+
 
     field
     : name      = path
-    : help      = The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.
+    : help...
+        ---
+        The local path to the file. This is not the full file system path,
+        but rather the relative path based on the root directory that contains
+        persistent files.
+        ---
     : type      = text100
     : required  = true
 
-    field
-    : name      = createdUtcTs
-    : help      = The date and time when the file was created (in our system).
-    : type      = timestamp
-    : default   = getNowUtc()
-    : required  = true
+
+    //*****************************************************
+    //** status
+    //*****************************************************
+
 
     field
     : name      = statusCode
-    : help      = The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.
-    : type      = letterCode
+    : help...
+        ---
+        The status of the file.
+        New: being created, should not use yet.
+        Ready: Available for use; should not not edit.
+        Deleted: The file has been deleted from the file system.
+        ---
+    : type      = longEnumCode
     : required  = true
 
         enum
-            value(#N New)
-            value(#R Ready)
-            value(#D Deleted)
-            value(#E Error)
+            value(#New)
+            value(#Ready)
+            value(#Deleted)
+            value(#Error)
+
+
+    //*****************************************************
+    //** size
+    //*****************************************************
+
 
     field
     : name      = size
-    : help      = The size of the file (in bytes).
+    : help...
+        ---
+        The size of the file (in bytes).
+        ---
     : type      = integer
+
 
     field
     : name      = partialSize
-    : help      = This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.
+    : help...
+        ---
+        This is only used when coordinating an asynchronous file upload.
+        Once the file is fully uploaded (and available) this can be ignored.
+        ---
     : type      = integer
 

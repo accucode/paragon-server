@@ -43,6 +43,16 @@ public class MyInvitationJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
     public KmhStringCondition whereTypeCode()
     {
         return new KmhStringCondition(context(), fullName(TYPE_CODE));
@@ -51,11 +61,6 @@ public class MyInvitationJunction
     public KmhStringCondition whereStatusCode()
     {
         return new KmhStringCondition(context(), fullName(STATUS_CODE));
-    }
-
-    public KmhTimestampCondition whereCreatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhTimestampCondition whereClosedUtcTs()

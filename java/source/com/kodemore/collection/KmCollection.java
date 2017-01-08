@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -100,6 +101,39 @@ public class KmCollection<T>
     }
 
     //##################################################
+    //# remove
+    //##################################################
+
+    public void removeNulls()
+    {
+        Iterator<T> i = iterator();
+        while ( i.hasNext() )
+            if ( i.next() == null )
+                i.remove();
+    }
+
+    /**
+     * If a list contains: a, b, c, b; remove one of the b's.
+     * Duplicate tests are based on equals().
+     */
+    public void removeDuplicates()
+    {
+        replaceAll(toDistinctCollection());
+    }
+
+    public KmCollection<T> getDuplicates()
+    {
+        KmSetImpl<T> set = new KmSetImpl<>();
+        KmCollection<T> v = new KmCollection<>();
+
+        for ( T e : this )
+            if ( !set.add(e) )
+                v.add(e);
+
+        return v;
+    }
+
+    //##################################################
     //# supressed warnings
     //##################################################
 
@@ -134,27 +168,24 @@ public class KmCollection<T>
      * Mostly this is used when the client has already
      * determined that the collection contains a single element.
      */
-    public T getFirst()
+    public T getAny()
     {
         return iterator().next();
     }
 
-    public T getFirstSafe()
+    public T getAnySafe()
     {
         return isEmpty()
             ? null
-            : getFirst();
+            : getAny();
     }
 
     /**
-     * Return the first element.
-     * If the list is empty, or has more than one element, then return null.
+     * Get a random element, or null if the collection is empty.
      */
-    public T getOnlySafe()
+    public T getRandom()
     {
-        return isSingleton()
-            ? getFirst()
-            : null;
+        return toList().getRandom();
     }
 
     //##################################################
@@ -164,6 +195,11 @@ public class KmCollection<T>
     public T getMinimum()
     {
         return getMinimum(new KmUncheckedComparator<T>());
+    }
+
+    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
+    {
+        return getMinimum(Kmu.toComparator(fn));
     }
 
     public T getMinimum(Comparator<T> c)
@@ -264,6 +300,10 @@ public class KmCollection<T>
         return !isEmpty();
     }
 
+    //==================================================
+    //= testing :: contains
+    //==================================================
+
     public boolean containsAny(Collection<? extends T> v)
     {
         for ( T e : v )
@@ -286,6 +326,19 @@ public class KmCollection<T>
 
         return true;
     }
+
+    public boolean containsIf(Predicate<T> pred)
+    {
+        for ( T e : this )
+            if ( pred.test(e) )
+                return true;
+
+        return false;
+    }
+
+    //==================================================
+    //= testing :: index
+    //==================================================
 
     public boolean isIndexOk(int index)
     {
@@ -539,6 +592,11 @@ public class KmCollection<T>
         return new KmList<>(this);
     }
 
+    public KmList<T> toDistinctList()
+    {
+        return toList().toDistinctList();
+    }
+
     public KmList<T> toList(Comparator<T> c)
     {
         KmList<T> v;
@@ -552,6 +610,22 @@ public class KmCollection<T>
         KmList<T> v;
         v = toList();
         v.sortOn(f);
+        return v;
+    }
+
+    /**
+     * If a list contains: a, b, c, b; remove one of the b's.
+     * Duplicate tests are based on equals().
+     */
+    public KmCollection<T> toDistinctCollection()
+    {
+        KmCollection<T> v = new KmCollection<>(size());
+        KmSetImpl<T> set = new KmSetImpl<>();
+
+        for ( T e : this )
+            if ( set.add(e) )
+                v.add(e);
+
         return v;
     }
 
@@ -582,9 +656,9 @@ public class KmCollection<T>
         return v;
     }
 
-    public T selectFirst(Predicate<? super T> p)
+    public T selectAny(Predicate<? super T> p)
     {
-        return select(p).getFirstSafe();
+        return select(p).getAnySafe();
     }
 
     /**
@@ -677,6 +751,37 @@ public class KmCollection<T>
     public void forEach(Consumer<? super T> c)
     {
         super.forEach(c);
+    }
+
+    //##################################################
+    //# reduce
+    //##################################################
+
+    public <R> R reduce(R init, BiFunction<R,T,R> fn)
+    {
+        R result = init;
+
+        for ( T e : this )
+            result = fn.apply(result, e);
+
+        return result;
+    }
+
+    public Integer reduceInt(BiFunction<Integer,T,Integer> fn)
+    {
+        return reduce(0, fn);
+    }
+
+    //##################################################
+    //# not in
+    //##################################################
+
+    /**
+     * Return the list of my elements that are NOT contained in v.
+     */
+    public KmCollection<T> getNotIn(Collection<T> v)
+    {
+        return select(e -> !v.contains(e));
     }
 
 }

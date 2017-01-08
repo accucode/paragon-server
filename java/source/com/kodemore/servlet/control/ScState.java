@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,8 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 
 public abstract class ScState
-    implements KmReadOnlyIF
 {
     //##################################################
     //# variables
@@ -37,7 +34,6 @@ public abstract class ScState
 
     private ScState              _parent;
     private KmMap<String,Object> _values;
-    private boolean              _readOnly;
 
     //##################################################
     //# constructor
@@ -60,30 +56,7 @@ public abstract class ScState
 
     public void setParent(ScState e)
     {
-        checkReadOnly();
         _parent = e;
-    }
-
-    //##################################################
-    //# read only
-    //##################################################
-
-    @Override
-    public boolean isReadOnly()
-    {
-        return _readOnly;
-    }
-
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
-
-    public void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
     }
 
     //##################################################
@@ -92,7 +65,6 @@ public abstract class ScState
 
     public void _set(String key, Object value)
     {
-        checkReadOnly();
         _values.put(key, value);
     }
 
@@ -109,7 +81,6 @@ public abstract class ScState
 
     public void _clear(String key)
     {
-        checkReadOnly();
         _values.remove(key);
     }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -44,26 +44,26 @@ public class KmgGenerator
     //# variables
     //##################################################
 
-    private String _setupDir;
-    private String _setupFile;
+    private String               _setupDir;
+    private String               _setupFile;
 
-    private String _definesPath;
+    private String               _definesPath;
 
     /**
      * The root path is used to process the templates, it is not combined
      * with the setupPath or definesPath.
      */
-    private String _rootPath;
+    private String               _rootPath;
 
-    private KmgRoot _root;
+    private KmgRoot              _root;
 
-    private KmList<KmgSetup> _setups;
+    private KmList<KmgSetup>     _setups;
 
-    private String _javaAutoGenerationComment;
-    private String _xmlAutoGenerationComment;
-    private String _ddlAutoGenerationComment;
+    private String               _javaAutoGenerationComment;
+    private String               _xmlAutoGenerationComment;
+    private String               _ddlAutoGenerationComment;
 
-    private String _lineEnd;
+    private String               _lineEnd;
 
     private VelocityEngine       _velocity;
     private VelocityContext      _rootContext;

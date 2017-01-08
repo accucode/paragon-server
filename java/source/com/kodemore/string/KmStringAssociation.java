@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -85,6 +85,11 @@ public class KmStringAssociation
         return Kmu.isEqual(_value, e);
     }
 
+    public boolean hasKeyValue(String key, String value)
+    {
+        return hasKey(key) && hasValue(value);
+    }
+
     //##################################################
     //# display
     //##################################################
@@ -94,4 +99,5 @@ public class KmStringAssociation
     {
         return Kmu.format("%s=%s", getKey(), getValue());
     }
+
 }

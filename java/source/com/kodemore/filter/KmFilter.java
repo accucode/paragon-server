@@ -17,6 +17,22 @@ public abstract class KmFilter<T>
     implements KmFilterIF<T>, Iterable<T>
 {
     //##################################################
+    //# static
+    //##################################################
+
+    public static <E> KmFilter<E> createEmpty()
+    {
+        return new KmFilter<E>()
+        {
+            @Override
+            public KmList<E> findAll()
+            {
+                return new KmList<>();
+            }
+        };
+    }
+
+    //##################################################
     //# find
     //##################################################
 
@@ -26,29 +42,29 @@ public abstract class KmFilter<T>
     @Override
     public KmList<T> findBatch(int index, int count)
     {
-        return findAll().getIndexCountSafe(index, count);
+        return findAll().getBatchSafe(index, count);
     }
 
     @Override
-    public KmList<T> findFirst(int count)
+    public final KmList<T> findFirst(int count)
     {
         return findBatch(0, count);
     }
 
     @Override
-    public T findFirst()
+    public final T findFirst()
     {
         return findFirst(1).getFirstSafe();
     }
 
     @Override
-    public Iterable<T> getCursor()
+    public final Iterable<T> getCursor()
     {
         return findAll();
     }
 
     @Override
-    public Iterator<T> iterator()
+    public final Iterator<T> iterator()
     {
         return getCursor().iterator();
     }
@@ -133,12 +149,12 @@ public abstract class KmFilter<T>
 
     protected KmTimestamp getNowUtc()
     {
-        return KmClock.getNowUtc();
+        return KmClock.getUtcTimestamp();
     }
 
     protected KmDate getTodayUtc()
     {
-        return KmClock.getTodayUtc();
+        return KmClock.getUtcTimestamp().getDate();
     }
 
     @SuppressWarnings("unchecked")

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,14 @@ import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScScriptIF;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public abstract class ScContainerElement
     extends ScContainer
-    implements ScElementIF, ScStyledControlIF
+    implements ScHtmlIdIF, ScStyledControlIF
 {
     //##################################################
     //# variables
@@ -53,12 +53,12 @@ public abstract class ScContainerElement
     /**
      * The css classes.
      */
-    private ScLocalCss _css;
+    private ScLocalCss    _css;
 
     /**
      * The inline css style.
      */
-    private ScLocalStyle _style;
+    private ScLocalStyle  _style;
 
     /**
      * A script to run when this control is clicked.
@@ -71,14 +71,11 @@ public abstract class ScContainerElement
     private ScLocalString _hoverText;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScContainerElement()
     {
-        super.install();
-
         _htmlId = new ScLocalString(getKey());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
@@ -91,17 +88,17 @@ public abstract class ScContainerElement
     //##################################################
 
     @Override
-    public String getHtmlId()
+    public final String getHtmlId()
     {
         return _htmlId.getValue();
     }
 
-    public void setHtmlId(String e)
+    public final void setHtmlId(String e)
     {
         _htmlId.setValue(e);
     }
 
-    public void setHtmlId(ScHtmlIdIF e)
+    public final void setHtmlId(ScHtmlIdIF e)
     {
         if ( e == null )
             setHtmlId((String)null);
@@ -109,60 +106,22 @@ public abstract class ScContainerElement
             setHtmlId(e.getHtmlId());
     }
 
-    @Override
-    public String getJquerySelector()
-    {
-        return ScJquery.formatSelector(this);
-    }
-
-    public String getJqueryReference()
-    {
-        return ScJquery.formatReference(this);
-    }
-
-    @Override
-    public ScHtmlIdAjax ajax()
-    {
-        return new ScHtmlIdAjax(this, getRootScript());
-    }
-
-    @Override
-    public ScHtmlIdAjax getPostDomScript()
-    {
-        return new ScHtmlIdAjax(this, super.getPostDomScript());
-    }
-
-    @Override
-    public ScHtmlIdAjax getPostRenderScript()
-    {
-        return new ScHtmlIdAjax(this, super.getPostRenderScript());
-    }
-
-    //##################################################
-    //# on control-enter
-    //##################################################
-
-    public ScBlockScript onControlEnter()
-    {
-        return getPostDomScript().onControlEnter(this);
-    }
-
     //##################################################
     //# css
     //##################################################
 
-    public String getCss()
+    public final String getCss()
     {
         return _css.getValue();
     }
 
-    public void setCss(String e)
+    public final void setCss(String e)
     {
         _css.setValue(e);
     }
 
     @Override
-    public KmCssDefaultBuilder css()
+    public final KmCssDefaultBuilder css()
     {
         return _css.toDefaultBuilder();
     }
@@ -176,18 +135,18 @@ public abstract class ScContainerElement
     //# style
     //##################################################
 
-    public String getStyle()
+    public final String getStyle()
     {
         return _style.getValue();
     }
 
-    public void setStyle(String e)
+    public final void setStyle(String e)
     {
         _style.setValue(e);
     }
 
     @Override
-    public KmStyleBuilder style()
+    public final KmStyleBuilder style()
     {
         return _style.toBuilder();
     }
@@ -197,48 +156,92 @@ public abstract class ScContainerElement
         return style();
     }
 
+    //##################################################
+    //# post dom
+    //##################################################
+
     @Override
-    public void show()
+    public final ScHtmlIdAjax getPostDomScript()
     {
-        style().show();
+        return ScHtmlIdAjax.createOnDelegate(this, super.getPostDomScript());
     }
 
     @Override
-    public void hide()
+    public final ScHtmlIdAjax getPostRenderScript()
     {
-        style().hide();
+        return ScHtmlIdAjax.createOnDelegate(this, super.getPostRenderScript());
     }
 
-    public void show(boolean visible)
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public final ScHtmlIdAjax _htmlIdAjax()
     {
-        style().show(visible);
+        return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    @Override
+    public final void ajaxHideAllErrors()
+    {
+        _htmlIdAjax().hideAllErrors();
+    }
+
+    //##################################################
+    //# on control-enter
+    //##################################################
+
+    public final ScBlockScript onControlEnter()
+    {
+        return getPostDomScript().onControlEnter(this);
+    }
+
+    public final void onControlEnter(Runnable r)
+    {
+        ScAction action = newCheckedAction(r);
+        onControlEnter(action);
+    }
+
+    public final void onControlEnter(ScAction action)
+    {
+        onControlEnter().run(action);
     }
 
     //##################################################
     //# on click
     //##################################################
 
-    public String getOnClick()
+    public final String getOnClick()
     {
         return _onClick.getValue();
     }
 
-    public void setOnClick(String e)
+    public final void setOnClick(String e)
     {
         _onClick.setValue(e);
     }
 
-    public void setOnClick(ScScriptIF e)
+    public final void setOnClick(ScScriptIF e)
     {
         _onClick.setValue(e.formatScript());
     }
 
-    public void setOnClick(ScAction e)
+    public final void setOnClick(ScAction e)
     {
         setOnClick(e, null);
     }
 
-    public void setOnClick(ScAction e, Object arg)
+    public final void setOnClick(ScForm form, ScAction action, Object arg)
+    {
+        ScActionScript script;
+        script = ScActionScript.create(action, form);
+        script.setArgument(arg);
+
+        setOnClick(script);
+    }
+
+    public final void setOnClick(ScAction e, Object arg)
     {
         ScActionScript script;
         script = ScActionScript.create(e);
@@ -247,7 +250,7 @@ public abstract class ScContainerElement
         setOnClick(script);
     }
 
-    public void setOnClickPush(ScPage e)
+    public final void setOnClickPush(ScPage e)
     {
         ScBlockScript script;
         script = ScBlockScript.create();
@@ -260,17 +263,17 @@ public abstract class ScContainerElement
     //# hover text
     //##################################################
 
-    public void setHoverText(String e)
+    public final void setHoverText(String e)
     {
         _hoverText.setValue(e);
     }
 
-    public String getHoverText()
+    public final String getHoverText()
     {
         return _hoverText.getValue();
     }
 
-    public boolean hasHoverText()
+    public final boolean hasHoverText()
     {
         return _hoverText.hasValue();
     }
@@ -279,9 +282,14 @@ public abstract class ScContainerElement
     //# on escape
     //##################################################
 
-    public ScBlockScript onEscape()
+    public final ScBlockScript onEscape()
     {
         return getPostDomScript().onEscape(this);
+    }
+
+    public final void setEscapeAction(Runnable r)
+    {
+        onEscape().run(newUncheckedAction(r), findFormWrapper());
     }
 
     //##################################################
@@ -292,28 +300,43 @@ public abstract class ScContainerElement
     {
         out.printAttribute("id", getHtmlId());
         out.printAttribute("onclick", getOnClick());
+        out.printAttribute("title", getHoverText());
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
-        out.printAttribute("title", getHoverText());
     }
 
     //##################################################
-    //# ajax
+    //# compress
     //##################################################
 
-    public void ajaxSetText(String value)
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
     {
-        ajax().setText(value);
+        super.compressMemory();
+
+        _htmlId.compressMemory();
+        _css.compressMemory();
+        _style.compressMemory();
+        _onClick.compressMemory();
+        _hoverText.compressMemory();
     }
 
-    public void ajaxClearText()
+    //##################################################
+    //# visibility
+    //##################################################
+
+    @Override
+    public final void setVisible(boolean e)
     {
-        getRootScript().clearText(this);
+        style().show(e);
     }
 
-    public void ajaxSetHtml(String value)
+    @Override
+    public final boolean getVisible()
     {
-        ajax().setHtml(value);
+        return !style().hasHide();
     }
-
 }

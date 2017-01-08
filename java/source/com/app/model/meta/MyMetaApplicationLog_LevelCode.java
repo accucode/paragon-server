@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaApplicationLog_LevelCode
     {
         return "The severity level code. This can be used to find all events that are high or lower than some level.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaApplicationLog_LevelCode
         return getAccess().getApplicationLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaApplicationLog_LevelCode
     {
         return model.getLevelCode();
     }
-    
+
     @Override
     public void setValueFor(MyApplicationLog model, Integer value)
     {
         model.setLevelCode(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyApplicationLog model, Integer value)
     {
         return model.hasLevelCode(value);
     }
-    
+
 }

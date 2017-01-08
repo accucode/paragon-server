@@ -21,31 +21,21 @@ public class MyMenuItem
      * We cannot rely on the page key, since not all menus
      * have a direct page.
      */
-    private String _key;
+    private String             _key;
     /**
      * The text to display.
      */
-    private String _title;
+    private String             _title;
 
     /**
      * The page this menu item opens.
-     *
-     * Multiple pages can be added.  The first page is the 'primary' page and is the
-     * page that will be opened when the menu is selected.
-     *
-     * The additional pages are used for reverse navigation.  In some cases, we may
-     * not navigate directly to each page from the menu, but instead navigate from one
-     * page to another, under the same menu.  In this case, all of the sub pages should
-     * be added to the menu.  This allows the application to correctly display and/or
-     * highlight the correct menu option when navigation is performed via the browser
-     * navigation bar or back button.
      */
-    private KmList<ScPage> _pages;
+    private ScPage             _page;
 
     /**
      * The parent menu.  Used to navigate the hierarchy from any starting point.
      */
-    private MyMenuItem _parent;
+    private MyMenuItem         _parent;
 
     /**
      * The nested child menus.
@@ -58,7 +48,24 @@ public class MyMenuItem
      * The depth of this item in the tree.  This is a cached value, and
      * assumes that the trees composition is static once created.
      */
-    private int _depth;
+    private int                _depth;
+
+    /**
+     * Extra css to be included in the menu.
+     */
+    private String             _css;
+
+    /**
+     * If true, show a divider ABOVE this item.
+     * If this item is hidden, so is the divider.
+     */
+    private boolean            _topDivider;
+
+    /**
+     * If true, show a divider BELOW this item.
+     * If this item is hidden, so is the divider.
+     */
+    private boolean            _bottomDivider;
 
     //##################################################
     //# constructor
@@ -67,9 +74,9 @@ public class MyMenuItem
     public MyMenuItem()
     {
         _key = ScControlRegistry.getInstance().getNextKey();
-        _pages = new KmList<>();
         _children = new KmList<>();
         _depth = -1;
+        _css = null;
     }
 
     //##################################################
@@ -101,51 +108,76 @@ public class MyMenuItem
     }
 
     //##################################################
+    //# top divider
+    //##################################################
+
+    public boolean getTopDivider()
+    {
+        return _topDivider;
+    }
+
+    public void setTopDivider()
+    {
+        _topDivider = true;
+    }
+
+    //##################################################
+    //# bottom divider
+    //##################################################
+
+    public boolean getBottomDivider()
+    {
+        return _bottomDivider;
+    }
+
+    public void setBottomDivider()
+    {
+        _bottomDivider = true;
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public String getCss()
+    {
+        return _css;
+    }
+
+    public void setCss(String e)
+    {
+        _css = e;
+    }
+
+    public boolean hasCss()
+    {
+        return Kmu.hasValue(getCss());
+    }
+
+    //##################################################
     //# page
     //##################################################
 
-    public KmList<ScPage> getPages()
+    public ScPage getPage()
     {
-        return _pages;
+        return _page;
     }
 
-    public boolean hasPages()
+    public void setPage(ScPage e)
     {
-        return getPages().isNotEmpty();
+        _page = e;
     }
 
-    public void addPage(ScPage e)
+    public boolean hasPage()
     {
-        _pages.add(e);
+        return _page != null;
     }
 
-    public KmList<String> getPageKeys()
+    public String getPageKey()
     {
-        KmList<String> keys = new KmList<>();
-
-        for ( ScPage e : getPages() )
-            keys.add(e.getKey());
-
-        return keys;
-    }
-
-    public ScPage getEffectivePage()
-    {
-        if ( hasPages() )
-        {
-            ScPage e = getPages().getFirst();
-            if ( isVisible(e) )
-                return e;
-        }
-
-        for ( MyMenuItem e : getSubMenus() )
-        {
-            ScPage p = e.getEffectivePage();
-            if ( p != null )
-                return p;
-        }
-
-        return null;
+        return hasPage()
+            ? getPage().getKey()
+            : null;
     }
 
     //##################################################
@@ -200,10 +232,13 @@ public class MyMenuItem
 
     public MyMenuItem addMenu(String title, ScPage page)
     {
+        if ( page == null )
+            throw Kmu.newFatal("Page is null");
+
         MyMenuItem e;
         e = addMenu();
         e.setTitle(title);
-        e.addPage(page);
+        e.setPage(page);
         return e;
     }
 
@@ -308,25 +343,6 @@ public class MyMenuItem
     }
 
     //##################################################
-    //# collect
-    //##################################################
-
-    public KmList<String> collectPageKeys()
-    {
-        KmList<String> v = new KmList<>();
-        collectPageKeysOn(v);
-        return v;
-    }
-
-    private void collectPageKeysOn(KmList<String> out)
-    {
-        out.addAll(getPageKeys());
-
-        for ( MyMenuItem e : getSubMenus() )
-            e.collectPageKeysOn(out);
-    }
-
-    //##################################################
     //# display
     //##################################################
 
@@ -365,12 +381,7 @@ public class MyMenuItem
     public void printTree(int indent)
     {
         System.out.print(Kmu.repeat("    ", indent));
-        System.out.printf(
-            "%s, key(%s), pages(%s), visible(%s)\n",
-            getTitle(),
-            getKey(),
-            getPages().size(),
-            isVisible());
+        System.out.printf("%s, key(%s), visible(%s)%n", getTitle(), getKey(), isVisible());
 
         for ( MyMenuItem e : getSubMenus() )
             e.printTree(indent + 1);
@@ -392,9 +403,17 @@ public class MyMenuItem
 
     public ScBlockScript getClickScript()
     {
+        ScPage page = getPage();
+
         ScBlockScript e;
         e = new ScSimpleBlockScript();
-        e.enterPage(getEffectivePage());
+        e.run("Kmu.closeMenu();");
+
+        if ( page == null )
+            e.toast("No page defined for %s.", getTitle());
+        else
+            e.enterPageClearSession(page, false);
+
         return e;
     }
 
@@ -404,11 +423,9 @@ public class MyMenuItem
 
     public boolean isVisible()
     {
-        if ( hasPages() )
-        {
-            ScPage e = getPages().getFirst();
-            return isVisible(e);
-        }
+        if ( hasPage() )
+            if ( isVisible(getPage()) )
+                return true;
 
         for ( MyMenuItem e : getSubMenus() )
             if ( e.isVisible() )

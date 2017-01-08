@@ -13,12 +13,19 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
+    //*****************************************************
+    //** status
+    //*****************************************************
+
 
     field
     : name      = active
@@ -27,12 +34,19 @@ attributes
     : default   = true
     : required  = true
 
+
+    //*****************************************************
+    //** timestamps
+    //*****************************************************
+
+
     field
     : name      = createdUtcTs
     : help      = The date and time when the session was created.
     : type      = timestamp
-    : default   = getNowUtc()
+    : default   = nowUtc()
     : required  = true
+
 
     field
     : name      = closedUtcTs
@@ -40,18 +54,48 @@ attributes
     : type      = timestamp
     : required  = false
 
+
     field
     : name      = lastTouchedUtcTs
-    : help      = The date and time when the session was last touched. Used to support automatic timeouts.
+    : help...
+        ---
+        The time when the session was last touched.
+        Used to support automatic timeouts.
+        ---
     : type      = timestamp
-    : default   = getNowUtc()
+    : default   = nowUtc()
     : required  = true
+
+
+    //*****************************************************
+    //** app verison
+    //*****************************************************
+
 
     field
     : name      = version
-    : help      = The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.
+    : help...
+        ---
+        The application version. The server session is only valid if its version
+        matches the application's current version. This is used to catch stale
+        sessions when the application is upgraded.
+        ---
     : type      = name
     : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant.
+    : modelName = tenant
+    : relation  = reference
+    : required  = true
+
 
     association
     : name      = user
@@ -60,17 +104,11 @@ attributes
     : relation  = reference
     : required  = false
 
-    association
-    : name      = autoSignIn
-    : help      = The token, if any, that was used to automatically sign in.
-    : modelName = autoSignIn
-    : relation  = reference
-    : required  = false
 
     association
-    : name      = currentProject
-    : help      = The project being accessed.
-    : modelName = project
+    : name      = autoLogin
+    : help      = The token, if any, that was used to automatically login.
+    : modelName = autoLogin
     : relation  = reference
     : required  = false
 

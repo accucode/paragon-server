@@ -68,7 +68,7 @@ public final class MyDownloadTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
         root.addButton("Download", this::handleDownload);
     }
 

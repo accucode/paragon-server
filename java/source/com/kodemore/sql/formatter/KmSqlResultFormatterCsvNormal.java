@@ -92,10 +92,11 @@ public class KmSqlResultFormatterCsvNormal
     //##################################################
 
     @Override
-    public void formatUpdate(String schema, String sql, int count, KmTimer timer)
+    public void formatUpdate(String schema, String sql, int count, KmTimer timer, boolean rollback)
     {
         updateData(schema, sql, timer);
-        updateCount(count);
+        updateCount(count, rollback);
+
         _out.endRecord();
     }
 
@@ -114,10 +115,14 @@ public class KmSqlResultFormatterCsvNormal
         _out.endRecord();
     }
 
-    private void updateCount(int i)
+    private void updateCount(int i, boolean rollback)
     {
+        String result = rollback
+            ? i + " (ROLLED BACK)"
+            : i + "";
+
         _out.printField("Update count");
-        _out.printField(i);
+        _out.printField(result);
         _out.endRecord();
     }
 

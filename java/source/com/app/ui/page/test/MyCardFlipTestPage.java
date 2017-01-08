@@ -1,9 +1,9 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -40,13 +40,13 @@ public final class MyCardFlipTestPage
 
     private ScCardFrame _flipFrame;
 
-    private ScCard _flipFront;
-    private ScCard _flipBack;
+    private ScCard      _flipFront;
+    private ScCard      _flipBack;
 
     private ScCardFrame _fadeFrame;
 
-    private ScCard _fadeFront;
-    private ScCard _fadeBack;
+    private ScCard      _fadeFront;
+    private ScCard      _fadeBack;
 
     //##################################################
     //# settings
@@ -81,22 +81,19 @@ public final class MyCardFlipTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = root.addButtonBox();
         buttons.addButton("Show Front", this::handleShowFront);
         buttons.addButton("Show Back", this::handleShowBack);
 
-        _flipFrame = root.addFrame();
+        _flipFrame = root.addCardFrame();
         _flipFrame.style().floatLeft().width(300);
-        _flipFrame.setHideFlip();
-        _flipFrame.setShowFlip();
 
-        _fadeFrame = root.addFrame();
+        _fadeFrame = root.addCardFrame();
         _fadeFrame.style().floatLeft().width(300);
-        _fadeFrame.setHideFade();
-        _fadeFrame.setShowFade();
+        _fadeFrame.setTransitionFade();
 
         _flipFront = _flipFrame.addCard();
         _flipBack = _flipFrame.addCard();
@@ -142,13 +139,13 @@ public final class MyCardFlipTestPage
 
     private void handleShowFront()
     {
-        _flipFront.ajaxPrint();
-        _fadeFront.ajaxPrint();
+        _flipFront.ajaxPrintCard();
+        _fadeFront.ajaxPrintCard();
     }
 
     private void handleShowBack()
     {
-        _flipBack.ajaxPrint();
-        _fadeBack.ajaxPrint();
+        _flipBack.ajaxPrintCard();
+        _fadeBack.ajaxPrintCard();
     }
 }

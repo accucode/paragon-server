@@ -2,7 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -42,7 +41,6 @@ public final class MyHoverTestPage
     //##################################################
 
     private ScTextField _nameField;
-    private ScForm      _form;
 
     //##################################################
     //# settings
@@ -80,31 +78,36 @@ public final class MyHoverTestPage
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
         _nameField.setHoverText("Please enter a name here.");
-        _nameField.css().padLeft5();
+        _nameField.cssMargin().left5();
         _nameField.disableChangeTracking();
 
-        _form = root.addForm();
-        _form.css().gap();
-        _form.setHoverText("This is text that shows when hovering over the entire form.");
-        _form.getPostRenderScript().tooltip();
+        root.css().fill().auto();
+
+        ScForm form;
+        form = root.addForm();
+        form.setHoverText("This is text that shows when hovering over the entire form.");
+        form.getPostRenderScript().tooltip();
 
         ScGroup group;
-        group = _form.addGroup();
+        group = form.addGroup();
+        group.setTitle("Hover Test");
 
-        ScDiv left;
-        left = group.getBanner().addFloatLeft();
-        left.css().pad5();
+        ScDiv bannerRight;
+        bannerRight = group.getBanner().getRight();
+        bannerRight.css().pad5();
 
         ScImage image;
-        image = left.addImage();
+        image = bannerRight.addImage();
         image.setSource(getCommonImageUrl("smiley.png"));
         image.setHoverText("Smile!");
 
-        group.getBody().addPad().addText(
-            "Show hover text over the icon, form, field, and button using the title attribute");
-        group.getBody().addPad().addFieldTable().add(_nameField);
+        ScDiv body;
+        body = group.getBody();
+        body.css().gap();
+        body.addParagraph("Show hover text over various elements using the title attribute.");
+        body.addFieldTable().add(_nameField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
 
         ScActionButton clearButton;
@@ -128,7 +131,6 @@ public final class MyHoverTestPage
 
     private void handleClear()
     {
-        _nameField.clearText();
-        _nameField.ajaxUpdateValue();
+        _nameField.ajaxClearFieldValue();
     }
 }

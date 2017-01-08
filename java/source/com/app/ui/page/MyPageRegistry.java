@@ -2,7 +2,7 @@ package com.app.ui.page;
 
 import com.kodemore.servlet.ScPageRegistry;
 
-import com.app.ui.page.general.MyDashboardPage;
+import com.app.ui.dashboard.core.MyDashboardPage;
 import com.app.ui.servlet.base.MyPageRegistryBase;
 
 public class MyPageRegistry

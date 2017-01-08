@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 
 /**
@@ -42,14 +39,11 @@ public abstract class ScChildContainer
     private KmList<ScControl> _children;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScChildContainer()
     {
-        super.install();
-
         _children = new KmList<>();
     }
 
@@ -57,7 +51,8 @@ public abstract class ScChildContainer
     //# children
     //##################################################
 
-    public KmList<ScControl> getChildren()
+    @Override
+    public final KmList<ScControl> getChildren()
     {
         return _children;
     }
@@ -92,20 +87,6 @@ public abstract class ScChildContainer
     public boolean isEmpty()
     {
         return getChildren().isEmpty();
-    }
-
-    //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControlIF> getComponents()
-    {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getChildren());
-        return i;
     }
 
 }

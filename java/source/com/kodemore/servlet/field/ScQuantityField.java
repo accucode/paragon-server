@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,73 +22,84 @@
 
 package com.kodemore.servlet.field;
 
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.types.KmQuantity;
-import com.kodemore.utility.Kmu;
 
 public class ScQuantityField
     extends ScAbstractTextField<KmQuantity>
 {
     //##################################################
-    //# value
+    //# variables
     //##################################################
 
-    @Override
-    public KmQuantity getValueFor(String s)
-    {
-        return getFormatter().parseQuantity(s);
-    }
+    private ScLocalBoolean _allowsDecimals;
 
-    @Override
-    public void setValue(KmQuantity value)
-    {
-        String s = getFormatter().formatQuantity(value);
-        setText(s);
-    }
+    //##################################################
+    //# constructor
+    //##################################################
 
-    public void setValue(Double value)
+    public ScQuantityField()
     {
-        if ( value == null )
-            setValue((KmQuantity)null);
-        else
-            setValue(new KmQuantity(value));
-    }
-
-    @Override
-    public String getSampleFormat()
-    {
-        return getFormatter().getQuantitySample();
-    }
-
-    @Override
-    public String getInvalidMessage()
-    {
-        return "Invalid Quantity";
+        _allowsDecimals = new ScLocalBoolean(true);
+        _allowsDecimals.setAutoSave();
     }
 
     //##################################################
-    //# validate
+    //# defaults
     //##################################################
 
     @Override
-    public boolean validateQuietly()
+    protected int getDefaultWidth()
     {
-        if ( !super.validateQuietly() )
-            return false;
+        return 100;
+    }
 
-        if ( !Kmu.isAllDigitsWithOptionalLeadingNegativeCommasAndDecimal(getText()) )
-        {
-            addError("Cannot parse.");
-            return false;
-        }
+    //##################################################
+    //# allows decimal
+    //##################################################
 
-        KmQuantity q = getValue();
-        if ( q != null && q.isNegative() )
-        {
-            addError("Negative not allowed.");
-            return false;
-        }
+    public boolean getAllowsDecimals()
+    {
+        return _allowsDecimals.getValue();
+    }
 
-        return true;
+    public void setAllowsDecimals(boolean e)
+    {
+        _allowsDecimals.setValue(e);
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    @Override
+    protected KmQuantity textToValue(String text)
+    {
+        if ( getAllowsDecimals() )
+            return getFormatter().parseQuantity(text);
+
+        Integer i = getFormatter().parseInteger(text);
+        return i == null
+            ? null
+            : new KmQuantity(i);
+    }
+
+    @Override
+    protected String valueToText(KmQuantity value)
+    {
+        return getFormatter().formatQuantity(value);
+    }
+
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public KmQuantity getSampleValue()
+    {
+        return getAllowsDecimals()
+            ? new KmQuantity(1.23)
+            : KmQuantity.ONE;
     }
 
 }

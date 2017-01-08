@@ -14,7 +14,7 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/projects/fieldService-server/output/log/log"/>
+        <param name="File" value="/projects/core/output/log/log"/>
         <param name="DatePattern" value="'_'yyyyMMdd'.txt'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p %c - %m %n" />
@@ -29,7 +29,7 @@
         <appender-ref ref="dao"/>
     </appender>
 
-<!-- 
+<!--
     <logger name="com.kodemore.servlet.performance">
         <level value="debug" />
     </logger>

@@ -1,0 +1,156 @@
+/*
+ * We generally reserve the use of dashes for composites.
+ * See notes.txt for additional details on our use of css.
+ *
+ * See kmDropdownMenu.js for javascript dependencies.
+ *
+ * The following demonstrates the expected html structure...
+ *
+ *      <div id="userMenu1" class="dropdownMenu floatLeft marginRight">John Doe
+ *          <ul>
+ *              <li onclick="alert('profile');">Profile</li>
+ *              <li onclick="alert('setting');">Settings</li>
+ *              <li onclick="alert('log out');">Log out</li>
+ *          </ul>
+ *      </div>
+ */
+
+/***********************************************************
+ * variables
+ ***********************************************************/
+
+$dropdownMenuBorderColor = #aaa
+
+/***********************************************************
+ * wrapper
+ ***********************************************************/
+
+.dropdownMenu
+{
+    display:        inline-block;
+    position:       relative;
+    text-align:     left;
+    width:          200px;
+    padding:        10px 15px;
+
+    color:          #fff;
+    font:           bold 14px $fontFamily;
+
+    outline:        none;
+    border:         1px solid $dropdownMenuBorderColor;
+    box-shadow:     0 1px 0 rgba(0,0,0,0.2);
+
+    cursor:         pointer;
+    transition:     all 0.2s ease-out;
+
+    /* adding this to keep the dropdown on top of the fields with help icon xxx */
+    z-index:        300;
+}
+.dropdownMenu:hover
+{
+    background:     rgba(255,255,255,0.2);
+    background:     #50555E;
+}
+
+/* small down arrow hack */
+.dropdownMenu:after
+{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+
+    margin-top: -3px;
+
+    border-width: 6px;
+    border-style: solid;
+    border-color: $dropdownMenuBorderColor transparent;
+    border-bottom: none;
+}
+
+/***********************************************************
+ * title
+ ***********************************************************/
+
+.dropdownMenuTitle
+{
+    width:      180px;
+    float:      left;
+    overflow:   hidden;
+}
+
+/***********************************************************
+ * options
+ ***********************************************************/
+
+.dropdownMenu ul
+{
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    right: 5px;
+    margin: 0;
+
+    background: #50555E;
+    padding: 0;
+
+    border:         2px solid #eee;
+    border-top:     none;
+    border-bottom:  none;
+    border-radius:  0 0 5px 5px;
+
+    list-style: none;
+    transition: all 0.2s ease-out;
+
+    max-height: 0;
+    overflow: hidden;
+}
+
+.dropdownMenu ul li
+{
+    color:          white;
+    font:           normal 14px $fontFamily;
+    text-decoration: none;
+    padding:        10px;
+    border-bottom:  1px solid #eee;
+    transition:     all 0.1s ease-out;
+}
+
+.dropdownMenu ul li:last-of-type
+{
+    border: none;
+}
+
+/***********************************************************
+ * open
+ ***********************************************************/
+
+.dropdownMenu.open
+{
+    background: rgba(255,255,255,0.2);
+    background: #50555E;
+    box-shadow: none;
+    color: white;
+}
+
+.dropdownMenu.open:after
+{
+    border-color: #eee transparent;
+}
+
+.dropdownMenu.open ul
+{
+    border-bottom: 2px solid #eee;
+    max-height: 400px;
+}
+
+/***********************************************************
+ * hover
+ ***********************************************************/
+
+.dropdownMenu ul li:hover
+{
+    background: #757C87;
+}

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,6 @@
 */
 
 package com.kodemore.time;
-
-import java.time.ZoneId;
 
 public abstract class KmTimeZoneBridge
 {
@@ -48,7 +46,9 @@ public abstract class KmTimeZoneBridge
 
     /**
      * Get the local time zone based on whatever preferences are
-     * appropriate for your application.
+     * appropriate for your application.   This method is assumed
+     * to return a non-null value.  However, it may simply return
+     * UTC.
      */
-    public abstract ZoneId getLocalTimeZone();
+    public abstract KmTimeZone getLocalZone();
 }

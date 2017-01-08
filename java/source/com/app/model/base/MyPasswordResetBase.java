@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyPasswordResetBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -40,11 +44,15 @@ public abstract class MyPasswordResetBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private String email;
     private String token;
-    private KmTimestamp createdUtcTs;
     private KmTimestamp expirationUtcTs;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
+    private MyTenant tenant;
 
     //##################################################
     //# constructor
@@ -54,8 +62,12 @@ public abstract class MyPasswordResetBase
     {
         super();
         setUid(newUid());
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
         setToken(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
@@ -69,7 +81,6 @@ public abstract class MyPasswordResetBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -100,6 +111,66 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (email)
     //##################################################
 
@@ -110,7 +181,6 @@ public abstract class MyPasswordResetBase
 
     public void setEmail(String e)
     {
-        checkReadOnly();
         e = Validator.getEmailValidator().convertOnly(e);
         email = e;
     }
@@ -151,7 +221,6 @@ public abstract class MyPasswordResetBase
 
     public void setToken(String e)
     {
-        checkReadOnly();
         e = Validator.getTokenValidator().convertOnly(e);
         token = e;
     }
@@ -182,37 +251,6 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        checkReadOnly();
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
     //# field (expirationUtcTs)
     //##################################################
 
@@ -223,7 +261,6 @@ public abstract class MyPasswordResetBase
 
     public void setExpirationUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getExpirationUtcTsValidator().convertOnly(e);
         expirationUtcTs = e;
     }
@@ -254,7 +291,6 @@ public abstract class MyPasswordResetBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -272,6 +308,22 @@ public abstract class MyPasswordResetBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -351,6 +403,82 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
     //# field (expirationLocalTs)
     //##################################################
 
@@ -426,6 +554,142 @@ public abstract class MyPasswordResetBase
         return Kmu.isEqual(getExpirationLocalTime(), e);
     }
 
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# tenant
+    //##################################################
+
+    public MyTenant getTenant()
+    {
+        return tenant;
+    }
+
+    public void setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void _setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void clearTenant()
+    {
+        setTenant(null);
+    }
+
+    public boolean hasTenant()
+    {
+        return getTenant() != null;
+    }
+
+    public boolean hasTenant(MyTenant e)
+    {
+        return Kmu.isEqual(getTenant(), e);
+    }
+
 
     //##################################################
     //# validate
@@ -462,7 +726,25 @@ public abstract class MyPasswordResetBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyPasswordReset getBasicCopy()
+    {
+        MyPasswordReset e;
+        e = new MyPasswordReset();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setEmail(getEmail());
+        e.setToken(getToken());
+        e.setExpirationUtcTs(getExpirationUtcTs());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -493,15 +775,21 @@ public abstract class MyPasswordResetBase
 
     public boolean isSameIgnoringKey(MyPasswordReset e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
         if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
-        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getExpirationUtcTs(), e.getExpirationUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalTs(), e.getExpirationLocalTs()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalTsMessage(), e.getExpirationLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalDate(), e.getExpirationLocalDate()) ) return false;
@@ -540,9 +828,10 @@ public abstract class MyPasswordResetBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    Email = " + email);
         System.out.println("    Token = " + token);
-        System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ExpirationUtcTs = " + expirationUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
@@ -567,4 +856,10 @@ public abstract class MyPasswordResetBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

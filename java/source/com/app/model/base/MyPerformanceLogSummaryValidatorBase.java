@@ -150,6 +150,7 @@ public class MyPerformanceLogSummaryValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("performanceLogSummary");
         e.setField("uid");
+        e.setRequired();
         return e;
     }
 

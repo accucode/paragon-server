@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,20 @@ package com.kodemore.servlet.field;
 
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScSimpleBlockScript;
-import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.servlet.script.ScVisibilityScript;
 
+/**
+ * I represent an object that implements the ScHtmlIdIF interface.
+ * However, I am NOT necessarily an ScControl.
+ *
+ * In most cases, we simply use the pertinent control directly.
+ * However when manipulating dynamic content, we may use a single
+ * control that is rendered repeatedly with different content.  In
+ * this type of situation, there is only one control and we need
+ * some representation of the various unique htmlIds.  For these
+ * types of situations we use instances of ScHtmlId and manually
+ * set their ids to the appropriate values.
+ */
 public class ScHtmlId
     implements ScHtmlIdIF
 {
@@ -33,26 +44,32 @@ public class ScHtmlId
     //# variables
     //##################################################
 
+    /**
+     * The htmlId that uniquely identifies the element within the DOM.
+     * This must correspond to the html of <someElement id="ID"...>.
+     */
     private String        _htmlId;
-    private ScBlockScript _innerScript;
+
+    private boolean       _visible;
+
+    /**
+     * The script to which any ajax is delegated.
+     */
+    private ScBlockScript _script;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScHtmlId(String htmlId)
-    {
-        this(htmlId, new ScSimpleBlockScript());
-    }
-
-    public ScHtmlId(String htmlId, ScBlockScript inner)
+    public ScHtmlId(String htmlId, ScBlockScript script)
     {
         _htmlId = htmlId;
-        _innerScript = inner;
+        _visible = true;
+        _script = script;
     }
 
     //##################################################
-    //# accessing
+    //# html id
     //##################################################
 
     @Override
@@ -62,24 +79,41 @@ public class ScHtmlId
     }
 
     @Override
-    public String getJquerySelector()
-    {
-        return ScJquery.formatIdSelector(getHtmlId());
-    }
-
-    @Override
-    public ScHtmlIdAjax ajax()
-    {
-        return new ScHtmlIdAjax(this, _innerScript);
-    }
-
-    //##################################################
-    //# focus
-    //##################################################
-
-    @Override
     public ScHtmlIdIF getFocusTarget()
     {
         return this;
     }
+
+    //##################################################
+    //# visible
+    //##################################################
+
+    @Override
+    public boolean getVisible()
+    {
+        return _visible;
+    }
+
+    @Override
+    public void setVisible(boolean e)
+    {
+        _visible = e;
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public ScHtmlIdAjax _htmlIdAjax()
+    {
+        return ScHtmlIdAjax.createOnDelegate(this, _script);
+    }
+
+    @Override
+    public ScVisibilityScript ajaxShow(boolean e)
+    {
+        return _htmlIdAjax().show(e);
+    }
+
 }

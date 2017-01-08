@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,38 @@ public class ScDoubleField
     extends ScAbstractTextField<Double>
 {
     //##################################################
-    //# value
+    //# install
     //##################################################
 
     @Override
-    public Double getValueFor(String s)
+    protected int getDefaultWidth()
     {
-        return getFormatter().parseDouble(s);
+        return 100;
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    @Override
+    protected Double textToValue(String text)
+    {
+        return getFormatter().parseDouble(text);
     }
 
     @Override
-    public void setValue(Double value)
+    protected String valueToText(Double value)
     {
-        String s = getFormatter().formatDouble(value);
-        setText(s);
+        return getFormatter().formatDouble(value);
     }
 
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public Double getSampleValue()
+    {
+        return 12.34;
+    }
 }

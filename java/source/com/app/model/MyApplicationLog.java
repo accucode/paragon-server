@@ -3,9 +3,11 @@ package com.app.model;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyApplicationLogBase;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyApplicationLog
     extends MyApplicationLogBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor

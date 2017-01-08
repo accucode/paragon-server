@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScTransition;
+import com.kodemore.servlet.control.ScTransitionType;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -40,34 +40,34 @@ public class ScAppendContentsScript
     /**
      * The selector to which the contents will be added.
      */
-    private String _selector;
+    private String           _selector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String _contents;
+    private String           _contents;
 
     /**
      * The script to run after the dom has been replaced.
      */
-    private String _postDomScript;
+    private String           _postDomScript;
 
     /**
      * The script to run after the html has been rendered.
      * This is run AFTER any transition effects.
      */
-    private String _postRenderScript;
+    private String           _postRenderScript;
 
     /**
      * The transition to use.
      */
-    private ScTransition _transition;
+    private ScTransitionType _transition;
 
     /**
      * The speed of the transition.  Ignored if the transition
-     * does not support it.  
+     * does not support it.
      */
-    private Integer _speed;
+    private Integer          _speed;
 
     //##################################################
     //# constructor
@@ -182,17 +182,17 @@ public class ScAppendContentsScript
     //# transitions
     //##################################################
 
-    public ScTransition getTransition()
+    public ScTransitionType getTransition()
     {
         return _transition;
     }
 
-    public void setTransition(ScTransition e)
+    public void setTransition(ScTransitionType e)
     {
         setTransition(e, 150);
     }
 
-    public void setTransition(ScTransition e, Integer speed)
+    public void setTransition(ScTransitionType e, Integer speed)
     {
         _transition = e;
         _speed = speed;
@@ -235,7 +235,7 @@ public class ScAppendContentsScript
             return;
         }
 
-        ScTransition e = getTransition();
+        ScTransitionType e = getTransition();
         switch ( e )
         {
             case Fade:
@@ -248,6 +248,10 @@ public class ScAppendContentsScript
 
             case SlideRight:
                 formatRightOn(out);
+                return;
+
+            case Flip:
+                formatFlipOn(out);
                 return;
         }
 
@@ -272,6 +276,11 @@ public class ScAppendContentsScript
     private void formatRightOn(KmStringBuilder out)
     {
         formatCallOn(out, "Kmu.jsonReplaceRight");
+    }
+
+    private void formatFlipOn(KmStringBuilder out)
+    {
+        formatCallOn(out, "Kmu.jsonReplaceFlip");
     }
 
     private void formatCallOn(KmStringBuilder out, String fn)

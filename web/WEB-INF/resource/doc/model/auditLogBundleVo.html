@@ -1,0 +1,354 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>auditLogBundleVo</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>auditLogBundleVo</h1>
+
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>A summary of a bundle of changes made to a single domain model.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<table class="attributeTable">
+<tr>
+  <th>Fields</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displaySummary&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The short summary describing the bundle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayUserName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s name for display
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainBundleUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    I am used to identity a bundle of logs related to a particular domain&#46; In many cases&#44; a particular domain will have multiple fields modified at the same time&#46;  The bundle identifies this group of changes&#46;  Sometimes multiple bundles may occur within the same transaction for the same domain&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The common&#44; but non&#45;unique name of the domain&#46; Models generally rely on long UIDs as their unique identifier so we also store a domain&#39;s display string as a &#39;name&#39;&#46;  Although this name is not guaranteed to be unique&#44; it is generally human&#45;readable and is usually sufficient to identify which domain was affected&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainType&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The type of domain&#59; e&#46;g&#46;&#58; project&#44; depot&#44; salesOrderLine&#44; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTypeLabel&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A more friendly format of the domain type&#46; E&#46;g&#46;&#58; project &#61;&#62; Project&#59; salesOrderLine &#61;&#62; Sales Order Line&#59; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The unique id of the domain model&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>logLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The log date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>logLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The log time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>logLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The log timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>logLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The log timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>logUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time this change was made&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>transactionUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    A unique identifier of the database transaction&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>typeCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>typeName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>userName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s name &#40;denormalized&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
+</tr>
+</table>
+
+</body>
+</html>

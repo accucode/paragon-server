@@ -2,7 +2,7 @@
 
 <Context
     path="/"
-    docBase="c:/projects/fieldService-server/web/"
+    docBase="c:/projects/core/web/"
     crossContext="false"
     debug="0"
     reloadable="false"/>

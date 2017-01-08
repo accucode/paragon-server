@@ -5,7 +5,7 @@ model
     I am used to manage emails.  This allows the application to easily create an email
     as part of a database transaction, and to subsequently send (and re-send) the email
     as needed.  This also provides a convenient log of email that were previously sent.
-    --- 
+    ---
 
 database
 : auditLog  = true
@@ -18,30 +18,31 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+    //*****************************************************
+    //** basics
+    //*****************************************************
 
-    field
-    : name      = createdUtcTs
-    : help      = The date and time when this email was created.
-    : type      = timestamp
-    : default   = getNowUtc()
-    : required  = true
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name      = sentUtcTs
     : help      = The date and time when the email was last sent.
     : type      = timestamp
 
+
     field
     : name      = subject
     : help      = The subject line.
-    : type      = text100
+    : type      = text200
+
 
     field
     : name      = fromAddress
@@ -49,29 +50,38 @@ attributes
     : type      = email
     : label     = From
 
+
     field
     : name      = statusCode
     : help      = The status: draft, ready, pending, sent, error, ignored.
-    : type      = letterCode
+    : type      = longEnumCode
     : required  = true
 
         enum
-            value(#D Draft)
-            value(#R Ready)
-            value(#P Pending)
-            value(#S Sent)
-            value(#E Error)
-            value(#I Ignored)
+            value(#Draft)
+            value(#Ready)
+            value(#Pending)
+            value(#Sent)
+            value(#Error)
+            value(#Ignored)
+
 
     field
     : name      = errorNotes
     : help      = Any notes about the error condition.
     : type      = multiline100
 
+
+    //*****************************************************
+    //** display
+    //*****************************************************
+
+
     abstractField
     : name      = recipientSummary
     : help      = A summary of the recipients.
     : type      = notes
+
 
     abstractField
     : name      = toAddressesLabel
@@ -79,11 +89,18 @@ attributes
     : type      = notes
     : label     = To
 
+
     abstractField
     : name      = ccAddressesLabel
     : help      = A summary of the to addresses.
     : type      = notes
     : label     = Cc
+
+
+    //*****************************************************
+    //** children
+    //*****************************************************
+
 
     collection
     : name          = recipient
@@ -92,6 +109,7 @@ attributes
     : elementModel  = emailRecipient
     : elementField  = email
 
+
     collection
     : name          = part
     : comment       = The parts include the body and any attachments.
@@ -99,10 +117,15 @@ attributes
     : elementModel  = emailPart
     : elementField  = email
 
+
+    //*****************************************************
+    //** html
+    //*****************************************************
+
+
     abstractField
     : name      = partsAsHtml
     : help      = A summary of the parts, suitable for html literals.
     : type      = notes
     : label     = parts
 
-    

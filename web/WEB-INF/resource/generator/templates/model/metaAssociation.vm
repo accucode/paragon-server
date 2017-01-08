@@ -29,6 +29,22 @@ $utility.protocol("accessing")
         return "${field.f_name}";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "${field.f_label}";
+    }
+
+    @Override
+    public String getHelp()
+    {
+#if ( $field.hasHelp() )
+        return "${field.f_helpJavaString}";
+#else
+        return null;
+#end
+    }
+
 $utility.protocol("value")
 
     @Override
@@ -36,7 +52,7 @@ $utility.protocol("value")
     {
         return model.${field.f_getMethod}();
     }
-    
+
     @Override
     public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
     {
@@ -46,7 +62,7 @@ $utility.protocol("value")
         throw new UnsupportedOperationException();
 #end
     }
-    
+
     @Override
     public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
     {

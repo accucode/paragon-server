@@ -1,0 +1,187 @@
+/*******************************************************************
+ ** menu
+ **
+ ** The top level menu.
+ ** This is a relatively simple two-level css menu.
+ *******************************************************************/
+
+
+/*******************************************************************
+ ** layout section
+ *******************************************************************/
+
+#menu
+    /* noop - prevent compression */
+    content: normal
+
+.menu
+    box-sizing:         border-box
+    position:           absolute
+    left:               0px
+    right:              0px
+    top:                $header-height
+    height:             $menu-height
+
+    display:            flex
+    flex-direction:     row
+    align-items:        center
+
+    background:         $menu-background
+    padding-left:       10px
+
+/*******************************************************************
+ ** box
+ *******************************************************************/
+
+/*
+ * The outer div that contains menu.
+ * This is simple menu that relies solely on CSS (no javascript).
+ */
+.menu-bar
+    /* noop - prevent compression */
+    content: normal
+
+/*
+ * The outer div that contains menu, used when the menu is on the right.
+ */
+.menu-rightBar
+    /* noop - prevent compression */
+    content: normal
+
+/*******************************************************************
+ ** outer AND inner
+ *******************************************************************/
+
+/*
+ * Basic styling for BOTH the outer and inner menus.
+ */
+.menu-bar ul
+    padding: 0
+    margin:  0
+    list-style-type: none
+
+/*
+ * Basic styling for BOTH the outer and inner menus.
+ */
+.menu-bar li
+    padding: 0
+    margin:  0
+    cursor:  pointer
+
+/*******************************************************************
+ ** outer
+ *******************************************************************/
+
+/*
+ * Styling for the outer/top menu.
+ */
+.menu-bar > ul
+    white-space: nowrap
+
+/*
+ * The outer menu items.
+ * These are always visible and are displayed in a horizontal row.
+ */
+.menu-bar > ul > li
+    position: relative
+    display:  inline-block
+
+/*
+ * The outer menu item text.
+ * The border is applied to the span instead of the li so that it aligns correctly
+ * with the border of the next menu items. The z-index is used to force the span
+ * to render on top of the next menu items. This allows us to clip part of the
+ * submenu's border and make it look like a 'tab'.
+ */
+.menu-bar > ul > li > div
+    position:                   relative;
+    display:                    inline-block
+    color:                      $menu-topColor
+    font:                       $menu-topFont
+    line-height:                $menu-topLineHeight
+    height:                     $menu-topHeight
+    padding:                    $menu-topPadding
+    z-index:                    100
+
+    border:                     $menu-borderSize solid transparent
+    border-bottom:              none
+    border-top-left-radius:     $menu-borderRadius
+    border-top-right-radius:    $menu-borderRadius
+
+/*
+ * The outer menu item text.
+ * Change its style when the user hovers over it.
+ */
+.menu-bar > ul > li:hover > div
+    color:          $menu-subColor
+    background:     $menu-background-open
+    border:         $menu-borderSize solid $menu-borderColor
+    border-bottom:  none
+
+.menu-bar > ul > li:hover > div:hover
+    background:     $menu-background-hover
+
+/*******************************************************************
+ ** inner
+ *******************************************************************/
+
+/*
+ * The nested sub menu.
+ * Use absolute positioning to overlap with the outer menu item.
+ * The overlap allows us to create the illusion of a 'tab'.
+ */
+.menu-bar ul ul
+    position:                   absolute
+    top:                        $menu-topHeight + $menu-topPadding * 2
+    visibility:                 hidden
+    overflow:                   hidden
+    border:                     $menu-borderSize solid $menu-borderColor
+    border-top-left-radius:     0
+    border-top-right-radius:    $menu-borderRadius
+    box-shadow:                 $menu-shadow
+
+.menu-rightBar ul ul
+    right:                      0px
+    border-top-left-radius:     $menu-borderRadius
+    border-top-right-radius:    0
+
+/*
+ * Make the inner menu visible when the user hovers over the outer menu item.
+ */
+.menu-bar ul li:hover ul
+    visibility: visible
+
+/*
+ * Styling for the inner menu items.
+ */
+.menu-bar ul ul li
+    font:       $menu-subFont
+    color:      $menu-subColor
+    background: $menu-background-open
+    width:      $menu-subWidth
+    padding:    $menu-subPadding
+
+/*
+ * Update the style when the user hovers over a specific sub-item.
+ */
+.menu-bar ul ul li:hover
+    background: $menu-background-hover
+
+/*****************************
+ ** dividers
+ *****************************/
+
+/*
+ * This may be applied to an inner menu item (li) to display a divider
+ * ABOVE the item.
+ */
+.menu-topDivider
+    border-top: $menu-subDividerBorder
+
+/*
+ * This may be applied to an inner menu item (li) to display a divider
+ * BELOW the item.
+ */
+.menu-bottomDivider
+    border-bottom: $menu-subDividerBorder
+

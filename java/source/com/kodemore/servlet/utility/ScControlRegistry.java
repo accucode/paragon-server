@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -62,8 +62,8 @@ public class ScControlRegistry
     //# variables
     //##################################################
 
-    private int                   _nextPersistentId;
-    private KmMap<String,ScKeyIF> _persistentValues;
+    private int                                _nextPersistentId;
+    private KmMap<String,ScKeyIF>              _persistentValues;
 
     private boolean                            _locked;
     private ThreadLocal<KmMap<String,ScKeyIF>> _transientValues;

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,11 +53,11 @@ public class MyMetaAuditLog_NewValue
     {
         return "A human readable summary of the new/current value.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
-        return 15;
+        return 20;
     }
 
     @Override
@@ -87,11 +88,11 @@ public class MyMetaAuditLog_NewValue
         return getAccess().getAuditLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaAuditLog_NewValue
     {
         return model.getNewValue();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, String value)
     {
         model.setNewValue(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, String value)
     {
         return model.hasNewValue(value);
     }
-    
+
 }

@@ -129,9 +129,19 @@ public abstract class KmhModelCriteria<T>
         root().setFirstResult(index);
     }
 
+    public void clearFirstResult()
+    {
+        setFirstResult(0);
+    }
+
     public void setMaxResults(int count)
     {
         root().setMaxResults(count);
+    }
+
+    public void clearMaxResults()
+    {
+        setMaxResults(Integer.MAX_VALUE);
     }
 
     //##################################################

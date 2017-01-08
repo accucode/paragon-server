@@ -16,144 +16,261 @@
 <body>
 <h1>download</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>I am used to manage file downloads to the client browser.  When a client requests a file the server returns a token (url) that redirects the user to the page where the download can actually occur.  This helps avoid the problem of download interferring with the current user interface, especially with the single page ajax ui we now use.  However, this also means that additional security is needed to ensure that users cannot access someone else's download.  Only the "user" identified in this record is allowed to download the specified file.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>name&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time this record was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
+  <td>bytes&nbsp;</td>
+
+  <td>blob
               </td>
+
   <td>
-                   required<br>           &nbsp;
+                                        &nbsp;
   </td>
-</tr>
-<tr>
-  <td>lockVersion&nbsp;</td>
-  
+
   <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
+    The binary content stored directly in the database&#46; Long&#45;term this should be switched to Amazon s3&#46;
+    &nbsp;
   </td>
-  
-  <td>lockVersion
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time this record was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time this record was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time this record was created.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time this record was created.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>fileName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The name of the file to be downloaded&#46; This is only used if the type is File&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>fileName
+                <br><nobr>max length: 200</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The display name of this download&#46; This is used for all types of download&#46; In particular&#44; note that the Name may not match the name of the file and&#47;or attachment&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>typeCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The type of download&#46;<br><br> File&#44; use the local file system&#46;<br><br> Attachment&#44; use the specified attachment&#46;<br><br> Bytes&#44; use the byte data stored dirctly in this record&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>typeName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The type of download&#46;<br><br> File&#44; use the local file system&#46;<br><br> Attachment&#44; use the specified attachment&#46;<br><br> Bytes&#44; use the byte data stored dirctly in this record&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

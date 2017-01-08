@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaAuditLog_MoneyValue
     {
         return "The money value, if applicable.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaAuditLog_MoneyValue
         return getAccess().getAuditLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaAuditLog_MoneyValue
     {
         return model.getMoneyValue();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, KmMoney value)
     {
         model.setMoneyValue(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, KmMoney value)
     {
         return model.hasMoneyValue(value);
     }
-    
+
 }

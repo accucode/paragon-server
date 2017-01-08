@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public class ScAjaxResult
      * The length of the http output.  This is not set until
      * I am applied to the response.
      */
-    private int _length;
+    private int           _length;
 
     //##################################################
     //# constructor
@@ -61,19 +61,29 @@ public class ScAjaxResult
     @Override
     public void applyTo(ScServletData data)
     {
-        byte[] bytes = formatJson().getBytes();
+        getScript().updatePageSession();
+
+        applyToHttpResponse(data);
+        applyToLogFile(data);
+    }
+
+    private void applyToHttpResponse(ScServletData data)
+    {
+        KmJsonMap json;
+        json = new KmJsonMap();
+        json.setString("script", getScript().formatScript());
+
+        byte[] bytes = json.toString().getBytes();
         _length = bytes.length;
 
         setContentTypeJson();
-
         data.writeBytes(bytes);
-        data.logResults(formatMultiline());
     }
 
-    @Override
-    public int getLength()
+    private void applyToLogFile(ScServletData data)
     {
-        return _length;
+        String s = getScript().formatMultilineScript();
+        data.logResults(s);
     }
 
     //##################################################
@@ -85,30 +95,10 @@ public class ScAjaxResult
         return _script;
     }
 
-    //##################################################
-    //# support
-    //##################################################
-
-    private String formatJson()
+    @Override
+    public int getLength()
     {
-        KmJsonMap map;
-        map = new KmJsonMap();
-        map.setString("script", getEffectiveScript().formatScript());
-        return map.toString();
-    }
-
-    private String formatMultiline()
-    {
-        return getEffectiveScript().formatMultilineScript();
-    }
-
-    private ScBlockScript getEffectiveScript()
-    {
-        ScBlockScript e;
-        e = ScBlockScript.create();
-        e.run(getScript());
-        e.updatePageSession();
-        return e;
+        return _length;
     }
 
 }

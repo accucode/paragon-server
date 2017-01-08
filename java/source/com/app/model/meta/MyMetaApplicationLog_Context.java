@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaApplicationLog_Context
     {
         return "The nested diagnostic context; used to distinguish threads.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaApplicationLog_Context
         return getAccess().getApplicationLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaApplicationLog_Context
     {
         return model.getContext();
     }
-    
+
     @Override
     public void setValueFor(MyApplicationLog model, String value)
     {
         model.setContext(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyApplicationLog model, String value)
     {
         return model.hasContext(value);
     }
-    
+
 }

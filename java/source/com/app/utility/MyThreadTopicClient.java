@@ -3,7 +3,7 @@ package com.app.utility;
 import com.kodemore.command.KmDao;
 
 import com.app.dao.MyThreadTopicDao;
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyThreadTopic;
 
 /**
@@ -109,7 +109,7 @@ public class MyThreadTopicClient
     //# support
     //##################################################
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

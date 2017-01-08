@@ -1,0 +1,136 @@
+#######################################
+## servlet
+#######################################
+
+environment                                 = stage
+webResourceVersioning                       = deploy
+
+#servletScheme                               = https
+#servletHost                                 = stage-app.example.com
+#servletPort                                 = 443
+
+servletScheme                               = http
+servletHost                                 = app-stage.example.expert
+servletPort                                 = 80
+
+servletRedirect                             = n
+
+servletShowStackTrace                       = y
+serverSessionTimeoutSeconds                 = 36000
+
+
+
+#######################################
+## database
+#######################################
+
+databaseSchema                              = core
+databaseDriver                              = com.mysql.jdbc.Driver
+databaseUri                                 = jdbc:mysql://core-stage.czmcca1lnwby.us-east-1.rds.amazonaws.com:3306/
+databaseUser                                = root
+databasePassword                            = ???
+
+
+#######################################
+## google chart
+#######################################
+
+googleChartScheme                           = http
+googleChartHost                             = xxx.example.com
+googleChartPort                             = 80
+googleChartPath                             = app/servlet/chart
+
+
+#######################################
+## email
+#######################################
+
+sendEmailEnabled                            = y
+sendEmailMethod                             = smtp
+sendEmailOverrideTo                         =
+
+sendEmailJobEnabled                         = y
+sendEmailJobActiveSeconds                   = 1
+sendEmailJobIdleSeconds                     = 1
+
+smtpScheme                                  = smtp
+smtpHost                                    = email-smtp.us-east-1.amazonaws.com
+smtpPort                                    = 465
+smtpUser                                    = user
+smtpPassword                                = password
+smtpUseSsl                                  = y
+
+
+#######################################
+## ftp
+#######################################
+
+ftpEnabled                                  = n
+
+
+
+#######################################
+## jobs
+#######################################
+
+monitorJobEnabled                           = n
+monitorJobActiveSeconds                     = 3600
+monitorJobIdleSeconds                       = 3600
+
+overridesReloaderJobEnabled                 = y
+overridesReloaderJobActiveSeconds           = 1
+overridesReloaderJobIdleSeconds             = 1
+
+deleteOldServerSessionsJobEnabled           = y
+deleteOldServerSessionsJobActiveSeconds     = 1
+deleteOldServerSessionsJobIdleSeconds       = 1
+
+deleteOldSystemLogsJobEnabled               = y
+deleteOldSystemLogsJobActiveSeconds         = 1
+deleteOldSystemLogsJobIdleSeconds           = 1
+
+deleteOldPerformanceLogsJobEnabled          = y
+deleteOldPerformanceLogsJobActiveSeconds    = 1
+deleteOldPerformanceLogsJobIdleSeconds      = 1
+
+performanceLogJobEnabled                    = y
+performanceLogJobActiveSeconds              = 10
+performanceLogJobIdleSeconds                = 10
+
+
+#######################################
+## oneAll
+#######################################
+
+oneAllEnabled                               = y
+oneAllHost                                  = example-app-stage.api.oneall.com
+oneAllPublicKey                             = publicKey
+oneAllPrivateKey                            = privateKey
+
+
+#######################################
+## misc
+#######################################
+
+showHibernateSql                            = n
+daoCommandWarningThresholdMs                = 5000
+servletShowStackTrace                       = y
+
+writeLastServletResults                     = n
+writeLastServletResultsCounter              = n
+
+contextFormatterEnabled                     = y
+contextFormatterLines                       = 25
+
+checkRecommendedBrowser                     = n
+
+maintenancePeriodStartHour                  = 1
+maintenancePeriodEndHour                    = 3
+
+memoryLeakLoopEnabled                       = n
+memoryLeakLoopSpeedMs                       = 200
+
+ajaxLogEnabled                              = n
+ajaxLogDeleteOnStart                        = n
+
+

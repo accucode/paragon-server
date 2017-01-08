@@ -3,7 +3,7 @@ model
 : help...
     ---
     I define the recipients for a given email.  The TOs, CCs, and BCCs.
-    --- 
+    ---
 
 database
 : auditLog  = true
@@ -15,29 +15,19 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : comment       = The unique key.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+    //*****************************************************
+    //** basics
+    //*****************************************************
 
-    field
-    : name      = address
-    : comment   = e.g.: john@company.com
-    : type      = email
-    : required  = true
 
-    field
-    : name      = typeCode
-    : comment   = to, cc.
-    : type      = letterCode
-    : required  = true
+    #include basicUid.stf
+    #include basicTimestamps.stf
 
-        enum
-            value(#T To)
-            value(#C Cc)
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
 
     association
     : name      = email
@@ -45,4 +35,32 @@ attributes
     : modelName = email
     : relation  = parent
     : required  = true
+
+
+    //*****************************************************
+    //** address
+    //*****************************************************
+
+
+    field
+    : name      = address
+    : comment   = e.g.: john@company.com
+    : type      = email
+    : required  = true
+
+
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : comment   = to, cc.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#To)
+            value(#Cc)
 

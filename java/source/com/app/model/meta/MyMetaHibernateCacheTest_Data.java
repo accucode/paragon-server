@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaHibernateCacheTest_Data
     {
         return "Random data used for testing.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaHibernateCacheTest_Data
         return getAccess().getHibernateCacheTestDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaHibernateCacheTest_Data
     {
         return model.getData();
     }
-    
+
     @Override
     public void setValueFor(MyHibernateCacheTest model, String value)
     {
         model.setData(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyHibernateCacheTest model, String value)
     {
         return model.hasData(value);
     }
-    
+
 }

@@ -1,8 +1,11 @@
 package com.app.utility;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
 import com.kodemore.patch.KmPatchManager;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.utility.ScControlRegistry;
@@ -23,6 +26,8 @@ import com.app.file.MySharedFiles;
 import com.app.hibernate.MyHibernateConfiguration;
 import com.app.job.MyMasterJobManager;
 import com.app.property.MyPropertyManager;
+import com.app.tools.MyDomainHierarchyCheckerTool;
+import com.app.ui.dashboard.core.MyDashboardPanelRegistry;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.page.MyMenuRegistry;
@@ -42,9 +47,9 @@ public class MyInstaller
     //# logger
     //##################################################
 
-    private static final MyInstallerLog _logger = new MyInstallerLog(MyInstaller.class);
+    private static final MyInstallerLog _logger    = new MyInstallerLog(MyInstaller.class);
 
-    private static boolean _installed = false;
+    private static boolean              _installed = false;
 
     //##################################################
     //# public
@@ -65,8 +70,8 @@ public class MyInstaller
         _installHibernate();
         _installLog4j();
 
-        _installClock();
         _installAjaxLog();
+        _installThreadTopics();
         _installJobs();
 
         long used2 = getUsedMemory();
@@ -89,13 +94,23 @@ public class MyInstaller
     }
 
     /**
+     * Install the user interface; e.g.: pages and controls.
+     * This does NOT install the database so you cannot render
+     * anything. This is primarily used to test memory usage.
+     */
+    public static void installUserInterface()
+    {
+        _installCore();
+        _installUserInterface();
+    }
+
+    /**
      * Perform the core install, and configure the database.
      * The UI layer is not installed.
      */
     public static void installDatabase()
     {
         _installCore();
-
         _installJdbc();
         _installHibernate();
         _installLog4j();
@@ -148,7 +163,8 @@ public class MyInstaller
 
     private static void _installCore()
     {
-        _installLog4jConsole();
+        MyLog4jManager.installConsole();
+
         _installDeadlockMonitor();
         _installApplicationBridge();
         _installUrlBridge();
@@ -160,6 +176,8 @@ public class MyInstaller
 
         _installTimeZoneBridge();
         _installFormatter();
+
+        _validateDomainHierarchy();
     }
 
     private static void _installEnvironment()
@@ -167,21 +185,18 @@ public class MyInstaller
         printfHeader("Environment");
         if ( !MyEnvironment.isInstalled() )
             MyEnvironment.install();
-        printOk();
     }
 
     private static void _installPropertyManager()
     {
         printfHeader("Properties");
         MyPropertyManager.install();
-        printOk();
     }
 
     private static void _installSharedFiles()
     {
         printfHeader("Shared Files");
         MySharedFiles.install();
-        printOk();
     }
 
     private static void _installPatchBridge()
@@ -191,31 +206,18 @@ public class MyInstaller
 
         printfHeader("Patch Bridge");
         MyPatchBridge.installBridge();
-        printOk();
     }
 
     private static void _installApplicationBridge()
     {
         printfHeader("Application Bridge");
         MyApplicationBridge.install();
-        printOk();
     }
 
     private static void _installUrlBridge()
     {
         printfHeader("Url Bridge");
         MyUrlBridge.install();
-        printOk();
-    }
-
-    private static void _installLog4jConsole()
-    {
-        // This does NOT rely on properties or the database.
-        MyLog4jManager.installConsole();
-
-        // Don't use the logger until it has been installed.
-        printfHeader("Log4j (console)");
-        printOk();
     }
 
     private static void _installLog4j()
@@ -223,38 +225,44 @@ public class MyInstaller
         // This relies on the properties and database.
         printfHeader("Log4j");
         MyLog4jManager.install();
-        printOk();
     }
 
     private static void _installDeadlockMonitor()
     {
         printfHeader("Deadlock Monitor");
         KmDeadlockMonitor.start();
-        printOk();
-    }
-
-    private static void _installClock()
-    {
-        printfHeader("Clock");
-        MyClock.install();
-        printOk();
     }
 
     private static void _installAjaxLog()
     {
-        boolean delete = MyGlobals.getProperties().getAjaxLogDeleteOnStart();
-        if ( !delete )
-            return;
+        printfHeader("Ajax Log");
 
-        String path = MyFilePaths.getAjaxLogFile();
-        new KmFile(path).write("");
+        boolean delete = MyGlobals.getProperties().getAjaxLogDeleteOnStart();
+        if ( delete )
+        {
+            String path = MyFilePaths.getAjaxLogFile();
+            new KmFile(path).write("");
+        }
+    }
+
+    private static void _installThreadTopics()
+    {
+        printfHeader("Thread Topics");
+
+        boolean delete = MyGlobals.getProperties().getDeleteThreadTopicsOnStart();
+        if ( delete )
+            KmDao.run(MyInstaller::deleteThreadTopics);
+    }
+
+    private static void deleteThreadTopics()
+    {
+        MyGlobals.getAccess().getThreadTopicDao().deleteAll();
     }
 
     private static void _installJobs()
     {
         printfHeader("Jobs");
         MyMasterJobManager.install();
-        printOk();
     }
 
     private static void _installJdbc()
@@ -282,36 +290,30 @@ public class MyInstaller
         mgr = new KmPatchManager();
         mgr.setLog(_logger);
         mgr.sync();
-
-        printOk();
     }
 
     private static void _installConnectionFactory()
     {
         printfHeader("Connection Factory");
         MyDatabaseConnectionFactory.install();
-        printOk();
     }
 
     private static void _installHibernateConfiguration()
     {
         printfHeader("Hibernate Configuration");
         MyHibernateConfiguration.install();
-        printOk();
     }
 
     private static void _installDaoBridge()
     {
         printfHeader("Dao Bridge");
         MyDaoBridge.install();
-        printOk();
     }
 
     private static void _installDaoSessionManager()
     {
         printfHeader("Session Manager");
         MyDaoSessionManager.install();
-        printOk();
     }
 
     private static void _installUserInterface()
@@ -323,8 +325,10 @@ public class MyInstaller
         _installCoders();
         _installPageLayout();
         _installPages();
+        _installDashboard();
         _installMenu();
 
+        compressPageMemory();
         lockControlRegistry();
     }
 
@@ -333,42 +337,49 @@ public class MyInstaller
         printfHeader("Layouts");
         MyPageLayout.installInstance();
         MyPageLayoutBridge.install();
-        printOk();
+    }
+
+    private static void compressPageMemory()
+    {
+        KmList<ScPage> v = MyPageRegistry.getInstance().getPages();
+        for ( ScPage e : v )
+            e.compressMemory();
     }
 
     private static void lockControlRegistry()
     {
         printfHeader("Lock ScRegistry");
         ScControlRegistry.getInstance().setLocked();
-        printOk();
     }
 
     private static void _installPages()
     {
         printfHeader("Pages");
         MyPageRegistry.install();
-        printOk();
+    }
+
+    private static void _installDashboard()
+    {
+        printfHeader("Dashboard");
+        MyDashboardPanelRegistry.install();
     }
 
     private static void _installMenu()
     {
         printfHeader("Menu");
         MyMenuRegistry.install();
-        printOk();
     }
 
     private static void _installTimeZoneBridge()
     {
         printfHeader("TimeZoneBridge");
         KmTimeZoneBridge.setInstance(new MyTimeZoneBridge());
-        printOk();
     }
 
     private static void _installResourceFiles()
     {
         printfHeader("Resource Files");
         MyResourceFiles.install();
-        printOk();
     }
 
     private static void _installServletCallbacks()
@@ -376,21 +387,18 @@ public class MyInstaller
         printfHeader("ScServletCallbacks");
         String path = MyUrls.getCallbackPath();
         ScServletCallbackRegistry.install(path);
-        printOk();
     }
 
     private static void _installScBridge()
     {
         printfHeader("ScBridge");
         MyScBridge.install();
-        printOk();
     }
 
     private static void _installControlRegistry()
     {
         printfHeader("ScRegistry");
         ScControlRegistry.install();
-        printOk();
     }
 
     private static void _installActions()
@@ -398,26 +406,40 @@ public class MyInstaller
         printfHeader("Actions");
         ScGlobalContext.install();
         ScActions.install();
-        printOk();
     }
 
     private static void _installCoders()
     {
         printfHeader("Coders");
         // ScCoderRegistry.instance.registerCoder(new My...Coder());
-        printOk();
     }
 
     private static void _installFormatter()
     {
         printfHeader("Formatter");
         MyFormatter.install();
-        printOk();
+    }
+
+    private static void _validateDomainHierarchy()
+    {
+        printfHeader("Check Domain Hierarchy");
+        MyDomainHierarchyCheckerTool.run();
+        printfln("done.");
     }
 
     //##################################################
     //# print
     //##################################################
+
+    public static void enableLogging()
+    {
+        _logger.enable();
+    }
+
+    public static void disableLogging()
+    {
+        _logger.disable();
+    }
 
     private static String _header;
 
@@ -432,11 +454,6 @@ public class MyInstaller
         _header = header;
         String format = header + ": installing...";
         _printfln(format, args);
-    }
-
-    private static void printOk()
-    {
-        printfln("ok.");
     }
 
     private static void printStartup()
@@ -496,7 +513,6 @@ public class MyInstaller
         printfln("used before:   %,11d", used1);
         printfln("used after:    %,11d", used2);
         printfln("used:          %,11d", used);
-        printOk();
     }
 
     private static long getUsedMemory()
@@ -511,5 +527,6 @@ public class MyInstaller
     public static void main(String[] args)
     {
         MyInstaller.installCore();
+        System.out.println("ok.");
     }
 }

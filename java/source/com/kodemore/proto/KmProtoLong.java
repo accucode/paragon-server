@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.meta.KmMetaLongProperty;
 import com.kodemore.servlet.field.ScLongField;
 import com.kodemore.validator.KmLongValidator;
@@ -21,7 +21,7 @@ public class KmProtoLong
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return "bigint";
     }

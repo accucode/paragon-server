@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,9 +32,10 @@ import com.kodemore.servlet.renderer.ScControlRenderer;
 import com.kodemore.servlet.renderer.ScFunctionRenderer;
 import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.renderer.ScValueRenderer;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public class ScLocalRenderer
-    extends ScSimpleLocal<ScRenderer>
+    extends ScAbstractLocal<ScRenderer>
 {
     //##################################################
     //# constructor
@@ -51,36 +52,72 @@ public class ScLocalRenderer
 
     public void setValue(CharSequence e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScValueRenderer r = new ScValueRenderer(e);
         setValue(r);
     }
 
     public void setFormattable(Object e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScValueRenderer r = new ScValueRenderer(e);
         setValue(r);
     }
 
     public void setControl(ScControl e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScControlRenderer r = new ScControlRenderer(e);
         setValue(r);
     }
 
     public void setFunction(Function<?,?> e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScFunctionRenderer r = new ScFunctionRenderer(e);
         setValue(r);
     }
 
     public void setAdaptor(KmAdaptorIF<?,?> e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScFunctionRenderer r = new ScFunctionRenderer(e);
         setValue(r);
     }
 
     public void setAttribute(KmMetaAttribute<?,?> e)
     {
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
         ScFunctionRenderer r = new ScFunctionRenderer(e);
         setValue(r);
     }
@@ -94,4 +131,21 @@ public class ScLocalRenderer
         if ( hasValue() )
             getValue().renderOn(out, parent, model);
     }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        if ( hasValue() )
+            getValue().compressMemory();
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,9 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.variable.ScLocalControl;
 
 /**
@@ -43,14 +42,11 @@ public abstract class ScAbstractWrapper
     private ScLocalControl _child;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAbstractWrapper()
     {
-        super.install();
-
         _child = new ScLocalControl();
     }
 
@@ -69,6 +65,22 @@ public abstract class ScAbstractWrapper
             e.setParent(this);
 
         _child.setValue(e);
+    }
+
+    public <E> ScFieldIF<E> setChild(KmMetaProperty<?,E> e)
+    {
+        ScFieldIF<E> f = e.newField();
+        ScControl c = f.asControl();
+        setChild(c);
+        return f;
+    }
+
+    public ScDiv setChildDiv()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        setChild(e);
+        return e;
     }
 
     public boolean hasChild()
@@ -97,19 +109,13 @@ public abstract class ScAbstractWrapper
     }
 
     //##################################################
-    //# components
+    //# children
     //##################################################
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-
-        i.addAll(super.getComponents());
-        i.addNonNull(getChild());
-
-        return i;
+        return KmList.createWith(getChild());
     }
 
     //##################################################
@@ -118,8 +124,7 @@ public abstract class ScAbstractWrapper
 
     protected void renderChildOn(KmHtmlBuilder out)
     {
-        if ( hasChild() )
-            getChild().renderOn(out);
+        out.render(getChild());
     }
 
 }

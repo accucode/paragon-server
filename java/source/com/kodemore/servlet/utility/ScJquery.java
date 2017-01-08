@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ public class ScJquery
         return formatSelectorReference(formatIdSelector(htmlId));
     }
 
-    public static String formatClassReference(String css)
+    public static String formatCssReference(String css)
     {
         return formatSelectorReference(formatCssSelector(css));
     }

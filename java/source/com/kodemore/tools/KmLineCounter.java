@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,11 @@ public class KmLineCounter
     //# static
     //##################################################
 
+    public static void countLines(KmFile file, String suffix)
+    {
+        countLines(file.getRealPath(), suffix);
+    }
+
     public static void countLines(String root, String suffix)
     {
         System.out.println("Counting lines");
@@ -65,12 +70,12 @@ public class KmLineCounter
     private KmList<String> _ignoredPrefixes = new KmList<>();
     private String         _suffix;
 
-    private int _lines;
-    private int _blankLines;
-    private int _singleCharacterLines;
-    private int _commentLines;
-    private int _ignoredPrefixLines;
-    private int _totalBytes;
+    private int            _lines;
+    private int            _blankLines;
+    private int            _singleCharacterLines;
+    private int            _commentLines;
+    private int            _ignoredPrefixLines;
+    private int            _totalBytes;
 
     //##################################################
     //# accessing

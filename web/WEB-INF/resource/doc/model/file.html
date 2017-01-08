@@ -16,228 +16,359 @@
 <body>
 <h1>file</h1>
 
-A file. A record of files managed on the file system.<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>I represent a file stored on the file system.  I only store a reference to the file, NOT the contents of the file itself.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
-</tr>
-<tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The unique key.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                      &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>name&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        A file's ORIGINAL name. The name on our system is different. This may be initially unknown (null).<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>path&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the file was created (in our system).<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>statusCode&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.<br>
-            &nbsp;
-  </td>
-  
-  <td>letterCode
-        <br><nobr>max length: 1</nobr>           <br>allows(
-                      letters
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>size&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The size of the file (in bytes).<br>
-            &nbsp;
-  </td>
-  
-  <td>integer
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>partialSize&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.<br>
-            &nbsp;
-  </td>
-  
-  <td>integer
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
-  <td>lockVersion
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>statusName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the file was created (in our system).<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the file was created (in our system).<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+  <th>Description</th>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the file was created (in our system).<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the file was created (in our system).<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    A file&#39;s ORIGINAL name&#46; The name on our system is different&#46; This may be initially unknown &#40;null&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>partialSize&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    This is only used when coordinating an asynchronous file upload&#46; Once the file is fully uploaded &#40;and available&#41; this can be ignored&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>path&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The local path to the file&#46; This is not the full file system path&#44; but rather the relative path based on the root directory that contains persistent files&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>size&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The size of the file &#40;in bytes&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>statusCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The status of the file&#46; New&#58; being created&#44; should not use yet&#46; Ready&#58; Available for use&#59; should not not edit&#46; Deleted&#58; The file has been deleted from the file system&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>statusName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The status of the file&#46; New&#58; being created&#44; should not use yet&#46; Ready&#58; Available for use&#59; should not not edit&#46; Deleted&#58; The file has been deleted from the file system&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

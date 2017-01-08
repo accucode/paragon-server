@@ -20,3 +20,4 @@ web/WEB-INF/resource/property/overrides.txt
 web/WEB-INF/resource/webInstall/app.xml
 web/WEB-INF/resource/webInstall/ROOT.xml
 velocity.log
+velocity.log.1

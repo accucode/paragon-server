@@ -41,7 +41,9 @@ public abstract class MyPatchToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyPatchFilter());
         e.setFinder(new MyPatchFinder());
-        e.setOptionKeyAdaptor(Meta.Name);
+        e.setOptionKeyFunction(Meta.Name);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

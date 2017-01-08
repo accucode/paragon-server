@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,107 +25,61 @@ package com.kodemore.servlet.field;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.servlet.ScEncodedValueIF;
-import com.kodemore.servlet.control.ScAjaxValueIF;
+import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScFieldIF;
+import com.kodemore.servlet.control.ScUtility;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
-import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalStringList;
 import com.kodemore.utility.Kmu;
+import com.kodemore.validator.KmValidator;
 
 public abstract class ScField<T>
     extends ScControl
-    implements ScHtmlIdIF, ScEncodedValueIF, ScAjaxValueIF
+    implements ScFieldIF<T>
 {
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * The html id for the outermost html container associated
-     * with this field.  Most fields are just a simple <input>
-     * and the htmlId is used for the input tag itself.  However,
-     * some fields may be composed of multiple html elements in
-     * which case the html id is associated with some wrapper that
-     * encloses the field's other elements.
-     */
-    private ScLocalString _htmlId;
-
-    /**
-     * The value used for the html element's name.
-     * Access to form parameters must use the name, not the id.
-     *
-     * The name is defaulted to the htmlId, but in some cases
-     * the name requires different behavior; e.g., multiple radio
-     * buttons form a group based on the use of a common name.
-     * Names are only required to be unique within a given form.
-     */
-    private ScLocalString _htmlName;
-
-    /**
      * I adapt a domain model to this field.  The value adapter is not required,
      * but when set, it allows multiple fields to be set from a single model at once.
-     * In practice, adapters work best when all of the fields in a given containers
+     * In practice, adapters work best when all of the fields in a given container
      * (e.g.: a form or group) are associated with the same model.
      */
-    private ScLocalAdaptor _valueAdaptor;
+    private ScLocalAdaptor    _valueAdaptor;
 
     /**
-     * The meta attribute associated with the valueAdapter.
-     * This can be used to subsequently find a specific field within the control hierarchy.
+     * A type specific validator.
      */
-    @SuppressWarnings("rawtypes")
-    private KmMetaAttribute _valueMetaAttribute;
+    private KmValidator<T>    _validator;
+
+    /**
+     * If true (by default), the original value is included in the html data- attribute
+     * and the client-side browser uses javascript to track if changes are made.
+     */
+    private boolean           _changeTracking;
 
     /**
      * The list of errors currently associated with this field.
      */
     private ScLocalStringList _errors;
 
+    private ScLocalBoolean    _visible;
+
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScField()
     {
-        super.install();
-
-        _htmlId = new ScLocalString(getKey());
-        _htmlName = new ScLocalString(getHtmlId());
-
         _valueAdaptor = new ScLocalAdaptor();
         _errors = new ScLocalStringList();
-    }
-
-    //##################################################
-    //# html id
-    //##################################################
-
-    @Override
-    public String getHtmlId()
-    {
-        return _htmlId.getValue();
-    }
-
-    public void setHtmlId(String e)
-    {
-        _htmlId.setValue(e);
-    }
-
-    @Override
-    public String getJquerySelector()
-    {
-        return ScJquery.formatSelector(this);
-    }
-
-    public String getJqueryReference()
-    {
-        return ScJquery.formatReference(this);
+        _changeTracking = true;
+        _visible = new ScLocalBoolean(true);
     }
 
     //##################################################
@@ -133,78 +87,59 @@ public abstract class ScField<T>
     //##################################################
 
     @Override
-    public ScHtmlIdAjax ajax()
+    public ScHtmlIdAjax _htmlIdAjax()
     {
-        return new ScHtmlIdAjax(this, getRootScript());
-    }
-
-    //##################################################
-    //# html name
-    //##################################################
-
-    public String getHtmlName()
-    {
-        return _htmlName.getValue();
-    }
-
-    public void setHtmlName(String e)
-    {
-        _htmlName.setValue(e);
+        return ScHtmlIdAjax.createOnRoot(this);
     }
 
     //##################################################
     //# value
     //##################################################
 
+    @Override
     public abstract T getValue();
 
+    @Override
     public abstract void setValue(T value);
 
-    public abstract void resetValue();
-
-    public boolean hasValue()
+    public final void clearValue()
     {
-        return getValue() != null;
+        setValue(null);
     }
 
-    public boolean hasNullValue()
-    {
-        return getValue() == null;
-    }
-
-    public Object getModelValue()
-    {
-        return getValue();
-    }
-
-    //##################################################
-    //# ObjectValueIF
-    //##################################################
-
-    public Object getObjectValue()
-    {
-        return getValue();
-    }
-
+    /**
+     * Used for RARE circumstances where it is not feasible to
+     * type the parameter. This uses an unsafe/unchecked cast.
+     */
     @SuppressWarnings("unchecked")
-    public void setObjectValue(Object e)
+    public void setValueUntyped(Object e)
     {
         setValue((T)e);
     }
+
+    //==================================================
+    //= value :: save/reset
+    //==================================================
+
+    @Override
+    public abstract void saveValue();
+
+    @Override
+    public abstract void resetValue();
 
     //##################################################
     //# EncodedValueIF
     //##################################################
 
     @Override
-    public Object getEncodedValue()
+    public Object getEncodableValue()
     {
         return getValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void setEncodedValue(Object e)
+    public void setEncodableValue(Object e)
     {
         setValue((T)e);
     }
@@ -214,69 +149,158 @@ public abstract class ScField<T>
     //##################################################
 
     @SuppressWarnings("rawtypes")
-    public KmAdaptorIF getValueAdaptor()
+    public final KmAdaptorIF getValueAdaptor()
     {
         return _valueAdaptor.getValue();
     }
 
     @SuppressWarnings("rawtypes")
-    public void setValueAdaptor(KmAdaptorIF e)
+    public final void setValueAdaptor(KmAdaptorIF e)
     {
         _valueAdaptor.setValue(e);
     }
 
-    @SuppressWarnings("rawtypes")
-    public void setValueAdaptor(KmMetaAttribute e)
+    public final void clearValueAdaptor()
     {
-        setValueMetaAttribute(e);
-        setValueAdaptor(e.getAdaptor());
+        _valueAdaptor.clearValue();
     }
 
-    public void clearValueAdaptor()
-    {
-        _valueAdaptor.setNull();
-    }
-
-    public boolean hasValueAdaptor()
+    public final boolean hasValueAdaptor()
     {
         return _valueAdaptor.hasValue();
     }
 
     //##################################################
-    //# value meta attribute
+    //# validator
     //##################################################
 
-    @SuppressWarnings("rawtypes")
-    public KmMetaAttribute getValueMetaAttribute()
+    public final KmValidator<T> getValidator()
     {
-        return _valueMetaAttribute;
+        return _validator;
     }
 
-    @SuppressWarnings("rawtypes")
-    public void setValueMetaAttribute(KmMetaAttribute e)
+    public final void setValidator(KmValidator<T> e)
     {
-        _valueMetaAttribute = e;
+        _validator = e;
     }
 
-    public boolean hasValueMetaAttribute()
+    public final void setValidator(KmMetaProperty<?,T> p)
     {
-        return getValueMetaAttribute() != null;
+        setValidator(p.getValidator());
     }
 
-    @SuppressWarnings("rawtypes")
-    public boolean hasValueMetaAttribute(KmMetaAttribute e)
+    public final void clearValidator()
     {
-        return getValueMetaAttribute() == e;
+        _validator = null;
+    }
+
+    public final boolean hasValidator()
+    {
+        return _validator != null;
+    }
+
+    public final void setRequired(boolean e)
+    {
+        if ( e )
+            setRequired();
+        else
+            setOptional();
+    }
+
+    public final void setRequired()
+    {
+        KmValidator<T> e = ScUtility.toRequiredValidator(getValidator());
+        setValidator(e);
+    }
+
+    public final void setOptional()
+    {
+        KmValidator<T> e = ScUtility.toOptionalValidator(getValidator());
+        setValidator(e);
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public ScField<T> findFieldFor(KmMetaAttribute e)
+    public final boolean isRequired()
     {
-        if ( hasValueMetaAttribute(e) )
-            return this;
+        return hasValidator() && getValidator().isRequired();
+    }
 
-        return null;
+    //##################################################
+    //# validate
+    //##################################################
+
+    @Override
+    public boolean validateQuietly()
+    {
+        if ( !super.validateQuietly() )
+            return false;
+
+        if ( hasErrors() )
+            return false;
+
+        if ( !validateParse() )
+            return false;
+
+        return validateValidator();
+    }
+
+    /**
+     * Validate if the value can be parsed.  This allows text oriented
+     * fields to validate the parsing of text-to-value BEFORE the
+     * subsequent value is validated.
+     *
+     * This returns true by default.
+     * Most classes do not need to override this.
+     */
+    protected boolean validateParse()
+    {
+        return true;
+    }
+
+    private boolean validateValidator()
+    {
+        if ( !hasValidator() )
+            return true;
+
+        KmList<KmErrorIF> errors = new KmList<>();
+        getValidator().validateOnly(getValue(), errors);
+
+        if ( errors.isEmpty() )
+            return true;
+
+        setErrors(errors);
+        return false;
+    }
+
+    //##################################################
+    //# change tracking
+    //##################################################
+
+    @Override
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _setChangeTracking(e);
+    }
+
+    /**
+     * This sets the change tracking without warning if called after install and
+     * should not be used under normal circumstances.  This may be useful when
+     * generating transient fields.
+     */
+    public void _setChangeTracking(boolean e)
+    {
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
     }
 
     //##################################################
@@ -291,53 +315,45 @@ public abstract class ScField<T>
 
     @Override
     @SuppressWarnings("unchecked")
-    public void applyFromModel(Object model, boolean skipFields)
+    protected boolean applyFromModel_here(Object model, boolean skipEditableFields)
     {
-        super.applyFromModel(model, skipFields);
+        if ( skipEditableFields && isEditable() )
+            return true;
 
-        if ( skipFields && isEditable() )
-            return;
+        super.applyFromModel_here(model, skipEditableFields);
 
         if ( _valueAdaptor.hasValue() )
         {
             T value = (T)_valueAdaptor.getValue().getValue(model);
             setValue(value);
         }
+
+        return true;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void applyToModel(Object model)
+    protected boolean applyToModel_here(Object model)
     {
-        super.applyToModel(model);
         if ( _valueAdaptor.hasValue() )
         {
             T value = getValue();
             _valueAdaptor.getValue().setValue(model, value);
         }
-    }
-
-    //##################################################
-    //# print
-    //##################################################
-
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        out.printAttribute("id", getHtmlId());
-        out.printAttribute("name", getHtmlName());
+        return true;
     }
 
     //##################################################
     //# errors
     //##################################################
 
-    public KmList<String> getErrors()
+    public final KmList<String> getErrors()
     {
         return _errors.getValue();
     }
 
     @Override
-    public boolean hasErrors()
+    public final boolean hasErrors()
     {
         return _errors.isNotEmpty() || super.hasErrors();
     }
@@ -348,65 +364,52 @@ public abstract class ScField<T>
      *
      * @see #checkErrors
      */
-    public void addError(String format, Object... args)
+    public final void addError(String format, Object... args)
     {
         String s = Kmu.format(format, args);
         _errors.add(s);
     }
 
-    public void clearErrors()
+    public final void clearErrors()
     {
         _errors.resetValue();
     }
 
-    public void setErrors(KmList<KmErrorIF> v)
+    public final void setErrors(KmList<KmErrorIF> v)
     {
         clearErrors();
         addErrors(v);
     }
 
-    public void setError(String msg, Object... args)
+    public final void setError(String msg, Object... args)
     {
         clearErrors();
         addError(msg, args);
     }
 
-    public void addErrors(KmList<KmErrorIF> v)
+    public final void addErrors(KmList<KmErrorIF> v)
     {
         for ( KmErrorIF e : v )
             addError(e);
     }
 
-    public void addError(KmErrorIF e)
+    public final void addError(KmErrorIF e)
     {
         addError(e.formatProblem());
     }
 
     @Override
-    public void collectErrorsOn(KmList<String> v)
+    public final void collectErrorsOn(KmList<String> v)
     {
         super.collectErrorsOn(v);
 
         v.addAll(_errors.getValue());
     }
 
-    public void error(String msg, Object... args)
+    public final void error(String msg, Object... args)
     {
         addError(msg, args);
         checkErrors();
-    }
-
-    //##################################################
-    //# optional
-    //##################################################
-
-    /**
-     * Set the field to be required.
-     * By default, do nothing; some subclasses may override.
-     */
-    public void setRequired()
-    {
-        // noop
     }
 
     //##################################################
@@ -414,21 +417,47 @@ public abstract class ScField<T>
     //##################################################
 
     @Override
-    public ScHtmlIdAjax getPostDomScript()
+    public final ScHtmlIdAjax getPostDomScript()
     {
         return (ScHtmlIdAjax)super.getPostDomScript();
     }
 
     @Override
-    public ScHtmlIdAjax getPostRenderScript()
+    public final ScHtmlIdAjax getPostRenderScript()
     {
         return (ScHtmlIdAjax)super.getPostRenderScript();
     }
 
     @Override
-    protected ScHtmlIdAjax createPostScript()
+    protected final ScHtmlIdAjax createPostScript()
     {
-        return new ScHtmlIdAjax(this);
+        return ScHtmlIdAjax.createDetached(this);
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public final void ajaxUpdateFieldValue_here(boolean updateOldValue)
+    {
+        ajaxSetFieldValue(getValue(), updateOldValue);
+    }
+
+    //##################################################
+    //# visibility
+    //##################################################
+
+    @Override
+    public final void setVisible(boolean e)
+    {
+        _visible.setValue(e);
+    }
+
+    @Override
+    public final boolean getVisible()
+    {
+        return _visible.isTrue();
     }
 
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaFile_PartialSize
     @Override
     public String getHelp()
     {
-        return "This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.";
+        return "This is only used when coordinating an asynchronous file upload. Once the file is fully uploaded (and available) this can be ignored.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaFile_PartialSize
         return getAccess().getFileDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaFile_PartialSize
     {
         return model.getPartialSize();
     }
-    
+
     @Override
     public void setValueFor(MyFile model, Integer value)
     {
         model.setPartialSize(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyFile model, Integer value)
     {
         return model.hasPartialSize(value);
     }
-    
+
 }

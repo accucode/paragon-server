@@ -117,11 +117,23 @@ public class KmSqlResultFormatterHtmlNormal
     //##################################################
 
     @Override
-    protected void formatUpdate(String schema, String sql, int count, KmTimer timer)
+    protected void formatUpdate(
+        String schema,
+        String sql,
+        int count,
+        KmTimer timer,
+        boolean rollback)
     {
         beginBlockUpdate();
         addData(schema, sql, timer);
         _out.printBold("Count: " + count);
+
+        if ( rollback )
+        {
+            _out.printBreak();
+            _out.printBold("THESE CHANGES HAVE BEEN ROLLED BACK.");
+        }
+
         endBlock();
     }
 

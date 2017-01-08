@@ -65,6 +65,6 @@ public class MyApplicationLogFlusherJob
     private void saveAllDao(KmList<MyApplicationLog> v)
     {
         for ( MyApplicationLog e : v )
-            e.attachDao();
+            e.daoAttach();
     }
 }

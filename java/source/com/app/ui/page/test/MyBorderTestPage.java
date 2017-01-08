@@ -64,7 +64,7 @@ public final class MyBorderTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto().boxGray().gap();
 
         ScDiv div = root.addDiv();
 
@@ -118,7 +118,7 @@ public final class MyBorderTestPage
     private ScDiv addBox(ScDiv root)
     {
         ScDiv div;
-        div = root.addBox();
+        div = root.addDiv();
         div.css().gap();
         return div;
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,6 +48,16 @@ public class KmHtmlColor
     public static KmHtmlColor createBlack()
     {
         return create("#000000");
+    }
+
+    public static KmHtmlColor createDarkGray()
+    {
+        return create("#444444");
+    }
+
+    public static KmHtmlColor createYellow()
+    {
+        return create("#ffff00");
     }
 
     public static KmHtmlColor createRed()
@@ -104,7 +114,7 @@ public class KmHtmlColor
     //# variables
     //##################################################
 
-    private String _value;
+    private String _hexValue;
 
     //##################################################
     //# constructor
@@ -112,21 +122,21 @@ public class KmHtmlColor
 
     private KmHtmlColor(String e)
     {
-        _value = normalize(e);
+        _hexValue = normalize(e);
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public String getValue()
+    public String getHexValue()
     {
-        return _value;
+        return _hexValue;
     }
 
-    public boolean hasValue(String e)
+    public boolean hasHexValue(String e)
     {
-        return _value.equals(e);
+        return _hexValue.equals(e);
     }
 
     //##################################################
@@ -139,19 +149,19 @@ public class KmHtmlColor
         if ( !(e instanceof KmHtmlColor) )
             return false;
 
-        return ((KmHtmlColor)e).hasValue(_value);
+        return ((KmHtmlColor)e).hasHexValue(_hexValue);
     }
 
     @Override
     public int hashCode()
     {
-        return _value.hashCode();
+        return _hexValue.hashCode();
     }
 
     @Override
     public int compareTo(KmHtmlColor e)
     {
-        return _value.compareTo(e.getValue());
+        return _hexValue.compareTo(e.getHexValue());
     }
 
     //##################################################
@@ -161,7 +171,7 @@ public class KmHtmlColor
     @Override
     public String toString()
     {
-        return getValue();
+        return getHexValue();
     }
 
 }

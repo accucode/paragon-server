@@ -13,7 +13,7 @@ import com.kodemore.generator.model.KmgModelAssociation;
 import com.kodemore.generator.model.KmgModelAttribute;
 import com.kodemore.generator.model.KmgModelEnum;
 import com.kodemore.generator.model.KmgModelField;
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.generator.property.KmgPropertyFile;
 import com.kodemore.proto.KmProtoType;
 import com.kodemore.proto.KmProtoTypes;
@@ -31,22 +31,22 @@ public class KmgRoot
     //##################################################
 
     private KmMap<String,KmProtoType> _baseTypes;
-    private KmList<KmgModelType>      _types;
+    private KmList<KmgModelFieldType> _types;
     private KmList<KmgModel>          _models;
     private KmgPropertyFile           _propertyFile;
 
-    private KmList<String> _pageClassNames;
-    private KmList<String> _pagePackageNames;
+    private KmList<String>            _pageClassNames;
+    private KmList<String>            _pagePackageNames;
 
-    private String _applicationName;
-    private String _applicationPackage;
-    private String _applicationPrefix;
+    private String                    _applicationName;
+    private String                    _applicationPackage;
+    private String                    _applicationPrefix;
 
-    private String _defaultModelSuperClass;
+    private String                    _defaultModelSuperClass;
 
-    private KmList<KmgFieldExtender> _extenders;
+    private KmList<KmgFieldExtender>  _extenders;
 
-    private KmList<KmgCssBundle> _cssBundles;
+    private KmList<KmgCssBundle>      _cssBundles;
 
     //##################################################
     //# constructor
@@ -113,7 +113,7 @@ public class KmgRoot
         return getBaseTypes().get(name);
     }
 
-    public KmList<KmgModelType> getTypes()
+    public KmList<KmgModelFieldType> getTypes()
     {
         return _types;
     }
@@ -121,7 +121,7 @@ public class KmgRoot
     public KmList<String> getTypeNames()
     {
         KmList<String> v = new KmList<>();
-        for ( KmgModelType e : getTypes() )
+        for ( KmgModelFieldType e : getTypes() )
             v.add(e.getName());
         return v;
     }
@@ -286,9 +286,9 @@ public class KmgRoot
         return this;
     }
 
-    public KmgModelType getType(String name)
+    public KmgModelFieldType getType(String name)
     {
-        for ( KmgModelType e : getTypes() )
+        for ( KmgModelFieldType e : getTypes() )
             if ( e.hasName(name) )
                 return e;
 
@@ -324,14 +324,14 @@ public class KmgRoot
 
         for ( KmStfElement c : root.getChildren() )
         {
-            KmgModelType e;
-            e = new KmgModelType(this);
+            KmgModelFieldType e;
+            e = new KmgModelFieldType(this);
             e.parse(c);
 
             _types.add(e);
         }
 
-        _types.sortOn(KmgModelType.getNameComparator());
+        _types.sortOn(KmgModelFieldType.getNameComparator());
 
         _validate(_types);
         checkDuplicates("type.name", getTypeNames());
@@ -385,7 +385,7 @@ public class KmgRoot
         e.parse(root);
 
         if ( !f.hasShortName(e.getName()) )
-            throw newFatal(
+            throw newError(
                 "Model name (%s) should match file name (%s).",
                 e.getName(),
                 f.getName());
@@ -401,9 +401,15 @@ public class KmgRoot
         KmStfParser p;
         p = new KmStfParser();
         p.setIncludeFolder(f.getParent().getSibling("include"));
+        installEnumShortcuts(p);
+        p.parseSource(s);
 
+        return p.getRoot();
+    }
+
+    private void installEnumShortcuts(KmStfParser p)
+    {
         KmStfShortcut sc;
-
         sc = p.addShortcut();
         sc.setElementPath("**/enum/value");
         sc.setArgumentPrefix("#");
@@ -412,10 +418,6 @@ public class KmgRoot
         sc = p.addShortcut();
         sc.setElementPath("**/enum/value");
         sc.setAttributeKey("name");
-
-        p.parseSource(s);
-
-        return p.getRoot();
     }
 
     public void installExtensions()

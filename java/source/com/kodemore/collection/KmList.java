@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -50,7 +52,7 @@ import com.kodemore.utility.Kmu;
  * and convenience methods.
  */
 public class KmList<T>
-    extends KmReadOnlyList<T>
+    extends KmListWrapper<T>
 {
     //##################################################
     //# instance creation
@@ -90,6 +92,11 @@ public class KmList<T>
         v = new KmList<>();
         v.addAll(arr);
         return v;
+    }
+
+    public static <E> KmList<E> createEmpty()
+    {
+        return new KmList<>();
     }
 
     //##################################################
@@ -133,7 +140,7 @@ public class KmList<T>
     }
 
     //##################################################
-    //# accessing
+    //# index :: first
     //##################################################
 
     public T getFirst()
@@ -159,6 +166,18 @@ public class KmList<T>
         return getFirst(n);
     }
 
+    public boolean isFirst(T e)
+    {
+        if ( isEmpty() )
+            return false;
+
+        return getFirst().equals(e);
+    }
+
+    //==================================================
+    //= index :: last
+    //==================================================
+
     public T getLast()
     {
         return get(size() - 1);
@@ -174,6 +193,17 @@ public class KmList<T>
 
         return v;
     }
+
+    public boolean isLast(T e)
+    {
+        return isEmpty()
+            ? false
+            : getLast().equals(e);
+    }
+
+    //==================================================
+    //= index :: prev/next
+    //==================================================
 
     /**
      * Get the element immediately before e.
@@ -201,19 +231,56 @@ public class KmList<T>
         return get(i + 1);
     }
 
-    public boolean isFirst(T e)
-    {
-        if ( isEmpty() )
-            return false;
+    //==================================================
+    //= index :: predicate
+    //==================================================
 
-        return getFirst().equals(e);
+    public int indexIf(Predicate<T> p)
+    {
+        int i = 0;
+        for ( T e : this )
+        {
+            if ( p.test(e) )
+                return i;
+            i++;
+        }
+        return -1;
     }
 
-    public boolean isLast(T e)
+    //##################################################
+    //# before/after
+    //##################################################
+
+    /**
+     * Return all of the element BEFORE the requested value.
+     * If I do not contain the specified value, return an empty list.
+     */
+    public KmList<T> getAllBefore(T e)
     {
-        return isEmpty()
-            ? false
-            : getLast().equals(e);
+        int i = indexOf(e);
+        if ( i < 0 )
+            return createEmpty();
+
+        KmList<T> v;
+        v = createEmpty();
+        v.addAll(subList(0, i));
+        return v;
+    }
+
+    /**
+     * Return all of the element AFTER the requested value.
+     * If I do not contain the specified value, return an empty list.
+     */
+    public KmList<T> getAllAfter(T e)
+    {
+        int i = indexOf(e);
+        if ( i < 0 )
+            return createEmpty();
+
+        KmList<T> v;
+        v = createEmpty();
+        v.addAll(subList(i + 1, size()));
+        return v;
     }
 
     //##################################################
@@ -294,6 +361,13 @@ public class KmList<T>
         T e = get(i);
         set(i, get(j));
         set(j, e);
+    }
+
+    public void swap(T a, T b)
+    {
+        int i = indexOf(a);
+        int j = indexOf(b);
+        swap(i, j);
     }
 
     public void moveUp(T e)
@@ -422,13 +496,33 @@ public class KmList<T>
     //# sub list
     //##################################################
 
-    public KmList<T> getIndexCount(int index, int count)
+    /**
+     * Return a batch of elements.
+     * Throw an error if the full batch cannot be returned.
+     *
+     * @param index The index of the first element to be returned.
+     * @param count The number of elements to return.
+     */
+    public KmList<T> getBatch(int index, int count)
     {
         return getRange(index, index + count);
     }
 
-    public KmList<T> getIndexCountSafe(int index, int count)
+    /**
+     * Return a batch of elements.
+     * Automatically restricted the index and count to a valid range.
+     *
+     * @param index The index of the first element to be returned.
+     * @param count The number of elements to return.
+     */
+    public KmList<T> getBatchSafe(Integer index, Integer count)
     {
+        if ( index == null )
+            index = 0;
+
+        if ( count == null )
+            count = size();
+
         return getRangeSafe(index, index + count);
     }
 
@@ -560,6 +654,17 @@ public class KmList<T>
     }
 
     /**
+     * Remove any element that equals the parameter.
+     */
+    public void removeAny(T e)
+    {
+        Iterator<T> i = iterator();
+        while ( i.hasNext() )
+            if ( Kmu.isEqual(i.next(), e) )
+                i.remove();
+    }
+
+    /**
      * Set all elements to null, then clear the list.
      */
     public void purge()
@@ -674,12 +779,17 @@ public class KmList<T>
         return getMinimum(new KmUncheckedComparator<T>());
     }
 
+    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
+    {
+        return getMinimum(Kmu.toComparator(fn));
+    }
+
     public T getMinimum(Comparator<T> c)
     {
         if ( isEmpty() )
             return null;
 
-        if ( size() == 1 )
+        if ( isSingleton() )
             return getFirst();
 
         T smallest = getFirst();
@@ -711,6 +821,10 @@ public class KmList<T>
         return largest;
     }
 
+    //##################################################
+    //# reverse
+    //##################################################
+
     public KmList<T> getReverse()
     {
         KmList<T> v;
@@ -723,6 +837,10 @@ public class KmList<T>
     {
         Collections.reverse(this);
     }
+
+    //##################################################
+    //# iterators
+    //##################################################
 
     public Iterator<T> reverseIterator()
     {
@@ -752,6 +870,11 @@ public class KmList<T>
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+    public KmPushbackIterator<T> pushbackIterator()
+    {
+        return new KmPushbackIterator<>(iterator());
     }
 
     //##################################################
@@ -862,6 +985,10 @@ public class KmList<T>
         return !isEmpty();
     }
 
+    //==================================================
+    //= testing :: contains
+    //==================================================
+
     public boolean containsAny(Collection<? extends T> v)
     {
         for ( T e : v )
@@ -887,6 +1014,27 @@ public class KmList<T>
                 return false;
         return true;
     }
+
+    public boolean containsIf(Predicate<T> pred)
+    {
+        for ( T e : this )
+            if ( pred.test(e) )
+                return true;
+
+        return false;
+    }
+
+    /**
+     * Returns true only if ALL elements of the list match the predicate.
+     */
+    public boolean containsOnlyIf(Predicate<T> pred)
+    {
+        return !containsIf(pred.negate());
+    }
+
+    //==================================================
+    //= testing :: index
+    //==================================================
 
     public boolean isIndexOk(int index)
     {
@@ -966,14 +1114,7 @@ public class KmList<T>
      */
     public void removeDuplicates()
     {
-        KmSetImpl<T> set = new KmSetImpl<>();
-        KmList<T> v = new KmList<>(size());
-
-        for ( T e : this )
-            if ( set.add(e) )
-                v.add(e);
-
-        replaceAll(v);
+        replaceAll(toDistinctList());
     }
 
     public KmList<T> getDuplicates()
@@ -985,7 +1126,7 @@ public class KmList<T>
             if ( !set.add(e) )
                 v.add(e);
 
-        return v.toDistinctList();
+        return v;
     }
 
     /**
@@ -1003,6 +1144,31 @@ public class KmList<T>
                 list.add(e);
 
         replaceAll(list);
+    }
+
+    public void replaceDuplicatesWithNull()
+    {
+        HashSet<T> values = new HashSet<>();
+
+        int n = size();
+        for ( int i = 0; i < n; i++ )
+        {
+            T e = get(i);
+            if ( !values.add(e) )
+                set(i, null);
+        }
+    }
+
+    //##################################################
+    //# not in
+    //##################################################
+
+    /**
+     * Return the list of my elements that are NOT contained in v.
+     */
+    public KmList<T> getNotIn(KmList<T> v)
+    {
+        return select(e -> !v.contains(e));
     }
 
     //##################################################
@@ -1046,6 +1212,11 @@ public class KmList<T>
     public void printLines()
     {
         System.out.println(joinLines());
+    }
+
+    public void printLines(Function<T,?> fn)
+    {
+        System.out.println(joinLines(fn));
     }
 
     //##################################################
@@ -1272,10 +1443,12 @@ public class KmList<T>
 
     public KmList<T> toDistinctList()
     {
-        KmList<T> v = new KmList<>();
+        KmList<T> v = new KmList<>(size());
+        KmSetImpl<T> set = new KmSetImpl<>();
 
         for ( T e : this )
-            v.addDistinct(e);
+            if ( set.add(e) )
+                v.add(e);
 
         return v;
     }
@@ -1312,10 +1485,19 @@ public class KmList<T>
         return v;
     }
 
+    public T selectFirst(Predicate<? super T> p)
+    {
+        for ( T e : this )
+            if ( p.test(e) )
+                return e;
+
+        return null;
+    }
+
     /**
      * Return a NEW list containing only the elements that do NOT match the predicate.
      */
-    public KmList<T> reject(Predicate<? super T> p)
+    public KmList<T> rejectIf(Predicate<? super T> p)
     {
         return select(p.negate());
     }
@@ -1329,6 +1511,19 @@ public class KmList<T>
 
         for ( T e : this )
             v.add(f.apply(e));
+
+        return v;
+    }
+
+    /**
+     * Return a NEW list containing exactly one converted value for each element in the original.
+     */
+    public <R> KmList<R> collectAll(Function<? super T,List<R>> f)
+    {
+        KmList<R> v = new KmList<>();
+
+        for ( T e : this )
+            v.addAll(f.apply(e));
 
         return v;
     }
@@ -1357,7 +1552,7 @@ public class KmList<T>
 
     /**
      * Find the first element that matches the predicate,
-     * and return the value of either ifFound or ifNotFound accordingly.
+     * and return the value of either ifFound, or null if not found.
      */
     public <R> R detect(Predicate<? super T> p, Function<T,R> ifFound)
     {
@@ -1448,17 +1643,28 @@ public class KmList<T>
         sort(c);
     }
 
-    public boolean containsIf(Predicate<T> p)
-    {
-        for ( T e : this )
-            if ( p.test(e) )
-                return true;
-
-        return false;
-    }
-
     public boolean containsNull()
     {
         return containsIf(e -> e == null);
     }
+
+    //##################################################
+    //# reduce
+    //##################################################
+
+    public <R> R reduce(R init, BiFunction<R,T,R> fn)
+    {
+        R result = init;
+
+        for ( T e : this )
+            result = fn.apply(result, e);
+
+        return result;
+    }
+
+    public Integer reduceInt(BiFunction<Integer,T,Integer> fn)
+    {
+        return reduce(0, fn);
+    }
+
 }

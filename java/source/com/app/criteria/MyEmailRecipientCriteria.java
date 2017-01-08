@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyEmailRecipientCriteria
@@ -42,6 +43,16 @@ public class MyEmailRecipientCriteria
     public KmhStringCondition whereUid()
     {
         return new KmhStringCondition(context(), fullName(UID));
+    }
+
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
     }
 
     public KmhStringCondition whereAddress()
@@ -131,6 +142,42 @@ public class MyEmailRecipientCriteria
             sortOnUid();
         else
             sortOnUidDescending();
+    }
+
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnAddress()
@@ -229,6 +276,94 @@ public class MyEmailRecipientCriteria
     public void groupByUid()
     {
         groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -364,6 +499,100 @@ public class MyEmailRecipientCriteria
     }
 
     //##################################################
+    //# association (CreatedBy)
+    //##################################################
+
+    public void selectCreatedByUid()
+    {
+        select(CREATED_BY_UID);
+    }
+
+    public void selectMinimumCreatedByUid()
+    {
+        selectMinimum(CREATED_BY_UID);
+    }
+
+    public void selectMaximumCreatedByUid()
+    {
+        selectMaximum(CREATED_BY_UID);
+    }
+
+    public void groupByCreatedByUid()
+    {
+        groupBy(CREATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToCreatedBy()
+    {
+        return new MyUserCriteria(joinTo(CREATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToCreatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(CREATED_BY));
+    }
+
+    public KmhStringCondition whereCreatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+    }
+
+    public void whereCreatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNull();
+        else
+            whereCreatedByUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    //##################################################
     //# association (Email)
     //##################################################
 
@@ -384,7 +613,7 @@ public class MyEmailRecipientCriteria
 
     public void groupByEmailUid()
     {
-        groupBy(EMAIL);
+        groupBy(EMAIL_UID);
     }
 
     public MyEmailCriteria joinToEmail()
@@ -411,8 +640,37 @@ public class MyEmailRecipientCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyEmailRecipientJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyEmailRecipientJunction any()
+    {
+        return addOr();
+    }
+
+    public MyEmailRecipientJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyEmailRecipientJunction addNotAnd()
+    {
+        return new MyEmailRecipientJunction(parent().addNotAnd());
+    }
+
+    public MyEmailRecipientJunction addNotOr()
+    {
+        return new MyEmailRecipientJunction(parent().addNotOr());
+    }
 
     public MyEmailRecipientJunction addAnd()
     {

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaEmail_ErrorNotes
     {
         return "Any notes about the error condition.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmail_ErrorNotes
         return getAccess().getEmailDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmail_ErrorNotes
     {
         return model.getErrorNotes();
     }
-    
+
     @Override
     public void setValueFor(MyEmail model, String value)
     {
         model.setErrorNotes(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmail model, String value)
     {
         return model.hasErrorNotes(value);
     }
-    
+
 }

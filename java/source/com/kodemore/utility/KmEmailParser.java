@@ -176,4 +176,19 @@ public class KmEmailParser
         final String symbols = ".!#$%&'*+-/=?^_`{|}~";
         return symbols.indexOf(c) >= 0;
     }
+
+    //##################################################
+    //# main
+    //##################################################
+
+    public static void main(String[] args)
+    {
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail("John Doe <jdoe@example.com>");
+
+        boolean valid = p.isValid();
+        System.out.println("    valid: " + valid);
+
+    }
 }

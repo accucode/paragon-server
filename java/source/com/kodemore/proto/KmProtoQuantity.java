@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.hibernate.type.KmhQuantityType;
 import com.kodemore.meta.KmMetaQuantityProperty;
 import com.kodemore.servlet.field.ScQuantityField;
 import com.kodemore.types.KmQuantity;
@@ -23,7 +24,7 @@ public class KmProtoQuantity
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return Kmu.format("decimal(%s,%s)", KmQuantity.DATABASE_PRECISION, KmQuantity.SCALE);
     }
@@ -31,7 +32,7 @@ public class KmProtoQuantity
     @Override
     public String getHibernateType()
     {
-        return null;
+        return KmhQuantityType.class.getName();
     }
 
     @Override

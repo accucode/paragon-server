@@ -1,8 +1,6 @@
 package com.app.ui.layout;
 
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScParagraph;
 import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -20,18 +18,14 @@ public class MyPageErrorDialog
     private ScTransientContainer _message;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyPageErrorDialog()
     {
-        super.install();
-
-        setKey("pageError");
         setLabel("Error");
         setWidth(600);
-        setFlavorWarning();
+        setFlavorAlert();
 
         ScDiv body;
         body = getBody();
@@ -40,12 +34,12 @@ public class MyPageErrorDialog
 
         _message = body.addTransientContainer();
 
-        ScFlexbox footer;
+        ScDiv footer;
         footer = showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
-        footer.addButton("Copy", newCopyScript(body));
-        footer.addButton("Close", newCloseAction());
+        footer.addScriptButton("Copy", newCopyScript(body));
+        footer.addCloseButton(newUncheckedAction(this::ajaxClose));
     }
 
     private ScBlockScript newCopyScript(ScDiv body)
@@ -54,14 +48,6 @@ public class MyPageErrorDialog
         e = ScBlockScript.create();
         e.selectAndCopyText(body);
         e.toast("Copied.");
-        return e;
-    }
-
-    private ScAction newCloseAction()
-    {
-        ScAction e;
-        e = newAction(this::ajaxClose);
-        e.disableChangeTracking();
         return e;
     }
 

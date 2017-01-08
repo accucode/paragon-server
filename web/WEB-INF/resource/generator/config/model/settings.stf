@@ -13,12 +13,24 @@ database
 
 attributes
 
+
+    //*****************************************************
+    //** code (pk)
+    //*****************************************************
+
+
     field
     : name          = code
     : help          = The unique key; hardcoded to 1.
     : type          = integer
     : primaryKey    = true
     : required      = true
+
+
+    //*****************************************************
+    //** place holder
+    //*****************************************************
+
 
     field
     : name      = someMessage

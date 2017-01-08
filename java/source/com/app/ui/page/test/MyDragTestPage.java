@@ -1,16 +1,14 @@
 package com.app.ui.page.test;
 
-import com.kodemore.collection.KmIntegerRange;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.encoder.ScDecoder;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.script.ScSortableScript;
 
@@ -45,16 +43,16 @@ public final class MyDragTestPage
     //# constants
     //##################################################
 
-    private static final int    ITEM_COUNT = 10;
-    private static final String FIELD_NAME = "item";
+    private static final int         ITEM_COUNT = 10;
+    private static final String      FIELD_NAME = "item";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScDiv      _container;
-    private ScDropdown _dropdown;
-    private ScForm     _form;
+    private ScDiv                    _container;
+    private ScDropdownField<Integer> _dropdown;
+    private ScForm                   _form;
 
     //##################################################
     //# settings
@@ -89,9 +87,10 @@ public final class MyDragTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill();
 
         _form = getRoot().addForm();
+        _form.css().fill().flexColumn();
         _form.setSubmitAction(this::handleSubmit);
 
         installActionsOn(_form);
@@ -101,13 +100,16 @@ public final class MyDragTestPage
 
     private void installActionsOn(ScContainer root)
     {
-        _dropdown = new ScDropdown();
-        _dropdown.setOptions(new KmIntegerRange(0, ITEM_COUNT - 1).toList());
+        _dropdown = new ScDropdownField<>();
         _dropdown.disableChangeTracking();
 
-        ScBox row;
-        row = root.addBox();
-        row.css().boxGreen().gap();
+        int n = ITEM_COUNT;
+        for ( int i = 0; i < n; i++ )
+            _dropdown.addOption(i);
+
+        ScDiv row;
+        row = root.addDiv();
+        row.css().flexChildStatic().boxGreen().gap();
         row.addButton("Scroll to:", this::handleScroll);
         row.add(_dropdown);
         row.addSubmitButton();
@@ -116,7 +118,7 @@ public final class MyDragTestPage
     private void installContainerOn(ScContainer root)
     {
         _container = root.addDiv();
-        _container.css().boxBlue().gap().height400().scrollY();
+        _container.css().flexChildFiller().boxBlue().auto().gap();
 
         ScSortableScript s;
         s = _container.getPostDomScript().sortable();
@@ -133,9 +135,8 @@ public final class MyDragTestPage
     public ScDiv installChildOn(ScContainer root, int value)
     {
         ScDiv e;
-        e = root.addBox();
-        e.css().boxYellow().pad();
-        e.css().gap();
+        e = root.addFlexRow();
+        e.css().gap().flexCrossAlignCenter().boxYellow();
 
         installDragHandleOn(e);
         installMessageOn(e, value);
@@ -148,13 +149,13 @@ public final class MyDragTestPage
     {
         ScDiv e;
         e = root.addDiv();
-        e.css().dragHandle();
+        e.css().dragHandle().flexChildStatic();
         return e;
     }
 
     private void installMessageOn(ScDiv root, int value)
     {
-        root.addText(value + "");
+        root.addTextSpan(value + "");
     }
 
     private void installHiddenFieldOn(ScDiv root, int value)
@@ -181,10 +182,10 @@ public final class MyDragTestPage
 
     private void handleScroll()
     {
-        int value = _dropdown.getIntegerValue();
+        int value = _dropdown.getValue();
         ScDiv div = (ScDiv)_container.getChildren().get(value);
 
-        _container.ajax().scrollTo(div);
+        _container.ajaxScrollTo(div);
     }
 
     private void handleSubmit()

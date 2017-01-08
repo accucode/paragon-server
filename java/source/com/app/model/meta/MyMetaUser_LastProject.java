@@ -37,6 +37,18 @@ public class MyMetaUser_LastProject
         return "lastProject";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "Last Project";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The last project this user was working on.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaUser_LastProject
     {
         return model.getLastProject();
     }
-    
+
     @Override
     public void setValueFor(MyUser model, MyProject value)
     {
         model.setLastProject(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyUser model, MyProject value)
     {

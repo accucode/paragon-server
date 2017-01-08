@@ -7,7 +7,15 @@ type
 
 type
 : name      = blob
-: comment   = A Binary Large Object, a byte array.
+: comment...
+    ---
+    A Binary Large OBject, a byte array, with a maximum size of ~16MG.
+    We currently use mediumBlob type in MySql which technically supports
+    a maximum file size of ~16MG.  That said, storing files that large
+    in the primary application data is typically not efficient.  If we
+    really need to store large files, we should probably manage coordinate
+    store via redundant file store or Amazon S3.
+    ---
 : baseType  = blob
 
 type
@@ -85,11 +93,30 @@ type
 : columnWidth   = 10
 
 type
+: name          = duration
+: comment       = A length of time (hh:mm) stored as integer seconds.
+: baseType      = duration
+: columnWidth   = 10
+
+type
 : name          = uid
 : comment       = A unique identifier. Randomly generated, roughly alpha numeric with some punctuation.
 : baseType      = string
 : allows        = printable
 : maximumLength = 30
+: columnWidth   = 20
+
+type
+: name          = guid
+: comment...
+    ---
+    A unique identifier.
+    This is used for guids in a ~standard 128-bit format that typically looks like
+    the following as a hex-encoded value, '30dd879c-ee2f-11db-8314-0800200c9a66'.
+    ---
+: baseType      = string
+: allows        = printable
+: maximumLength = 40
 : columnWidth   = 20
 
 type
@@ -134,6 +161,16 @@ type
 : stripAllSpaces    = true
 
 type
+: name              = longEnumCode
+: comment           = Longer version of letterCode
+: baseType          = string
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: maximumLength     = 30
+: stripAllSpaces    = true
+
+type
 : name      = letters
 : comment   = Used for data that can contain only letters.
 : baseType  = string
@@ -171,11 +208,32 @@ type
 : maximumLength = 5
 
 type
+: name          = text10
+: comment       = See text.
+: baseType      = string
+: allows        = printable
+: maximumLength = 10
+
+type
+: name          = text20
+: comment       = See text.
+: baseType      = string
+: allows        = printable
+: maximumLength = 20
+
+type
 : name          = text100
 : comment       = See text.
 : baseType      = string
 : allows        = printable
 : maximumLength = 100
+
+type
+: name          = text200
+: comment       = See text.
+: baseType      = string
+: allows        = printable
+: maximumLength = 200
 
 type
 : name          = text1000
@@ -212,7 +270,7 @@ type
 : baseType      = string
 : allows        = printable
 : allows        = whitespace
-: maximumLength = 100
+: maximumLength = 1000
 
 type
 : name          = bigText
@@ -233,7 +291,7 @@ type
 type
 : name      = quantity
 : comment   = A quantity, used for things like the quantity ordered on a sales order.
-: baseType  = integer
+: baseType  = quantity
 
 type
 : name          = time
@@ -262,6 +320,14 @@ type
 : allows        = whitespace
 
 type
+: name          = fileName
+: comment       = The name of a file.
+: baseType      = string
+: maximumLength = 200
+: allows        = printable
+: columnWidth   = 25
+
+type
 : name          = calculated
 : comment       = Used for calculated values that really do not have a maximum value. Calculated types should not be used for data entry for validation.
 : baseType      = string
@@ -286,6 +352,55 @@ type
 : baseType      = string
 : maximumLength = 50
 : allows        = printable
+: columnWidth   = 15
+
+type
+: name          = serialNumber
+: comment       = The standard format for a serial number.
+: baseType      = string
+: maximumLength = 30
+: allows        = letters
+: allows        = digits
+: allows        = symbols
+: columnWidth   = 15
+
+type
+: name          = tagNumber
+: comment       = The standard format for a tag number.
+: baseType      = string
+: maximumLength = 30
+: allows        = letters
+: allows        = digits
+: allows        = symbols
+: columnWidth   = 15
+
+type
+: name          = imNumber
+: comment       = The standard format for an IM number.
+: baseType      = string
+: maximumLength = 20
+: allows        = letters
+: allows        = digits
+: allows        = symbols
+: columnWidth   = 15
+
+type
+: name          = ipAddress
+: comment       = The standard format for an IP Address.
+: baseType      = string
+: maximumLength = 15
+: allows        = digits
+: allows        = symbols
+: columnWidth   = 15
+
+type
+: name          = macAddress
+: comment       = The standard format for a Mac Address.
+: baseType      = string
+: maximumLength = 20
+: allows        = letters
+: allows        = digits
+: allows        = symbols
 : columnWidth   = 15
 
 type
@@ -329,7 +444,7 @@ type
 : name          = timeZoneCode
 : comment       = The code for a timezone.
 : baseType      = string
-: maximumLength = 50
+: maximumLength = 40
 : allows        = printable
 
 type
@@ -343,4 +458,16 @@ type
 : name          = lockVersion
 : comment       = Used for columns that use a count for optimistic locking.
 : baseType      = integer
+
+type
+: name              = projectCode
+: comment           = See code
+: baseType          = string
+: allows            = letters
+: allows            = digits
+: forceUpperCase    = true
+: stripAllSpaces    = true
+: maximumLength     = 5
+
+
 

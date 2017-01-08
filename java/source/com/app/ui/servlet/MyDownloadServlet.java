@@ -3,12 +3,14 @@ package com.app.ui.servlet;
 import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.KmResult;
 import com.kodemore.utility.Kmu;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyDownload;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
+import com.app.model.base.MyDownloadType;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
 
@@ -51,57 +53,98 @@ public class MyDownloadServlet
 
     private void handleDao()
     {
+        KmResult<MyDownload> result = findDownload();
+        if ( result.hasError() )
+        {
+            writeError(result.getError());
+            return;
+        }
+
+        download(result.getValue());
+    }
+
+    //##################################################
+    //# find
+    //##################################################
+
+    private KmResult<MyDownload> findDownload()
+    {
         MyServletData data = getData();
 
         MyServerSession ss = MyGlobals.getServerSession();
         if ( ss == null )
-        {
-            handleError("No Session");
-            return;
-        }
+            return KmResult.createError("No Session");
 
         MyUser user = ss.getUser();
         if ( user == null )
-        {
-            handleError("No User.");
-            return;
-        }
+            return KmResult.createError("No User");
 
         String uid = data.getExtraPath();
         if ( Kmu.isEmpty(uid) )
-        {
-            handleError("No Download");
-            return;
-        }
+            return KmResult.createError("No Download");
 
-        MyDaoRegistry access = MyGlobals.getAccess();
-        MyDownload d = access.findDownloadUid(uid);
-        if ( d == null )
-        {
-            handleError("Unknown Download");
-            return;
-        }
+        MyDaoAccess access = MyGlobals.getAccess();
+        MyDownload e = access.findDownloadUid(uid);
+        if ( e == null )
+            return KmResult.createError("Invalid Download");
 
-        if ( !d.hasUser(user) )
-        {
-            handleError("Incorrect User");
-            return;
-        }
+        if ( !e.hasUser(user) )
+            return KmResult.createError("Invalid User");
 
-        KmFile file = d.getFile();
-        if ( !file.exists() )
-        {
-            handleError("File Not Found");
-            return;
-        }
-
-        String name = d.getName();
-        byte[] bytes = file.readBytes();
-
-        data.setAttachmentResult(name, bytes);
+        return KmResult.createValue(e);
     }
 
-    private void handleError(String msg)
+    //##################################################
+    //# download
+    //##################################################
+
+    private void download(MyDownload e)
+    {
+        MyDownloadType type = e.getType();
+        switch ( type )
+        {
+            case Bytes:
+                downloadBytes(e);
+                break;
+
+            case File:
+                downloadFile(e);
+                break;
+        }
+    }
+
+    private void downloadBytes(MyDownload download)
+    {
+        byte[] bytes = download.getByteArray();
+        if ( bytes == null )
+        {
+            writeError("No Bytes");
+            return;
+        }
+
+        String name = download.getName();
+        writeBytes(name, bytes);
+    }
+
+    private void downloadFile(MyDownload download)
+    {
+        KmFile file = download.getFile();
+        if ( !file.exists() )
+        {
+            writeError("File Not Found");
+            return;
+        }
+
+        String name = download.getName();
+        byte[] bytes = file.readBytes();
+        writeBytes(name, bytes);
+    }
+
+    //##################################################
+    //# write
+    //##################################################
+
+    private void writeError(String msg)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -117,4 +160,8 @@ public class MyDownloadServlet
         getData().setHtmlResult(out);
     }
 
+    private void writeBytes(String name, byte[] bytes)
+    {
+        getData().setAttachmentResult(name, bytes);
+    }
 }

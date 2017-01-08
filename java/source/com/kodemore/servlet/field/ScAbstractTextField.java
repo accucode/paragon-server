@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,60 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScWidthFullIF;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmRequiredValidator;
-import com.kodemore.validator.KmValidator;
 
 public abstract class ScAbstractTextField<T>
-    extends ScInputField<T>
+    extends ScField<T>
+    implements ScWidthFullIF
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    public static final String INPUT_SUFFIX = "-i";
+
+    //##################################################
+    //# static :: layout enum
+    //##################################################
+
+    /**
+     * The various layout options.
+     */
+    private static enum Layout
+    {
+        /**
+         * Treat the control as an inline element, with a fixed width.
+         * This is similar to the way a standalone input element works.
+         * This is the default.
+         */
+        inline,
+
+        /**
+         * Treat the control as a block element (not inline).
+         * The control will generally span an entire row, much like a div.
+         */
+        block,
+
+        /**
+         * For use inside a flexbox (row), the child will fill the available space.
+         */
+        flexFiller
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -46,324 +84,93 @@ public abstract class ScAbstractTextField<T>
     private ScLocalString  _placeholder;
     private ScLocalString  _hoverText;
     private ScLocalBoolean _readOnly;
-    private ScLocalBoolean _fullWrapper;
-    private KmValidator<T> _validator;
 
     /**
-     * If true (by default), the original value is included in the html data- attribute
-     * and the client-side browser uses javascript to track if changes are made.
+     * The ID of the outer html element.
      */
-    private boolean _changeTracking;
+    private ScLocalString  _htmlId;
+
+    /**
+     * If false (the default) client-side autocompletion is disabled.
+     * @see ScConstantsIF#DEFAULT_AUTO_COMPLETE
+     */
+    private ScLocalBoolean _autoComplete;
+
+    /**
+     * The type of layout to apply. Because this is a composite with multiple
+     * pieces (wrapper, input, image) it is not safe for clients to directly
+     * set the layout via css.  Instead, clients use one of the layout*() methods
+     * that ensure the different elements are coordinated correctly.
+     */
+    private Layout         _layout;
+
+    /**
+     * Used in conjuction with the layoutFixed.
+     */
+    private int            _layoutWidth;
+
+    /**
+     * Clients are not allowed directly access to the css since that will likely
+     * cause problems.  However, clients are allowed to directly adjust the margin
+     * for minor layout adjustments.
+     */
+    private ScLocalCss     _cssMargin;
+
+    /**
+     * If set, run this script when the field's input changes.
+     * This uses the fields 'oninput' attribute.
+     */
+    private ScAction       _inputAction;
+
+    /**
+     * Enable/disable spellchecking. Enabled by default.
+     */
+    private ScLocalBoolean _spellCheck;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAbstractTextField()
     {
-        super.install();
-
+        _htmlId = new ScLocalString(getKey());
         _text = new ScLocalString();
         _placeholder = new ScLocalString();
         _hoverText = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
-        _fullWrapper = new ScLocalBoolean(false);
-        _changeTracking = true;
+        _autoComplete = new ScLocalBoolean(ScConstantsIF.DEFAULT_AUTO_COMPLETE);
+        _cssMargin = new ScLocalCss();
+        _spellCheck = new ScLocalBoolean(true);
+        layoutInline();
     }
 
     //##################################################
-    //# type
-    //##################################################
-
-    @Override
-    protected String getInputType()
-    {
-        return "text";
-    }
-
-    //##################################################
-    //# full wrapper
-    //##################################################
-
-    public boolean getFullWrapper()
-    {
-        return _fullWrapper.getValue();
-    }
-
-    public void setFullWrapper(boolean e)
-    {
-        _fullWrapper.setValue(e);
-    }
-
-    public void setWidthFull()
-    {
-        css().widthFull().boxSizingBorder();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<T> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<T> e)
-    {
-        _validator = e;
-    }
-
-    public void setValidator(KmMetaProperty<?,T> p)
-    {
-        setValidator(p.getValidator());
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public void setRequired()
-    {
-        if ( hasValidator() )
-        {
-            if ( getValidator().isRequired() )
-                return;
-
-            KmValidator<T> e;
-            e = getValidator().getCopy();
-            e.setRequired();
-            setValidator(e);
-        }
-        else
-            setValidator(new KmRequiredValidator<T>());
-    }
-
-    public void setOptional()
-    {
-        if ( !hasValidator() )
-            return;
-
-        if ( getValidator().isOptional() )
-            return;
-
-        KmValidator<T> e;
-        e = getValidator().getCopy();
-        e.setOptional();
-        setValidator(e);
-    }
-
-    //##################################################
-    //# change tracking
-    //##################################################
-
-    public boolean getChangeTracking()
-    {
-        return _changeTracking;
-    }
-
-    public void setChangeTracking(boolean e)
-    {
-        warnIfInstalled();
-        _changeTracking = e;
-    }
-
-    public void disableChangeTracking()
-    {
-        setChangeTracking(false);
-    }
-
-    //##################################################
-    //# page session
+    //# html id
     //##################################################
 
     @Override
-    public void saveFieldValues()
+    public String getHtmlId()
     {
-        super.saveFieldValues();
-        _text.saveValue();
+        return _htmlId.getValue();
     }
 
-    @Override
-    public void resetFieldValues()
+    public void setHtmlId(String e)
     {
-        super.resetFieldValues();
-        resetValue();
+        _htmlId.setValue(e);
     }
 
-    @Override
-    public void resetValue()
+    public boolean hasHtmlId(String e)
     {
-        _text.resetValue();
+        return Kmu.isEqual(getHtmlId(), e);
     }
 
     //##################################################
-    //# render
+    //# css
     //##################################################
 
-    @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    public KmCssMarginBuilder cssMargin()
     {
-        boolean wrap = getFullWrapper();
-
-        if ( wrap )
-            renderWrappedField(out);
-        else
-            renderField(out);
-    }
-
-    private void renderWrappedField(KmHtmlBuilder out)
-    {
-        out.beginDiv(formatWrapperCss());
-        renderField(out);
-        out.endDiv();
-    }
-
-    private void renderField(KmHtmlBuilder out)
-    {
-        super.renderControlOn(out);
-    }
-
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
-
-        if ( isReadOnly() )
-            out.printAttribute("readonly", "readonly");
-
-        out.printAttribute("placeholder", getPlaceholder());
-        out.printAttribute("title", getHoverText());
-        out.printAttribute("value", getText());
-
-        if ( getChangeTracking() )
-            printOldValueAttributeOn(out, getText());
-    }
-
-    @Override
-    protected KmCssDefaultBuilder formatCss()
-    {
-        KmCssDefaultBuilder css = super.formatCss();
-
-        if ( isReadOnly() )
-            css.textFieldReadOnly();
-        else
-            css.textField();
-
-        return css;
-    }
-
-    private KmCssDefaultBuilder formatWrapperCss()
-    {
-        return newCssBuilder().textFieldWrapper();
-    }
-
-    //##################################################
-    //# parameters
-    //##################################################
-
-    @Override
-    public void readParameters(ScServletData data)
-    {
-        super.readParameters(data);
-
-        String name = getHtmlName();
-        String text = getData().getParameter(name);
-
-        if ( Kmu.hasValue(text) )
-            _text.setValue(text);
-        else
-            _text.clearValue();
-    }
-
-    //##################################################
-    //# value
-    //##################################################
-
-    @Override
-    public T getValue()
-    {
-        return getValueFor(getText());
-    }
-
-    protected abstract T getValueFor(String s);
-
-    @Override
-    public abstract void setValue(T e);
-
-    public boolean isEmpty()
-    {
-        return Kmu.isEmpty(getText());
-    }
-
-    public boolean isNotEmpty()
-    {
-        return !isEmpty();
-    }
-
-    public String getSampleFormat()
-    {
-        return null;
-    }
-
-    //##################################################
-    //# validate
-    //##################################################
-
-    @Override
-    public boolean validateQuietly()
-    {
-        if ( !super.validateQuietly() )
-            return false;
-
-        if ( hasErrors() )
-            return false;
-
-        T value = getValue();
-        if ( hasText() && value == null )
-        {
-            addError(getInvalidMessage());
-            return false;
-        }
-
-        if ( requiresModelValue() && hasText() && getModelValue() == null )
-        {
-            addError(getInvalidMessage());
-            return false;
-        }
-
-        if ( _validator == null )
-            return true;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-
-        _validator.validateOnly(getValue(), errors);
-
-        if ( errors.isEmpty() )
-            return true;
-
-        setErrors(errors);
-
-        return false;
-    }
-
-    public boolean requiresModelValue()
-    {
-        return false;
-    }
-
-    public String getInvalidMessage()
-    {
-        String msg = "Cannot parse value.";
-
-        String sample = getSampleFormat();
-        if ( sample != null )
-            msg += "  Sample: " + sample;
-
-        return msg;
+        return _cssMargin.toMarginBuilder();
     }
 
     //##################################################
@@ -390,9 +197,127 @@ public abstract class ScAbstractTextField<T>
         return _text.is(e);
     }
 
+    public boolean isEmpty()
+    {
+        return !hasText();
+    }
+
     public void clearText()
     {
         _text.setValue("");
+    }
+
+    //##################################################
+    //# value
+    //##################################################
+
+    @Override
+    public final T getValue()
+    {
+        return textToValue(getText());
+    }
+
+    @Override
+    public final void setValue(T value)
+    {
+        setText(valueToText(value));
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _text.saveValue();
+    }
+
+    @Override
+    public void resetValue()
+    {
+        _text.resetValue();
+    }
+
+    //##################################################
+    //# on input
+    //##################################################
+
+    public void onInput(Runnable e)
+    {
+        onInput(newCheckedAction(e));
+    }
+
+    public void onInput(ScAction e)
+    {
+        setInputAction(e);
+    }
+
+    public void setInputAction(ScAction e)
+    {
+        _inputAction = e;
+    }
+
+    public ScAction getInputAction()
+    {
+        return _inputAction;
+    }
+
+    public boolean hasInputAction()
+    {
+        return _inputAction != null;
+    }
+
+    //##################################################
+    //# spell check
+    //##################################################
+
+    public boolean getSpellCheck()
+    {
+        return _spellCheck.getValue();
+    }
+
+    public void setSpellCheck(boolean e)
+    {
+        _spellCheck.setValue(e);
+    }
+
+    public void disableSpellCheck()
+    {
+        setSpellCheck(false);
+    }
+
+    //##################################################
+    //# validate :: sample
+    //##################################################
+
+    @Override
+    protected final boolean validateParse()
+    {
+        T value = getValue();
+        if ( hasText() && value == null )
+        {
+            addError(getInvalidMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Return some text that provides one of more examples of
+     * valid text. E.g.: for a date field this may return: "1/31/2016".
+     */
+    public abstract T getSampleValue();
+
+    private final String getInvalidMessage()
+    {
+        String msg = "Cannot parse value.";
+
+        T value = getSampleValue();
+        if ( value != null )
+            msg += "  Sample: " + valueToText(value);
+
+        return msg;
     }
 
     //##################################################
@@ -414,6 +339,16 @@ public abstract class ScAbstractTextField<T>
         setReadOnly(true);
     }
 
+    //==================================================
+    //= editable
+    //==================================================
+
+    @Override
+    public boolean isEditable()
+    {
+        return !isReadOnly();
+    }
+
     //##################################################
     //# placeholder
     //##################################################
@@ -426,6 +361,11 @@ public abstract class ScAbstractTextField<T>
     public String getPlaceholder()
     {
         return _placeholder.getValue();
+    }
+
+    public void clearPlaceHolder()
+    {
+        setPlaceholder(null);
     }
 
     public boolean hasPlaceholder()
@@ -453,13 +393,223 @@ public abstract class ScAbstractTextField<T>
     }
 
     //##################################################
-    //# editable
+    //# autocomplete
+    //##################################################
+
+    public boolean getAutoComplete()
+    {
+        return _autoComplete.getValue();
+    }
+
+    public void setAutoComplete(boolean e)
+    {
+        _autoComplete.setValue(e);
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    protected abstract T textToValue(String text);
+
+    protected abstract String valueToText(T value);
+
+    //##################################################
+    //# layout
+    //##################################################
+
+    private void layoutInline()
+    {
+        layoutInline(getDefaultWidth());
+    }
+
+    public void layoutInline(int px)
+    {
+        _layout = Layout.inline;
+        _layoutWidth = px;
+    }
+
+    public void layoutBlock()
+    {
+        _layout = Layout.block;
+    }
+
+    public void layoutFlexFiller()
+    {
+        _layout = Layout.flexFiller;
+    }
+
+    @Override
+    public void setWidthFull()
+    {
+        layoutBlock();
+    }
+
+    protected int getDefaultWidth()
+    {
+        return 200;
+    }
+
+    //##################################################
+    //# render
     //##################################################
 
     @Override
-    public boolean isEditable()
+    protected void renderControlOn(KmHtmlBuilder out)
     {
-        return !isReadOnly() && !isDisabled();
+        KmCssDefaultBuilder css = getCss();
+        KmStyleBuilder style = new KmStyleBuilder();
+        applyLayoutTo(css, style);
+
+        out.openDiv();
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute(css);
+        out.printAttribute(style);
+        out.close();
+
+        renderHelpOn(out);
+        renderInputOn(out);
+
+        out.endDiv();
+    }
+
+    private void renderHelpOn(KmHtmlBuilder out)
+    {
+        out.printHelpImage(getHelp());
+    }
+
+    private void renderInputOn(KmHtmlBuilder out)
+    {
+        out.open("input");
+
+        out.printAttribute("id", getInputHtmlId());
+        out.printAttribute("name", getInputName());
+        out.printAttribute("type", getInputType());
+        out.printAttribute("placeholder", getPlaceholder());
+        out.printAttribute("title", getHoverText());
+        out.printAttribute("value", getText());
+
+        if ( isReadOnly() )
+            out.printAttribute("readonly", "readonly");
+
+        if ( !getAutoComplete() )
+            if ( isMasked() )
+                out.printAttribute("autocomplete", "new-password");
+            else
+                out.printAttribute("autocomplete", "off");
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, getText());
+
+        if ( !getSpellCheck() )
+            out.printAttribute("spellcheck", false);
+
+        if ( hasInputAction() )
+        {
+            ScActionScript s;
+            s = new ScActionScript();
+            s.setAction(getInputAction());
+            s.setForm(findFormWrapper());
+            s.setBlockTarget(findBlockWrapper());
+            out.printAttribute("oninput", s.formatScript());
+        }
+
+        out.close();
+    }
+
+    //==================================================
+    //= render :: support
+    //==================================================
+
+    public String getInputHtmlId()
+    {
+        return getHtmlId() + INPUT_SUFFIX;
+    }
+
+    public String getInputSelector()
+    {
+        return ScJquery.formatIdSelector(getInputHtmlId());
+    }
+
+    private String getInputName()
+    {
+        return getInputHtmlId();
+    }
+
+    private String getInputType()
+    {
+        return isMasked()
+            ? "password"
+            : "text";
+    }
+
+    private ScHtmlIdAjax getInputAjax()
+    {
+        return newHtmlIdAjaxOn(getInputHtmlId());
+    }
+
+    //==================================================
+    //= render :: styling
+    //==================================================
+
+    protected boolean isMasked()
+    {
+        return false;
+    }
+
+    private KmCssDefaultBuilder getCss()
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.textField();
+        css.addAll(cssMargin().getSelectors());
+
+        if ( isEditable() )
+            css.textField_editable();
+        else
+            css.textField_readonly();
+
+        return css;
+    }
+
+    private void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
+    {
+        if ( !getVisible() )
+            style.hide();
+
+        switch ( _layout )
+        {
+            case inline:
+                css.inlineBlock();
+                style.width(_layoutWidth);
+                break;
+
+            case block:
+                css.block();
+                break;
+
+            case flexFiller:
+                css.flexChildFiller();
+                break;
+        }
+    }
+
+    //##################################################
+    //# parameters
+    //##################################################
+
+    @Override
+    protected void readParameters_here(ScServletData data)
+    {
+        super.readParameters_here(data);
+
+        String name = getInputName();
+        String text = getData().getParameter(name);
+
+        if ( Kmu.hasValue(text) )
+            _text.setValue(text);
+        else
+            _text.clearValue();
     }
 
     //##################################################
@@ -467,14 +617,26 @@ public abstract class ScAbstractTextField<T>
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public final void ajaxSetFieldValue(T e)
     {
-        String value = getText();
-
-        ajax().setValue(value);
-
-        if ( getChangeTracking() )
-            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(e, getChangeTracking());
     }
 
+    @Override
+    public final void ajaxSetFieldValue(T e, boolean updateOldValue)
+    {
+        String htmlValue = valueToText(e);
+
+        ScHtmlIdAjax ajax;
+        ajax = getInputAjax();
+        ajax.setValue(htmlValue);
+
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+    }
+
+    public final void ajaxSelect()
+    {
+        getInputAjax().run("$(%s).select();", json(getInputSelector()));
+    }
 }

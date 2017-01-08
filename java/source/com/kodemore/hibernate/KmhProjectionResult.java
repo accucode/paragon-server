@@ -22,7 +22,7 @@ public class KmhProjectionResult
     }
 
     //##################################################
-    //# accessing 
+    //# accessing
     //##################################################
 
     public int getRowCount()
@@ -40,6 +40,11 @@ public class KmhProjectionResult
     public Object getValueAt(int row, int col)
     {
         return _data.get(row)[col];
+    }
+
+    public boolean isEmpty()
+    {
+        return getRowCount() == 0;
     }
 
     //##################################################

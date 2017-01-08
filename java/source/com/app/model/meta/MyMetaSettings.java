@@ -51,17 +51,18 @@ public class MyMetaSettings
         return "settings";
     }
 
-    public static MySettingsValidator getValidator()
+    public MySettingsValidator getValidator()
     {
         return MySettingsValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "A single record with global settings.  This provides a simply, typesafe way to store some global settings in the database.  For example, we could define a global contact (email or phone) for technical assistance with the portal.";
     }
@@ -73,6 +74,7 @@ public class MyMetaSettings
     public static final MyMetaSettings_Code Code = new MyMetaSettings_Code();
     public static final MyMetaSettings_SomeMessage SomeMessage = new MyMetaSettings_SomeMessage();
     public static final MyMetaSettings_LockVersion LockVersion = new MyMetaSettings_LockVersion();
+    public static final MyMetaSettings_DisplayString DisplayString = new MyMetaSettings_DisplayString();
 
     //##################################################
     //# associations

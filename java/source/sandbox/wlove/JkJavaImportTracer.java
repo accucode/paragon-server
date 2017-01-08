@@ -45,8 +45,8 @@ public class JkJavaImportTracer
     //# variables
     //##################################################
 
-    private KmFileRoot     _sourceRoot;
-    private KmList<String> _ignoredPrefixes;
+    private KmFileRoot                      _sourceRoot;
+    private KmList<String>                  _ignoredPrefixes;
 
     private KmList<JicSource>               _sources;
     private KmMap<String,JicSource>         _sourcesByName;

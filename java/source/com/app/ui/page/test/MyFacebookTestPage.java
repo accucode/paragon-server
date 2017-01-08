@@ -64,7 +64,7 @@ public final class MyFacebookTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
         root.addButton("Request Token", this::handleRequest);
     }
 
@@ -88,7 +88,7 @@ public final class MyFacebookTestPage
         e = new KmHttpGet();
         e.setHost("graph.facebook.com");
         e.setPath("oauth/access_token");
-        // fixme_steve: add in client_id from dashboard
+        // fixme : add in client_id from dashboard
         //        e.setParameter("client_id", "");
         e.setParameter("redirect_uri", "https://www.facebook.com/connect/login_success.html");
         e.setContentType("text/html");

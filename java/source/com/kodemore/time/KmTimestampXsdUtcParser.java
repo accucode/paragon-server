@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,7 @@ public class KmTimestampXsdUtcParser
 
         if ( !st.endsWith("Z") )
             return null;
+
         st = Kmu.removeSuffix(st, "Z");
 
         KmDate d = KmDateParser.parseXsd(sd);
@@ -66,6 +67,7 @@ public class KmTimestampXsdUtcParser
 
         if ( d == null )
             return null;
+
         if ( t == null )
             return null;
 

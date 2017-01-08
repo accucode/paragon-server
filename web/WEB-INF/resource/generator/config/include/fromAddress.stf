@@ -1,0 +1,74 @@
+    //*****************************************************
+    //** fields
+    //*****************************************************
+
+
+    field
+    : name      = fromStreet1
+    : help      = The first line of the street address.
+    : type      = name
+
+
+    field
+    : name      = fromStreet2
+    : help      = The second line of the street address.
+    : type      = name
+
+
+    field
+    : name      = fromCity
+    : help      = The name of the city.
+    : type      = name
+
+
+    field
+    : name      = fromRegion
+    : help      = The name or abbreviation of the of the region (or state).
+    : type      = name
+
+
+    field
+    : name      = fromPostalCode
+    : help      = The zip/postal code.
+    : type      = postalCode
+
+
+    field
+    : name      = fromCountry
+    : help      = The name or abbreviation of the country.
+    : type      = name
+
+
+    field
+    : name      = fromAttention
+    : help      = The attention line of the address.
+    : type      = name
+
+
+    field
+    : name      = fromPhone
+    : help      = The phone number.
+    : type      = phone
+
+
+    //*****************************************************
+    //** display
+    //*****************************************************
+
+
+    abstractField
+    : name      = fromAddressShortLine
+    : help      = The short format of the address.
+    : type      = calculated
+
+
+    abstractField
+    : name      = fromAddressLongLine
+    : help      = The long format of the address.
+    : type      = calculated
+
+
+    abstractField
+    : name      = fromAddressMultiLine
+    : help      = The multi-line format of the address.
+    : type      = calculated

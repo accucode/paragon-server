@@ -3,9 +3,9 @@ package com.app.ui.page.general;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGeneralButton;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScScriptButton;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -34,6 +34,12 @@ public final class MyTimeoutPage
     {
         // singleton
     }
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    private ScScriptButton _loginButton;
 
     //##################################################
     //# setup
@@ -68,8 +74,6 @@ public final class MyTimeoutPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        String href = MyUrls.getEntryUrl();
-
         ScForm form;
         form = root.addForm();
 
@@ -83,12 +87,13 @@ public final class MyTimeoutPage
         body.addText("Please log back in.");
 
         ScDiv buttons;
-        buttons = body.addFloatRight();
+        buttons = body.addFlexRow();
+        buttons.css().flexAlignEnd();
 
-        ScGeneralButton button;
-        button = buttons.addGeneralButton();
+        ScScriptButton button;
+        button = buttons.addScriptButton();
         button.setText("Login >>");
-        button.setHref(href);
+        _loginButton = button;
     }
 
     //##################################################
@@ -98,7 +103,8 @@ public final class MyTimeoutPage
     @Override
     protected void preRender()
     {
-        // none
+        String url = MyUrls.getEntryUrl();
+        _loginButton.setScriptHref(url);
     }
 
 }

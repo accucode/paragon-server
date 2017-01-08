@@ -8,6 +8,7 @@ import com.kodemore.database.KmDatabaseTool;
 import com.kodemore.file.KmFile;
 
 import com.app.file.MyResourceFiles;
+import com.app.tools.MyResetDatabaseTool;
 import com.app.utility.MyEnvironment;
 import com.app.utility.MyInstaller;
 

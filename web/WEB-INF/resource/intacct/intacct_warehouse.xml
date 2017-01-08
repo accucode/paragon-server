@@ -1,0 +1,36 @@
+<response>
+      <control>
+            <status>success</status>
+            <senderid>Accu2015</senderid>
+            <controlid>1</controlid>
+            <uniqueid>false</uniqueid>
+            <dtdversion>2.1</dtdversion>
+      </control>
+      <operation>
+            <authentication>
+                  <status>success</status>
+                  <userid>wlove</userid>
+                  <companyid>Accu2015</companyid>
+                  <sessiontimestamp>2016-10-19T06:01:27-07:00</sessiontimestamp>
+            </authentication>
+            <result>
+                  <status>success</status>
+                  <function>get_list</function>
+                  <controlid>1</controlid>
+                  <listtype start="0" end="0" total="7">warehouse</listtype>
+                  <data>
+                        <warehouse>
+                              <warehouseid>100</warehouseid>
+                              <name>Master Warehouse</name>
+                              <parentid/>
+                              <warehouseparentid/>
+                              <managerid/>
+                              <contactname>Chad Haynes</contactname>
+                              <shipto>Chad Haynes</shipto>
+                              <usedingl>true</usedingl>
+                              <status>active</status>
+                        </warehouse>
+                  </data>
+            </result>
+      </operation>
+</response>

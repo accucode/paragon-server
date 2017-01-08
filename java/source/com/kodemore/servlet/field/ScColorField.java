@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -18,223 +18,56 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.servlet.ScConstantsIF;
-import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmHtmlColorValidator;
 
+/**
+ * http://www.eyecon.ro/colorpicker/
+ */
 public class ScColorField
-    extends ScInputField<KmHtmlColor>
+    extends ScAbstractTextField<KmHtmlColor>
 {
     //##################################################
-    //# variables
+    //# constructor
     //##################################################
 
-    private ScLocalString        _text;
-    private KmHtmlColorValidator _validator;
-
-    private ScLocalBoolean _fullWrapper;
-
-    //##################################################
-    //# init
-    //##################################################
-
-    @Override
-    protected void install()
+    public ScColorField()
     {
-        super.install();
-
-        _text = new ScLocalString();
-        _fullWrapper = new ScLocalBoolean(false);
-
-        getPostDomScript().run("Kmu.installColorField('%s');", getJquerySelector());
     }
 
     //##################################################
-    //# input field
+    //# conversion
     //##################################################
 
     @Override
-    protected String getInputType()
+    protected KmHtmlColor textToValue(String text)
     {
-        return "text";
+        return Kmu.hasValue(text)
+            ? KmHtmlColor.create(text)
+            : null;
     }
 
     @Override
-    public boolean isEditable()
+    protected String valueToText(KmHtmlColor value)
     {
-        return true;
+        return value != null
+            ? value.getHexValue()
+            : "";
     }
 
     //##################################################
-    //# text
-    //##################################################
-
-    public String getText()
-    {
-        return _text.getValue();
-    }
-
-    public void setText(String e)
-    {
-        _text.setValue(e);
-    }
-
-    public boolean hasText()
-    {
-        return Kmu.hasValue(getText());
-    }
-
-    public boolean hasText(String e)
-    {
-        return _text.is(e);
-    }
-
-    public void clearText()
-    {
-        _text.setValue("");
-    }
-
-    //##################################################
-    //# full wrapper
-    //##################################################
-
-    public boolean getFullWrapper()
-    {
-        return _fullWrapper.getValue();
-    }
-
-    public void setFullWrapper(boolean e)
-    {
-        _fullWrapper.setValue(e);
-    }
-
-    public void setWidthFull()
-    {
-        setFullWrapper(true);
-        css().widthFull();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public void setValidator(KmHtmlColorValidator e)
-    {
-        _validator = e;
-    }
-
-    public KmHtmlColorValidator getValidator()
-    {
-        return _validator;
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    //##################################################
-    //# value
+    //# sample
     //##################################################
 
     @Override
-    public KmHtmlColor getValue()
+    public KmHtmlColor getSampleValue()
     {
-        return KmHtmlColor.create(getText());
-    }
-
-    @Override
-    public void setValue(KmHtmlColor e)
-    {
-        if ( e == null )
-            setText("");
-        else
-            setText(e.getValue());
-    }
-
-    //##################################################
-    //# page session
-    //##################################################
-
-    @Override
-    public void saveFieldValues()
-    {
-        super.saveFieldValues();
-        _text.saveValue();
-    }
-
-    @Override
-    public void resetFieldValues()
-    {
-        super.resetFieldValues();
-        resetValue();
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _text.resetValue();
-    }
-
-    @Override
-    public boolean validateQuietly()
-    {
-        if ( !super.validateQuietly() )
-            return false;
-
-        if ( hasErrors() )
-            return false;
-
-        KmHtmlColor value = getValue();
-
-        if ( hasText() && value == null )
-        {
-            addError("Invalid color format; e.g.: #FF00EE.");
-            return false;
-        }
-
-        if ( !hasValidator() )
-            return true;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-        _validator.validateOnly(getValue(), errors);
-        if ( errors.isNotEmpty() )
-        {
-            setErrors(errors);
-            return false;
-        }
-
-        return true;
-    }
-
-    //##################################################
-    //# parameters
-    //##################################################
-
-    @Override
-    public void readParameters(ScServletData data)
-    {
-        super.readParameters(data);
-
-        String name = getHtmlName();
-        String text = data.getParameter(name);
-
-        setText(text);
-
-        if ( hasValue() )
-            setText(getValue().toString());
+        return KmHtmlColor.createBlack();
     }
 
     //##################################################
@@ -242,65 +75,10 @@ public class ScColorField
     //##################################################
 
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    protected void renderPostDomOn(KmHtmlBuilder out)
     {
-        boolean wrap = getFullWrapper();
-
-        if ( wrap )
-            renderWrappedField(out);
-        else
-            renderField(out);
+        super.renderPostDomOn(out);
+        out.getPostDom().run("Kmu.installColorField('%s');", getInputSelector());
     }
 
-    private void renderWrappedField(KmHtmlBuilder out)
-    {
-        out.openDiv();
-        out.printAttribute(formatWrapperCss());
-        out.close();
-
-        renderField(out);
-
-        out.endDiv();
-    }
-
-    private void renderField(KmHtmlBuilder out)
-    {
-        super.renderControlOn(out);
-    }
-
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
-
-        out.printAttribute("value", getText());
-        printOldValueAttributeOn(out, getText());
-    }
-
-    @Override
-    protected KmCssDefaultBuilder formatCss()
-    {
-        KmCssDefaultBuilder css;
-        css = super.formatCss();
-        css.textField();
-        return css;
-    }
-
-    private KmCssDefaultBuilder formatWrapperCss()
-    {
-        return newCssBuilder().textFieldWrapper();
-    }
-
-    //##################################################
-    //# ajax
-    //##################################################
-
-    @Override
-    public void ajaxUpdateValue()
-    {
-        String value = getText();
-
-        ajax().setValue(value);
-        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
-    }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,14 +48,14 @@ public class ScAddContentScript
      * should be added.  This is typically an id selector
      * like "#someId", but any selector will generally work. 
      */
-    private String _selector;
+    private String        _selector;
 
     /**
      * The method used to add new content.
      * Supported values are: append, prepend, before, after.
      * The default is: append.  
      */
-    private String _mode;
+    private String        _mode;
 
     /**
      * The html content to be added.

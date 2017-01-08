@@ -1,0 +1,78 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
+
+public enum ${Prefix}ModelAssociationType
+    implements KmEnumIF
+{
+$utility.protocol("values")
+
+#foreach ( $model in $root.databaseModels )
+#foreach ( $association in $model.associations )
+#if ( !$association.isRelationParent() )
+    ${model.f_NAME}_${association.f_NAME}("${model.f_Name}${association.f_Name}","${model.f_Name}_${association.f_Name}"),
+#end
+#end
+#foreach ( $collection in $model.collections )
+    ${model.f_NAME}_${collection.f_NAME}("${model.f_Name}${collection.f_Name}","${model.f_Name}_${collection.f_Name}"),
+#end
+#end
+    ;
+
+$utility.protocol("find")
+
+    private static final KmList<${Prefix}ModelAssociationType> _values;
+    private static final KmMap<String,${Prefix}ModelAssociationType> _codes;
+
+    static
+    {
+        _values = new KmList<>();
+        _values.addAll(values());
+
+        _codes = new KmMap<>();
+        for ( ${Prefix}ModelAssociationType e : EnumSet.allOf(${Prefix}ModelAssociationType.class) )
+            _codes.put(e.getCode(), e);
+    }
+
+    public static KmList<${Prefix}ModelAssociationType> getValues()
+    {
+        return _values;
+    }
+
+    public static ${Prefix}ModelAssociationType findCode(String code)
+    {
+        return _codes.get(code);
+    }
+
+$utility.protocol("variables")
+
+    private String _code;
+    private String _label;
+
+$utility.protocol("constructor")
+
+    private ${Prefix}ModelAssociationType(String code, String label)
+    {
+        _code = code;
+        _label = label;
+    }
+
+$utility.protocol("accessing")
+
+    @Override
+    public String getCode()
+    {
+        return _code;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return _label;
+    }
+}

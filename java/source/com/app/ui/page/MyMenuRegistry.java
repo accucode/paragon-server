@@ -1,100 +1,30 @@
 package com.app.ui.page;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.log.KmLog;
-import com.kodemore.servlet.ScPage;
 import com.kodemore.utility.Kmu;
 
+import com.app.ui.dashboard.core.MyDashboardPage;
 import com.app.ui.layout.MyMenuItem;
-import com.app.ui.page.general.MyDashboardPage;
-import com.app.ui.page.general.MyOrdersPage;
-import com.app.ui.page.general.MyReportsPage;
-import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.general.MyTimeoutPage;
-import com.app.ui.page.login.MyPasswordResetPage;
-import com.app.ui.page.login.MySignInPage;
-import com.app.ui.page.login.MyUserActivationPage;
-import com.app.ui.page.manageDepots.MyManageDepotsPage;
-import com.app.ui.page.manageMembers.MyManageMembersPage;
-import com.app.ui.page.manageProjects.MyManageProjectsPage;
-import com.app.ui.page.manageRegions.MyManageRegionsPage;
-import com.app.ui.page.manageSkills.MyManageSkillsPage;
-import com.app.ui.page.manageUsers.MyManageUsersPage;
-import com.app.ui.page.manageVendors.MyManageVendorsPage;
-import com.app.ui.page.test.MyAbsoluteLayoutTestPage;
-import com.app.ui.page.test.MyAccordionTestPage;
-import com.app.ui.page.test.MyAnimationTestPage;
-import com.app.ui.page.test.MyAutoCompleteTestPage;
-import com.app.ui.page.test.MyBarcodeTestPage;
-import com.app.ui.page.test.MyBlankTestPage;
-import com.app.ui.page.test.MyBlockTestPage;
-import com.app.ui.page.test.MyBorderLayoutTestPage;
-import com.app.ui.page.test.MyBorderTestPage;
-import com.app.ui.page.test.MyCalendarTestPage;
-import com.app.ui.page.test.MyCardFlipTestPage;
-import com.app.ui.page.test.MyChoiceFieldTestPage;
-import com.app.ui.page.test.MyColorFieldTestPage;
-import com.app.ui.page.test.MyDateFieldTestPage;
-import com.app.ui.page.test.MyDialogTestPage;
-import com.app.ui.page.test.MyDomainDropdownSetValueTestPage;
-import com.app.ui.page.test.MyDownloadTestPage;
-import com.app.ui.page.test.MyDragTestPage;
-import com.app.ui.page.test.MyDraggableMultiSelectTestPage;
-import com.app.ui.page.test.MyDropzoneTestPage;
-import com.app.ui.page.test.MyEqualizeTestPage;
-import com.app.ui.page.test.MyFacebookTestPage;
-import com.app.ui.page.test.MyFieldTestPage;
-import com.app.ui.page.test.MyFieldsetTestPage;
-import com.app.ui.page.test.MyFilterTableRowTestPage;
-import com.app.ui.page.test.MyFlexboxTestPage;
-import com.app.ui.page.test.MyFormTestPage;
-import com.app.ui.page.test.MyGmailTestPage;
-import com.app.ui.page.test.MyGoogleChartTestPage;
-import com.app.ui.page.test.MyGradientTestPage;
-import com.app.ui.page.test.MyGridTestPage;
-import com.app.ui.page.test.MyGroupIconHeaderTestPage;
-import com.app.ui.page.test.MyGroupTestPage;
-import com.app.ui.page.test.MyHideErrorsTestPage;
-import com.app.ui.page.test.MyHoverTestPage;
-import com.app.ui.page.test.MyLocalValueTestPage;
-import com.app.ui.page.test.MyMemoryLeakTestPage;
-import com.app.ui.page.test.MyNavigationTest1Page;
-import com.app.ui.page.test.MyNavigationTest2Page;
-import com.app.ui.page.test.MyNotebookTestPage;
-import com.app.ui.page.test.MyNvd3ChartTestPage;
-import com.app.ui.page.test.MyOpenWindowTestPage;
-import com.app.ui.page.test.MyPaddingTestPage;
-import com.app.ui.page.test.MyPlaceholderTestPage;
-import com.app.ui.page.test.MyRadioButtonTestPage;
-import com.app.ui.page.test.MyRichTextEditorTestPage;
-import com.app.ui.page.test.MyScriptTestPage;
-import com.app.ui.page.test.MySharedStateTest1Page;
-import com.app.ui.page.test.MySharedStateTest2Page;
-import com.app.ui.page.test.MySlowTestPage;
-import com.app.ui.page.test.MySmtpTestPage;
-import com.app.ui.page.test.MySplitterTestPage;
-import com.app.ui.page.test.MyStaticIncludeTestPage;
-import com.app.ui.page.test.MyTabbedTestPage;
-import com.app.ui.page.test.MyTimeAgoTestPage;
-import com.app.ui.page.test.MyTitlePanelTestPage;
-import com.app.ui.page.test.MyToastTestPage;
+import com.app.ui.page.general.MyProjectPage;
+import com.app.ui.page.manage.project.MyProjectManagePage;
+import com.app.ui.page.manage.tenant.MyTenantManagePage;
+import com.app.ui.page.manage.user.MyUserManagePage;
+import com.app.ui.page.report.MyAuditLogReportPage;
+import com.app.ui.page.test.MyProjectDataMenuPage;
+import com.app.ui.page.test.MyTestMenuPage;
 import com.app.ui.page.test.MyWyattTestPage;
 import com.app.ui.page.tools.MyDevApplicationLogsPage;
 import com.app.ui.page.tools.MyDevApplicationPropertiesPage;
 import com.app.ui.page.tools.MyDevBeanShellPage;
+import com.app.ui.page.tools.MyDevDataFixPage;
 import com.app.ui.page.tools.MyDevEmailsPage;
 import com.app.ui.page.tools.MyDevEnvironmentVariablesPage;
 import com.app.ui.page.tools.MyDevPerformanceLogDetailPage;
 import com.app.ui.page.tools.MyDevPerformanceLogSummaryPage;
-import com.app.ui.page.tools.MyDevSampleDataPage;
 import com.app.ui.page.tools.MyDevSharedFileBrowserPage;
 import com.app.ui.page.tools.MyDevSqlPage;
 import com.app.ui.page.tools.MyDevSystemPropertiesPage;
 import com.app.ui.page.tools.MyDevUsersPage;
 import com.app.ui.page.tools.MyDevUtilityPage;
-import com.app.ui.page.tools.MyHibernateCacheTestPage;
-import com.app.ui.page.userProfile.MyUserProfilePage;
 
 public class MyMenuRegistry
 {
@@ -115,7 +45,7 @@ public class MyMenuRegistry
     public static MyMenuRegistry getInstance()
     {
         if ( _instance == null )
-            throw Kmu.newFatal("Already isntalled.");
+            throw Kmu.newFatal("Already installed.");
 
         return _instance;
     }
@@ -125,15 +55,16 @@ public class MyMenuRegistry
     //##################################################
 
     /**
-     * The root of the recursive composite.
+     * The root of the recursive composite for the left-hand menu.
      * The root itself is generally ignored.
      */
-    private MyMenuItem _root;
+    private MyMenuItem _left;
 
     /**
-     * A lookup that quickly returns the menu for a particular page (key).
+     * The root of the recursive composite for the right-hand menu.
+     * The root itself is generally ignored.
      */
-    private KmMap<String,MyMenuItem> _pageToMenuMap;
+    private MyMenuItem _right;
 
     //##################################################
     //# constructor
@@ -141,380 +72,122 @@ public class MyMenuRegistry
 
     private MyMenuRegistry()
     {
-        _root = new MyMenuItem();
-
-        register();
-        validate();
-        initLookup();
+        registerLeft();
+        registerRight();
     }
 
     //##################################################
     //# register
     //##################################################
 
-    protected void register()
+    private void registerLeft()
     {
-        registerHome();
-        registerOrders();
-        registerReports();
-        registerProjectSetup();
-        registerAdmin();
-        registerTools();
-        registerTests();
+        MyMenuItem root;
+        root = new MyMenuItem();
+        _left = root;
+
+        registerHomeMenuOn(root);
+        registerDataMenuOn(root);
+        registerReportsMenuOn(root);
+        registerAdminOn(root);
     }
 
-    private void registerHome()
+    private void registerRight()
     {
-        getRoot().addMenu("Home", MyDashboardPage.getInstance());
+        MyMenuItem root;
+        root = new MyMenuItem();
+        _right = root;
+
+        registerTestsOn(root);
+        registerToolsOn(root);
     }
 
-    private void registerOrders()
-    {
-        getRoot().addMenu("Orders", MyOrdersPage.getInstance());
-    }
+    //==================================================
+    //= register :: menus
+    //==================================================
 
-    private void registerReports()
-    {
-        getRoot().addMenu("Reports", MyReportsPage.getInstance());
-    }
-
-    private void registerProjectSetup()
+    private void registerHomeMenuOn(MyMenuItem root)
     {
         MyMenuItem top;
-        top = getRoot().addMenu("Project");
+        top = root.addMenu("Home");
+        top.setPage(MyDashboardPage.getInstance());
 
-        MyMenuItem left;
-        left = top.addMenu("Facilities");
-        left.addMenu("Depots", MyManageDepotsPage.getInstance());
-
-        left = top.addMenu("People");
-        left.addMenu("Members", MyManageMembersPage.getInstance());
-        left.addMenu("Skills", MyManageSkillsPage.getInstance());
-
-        left = top.addMenu("Catalog");
-        left.addMenu("Vendors", MyManageVendorsPage.getInstance());
-        left.addMenu("Regions", MyManageRegionsPage.getInstance());
+        top.addMenu("Dashboard", MyDashboardPage.getInstance());
     }
 
-    private void registerAdmin()
+    private void registerDataMenuOn(MyMenuItem root)
     {
         MyMenuItem top;
-        top = getRoot().addMenu("Admin");
+        top = root.addMenu("Data");
+        top.setPage(MyProjectDataMenuPage.getInstance());
 
-        MyMenuItem left;
-        left = top.addMenu("Admin");
-        left.addMenu("Users", MyManageUsersPage.getInstance());
-        left.addMenu("Projects", MyManageProjectsPage.getInstance());
+        top.addMenu("Project", MyProjectPage.getInstance()).setBottomDivider();
     }
 
-    private void registerTools()
+    private void registerReportsMenuOn(MyMenuItem root)
     {
         MyMenuItem top;
-        top = getRoot().addMenu("Tools");
-
-        MyMenuItem section;
-        section = top.addMenu("Tools");
-        section.addMenu(MyDevUtilityPage.getInstance());
-        section.addMenu(MyDevSqlPage.getInstance());
-        section.addMenu(MyDevUsersPage.getInstance());
-        section.addMenu(MyDevEmailsPage.getInstance());
-        section.addMenu(MyDevSampleDataPage.getInstance());
-        section.addMenu("Perf Detail", MyDevPerformanceLogDetailPage.getInstance());
-        section.addMenu("Perf Summary", MyDevPerformanceLogSummaryPage.getInstance());
-        section.addMenu("App Logs", MyDevApplicationLogsPage.getInstance());
-        section.addMenu("App Properties", MyDevApplicationPropertiesPage.getInstance());
-        section.addMenu(MyDevSystemPropertiesPage.getInstance());
-        section.addMenu(MyDevEnvironmentVariablesPage.getInstance());
-        section.addMenu(MyDevSharedFileBrowserPage.getInstance());
-        section.addMenu(MyDevBeanShellPage.getInstance());
+        top = root.addMenu("Reports");
+        top.addMenu("Audit Logs", MyAuditLogReportPage.getInstance());
     }
 
-    private void registerTests()
+    private void registerAdminOn(MyMenuItem root)
     {
         MyMenuItem top;
-        top = getRoot().addMenu("Tests");
+        top = root.addMenu("Admin");
+        top.setPage(MyAdminMenuPage.getInstance());
 
-        MyMenuItem personal;
-        personal = top.addMenu("Personal");
-        personal.addMenu(MyWyattTestPage.getInstance());
-
-        MyMenuItem layout;
-        layout = top.addMenu("Layout");
-        layout.addMenu(MyFlexboxTestPage.getInstance());
-        layout.addMenu(MyAbsoluteLayoutTestPage.getInstance());
-        layout.addMenu(MyAccordionTestPage.getInstance());
-        layout.addMenu(MyBorderTestPage.getInstance());
-        layout.addMenu(MyBlankTestPage.getInstance());
-        layout.addMenu(MyEqualizeTestPage.getInstance());
-        layout.addMenu(MyFormTestPage.getInstance());
-        layout.addMenu(MyGroupIconHeaderTestPage.getInstance());
-        layout.addMenu(MyGroupTestPage.getInstance());
-        layout.addMenu(MyNotebookTestPage.getInstance());
-        layout.addMenu(MyPaddingTestPage.getInstance());
-        layout.addMenu(MyPlaceholderTestPage.getInstance());
-        layout.addMenu(MyTabbedTestPage.getInstance());
-        layout.addMenu(MyBorderLayoutTestPage.getInstance());
-        layout.addMenu(MyTitlePanelTestPage.getInstance());
-        layout.addMenu(MySplitterTestPage.getInstance());
-
-        MyMenuItem fields;
-        fields = top.addMenu("Fields");
-        fields.addMenu(MyFieldTestPage.getInstance());
-        fields.addMenu(MyFieldsetTestPage.getInstance());
-        fields.addMenu(MyLocalValueTestPage.getInstance());
-        fields.addMenu(MyDateFieldTestPage.getInstance());
-        fields.addMenu(MyColorFieldTestPage.getInstance());
-        fields.addMenu(MyAutoCompleteTestPage.getInstance());
-        fields.addMenu(MyGoogleChartTestPage.getInstance());
-        fields.addMenu(MyGridTestPage.getInstance());
-        fields.addMenu(MyDropzoneTestPage.getInstance());
-        fields.addMenu(MyRadioButtonTestPage.getInstance());
-        fields.addMenu(MyDraggableMultiSelectTestPage.getInstance());
-        fields.addMenu(MyRichTextEditorTestPage.getInstance());
-        fields.addMenu(MyChoiceFieldTestPage.getInstance());
-
-        MyMenuItem misc;
-        misc = top.addMenu("Misc");
-        misc.addMenu(MyBlockTestPage.getInstance());
-        misc.addMenu(MySlowTestPage.getInstance());
-        misc.addMenu(MyToastTestPage.getInstance());
-        misc.addMenu(MyAnimationTestPage.getInstance());
-        misc.addMenu(MyHideErrorsTestPage.getInstance());
-        misc.addMenu(MyOpenWindowTestPage.getInstance());
-        misc.addMenu(MyDownloadTestPage.getInstance());
-        misc.addMenu(MyDialogTestPage.getInstance());
-        misc.addMenu(MyBarcodeTestPage.getInstance());
-        misc.addMenu(MyGradientTestPage.getInstance());
-        misc.addMenu(MyCardFlipTestPage.getInstance());
-        misc.addMenu(MyNvd3ChartTestPage.getInstance());
-        misc.addMenu(MyTimeAgoTestPage.getInstance());
-        misc.addMenu(MyFilterTableRowTestPage.getInstance());
-        misc.addMenu(MyDomainDropdownSetValueTestPage.getInstance());
-        misc.addMenu(MyCalendarTestPage.getInstance());
-
-        MyMenuItem tools;
-        tools = top.addMenu("Tools");
-        tools.addMenu(MyScriptTestPage.getInstance());
-        tools.addMenu(MyMemoryLeakTestPage.getInstance());
-        tools.addMenu(MyGmailTestPage.getInstance());
-        tools.addMenu(MySmtpTestPage.getInstance());
-        tools.addMenu(MyStaticIncludeTestPage.getInstance());
-        tools.addMenu(MyHoverTestPage.getInstance());
-        tools.addMenu(MyDragTestPage.getInstance());
-        tools.addMenu(MyFacebookTestPage.getInstance());
-        tools.addMenu(MySharedStateTest1Page.getInstance());
-        tools.addMenu(MyNavigationTest1Page.getInstance());
-        tools.addMenu(MyHibernateCacheTestPage.getInstance());
+        top.addMenu("Tenants", MyTenantManagePage.getInstance());
+        top.addMenu("Users", MyUserManagePage.getInstance());
+        top.addMenu("Projects", MyProjectManagePage.getInstance());
+        top.addMenu("More...", MyAdminMenuPage.getInstance()).setTopDivider();
     }
 
-    private KmList<ScPage> getIgnoredPages()
+    private void registerToolsOn(MyMenuItem root)
     {
-        KmList<ScPage> v;
-        v = new KmList<>();
-        v.add(MySignInPage.getInstance());
-        v.add(MySignOutPage.getInstance());
-        v.add(MyPasswordResetPage.getInstance());
-        v.add(MyUserProfilePage.getInstance());
-        v.add(MyUserActivationPage.getInstance());
-        v.add(MyTimeoutPage.getInstance());
-        v.add(MySharedStateTest2Page.getInstance());
-        v.add(MyNavigationTest2Page.getInstance());
-        return v;
+        MyMenuItem top;
+        top = root.addMenu("Tools");
+        top.setPage(MyDevSqlPage.getInstance());
+
+        top.addMenu(MyDevSqlPage.getInstance());
+        top.addMenu(MyDevUtilityPage.getInstance());
+        top.addMenu(MyDevUsersPage.getInstance());
+        top.addMenu(MyDevEmailsPage.getInstance());
+
+        top.addMenu("Perf Detail", MyDevPerformanceLogDetailPage.getInstance());
+        top.addMenu("Perf Summary", MyDevPerformanceLogSummaryPage.getInstance());
+        top.addMenu("App Logs", MyDevApplicationLogsPage.getInstance());
+        top.addMenu("App Properties", MyDevApplicationPropertiesPage.getInstance());
+        top.addMenu("Sys Properties", MyDevSystemPropertiesPage.getInstance());
+        top.addMenu("Env Variables", MyDevEnvironmentVariablesPage.getInstance())
+            .setBottomDivider();
+
+        top.addMenu(MyDevSharedFileBrowserPage.getInstance());
+        top.addMenu(MyDevBeanShellPage.getInstance());
+        top.addMenu(MyDevDataFixPage.getInstance()).setBottomDivider();
     }
 
-    private KmList<String> getIgnoredPageKeys()
+    private void registerTestsOn(MyMenuItem root)
     {
-        KmList<String> v = new KmList<>();
+        MyMenuItem top;
+        top = root.addMenu("Tests");
+        top.setPage(MyTestMenuPage.getInstance());
 
-        for ( ScPage e : getIgnoredPages() )
-            v.add(e.getKey());
-
-        return v;
-    }
-
-    //##################################################
-    //# validate
-    //##################################################
-
-    protected void validate()
-    {
-        validateItems();
-        validateDuplicatePages();
-        validateMissingPages();
-        validateIngoredPages();
-    }
-
-    private void validateItems()
-    {
-        validateItems(getRoot());
-    }
-
-    private void validateItems(MyMenuItem p)
-    {
-        validateItem(p);
-
-        for ( MyMenuItem e : p.getSubMenus() )
-            validateItems(e);
-    }
-
-    private void validateItem(MyMenuItem e)
-    {
-        if ( e.isRoot() )
-            return;
-
-        if ( !e.hasTitle() )
-            warn("Menu with no title");
-
-        int depth = e.getDepth();
-
-        if ( depth == 1 )
-            validateTop(e);
-
-        if ( depth == 2 )
-            validateLeftSection(e);
-
-        if ( depth == 3 )
-            validateLeftItem(e);
-
-        if ( depth > 3 )
-            warn("Menu %s exceeds maximum depth.", e.getTitle());
-    }
-
-    private void validateTop(MyMenuItem e)
-    {
-        if ( !e.hasPages() && !e.hasSubMenus() )
-            warn("Top Menu [%s] must have either a page or sub menu.", e.getTitle());
-
-        if ( e.hasPages() && e.hasSubMenus() )
-            warn("Top Menu %s cannot have both a page and sub menu.", e.getTitle());
-    }
-
-    private void validateLeftSection(MyMenuItem e)
-    {
-        if ( e.hasPages() )
-            warn("Left menu section [%s] cannot link directly to pages.", e.getTitle());
-
-        if ( e.isLeaf() )
-            warn("Left menu section [%s] must contain sub menus.", e.getTitle());
-    }
-
-    private void validateLeftItem(MyMenuItem e)
-    {
-        if ( !e.hasPages() )
-            warn("Left menu item [%s] link to at least one page.", e.getTitle());
-    }
-
-    private void validateDuplicatePages()
-    {
-        KmList<String> dups = getMenuPageKeys().getDuplicates();
-        if ( dups.isNotEmpty() )
-            KmLog.warnTrace("You cannot assign a page to multiple menus: %s.", dups.join());
-    }
-
-    private void validateMissingPages()
-    {
-        KmList<String> missing;
-        missing = getAllPageKeys().getShallowCopy();
-        missing.removeAll(getMenuPageKeys());
-        missing.removeAll(getIgnoredPageKeys());
-
-        if ( missing.isNotEmpty() )
-            KmLog.warnTrace(
-                "The following pages are not linked to the menu registry: %s.",
-                missing.join());
-    }
-
-    private void validateIngoredPages()
-    {
-        KmList<String> menuPages = getMenuPageKeys();
-        KmList<String> ignoredPages = getIgnoredPageKeys();
-
-        KmList<String> v;
-        v = new KmList<>();
-        v.addAll(menuPages);
-        v.addAll(ignoredPages);
-
-        KmList<String> dups = v.getDuplicates();
-        if ( dups.isNotEmpty() )
-            warn(
-                "Menu registry, the following pages are both used and also 'ignored': %s.",
-                dups.join());
-    }
-
-    //##################################################
-    //# lookup
-    //##################################################
-
-    public MyMenuItem findTopMenuFor(ScPage e)
-    {
-        MyMenuItem m = findMenuFor(e);
-
-        if ( m == null )
-            return null;
-
-        if ( m.isRoot() )
-            return null;
-
-        while ( !m.isTop() )
-            m = m.getParent();
-
-        return m;
-    }
-
-    public MyMenuItem findMenuFor(ScPage e)
-    {
-        return findMenuFor(e.getKey());
-    }
-
-    public MyMenuItem findMenuFor(String pageKey)
-    {
-        return _pageToMenuMap.get(pageKey);
-    }
-
-    private void initLookup()
-    {
-        _pageToMenuMap = new KmMap<>();
-
-        initLookup(getRoot());
-    }
-
-    private void initLookup(MyMenuItem menu)
-    {
-        KmList<String> keys = menu.getPageKeys();
-        for ( String key : keys )
-            _pageToMenuMap.put(key, menu);
-
-        KmList<MyMenuItem> children = menu.getSubMenus();
-        for ( MyMenuItem child : children )
-            initLookup(child);
+        top.addMenu(MyWyattTestPage.getInstance());
+        top.addMenu("More...", MyTestMenuPage.getInstance()).setTopDivider();
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public MyMenuItem getRoot()
+    public MyMenuItem getLeftRoot()
     {
-        return _root;
+        return _left;
     }
 
-    //##################################################
-    //# support
-    //##################################################
-
-    private KmList<String> getMenuPageKeys()
+    public MyMenuItem getRightRoot()
     {
-        return getRoot().collectPageKeys();
+        return _right;
     }
-
-    private KmList<String> getAllPageKeys()
-    {
-        return MyPageRegistry.getInstance().getPageKeys();
-    }
-
-    private void warn(String msg, Object... args)
-    {
-        KmLog.warnTrace(msg, args);
-    }
-
 }

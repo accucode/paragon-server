@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,10 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.action.ScContextIF;
+import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.action.ScContextSupplierIF;
+import com.kodemore.servlet.action.ScErrorManagerIF;
+import com.kodemore.servlet.action.ScSecurityManagerIF;
 
 /**
  * I am typically the root control for each page.  I act as
@@ -31,30 +34,55 @@ import com.kodemore.servlet.action.ScContextIF;
  * logging.
  */
 public class ScPageRoot
-    extends ScBox
+    extends ScDiv
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScContextIF _context;
+    private ScContextSupplierIF _contextSupplier;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScPageRoot(ScContextIF e)
+    public ScPageRoot(ScContextSupplierIF e)
     {
-        _context = e;
+        _contextSupplier = e;
+        css().content_pageRoot().flexChildFiller();
     }
 
     //##################################################
-    //# accessing
+    //# render
     //##################################################
 
     @Override
-    public ScContextIF getContext()
+    protected void renderControlOn(KmHtmlBuilder out)
     {
-        return _context;
+        renderPageCommentOn(out);
+
+        super.renderControlOn(out);
+    }
+
+    private void renderPageCommentOn(KmHtmlBuilder out)
+    {
+        if ( getBridge().getRenderDebugDomComments() )
+            out.printComment(_contextSupplier.getClass().getSimpleName());
+    }
+
+    //##################################################
+    //# context
+    //##################################################
+
+    @Override
+    public ScSecurityManagerIF getSecurityManager()
+    {
+        return _contextSupplier.getSecurityManager();
+    }
+
+    @Override
+    public ScErrorManagerIF getErrorManager()
+    {
+        return _contextSupplier.getErrorManager();
     }
 }

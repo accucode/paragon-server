@@ -23,19 +23,27 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The unique key.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
 
     field
     : name      = createdUtcTs
-    : help      = The date and time when this log was created.
+    : help      = The time this record was originally created.
     : type      = timestamp
-    : default   = getNowUtc()
     : required  = true
+    : default   = nowUtc()
+
+
+    //*****************************************************
+    //** fields
+    //*****************************************************
+
 
     field
     : name      = loggerName
@@ -43,35 +51,60 @@ attributes
     : type      = text100
     : required  = true
 
+
     field
     : name      = context
     : help      = The nested diagnostic context; used to distinguish threads.
     : type      = text100
+
 
     field
     : name      = message
     : help      = The plain text message describing the log event.
     : type      = multiline100
 
+
+    //*****************************************************
+    //** level
+    //*****************************************************
+
+
     field
     : name      = levelName
     : help      = The display name for the severity level. E.g.: info, warn, error.
     : type      = text5
 
+
     field
     : name      = levelCode
-    : help      = The severity level code. This can be used to find all events that are high or lower than some level.
+    : help...
+        ---
+        The severity level code. This can be used to find all events
+        that are high or lower than some level.
+        ---
     : type      = integer
+
 
     abstractField
     : name      = levelCodeName
     : help      = A combination of the code and name for display.
     : type      = calculated
 
+
+    //*****************************************************
+    //** thread
+    //*****************************************************
+
+
     field
     : name      = threadName
-    : help      = The java thread name.  This is not directly useful except to determine which logs are generated from the same JVM thread.
+    : help...
+        ---
+        The java thread name. This is not directly useful except to determine
+        which logs are generated from the same JVM thread.
+        ---
     : type      = text100
+
 
     field
     : name      = trace

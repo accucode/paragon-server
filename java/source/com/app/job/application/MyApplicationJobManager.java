@@ -11,6 +11,7 @@ public class MyApplicationJobManager
         add(new MySendEmailJob());
         add(new MyPerformanceLogFlusherJob());
         add(new MyApplicationLogFlusherJob());
+        add(new MyClearThemeCacheJob());
         add(new MyMaintenanceJob());
     }
 }

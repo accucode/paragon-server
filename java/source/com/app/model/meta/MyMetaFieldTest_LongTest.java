@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaFieldTest_LongTest
     {
         return null;
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaFieldTest_LongTest
         return getAccess().getFieldTestDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaFieldTest_LongTest
     {
         return model.getLongTest();
     }
-    
+
     @Override
     public void setValueFor(MyFieldTest model, Long value)
     {
         model.setLongTest(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyFieldTest model, Long value)
     {
         return model.hasLongTest(value);
     }
-    
+
 }

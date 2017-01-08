@@ -27,24 +27,23 @@ public abstract class KmProtoTypes
     private static KmMap<String,KmProtoType> composeMap()
     {
         KmMap<String,KmProtoType> m = new KmMap<>();
-
-        add(m, new KmProtoBoolean());
         add(m, new KmProtoBlob());
-        add(m, new KmProtoHtmlColor());
+        add(m, new KmProtoBoolean());
+        add(m, new KmProtoCost());
         add(m, new KmProtoDate());
         add(m, new KmProtoDayFrequency());
         add(m, new KmProtoDouble());
+        add(m, new KmProtoDuration());
+        add(m, new KmProtoHtmlColor());
         add(m, new KmProtoInteger());
+        add(m, new KmProtoKilogram());
         add(m, new KmProtoLong());
         add(m, new KmProtoMoney());
-        add(m, new KmProtoKilogram());
         add(m, new KmProtoQuantity());
         add(m, new KmProtoRate());
-        add(m, new KmProtoCost());
         add(m, new KmProtoString());
         add(m, new KmProtoTime());
         add(m, new KmProtoTimestamp());
-
         return m;
     }
 

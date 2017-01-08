@@ -3,9 +3,12 @@ package com.app.model;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyAuditLogBase;
+import com.app.model.base.MyAuditLogType;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyAuditLog
     extends MyAuditLogBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor
@@ -24,7 +27,7 @@ public class MyAuditLog
     protected void updateUserName()
     {
         if ( hasUser() )
-            setUserName(getUser().getName());
+            setUserName(getUser().getFullName());
         else
             clearUserName();
     }
@@ -36,7 +39,19 @@ public class MyAuditLog
     @Override
     public String getDisplayString()
     {
-        return getModelName() + "." + getFieldName();
+        return getDomainName() + "." + getFieldName();
+    }
+
+    @Override
+    public String getDomainTypeLabel()
+    {
+        return Kmu.formatAsCapitalizedNames(getDomainType());
+    }
+
+    @Override
+    public String getFieldNameLabel()
+    {
+        return Kmu.formatAsCapitalizedNames(getFieldName());
     }
 
     //##################################################
@@ -70,8 +85,8 @@ public class MyAuditLog
         return Kmu.format(
             "%s added %s %s; set %s = [%s].",
             formatMessageUserName(),
-            getModelType(),
-            getModelName(),
+            getDomainType(),
+            getDomainName(),
             getFieldName(),
             getNewValue());
     }
@@ -81,8 +96,8 @@ public class MyAuditLog
         return Kmu.format(
             "%s updated %s %s; changed %s from [%s] to [%s].",
             formatMessageUserName(),
-            getModelType(),
-            getModelName(),
+            getDomainType(),
+            getDomainName(),
             getFieldName(),
             getOldValue(),
             getNewValue());
@@ -93,16 +108,16 @@ public class MyAuditLog
         return Kmu.format(
             "%s deleted %s %s; %s was [%s].",
             formatMessageUserName(),
-            getModelType(),
-            getModelName(),
+            getDomainType(),
+            getDomainName(),
             getFieldName(),
             getOldValue());
     }
 
-    private String formatMessageUserName()
+    public String formatMessageUserName()
     {
         return hasUser()
             ? getUserName()
-            : "System";
+            : MyUser.SYSTEM_NAME;
     }
 }

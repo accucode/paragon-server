@@ -6,12 +6,11 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
 import com.kodemore.servlet.control.ScFilterBox;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScEnumDropdownField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.time.KmTimestamp;
 
@@ -49,11 +48,11 @@ public final class MyDevPerformanceLogDetailPage
     //# variables
     //##################################################
 
-    private ScFilterBox _filterBox;
-    private ScTextField _nameField;
-    private ScDateField _startDateField;
-    private ScDateField _endDateField;
-    private ScDropdown  _sortField;
+    private ScFilterBox                    _filterBox;
+    private ScTextField                    _nameField;
+    private ScDateField                    _startDateField;
+    private ScDateField                    _endDateField;
+    private ScEnumDropdownField            _sortField;
 
     private ScGrid<MyPerformanceLogDetail> _grid;
 
@@ -90,17 +89,13 @@ public final class MyDevPerformanceLogDetailPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fill();
+        root.css().fill().flexColumn().columnSpacer10();
 
-        ScFlexbox col;
-        col = root.addColumn();
-        col.css().fill().gap();
-
-        installFilterOn(col);
-        installGridOn(col);
+        installFilterOn(root);
+        installGridOn(root);
     }
 
-    private void installFilterOn(ScFlexbox col)
+    private void installFilterOn(ScDiv root)
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
@@ -112,38 +107,32 @@ public final class MyDevPerformanceLogDetailPage
         _endDateField = new ScDateField();
         _endDateField.disableChangeTracking();
 
-        _sortField = new ScDropdown();
+        _sortField = new ScEnumDropdownField();
         _sortField.setLabel("Sort");
         _sortField.addOptions(MyPerformanceLogDetailFilter.Sort.values());
         _sortField.setValue(MyPerformanceLogDetailFilter.Sort.CreatedUtcTs);
         _sortField.disableChangeTracking();
 
-        ScDiv root;
-        root = col.addDiv();
-        root.css().flexStatic().relative();
-
         _filterBox = root.addFilterBox("Search");
         _filterBox.setAction(this::handleSearch);
+        _filterBox.getFormWrapper().css().flexChildStatic();
 
         ScFieldLayout fields;
         fields = _filterBox.addFieldLayout();
         fields.add(_nameField);
 
-        ScFlexbox dateBox;
-        dateBox = fields.addRow();
+        ScDiv dateBox;
+        dateBox = fields.addFlexRow();
+        dateBox.css().flexCrossAlignCenter().rowSpacer5();
         dateBox.setLabel("Date");
-        dateBox.crossAlignCenter();
         dateBox.add(_startDateField);
-        dateBox.addSpace();
-        dateBox.addText("to");
-        dateBox.addSpace();
+        dateBox.addTextSpan("to");
         dateBox.add(_endDateField);
-        dateBox.addFiller();
 
         fields.add(_sortField);
     }
 
-    private void installGridOn(ScFlexbox col)
+    private void installGridOn(ScDiv root)
     {
         MyMetaPerformanceLogDetail x = MyPerformanceLogDetail.Meta;
 
@@ -156,17 +145,13 @@ public final class MyDevPerformanceLogDetailPage
         _grid.addColumn(x.DurationMs);
         _grid.layoutFill();
 
-        ScDiv root;
-        root = col.addDiv();
-        root.css().flexFiller().relative();
-
         ScGroup group;
         group = root.addGroup("Results");
-        group.css().fill();
+        group.css().flexChildFiller();
 
         ScDiv body;
         body = group.getBody();
-        body.css().relative().noBorder();
+        body.css().noBorder();
         body.add(_grid);
     }
 
@@ -220,7 +205,7 @@ public final class MyDevPerformanceLogDetailPage
 
                 f.sortDescending();
                 if ( _sortField.hasValue() )
-                    f.sortOn(_sortField.getIntegerValue());
+                    f.sortOn(_sortField.getValue());
                 else
                     f.sortOnCreatedUtcTs();
 

@@ -27,6 +27,7 @@ public interface MyApplicationLogDaoConstantsIF
     String THREAD_NAME = "threadName";
     String TRACE = "trace";
     String LEVEL_CODE_NAME = "levelCodeName";
+    String DISPLAY_STRING = "displayString";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

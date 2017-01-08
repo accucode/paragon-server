@@ -14,28 +14,29 @@ public class JkRegex
 
     private void run()
     {
-        test();
+        // test();
+        testMacro();
         // testLog();
         // testPath();
         // testGroup();
     }
 
-    protected void test()
+    protected void testMacro()
     {
         String source;
-        source = "a-bbb";
+        source = "Name $(name) and Phone $(phone).";
 
         String regex;
-        regex = "([^-]+)-([^-]+)";
+        regex = "\\$\\(.*?\\)";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(source);
-        boolean matches = matcher.matches();
 
-        System.out.println("JkRegex.test");
-        System.out.println("    source:  " + source);
-        System.out.println("    regex:   " + regex);
-        System.out.println("    matches: " + matches);
+        while ( matcher.find() )
+        {
+            String group = matcher.group();
+            System.out.println(group);
+        }
     }
 
     protected void testGroup()

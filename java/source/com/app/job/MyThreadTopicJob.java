@@ -15,6 +15,7 @@ import com.app.utility.MyThreadTopicClient;
  * If a single transaction takes too long, then another JVM may think that the
  * current owner died and attempt to take over.  See MyThreadTopic for the
  * pertinent constants.
+ * @see MyThreadTopic
  */
 public abstract class MyThreadTopicJob
     extends MyJob

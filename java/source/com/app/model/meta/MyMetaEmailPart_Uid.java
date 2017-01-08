@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaEmailPart_Uid
     @Override
     public String getHelp()
     {
-        return null;
+        return "The global unique key.  This is a large hex-encoded number, and is usually not displayed to users.  This is currently NOT a standard format, but is instead a format that we use internally.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmailPart_Uid
         return getAccess().getEmailPartDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmailPart_Uid
     {
         return model.getUid();
     }
-    
+
     @Override
     public void setValueFor(MyEmailPart model, String value)
     {
         model.setUid(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmailPart model, String value)
     {
         return model.hasUid(value);
     }
-    
+
 }

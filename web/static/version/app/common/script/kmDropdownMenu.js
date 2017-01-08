@@ -2,7 +2,7 @@
 //**
 //** Support methods for the dropdownMenu.
 //** Dependencies: jquery
-//** dropdownMenu.css
+//** dropdownMenu.styl
 //**
 //**********************************************************
 
@@ -15,20 +15,20 @@ var KmDropdownMenu = {};
  */
 KmDropdownMenu.installAutoClose = function()
 {
-    $(document).click(function() 
+    $(document).click(function()
     {
         $('.dropdownMenu').removeClass('open');
     });
 }
-        
+
 
 /**
  * Install the function that toggles the menu open and/or closed
  * when the outer div is clicked.
- * 
+ *
  * The parameter may be either a jquery reference to the wrapper,
  * or a css selector (e.g.: '#someId') that identifies the wrapper.
- * 
+ *
  * The parameter is optional.  If not specified, the default value
  * of '.dropdownMenu' is used.
  */
@@ -36,7 +36,7 @@ KmDropdownMenu.installMenu = function(e)
 {
     if ( !e )
         e = '.dropdownMenu';
-    
+
     $(e).each(function()
     {
         var self = $(this);
@@ -44,7 +44,7 @@ KmDropdownMenu.installMenu = function(e)
         {
             self.toggleClass('open');
             ev.stopPropagation();
-        }); 
+        });
     });
 }
-        
+

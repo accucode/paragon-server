@@ -43,6 +43,16 @@ public class MyUserActivationJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
     public KmhStringCondition whereEmail()
     {
         return new KmhStringCondition(context(), fullName(EMAIL));
@@ -51,11 +61,6 @@ public class MyUserActivationJunction
     public KmhStringCondition whereToken()
     {
         return new KmhStringCondition(context(), fullName(TOKEN));
-    }
-
-    public KmhTimestampCondition whereCreatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhTimestampCondition whereExpirationUtcTs()

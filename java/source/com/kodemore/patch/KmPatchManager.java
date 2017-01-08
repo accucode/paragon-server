@@ -34,7 +34,7 @@ public class KmPatchManager
     //# variables
     //##################################################
 
-    private static final String DATABASE_PATCH_MANAGER_LOCK = "DATABASE.PATCH_MANAGER";
+    private static final String   DATABASE_PATCH_MANAGER_LOCK = "DATABASE.PATCH_MANAGER";
 
     /**
      * The patches available on the local file system.
@@ -49,9 +49,9 @@ public class KmPatchManager
     /*
      * Allows logging  to be specified, default is to console
      */
-    private KmLogPrinter _log;
+    private KmLogPrinter          _log;
 
-    private KmDatabaseTool _dbTools;
+    private KmDatabaseTool        _dbTools;
 
     //##################################################
     //# constructor
@@ -469,7 +469,7 @@ public class KmPatchManager
     private void generateDefaultPatch()
     {
         KmFile dir = getLocalPatchDirectory();
-        KmTimestamp now = KmClock.getNowUtc();
+        KmTimestamp now = KmClock.getUtcTimestamp();
         String name = "patch_" + now.format_yyyymmdd_hhmmss() + ".txt";
         KmFile child = dir.getChild(name);
 

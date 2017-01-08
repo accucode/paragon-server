@@ -13,14 +13,14 @@ public abstract class MyDomainValidator<T>
     //# validate
     //##################################################
 
-    public boolean isValid(T value)
+    public final boolean isValid(T value)
     {
         KmList<KmErrorIF> errors = new KmList<>();
         validate(value, errors);
         return errors.isEmpty();
     }
 
-    public void validate(T value)
+    public final void validate(T value)
     {
         KmList<KmErrorIF> errors = new KmList<>();
         validate(value, errors);
@@ -28,7 +28,7 @@ public abstract class MyDomainValidator<T>
             throw new KmApplicationException(errors);
     }
 
-    public void validateWarn(T value)
+    public final void validateWarn(T value)
     {
         KmList<KmErrorIF> errors = new KmList<>();
         validate(value, errors);
@@ -36,7 +36,7 @@ public abstract class MyDomainValidator<T>
             KmLog.warnTrace(errors.getFirst().formatMessage());
     }
 
-    public void validate(T value, KmList<KmErrorIF> errors)
+    public final void validate(T value, KmList<KmErrorIF> errors)
     {
         convertOnly(value);
         validateOnly(value, errors);

@@ -1,5 +1,6 @@
 package com.app.ui.layout;
 
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.control.ScDiv;
 
@@ -15,26 +16,36 @@ public class MyPageFooter
     private ScDiv _inner;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyPageFooter()
     {
-        super.install();
-
-        setHtmlId(KmCssDefaultConstantsIF.ID_appFooter);
+        setHtmlId(KmCssDefaultConstantsIF.ID_footer);
 
         _inner = addDiv();
-        _inner.css().appFooterInner();
+        _inner.css().footer_text();
     }
 
     //##################################################
     //# ajax
     //##################################################
 
+    public void ajaxRefreshContent(boolean show)
+    {
+        ajaxShow(show);
+        ajaxRefreshContent();
+    }
+
     public void ajaxRefreshContent()
     {
-        _inner.ajax().setHtml(MyConstantsIF.COPYRIGHT_HTML);
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printLiteral(MyConstantsIF.COPYRIGHT_HTML);
+        out.print(", ");
+        out.print(MyConstantsIF.APPLICATION_VERSION);
+
+        _inner.ajaxSetHtml(out);
     }
+
 }

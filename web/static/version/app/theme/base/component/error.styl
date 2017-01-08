@@ -1,0 +1,46 @@
+/*****************************
+ ** error
+ *****************************/
+
+/*
+ * I am used to identify all error elements regardless of their
+ * visual style so that they can be easily identified and hidden.
+ * I should not contain any styling.
+ */
+.error
+{
+    /* noop - no compression */
+    content: normal;
+}
+
+/*****************************
+ ** attached
+ *****************************/
+
+.error-attachedBox
+    /* Stylus Compression Hack, see comment above. */
+    content: normal;
+
+.error-attachedBox .error
+    font:               $error-attachedFont
+    color:              $error-attachedColor
+    background:         $error-attachedBackground
+    border:             $error-attachedBorder
+    padding:            $error-attachedPadding
+    margin:             $error-attachedMargin
+
+/*****************************
+ ** detached
+ *****************************/
+
+.error-detachedBox
+    /* noop - no compression */
+    content: normal;
+
+.error-detachedBox .error
+    font:               $error-detachedFont
+    color:              $error-detachedColor
+    background:         $error-detachedBackground
+    border:             $error-detachedBorder
+    padding:            $error-detachedPadding
+    margin:             $error-detachedMargin

@@ -71,6 +71,21 @@ public class MyResourceFiles
         return getChild("html/pageLayout.html");
     }
 
+    public KmFile getOneAllHead()
+    {
+        return getChild("html/oneAllHead.html");
+    }
+
+    public KmFile getOneAllBody()
+    {
+        return getChild("html/oneAllBody.html");
+    }
+
+    public KmFile getEmailStyle()
+    {
+        return getChild("html/emailStyle.html");
+    }
+
     public KmFile getHibernateFolder()
     {
         return getChild("hibernate");
@@ -94,6 +109,11 @@ public class MyResourceFiles
     public KmFile getBeanShellScriptFolder()
     {
         return getChild("beanshell");
+    }
+
+    public KmFile getDataExportStyle()
+    {
+        return getChild("html/dataExportStyle.html");
     }
 
     //##################################################

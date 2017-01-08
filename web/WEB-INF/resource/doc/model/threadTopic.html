@@ -16,336 +16,390 @@
 <body>
 <h1>threadTopic</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>I help to ensure that only one thread runs a particular activity (topic), even across multiple JVMs.
+ To correctly ensure that only one JVM is running a given task, every JVM must check this table before starting a particular topic.  Additionally, once a particular JVM is assigned ownership, it must 'touch' the pertinent topic at least once a minute, updating the lastTouched time.  Without this touch, a long running task will eventually be deemed hung/dead, and another JVM will be allowed to become the new owner.  This could result in multiple threads running the same task.  To avoid this, break long running tasks into smaller database transactions, and ensure that the topic is 'touched' periodically.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
   <td>code&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The unique key. In practice, this is often the (simple) name of the java class that is being run.  The names generally do not matter, as long as they are consistent across all JVMs.<br>
-            &nbsp;
-  </td>
-  
+
   <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-            pk<br>                required<br>           &nbsp;
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    The unique key&#46; In practice&#44; this is often the &#40;simple&#41; name of the java class that is being run&#46;  The names generally do not matter&#44; as long as they are consistent across all JVMs&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>ownerUid&nbsp;</td>
-  
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The unique id of a particular JVM.  This is typically generated as a random UID within the JVM rather than trying to rely on an externally generated value.  It is understood that restarting a JVM will likely change the ownerUid even if it is the only JVM on that machine.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
   </td>
-</tr>
-<tr>
-  <td>hostName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The host machine on which the current owner is running. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>hostAddress&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The host machine on which the current owner is running. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
+
   <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    The host machine on which the current owner is running&#46; This is only used for auditing&#59; not for coordinating ownership&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>lastStartUtcTs&nbsp;</td>
-  
+  <td>hostName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
+                                        &nbsp;
   </td>
-  
-  <td>timestamp
-              </td>
+
   <td>
-                         &nbsp;
+    The host machine on which the current owner is running&#46; This is only used for auditing&#59; not for coordinating ownership&#46;
+    &nbsp;
   </td>
-</tr>
-<tr>
-  <td>lastEndUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastTouchUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
-  <td>lockVersion
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastStartLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastStartLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastStartLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>date
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastStartLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>time
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastEndLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastEndLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>lastEndLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last end date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lastEndLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last end time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>lastTouchLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.<br>
-            &nbsp;
-  </td>
-  
+  <td>lastEndLocalTs&nbsp;</td>
+
   <td>timestamp
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last end timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>lastTouchLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.<br>
-            &nbsp;
-  </td>
-  
+  <td>lastEndLocalTsMessage&nbsp;</td>
+
   <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last end timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastEndUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The last time the owner ENDED this task&#46; This is only used for auditing&#59; not for coordinating ownership&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastStartLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last start date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastStartLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last start time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastStartLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last start timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastStartLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last start timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastStartUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The last time the owner ENDED this task&#46; This is only used for auditing&#59; not for coordinating ownership&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lastTouchLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last touch date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lastTouchLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last touch time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last touch timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last touch timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The last time the owner TOUCHED this task&#46; This is used to coordinate ownership&#46; JVM may shutdown&#44; get restarted&#44; or simply hang completely&#46; If the current owner has not touched the record in the last 10 minutes&#44; then it is assumed that the owner has died and that someone else should be assigned as the owner&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>ownerUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The unique id of a particular JVM&#46;  This is typically generated as a random UID within the JVM rather than trying to rely on an externally generated value&#46;  It is understood that restarting a JVM will likely change the ownerUid even if it is the only JVM on that machine&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

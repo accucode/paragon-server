@@ -14,6 +14,11 @@ public class KmSqlResultComposer
     //# variables
     //##################################################
 
+    /**
+     * When false, all changed will be rolled back instead of committed.
+     */
+    private boolean              _allowUpdates;
+
     private KmList<String>       _schemas;
     private KmList<String>       _sqlStatements;
     private KmSqlConnection      _connection;
@@ -25,9 +30,29 @@ public class KmSqlResultComposer
 
     public KmSqlResultComposer()
     {
+        _allowUpdates = true;
         _schemas = new KmList<>();
         _sqlStatements = new KmList<>();
         formatCsvNormal();
+    }
+
+    //##################################################
+    //# allow updates
+    //##################################################
+
+    public boolean allowsUpdates()
+    {
+        return _allowUpdates;
+    }
+
+    private boolean isRollback()
+    {
+        return !allowsUpdates();
+    }
+
+    public void setAllowUpdates(boolean e)
+    {
+        _allowUpdates = e;
     }
 
     //##################################################
@@ -129,7 +154,9 @@ public class KmSqlResultComposer
         {
             _connection = openConnection(schema);
             processStatements(schema);
-            _connection.commit();
+
+            if ( allowsUpdates() )
+                _connection.commit();
         }
         finally
         {
@@ -166,7 +193,7 @@ public class KmSqlResultComposer
                     if ( count < 0 )
                         return true;
 
-                    _formatter.formatUpdate(schema, sql, count, t);
+                    _formatter.formatUpdate(schema, sql, count, t, isRollback());
                 }
                 isResult = st._getMoreResults();
             }

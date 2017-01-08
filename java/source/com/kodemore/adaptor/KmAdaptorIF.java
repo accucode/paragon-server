@@ -2,23 +2,25 @@ package com.kodemore.adaptor;
 
 import java.util.function.Function;
 
-public interface KmAdaptorIF<M, V>
+public interface KmAdaptorIF<T, V>
+    extends Function<T,V>
 {
     //##################################################
     //# interface
     //##################################################
 
-    V getValue(M model);
+    V getValue(T model);
 
-    void setValue(M model, V value);
+    void setValue(T model, V value);
 
     //##################################################
     //# default
     //##################################################
 
-    default Function<M,V> toFunction()
+    @Override
+    default V apply(T m)
     {
-        return this::getValue;
+        return getValue(m);
     }
 
 }

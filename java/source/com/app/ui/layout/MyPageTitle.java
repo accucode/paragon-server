@@ -5,15 +5,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScImage;
-import com.kodemore.servlet.control.ScScriptLink;
 import com.kodemore.servlet.control.ScTextSpan;
-import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScScriptIF;
-import com.kodemore.servlet.script.ScSimpleBlockScript;
-import com.kodemore.servlet.utility.ScJquery;
-
-import com.app.model.MyProject;
-import com.app.utility.MyGlobals;
 
 public class MyPageTitle
     extends ScDiv
@@ -24,60 +16,41 @@ public class MyPageTitle
 
     private ScDiv      _left;
     private ScTextSpan _nameText;
-    private ScTextSpan _projectText;
 
-    private ScDiv   _right;
-    private ScImage _helpImage;
+    private ScDiv      _right;
+    private ScImage    _helpImage;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyPageTitle()
     {
-        super.install();
-
-        setHtmlId(KmCssDefaultConstantsIF.ID_appTitle);
+        setHtmlId(KmCssDefaultConstantsIF.ID_title);
 
         _left = addDiv();
-        _left.css().appTitle_left();
+        _left.css().title_left();
 
         _nameText = _left.addTextSpan();
-        _nameText.css().appTitle_nameText();
-
-        _projectText = _left.addTextSpan();
-        _projectText.css().appTitle_projectText();
+        _nameText.css().title_nameText();
 
         _right = addDiv();
-        _right.css().appTitle_right();
-
-        ScScriptLink toggleHelpLink;
-        toggleHelpLink = _right.addScriptLink();
-        toggleHelpLink.css().clear().appTitle_link();
-        toggleHelpLink.setText("toggle field help");
-        toggleHelpLink.setScript(getToggleFieldHelpScript());
-        toggleHelpLink.hide();
+        _right.css().title_right();
 
         _helpImage = _right.addImage();
-        _helpImage.css().appTitle_help();
+        _helpImage.css().title_help();
         _helpImage.style().hide();
-    }
-
-    private ScScriptIF getToggleFieldHelpScript()
-    {
-        String css = KmCssDefaultConstantsIF.formHelp;
-        String sel = ScJquery.formatCssSelector(css);
-
-        ScBlockScript e;
-        e = new ScSimpleBlockScript();
-        e.toggle(sel);
-        return e;
     }
 
     //##################################################
     //# refresh
     //##################################################
+
+    public void ajaxRefreshContentFor(ScPage page, boolean visible)
+    {
+        ajaxShow(visible);
+        ajaxRefreshContentFor(page);
+    }
 
     public void ajaxRefreshContentFor(ScPage page)
     {
@@ -87,8 +60,7 @@ public class MyPageTitle
 
     private void _ajaxRefreshTitleFor(ScPage page)
     {
-        _nameText.ajax().setContents(formatNameHtml(page));
-        _projectText.ajax().setContents(formatProjectHtml());
+        _nameText.ajaxSetContents(formatNameHtml(page));
     }
 
     private KmHtmlBuilder formatNameHtml(ScPage page)
@@ -99,35 +71,15 @@ public class MyPageTitle
         return out;
     }
 
-    private KmHtmlBuilder formatProjectHtml()
-    {
-        MyProject p = MyGlobals.getServerSession().getCurrentProject();
-        if ( p == null )
-            return null;
-
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printf("(%s)", p.getName());
-        return out;
-    }
-
     private void _ajaxRefreshHelpFor(ScPage page)
     {
         if ( !page.hasHelpMessage() )
         {
-            _helpImage.ajax().hide();
+            _helpImage.ajaxHide();
             return;
         }
 
-        _helpImage.ajax().setAttribute("title", page.getHelpMessage());
-        _helpImage.ajax().show();
-    }
-
-    public void glowOn(ScBlockScript script)
-    {
-        int ms = 500;
-
-        script.glowColor(_nameText).setSpeed(ms);
-        script.glowColor(_projectText).setSpeed(ms);
+        _helpImage.ajaxSetAttribute("title", page.getHelpMessage());
+        _helpImage.ajaxShow();
     }
 }

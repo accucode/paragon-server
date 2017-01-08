@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,13 +37,14 @@ public class ScFieldset
     private static final String PREFIX         = KmCssDefaultConstantsIF.fieldset_prefix;
     private static final String PART_BODY      = KmCssDefaultConstantsIF.fieldset_part_body;
     private static final String PART_LEGEND    = KmCssDefaultConstantsIF.fieldset_part_legend;
+
     private static final String FLAVOR_DEFAULT = KmCssDefaultConstantsIF.fieldset_flavor_default;
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString _flavor;
+    private ScLocalString       _flavor;
 
     //##################################################
     //# constructor
@@ -81,18 +82,26 @@ public class ScFieldset
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        renderSimpleElementOn(out, "fieldset");
+        out.open("fieldset");
+        renderAttributesOn(out);
+        out.close();
+
+        renderHelpOn(out);
+        renderLegendOn(out);
+        renderChildrenOn(out);
+
+        out.end("fieldset");
     }
 
-    @Override
-    protected void renderChildrenOn(KmHtmlBuilder out)
+    private void renderHelpOn(KmHtmlBuilder out)
     {
-        renderLegend(out);
-
-        super.renderChildrenOn(out);
+        Integer x = null;
+        Integer y = -10;
+        Integer z = null;
+        out.printHelpImage(getHelp(), x, y, z);
     }
 
-    private void renderLegend(KmHtmlBuilder out)
+    private void renderLegendOn(KmHtmlBuilder out)
     {
         // <legend class="fieldset-legend-default">The Legend</legend>
 
@@ -108,11 +117,16 @@ public class ScFieldset
         out.end("legend");
     }
 
+    //==================================================
+    //= render :: css
+    //==================================================
+
     @Override
     public KmCssDefaultBuilder formatCss()
     {
         KmCssDefaultBuilder css;
-        css = super.formatCss();
+        css = super.formatCss().getCopy();
+        css.fieldset();
         css.add(PREFIX, PART_BODY, getFlavor());
         return css;
     }

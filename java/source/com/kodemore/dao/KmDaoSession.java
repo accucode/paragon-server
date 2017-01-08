@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public abstract class KmDaoSession
      * Hibernate's primitive session.
      * Client's do not need this except for a few of the core framework methods.
      */
-    private Session _session;
+    private Session     _session;
 
     /**
      * Hibernate's internal transactions.
@@ -58,14 +58,14 @@ public abstract class KmDaoSession
      * committing or rolling back a transaction clears the uid.  This value
      * should be unique across all servers.
      */
-    private String _transactionUid;
+    private String      _transactionUid;
 
     /**
      * If set, this key is used to generate a global pessimistic lock on the
      * database.  Use of pessimistic locks is generally discouraged, but still
      * useful on a few highly specific scenarios.
      */
-    private String _lockKey;
+    private String      _lockKey;
 
     //##################################################
     //# constructor
@@ -140,12 +140,6 @@ public abstract class KmDaoSession
         _transaction.commit();
         _transactionUid = null;
         clearCache();
-    }
-
-    public void commitAndContinue()
-    {
-        commit();
-        begin();
     }
 
     public void rollback()
@@ -223,9 +217,33 @@ public abstract class KmDaoSession
         getSession().evict(e);
     }
 
-    public void save(Object e)
+    /**
+     * Attach the specified object to hibernate.  This only needs to
+     * be called ONCE. After that, hibernate will automatically save
+     * any changes.
+     *
+     * Clients should generally NOT call this method directly.
+     * Instead, use the daoAttach method provided on the pertinent
+     * domain object.  E.g.: aUser.daoAttach(). This provide better
+     * type safety, and also allows the domain object to handle
+     * any pertinent operations that should be executed immediately
+     * before or after the attach.
+     */
+    public void _attach(Object e)
     {
         getSession().save(e);
+    }
+
+    /**
+     * Determine if the specified object is attached to the CURRENT session.
+     *
+     * NOTE: if you are manually detaching persistent objects from a session
+     * via evict, this may return misleading information.  However, such cases
+     * are rare and strongly discouraged.
+     */
+    public boolean isAttached(Object e)
+    {
+        return getSession().contains(e);
     }
 
     public void delete(Object e)
@@ -236,12 +254,6 @@ public abstract class KmDaoSession
     public void update(Object e)
     {
         getSession().update(e);
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T merge(T e)
-    {
-        return (T)getSession().merge(e);
     }
 
     public boolean isActive()

@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyDownloadCriteria
@@ -44,14 +45,81 @@ public class MyDownloadCriteria
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
     public KmhStringCondition whereName()
     {
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmhTimestampCondition whereCreatedUtcTs()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+    }
+
+    public void whereTypeIs(MyDownloadType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().is(e.getCode());
+    }
+
+    public void whereTypeIsNot(MyDownloadType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().isNot(e.getCode());
+    }
+
+    public void whereTypeIsFile()
+    {
+        whereTypeIs(MyDownloadType.File);
+    }
+
+    public void whereTypeIsNotFile()
+    {
+        whereTypeIsNot(MyDownloadType.File);
+    }
+
+    public void whereTypeIsFile(boolean e)
+    {
+        if ( e )
+            whereTypeIsFile();
+        else
+            whereTypeIsNotFile();
+    }
+
+    public void whereTypeIsBytes()
+    {
+        whereTypeIs(MyDownloadType.Bytes);
+    }
+
+    public void whereTypeIsNotBytes()
+    {
+        whereTypeIsNot(MyDownloadType.Bytes);
+    }
+
+    public void whereTypeIsBytes(boolean e)
+    {
+        if ( e )
+            whereTypeIsBytes();
+        else
+            whereTypeIsNotBytes();
+    }
+
+    public KmhStringCondition whereFileName()
+    {
+        return new KmhStringCondition(context(), fullName(FILE_NAME));
+    }
+
+    public KmhPropertyCondition<KmBlob> whereBytes()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(BYTES));
     }
 
     public KmhIntegerCondition whereLockVersion()
@@ -81,6 +149,24 @@ public class MyDownloadCriteria
             sortOnUidDescending();
     }
 
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
     public void sortOnName()
     {
         parent().sortAscending(NAME);
@@ -99,22 +185,58 @@ public class MyDownloadCriteria
             sortOnNameDescending();
     }
 
-    public void sortOnCreatedUtcTs()
+    public void sortOnTypeCode()
     {
-        parent().sortAscending(CREATED_UTC_TS);
+        parent().sortAscending(TYPE_CODE);
     }
 
-    public void sortOnCreatedUtcTsDescending()
+    public void sortOnTypeCodeDescending()
     {
-        parent().sortDescending(CREATED_UTC_TS);
+        parent().sortDescending(TYPE_CODE);
     }
 
-    public void sortOnCreatedUtcTs(boolean asc)
+    public void sortOnTypeCode(boolean asc)
     {
         if ( asc )
-            sortOnCreatedUtcTs();
+            sortOnTypeCode();
         else
-            sortOnCreatedUtcTsDescending();
+            sortOnTypeCodeDescending();
+    }
+
+    public void sortOnFileName()
+    {
+        parent().sortAscending(FILE_NAME);
+    }
+
+    public void sortOnFileNameDescending()
+    {
+        parent().sortDescending(FILE_NAME);
+    }
+
+    public void sortOnFileName(boolean asc)
+    {
+        if ( asc )
+            sortOnFileName();
+        else
+            sortOnFileNameDescending();
+    }
+
+    public void sortOnBytes()
+    {
+        parent().sortAscending(BYTES);
+    }
+
+    public void sortOnBytesDescending()
+    {
+        parent().sortDescending(BYTES);
+    }
+
+    public void sortOnBytes(boolean asc)
+    {
+        if ( asc )
+            sortOnBytes();
+        else
+            sortOnBytesDescending();
     }
 
     public void sortOnLockVersion()
@@ -180,6 +302,50 @@ public class MyDownloadCriteria
     }
 
     //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
     //# projections (name)
     //##################################################
 
@@ -224,47 +390,135 @@ public class MyDownloadCriteria
     }
 
     //##################################################
-    //# projections (createdUtcTs)
+    //# projections (typeCode)
     //##################################################
 
-    public void selectCreatedUtcTs()
+    public void selectTypeCode()
     {
-        select(CREATED_UTC_TS);
+        select(TYPE_CODE);
     }
 
-    public void selectDistinctCreatedUtcTs()
+    public void selectDistinctTypeCode()
     {
-        selectDistinct(CREATED_UTC_TS);
+        selectDistinct(TYPE_CODE);
     }
 
-    public void selectCountDistinctCreatedUtcTs()
+    public void selectCountDistinctTypeCode()
     {
-        selectCountDistinct(CREATED_UTC_TS);
+        selectCountDistinct(TYPE_CODE);
     }
 
-    public void selectMinimumCreatedUtcTs()
+    public void selectMinimumTypeCode()
     {
-        selectMinimum(CREATED_UTC_TS);
+        selectMinimum(TYPE_CODE);
     }
 
-    public void selectMaximumCreatedUtcTs()
+    public void selectMaximumTypeCode()
     {
-        selectMaximum(CREATED_UTC_TS);
+        selectMaximum(TYPE_CODE);
     }
 
-    public void selectAverageCreatedUtcTs()
+    public void selectAverageTypeCode()
     {
-        selectAverage(CREATED_UTC_TS);
+        selectAverage(TYPE_CODE);
     }
 
-    public void selectSumCreatedUtcTs()
+    public void selectSumTypeCode()
     {
-        selectSum(CREATED_UTC_TS);
+        selectSum(TYPE_CODE);
     }
 
-    public void groupByCreatedUtcTs()
+    public void groupByTypeCode()
     {
-        groupBy(CREATED_UTC_TS);
+        groupBy(TYPE_CODE);
+    }
+
+    //##################################################
+    //# projections (fileName)
+    //##################################################
+
+    public void selectFileName()
+    {
+        select(FILE_NAME);
+    }
+
+    public void selectDistinctFileName()
+    {
+        selectDistinct(FILE_NAME);
+    }
+
+    public void selectCountDistinctFileName()
+    {
+        selectCountDistinct(FILE_NAME);
+    }
+
+    public void selectMinimumFileName()
+    {
+        selectMinimum(FILE_NAME);
+    }
+
+    public void selectMaximumFileName()
+    {
+        selectMaximum(FILE_NAME);
+    }
+
+    public void selectAverageFileName()
+    {
+        selectAverage(FILE_NAME);
+    }
+
+    public void selectSumFileName()
+    {
+        selectSum(FILE_NAME);
+    }
+
+    public void groupByFileName()
+    {
+        groupBy(FILE_NAME);
+    }
+
+    //##################################################
+    //# projections (bytes)
+    //##################################################
+
+    public void selectBytes()
+    {
+        select(BYTES);
+    }
+
+    public void selectDistinctBytes()
+    {
+        selectDistinct(BYTES);
+    }
+
+    public void selectCountDistinctBytes()
+    {
+        selectCountDistinct(BYTES);
+    }
+
+    public void selectMinimumBytes()
+    {
+        selectMinimum(BYTES);
+    }
+
+    public void selectMaximumBytes()
+    {
+        selectMaximum(BYTES);
+    }
+
+    public void selectAverageBytes()
+    {
+        selectAverage(BYTES);
+    }
+
+    public void selectSumBytes()
+    {
+        selectSum(BYTES);
+    }
+
+    public void groupByBytes()
+    {
+        groupBy(BYTES);
     }
 
     //##################################################
@@ -332,7 +586,7 @@ public class MyDownloadCriteria
 
     public void groupByUserUid()
     {
-        groupBy(USER);
+        groupBy(USER_UID);
     }
 
     public MyUserCriteria joinToUser()
@@ -359,8 +613,37 @@ public class MyDownloadCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyDownloadJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyDownloadJunction any()
+    {
+        return addOr();
+    }
+
+    public MyDownloadJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyDownloadJunction addNotAnd()
+    {
+        return new MyDownloadJunction(parent().addNotAnd());
+    }
+
+    public MyDownloadJunction addNotOr()
+    {
+        return new MyDownloadJunction(parent().addNotOr());
+    }
 
     public MyDownloadJunction addAnd()
     {

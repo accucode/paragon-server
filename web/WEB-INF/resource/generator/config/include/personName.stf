@@ -1,0 +1,75 @@
+    field
+    : name      = firstName
+    : help...
+        ---
+        The user's first name; e.g.: John, Jane.
+        This may be blank.
+        ---
+    : type      = name
+
+
+    field
+    : name      = lastName
+    : help...
+        ---
+        The user's last name; e.g.: Smith, Jones.
+        This may be blank.
+        ---
+    : type      = name
+
+
+    field
+    : name      = nickname
+    : help...
+        ---
+        The user's short nickname, for informal use.
+        This may be blank.
+        ---
+    : type      = name
+
+
+    abstractField
+    : name      = fullName
+    : label     = Name
+    : help...
+        ---
+        The first and last name together; e.g.: John Smith.
+        Use the nickname if the first and last names are both empty.
+        This should never be blank.
+        ---
+    : type      = calculated
+
+
+    abstractField
+    : name      = formalName
+    : label     = Name
+    : help...
+        ---
+        The first and last name together; e.g.: Smith, John.
+        Use the nickname if the first and last names are both empty.
+        This should never be blank.
+        ---
+    : type      = calculated
+
+
+    abstractField
+    : name      = shortName
+    : label     = Name
+    : help...
+        ---
+        Return a single name, preferably the nickname or first name.
+        This should never be blank.
+        ---
+    : type      = calculated
+
+
+    abstractField
+    : name      = longName
+    : label     = Name
+    : help...
+        ---
+        Return the first name, last name, and nick name,
+        formatted for display on screen.
+        This should never be blank.
+        ---
+    : type      = calculated

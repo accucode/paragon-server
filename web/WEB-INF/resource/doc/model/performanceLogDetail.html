@@ -16,144 +16,189 @@
 <body>
 <h1>performanceLogDetail</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>A log for performance metrics.  We track a number of performance metrics on the active system.  This is primarily used as a tool in production to identify hotspots that may require tuning and optimization.  Some care needs to be taken to avoid enabling so many metrics that the performance logging itself becomes a bottleneck.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
-</tr>
-<tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The unique identifier.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                      &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>name&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The display name.  E.g.: the classname of the servlet or job.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>durationMs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The duration of the task in milliseconds.<br>
-            &nbsp;
-  </td>
-  
-  <td>integer
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+  <th>Description</th>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time when this log was created&#46; This is usually very very close to when the task ended &#40;not started&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>durationMs&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The duration of the task in milliseconds&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The display name&#46;  E&#46;g&#46;&#58; the classname of the servlet or job&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

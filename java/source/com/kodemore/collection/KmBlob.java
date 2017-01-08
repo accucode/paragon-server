@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import com.kodemore.utility.KmCopyIF;
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -36,14 +34,13 @@ import com.kodemore.utility.Kmu;
  * not want to handle explicit arrays.
  */
 public class KmBlob
-    implements KmCopyIF, KmReadOnlyIF, Serializable, Comparable<KmBlob>
+    implements KmCopyIF, Serializable, Comparable<KmBlob>
 {
     //##################################################
     //# variables
     //##################################################
 
-    private byte[]  _bytes;
-    private boolean _readOnly;
+    private byte[] _bytes;
 
     //##################################################
     //# constructors
@@ -176,28 +173,6 @@ public class KmBlob
     public Object getCopy()
     {
         return Kmu.getSerializedCopy(this);
-    }
-
-    //##################################################
-    //# readonly
-    //##################################################
-
-    @Override
-    public boolean isReadOnly()
-    {
-        return _readOnly;
-    }
-
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
-
-    public void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
     }
 
     //##################################################

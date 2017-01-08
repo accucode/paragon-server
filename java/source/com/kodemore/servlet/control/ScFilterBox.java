@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,13 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmSingletonIterator;
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScVisibilityScript;
 
 /**
  * I am used to manage common filter groups for search pages.
@@ -50,23 +50,20 @@ public class ScFilterBox
     //# variables
     //##################################################
 
-    private ScForm  _form;
-    private ScGroup _group;
-    private ScBox   _body;
+    private ScForm   _form;
+    private ScGroup  _group;
+    private ScDiv    _body;
 
     private ScAction _action;
-    private ScBox    _leftButtons;
-    private ScBox    _rightButtons;
+    private ScDiv    _leftButtons;
+    private ScDiv    _rightButtons;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScFilterBox()
     {
-        super.install();
-
         _form = new ScForm();
         _form.setParent(this);
         _form.setSubmitAction(this::handleSearch);
@@ -78,11 +75,11 @@ public class ScFilterBox
 
         ScDiv footer;
         footer = _group.showFooter();
-        footer.css().flex().flexAlignSpaced();
+        footer.css().flexRow().flexAlignSpaced();
 
         _leftButtons = footer.addButtonBox();
         _leftButtons.addSubmitButton("Search");
-        _leftButtons.addButton("Clear", this::handleClear);
+        _leftButtons.addButton("clear", this::handleClear);
 
         _rightButtons = footer.addButtonBox();
     }
@@ -94,6 +91,11 @@ public class ScFilterBox
     public ScForm getFormWrapper()
     {
         return _form;
+    }
+
+    public KmCssDefaultBuilder css()
+    {
+        return getFormWrapper().css();
     }
 
     public void layoutFill()
@@ -115,15 +117,31 @@ public class ScFilterBox
     }
 
     @Override
-    public String getJquerySelector()
+    public ScHtmlIdAjax _htmlIdAjax()
     {
-        return _form.getJquerySelector();
+        return _form._htmlIdAjax();
+    }
+
+    //##################################################
+    //# show/hide
+    //##################################################
+
+    @Override
+    public boolean getVisible()
+    {
+        return _form.getVisible();
     }
 
     @Override
-    public ScHtmlIdAjax ajax()
+    public void setVisible(boolean e)
     {
-        return _form.ajax();
+        _form.setVisible(e);
+    }
+
+    @Override
+    public ScVisibilityScript ajaxShow(boolean e)
+    {
+        return _form.ajaxShow(e);
     }
 
     //##################################################
@@ -142,8 +160,7 @@ public class ScFilterBox
 
     public void setAction(Runnable r)
     {
-        ScAction action = newAction(r);
-
+        ScAction action = newCheckedAction(r);
         setAction(action);
     }
 
@@ -162,7 +179,7 @@ public class ScFilterBox
         validateQuietly();
 
         saveFieldValues();
-        ajaxUpdateValues();
+        ajaxUpdateFieldValues();
         runAction();
     }
 
@@ -171,7 +188,7 @@ public class ScFilterBox
         resetFieldValues();
 
         saveFieldValues();
-        ajaxUpdateValues();
+        ajaxUpdateFieldValues();
         runAction();
     }
 
@@ -190,23 +207,23 @@ public class ScFilterBox
     }
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        return new KmSingletonIterator<>(_form);
+        return KmList.createWith(_form);
     }
 
-    public ScBox getLeftButtons()
+    public ScDiv getLeftButtons()
     {
         return _leftButtons;
     }
 
-    public ScBox getRightButtons()
+    public ScDiv getRightButtons()
     {
         return _rightButtons;
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -236,5 +253,4 @@ public class ScFilterBox
     {
         _body.clear();
     }
-
 }

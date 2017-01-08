@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyApplicationLogBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -57,7 +60,7 @@ public abstract class MyApplicationLogBase
     {
         super();
         setUid(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
     }
 
     //##################################################
@@ -71,7 +74,6 @@ public abstract class MyApplicationLogBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -112,7 +114,6 @@ public abstract class MyApplicationLogBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getCreatedUtcTsValidator().convertOnly(e);
         createdUtcTs = e;
     }
@@ -143,7 +144,6 @@ public abstract class MyApplicationLogBase
 
     public void setLoggerName(String e)
     {
-        checkReadOnly();
         e = Validator.getLoggerNameValidator().convertOnly(e);
         loggerName = e;
     }
@@ -184,7 +184,6 @@ public abstract class MyApplicationLogBase
 
     public void setContext(String e)
     {
-        checkReadOnly();
         e = Validator.getContextValidator().convertOnly(e);
         context = e;
     }
@@ -225,7 +224,6 @@ public abstract class MyApplicationLogBase
 
     public void setMessage(String e)
     {
-        checkReadOnly();
         e = Validator.getMessageValidator().convertOnly(e);
         message = e;
     }
@@ -266,7 +264,6 @@ public abstract class MyApplicationLogBase
 
     public void setLevelName(String e)
     {
-        checkReadOnly();
         e = Validator.getLevelNameValidator().convertOnly(e);
         levelName = e;
     }
@@ -307,7 +304,6 @@ public abstract class MyApplicationLogBase
 
     public void setLevelCode(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLevelCodeValidator().convertOnly(e);
         levelCode = e;
     }
@@ -338,7 +334,6 @@ public abstract class MyApplicationLogBase
 
     public void setThreadName(String e)
     {
-        checkReadOnly();
         e = Validator.getThreadNameValidator().convertOnly(e);
         threadName = e;
     }
@@ -379,7 +374,6 @@ public abstract class MyApplicationLogBase
 
     public void setTrace(String e)
     {
-        checkReadOnly();
         e = Validator.getTraceValidator().convertOnly(e);
         trace = e;
     }
@@ -423,6 +417,22 @@ public abstract class MyApplicationLogBase
     public boolean hasLevelCodeName(String e)
     {
         return Kmu.isEqualIgnoreCase(getLevelCodeName(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -537,7 +547,27 @@ public abstract class MyApplicationLogBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyApplicationLog getBasicCopy()
+    {
+        MyApplicationLog e;
+        e = new MyApplicationLog();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setLoggerName(getLoggerName());
+        e.setContext(getContext());
+        e.setMessage(getMessage());
+        e.setLevelName(getLevelName());
+        e.setLevelCode(getLevelCode());
+        e.setThreadName(getThreadName());
+        e.setTrace(getTrace());
+        return e;
     }
 
     //##################################################
@@ -577,6 +607,7 @@ public abstract class MyApplicationLogBase
         if ( !Kmu.isEqual(getThreadName(), e.getThreadName()) ) return false;
         if ( !Kmu.isEqual(getTrace(), e.getTrace()) ) return false;
         if ( !Kmu.isEqual(getLevelCodeName(), e.getLevelCodeName()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -645,4 +676,5 @@ public abstract class MyApplicationLogBase
     {
         return Meta.getName();
     }
+
 }

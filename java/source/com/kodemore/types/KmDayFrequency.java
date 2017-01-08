@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,235 +24,311 @@ package com.kodemore.types;
 
 import java.io.Serializable;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.time.KmWeekDay;
 import com.kodemore.utility.KmConstantsIF;
-import com.kodemore.utility.KmCopyIF;
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
 
 /**
  * I represent the days of the week a flight is scheduled to operate.
  * I provide utility methods for determining which day of the week
  * are contained in my frequency.
+ *
+ * IMMUTABLE.
+ * I am immutable. Any method that changes state, actually
+ * returns a different instance with the new state.
  */
 public class KmDayFrequency
-    implements KmConstantsIF, KmReadOnlyIF, KmCopyIF, Comparable<KmDayFrequency>, Serializable
+    implements KmConstantsIF, Comparable<KmDayFrequency>, Serializable
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    public static KmDayFrequency EMPTY                 = new KmDayFrequency("");
+
+    public static KmDayFrequency MONDAY_THROUGH_FRIDAY = EMPTY.addMondayThroughFriday();
+
     //##################################################
     //# instance creation
     //##################################################
 
-    public static KmDayFrequency createFrequency(String s)
+    public static KmDayFrequency fromString(String s)
     {
         return new KmDayFrequency(s);
+    }
+
+    /**
+     * This must be compatible with fromString(s).
+     */
+    @Override
+    public String toString()
+    {
+        return _days;
     }
 
     //##################################################
     //# variables
     //##################################################
 
-    private String  _days;
-    private boolean _readOnly;
+    private String _days;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public KmDayFrequency()
+    private KmDayFrequency(String s)
     {
-        setDays("");
-    }
-
-    public KmDayFrequency(String e)
-    {
-        setDays(e);
+        _days = normalize(s);
     }
 
     //##################################################
-    //# accessing
+    //# week days
     //##################################################
 
-    public String getDays()
+    public KmDayFrequency setDay(KmWeekDay e, boolean add)
     {
-        return _days;
+        return setDayCode(e.getCode(), add);
     }
 
-    public void setDays(String s)
+    public KmDayFrequency addDay(KmWeekDay e)
     {
-        s = normalize(s);
-        _days = s;
+        return addDayCode(e.getCode());
     }
 
-    public boolean hasDays(String s)
+    public KmDayFrequency removeDay(KmWeekDay e)
     {
-        s = normalize(s);
-        return _days.equals(s);
+        return removeDayCode(e.getCode());
+    }
+
+    private boolean hasWeekDay(KmWeekDay e)
+    {
+        return hasDayCode(e.getCode());
+    }
+
+    public KmList<KmWeekDay> getWeekDays()
+    {
+        KmList<KmWeekDay> v = new KmList<>();
+
+        for ( KmWeekDay e : KmWeekDay.values() )
+            if ( hasWeekDay(e) )
+                v.add(e);
+
+        return v;
+    }
+
+    public KmList<String> getWeekDayCodes()
+    {
+        return getWeekDays().collect(e -> e.getCode());
     }
 
     //##################################################
     //# abstract accessing
     //##################################################
 
-    public void addMonday()
+    public KmDayFrequency setDayCode(String dow, boolean add)
     {
-        addDay(DOW_MONDAY);
+        return add
+            ? addDayCode(dow)
+            : removeDayCode(dow);
     }
 
-    public void removeMonday()
+    public KmDayFrequency addDayCode(String dow)
     {
-        removeDay(DOW_MONDAY);
+        return hasDayCode(dow)
+            ? this
+            : fromString(_days + dow);
     }
 
-    public void addTuesday()
+    public KmDayFrequency removeDayCode(String dow)
     {
-        addDay(DOW_TUESDAY);
+        return hasDayCode(dow)
+            ? fromString(Kmu.replaceAll(_days, dow, ""))
+            : this;
     }
 
-    public void removeTuesday()
+    public boolean hasDayCode(String e)
     {
-        removeDay(DOW_TUESDAY);
-    }
-
-    public void addWednesday()
-    {
-        addDay(DOW_WEDNESDAY);
-    }
-
-    public void removeWednesday()
-    {
-        removeDay(DOW_WEDNESDAY);
-    }
-
-    public void addThursday()
-    {
-        addDay(DOW_THURSDAY);
-    }
-
-    public void removeThursday()
-    {
-        removeDay(DOW_THURSDAY);
-    }
-
-    public void addFriday()
-    {
-        addDay(DOW_FRIDAY);
-    }
-
-    public void removeFriday()
-    {
-        removeDay(DOW_FRIDAY);
-    }
-
-    public void addSaturday()
-    {
-        addDay(DOW_SATURDAY);
-    }
-
-    public void removeSaturday()
-    {
-        removeDay(DOW_SATURDAY);
-    }
-
-    public void addSunday()
-    {
-        addDay(DOW_SUNDAY);
-    }
-
-    public void removeSunday()
-    {
-        removeDay(DOW_SUNDAY);
-    }
-
-    public void addDay(String e)
-    {
-        if ( hasDay(e) )
-            return;
-        e += getDays();
-        setDays(e);
-    }
-
-    public void removeDay(String e)
-    {
-        if ( !hasDay(e) )
-            return;
-        Kmu.replaceAll(_days, e, "");
-    }
-
-    public String normalize(String s)
-    {
-        if ( s == null )
-            s = "";
-
-        StringBuilder sb = new StringBuilder(".......");
-
-        if ( s.indexOf(DOW_CHAR_MONDAY) >= 0 )
-            sb.setCharAt(0, DOW_CHAR_MONDAY);
-
-        if ( s.indexOf(DOW_CHAR_TUESDAY) >= 0 )
-            sb.setCharAt(1, DOW_CHAR_TUESDAY);
-
-        if ( s.indexOf(DOW_CHAR_WEDNESDAY) >= 0 )
-            sb.setCharAt(2, DOW_CHAR_WEDNESDAY);
-
-        if ( s.indexOf(DOW_CHAR_THURSDAY) >= 0 )
-            sb.setCharAt(3, DOW_CHAR_THURSDAY);
-
-        if ( s.indexOf(DOW_CHAR_FRIDAY) >= 0 )
-            sb.setCharAt(4, DOW_CHAR_FRIDAY);
-
-        if ( s.indexOf(DOW_CHAR_SATURDAY) >= 0 )
-            sb.setCharAt(5, DOW_CHAR_SATURDAY);
-
-        if ( s.indexOf(DOW_CHAR_SUNDAY) >= 0 )
-            sb.setCharAt(6, DOW_CHAR_SUNDAY);
-
-        return sb.toString();
+        return _days.indexOf(e) >= 0;
     }
 
     //##################################################
-    //# testing
+    //# monday
     //##################################################
+
+    public KmDayFrequency setMonday(boolean on)
+    {
+        return setDayCode(DOW_MONDAY, on);
+    }
+
+    public KmDayFrequency addMonday()
+    {
+        return addDayCode(DOW_MONDAY);
+    }
+
+    public KmDayFrequency removeMonday()
+    {
+        return removeDayCode(DOW_MONDAY);
+    }
 
     public boolean hasMonday()
     {
-        return hasDay(DOW_MONDAY);
+        return hasDayCode(DOW_MONDAY);
+    }
+
+    //==================================================
+    //= tuesday
+    //==================================================
+
+    public KmDayFrequency setTuesday(boolean on)
+    {
+        return setDayCode(DOW_TUESDAY, on);
+    }
+
+    public KmDayFrequency addTuesday()
+    {
+        return addDayCode(DOW_TUESDAY);
+    }
+
+    public KmDayFrequency removeTuesday()
+    {
+        return removeDayCode(DOW_TUESDAY);
     }
 
     public boolean hasTuesday()
     {
-        return hasDay(DOW_TUESDAY);
+        return hasDayCode(DOW_TUESDAY);
+    }
+
+    //==================================================
+    //= wednesday
+    //==================================================
+
+    public KmDayFrequency setWednesday(boolean on)
+    {
+        return setDayCode(DOW_WEDNESDAY, on);
+    }
+
+    public KmDayFrequency addWednesday()
+    {
+        return addDayCode(DOW_WEDNESDAY);
+    }
+
+    public KmDayFrequency removeWednesday()
+    {
+        return removeDayCode(DOW_WEDNESDAY);
     }
 
     public boolean hasWednesday()
     {
-        return hasDay(DOW_WEDNESDAY);
+        return hasDayCode(DOW_WEDNESDAY);
+    }
+
+    //==================================================
+    //= thursday
+    //==================================================
+
+    public KmDayFrequency setThursday(boolean on)
+    {
+        return setDayCode(DOW_THURSDAY, on);
+    }
+
+    public KmDayFrequency addThursday()
+    {
+        return addDayCode(DOW_THURSDAY);
+    }
+
+    public KmDayFrequency removeThursday()
+    {
+        return removeDayCode(DOW_THURSDAY);
     }
 
     public boolean hasThursday()
     {
-        return hasDay(DOW_THURSDAY);
+        return hasDayCode(DOW_THURSDAY);
+    }
+
+    //==================================================
+    //= friday
+    //==================================================
+
+    public KmDayFrequency setFriday(boolean on)
+    {
+        return setDayCode(DOW_FRIDAY, on);
+    }
+
+    public KmDayFrequency addFriday()
+    {
+        return addDayCode(DOW_FRIDAY);
+    }
+
+    public KmDayFrequency removeFriday()
+    {
+        return removeDayCode(DOW_FRIDAY);
     }
 
     public boolean hasFriday()
     {
-        return hasDay(DOW_FRIDAY);
+        return hasDayCode(DOW_FRIDAY);
+    }
+
+    //==================================================
+    //= saturday
+    //==================================================
+
+    public KmDayFrequency setSaturday(boolean on)
+    {
+        return setDayCode(DOW_SATURDAY, on);
+    }
+
+    public KmDayFrequency addSaturday()
+    {
+        return addDayCode(DOW_SATURDAY);
+    }
+
+    public KmDayFrequency removeSaturday()
+    {
+        return removeDayCode(DOW_SATURDAY);
     }
 
     public boolean hasSaturday()
     {
-        return hasDay(DOW_SATURDAY);
+        return hasDayCode(DOW_SATURDAY);
+    }
+
+    //==================================================
+    //= sunday
+    //==================================================
+
+    public KmDayFrequency setSunday(boolean on)
+    {
+        return setDayCode(DOW_SUNDAY, on);
+    }
+
+    public KmDayFrequency addSunday()
+    {
+        return addDayCode(DOW_SUNDAY);
+    }
+
+    public KmDayFrequency removeSunday()
+    {
+        return removeDayCode(DOW_SUNDAY);
     }
 
     public boolean hasSunday()
     {
-        return hasDay(DOW_SUNDAY);
+        return hasDayCode(DOW_SUNDAY);
     }
 
-    public boolean hasDay(String e)
+    //##################################################
+    //# convenience
+    //##################################################
+
+    public KmDayFrequency addMondayThroughFriday()
     {
-        int i = getDays().indexOf(e);
-        return i >= 0;
+        return addMonday().addTuesday().addWednesday().addThursday().addFriday();
     }
 
     //##################################################
@@ -265,7 +341,7 @@ public class KmDayFrequency
         if ( !(e instanceof KmDayFrequency) )
             return false;
 
-        return ((KmDayFrequency)e).getDays().equals(_days);
+        return ((KmDayFrequency)e)._days.equals(_days);
     }
 
     @Override
@@ -277,68 +353,57 @@ public class KmDayFrequency
     @Override
     public int compareTo(KmDayFrequency e)
     {
-        return _days.compareTo(e.getDays());
-    }
-
-    //##################################################
-    //# copy
-    //##################################################
-
-    @Override
-    public KmDayFrequency getCopy()
-    {
-        KmDayFrequency e;
-        e = new KmDayFrequency();
-        e.setDays(_days);
-        return e;
-    }
-
-    //##################################################
-    //# display
-    //##################################################
-
-    @Override
-    public String toString()
-    {
-        return getDisplayString();
-    }
-
-    /**
-     * This string must be compatible with setDays.
-     */
-    public String getDisplayString()
-    {
-        return getDays();
-    }
-
-    //##################################################
-    //# read only
-    //##################################################
-
-    @Override
-    public boolean isReadOnly()
-    {
-        return _readOnly;
-    }
-
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
-
-    public void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
+        return _days.compareTo(e._days);
     }
 
     //##################################################
     //# date
     //##################################################
 
+    public boolean matchesDate(KmTimestamp ts)
+    {
+        return matchesDate(ts.getDate());
+    }
+
     public boolean matchesDate(KmDate d)
     {
         return d.matchesFrequency(this);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private String normalize(String s)
+    {
+        final String empty = ".......";
+
+        if ( s == null )
+            return empty;
+
+        StringBuilder out = new StringBuilder(empty);
+
+        if ( s.indexOf(DOW_CHAR_MONDAY) >= 0 )
+            out.setCharAt(0, DOW_CHAR_MONDAY);
+
+        if ( s.indexOf(DOW_CHAR_TUESDAY) >= 0 )
+            out.setCharAt(1, DOW_CHAR_TUESDAY);
+
+        if ( s.indexOf(DOW_CHAR_WEDNESDAY) >= 0 )
+            out.setCharAt(2, DOW_CHAR_WEDNESDAY);
+
+        if ( s.indexOf(DOW_CHAR_THURSDAY) >= 0 )
+            out.setCharAt(3, DOW_CHAR_THURSDAY);
+
+        if ( s.indexOf(DOW_CHAR_FRIDAY) >= 0 )
+            out.setCharAt(4, DOW_CHAR_FRIDAY);
+
+        if ( s.indexOf(DOW_CHAR_SATURDAY) >= 0 )
+            out.setCharAt(5, DOW_CHAR_SATURDAY);
+
+        if ( s.indexOf(DOW_CHAR_SUNDAY) >= 0 )
+            out.setCharAt(6, DOW_CHAR_SUNDAY);
+
+        return out.toString();
     }
 }

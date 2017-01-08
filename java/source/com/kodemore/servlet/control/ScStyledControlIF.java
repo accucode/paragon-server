@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,10 +25,32 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 
+/**
+ * I define standard methods for styling a control.
+ */
 public interface ScStyledControlIF
     extends ScControlIF
 {
+    /**
+     * Apply css "classes" to the exterior of the control.
+     * This is applied to the HTML DOM via the CLASS attribute.
+     *
+     * By exterior, we mean the outermost visual boundary between the
+     * control and the rest of the html content.  For complex controls
+     * that are composed of multiple pieces, this styling should apply
+     * to a single wrapper that contains all of the other internal
+     * elements.
+     *
+     * Client code and/or parent controls can safely use this to apply
+     * a margin around the entire child.
+     */
     KmCssDefaultBuilder css();
 
+    /**
+     * Apply css "style" to the exterior of the control.
+     * This is applied to the HTML DOM via the STYLE attribute.
+     *
+     * See css() for additional clarification.
+     */
     KmStyleBuilder style();
 }

@@ -1,0 +1,197 @@
+/*****************************
+ ** page header
+ *****************************/
+
+/**
+ * The unique ID for the header box.
+ * Used by javascript.
+ */
+#header
+    /* noop - prevent compression */
+    content: normal
+
+
+.header-bare
+    /* noop - prevent compression */
+    content: normal
+
+
+.header-normal
+    box-sizing:         border-box
+
+    position:           absolute
+    left:               0
+    right:              0
+    top:                0
+    height:             $header-height
+
+    display:            flex
+    justify-content:    space-between
+    align-items:        center
+    white-space:        nowrap
+
+    overflow:           visible
+    background:         $header-background
+
+
+/*****************************
+ ** environment overrides
+ *****************************/
+
+.environmentStage .header-normal
+    background:         $header-stageBackground
+
+
+.environmentProduction .header-normal
+    background:         $header-productionBackground
+
+
+/*****************************
+ ** left
+ *****************************/
+
+.header-left
+    flex-shrink:        1
+    flex-grow:          1
+    flex-basis:         0px
+    padding-top:        5px
+
+.header-link
+    /* noop - prevent compression */
+    content: normal
+
+/*****************************
+ ** middle
+ *****************************/
+
+.header-middle
+    flex-shrink:        1
+    flex-grow:          1
+
+    display:            flex
+    flex-basis:         0px
+    justify-content:    center
+    white-space:        nowrap
+
+.header-bare  > .header-middle
+    display: none
+
+.header-middle > *
+    margin-left:        20px
+
+.header-middle > *:first
+    margin-left:        0
+
+/*****************************
+ ** right
+ *****************************/
+
+.header-right
+    flex-shrink:        1
+    flex-grow:          1
+    flex-basis:         0px
+
+    display:            flex
+    justify-content:    flex-end
+    white-space:        nowrap
+    padding-right:      10px
+
+.header-right > *
+    margin-right:       5px
+
+.header-bare  > .header-right
+    display:            none
+
+
+/*****************************
+ ** logo
+ *****************************/
+
+.header-logoImage
+    padding:            0 5px
+
+.header-logoText
+    color:              $header-logoColor
+    font:               $header-logoFont
+    display:            inline-block
+    vertical-align:     top
+
+
+/*****************************
+ ** project
+ *****************************/
+
+.header-project
+    font:               $header-projectFont
+    color:              $header-projectColor
+    text-decoration:    none
+
+.header-project:hover
+    font:               $header-projectFont
+    color:              $header-projectColor
+    text-decoration:    underline
+
+/*****************************
+ ** depot
+ *****************************/
+
+.header-depot
+    font:               $header-depotFont
+    color:              $header-depotColor
+    text-decoration:    none
+
+.header-depot:hover
+    font:               $header-depotFont
+    color:              $header-depotColor
+    text-decoration:    underline
+
+/*****************************
+ ** clock
+ *****************************/
+
+.header-clock
+    display:            flex
+    align-items:        center
+    white-space:        nowrap
+    text-decoration:    none
+
+.header-clock:hover
+    color:              $header-timeColor
+    text-decoration:    underline
+
+.header-time
+    font:               $header-timeFont
+    color:              $header-timeColor
+
+.header-timeZone
+    font:               $header-timeZoneFont
+    color:              $header-timeZoneColor
+
+/*****************************
+ ** task
+ *****************************/
+
+.header-task
+    font:               $header-taskFont
+    color:              $header-taskColor
+    text-decoration:    none
+
+.header-task:hover
+    font:               $header-taskFont
+    color:              $header-taskColor
+    text-decoration:    underline
+
+/*****************************
+ ** project
+ *****************************/
+
+.header-user
+    font:               $header-userFont
+    color:              $header-userColor
+    text-decoration:    none
+
+.header-user:hover
+    font:               $header-userFont
+    color:              $header-userColor
+    text-decoration:    underline
+

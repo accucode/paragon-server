@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -68,24 +68,26 @@ public abstract class ScUrlBridge
     public abstract String getTheme(String... path);
 
     //##################################################
-    //# third party
+    //# css
     //##################################################
 
-    /**
-     * The the path to an icon in the Glyphish library.
-     */
-    public abstract String getGlyphishIcon(String... path);
+    public abstract String getResetCss();
 
-    /**
-     * The the path to an icon in the LED-icons library.
-     */
-    public abstract String getLedIcon(String... path);
+    public abstract String getThemeCss();
+
+    public abstract String getCkEditorOverridesCss();
 
     //##################################################
     //# download
     //##################################################
 
     public abstract String createDownloadFor(String name, byte[] value);
+
+    //##################################################
+    //# icons
+    //##################################################
+
+    public abstract String getErrorUrl();
 
     //##################################################
     //# buttons
@@ -95,9 +97,30 @@ public abstract class ScUrlBridge
 
     public abstract String getEditButtonUrl();
 
-    public abstract String getRemoveButtonUrl();
-
     public abstract String getDeleteButtonUrl();
 
+    public abstract String getDeleteMaybeButtonUrl();
+
+    public abstract String getRemoveButtonUrl();
+
     public abstract String getRefreshButtonUrl();
+
+    public abstract String getAuditButtonUrl();
+
+    public abstract String getBackButtonUrl();
+
+    public abstract String getSearchButtonUrl();
+
+    public abstract String getHelpIndicatorUrl();
+
+    public abstract String getUpButtonUrl();
+
+    public abstract String getDownButtonUrl();
+
+    public abstract String getPopoutButtonUrl();
+
+    public abstract String getExpandButtonUrl();
+
+    public abstract String getShrinkButtonUrl();
+
 }

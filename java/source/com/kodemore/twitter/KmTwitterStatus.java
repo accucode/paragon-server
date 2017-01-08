@@ -4,16 +4,16 @@ import com.kodemore.collection.KmList;
 
 /**
  * I am and object representing a user that has been mentioned in a tweet.
- * 
+ *
  * https://dev.twitter.com/docs/tweet-entities
- * 
- * review_steve KmTwitterStatus
+ *
+ * KmTwitterStatus
  */
 public class KmTwitterStatus
     extends Object
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmList<String>    _contributors;

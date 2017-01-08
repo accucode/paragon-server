@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,16 @@ public class KmaGraphAxis
     private KmaGraphStyledText       _title;
     private KmaGraphNumericTextStyle _labelStyle;
 
-    private double _minimum;
-    private double _maximum;
-    private double _minimumLabel;
-    private double _maximumLabel;
+    private double                   _minimum;
+    private double                   _maximum;
+    private double                   _minimumLabel;
+    private double                   _maximumLabel;
 
-    private double _majorUnits;
-    private double _minorUnits;
+    private double                   _majorUnits;
+    private double                   _minorUnits;
 
-    private KmaGraphLineStyle _majorLineStyle;
-    private KmaGraphLineStyle _minorLineStyle;
+    private KmaGraphLineStyle        _majorLineStyle;
+    private KmaGraphLineStyle        _minorLineStyle;
 
     //##################################################
     //# constructor

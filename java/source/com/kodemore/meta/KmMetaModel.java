@@ -10,6 +10,8 @@ public abstract class KmMetaModel
 
     public abstract String getName();
 
+    public abstract String getHelp();
+
     public String getLabel()
     {
         return Kmu.formatCamelCaseAsCapitalizedWords(getName());

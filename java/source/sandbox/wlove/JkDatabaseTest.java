@@ -3,7 +3,7 @@ package sandbox.wlove;
 import com.kodemore.command.KmDao;
 import com.kodemore.utility.KmTimer;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
@@ -31,7 +31,7 @@ public class JkDatabaseTest
         // none
     }
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

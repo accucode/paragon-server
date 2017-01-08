@@ -1,10 +1,10 @@
 package com.app.ui.page.login;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -15,6 +15,7 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyPasswordReset;
+import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -53,19 +54,19 @@ public final class MyPasswordResetPage
     //# variables
     //##################################################
 
-    private ScLocalString _token;
+    private ScLocalString       _token;
 
-    private ScCardFrame _frame;
+    private ScCardFrame         _frame;
 
-    private ScCard          _entryCard;
-    private ScTextSpan      _emailText;
-    private ScPasswordField _password1Field;
-    private ScPasswordField _password2Field;
+    private ScCard              _entryCard;
+    private ScTextSpan          _emailText;
+    private ScPasswordField     _password1Field;
+    private ScPasswordField     _password2Field;
 
-    private ScCard _successCard;
+    private ScCard              _successCard;
 
-    private ScCard _errorCard;
-    private ScText _errorMessage;
+    private ScCard              _errorCard;
+    private ScText              _errorMessage;
 
     //##################################################
     //# settings
@@ -114,7 +115,7 @@ public final class MyPasswordResetPage
         _token = new ScLocalString();
         _token.setAutoSave();
 
-        _frame = root.addFrame();
+        _frame = root.addCardFrame();
         _frame.style().width(300).marginTop(100).marginCenter();
 
         _entryCard = createEntryCard(_frame);
@@ -145,12 +146,12 @@ public final class MyPasswordResetPage
         _emailText.css().displayBlock().fieldValue();
 
         _password1Field = new ScPasswordField();
-        _password1Field.style().width(width);
+        _password1Field.layoutInline(width);
         _password1Field.setRequired();
         _password1Field.disableChangeTracking();
 
         _password2Field = new ScPasswordField();
-        _password2Field.style().width(width);
+        _password2Field.layoutInline(width);
         _password2Field.disableChangeTracking();
     }
 
@@ -164,25 +165,25 @@ public final class MyPasswordResetPage
         group = form.addGroup();
         group.setTitle("Reset Password");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
 
         body.addLabel("Email");
         body.add(_emailText);
 
-        ScBox label;
+        ScDiv label;
         label = body.addLabel("Choose a Password");
         label.css().padTop();
-        body.addErrorBox().add(_password1Field);
+        body.addErrorWrapperWith(_password1Field);
 
         label = body.addLabel("Re-enter Password");
         label.css().padTop();
-        body.addErrorBox().add(_password2Field);
+        body.addErrorWrapperWith(_password2Field);
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Reset Password");
     }
@@ -200,19 +201,18 @@ public final class MyPasswordResetPage
         group = card.addGroup();
         group.setTitle("Success");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
-        body.addText(
-            ""
-                + "Success! Your password has been reset. "
-                + "Please click the following link to sign in.");
+        body.addText(""
+            + "Success! Your password has been reset. "
+            + "Please click the button below to sign in.");
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.getInstance());
+        footer.addButton("Sign In", MyLoginPage.getInstance());
 
         return card;
     }
@@ -230,17 +230,17 @@ public final class MyPasswordResetPage
         group = card.addGroup();
         group.setTitle("Error");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
 
         _errorMessage = body.addText();
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.getInstance());
+        footer.addButton("Sign In", MyLoginPage.getInstance());
 
         return card;
     }
@@ -256,7 +256,7 @@ public final class MyPasswordResetPage
         if ( pr == null || pr.isExpired() )
         {
             _errorMessage.setValue("The requested password reset is invalid or has expired.");
-            _errorCard.beDefault();
+            _errorCard.beDefaultCard();
             return;
         }
 
@@ -264,11 +264,11 @@ public final class MyPasswordResetPage
         if ( u == null )
         {
             _errorMessage.setValue("No such email exists.");
-            _errorCard.beDefault();
+            _errorCard.beDefaultCard();
             return;
         }
 
-        _entryCard.beDefault();
+        _entryCard.beDefaultCard();
         _emailText.setValue(getPasswordReset().getEmail());
         _password1Field.clearText();
         _password2Field.clearText();
@@ -283,17 +283,16 @@ public final class MyPasswordResetPage
         MyPasswordReset pr = getPasswordReset();
         if ( pr == null || pr.isExpired() )
         {
-            printError(
-                ""
-                    + "The requested password reset is invalid or has expired. "
-                    + "Please return to the sign in page to try again.");
+            printError(""
+                + "The requested password reset is invalid or has expired. "
+                + "Please return to the sign in page to try again.");
             return;
         }
 
         ajax().hideAllErrors();
 
-        _password1Field.ajax().clearValue();
-        _password2Field.ajax().clearValue();
+        _password1Field.ajaxClearFieldValue();
+        _password2Field.ajaxClearFieldValue();
 
         _entryCard.validate();
 
@@ -315,7 +314,7 @@ public final class MyPasswordResetPage
         setEmailCookie();
         deletePasswordReset();
 
-        _successCard.ajaxPrint();
+        _successCard.ajaxPrintCard();
     }
 
     //##################################################
@@ -338,7 +337,15 @@ public final class MyPasswordResetPage
 
     private MyPasswordReset getPasswordReset()
     {
-        return getAccess().getPasswordResetDao().findToken(getToken());
+        MyPasswordReset reset = getAccess().getPasswordResetDao().findToken(getToken());
+        if ( reset == null )
+            return null;
+
+        MyTenant tenant = getCurrentTenant();
+        if ( !reset.hasTenant(tenant) )
+            return null;
+
+        return reset;
     }
 
     private void deletePasswordReset()
@@ -346,20 +353,20 @@ public final class MyPasswordResetPage
         MyPasswordReset ua = getPasswordReset();
 
         if ( ua != null )
-            ua.deleteDao();
+            ua.daoDelete();
     }
 
     private void printError(String msg)
     {
         _errorMessage.setValue(msg);
-        _errorCard.ajaxPrint();
+        _errorCard.ajaxPrintCard();
     }
 
     private void setEmailCookie()
     {
         MyPasswordReset ua = getPasswordReset();
         if ( ua != null )
-            MySignInUtility.setEmailCookie(ua.getEmail());
+            MyLoginUtility.ajaxSetEmailCookie(ua.getEmail());
     }
 
 }

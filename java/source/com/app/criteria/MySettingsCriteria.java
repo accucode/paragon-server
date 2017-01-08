@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MySettingsCriteria
@@ -245,8 +246,37 @@ public class MySettingsCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MySettingsJunction all()
+    {
+        return addAnd();
+    }
+
+    public MySettingsJunction any()
+    {
+        return addOr();
+    }
+
+    public MySettingsJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MySettingsJunction addNotAnd()
+    {
+        return new MySettingsJunction(parent().addNotAnd());
+    }
+
+    public MySettingsJunction addNotOr()
+    {
+        return new MySettingsJunction(parent().addNotOr());
+    }
 
     public MySettingsJunction addAnd()
     {

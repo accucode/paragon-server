@@ -14,7 +14,7 @@ import com.kodemore.utility.Kmu;
 
 import com.app.file.MyResourceFiles;
 import com.app.hibernate.base.MyHibernateConfigurationBase;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 public class MyHibernateConfiguration
@@ -111,7 +111,7 @@ public class MyHibernateConfiguration
 
     private void installConnection()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         String driver = p.getDatabaseDriver();
         String url = p.getDatabaseUri() + p.getDatabaseSchema();
@@ -126,7 +126,7 @@ public class MyHibernateConfiguration
 
     private void installSecondLevelCache()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         boolean usesCache = p.getHibernateUseSecondLevelCache();
         if ( !usesCache )
@@ -145,7 +145,7 @@ public class MyHibernateConfiguration
 
     private void installMisc()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         String showSql = formatTrueFalse(p.getShowHibernateSql());
         String releaseMode = "on_close";
@@ -172,7 +172,7 @@ public class MyHibernateConfiguration
     //# support
     //##################################################
 
-    private MyPropertyRegistry getProperties()
+    private MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

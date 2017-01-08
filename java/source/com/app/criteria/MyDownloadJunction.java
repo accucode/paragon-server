@@ -43,14 +43,29 @@ public class MyDownloadJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
     public KmhStringCondition whereName()
     {
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmhTimestampCondition whereCreatedUtcTs()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+    }
+
+    public KmhStringCondition whereFileName()
+    {
+        return new KmhStringCondition(context(), fullName(FILE_NAME));
+    }
+
+    public KmhPropertyCondition<KmBlob> whereBytes()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(BYTES));
     }
 
     public KmhIntegerCondition whereLockVersion()

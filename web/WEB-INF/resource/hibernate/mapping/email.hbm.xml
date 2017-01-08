@@ -44,6 +44,12 @@
             />
 
         <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="sentUtcTs"
             column="sentUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
@@ -71,6 +77,20 @@
             name="errorNotes"
             column="errorNotes"
             type="string"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
             />
 
         <bag

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,11 @@ public class KmConsoleMeter
     //# variables
     //##################################################
 
-    private int  _count;
-    private int  _total;
-    private int  _lastPercent;
-    private long _beginNanos;
-    private long _endNanos;
+    private int              _count;
+    private int              _total;
+    private int              _lastPercent;
+    private long             _beginNanos;
+    private long             _endNanos;
 
     //##################################################
     //# constructor

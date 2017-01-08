@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyPerformanceLogSummaryBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -69,7 +72,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -110,7 +112,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setUtcDate(KmDate e)
     {
-        checkReadOnly();
         e = Validator.getUtcDateValidator().convertOnly(e);
         utcDate = e;
     }
@@ -141,7 +142,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setName(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValidator().convertOnly(e);
         name = e;
     }
@@ -182,7 +182,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setCount(Integer e)
     {
-        checkReadOnly();
         e = Validator.getCountValidator().convertOnly(e);
         count = e;
     }
@@ -213,7 +212,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setMinimumMs(Integer e)
     {
-        checkReadOnly();
         e = Validator.getMinimumMsValidator().convertOnly(e);
         minimumMs = e;
     }
@@ -244,7 +242,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setMaximumMs(Integer e)
     {
-        checkReadOnly();
         e = Validator.getMaximumMsValidator().convertOnly(e);
         maximumMs = e;
     }
@@ -275,7 +272,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setAverageMs(Integer e)
     {
-        checkReadOnly();
         e = Validator.getAverageMsValidator().convertOnly(e);
         averageMs = e;
     }
@@ -306,7 +302,6 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setTotalMs(Integer e)
     {
-        checkReadOnly();
         e = Validator.getTotalMsValidator().convertOnly(e);
         totalMs = e;
     }
@@ -324,6 +319,22 @@ public abstract class MyPerformanceLogSummaryBase
     public boolean hasTotalMs(Integer e)
     {
         return Kmu.isEqual(getTotalMs(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
 
@@ -362,7 +373,26 @@ public abstract class MyPerformanceLogSummaryBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyPerformanceLogSummary getBasicCopy()
+    {
+        MyPerformanceLogSummary e;
+        e = new MyPerformanceLogSummary();
+        e.setUtcDate(getUtcDate());
+        e.setName(getName());
+        e.setCount(getCount());
+        e.setMinimumMs(getMinimumMs());
+        e.setMaximumMs(getMaximumMs());
+        e.setAverageMs(getAverageMs());
+        e.setTotalMs(getTotalMs());
+        return e;
     }
 
     //##################################################
@@ -400,6 +430,7 @@ public abstract class MyPerformanceLogSummaryBase
         if ( !Kmu.isEqual(getMaximumMs(), e.getMaximumMs()) ) return false;
         if ( !Kmu.isEqual(getAverageMs(), e.getAverageMs()) ) return false;
         if ( !Kmu.isEqual(getTotalMs(), e.getTotalMs()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 
@@ -463,4 +494,5 @@ public abstract class MyPerformanceLogSummaryBase
     {
         return Meta.getName();
     }
+
 }

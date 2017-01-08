@@ -26,7 +26,7 @@
 .flexigrid div.tDiv2{float:left;clear:both;padding:1px}
 .flexigrid div.sDiv /*toolbar*/{background:#fafafa url(images/bg.gif) repeat-x top;position:relative;border:1px solid #ccc;border-top:0;overflow:hidden;display:none}
 
-// .flexigrid div.sDiv2{float:left;clear:both;width:1024px;padding:5px}
+/* // .flexigrid div.sDiv2{float:left;clear:both;width:1024px;padding:5px} */
 .flexigrid div.sDiv2{float:left;clear:both;width:100%;padding:5px}
 
 .flexigrid div.sDiv2 input,.flexigrid div.sDiv2 select{vertical-align:middle}
@@ -72,8 +72,8 @@ div.colCopy{font-family:Arial, Helvetica, sans-serif;font-size:11px;background:#
 .flexigrid tr.erow td.sorted{background:#e3e3e3;border-bottom:1px solid #e3e3e3}
 .flexigrid div.bDiv tr:hover td,.flexigrid div.bDiv tr:hover td.sorted,.flexigrid div.bDiv tr.trOver td.sorted,.flexigrid div.bDiv tr.trOver td{background:#d9ebf5;border-left:1px solid #eef8ff;border-bottom:1px dotted #a8d8eb}
 
-// .flexigrid div.bDiv tr.trSelected:hover td,.flexigrid div.bDiv tr.trSelected:hover td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td,.flexigrid tr.trSelected td.sorted,.flexigrid tr.trSelected td{background:#d5effc url(images/hl.png) repeat-x top;border-right:1px solid #d2e3ec;border-left:1px solid #eef8ff;border-bottom:1px solid #a8d8eb}
-.flexigrid div.bDiv tr.trSelected:hover td,.flexigrid div.bDiv tr.trSelected:hover td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td,.flexigrid tr.trSelected td.sorted,.flexigrid tr.trSelected td{background:#d5effc;border-right:1px solid #d2e3ec;border-left:1px solid #eef8ff;border-bottom:1px solid #a8d8eb}
+/* // .flexigrid div.bDiv tr.trSelected:hover td,.flexigrid div.bDiv tr.trSelected:hover td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td,.flexigrid tr.trSelected td.sorted,.flexigrid tr.trSelected td{background:#d5effc url(images/hl.png) repeat-x top;border-right:1px solid #d2e3ec;border-left:1px solid #eef8ff;border-bottom:1px solid #a8d8eb} */
+.flexigrid div.bDiv tr.trSelected:hover td,.flexigrid div.bDiv tr.trSelected:hover td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td.sorted,.flexigrid div.bDiv tr.trOver.trSelected td,.flexigrid tr.trSelected td.sorted,.flexigrid tr.trSelected td{border-right:1px solid #d2e3ec;border-left:1px solid #eef8ff}
 
 .flexigrid.novstripe .bDiv table{border-bottom:1px solid #ccc;border-right:1px solid #ccc}
 .flexigrid.novstripe div.bDiv td{border-right-color:#fff}
@@ -84,7 +84,7 @@ div.colCopy{font-family:Arial, Helvetica, sans-serif;font-size:11px;background:#
 .flexigrid.novstripe div.bDiv tr.trOver td,.flexigrid.novstripe div.bDiv tr:hover td{border-left-color:#d9ebf5;border-right-color:#d9ebf5}
 .flexigrid div.pDiv{background:url(images/wbg.gif) repeat-x 0 -1px;border:1px solid #ccc;border-top:0;overflow:hidden;white-space:nowrap;position:relative}
 
-//.flexigrid div.pDiv div.pDiv2{float:left;width:1024px;margin:3px 3px 3px -2px}
+/* //.flexigrid div.pDiv div.pDiv2{float:left;width:1024px;margin:3px 3px 3px -2px} */
 .flexigrid div.pDiv div.pDiv2{float:left;width:100%;margin:3px 3px 3px -2px}
 
 div.pGroup{float:left;background:none;height:24px;margin:0 5px}

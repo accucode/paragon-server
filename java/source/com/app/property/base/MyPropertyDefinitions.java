@@ -40,22 +40,29 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_CONTEXT_FORMATTER_ENABLED = "contextFormatterEnabled";
     public static final String PROPERTY_CONTEXT_FORMATTER_LINES = "contextFormatterLines";
     public static final String PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS = "daoCommandWarningThresholdMs";
+    public static final String PROPERTY_JOB_PERFORMANCE_LOG_ENABLED = "jobPerformanceLogEnabled";
     public static final String PROPERTY_SQL_WARNING_THRESHOLD_MS = "sqlWarningThresholdMs";
 
-    public static final String GROUP_EMAIL = "email";
+    public static final String GROUP_EMAIL_JOB = "emailJob";
+    public static final String PROPERTY_SEND_EMAIL_BATCH = "sendEmailBatch";
+    public static final String PROPERTY_SEND_EMAIL_ENABLED = "sendEmailEnabled";
+    public static final String PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS = "sendEmailJobActiveSeconds";
+    public static final String PROPERTY_SEND_EMAIL_JOB_ENABLED = "sendEmailJobEnabled";
+    public static final String PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS = "sendEmailJobIdleSeconds";
+
+    public static final String GROUP_EMAIL_SUPPORT = "emailSupport";
+    public static final String PROPERTY_SEND_EMAIL_FROM_ADDRESS = "sendEmailFromAddress";
+    public static final String PROPERTY_SEND_EMAIL_METHOD = "sendEmailMethod";
+    public static final String PROPERTY_SEND_EMAIL_OVERRIDE_TO = "sendEmailOverrideTo";
+
+    public static final String GROUP_EMAIL_GOOGLE_MAIL = "emailGoogleMail";
     public static final String PROPERTY_GMAIL_HOST = "gmailHost";
     public static final String PROPERTY_GMAIL_PASSWORD = "gmailPassword";
     public static final String PROPERTY_GMAIL_PORT = "gmailPort";
     public static final String PROPERTY_GMAIL_SCHEME = "gmailScheme";
     public static final String PROPERTY_GMAIL_USER = "gmailUser";
-    public static final String PROPERTY_SEND_EMAIL_BATCH = "sendEmailBatch";
-    public static final String PROPERTY_SEND_EMAIL_ENABLED = "sendEmailEnabled";
-    public static final String PROPERTY_SEND_EMAIL_FROM_ADDRESS = "sendEmailFromAddress";
-    public static final String PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS = "sendEmailJobActiveSeconds";
-    public static final String PROPERTY_SEND_EMAIL_JOB_ENABLED = "sendEmailJobEnabled";
-    public static final String PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS = "sendEmailJobIdleSeconds";
-    public static final String PROPERTY_SEND_EMAIL_METHOD = "sendEmailMethod";
-    public static final String PROPERTY_SEND_EMAIL_OVERRIDE_TO = "sendEmailOverrideTo";
+
+    public static final String GROUP_EMAIL_SMTP = "emailSmtp";
     public static final String PROPERTY_SMTP_HOST = "smtpHost";
     public static final String PROPERTY_SMTP_PASSWORD = "smtpPassword";
     public static final String PROPERTY_SMTP_PORT = "smtpPort";
@@ -64,10 +71,10 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_SMTP_USER = "smtpUser";
 
     public static final String GROUP_SERVLET = "servlet";
-    public static final String PROPERTY_SERVLET_HOST = "servletHost";
-    public static final String PROPERTY_SERVLET_PORT = "servletPort";
-    public static final String PROPERTY_SERVLET_REDIRECT = "servletRedirect";
-    public static final String PROPERTY_SERVLET_SCHEME = "servletScheme";
+    public static final String PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME = "bootstrapSystemHostname";
+    public static final String PROPERTY_MARKETING_URL = "marketingUrl";
+    public static final String PROPERTY_SERVLET_SSL_REDIRECT = "servletSslRedirect";
+    public static final String PROPERTY_SUPPORT_URL = "supportUrl";
     public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS = "writeLastServletResults";
     public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER = "writeLastServletResultsCounter";
 
@@ -108,6 +115,9 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "applicationLogFlusherJobActiveSeconds";
     public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED = "applicationLogFlusherJobEnabled";
     public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS = "applicationLogFlusherJobIdleSeconds";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS = "clearThemeCacheJobActiveSeconds";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED = "clearThemeCacheJobEnabled";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS = "clearThemeCacheJobIdleSeconds";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS = "csvUploadProcessorJobActiveSeconds";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ENABLED = "csvUploadProcessorJobEnabled";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_IDLE_SECONDS = "csvUploadProcessorJobIdleSeconds";
@@ -132,6 +142,12 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "performanceLogFlusherJobActiveSeconds";
     public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED = "performanceLogFlusherJobEnabled";
     public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS = "performanceLogFlusherJobIdleSeconds";
+    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS = "taskReleaseHoldJobActiveSeconds";
+    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED = "taskReleaseHoldJobEnabled";
+    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS = "taskReleaseHoldJobIdleSeconds";
+    public static final String PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS = "taskSchedulerJobActiveSeconds";
+    public static final String PROPERTY_TASK_SCHEDULER_JOB_ENABLED = "taskSchedulerJobEnabled";
+    public static final String PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS = "taskSchedulerJobIdleSeconds";
 
     public static final String GROUP_MISCELLANEOUS = "miscellaneous";
     public static final String PROPERTY_AJAX_LOG_DELETE_ON_START = "ajaxLogDeleteOnStart";
@@ -139,12 +155,15 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_AUTO_LOGIN_EMAIL = "autoLoginEmail";
     public static final String PROPERTY_CHECK_RECOMMENDED_BROWSER = "checkRecommendedBrowser";
     public static final String PROPERTY_DEFAULT_TIME_ZONE_CODE = "defaultTimeZoneCode";
+    public static final String PROPERTY_DELETE_THREAD_TOPICS_ON_START = "deleteThreadTopicsOnStart";
     public static final String PROPERTY_FILE_UPLOAD_REFRESH_MS = "fileUploadRefreshMs";
     public static final String PROPERTY_FTP_ENABLED = "ftpEnabled";
     public static final String PROPERTY_MAINTENANCE_PERIOD_END_HOUR = "maintenancePeriodEndHour";
     public static final String PROPERTY_MAINTENANCE_PERIOD_START_HOUR = "maintenancePeriodStartHour";
     public static final String PROPERTY_MEMORY_LEAK_LOOP_ENABLED = "memoryLeakLoopEnabled";
     public static final String PROPERTY_MEMORY_LEAK_LOOP_SPEED_MS = "memoryLeakLoopSpeedMs";
+    public static final String PROPERTY_PRINT_AJAX_TIME = "printAjaxTime";
+    public static final String PROPERTY_RENDER_DEBUG_DOM_COMMENTS = "renderDebugDomComments";
     public static final String PROPERTY_SHOW_HIBERNATE_SQL = "showHibernateSql";
     public static final String PROPERTY_SYNCHRONIZE_SERVLETS_BY_SESSION = "synchronizeServletsBySession";
     public static final String PROPERTY_WEB_RESOURCE_VERSIONING = "webResourceVersioning";
@@ -157,6 +176,16 @@ public class MyPropertyDefinitions
 
     public static final String GROUP_BOOTSTRAP = "bootstrap";
     public static final String PROPERTY_ROOT_USER_EMAIL = "rootUserEmail";
+
+    public static final String GROUP_ONE_ALL = "oneAll";
+    public static final String PROPERTY_ONE_ALL_ENABLED = "oneAllEnabled";
+    public static final String PROPERTY_ONE_ALL_HOST = "oneAllHost";
+    public static final String PROPERTY_ONE_ALL_PRIVATE_KEY = "oneAllPrivateKey";
+    public static final String PROPERTY_ONE_ALL_PUBLIC_KEY = "oneAllPublicKey";
+
+    public static final String GROUP_INTACCT = "intacct";
+    public static final String PROPERTY_INTACCT_SENDER_ID = "intacctSenderId";
+    public static final String PROPERTY_INTACCT_SENDER_PASSWORD = "intacctSenderPassword";
 
 
     //##################################################
@@ -183,22 +212,29 @@ public class MyPropertyDefinitions
         install(m, newContextFormatterEnabled());
         install(m, newContextFormatterLines());
         install(m, newDaoCommandWarningThresholdMs());
+        install(m, newJobPerformanceLogEnabled());
         install(m, newSqlWarningThresholdMs());
 
-        // email
+        // emailJob
+        install(m, newSendEmailBatch());
+        install(m, newSendEmailEnabled());
+        install(m, newSendEmailJobActiveSeconds());
+        install(m, newSendEmailJobEnabled());
+        install(m, newSendEmailJobIdleSeconds());
+
+        // emailSupport
+        install(m, newSendEmailFromAddress());
+        install(m, newSendEmailMethod());
+        install(m, newSendEmailOverrideTo());
+
+        // emailGoogleMail
         install(m, newGmailHost());
         install(m, newGmailPassword());
         install(m, newGmailPort());
         install(m, newGmailScheme());
         install(m, newGmailUser());
-        install(m, newSendEmailBatch());
-        install(m, newSendEmailEnabled());
-        install(m, newSendEmailFromAddress());
-        install(m, newSendEmailJobActiveSeconds());
-        install(m, newSendEmailJobEnabled());
-        install(m, newSendEmailJobIdleSeconds());
-        install(m, newSendEmailMethod());
-        install(m, newSendEmailOverrideTo());
+
+        // emailSmtp
         install(m, newSmtpHost());
         install(m, newSmtpPassword());
         install(m, newSmtpPort());
@@ -207,10 +243,10 @@ public class MyPropertyDefinitions
         install(m, newSmtpUser());
 
         // servlet
-        install(m, newServletHost());
-        install(m, newServletPort());
-        install(m, newServletRedirect());
-        install(m, newServletScheme());
+        install(m, newBootstrapSystemHostname());
+        install(m, newMarketingUrl());
+        install(m, newServletSslRedirect());
+        install(m, newSupportUrl());
         install(m, newWriteLastServletResults());
         install(m, newWriteLastServletResultsCounter());
 
@@ -251,6 +287,9 @@ public class MyPropertyDefinitions
         install(m, newApplicationLogFlusherJobActiveSeconds());
         install(m, newApplicationLogFlusherJobEnabled());
         install(m, newApplicationLogFlusherJobIdleSeconds());
+        install(m, newClearThemeCacheJobActiveSeconds());
+        install(m, newClearThemeCacheJobEnabled());
+        install(m, newClearThemeCacheJobIdleSeconds());
         install(m, newCsvUploadProcessorJobActiveSeconds());
         install(m, newCsvUploadProcessorJobEnabled());
         install(m, newCsvUploadProcessorJobIdleSeconds());
@@ -275,6 +314,12 @@ public class MyPropertyDefinitions
         install(m, newPerformanceLogFlusherJobActiveSeconds());
         install(m, newPerformanceLogFlusherJobEnabled());
         install(m, newPerformanceLogFlusherJobIdleSeconds());
+        install(m, newTaskReleaseHoldJobActiveSeconds());
+        install(m, newTaskReleaseHoldJobEnabled());
+        install(m, newTaskReleaseHoldJobIdleSeconds());
+        install(m, newTaskSchedulerJobActiveSeconds());
+        install(m, newTaskSchedulerJobEnabled());
+        install(m, newTaskSchedulerJobIdleSeconds());
 
         // miscellaneous
         install(m, newAjaxLogDeleteOnStart());
@@ -282,12 +327,15 @@ public class MyPropertyDefinitions
         install(m, newAutoLoginEmail());
         install(m, newCheckRecommendedBrowser());
         install(m, newDefaultTimeZoneCode());
+        install(m, newDeleteThreadTopicsOnStart());
         install(m, newFileUploadRefreshMs());
         install(m, newFtpEnabled());
         install(m, newMaintenancePeriodEndHour());
         install(m, newMaintenancePeriodStartHour());
         install(m, newMemoryLeakLoopEnabled());
         install(m, newMemoryLeakLoopSpeedMs());
+        install(m, newPrintAjaxTime());
+        install(m, newRenderDebugDomComments());
         install(m, newShowHibernateSql());
         install(m, newSynchronizeServletsBySession());
         install(m, newWebResourceVersioning());
@@ -300,6 +348,16 @@ public class MyPropertyDefinitions
 
         // bootstrap
         install(m, newRootUserEmail());
+
+        // oneAll
+        install(m, newOneAllEnabled());
+        install(m, newOneAllHost());
+        install(m, newOneAllPrivateKey());
+        install(m, newOneAllPublicKey());
+
+        // intacct
+        install(m, newIntacctSenderId());
+        install(m, newIntacctSenderPassword());
 
         return m;
     }
@@ -445,6 +503,19 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newJobPerformanceLogEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MONITORING);
+        e.setKey(PROPERTY_JOB_PERFORMANCE_LOG_ENABLED);
+        e.setComment("When enabled each job's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java job class can override this to force enablement.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newSqlWarningThresholdMs()
     {
         MyPropertyDefinition e;
@@ -459,79 +530,14 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
-    //# install (email)
+    //# install (emailJob)
     //##################################################
-
-    private static MyPropertyDefinition newGmailHost()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_GMAIL_HOST);
-        e.setComment("Connecting to gmail.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("smtp.gmail.com");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newGmailPassword()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_GMAIL_PASSWORD);
-        e.setComment("Connecting to gmail.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newGmailPort()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_GMAIL_PORT);
-        e.setComment("Connecting to gmail.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("465");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newGmailScheme()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_GMAIL_SCHEME);
-        e.setComment("Connecting to gmail.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("https");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newGmailUser()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_GMAIL_USER);
-        e.setComment("Connecting to gmail.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
 
     private static MyPropertyDefinition newSendEmailBatch()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_JOB);
         e.setKey(PROPERTY_SEND_EMAIL_BATCH);
         e.setComment("The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
@@ -544,7 +550,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_JOB);
         e.setKey(PROPERTY_SEND_EMAIL_ENABLED);
         e.setComment("If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
@@ -553,24 +559,11 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newSendEmailFromAddress()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
-        e.setKey(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
-        e.setComment("The address that will be listed as the 'from' address.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("DoNotReply@accucode.com");
-        e.postInstall();
-        return e;
-    }
-
     private static MyPropertyDefinition newSendEmailJobActiveSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_JOB);
         e.setKey(PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS);
         e.setComment("The active frquency of the job.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
@@ -583,7 +576,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_JOB);
         e.setKey(PROPERTY_SEND_EMAIL_JOB_ENABLED);
         e.setComment("Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
@@ -596,7 +589,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_JOB);
         e.setKey(PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS);
         e.setComment("The idle frquency of the job.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
@@ -605,11 +598,28 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    //##################################################
+    //# install (emailSupport)
+    //##################################################
+
+    private static MyPropertyDefinition newSendEmailFromAddress()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_SUPPORT);
+        e.setKey(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
+        e.setComment("The address that will be listed as the 'from' address.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("admin@example.com");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newSendEmailMethod()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SUPPORT);
         e.setKey(PROPERTY_SEND_EMAIL_METHOD);
         e.setComment("The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -622,7 +632,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SUPPORT);
         e.setKey(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
         e.setComment("If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -631,11 +641,84 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    //##################################################
+    //# install (emailGoogleMail)
+    //##################################################
+
+    private static MyPropertyDefinition newGmailHost()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
+        e.setKey(PROPERTY_GMAIL_HOST);
+        e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("smtp.gmail.com");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newGmailPassword()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
+        e.setKey(PROPERTY_GMAIL_PASSWORD);
+        e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newGmailPort()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
+        e.setKey(PROPERTY_GMAIL_PORT);
+        e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("465");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newGmailScheme()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
+        e.setKey(PROPERTY_GMAIL_SCHEME);
+        e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("https");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newGmailUser()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
+        e.setKey(PROPERTY_GMAIL_USER);
+        e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (emailSmtp)
+    //##################################################
+
     private static MyPropertyDefinition newSmtpHost()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_HOST);
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -648,7 +731,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_PASSWORD);
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -661,7 +744,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_PORT);
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
@@ -674,7 +757,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_SCHEME);
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -687,7 +770,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_USE_SSL);
         e.setComment("Use SSL when connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
@@ -700,7 +783,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL);
+        e.setGroup(GROUP_EMAIL_SMTP);
         e.setKey(PROPERTY_SMTP_USER);
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_STRING);
@@ -713,54 +796,54 @@ public class MyPropertyDefinitions
     //# install (servlet)
     //##################################################
 
-    private static MyPropertyDefinition newServletHost()
+    private static MyPropertyDefinition newBootstrapSystemHostname()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SERVLET_HOST);
-        e.setComment("This should be set to the appropriate host name. For simple development 'localhost' can typically be used. However, some development and local debugging may need a static IP address.");
+        e.setKey(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
+        e.setComment("This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
+        e.setDefaultValue("system.4work.expert");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newServletPort()
+    private static MyPropertyDefinition newMarketingUrl()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SERVLET_PORT);
-        e.setComment("The port number used to serve the servlet requests. Normally left blank, so that it defaults based on the scheme.");
+        e.setKey(PROPERTY_MARKETING_URL);
+        e.setComment("The url used to redirect people to the marketing website.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
+        e.setDefaultValue("http://www.4work.expert");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newServletRedirect()
+    private static MyPropertyDefinition newServletSslRedirect()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SERVLET_REDIRECT);
-        e.setComment("If true, then attempt to redirect users to the appropriate scheme.");
+        e.setKey(PROPERTY_SERVLET_SSL_REDIRECT);
+        e.setComment("If true, requests to the main application servlet will be redirected as an SSL request.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newServletScheme()
+    private static MyPropertyDefinition newSupportUrl()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SERVLET_SCHEME);
-        e.setComment("The scheme used. Typically http, though this may also be set to https.");
+        e.setKey(PROPERTY_SUPPORT_URL);
+        e.setComment("The url used to redirect people to the general support team and/or help desk.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("http");
+        e.setDefaultValue("http://www.4work.expert");
         e.postInstall();
         return e;
     }
@@ -1153,6 +1236,45 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newClearThemeCacheJobActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS);
+        e.setComment("The active frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newClearThemeCacheJobEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED);
+        e.setComment("Indicates if the job should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newClearThemeCacheJobIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS);
+        e.setComment("The idle frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newCsvUploadProcessorJobActiveSeconds()
     {
         MyPropertyDefinition e;
@@ -1211,7 +1333,7 @@ public class MyPropertyDefinitions
         e = newPropertyDefinition();
         e.setGroup(GROUP_JOBS);
         e.setKey(PROPERTY_DATA_PROCESSOR_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.");
+        e.setComment("Indicates if the job should be run.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
         e.postInstall();
@@ -1465,6 +1587,84 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newTaskReleaseHoldJobActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS);
+        e.setComment("The active frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("1");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newTaskReleaseHoldJobEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED);
+        e.setComment("Indicates if the job should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newTaskReleaseHoldJobIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS);
+        e.setComment("The idle frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newTaskSchedulerJobActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS);
+        e.setComment("The active frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newTaskSchedulerJobEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_ENABLED);
+        e.setComment("Indicates if the job should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newTaskSchedulerJobIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS);
+        e.setComment("The idle frquency of the job.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("5");
+        e.postInstall();
+        return e;
+    }
+
     //##################################################
     //# install (miscellaneous)
     //##################################################
@@ -1501,7 +1701,7 @@ public class MyPropertyDefinitions
         e = newPropertyDefinition();
         e.setGroup(GROUP_MISCELLANEOUS);
         e.setKey(PROPERTY_AUTO_LOGIN_EMAIL);
-        e.setComment("If not blank, automatically login as this user. Useful for development.");
+        e.setComment("Used in development to enable automatic login.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("");
         e.postInstall();
@@ -1530,6 +1730,19 @@ public class MyPropertyDefinitions
         e.setComment("The default time zone used for new users.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("EST-D");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDeleteThreadTopicsOnStart()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MISCELLANEOUS);
+        e.setKey(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
+        e.setComment("If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
@@ -1608,6 +1821,32 @@ public class MyPropertyDefinitions
         e.setComment("The speed of the memory leak test page.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("0");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPrintAjaxTime()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MISCELLANEOUS);
+        e.setKey(PROPERTY_PRINT_AJAX_TIME);
+        e.setComment("If true, the time spent on each ajax call is logged.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newRenderDebugDomComments()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MISCELLANEOUS);
+        e.setKey(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
+        e.setComment("If true, render an html comment into the dom that identifies the class name of the page and various controls.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
@@ -1725,6 +1964,92 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
+    //# install (oneAll)
+    //##################################################
+
+    private static MyPropertyDefinition newOneAllEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_ONE_ALL);
+        e.setKey(PROPERTY_ONE_ALL_ENABLED);
+        e.setComment("Determine if the oneAll login is enabled. This is disabled by default, and can only be enabled in a hosting environment that has a routable domain name.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOneAllHost()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_ONE_ALL);
+        e.setKey(PROPERTY_ONE_ALL_HOST);
+        e.setComment("The oneAll uri used to host our authentication service. This is provided by oneAll. E.g.: ourApplication.api.oneall.com");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOneAllPrivateKey()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_ONE_ALL);
+        e.setKey(PROPERTY_ONE_ALL_PRIVATE_KEY);
+        e.setComment("The private key provided by OneAll.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOneAllPublicKey()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_ONE_ALL);
+        e.setKey(PROPERTY_ONE_ALL_PUBLIC_KEY);
+        e.setComment("The public key provided by OneAll.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (intacct)
+    //##################################################
+
+    private static MyPropertyDefinition newIntacctSenderId()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_INTACCT);
+        e.setKey(PROPERTY_INTACCT_SENDER_ID);
+        e.setComment("The senderId and password are used to establish a connection with Intacct Web Services, but NOT with any specific company/account. Access to company data is controlled through the user authentication details which may be configured for a particular tenant.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("Accu2015");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newIntacctSenderPassword()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_INTACCT);
+        e.setKey(PROPERTY_INTACCT_SENDER_PASSWORD);
+        e.setComment("See intacctSenderId.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("C78k06P1M5");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
     //# accessing (utility)
     //##################################################
 
@@ -1810,9 +2135,54 @@ public class MyPropertyDefinitions
         return get(PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS);
     }
 
+    public static MyPropertyDefinition getJobPerformanceLogEnabled()
+    {
+        return get(PROPERTY_JOB_PERFORMANCE_LOG_ENABLED);
+    }
+
     public static MyPropertyDefinition getSqlWarningThresholdMs()
     {
         return get(PROPERTY_SQL_WARNING_THRESHOLD_MS);
+    }
+
+    public static MyPropertyDefinition getSendEmailBatch()
+    {
+        return get(PROPERTY_SEND_EMAIL_BATCH);
+    }
+
+    public static MyPropertyDefinition getSendEmailEnabled()
+    {
+        return get(PROPERTY_SEND_EMAIL_ENABLED);
+    }
+
+    public static MyPropertyDefinition getSendEmailJobActiveSeconds()
+    {
+        return get(PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getSendEmailJobEnabled()
+    {
+        return get(PROPERTY_SEND_EMAIL_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getSendEmailJobIdleSeconds()
+    {
+        return get(PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getSendEmailFromAddress()
+    {
+        return get(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
+    }
+
+    public static MyPropertyDefinition getSendEmailMethod()
+    {
+        return get(PROPERTY_SEND_EMAIL_METHOD);
+    }
+
+    public static MyPropertyDefinition getSendEmailOverrideTo()
+    {
+        return get(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
     }
 
     public static MyPropertyDefinition getGmailHost()
@@ -1838,46 +2208,6 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getGmailUser()
     {
         return get(PROPERTY_GMAIL_USER);
-    }
-
-    public static MyPropertyDefinition getSendEmailBatch()
-    {
-        return get(PROPERTY_SEND_EMAIL_BATCH);
-    }
-
-    public static MyPropertyDefinition getSendEmailEnabled()
-    {
-        return get(PROPERTY_SEND_EMAIL_ENABLED);
-    }
-
-    public static MyPropertyDefinition getSendEmailFromAddress()
-    {
-        return get(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobActiveSeconds()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobEnabled()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobIdleSeconds()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getSendEmailMethod()
-    {
-        return get(PROPERTY_SEND_EMAIL_METHOD);
-    }
-
-    public static MyPropertyDefinition getSendEmailOverrideTo()
-    {
-        return get(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
     }
 
     public static MyPropertyDefinition getSmtpHost()
@@ -1910,24 +2240,24 @@ public class MyPropertyDefinitions
         return get(PROPERTY_SMTP_USER);
     }
 
-    public static MyPropertyDefinition getServletHost()
+    public static MyPropertyDefinition getBootstrapSystemHostname()
     {
-        return get(PROPERTY_SERVLET_HOST);
+        return get(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
     }
 
-    public static MyPropertyDefinition getServletPort()
+    public static MyPropertyDefinition getMarketingUrl()
     {
-        return get(PROPERTY_SERVLET_PORT);
+        return get(PROPERTY_MARKETING_URL);
     }
 
-    public static MyPropertyDefinition getServletRedirect()
+    public static MyPropertyDefinition getServletSslRedirect()
     {
-        return get(PROPERTY_SERVLET_REDIRECT);
+        return get(PROPERTY_SERVLET_SSL_REDIRECT);
     }
 
-    public static MyPropertyDefinition getServletScheme()
+    public static MyPropertyDefinition getSupportUrl()
     {
-        return get(PROPERTY_SERVLET_SCHEME);
+        return get(PROPERTY_SUPPORT_URL);
     }
 
     public static MyPropertyDefinition getWriteLastServletResults()
@@ -2070,6 +2400,21 @@ public class MyPropertyDefinitions
         return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS);
     }
 
+    public static MyPropertyDefinition getClearThemeCacheJobActiveSeconds()
+    {
+        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getClearThemeCacheJobEnabled()
+    {
+        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getClearThemeCacheJobIdleSeconds()
+    {
+        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS);
+    }
+
     public static MyPropertyDefinition getCsvUploadProcessorJobActiveSeconds()
     {
         return get(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS);
@@ -2190,6 +2535,36 @@ public class MyPropertyDefinitions
         return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS);
     }
 
+    public static MyPropertyDefinition getTaskReleaseHoldJobActiveSeconds()
+    {
+        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getTaskReleaseHoldJobEnabled()
+    {
+        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getTaskReleaseHoldJobIdleSeconds()
+    {
+        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getTaskSchedulerJobActiveSeconds()
+    {
+        return get(PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getTaskSchedulerJobEnabled()
+    {
+        return get(PROPERTY_TASK_SCHEDULER_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getTaskSchedulerJobIdleSeconds()
+    {
+        return get(PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS);
+    }
+
     public static MyPropertyDefinition getAjaxLogDeleteOnStart()
     {
         return get(PROPERTY_AJAX_LOG_DELETE_ON_START);
@@ -2213,6 +2588,11 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getDefaultTimeZoneCode()
     {
         return get(PROPERTY_DEFAULT_TIME_ZONE_CODE);
+    }
+
+    public static MyPropertyDefinition getDeleteThreadTopicsOnStart()
+    {
+        return get(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
     }
 
     public static MyPropertyDefinition getFileUploadRefreshMs()
@@ -2243,6 +2623,16 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getMemoryLeakLoopSpeedMs()
     {
         return get(PROPERTY_MEMORY_LEAK_LOOP_SPEED_MS);
+    }
+
+    public static MyPropertyDefinition getPrintAjaxTime()
+    {
+        return get(PROPERTY_PRINT_AJAX_TIME);
+    }
+
+    public static MyPropertyDefinition getRenderDebugDomComments()
+    {
+        return get(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
     }
 
     public static MyPropertyDefinition getShowHibernateSql()
@@ -2283,6 +2673,36 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getRootUserEmail()
     {
         return get(PROPERTY_ROOT_USER_EMAIL);
+    }
+
+    public static MyPropertyDefinition getOneAllEnabled()
+    {
+        return get(PROPERTY_ONE_ALL_ENABLED);
+    }
+
+    public static MyPropertyDefinition getOneAllHost()
+    {
+        return get(PROPERTY_ONE_ALL_HOST);
+    }
+
+    public static MyPropertyDefinition getOneAllPrivateKey()
+    {
+        return get(PROPERTY_ONE_ALL_PRIVATE_KEY);
+    }
+
+    public static MyPropertyDefinition getOneAllPublicKey()
+    {
+        return get(PROPERTY_ONE_ALL_PUBLIC_KEY);
+    }
+
+    public static MyPropertyDefinition getIntacctSenderId()
+    {
+        return get(PROPERTY_INTACCT_SENDER_ID);
+    }
+
+    public static MyPropertyDefinition getIntacctSenderPassword()
+    {
+        return get(PROPERTY_INTACCT_SENDER_PASSWORD);
     }
 
 

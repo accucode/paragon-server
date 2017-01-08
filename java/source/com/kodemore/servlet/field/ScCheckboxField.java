@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,53 +22,197 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.validator.KmValidator;
+import com.kodemore.servlet.variable.ScLocalCss;
+import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalString;
 
+/**
+ * I represent a single checkbox button.
+ * My value is always a boolean.
+ */
 public class ScCheckboxField
-    extends ScInputField<Boolean>
+    extends ScField<Boolean>
 {
     //##################################################
     //# variables
     //##################################################
 
-    private KmValidator<Boolean> _validator;
+    /**
+     * The html name used for the checkbox input element.
+     * The default is usually acceptable.
+     * However, it may be overridden if the client is manually
+     * organizing multiple checkboxes into a group.
+     */
+    private ScLocalString  _htmlName;
 
+    /**
+     * The radio field's boolean value.
+     * This represents whether the radio is checked.
+     */
     private ScLocalBoolean _checked;
 
     /**
-     * If true (by default), the original value is included in the html data- attribute
-     * and the client-side browser uses javascript to track if changes are made.
+     * The value set in the input element and subsequently
+     * returned to the server when the form is submitted.
+     * This defaults to null, which is usually fine.
+     *
+     * However, this may be sent to any encodable value
+     * (ScEncoder) if the client is manually organizing
+     * multiple checkboxes into a group with the same htmlName.
      */
-    private boolean _changeTracking;
+    private ScLocalObject  _optionValue;
+
+    /**
+     * If true, the checkbox button is disabled.
+     * Bear in mind that disabled fields are NOT submitted with the form.
+     * False by default.
+     */
+    private ScLocalBoolean _disabled;
+
+    /**
+     * Clients are not allowed directly access to the css since that will likely
+     * cause problems.  However, clients are allowed to directly adjust the margin
+     * for minor layout adjustments.
+     */
+    private ScLocalCss     _cssMargin;
+
+    private ScAction       _onChangeAction;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScCheckboxField()
     {
-        super.install();
-
+        _htmlName = new ScLocalString(getKey());
         _checked = new ScLocalBoolean(false);
-        _changeTracking = true;
+        _optionValue = new ScLocalObject();
+        _disabled = new ScLocalBoolean(false);
+        _cssMargin = new ScLocalCss();
     }
 
     //##################################################
-    //# type
+    //# html id
     //##################################################
 
     @Override
-    protected String getInputType()
+    public String getHtmlId()
     {
-        return "checkbox";
+        return getKey();
+    }
+
+    private String getInputHtmlId()
+    {
+        return getHtmlId() + "-input";
+    }
+
+    //##################################################
+    //# html name
+    //##################################################
+
+    public String getHtmlName()
+    {
+        return _htmlName.getValue();
+    }
+
+    public void setHtmlName(String e)
+    {
+        _htmlName.setValue(e);
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public KmCssMarginBuilder cssMargin()
+    {
+        return _cssMargin.toMarginBuilder();
+    }
+
+    //##################################################
+    //# value
+    //##################################################
+
+    @Override
+    public Boolean getValue()
+    {
+        return _checked.isTrue();
+    }
+
+    @Override
+    public void setValue(Boolean value)
+    {
+        _checked.setValue(value);
+    }
+
+    public boolean isChecked()
+    {
+        return _checked.isTrue();
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _checked.saveValue();
+    }
+
+    @Override
+    public void resetValue()
+    {
+        _checked.resetValue();
+    }
+
+    //##################################################
+    //# option value
+    //##################################################
+
+    public Object getOptionValue()
+    {
+        return _optionValue.getValue();
+    }
+
+    public void setOptionValue(Object e)
+    {
+        _optionValue.setValue(e);
+    }
+
+    public boolean hasOptionValue(Object e)
+    {
+        return _optionValue.hasValue(e);
+    }
+
+    //##################################################
+    //# disabled
+    //##################################################
+
+    public void setDisabled(boolean b)
+    {
+        _disabled.setValue(b);
+    }
+
+    public boolean isDisabled()
+    {
+        return _disabled.getValue();
+    }
+
+    public void setDisabled()
+    {
+        setDisabled(true);
     }
 
     //##################################################
@@ -82,23 +226,107 @@ public class ScCheckboxField
     }
 
     //##################################################
-    //# change tracking
+    //# on change
     //##################################################
 
-    public boolean getChangeTracking()
+    public void onChange(ScAction e)
     {
-        return _changeTracking;
+        _onChangeAction = e;
     }
 
-    public void setChangeTracking(boolean e)
+    public void onChange(Runnable e)
     {
-        warnIfInstalled();
-        _changeTracking = e;
+        onChange(newCheckedAction(e));
     }
 
-    public void disableChangeTracking()
+    private String formatOnChange()
     {
-        setChangeTracking(false);
+        if ( _onChangeAction == null )
+            return null;
+
+        ScForm form = findFormWrapper();
+        ScHtmlIdIF block = findBlockWrapper();
+
+        ScActionScript s;
+        s = new ScActionScript();
+        s.setAction(_onChangeAction);
+        s.setForm(form);
+        s.setModel(getModel());
+        s.setBlockTarget(block);
+
+        return s.formatScript();
+    }
+
+    //##################################################
+    //# render
+    //##################################################
+
+    @Override
+    protected void renderControlOn(KmHtmlBuilder out)
+    {
+        KmStyleBuilder style = newStyleBuilder();
+        if ( !getVisible() )
+            style.hide();
+
+        out.openDiv();
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute(getCss());
+        out.printAttribute(style);
+        out.close();
+
+        renderImageOn(out);
+        renderInputOn(out);
+
+        out.endDiv();
+    }
+
+    private void renderImageOn(KmHtmlBuilder out)
+    {
+        out.printHelpImage(getHelp());
+    }
+
+    private void renderInputOn(KmHtmlBuilder out)
+    {
+        out.open("input");
+        out.printAttribute("id", getInputHtmlId());
+        out.printAttribute("name", getHtmlName());
+        out.printAttribute("value", encode(getOptionValue()));
+        out.printAttribute("type", "checkbox");
+        out.printAttribute("onchange", formatOnChange());
+
+        if ( isChecked() )
+            out.printAttribute("checked", "checked");
+
+        if ( isDisabled() )
+            out.printAttribute("disabled", "disabled");
+
+        if ( getChangeTracking() )
+            printOldCheckedAttributeOn(out, getValue());
+
+        out.close();
+        // no end tab
+    }
+
+    //==================================================
+    //= render :: css
+    //==================================================
+
+    /**
+     * Get the basic css for the outer/wrapper div.
+     */
+    private KmCssDefaultBuilder getCss()
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.checkboxField();
+        css.addAll(cssMargin().getSelectors());
+
+        if ( isEditable() )
+            css.checkboxField_enabled();
+        else
+            css.checkboxField_disabled();
+
+        return css;
     }
 
     //##################################################
@@ -106,153 +334,20 @@ public class ScCheckboxField
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    protected void readParameters_here(ScServletData data)
     {
-        super.readParameters(data);
+        super.readParameters_here(data);
 
-        boolean exists = data.hasParameter(getExistsHtmlName());
-        if ( exists )
+        boolean checked = false;
+
+        String name = getHtmlName();
+        if ( data.hasParameter(name) )
         {
-            boolean checked = hasKeyParameter(data);
-            _checked.setValue(checked);
+            Object optionValue = decode(data.getParameter(name));
+            checked = hasOptionValue(optionValue);
         }
-    }
 
-    private String getExistsHtmlId()
-    {
-        return getHtmlId() + "_exists";
-    }
-
-    private String getExistsHtmlName()
-    {
-        return getExistsHtmlId();
-    }
-
-    //##################################################
-    //# print
-    //##################################################
-
-    @Override
-    protected void renderControlOn(KmHtmlBuilder out)
-    {
-        super.renderControlOn(out);
-
-        out.printHiddenField(getExistsHtmlName(), "true");
-    }
-
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
-
-        boolean checked = isChecked();
-
-        if ( getChangeTracking() )
-            printOldCheckedAttributeOn(out, checked);
-
-        if ( checked )
-            out.printAttribute("checked");
-    }
-
-    @Override
-    protected KmCssDefaultBuilder formatCss()
-    {
-        return super.formatCss().checkbox();
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public boolean isChecked()
-    {
-        return _checked.isTrue();
-    }
-
-    @Override
-    public Boolean getValue()
-    {
-        return isChecked();
-    }
-
-    public boolean isTrue()
-    {
-        return getValue();
-    }
-
-    public boolean isFalse()
-    {
-        return !isTrue();
-    }
-
-    @Override
-    public void setValue(Boolean value)
-    {
-        _checked.setValue(value);
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _checked.resetValue();
-    }
-
-    //##################################################
-    //# page session
-    //##################################################
-
-    @Override
-    public void saveFieldValues()
-    {
-        super.saveFieldValues();
-        _checked.saveValue();
-    }
-
-    @Override
-    public void resetFieldValues()
-    {
-        super.resetFieldValues();
-        _checked.resetValue();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<Boolean> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<Boolean> e)
-    {
-        _validator = e;
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public boolean validateQuietly()
-    {
-        if ( !super.validateQuietly() )
-            return false;
-
-        if ( hasErrors() )
-            return false;
-
-        if ( _validator == null )
-            return true;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-        _validator.validateOnly(getValue(), errors);
-        if ( errors.isEmpty() )
-            return true;
-
-        setErrors(errors);
-        return false;
+        setValue(checked);
     }
 
     //##################################################
@@ -260,20 +355,31 @@ public class ScCheckboxField
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(Boolean value)
     {
-        ajaxSetValue(getValue());
+        ajaxSetFieldValue(value, getChangeTracking());
     }
 
-    public void ajaxSetValue(Object e)
+    @Override
+    public void ajaxSetFieldValue(Boolean value, boolean updateOldValue)
     {
-        String value = encode(e);
-        boolean checked = isChecked();
+        if ( value == null )
+            value = false;
 
-        ajax().setValue(value);
-        ajax().setChecked(checked);
+        ScHtmlIdAjax ajax;
+        ajax = inputAjax();
+        ajax.setChecked(value);
 
-        if ( getChangeTracking() )
-            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_CHECKED, checked);
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_CHECKED, value);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private ScHtmlIdAjax inputAjax()
+    {
+        return newHtmlIdAjaxOn(getInputHtmlId());
     }
 }

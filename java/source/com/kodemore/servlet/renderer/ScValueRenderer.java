@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package com.kodemore.servlet.renderer;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public class ScValueRenderer
     extends ScRenderer
@@ -52,4 +53,21 @@ public class ScValueRenderer
     {
         out.print(_value);
     }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        if ( _value != null )
+            _value = _value.intern();
+    }
+
 }

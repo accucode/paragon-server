@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,11 @@ public class ScSimpleMessageComposer
     //# variables
     //##################################################
 
-    private String    _header;
-    private String    _title;
-    private String    _message;
-    private Throwable _exception;
-    private boolean   _showException;
+    private String        _header;
+    private String        _title;
+    private String        _message;
+    private Throwable     _exception;
+    private boolean       _showException;
 
     private KmHtmlBuilder _out;
 

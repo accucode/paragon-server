@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -34,14 +34,11 @@ public class ScSubmitButton
     extends ScButton
 {
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScSubmitButton()
     {
-        super.install();
-
         setText("Submit");
     }
 
@@ -78,7 +75,7 @@ public class ScSubmitButton
     //##################################################
 
     @Override
-    protected String formatHtmlType()
+    protected String getButtonType()
     {
         return "submit";
     }
@@ -88,4 +85,5 @@ public class ScSubmitButton
     {
         return null;
     }
+
 }

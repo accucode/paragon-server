@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -51,7 +52,7 @@ public class MyMetaInvitation_ProjectName
     {
         return "The display name.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,17 +74,17 @@ public class MyMetaInvitation_ProjectName
     {
         return model.getProjectName();
     }
-    
+
     @Override
     public void setValueFor(MyInvitation model, String value)
     {
         model.setProjectName(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
         return model.hasProjectName(value);
     }
-    
+
 }

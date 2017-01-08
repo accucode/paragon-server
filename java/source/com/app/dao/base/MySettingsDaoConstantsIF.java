@@ -20,5 +20,6 @@ public interface MySettingsDaoConstantsIF
     String CODE = "code";
     String SOME_MESSAGE = "someMessage";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
 
 }

@@ -2,8 +2,7 @@ package sandbox.wlove;
 
 import com.kodemore.command.KmDaoRunnableCommand;
 
-import com.app.install.MyResetDatabaseTool;
-import com.app.tools.MySampleDataTool;
+import com.app.tools.MyResetDatabaseTool;
 import com.app.utility.MyInstaller;
 
 public class JkResetDataTest
@@ -43,6 +42,5 @@ public class JkResetDataTest
     private void handle()
     {
         MyResetDatabaseTool.run();
-        MySampleDataTool.run();
     }
 }

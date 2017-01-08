@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaEmail_SentLocalDate
     @Override
     public String getHelp()
     {
-        return "The date and time when the email was last sent.";
+        return "The sent date based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaEmail_SentLocalDate
     {
         return model.getSentLocalDate();
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmail model, KmDate value)
     {
         return model.hasSentLocalDate(value);
     }
-    
+
 }

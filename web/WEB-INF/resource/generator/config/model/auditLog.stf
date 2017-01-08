@@ -17,22 +17,46 @@ database
 : locking   = false
 
     index
-    : name      = modelField
+    : name      = domainField
     : unique    = false
-    : on        = modelUid
+    : on        = domainUid
     : on        = fieldName
-    : on        = utcTs
+    : on        = createdUtcTs
+
+    index
+    : name      = bundle
+    : unique    = false
+    : on        = domainBundleUid
+    : on        = uid
+
+    index
+    : name      = domainType
+    : unique    = false
+    : on        = domainType
 
 
 attributes
 
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
     field
-    : name          = uid
-    : help          = The globally unique identifier.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+    : name      = createdUtcTs
+    : help      = The time this change was made.
+    : type      = timestamp
+    : default   = nowUtc()
+    : required  = true
+
+
+    //*****************************************************
+    //** transaction
+    //*****************************************************
 
 
     field
@@ -40,6 +64,11 @@ attributes
     : help          = A unique identifier of the database transaction.
     : type          = uid
     : required      = true
+
+
+    //*****************************************************
+    //** user
+    //*****************************************************
 
 
     association
@@ -60,79 +89,129 @@ attributes
         : value = user
 
 
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
     field
     : name      = typeCode
     : help      = The type of change.
-    : type      = letterCode
+    : type      = longEnumCode
     : required  = true
 
         enum
-            value(#A Add)
-            value(#U Update)
-            value(#D Delete)
+            value(#Add)
+            value(#Update)
+            value(#Delete)
+
+
+    //*****************************************************
+    //** domain
+    //*****************************************************
 
 
     field
-    : name      = utcTs
-    : help      = The time this change was made.
-    : type      = timestamp
-    : default   = getNowUtc()
-    : required  = true
-
-
-    field
-    : name      = modelType
-    : help      = The type of model; e.g.: Project, Depot, User, etc.
+    : name      = domainType
+    : help      = The type of domain; e.g.: project, depot, etc.
     : type      = name
     : required  = true
 
 
-    field
-    : name      = modelName
+    abstractField
+    : name      = domainTypeLabel
     : help...
         ---
-        The common, but non-unique name of the model.
+        A more friendly format of the domain type.
+        E.g.: project => Project; salesOrderLine => Sales Order Line; etc.
+        ---
+    : type      = calculated
+
+
+    field
+    : name      = domainName
+    : help...
+        ---
+        The common, but non-unique name of the domain.
         Models generally rely on long UIDs as their unique identifier so
-        we also store a model's display string as a 'name'.  Although this name
+        we also store a domain's display string as a 'name'.  Although this name
         is not guaranteed to be unique, it is generally human-readable and is usually
-        sufficient to identify which model was affected.
+        sufficient to identify which domain was affected.
         ---
     : type      = name
     : required  = true
 
 
     field
-    : name      = modelUid
-    : help      = The unique id of the model.
+    : name      = domainUid
+    : help      = The unique id of the domain model.
     : type      = uid
     : required  = true
 
 
     field
+    : name      = domainBundleUid
+    : help...
+        ---
+        I am used to identity a bundle of logs related to a particular domain.
+        In many cases, a particular domain will have multiple fields modified at the
+        same time.  The bundle identifies this group of changes.  Sometimes multiple
+        bundles may occur within the same transaction for the same domain.
+        ---
+    : type      = uid
+    : required  = true
+
+
+    //*****************************************************
+    //** field
+    //*****************************************************
+
+
+    field
     : name      = fieldName
-    : help      = The name of the field that was modified.
+    : help...
+        ---
+        The name of the field that was modified.
+        This is effectively the java/database name.
+        For example: count, phone, primaryShippingAddress.
+        ---
     : type      = name
     : required  = true
+
+
+    abstractField
+    : name      = fieldNameLabel
+    : help...
+        ---
+        A more friendly format of the field name.
+        E.g.: count => Count; primaryShippingAddress => Primary Shipping Address; etc.
+        ---
+    : type      = calculated
+
+
+    //*****************************************************
+    //** value
+    //*****************************************************
 
 
     field
     : name      = newValue
     : help      = A human readable summary of the new/current value.
-    : type      = name
+    : type      = multiline100
     : required  = true
 
 
     field
     : name      = oldValue
     : help      = A human readable summary of the old/previous value.
-    : type      = name
+    : type      = multiline100
     : required  = true
 
 
     field
     : name      = stringValue
     : help      = The truncated string value, if applicable.
-    : type      = text1000
+    : type      = multiline1000
     : required  = false
 
 

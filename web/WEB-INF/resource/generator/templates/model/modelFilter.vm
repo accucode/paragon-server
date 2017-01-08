@@ -11,46 +11,48 @@ public class ${model.f_FilterClass}
 $utility.protocol("sort (enum)")
 
     public static enum Sort
-        implements KmNamedEnumIF
+        implements KmEnumIF
     {
-        ${model.primaryKeyField.f_Name}("${model.primaryKeyField.f_Name}");
-
-        private String _name;
-
-        private Sort(String name)
-        {
-            _name = name;
-        }
-
-		@Override
-        public String getName()
-        {
-            return _name;
-        }
+        ${model.primaryKeyField.f_Name};
     }
 
 $utility.protocol("variables")
 
-    private Sort _sort;
-    private boolean _sortAscending;
+    private Sort    _sort;
+    private boolean _ascending;
+
+$utility.protocol("constructor")
+
+    public ${model.f_FilterClass}()
+    {
+        sortOn${model.primaryKeyField.f_Name}();
+        sortAscending();
+    }
 
 $utility.protocol("sort")
 
     public void sortOn${model.primaryKeyField.f_Name}()
     {
-        sortOn(Sort.${model.primaryKeyField.f_Name});
+        setSort(Sort.${model.primaryKeyField.f_Name});
     }
 
-$utility.protocol("sort (support)")
+    //==================================================
+    //= sort :: accessing
+    //==================================================
+
+    public Sort getSort()
+    {
+        return _sort;
+    }
+
+    public void setSort(Sort e)
+    {
+        _sort = e;
+    }
 
     public void sortOn(int i)
     {
-        sortOn(Sort.values()[i]);
-    }
-
-    public void sortOn(Sort e)
-    {
-        _sort = e;
+        setSort(Sort.values()[i]);
     }
 
     public boolean usesSort()
@@ -58,21 +60,28 @@ $utility.protocol("sort (support)")
         return _sort != null;
     }
 
-$utility.protocol("sort order")
+    //==================================================
+    //= sort :: ascending
+    //==================================================
+
+    public boolean getAscending()
+    {
+        return _ascending;
+    }
+
+    public void setAscending(boolean e)
+    {
+        _ascending = e;
+    }
 
     public void sortAscending()
     {
-        sortAscending(true);
-    }
-
-    public void sortAscending(boolean e)
-    {
-        _sortAscending = e;
+        setAscending(true);
     }
 
     public void sortDescending()
     {
-        sortAscending(false);
+        setAscending(false);
     }
 
 $utility.protocol("apply")
@@ -89,9 +98,10 @@ $utility.protocol("apply")
         if ( !usesSort() )
             return;
 
-        boolean asc = _sortAscending;
+        Sort sort = getSort();
+        boolean asc = getAscending();
 
-        switch ( _sort )
+        switch ( sort )
         {
             case ${model.primaryKeyField.f_Name}:
                 c.sortOn${model.primaryKeyField.f_Name}(asc);

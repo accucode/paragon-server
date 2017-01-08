@@ -12,7 +12,7 @@ public class MyPerformanceLogSummaryDao
     /**
      * Find the last day for which daily logs have been created.
      */
-    public KmDate getLastDay()
+    public KmDate getLastDateUtc()
     {
         MyPerformanceLogSummaryCriteria c;
         c = createCriteria();

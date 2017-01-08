@@ -43,14 +43,14 @@ public class MyPerformanceLogDetailJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
         return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
     public KmhIntegerCondition whereDurationMs()

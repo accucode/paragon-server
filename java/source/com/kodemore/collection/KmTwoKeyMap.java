@@ -91,6 +91,11 @@ public class KmTwoKeyMap<K1, K2, V>
         return n;
     }
 
+    public void clear()
+    {
+        _values.clear();
+    }
+
     //##################################################
     //# abstract accessing
     //##################################################
@@ -102,6 +107,19 @@ public class KmTwoKeyMap<K1, K2, V>
         KmList<K1> v;
         v = new KmList<>();
         v.addAll(set);
+        return v;
+    }
+
+    public KmList<K2> getKeyList2For(K1 key1)
+    {
+        Map<K2,V> map = _values.get(key1);
+
+        if ( map == null )
+            return new KmList<>();
+
+        KmList<K2> v;
+        v = new KmList<>();
+        v.addAll(map.keySet());
         return v;
     }
 }

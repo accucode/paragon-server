@@ -1,6 +1,6 @@
 package com.kodemore.meta;
 
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.validator.KmIntegerValidator;
 
@@ -29,19 +29,22 @@ public abstract class KmMetaIntegerProperty<T>
         return e;
     }
 
-    public ScDropdown newDropdown(int min, int max)
+    public ScDropdownField<Integer> newDropdown(int min, int max)
     {
         return newDropdown(getLabel(), min, max);
     }
 
-    public ScDropdown newDropdown(String label, int min, int max)
+    public ScDropdownField<Integer> newDropdown(String label, int min, int max)
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScDropdownField<Integer> e;
+        e = new ScDropdownField<>();
         e.setLabel(label);
         e.setHelp(getHelp());
-        e.setValue(getAdaptor());
-        e.addOptionRange(min, max);
+        e.setValueAdaptor(this);
+
+        for ( int i = min; i <= max; i++ )
+            e.addOption(i, i + "");
+
         return e;
     }
 

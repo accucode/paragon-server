@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyPatchCriteria
@@ -245,8 +246,37 @@ public class MyPatchCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyPatchJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyPatchJunction any()
+    {
+        return addOr();
+    }
+
+    public MyPatchJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyPatchJunction addNotAnd()
+    {
+        return new MyPatchJunction(parent().addNotAnd());
+    }
+
+    public MyPatchJunction addNotOr()
+    {
+        return new MyPatchJunction(parent().addNotOr());
+    }
 
     public MyPatchJunction addAnd()
     {

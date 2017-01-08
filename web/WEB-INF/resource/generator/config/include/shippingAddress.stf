@@ -1,0 +1,74 @@
+    //*****************************************************
+    //** fields
+    //*****************************************************
+
+
+    field
+    : name      = shippingStreet1
+    : help      = The first line of the street address.
+    : type      = name
+
+
+    field
+    : name      = shippingStreet2
+    : help      = The second line of the street address.
+    : type      = name
+
+
+    field
+    : name      = shippingCity
+    : help      = The name of the city.
+    : type      = name
+
+
+    field
+    : name      = shippingRegion
+    : help      = The name or abbreviation of the of the region (or state).
+    : type      = name
+
+
+    field
+    : name      = shippingPostalCode
+    : help      = The zip/postal code.
+    : type      = postalCode
+
+
+    field
+    : name      = shippingCountry
+    : help      = The name or abbreviation of the country.
+    : type      = name
+
+
+    field
+    : name      = shippingAttention
+    : help      = The attention line of the address.
+    : type      = name
+
+
+    field
+    : name      = shippingPhone
+    : help      = The phone number.
+    : type      = phone
+
+
+    //*****************************************************
+    //** display
+    //*****************************************************
+
+
+    abstractField
+    : name      = shippingAddressShortLine
+    : help      = The short format of the address.
+    : type      = calculated
+
+
+    abstractField
+    : name      = shippingAddressLongLine
+    : help      = The long format of the address.
+    : type      = calculated
+
+
+    abstractField
+    : name      = shippingAddressMultiLine
+    : help      = The multi-line format of the address.
+    : type      = calculated

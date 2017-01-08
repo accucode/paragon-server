@@ -37,6 +37,18 @@ public class MyMetaDownload_User
         return "user";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "User";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The specific user allowed to download this file.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaDownload_User
     {
         return model.getUser();
     }
-    
+
     @Override
     public void setValueFor(MyDownload model, MyUser value)
     {
         model.setUser(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyDownload model, MyUser value)
     {

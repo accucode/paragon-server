@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
 /**
- * This is a simple bar chart that displays several discrete data points. 
+ * This is a simple bar chart that displays several discrete data points.
  */
 public class ScBarChart
     extends ScAbstractChart
@@ -38,8 +38,8 @@ public class ScBarChart
     //# constants
     //##################################################
 
-    private static final int DEFAULT_Y_AXIS_MIN   = 0;
-    private static final int STAGGER_LABEL_MARGIN = 65;
+    private static final int  DEFAULT_Y_AXIS_MIN   = 0;
+    private static final int  STAGGER_LABEL_MARGIN = 65;
 
     //##################################################
     //# variables
@@ -48,10 +48,10 @@ public class ScBarChart
     /**
      * Determines if the individual bar labes should be staggered vertically.
      */
-    private boolean _staggerLabels;
+    private boolean           _staggerLabels;
 
     /**
-     * This is the data to be represented in the chart.  
+     * This is the data to be represented in the chart.
      * Each bar must have a "key" (also the label)
      * and a "value", and may optionally have a color using the
      * key "color".
@@ -62,18 +62,14 @@ public class ScBarChart
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScBarChart()
     {
-        super.install();
-
         setYAxisMin(DEFAULT_Y_AXIS_MIN);
-
         _bars = new KmList<>();
     }
 
     //##################################################
-    //# Stagger Labels 
+    //# Stagger Labels
     //##################################################
 
     public boolean getStaggerLabels()
@@ -126,7 +122,7 @@ public class ScBarChart
         slice = new KmJsonMap();
         slice.setString("key", key);
         slice.setDouble("value", value);
-        slice.setString("color", color.getValue());
+        slice.setString("color", color.getHexValue());
 
         getBars().add(slice);
     }
@@ -151,7 +147,7 @@ public class ScBarChart
     //##################################################
 
     @Override
-    protected void initializeChart(KmStringBuilder out)
+    protected void initializeChartOn(KmStringBuilder out)
     {
         out.print("var chart;");
         out.print("chart = nv.models.discreteBarChart();");
@@ -168,14 +164,14 @@ public class ScBarChart
     }
 
     @Override
-    protected void formatXAxis(KmStringBuilder out)
+    protected void formatXAxisOn(KmStringBuilder out)
     {
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
     }
 
     @Override
-    protected void formatYAxis(KmStringBuilder out)
+    protected void formatYAxisOn(KmStringBuilder out)
     {
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());

@@ -43,6 +43,7 @@ public abstract class ScPageRegistry
         _pages = new KmMap<>();
         registerPages();
         installPages();
+        postInstall();
     }
 
     //##################################################
@@ -93,12 +94,25 @@ public abstract class ScPageRegistry
 
     private void installPages()
     {
-        KmList<ScPage> v;
-        v = _pages.getValues();
-        v.sortOn(ScPage::getSimpleClassName);
-
-        for ( ScPage e : v )
+        for ( ScPage e : getSortedPages() )
             e.install();
     }
 
+    private void postInstall()
+    {
+        for ( ScPage e : getSortedPages() )
+            e.postInstall();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private KmList<ScPage> getSortedPages()
+    {
+        KmList<ScPage> v;
+        v = _pages.getValues();
+        v.sortOn(e -> e.getClass().getSimpleName());
+        return v;
+    }
 }

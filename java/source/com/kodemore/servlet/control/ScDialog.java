@@ -1,48 +1,60 @@
 package com.kodemore.servlet.control;
 
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.action.ScErrorManagerIF;
+
 /**
  * I extend the basic dialog to include a default layout.  I define
- * a header, body, and footer; organized in a flexbox column.  The
- * header and footer are initially hidden, but configured for static
- * sizing if displayed.  The body is visible by default, and configured
- * to stretch and shrink if the dialog is resized.  The various
- * sections are styled with standard background colors and borders.
- * Finally, the outer form is set to NOT scroll, and the inner body
- * section is to set to scroll if needed (overflow:auto).
+ * a header, body, and footer; organized in a flexbox column.
+ *
+ * The header and footer are initially hidden, but configured for static
+ * sizing if displayed.  This means that if the header is shown it will
+ * automatically grow to accommodate the content you add to it.
+ *
+ * A The outer form is set to NOT scroll, and the inner body is configured
+ * to stretch/shrink/scroll to fit the dialog.  It is assumed that the size
+ * of the outer dialog is explicitly set to some specific size.
+ *
+ * The various sections are styled with standard background colors and borders.
  */
 public class ScDialog
     extends ScBareDialog
+    implements ScErrorManagerIF
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScFlexbox _header;
-    private ScDiv     _body;
-    private ScFlexbox _footer;
+    private ScDiv _header;
+    private ScDiv _error;
+    private ScDiv _body;
+    private ScDiv _footer;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDialog()
     {
-        super.install();
-
         ScForm form;
         form = getForm();
-        form.css().flex().flexColumn().noScroll();
+        form.css().flexColumn();
+        form.style().overflowHidden();
 
-        _header = form.addRow();
-        _header.css().formHeader().flexStatic();
+        _error = form.addDiv();
+        _error.css().error().formError().flexChildStatic();
+        _error.hide();
+
+        _header = form.addDiv();
+        _header.css().dialog_header().flexChildStatic();
         _header.hide();
 
         _body = form.addDiv();
-        _body.css().formBody().flexFiller().auto();
+        _body.css().dialog_body().flexChildFiller().auto();
 
-        _footer = form.addRow();
-        _footer.css().formFooter().flexStatic();
+        _footer = form.addDiv();
+        _footer.css().dialog_footer().flexChildStatic();
         _footer.hide();
     }
 
@@ -50,14 +62,14 @@ public class ScDialog
     //# accessing
     //##################################################
 
-    public ScFlexbox getHeader()
+    public ScDiv getHeader()
     {
         return _header;
     }
 
-    public ScFlexbox showHeader()
+    public ScDiv showHeader()
     {
-        ScFlexbox e;
+        ScDiv e;
         e = getHeader();
         e.show();
         return e;
@@ -68,25 +80,53 @@ public class ScDialog
         return _body;
     }
 
-    public ScFlexbox getFooter()
+    public ScDiv getFooter()
     {
         return _footer;
     }
 
-    public ScFlexbox showFooter()
+    public ScDiv showFooter()
     {
-        ScFlexbox e;
+        ScDiv e;
         e = getFooter();
         e.show();
         return e;
     }
 
-    public void setFlavorWarning()
+    //##################################################
+    //# flavor
+    //##################################################
+
+    // low_wyatt: dialog flavor
+    public void setFlavorCaution()
     {
         ScDiv body;
         body = getBody();
         body.css().remove().formBody();
-        body.css().formBodyWarning();
+        body.css().formBodyCaution();
     }
 
+    // low_wyatt: dialog flavor
+    public void setFlavorAlert()
+    {
+        ScDiv body;
+        body = getBody();
+        body.css().remove().formBody();
+        body.css().formBodyAlert();
+    }
+
+    //##################################################
+    //# error
+    //##################################################
+
+    @Override
+    public void handleError(KmApplicationException ex)
+    {
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.print(ex.formatMultiLineMessage());
+
+        _error.ajaxSetHtml(out);
+        _error.ajaxShow();
+    }
 }

@@ -1,7 +1,7 @@
 package sandbox.wlove;
 
+import com.kodemore.file.KmFile;
 import com.kodemore.tools.KmLineCounter;
-import com.kodemore.utility.Kmu;
 
 public class JkLineCounter
 {
@@ -12,20 +12,20 @@ public class JkLineCounter
 
     private void run()
     {
-        countJava("fieldService-server/java/source");
-        countJava("lifeCycleService/java/source");
-        countJava("rapidInventory/java/source");
-        countJava("vmail/java/source");
-        countJava("aoBar-droid");
+        countJava("temp/java/source");
+        //        countJava("homeshop/app/java");
+        //        countJava("lifeCycleService/java/source");
+        //        countJava("rapidInventory/java/source");
+        //        countJava("vmail/java/source");
+        //        countJava("aoBar-droid");
 
         System.out.println("ok.");
     }
 
     private void countJava(String path)
     {
-        String working = Kmu.getWorkingFolder();
-        path = Kmu.joinFilePath(working, "..", path);
-        KmLineCounter.countLines(path, ".java");
+        KmFile file = KmFile.workingFolder().getParent().getChild(path);
+        KmLineCounter.countLines(file, ".java");
         System.out.println();
     }
 }

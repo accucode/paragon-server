@@ -3,8 +3,9 @@ package com.app.ui.control;
 import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScDiv;
 
+// fixme_wyatt: remove?
 public abstract class MyRemoveDialog<T>
     extends MyDialog
 {
@@ -15,14 +16,11 @@ public abstract class MyRemoveDialog<T>
     private KmList<Consumer<T>> _removeListeners;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyRemoveDialog()
     {
-        super.install();
-
         _removeListeners = new KmList<>();
 
         installButtons();
@@ -30,9 +28,9 @@ public abstract class MyRemoveDialog<T>
 
     private void installButtons()
     {
-        ScFlexbox footer;
+        ScDiv footer;
         footer = showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
         footer.addButton("Remove", this::handleRemove);
         footer.addCancelButton(this::ajaxClose);

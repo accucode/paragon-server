@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@ import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmOrderedMap;
-import com.kodemore.log.KmLog;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -130,8 +129,8 @@ public class ScParameterList
             return;
         }
 
-        if ( hasKey(key) )
-            KmLog.warnTrace("Duplicate key '%s', old value is overwritten.", key);
+        //        if ( hasKey(key) )
+        //            KmLog.warnTrace("Duplicate key '%s', old value is overwritten.", key);
 
         KmList<String> v = KmList.createWith(value);
         _map.put(key, v);
@@ -140,6 +139,20 @@ public class ScParameterList
     public boolean hasValue(String key)
     {
         return Kmu.hasValue(getValue(key));
+    }
+
+    //##################################################
+    //# parse single values
+    //##################################################
+
+    public Boolean parseValue(String key, Boolean def)
+    {
+        return Kmu.parseBoolean(getValue(key), def);
+    }
+
+    public Integer parseValue(String key, Integer def)
+    {
+        return Kmu.parseInteger(getValue(key), def);
     }
 
     //##################################################

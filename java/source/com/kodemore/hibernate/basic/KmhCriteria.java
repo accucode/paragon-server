@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ public abstract class KmhCriteria
      * This is tracked because hibernate does not provide any methods to
      * inspect the criteria in order to determine if sorting has been applied.
      */
-    private boolean _sorted;
+    private boolean  _sorted;
 
     //##################################################
     //# constructor

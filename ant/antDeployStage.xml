@@ -1,19 +1,34 @@
 <project name="Deploy Stage" basedir="..">
 
-    <property name='dummy' value=''/>  
+    <property name='dummy' value=''/>
     <import file="antCore.xml"/>
-    
-    
-    <property name='awsApplicationName' value='Paragon'/>  
-    <property name='awsEnvironmentName' value='2-paragon-stage'/>  
-    <property name='awsBuildPrefix' value='paragon-stage'/> 
-    <property name='warFileName' value='paragon.war'/>
+
+    <property name='awsApplicationName' value='Core'/>
+    <property name='awsEnvironmentName' value='2-core-stage'/>
+    <property name='awsBuildPrefix'     value='core-stage'/>
+    <property name='awsCliProfile'      value='core'/>
+    <property name='warFileName'        value='core.war'/>
 
     <!--
     ****************************************
     ** Beanstalk
     ****************************************
     -->
+
+    <!-- Used to deploy war file to Stage.  This will take Stage off-line during update. -->
+    <target
+        name="deploy"
+        depends="init,getBuildNumber,makeWar,uploadWar,configureVersion,updateEnvironment"
+        description="x">
+    </target>
+
+    <target
+        name="getBuildNumber"
+        depends="init">
+        <input
+            message="What is the build number?"
+            addproperty="buildNumber" />
+    </target>
 
     <target
         name="uploadWar"
@@ -22,10 +37,12 @@
            <arg value="s3" />
            <arg value="cp" />
            <arg value="${temp}/${warFileName}" />
-           <arg value="s3://AccuCode-Builds/${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war" />
+           <arg value="s3://acmebuilds-app/${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
         </exec>
     </target>
-    
+
     <target
         name="configureVersion"
         depends="init" >
@@ -37,10 +54,12 @@
            <arg value="--version-label" />
            <arg value="${awsBuildPrefix}-${buildNumber}" />
            <arg value="--source-bundle" />
-           <arg value='"S3Bucket=AccuCode-Builds,S3Key=${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war"' />
+           <arg value='"S3Bucket=acmebuilds-core,S3Key=${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war"' />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
         </exec>
     </target>
-    
+
     <target
         name="updateEnvironment"
         depends="init" >
@@ -51,55 +70,41 @@
            <arg value="${awsEnvironmentName}" />
            <arg value="--version-label" />
            <arg value="${awsBuildPrefix}-${buildNumber}" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
         </exec>
     </target>
-    
+
+    <!-- Used to make War for AWS Stage environment. -->
     <target
-        name="deploy"
-        depends="init" 
-        description="Used to deploy war file to Stage.  This will take Stage off-line during update.">
-        <input
-            message="What is the build number?"
-            addproperty="buildNumber" />
-        
-          <antcall target="uploadWar">
-            <param name="buildNumber" value="${buildNumber}" />
-          </antcall>
-          <antcall target="configureVersion">
-            <param name="buildNumber" value="${buildNumber}" />
-          </antcall>
-          <antcall target="updateEnvironment">
-            <param name="buildNumber" value="${buildNumber}" />
-          </antcall>
-    </target>
-    <target
-            name="makeWarUsingTemp"
-            depends="init,clean,compile" 
-            description="Used to make War file used for use in the AWS Stage environment.">    
+        name="makeWar"
+        depends="init,clean,compile"
+        >
+
         <delete dir="${temp}/web" quiet="true" />
-        
+
         <!-- copy the web dir to temp area -->
         <copy todir="${temp}/web" >
             <fileset dir="${web}"/>
         </copy>
-    
+
         <!-- bring in the properties file for Stage -->
         <copy
-                file="${resource}/settings/stage/_overrides.txt"
-                tofile="${temp}/web/WEB-INF/resource/property/overrides.txt"
-                overwrite="true"
-                verbose="true"/>
+            file="${resource}/settings/stage/_overrides.txt"
+            tofile="${temp}/web/WEB-INF/resource/property/overrides.txt"
+            overwrite="true"
+            verbose="true"/>
         <copy
-                file="${resource}/settings/stage/_log4j.xml"
-                tofile="${temp}/web/WEB-INF/resource/log4j/log4j.xml"
-                overwrite="true"
-                verbose="true"/>
+            file="${resource}/settings/stage/_log4j.xml"
+            tofile="${temp}/web/WEB-INF/resource/log4j/log4j.xml"
+            overwrite="true"
+            verbose="true"/>
         <copy
-                file="${resource}/settings/stage/_ROOT.xml"
-                tofile="${temp}/web/WEB-INF/resource/webInstall/ROOT.xml"
-                overwrite="true"
-                verbose="true"/>
-    
+            file="${resource}/settings/stage/_ROOT.xml"
+            tofile="${temp}/web/WEB-INF/resource/webInstall/ROOT.xml"
+            overwrite="true"
+            verbose="true"/>
+
         <!-- create the war file -->
         <war destfile="${temp}/${warFileName}" webxml="${temp}/web/WEB-INF/web.xml">
             <fileset dir="${temp}/web">
@@ -107,20 +112,24 @@
                 <exclude name="last.html"/>
             </fileset>
         </war>
-        
-        <delete dir="${temp}/web" />
+
+        <delete dir="${temp}/web" quiet="true" />
     </target>
-    
+
+    <!-- Bounces the servers in AWS. -->
     <target
         name="restart"
         depends="init"
-        description="Bounces the servers in AWS.">  
+        description="x"
+        >
         <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
            <arg value="elasticbeanstalk" />
            <arg value="restart-app-server" />
            <arg value="--environment-name" />
            <arg value="${awsEnvironmentName}" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
         </exec>
     </target>
-    
+
 </project>

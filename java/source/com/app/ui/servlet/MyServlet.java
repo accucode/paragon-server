@@ -5,11 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kodemore.command.KmDao;
 import com.kodemore.servlet.ScAbstractServlet;
+import com.kodemore.utility.Kmu;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyServerSession;
+import com.app.model.MyTenant;
+import com.app.property.MyProperties;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
-import com.app.ui.page.login.MySignInUtility;
+import com.app.ui.page.login.MyLoginUtility;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 
@@ -37,15 +40,21 @@ public abstract class MyServlet
     //# server session
     //##################################################
 
-    protected final void beginServerSession()
+    protected final MyServerSession beginServerSession()
     {
-        KmDao.run(this::beginServerSessionDao);
+        return KmDao.fetch(this::beginServerSessionDao);
     }
 
-    private void beginServerSessionDao()
+    private MyServerSession beginServerSessionDao()
     {
-        MyServerSessionManager.beginSession();
-        MySignInUtility.checkAutoSignIn();
+        MyTenant tenant = getData().getTenant();
+        if ( tenant == null )
+            throw Kmu.newError("Cannot determine tenant.");
+
+        MyServerSessionManager.beginSession(tenant);
+        MyLoginUtility.checkAutoLogin(tenant);
+
+        return MyServerSessionManager.getSession();
     }
 
     protected boolean touchServerSession()
@@ -67,7 +76,7 @@ public abstract class MyServlet
     //# support
     //##################################################
 
-    protected MyPropertyRegistry getProperties()
+    protected final MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

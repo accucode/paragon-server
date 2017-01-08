@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScForm;
@@ -76,22 +74,11 @@ public final class MyHideErrorsTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScAction hideErrorsAction1;
-        hideErrorsAction1 = newAction(this::handleHideFieldsetOneErrors);
-        hideErrorsAction1.disableChangeTracking();
-
-        ScAction hideErrorsAction2;
-        hideErrorsAction2 = newAction(this::handleHideFieldsetTwoErrors);
-        hideErrorsAction2.disableChangeTracking();
-
-        ScAction hideAllErrorsAction;
-        hideAllErrorsAction = newAction(this::handleHideAllErrors);
-        hideAllErrorsAction.disableChangeTracking();
+        root.css().fill().auto();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleSubmit);
-        form.css().gap();
 
         ScGroup group;
         group = form.addGroup("Form");
@@ -104,20 +91,20 @@ public final class MyHideErrorsTestPage
         fieldset = body.addFieldset("Fieldset One");
         fieldset.css().gap();
         fieldset.addFieldTable().addIntegerField().setLabel("Integer");
-        fieldset.addButton("Hide Errors", hideErrorsAction1);
+        fieldset.addButton("Hide Errors", newUncheckedAction(this::handleHideFieldsetOneErrors));
         _fieldsetOne = fieldset;
 
         fieldset = body.addFieldset("Fieldset Two");
         fieldset.css().gap();
         fieldset.addFieldTable().addIntegerField().setLabel("Integer");
-        fieldset.addButton("Hide Errors", hideErrorsAction2);
+        fieldset.addButton("Hide Errors", newUncheckedAction(this::handleHideFieldsetTwoErrors));
         _fieldsetTwo = fieldset;
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton();
         buttons.addResetButton();
-        buttons.addButton("Hide All Errors", hideAllErrorsAction);
+        buttons.addButton("Hide All Errors", newUncheckedAction(this::handleHideAllErrors));
     }
 
     //##################################################
@@ -139,18 +126,18 @@ public final class MyHideErrorsTestPage
         ajax().hideAllErrors();
         validate();
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast("Ok");
     }
 
     private void handleHideFieldsetOneErrors()
     {
-        _fieldsetOne.ajax().hideAllErrors();
+        _fieldsetOne.ajaxHideAllErrors();
     }
 
     private void handleHideFieldsetTwoErrors()
     {
-        _fieldsetTwo.ajax().hideAllErrors();
+        _fieldsetTwo.ajaxHideAllErrors();
     }
 
     private void handleHideAllErrors()

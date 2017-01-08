@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,19 +28,29 @@ public class ScRateField
     extends ScAbstractTextField<KmRate>
 {
     //##################################################
-    //# value
+    //# conversion
     //##################################################
 
     @Override
-    public KmRate getValueFor(String s)
+    protected KmRate textToValue(String text)
     {
-        return getFormatter().parseRate(s);
+        return getFormatter().parseRate(text);
     }
 
     @Override
-    public void setValue(KmRate value)
+    protected String valueToText(KmRate value)
     {
-        String s = getFormatter().formatRate(value);
-        setText(s);
+        return getFormatter().formatRate(value);
     }
+
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public KmRate getSampleValue()
+    {
+        return new KmRate(12.3);
+    }
+
 }

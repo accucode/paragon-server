@@ -1,12 +1,24 @@
 package com.app.model;
 
-import com.kodemore.collection.KmList;
+import com.kodemore.time.KmTime;
+import com.kodemore.types.KmDayFrequency;
 
+import com.app.criteria.MyProjectCriteria;
 import com.app.model.base.MyProjectBase;
+import com.app.model.core.MyProjectDomainIF;
 
 public class MyProject
     extends MyProjectBase
+    implements MyProjectDomainIF
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    public static final KmDayFrequency DEFAULT_BUSINESS_DAYS       = KmDayFrequency.MONDAY_THROUGH_FRIDAY;
+    public static final KmTime         DEFAULT_BUSINESS_START_TIME = KmTime.fromHour(9);
+    public static final KmTime         DEFAULT_BUSINESS_END_TIME   = KmTime.fromHour(17);
+
     //##################################################
     //# constructor
     //##################################################
@@ -17,87 +29,32 @@ public class MyProject
     }
 
     //##################################################
-    //# members
-    //##################################################
-
-    public MyMember getMemberFor(MyUser user)
-    {
-        return getMembers().detect(e -> e.hasUser(user));
-    }
-
-    public boolean hasMember(MyUser u)
-    {
-        return getMemberFor(u) != null;
-    }
-
-    public KmList<MyMember> getMembersByName()
-    {
-        KmList<MyMember> v;
-        v = getMembers().toList();
-        v.sortOn(MyMember::getUserName);
-        return v;
-    }
-
-    /**
-     * Determines if the user is allowed member-level access to this project.
-     */
-    public boolean allowsMember(MyUser u)
-    {
-        return hasMember(u) || u.allowsAdmin();
-    }
-
-    public boolean hasManager(MyUser u)
-    {
-        MyMember e = getMemberFor(u);
-        if ( e == null )
-            return false;
-
-        return e.isRoleManager();
-    }
-
-    //##################################################
     //# convenience
     //##################################################
 
-    public KmList<MyDepot> getDepotsByName()
+    @Override
+    public final MyProject getProject()
     {
-        return getDepots().toList(MyDepot::getName);
+        return this;
     }
 
-    public KmList<MyVendor> getVendorsByName()
+    //##################################################
+    //# duplicate checks
+    //##################################################
+
+    public boolean hasDifferentProjectWithSameName(String name)
     {
-        return getVendors().toList(MyVendor::getName);
+        MyProjectCriteria c;
+        c = getAccess().getProjectDao().createCriteria();
+        c.whereTenantIs(getTenant());
+        c.whereName().is(name);
+        c.whereUid().isNot(getUid());
+        return c.exists();
     }
 
-    public KmList<MySkill> getSkillsByName()
-    {
-        return getSkills().toList(MySkill::getName);
-    }
-
-    public KmList<MySkill> findSkillUids(KmList<String> uids)
-    {
-        KmList<MySkill> v = new KmList<>();
-
-        for ( String uid : uids )
-            v.add(findSkillUid(uid));
-
-        return v;
-    }
-
-    public KmList<String> getSkillNames()
-    {
-        return getSkillsByName().collect(e -> e.getName());
-    }
-
-    public KmList<MyRegion> getRegionsByName()
-    {
-        return getRegions().toList(MyRegion::getName);
-    }
-
-    public MyMember findMember(MyUser e)
-    {
-        return getAccess().getMemberDao().findMember(this, e);
-    }
+    //##################################################
+    //# members
+    //##################################################
 
     //##################################################
     //# display

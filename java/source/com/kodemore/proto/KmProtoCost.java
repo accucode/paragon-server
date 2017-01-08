@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.meta.KmMetaCostProperty;
 import com.kodemore.servlet.field.ScCostField;
 import com.kodemore.types.KmCost;
@@ -23,7 +23,7 @@ public class KmProtoCost
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return Kmu.format("decimal(%s,%s)", KmCost.DATABASE_PRECISION, KmCost.SCALE);
     }

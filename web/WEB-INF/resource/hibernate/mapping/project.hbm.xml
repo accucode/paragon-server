@@ -38,60 +38,91 @@
             />
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="name"
             column="name"
             type="string"
             />
 
-        <bag
-            name="members"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyMember"/>
-        </bag>
+        <property
+            name="code"
+            column="code"
+            type="string"
+            />
 
-        <bag
-            name="depots"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyDepot"/>
-        </bag>
+        <property
+            name="companyName"
+            column="companyName"
+            type="string"
+            />
 
-        <bag
-            name="regions"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyRegion"/>
-        </bag>
+        <property
+            name="sendEmailFrom"
+            column="sendEmailFrom"
+            type="string"
+            />
 
-        <bag
-            name="vendors"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyVendor"/>
-        </bag>
+        <property
+            name="active"
+            column="active"
+            type="yes_no"
+            />
 
-        <bag
-            name="skills"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MySkill"/>
-        </bag>
+        <property
+            name="catalogVersion"
+            column="catalogVersion"
+            type="integer"
+            />
+
+        <property
+            name="businessDays"
+            column="businessDays"
+            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            />
+
+        <property
+            name="businessStartTime"
+            column="businessStartTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
+            />
+
+        <property
+            name="businessEndTime"
+            column="businessEndTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="tenant"
+            column="tenantUid"
+            class="com.app.model.MyTenant"
+            cascade="none"
+            />
 
     </class>
 </hibernate-mapping>

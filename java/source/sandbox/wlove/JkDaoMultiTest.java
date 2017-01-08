@@ -3,7 +3,7 @@ package sandbox.wlove;
 import com.kodemore.command.KmDao;
 import com.kodemore.utility.Kmu;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
@@ -94,7 +94,7 @@ public class JkDaoMultiTest
     //##################################################
 
     @SuppressWarnings("unused")
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

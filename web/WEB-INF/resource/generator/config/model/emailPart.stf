@@ -2,10 +2,10 @@ model
 : name      = emailPart
 : help...
     ---
-    Each email is composed of at least one part, the body.  In some cases the body may 
+    Each email is composed of at least one part, the body.  In some cases the body may
     be composed of multiple parts.  For example, to supply both plaintext and html versions
     of the body; or to provide attachments.
-    --- 
+    ---
 
 database
 : auditLog  = true
@@ -17,41 +17,20 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : comment       = The unique key.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
 
-    field
-    : name      = sequence
-    : comment   = Defines the ordering of the parts
-    : type      = integer
-    : required  = true
+    //*****************************************************
+    //** basics
+    //*****************************************************
 
-    field
-    : name      = typeCode
-    : comment   = Text, Html, Attachment
-    : type      = letterCode
-    : required  = true
 
-        enum
+    #include basicUid.stf
+    #include basicTimestamps.stf
 
-            value(#T Text)
-            value(#H Html)
-            value(#A Attachment)
 
-    field
-    : name      = attachmentName
-    : comment   = Used for attachments.
-    : type      = name
+    //*****************************************************
+    //** context
+    //*****************************************************
 
-    field
-    : name      = data
-    : comment   = The raw binary data for this part.
-    : type      = blob
 
     association
     : name      = email
@@ -60,3 +39,38 @@ attributes
     : relation  = parent
     : required  = true
 
+
+    field
+    : name      = sequence
+    : comment   = Defines the ordering of the parts
+    : type      = integer
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : comment   = Text, Html, Attachment
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Text)
+            value(#Html)
+            value(#Attachment)
+
+
+    field
+    : name      = attachmentName
+    : comment   = Used for attachments.
+    : type      = name
+
+
+    field
+    : name      = data
+    : comment   = The raw binary data for this part.
+    : type      = blob

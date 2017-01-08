@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,16 +50,16 @@ public class KmCsvBuilder
     //# variables
     //##################################################
 
-    private String _endOfLine;
-    private String _fieldSeparator;
-    private char   _quote;
+    private String              _endOfLine;
+    private String              _fieldSeparator;
+    private char                _quote;
 
-    private StringBuilder _buffer;
-    private StringBuilder _record;
+    private StringBuilder       _buffer;
+    private StringBuilder       _record;
 
-    private boolean _quoteAll;
-    private boolean _emptyRecordFlag;
-    private boolean _convertLineEndsToSpaces;
+    private boolean             _quoteAll;
+    private boolean             _emptyRecordFlag;
+    private boolean             _convertLineEndsToSpaces;
 
     /**
      * When true (the default), an apostophe will be added to the
@@ -67,7 +67,7 @@ public class KmCsvBuilder
      * the (2) characters: "ID".   This is because MS Excel
      * misinterprets? .csv files that whose content starts with ID.
      */
-    private boolean _excelSylkCompatibility;
+    private boolean             _excelSylkCompatibility;
 
     //##################################################
     //# constructor
@@ -334,17 +334,17 @@ public class KmCsvBuilder
 
     private String format(KmMoney e)
     {
-        return format(e.getDoubleValue());
+        return format(e.toDouble());
     }
 
     private String format(KmKilogram e)
     {
-        return format(e.getDoubleValue());
+        return format(e.toDouble());
     }
 
     private String format(KmQuantity e)
     {
-        return format(e.getDoubleValue());
+        return format(e.toDouble());
     }
 
     //##################################################

@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyServerSessionBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -46,9 +49,9 @@ public abstract class MyServerSessionBase
     private KmTimestamp lastTouchedUtcTs;
     private String version;
     private Integer lockVersion;
+    private MyTenant tenant;
     private MyUser user;
-    private MyAutoSignIn autoSignIn;
-    private MyProject currentProject;
+    private MyAutoLogin autoLogin;
 
     //##################################################
     //# constructor
@@ -59,8 +62,9 @@ public abstract class MyServerSessionBase
         super();
         setUid(newUid());
         setActive(true);
-        setCreatedUtcTs(getNowUtc());
-        setLastTouchedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
+        setLastTouchedUtcTs(nowUtc());
+        setLockVersion(0);
     }
 
     //##################################################
@@ -74,7 +78,6 @@ public abstract class MyServerSessionBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -115,7 +118,6 @@ public abstract class MyServerSessionBase
 
     public void setActive(Boolean e)
     {
-        checkReadOnly();
         e = Validator.getActiveValidator().convertOnly(e);
         active = e;
     }
@@ -168,7 +170,6 @@ public abstract class MyServerSessionBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getCreatedUtcTsValidator().convertOnly(e);
         createdUtcTs = e;
     }
@@ -199,7 +200,6 @@ public abstract class MyServerSessionBase
 
     public void setClosedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getClosedUtcTsValidator().convertOnly(e);
         closedUtcTs = e;
     }
@@ -230,7 +230,6 @@ public abstract class MyServerSessionBase
 
     public void setLastTouchedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getLastTouchedUtcTsValidator().convertOnly(e);
         lastTouchedUtcTs = e;
     }
@@ -261,7 +260,6 @@ public abstract class MyServerSessionBase
 
     public void setVersion(String e)
     {
-        checkReadOnly();
         e = Validator.getVersionValidator().convertOnly(e);
         version = e;
     }
@@ -302,7 +300,6 @@ public abstract class MyServerSessionBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -320,6 +317,22 @@ public abstract class MyServerSessionBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -551,6 +564,40 @@ public abstract class MyServerSessionBase
     }
 
     //##################################################
+    //# tenant
+    //##################################################
+
+    public MyTenant getTenant()
+    {
+        return tenant;
+    }
+
+    public void setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void _setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void clearTenant()
+    {
+        setTenant(null);
+    }
+
+    public boolean hasTenant()
+    {
+        return getTenant() != null;
+    }
+
+    public boolean hasTenant(MyTenant e)
+    {
+        return Kmu.isEqual(getTenant(), e);
+    }
+
+    //##################################################
     //# user
     //##################################################
 
@@ -561,13 +608,11 @@ public abstract class MyServerSessionBase
 
     public void setUser(MyUser e)
     {
-        checkReadOnly();
         user = e;
     }
 
     public void _setUser(MyUser e)
     {
-        checkReadOnly();
         user = e;
     }
 
@@ -587,75 +632,37 @@ public abstract class MyServerSessionBase
     }
 
     //##################################################
-    //# autoSignIn
+    //# autoLogin
     //##################################################
 
-    public MyAutoSignIn getAutoSignIn()
+    public MyAutoLogin getAutoLogin()
     {
-        return autoSignIn;
+        return autoLogin;
     }
 
-    public void setAutoSignIn(MyAutoSignIn e)
+    public void setAutoLogin(MyAutoLogin e)
     {
-        checkReadOnly();
-        autoSignIn = e;
+        autoLogin = e;
     }
 
-    public void _setAutoSignIn(MyAutoSignIn e)
+    public void _setAutoLogin(MyAutoLogin e)
     {
-        checkReadOnly();
-        autoSignIn = e;
+        autoLogin = e;
     }
 
-    public void clearAutoSignIn()
+    public void clearAutoLogin()
     {
-        setAutoSignIn(null);
+        setAutoLogin(null);
     }
 
-    public boolean hasAutoSignIn()
+    public boolean hasAutoLogin()
     {
-        return getAutoSignIn() != null;
+        return getAutoLogin() != null;
     }
 
-    public boolean hasAutoSignIn(MyAutoSignIn e)
+    public boolean hasAutoLogin(MyAutoLogin e)
     {
-        return Kmu.isEqual(getAutoSignIn(), e);
-    }
-
-    //##################################################
-    //# currentProject
-    //##################################################
-
-    public MyProject getCurrentProject()
-    {
-        return currentProject;
-    }
-
-    public void setCurrentProject(MyProject e)
-    {
-        checkReadOnly();
-        currentProject = e;
-    }
-
-    public void _setCurrentProject(MyProject e)
-    {
-        checkReadOnly();
-        currentProject = e;
-    }
-
-    public void clearCurrentProject()
-    {
-        setCurrentProject(null);
-    }
-
-    public boolean hasCurrentProject()
-    {
-        return getCurrentProject() != null;
-    }
-
-    public boolean hasCurrentProject(MyProject e)
-    {
-        return Kmu.isEqual(getCurrentProject(), e);
+        return Kmu.isEqual(getAutoLogin(), e);
     }
 
 
@@ -694,7 +701,24 @@ public abstract class MyServerSessionBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyServerSession getBasicCopy()
+    {
+        MyServerSession e;
+        e = new MyServerSession();
+        e.setActive(getActive());
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setClosedUtcTs(getClosedUtcTs());
+        e.setLastTouchedUtcTs(getLastTouchedUtcTs());
+        e.setVersion(getVersion());
+        return e;
     }
 
     //##################################################
@@ -731,6 +755,7 @@ public abstract class MyServerSessionBase
         if ( !Kmu.isEqual(getLastTouchedUtcTs(), e.getLastTouchedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getVersion(), e.getVersion()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -805,4 +830,10 @@ public abstract class MyServerSessionBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

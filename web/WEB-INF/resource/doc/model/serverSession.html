@@ -16,315 +16,369 @@
 <body>
 <h1>serverSession</h1>
 
-${model.f_comment}<br>
-<br>
-
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
-  <th>Attributes</th>
+  <th>Summary</th>
 </tr>
 <tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                      &nbsp;
-  </td>
+  <td>Server sessions are used in place of the Virtual Http Session. This allow for a user session to be served by multiple web server machines. The session is created as early as possible, even before the user actually logs in.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<table class="attributeTable">
+<tr>
+  <th>Fields</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
   <td>active&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This indicates if the session is currently active, or if it has expired.<br>
-            &nbsp;
-  </td>
-  
+
   <td>boolean
               </td>
+
   <td>
-                   required<br>           &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
-</tr>
-<tr>
-  <td>createdUtcTs&nbsp;</td>
-  
+
   <td>
-            <i>Help</i><br>
-        The date and time when the session was created.<br>
-            &nbsp;
+    This indicates if the session is currently active&#44; or if it has expired&#46;
+    &nbsp;
   </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>closedUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was closed.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lastTouchedUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was last touched. Used to support automatic timeouts.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>version&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
-  <td>lockVersion
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>date
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>createdLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was created.<br>
-            &nbsp;
-  </td>
-  
-  <td>time
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>closedLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was closed.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>closedLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was closed.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>closedLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was closed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The closed date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>closedLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was closed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The closed time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>lastTouchedLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was last touched. Used to support automatic timeouts.<br>
-            &nbsp;
-  </td>
-  
+  <td>closedLocalTs&nbsp;</td>
+
   <td>timestamp
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The closed timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>lastTouchedLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was last touched. Used to support automatic timeouts.<br>
-            &nbsp;
-  </td>
-  
+  <td>closedLocalTsMessage&nbsp;</td>
+
   <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The closed timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>closedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The date and time when the session was closed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The date and time when the session was created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lastTouchedLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was last touched. Used to support automatic timeouts.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last touched date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lastTouchedLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the session was last touched. Used to support automatic timeouts.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The last touched time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last touched timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The last touched timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastTouchedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time when the session was last touched&#46; Used to support automatic timeouts&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>version&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The application version&#46; The server session is only valid if its version matches the application&#39;s current version&#46; This is used to catch stale sessions when the application is upgraded&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

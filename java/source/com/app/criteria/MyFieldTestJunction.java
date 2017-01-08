@@ -43,6 +43,16 @@ public class MyFieldTestJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
     public KmhStringCondition whereNameValue()
     {
         return new KmhStringCondition(context(), fullName(NAME_VALUE));
@@ -91,6 +101,16 @@ public class MyFieldTestJunction
     public KmhStringCondition wherePinNumber2()
     {
         return new KmhStringCondition(context(), fullName(PIN_NUMBER_2));
+    }
+
+    public KmhDurationCondition whereDuration()
+    {
+        return new KmhDurationCondition(context(), fullName(DURATION));
+    }
+
+    public KmhPropertyCondition<KmDayFrequency> whereDayFrequency()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(DAY_FREQUENCY));
     }
 
     public KmhIntegerCondition whereLockVersion()

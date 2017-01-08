@@ -14,11 +14,11 @@ public class KmFacebookClass
     //# constants
     //##################################################
 
-    public static final String ID_KEY          = "id";
-    public static final String NAME_KEY        = "name";
-    public static final String WITH_KEY        = "with";
-    public static final String DESCRIPTION_KEY = "description";
-    public static final String FROM_KEY        = "from";
+    public static final String       ID_KEY          = "id";
+    public static final String       NAME_KEY        = "name";
+    public static final String       WITH_KEY        = "with";
+    public static final String       DESCRIPTION_KEY = "description";
+    public static final String       FROM_KEY        = "from";
 
     //##################################################
     //# variables 

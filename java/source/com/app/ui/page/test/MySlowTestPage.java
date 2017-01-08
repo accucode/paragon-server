@@ -3,8 +3,8 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
@@ -69,7 +69,7 @@ public final class MySlowTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().pad();
+        root.css().fill().auto();
 
         ScGroup group;
         group = root.addGroup("Slow Response Tests");
@@ -89,7 +89,7 @@ public final class MySlowTestPage
                     + " value can be found in the javascript file KmUtility.js; see"
                     + " blockDelayMs variable.");
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.getBody().addButtonBox();
         buttons.add(newButton(0));
         buttons.add(newButton(10));
@@ -115,7 +115,7 @@ public final class MySlowTestPage
 
     private ScAction newDelayAction(final int ms)
     {
-        return newAction(this::handleDelay, ms);
+        return newCheckedAction(this::handleDelay, ms);
     }
 
     //##################################################

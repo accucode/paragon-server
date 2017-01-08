@@ -1,0 +1,191 @@
+<project name="Deploy Production" basedir="..">
+
+    <property name='dummy' value=''/>
+    <import file="antCore.xml"/>
+
+    <property name='awsApplicationName' value='app'/>
+    <property name='awsEnvironmentName' value='1-app-prod'/>
+    <property name='awsBuildPrefix'     value='app-prod'/>
+    <property name='awsCliProfile'      value='app'/>
+    <property name='warFileName'        value='app.war'/>
+    <property name='s3bucket'           value='examplebuilds-app'/>
+
+    <!--
+    ****************************************
+    ** setup
+    ****************************************
+    -->
+
+    <target
+        name="1-setup"
+        depends="init"
+        description="x"
+        >
+        <echo>Setup for deployment...</echo>
+        <echo>
+        &#xa;
+        4work Production Updates should generally be done
+            after 6:00pm Denver time.
+            &#xa;
+        Update version number in:
+            MyConstantsIF.java
+            &#xa;
+        Commit changes, with build number as the comment; e.g.:
+            Build-160414-1
+            &#xa;
+        Tag build, the name should match the build number; e.g.:
+            Build-160414-1
+            &#xa;
+        Update release notes in:
+            Google Doc, Build-Ready
+            https://goo.gl/YhjgOS
+            &#xa;
+        </echo>
+    </target>
+
+    <!--
+    ****************************************
+    ** Beanstalk
+    ****************************************
+    -->
+
+    <!-- Used to deploy war file to Production.  This will take Production off-line during update. -->
+    <target
+        name="2-deploy"
+        depends="init,confirmProduction,getBuildNumber,makeWar,uploadWar,configureVersion,updateEnvironment"
+        description="x">
+    </target>
+
+    <target
+        name="getBuildNumber"
+        depends="init">
+        <input
+            message="What is the build number?"
+            addproperty="buildNumber" />
+    </target>
+
+    <target
+        name="uploadWar"
+        depends="init" >
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="s3" />
+           <arg value="cp" />
+           <arg value="${temp}/${warFileName}" />
+           <arg value="s3://${s3bucket}/${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
+        </exec>
+    </target>
+
+    <target
+        name="configureVersion"
+        depends="init" >
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="create-application-version" />
+           <arg value="--application-name" />
+           <arg value="${awsApplicationName}" />
+           <arg value="--version-label" />
+           <arg value="${awsBuildPrefix}-${buildNumber}" />
+           <arg value="--source-bundle" />
+           <arg value='"S3Bucket=${s3bucket},S3Key=${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war"' />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
+        </exec>
+    </target>
+
+    <target
+        name="updateEnvironment"
+        depends="init" >
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="update-environment" />
+           <arg value="--environment-name" />
+           <arg value="${awsEnvironmentName}" />
+           <arg value="--version-label" />
+           <arg value="${awsBuildPrefix}-${buildNumber}" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
+        </exec>
+    </target>
+
+    <!-- Used to make War for AWS Production environment. -->
+    <target
+        name="makeWar"
+        depends="init,clean,compile"
+        >
+
+        <delete dir="${temp}/web" quiet="true" />
+
+        <!-- copy the web dir to temp area -->
+        <copy todir="${temp}/web" >
+            <fileset dir="${web}"/>
+        </copy>
+
+        <!-- bring in the properties file for Production -->
+        <copy
+            file="${resource}/settings/production/_overrides.txt"
+            tofile="${temp}/web/WEB-INF/resource/property/overrides.txt"
+            overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${resource}/settings/production/_log4j.xml"
+            tofile="${temp}/web/WEB-INF/resource/log4j/log4j.xml"
+            overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${resource}/settings/production/_ROOT.xml"
+            tofile="${temp}/web/WEB-INF/resource/webInstall/ROOT.xml"
+            overwrite="true"
+            verbose="true"/>
+
+        <!-- create the war file -->
+        <war destfile="${temp}/${warFileName}" webxml="${temp}/web/WEB-INF/web.xml">
+            <fileset dir="${temp}/web">
+                <exclude name="ajaxLog.txt"/>
+                <exclude name="last.html"/>
+            </fileset>
+        </war>
+
+        <delete dir="${temp}/web" quiet="true" />
+    </target>
+
+    <!-- Bounces the servers in AWS.  Not part of normal deployment process. -->
+    <target
+        name="restart"
+        depends="init"
+        description="x"
+        >
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="restart-app-server" />
+           <arg value="--environment-name" />
+           <arg value="${awsEnvironmentName}" />
+           <arg value="--profile" />
+           <arg value="${awsCliProfile}" />
+        </exec>
+    </target>
+
+    <!--
+    ****************************************
+    ** email
+    ****************************************
+    -->
+
+    <target
+        name="3-email"
+        depends="init"
+        description="x"
+        >
+        <echo>Send email notification...</echo>
+        <echo>
+        &#xa;
+        </echo>
+        <echo>Follow instruction in release notes doc.</echo>
+        <echo>
+        &#xa;
+        </echo>
+    </target>
+
+
+</project>

@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyFieldTestBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -40,6 +44,8 @@ public abstract class MyFieldTestBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private String nameValue;
     private Integer integerValue;
     private Long longTest;
@@ -50,7 +56,11 @@ public abstract class MyFieldTestBase
     private KmTimestamp timestampTest;
     private String pinNumber1;
     private String pinNumber2;
+    private KmDuration duration;
+    private KmDayFrequency dayFrequency;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
     private MyUser userTest;
 
     //##################################################
@@ -61,6 +71,11 @@ public abstract class MyFieldTestBase
     {
         super();
         setUid(newUid());
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
@@ -74,7 +89,6 @@ public abstract class MyFieldTestBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -105,6 +119,66 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (nameValue)
     //##################################################
 
@@ -115,7 +189,6 @@ public abstract class MyFieldTestBase
 
     public void setNameValue(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValueValidator().convertOnly(e);
         nameValue = e;
     }
@@ -156,7 +229,6 @@ public abstract class MyFieldTestBase
 
     public void setIntegerValue(Integer e)
     {
-        checkReadOnly();
         e = Validator.getIntegerValueValidator().convertOnly(e);
         integerValue = e;
     }
@@ -187,7 +259,6 @@ public abstract class MyFieldTestBase
 
     public void setLongTest(Long e)
     {
-        checkReadOnly();
         e = Validator.getLongTestValidator().convertOnly(e);
         longTest = e;
     }
@@ -218,7 +289,6 @@ public abstract class MyFieldTestBase
 
     public void setDoubleTest(Double e)
     {
-        checkReadOnly();
         e = Validator.getDoubleTestValidator().convertOnly(e);
         doubleTest = e;
     }
@@ -249,7 +319,6 @@ public abstract class MyFieldTestBase
 
     public void setMoneyTest(KmMoney e)
     {
-        checkReadOnly();
         e = Validator.getMoneyTestValidator().convertOnly(e);
         moneyTest = e;
     }
@@ -280,7 +349,6 @@ public abstract class MyFieldTestBase
 
     public void setBooleanTest(Boolean e)
     {
-        checkReadOnly();
         e = Validator.getBooleanTestValidator().convertOnly(e);
         booleanTest = e;
     }
@@ -333,7 +401,6 @@ public abstract class MyFieldTestBase
 
     public void setDateTest(KmDate e)
     {
-        checkReadOnly();
         e = Validator.getDateTestValidator().convertOnly(e);
         dateTest = e;
     }
@@ -364,7 +431,6 @@ public abstract class MyFieldTestBase
 
     public void setTimestampTest(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getTimestampTestValidator().convertOnly(e);
         timestampTest = e;
     }
@@ -395,7 +461,6 @@ public abstract class MyFieldTestBase
 
     public void setPinNumber1(String e)
     {
-        checkReadOnly();
         e = Validator.getPinNumber1Validator().convertOnly(e);
         pinNumber1 = e;
     }
@@ -436,7 +501,6 @@ public abstract class MyFieldTestBase
 
     public void setPinNumber2(String e)
     {
-        checkReadOnly();
         e = Validator.getPinNumber2Validator().convertOnly(e);
         pinNumber2 = e;
     }
@@ -467,6 +531,66 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
+    //# field (duration)
+    //##################################################
+
+    public KmDuration getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(KmDuration e)
+    {
+        e = Validator.getDurationValidator().convertOnly(e);
+        duration = e;
+    }
+
+    public void clearDuration()
+    {
+        setDuration(null);
+    }
+
+    public boolean hasDuration()
+    {
+        return getDuration() != null;
+    }
+
+    public boolean hasDuration(KmDuration e)
+    {
+        return Kmu.isEqual(getDuration(), e);
+    }
+
+    //##################################################
+    //# field (dayFrequency)
+    //##################################################
+
+    public KmDayFrequency getDayFrequency()
+    {
+        return dayFrequency;
+    }
+
+    public void setDayFrequency(KmDayFrequency e)
+    {
+        e = Validator.getDayFrequencyValidator().convertOnly(e);
+        dayFrequency = e;
+    }
+
+    public void clearDayFrequency()
+    {
+        setDayFrequency(null);
+    }
+
+    public boolean hasDayFrequency()
+    {
+        return getDayFrequency() != null;
+    }
+
+    public boolean hasDayFrequency(KmDayFrequency e)
+    {
+        return Kmu.isEqual(getDayFrequency(), e);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -477,7 +601,6 @@ public abstract class MyFieldTestBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -498,6 +621,276 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTs)
+    //##################################################
+
+    public final KmTimestamp getCreatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getCreatedUtcTs());
+    }
+
+    public boolean hasCreatedLocalTs()
+    {
+        return getCreatedLocalTs() != null;
+    }
+
+    public boolean hasCreatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTsMessage)
+    //##################################################
+
+    public final String getCreatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getCreatedUtcTs());
+    }
+
+    public boolean hasCreatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getCreatedLocalTsMessage());
+    }
+
+    public boolean hasCreatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalDate)
+    //##################################################
+
+    public final KmDate getCreatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getCreatedLocalTs());
+    }
+
+    public boolean hasCreatedLocalDate()
+    {
+        return getCreatedLocalDate() != null;
+    }
+
+    public boolean hasCreatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getCreatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTime)
+    //##################################################
+
+    public final KmTime getCreatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getCreatedLocalTs());
+    }
+
+    public boolean hasCreatedLocalTime()
+    {
+        return getCreatedLocalTime() != null;
+    }
+
+    public boolean hasCreatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getCreatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
+    //##################################################
     //# userTest
     //##################################################
 
@@ -508,13 +901,11 @@ public abstract class MyFieldTestBase
 
     public void setUserTest(MyUser e)
     {
-        checkReadOnly();
         userTest = e;
     }
 
     public void _setUserTest(MyUser e)
     {
-        checkReadOnly();
         userTest = e;
     }
 
@@ -569,7 +960,34 @@ public abstract class MyFieldTestBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyFieldTest getBasicCopy()
+    {
+        MyFieldTest e;
+        e = new MyFieldTest();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setNameValue(getNameValue());
+        e.setIntegerValue(getIntegerValue());
+        e.setLongTest(getLongTest());
+        e.setDoubleTest(getDoubleTest());
+        e.setMoneyTest(getMoneyTest());
+        e.setBooleanTest(getBooleanTest());
+        e.setDateTest(getDateTest());
+        e.setTimestampTest(getTimestampTest());
+        e.setPinNumber1(getPinNumber1());
+        e.setPinNumber2(getPinNumber2());
+        e.setDuration(getDuration());
+        e.setDayFrequency(getDayFrequency());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -600,6 +1018,8 @@ public abstract class MyFieldTestBase
 
     public boolean isSameIgnoringKey(MyFieldTest e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getNameValue(), e.getNameValue()) ) return false;
         if ( !Kmu.isEqual(getIntegerValue(), e.getIntegerValue()) ) return false;
         if ( !Kmu.isEqual(getLongTest(), e.getLongTest()) ) return false;
@@ -610,7 +1030,18 @@ public abstract class MyFieldTestBase
         if ( !Kmu.isEqual(getTimestampTest(), e.getTimestampTest()) ) return false;
         if ( !Kmu.isEqual(getPinNumber1(), e.getPinNumber1()) ) return false;
         if ( !Kmu.isEqual(getPinNumber2(), e.getPinNumber2()) ) return false;
+        if ( !Kmu.isEqual(getDuration(), e.getDuration()) ) return false;
+        if ( !Kmu.isEqual(getDayFrequency(), e.getDayFrequency()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -645,6 +1076,8 @@ public abstract class MyFieldTestBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    NameValue = " + nameValue);
         System.out.println("    IntegerValue = " + integerValue);
         System.out.println("    LongTest = " + longTest);
@@ -655,6 +1088,8 @@ public abstract class MyFieldTestBase
         System.out.println("    TimestampTest = " + timestampTest);
         System.out.println("    PinNumber1 = " + pinNumber1);
         System.out.println("    PinNumber2 = " + pinNumber2);
+        System.out.println("    Duration = " + duration);
+        System.out.println("    DayFrequency = " + dayFrequency);
         System.out.println("    LockVersion = " + lockVersion);
     }
 
@@ -678,4 +1113,10 @@ public abstract class MyFieldTestBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

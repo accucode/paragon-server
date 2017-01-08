@@ -78,7 +78,7 @@ public class MyThreadTopicDao
         MyThreadTopic e;
         e = new MyThreadTopic();
         e.setCode(code);
-        e.attachDao();
+        e.daoAttach();
 
         if ( !tryFlush() )
             return null;

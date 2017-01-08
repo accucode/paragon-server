@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -74,7 +74,9 @@ public class KmDate
      */
     public static KmDate fromLocalDate(LocalDate e)
     {
-        return new KmDate(e);
+        return e == null
+            ? null
+            : new KmDate(e);
     }
 
     /**
@@ -94,7 +96,10 @@ public class KmDate
      */
     public static KmDate fromInstant(Instant i)
     {
-        LocalDate e = i.atZone(UTC_ZONE).toLocalDate();
+        if ( i == null )
+            return null;
+
+        LocalDate e = i.atZone(KmTimeZone.UTC.getZoneId()).toLocalDate();
         return new KmDate(e);
     }
 
@@ -103,7 +108,7 @@ public class KmDate
      */
     public Instant toInstant()
     {
-        return _inner.atStartOfDay(UTC_ZONE).toInstant();
+        return _inner.atStartOfDay(KmTimeZone.UTC.getZoneId()).toInstant();
     }
 
     //==================================================
@@ -130,6 +135,21 @@ public class KmDate
     }
 
     //==================================================
+    //= conversion :: epoch ms
+    //==================================================
+
+    public static KmDate fromEpochMs(long ms)
+    {
+        int days = (int)(ms / MS_PER_DAY);
+        return fromEpochDays(days);
+    }
+
+    public long toEpochMs()
+    {
+        return toEpochDays() * MS_PER_DAY;
+    }
+
+    //==================================================
     //= conversion :: java date
     //==================================================
 
@@ -138,7 +158,11 @@ public class KmDate
      */
     public static KmDate fromJavaDate(Date e)
     {
-        return fromInstant(e.toInstant());
+        // Using e.getTime is a bit of a hack.
+        // But e.toInstant is not compatible with java.sql.Date.
+        return e == null
+            ? null
+            : fromEpochMs(e.getTime());
     }
 
     /**
@@ -146,7 +170,7 @@ public class KmDate
      */
     public Date toJavaDate()
     {
-        return Date.from(_inner.atStartOfDay(UTC_ZONE).toInstant());
+        return Date.from(_inner.atStartOfDay(KmTimeZone.UTC.getZoneId()).toInstant());
     }
 
     //==================================================
@@ -264,6 +288,11 @@ public class KmDate
     public KmDate getStartOfMonth()
     {
         return toDay(1);
+    }
+
+    public KmDate getStartOfNextMonth()
+    {
+        return getStartOfMonth().addMonth();
     }
 
     /**
@@ -864,6 +893,44 @@ public class KmDate
         return KmTimestampInterval.create(getStartOfDay(), getEndOfDay());
     }
 
+    public KmTimestamp toTimestamp(KmTime time)
+    {
+        return KmTimestamp.fromDateTime(this, time);
+    }
+
+    //##################################################
+    //# frequency
+    //##################################################
+
+    public boolean matchesFrequency(KmDayFrequency f)
+    {
+        if ( f == null )
+            return false;
+
+        if ( isMonday() && f.hasMonday() )
+            return true;
+
+        if ( isTuesday() && f.hasTuesday() )
+            return true;
+
+        if ( isWednesday() && f.hasWednesday() )
+            return true;
+
+        if ( isThursday() && f.hasThursday() )
+            return true;
+
+        if ( isFriday() && f.hasFriday() )
+            return true;
+
+        if ( isSaturday() && f.hasSaturday() )
+            return true;
+
+        if ( isSunday() && f.hasSunday() )
+            return true;
+
+        return false;
+    }
+
     //##################################################
     //# format
     //##################################################
@@ -882,6 +949,14 @@ public class KmDate
     public String format_mm_dd_yy()
     {
         return KmDateUtility.format_mm_dd_yy(this);
+    }
+
+    /**
+     * A convenience formatter.
+     */
+    public String format_m_d()
+    {
+        return KmDateUtility.format_m_d(this);
     }
 
     /**
@@ -934,36 +1009,4 @@ public class KmDate
         return format_mm_dd_yyyy();
     }
 
-    //##################################################
-    //# frequency
-    //##################################################
-
-    public boolean matchesFrequency(KmDayFrequency f)
-    {
-        if ( f == null )
-            return false;
-
-        if ( isMonday() && f.hasMonday() )
-            return true;
-
-        if ( isTuesday() && f.hasTuesday() )
-            return true;
-
-        if ( isWednesday() && f.hasWednesday() )
-            return true;
-
-        if ( isThursday() && f.hasThursday() )
-            return true;
-
-        if ( isFriday() && f.hasFriday() )
-            return true;
-
-        if ( isSaturday() && f.hasSaturday() )
-            return true;
-
-        if ( isSunday() && f.hasSunday() )
-            return true;
-
-        return false;
-    }
 }

@@ -1,11 +1,8 @@
 package com.app.ui.page.test;
 
-import com.kodemore.html.KmHtmlCleaner;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScAbsoluteLayout;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScFieldLayout;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -43,10 +40,9 @@ public final class MyRichTextEditorTestPage
     //# variables
     //##################################################
 
-    private ScRichTextEditor _richTextEditor;
-
-    private ScDiv _outputDiv;
-    private ScDiv _htmlOutputDiv;
+    private ScRichTextEditor _editor;
+    private ScDiv            _previewDiv;
+    private ScDiv            _valueDiv;
 
     //##################################################
     //# settings
@@ -81,42 +77,36 @@ public final class MyRichTextEditorTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScAbsoluteLayout layout;
-        layout = root.addAbsoluteLayout();
+        root.css().fill().flexRow().rowSpacer10();
 
-        ScBox left = addLeftPercentPadded(layout, 50);
-        installRtePanelOn(left);
+        installEditorOn(root);
 
-        ScBox top = addTopPercentPadded(layout, 50);
-        installResultPanelOn(top);
-
-        ScBox center = addCenterPadded(layout);
-        installHtmlPanelOn(center);
+        ScDiv col;
+        col = root.addFlexColumn();
+        col.css().columnSpacer10().flexChildBasis0().flexChildFiller();
+        installPreviewOn(col);
+        installValueOn(col);
     }
 
-    private void installRtePanelOn(ScDiv root)
+    private void installEditorOn(ScContainer root)
     {
+        _editor = new ScRichTextEditor();
+        _editor.setFill();
+
         ScForm form;
         form = root.addForm();
-        form.css().fill();
         form.setSubmitAction(this::handleSubmit);
+        form.css().flexChildBasis0().flexChildFiller().relative();
 
         ScGroup group;
         group = form.addGroup("Rich Text Editor");
         group.css().fill();
 
-        _richTextEditor = new ScRichTextEditor();
-        _richTextEditor.setRequired();
-
         ScDiv body;
         body = group.getBody();
-        body.css().gap().autoY();
-        body.css().auto();
+        body.add(_editor);
 
-        ScFieldLayout fields = body.addFieldLayout();
-        fields.add(_richTextEditor);
-
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.css().auto();
         buttons.addSubmitButton();
@@ -124,83 +114,28 @@ public final class MyRichTextEditorTestPage
         buttons.addResetButton();
     }
 
-    private void installResultPanelOn(ScDiv root)
+    private void installPreviewOn(ScDiv root)
     {
         ScGroup group;
-        group = root.addGroup("Result");
-        group.css().fill();
+        group = root.addGroup("Preview");
+        group.css().flexChildBasis0().flexChildFiller();
 
         ScDiv body;
         body = group.getBody();
-        body.css().gap();
-        body.css().auto();
-        _outputDiv = body.addDiv();
+        body.css().gap().auto();
+        _previewDiv = body.addDiv();
     }
 
-    private void installHtmlPanelOn(ScDiv root)
+    private void installValueOn(ScDiv root)
     {
         ScGroup group;
-        group = root.addGroup("HTML");
-        group.css().fill();
+        group = root.addGroup("Value");
+        group.css().flexChildBasis0().flexChildFiller();
 
         ScDiv body;
         body = group.getBody();
-        body.css().gap();
-        body.css().auto();
-        _htmlOutputDiv = body.addDiv();
-    }
-
-    //##################################################
-    //# layout
-    //##################################################
-
-    private ScBox addLeftPercentPadded(ScAbsoluteLayout root, int percent)
-    {
-        ScDiv left = root.addLeftPercent(percent);
-
-        ScAbsoluteLayout inner;
-        inner = left.addAbsoluteLayout();
-        inner.padTop();
-        inner.padLeft();
-        inner.padBottom();
-
-        ScBox content;
-        content = inner.addCenter().addBox();
-        content.css().fill();
-        return content;
-    }
-
-    private ScBox addTopPercentPadded(ScAbsoluteLayout root, int percent)
-    {
-        ScDiv left = root.addTopPercent(percent);
-
-        ScAbsoluteLayout inner;
-        inner = left.addAbsoluteLayout();
-        inner.padTop();
-        inner.padLeft();
-        inner.padRight();
-
-        ScBox content;
-        content = inner.addCenter().addBox();
-        content.css().fill();
-        return content;
-    }
-
-    private ScBox addCenterPadded(ScAbsoluteLayout root)
-    {
-        ScDiv left = root.addCenter();
-
-        ScAbsoluteLayout inner;
-        inner = left.addAbsoluteLayout();
-        inner.padTop();
-        inner.padLeft();
-        inner.padBottom();
-        inner.padRight();
-
-        ScBox content;
-        content = inner.addCenter().addBox();
-        content.css().fill();
-        return content;
+        body.css().gap().auto();
+        _valueDiv = body.addDiv();
     }
 
     //##################################################
@@ -220,29 +155,21 @@ public final class MyRichTextEditorTestPage
     private void handleSubmit()
     {
         ajax().hideAllErrors();
-        _richTextEditor.validate();
-        _richTextEditor.ajaxUpdateValue();
+        _editor.validate();
+        _editor.ajaxUpdateFieldValues();
 
-        String text = _richTextEditor.getValue();
+        String text = _editor.getValue();
 
         if ( Kmu.isEmpty(text) )
             text = "null";
 
-        KmHtmlCleaner c;
-        c = new KmHtmlCleaner();
-        c.setDefaultWhitelist();
-        c.setDefaultBlacklist();
-
-        text = c.clean(text);
-
-        _outputDiv.ajaxSetHtml(text);
-        _htmlOutputDiv.ajaxSetText(text);
+        _previewDiv.ajaxSetHtml(text);
+        _valueDiv.ajaxSetText(text);
     }
 
     private void handleSetSampleContent()
     {
-        _richTextEditor.setValue(getSampleContent());
-        _richTextEditor.ajaxUpdateValue();
+        _editor.ajaxSetFieldValue(getSampleContent());
     }
 
     private String getSampleContent()

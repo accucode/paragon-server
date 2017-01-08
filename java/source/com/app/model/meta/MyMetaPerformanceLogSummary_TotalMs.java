@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPerformanceLogSummary_TotalMs
     {
         return "Aggregate information about the individual logs.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPerformanceLogSummary_TotalMs
         return getAccess().getPerformanceLogSummaryDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPerformanceLogSummary_TotalMs
     {
         return model.getTotalMs();
     }
-    
+
     @Override
     public void setValueFor(MyPerformanceLogSummary model, Integer value)
     {
         model.setTotalMs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPerformanceLogSummary model, Integer value)
     {
         return model.hasTotalMs(value);
     }
-    
+
 }

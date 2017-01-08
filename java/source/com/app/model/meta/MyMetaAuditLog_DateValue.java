@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaAuditLog_DateValue
     {
         return "The date value, if applicable.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaAuditLog_DateValue
         return getAccess().getAuditLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaAuditLog_DateValue
     {
         return model.getDateValue();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, KmDate value)
     {
         model.setDateValue(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, KmDate value)
     {
         return model.hasDateValue(value);
     }
-    
+
 }

@@ -1,17 +1,15 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTransientContainer;
 
 import com.app.property.MyPropertyDefinition;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.property.base.MyPropertyDefinitions;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -44,7 +42,7 @@ public final class MyDevApplicationPropertiesPage
     //# variables
     //##################################################
 
-    private ScLiteral _literal;
+    private ScTransientContainer _container;
 
     //##################################################
     //# settings
@@ -79,7 +77,9 @@ public final class MyDevApplicationPropertiesPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _literal = root.addLiteral();
+        root.css().fill().auto().columnSpacer10();
+
+        _container = root.addTransientContainer();
     }
 
     //##################################################
@@ -89,25 +89,21 @@ public final class MyDevApplicationPropertiesPage
     @Override
     protected void preRender()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
-        KmList<String> gs;
-        gs = MyPropertyDefinitions.getAllGroups();
-        gs.sort();
+        KmList<String> groupNames;
+        groupNames = MyPropertyDefinitions.getAllGroups();
+        groupNames.sort();
 
-        ScBox root;
-        root = new ScBox();
-        root.css().gap();
-
-        for ( String g : gs )
+        for ( String groupName : groupNames )
         {
             ScGroup group;
-            group = root.addGroup(g);
+            group = _container.addGroup(groupName);
 
             ScFieldTable fields;
             fields = group.getBody().addPad().addFieldTable();
 
-            KmList<MyPropertyDefinition> defs = getDefs(g);
+            KmList<MyPropertyDefinition> defs = getDefs(groupName);
             for ( MyPropertyDefinition def : defs )
             {
                 String key = def.getKey();
@@ -118,18 +114,14 @@ public final class MyDevApplicationPropertiesPage
                 text.setLabel(key);
             }
         }
-
-        KmHtmlBuilder html = root.render();
-        _literal.setValue(html);
     }
 
     private KmList<MyPropertyDefinition> getDefs(String group)
     {
-        KmList<MyPropertyDefinition> defs;
-        defs = MyPropertyDefinitions.getAllInGroup(group);
-
-        MyPropertyDefinition.sortOnKey(defs);
-        return defs;
+        KmList<MyPropertyDefinition> v;
+        v = MyPropertyDefinitions.getAllInGroup(group);
+        v.sortOn(e -> e.getKey());
+        return v;
     }
 
 }

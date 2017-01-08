@@ -1,6 +1,6 @@
 <project name="Setup" basedir="..">
 
-    <property name='dummy' value=''/>  
+    <property name='dummy' value=''/>
     <import file="antCore.xml"/>
 
     <target
@@ -14,15 +14,25 @@
     </target>
 
     <target
+        name="resetDatabase"
+        depends="init"
+        description="x">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyResetDatabaseTool"/>
+        </antcall>
+    </target>
+
+    <target
         name="configureTomcat"
         depends="init"
         description="Configure the local development tomcat.">
-    	<copy
-    		file="${resource}/webInstall/ROOT.xml"
-    		todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
-    	    overwrite="true"
-    		verbose="true"/>
-        <delete 
+        <copy
+            file="${resource}/webInstall/ROOT.xml"
+            todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
+            overwrite="true"
+            verbose="true"/>
+        <delete
              file="${env.CATALINA_HOME}/conf/Catalina/localhost/app.xml"
              verbose="false"
              failonerror="false" />
@@ -31,24 +41,24 @@
     <target
         name="importSettings"
         depends="init"
-    	description="Import user specific settings.">
+        description="Import user specific settings.">
         <input
             message="Settings to Import:"
             addproperty="settingName"/>
-    	<copy
-    		file="${resource}/settings/${settingName}/_kmSetEnvLocal.bat"
+        <copy
+            file="${resource}/settings/${settingName}/_kmSetEnvLocal.bat"
             tofile="${bin}/kmSetEnvLocal.bat"
-    	    overwrite="true"
+            overwrite="true"
             verbose="true"/>
-    	<copy
-    		file="${resource}/settings/${settingName}/_overrides.txt"
+        <copy
+            file="${resource}/settings/${settingName}/_overrides.txt"
             tofile="${resource}/property/overrides.txt"
-    	    overwrite="true"
+            overwrite="true"
             verbose="true"/>
-    	<copy
-    		file="${resource}/settings/${settingName}/_log4j.xml"
+        <copy
+            file="${resource}/settings/${settingName}/_log4j.xml"
             tofile="${resource}/log4j/log4j.xml"
-    	    overwrite="true"
+            overwrite="true"
             verbose="true"/>
         <copy
             file="${resource}/settings/${settingName}/_ROOT.xml"

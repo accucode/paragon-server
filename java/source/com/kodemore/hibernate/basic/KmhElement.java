@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -166,45 +166,70 @@ public abstract class KmhElement
     //# is in
     //##################################################
 
-    public void addIsIn(String property, Object[] v)
+    public void addIsIn(String property, Object[] arr)
     {
-        if ( v == null || v.length == 0 )
+        if ( arr == null || arr.length == 0 )
+        {
             addFalse();
-        else
-            _add(Restrictions.in(property, v));
+            return;
+        }
+
+        if ( arr.length == 1 )
+        {
+            addEqual(property, arr[0]);
+            return;
+        }
+
+        _add(Restrictions.in(property, arr));
     }
 
     public void addIsIn(String property, Collection<?> v)
     {
-        if ( v == null || v.isEmpty() )
+        if ( v == null )
             addFalse();
         else
-            _add(Restrictions.in(property, v));
+            addIsIn(property, v.toArray());
     }
 
     //##################################################
     //# is not in
     //##################################################
 
-    public void addIsNotIn(String property, Object[] v)
+    public void addIsNotIn(String property, Object[] arr)
     {
-        if ( v == null || v.length == 0 )
+        if ( arr == null || arr.length == 0 )
+        {
             addTrue();
-        else
-            _add(Restrictions.not(Restrictions.in(property, v)));
+            return;
+        }
+
+        if ( arr.length == 1 )
+        {
+            addNotEqual(property, arr[0]);
+            return;
+        }
+
+        _add(Restrictions.not(Restrictions.in(property, arr)));
     }
 
     public void addIsNotIn(String property, Collection<?> v)
     {
-        if ( v == null || v.isEmpty() )
+        if ( v == null )
             addTrue();
         else
-            _add(Restrictions.not(Restrictions.in(property, v)));
+            addIsNotIn(property, v.toArray());
     }
 
     //##################################################
     //# junctions
     //##################################################
+
+    public KmhJunction addAnd()
+    {
+        Junction j = Restrictions.conjunction();
+        _add(j);
+        return new KmhJunction(this, j);
+    }
 
     public KmhJunction addOr()
     {
@@ -213,10 +238,23 @@ public abstract class KmhElement
         return new KmhJunction(this, j);
     }
 
-    public KmhJunction addAnd()
+    //##################################################
+    //# junctions (not)
+    //##################################################
+
+    public KmhJunction addNotAnd()
     {
         Junction j = Restrictions.conjunction();
-        _add(j);
+        Criterion not = Restrictions.not(j);
+        _add(not);
+        return new KmhJunction(this, j);
+    }
+
+    public KmhJunction addNotOr()
+    {
+        Junction j = Restrictions.disjunction();
+        Criterion not = Restrictions.not(j);
+        _add(not);
         return new KmhJunction(this, j);
     }
 

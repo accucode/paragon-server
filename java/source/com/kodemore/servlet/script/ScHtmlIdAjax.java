@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,12 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.ScConstantsIF;
+import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
+import com.kodemore.servlet.control.ScTransitionType;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
@@ -44,21 +47,61 @@ public class ScHtmlIdAjax
     extends ScWrapperScript
 {
     //##################################################
+    //# constructor
+    //##################################################
+
+    /**
+     * Any scripts specified are added to the delegate block script.
+     * In most cases, the delegate ultimately resolves to the root script
+     * from ScServletData.ajax().
+     */
+    public static ScHtmlIdAjax createOnDelegate(ScHtmlIdIF target, ScBlockScript delegate)
+    {
+        return new ScHtmlIdAjax(target, delegate);
+    }
+
+    /**
+     * Create a script that delegates directly to the servlet's root script.
+     */
+    public static ScHtmlIdAjax createOnRoot(ScHtmlIdIF target)
+    {
+        ScBlockScript delegate = ScServletData.getLocal().ajax();
+        return createOnDelegate(target, delegate);
+    }
+
+    /**
+     * Create a script that is explicitly DETACHED from the delgation chain.
+     * This is only used when you are creating scripts that you do NOT want
+     * to be automatically included in the ajax response sent to the client.
+     */
+    public static ScHtmlIdAjax createDetached(ScHtmlIdIF target)
+    {
+        ScBlockScript delegate = ScBlockScript.create();
+        return createOnDelegate(target, delegate);
+    }
+
+    //##################################################
     //# variables
     //##################################################
 
+    /**
+     * This is that target that my locally defined convenience methods
+     * operate on.  For example, htmlIdAjax.hide() is effectively the same
+     * as htmlIdAjax.hide(_target).
+
+     */
     private ScHtmlIdIF _target;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScHtmlIdAjax(ScHtmlIdIF target)
+    protected ScHtmlIdAjax(ScHtmlIdIF target)
     {
         this(target, ScBlockScript.create());
     }
 
-    public ScHtmlIdAjax(ScHtmlIdIF target, ScBlockScript delegate)
+    protected ScHtmlIdAjax(ScHtmlIdIF target, ScBlockScript delegate)
     {
         super(delegate);
 
@@ -113,17 +156,16 @@ public class ScHtmlIdAjax
     //# visible
     //##################################################
 
+    public ScVisibilityScript show(boolean e)
+    {
+        return e
+            ? show()
+            : hide();
+    }
+
     public ScShowScript show()
     {
         return show(getTarget());
-    }
-
-    public void show(boolean e)
-    {
-        if ( e )
-            show();
-        else
-            hide();
     }
 
     public ScHideScript hide()
@@ -216,7 +258,7 @@ public class ScHtmlIdAjax
      * the target HtmlId is also an instance of ScControlIF.  Otherwise,
      * the element will simply be removed.
      */
-    public void replace()
+    public final void replace()
     {
         ScHtmlIdIF target = getTarget();
 
@@ -227,6 +269,38 @@ public class ScHtmlIdAjax
         }
         else
             remove();
+    }
+
+    /**
+     * Attempt to replace the element identified by the target htmlId
+     * with the current version of itself using a fade transition.
+     *
+     * NOTE: HtmlIds are not necessarily renderable.  This only works if
+     * the target HtmlId is also an instance of ScControlIF.  Otherwise,
+     * the element will simply be removed.
+     */
+    public final void replaceFade()
+    {
+        ScHtmlIdIF target = getTarget();
+
+        if ( !(target instanceof ScControlIF) )
+        {
+            remove();
+            return;
+        }
+
+        ScControlIF with = (ScControlIF)target;
+
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.render(with);
+
+        ScReplaceContentsScript r;
+        r = setContents();
+        r.setInnerSelector(getTarget().getJquerySelector());
+        r.setContents(out);
+        r.setTransition(ScTransitionType.Fade);
+        r.setSpeed(ScConstantsIF.DEFAULT_SPEED_MS);
     }
 
     //##################################################
@@ -277,7 +351,8 @@ public class ScHtmlIdAjax
 
     public void focus()
     {
-        getInner().focus(getTarget().getFocusTarget());
+        String sel = getTarget().getFocusTarget().getJquerySelector();
+        getInner().focus(sel);
     }
 
     //##################################################
@@ -405,30 +480,6 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# equalize
-    //##################################################
-
-    public ScEqualizeScript equalizeChildren()
-    {
-        return equalizeChildrenOf(getTarget());
-    }
-
-    public ScEqualizeScript equalizeClasses(String klass)
-    {
-        return equalizeClassIn(getTarget(), klass);
-    }
-
-    public ScEqualizeScript equalizeGroups()
-    {
-        return equalizeGroupsIn(getTarget());
-    }
-
-    public ScEqualizeScript equalizeGroupBodies()
-    {
-        return equalizeGroupBodiesIn(getTarget());
-    }
-
-    //##################################################
     //# tooltip
     //##################################################
 
@@ -514,6 +565,15 @@ public class ScHtmlIdAjax
     public void setDataAttribute(String key, Boolean value)
     {
         setDataAttribute(getTarget(), key, value);
+    }
+
+    //##################################################
+    //# old value
+    //##################################################
+
+    public void updateOldValue()
+    {
+        run("Kmu.updateOldValue(%s);", formatReference(getTarget()));
     }
 
     //##################################################

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 /**
  * I am used as a common superclass for elements that do
@@ -40,28 +41,23 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  */
 public abstract class ScElement
     extends ScControl
-    implements ScElementIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# variables
     //##################################################
 
     private ScLocalString _htmlId;
-
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
-
+    private ScLocalCss    _css;
+    private ScLocalStyle  _style;
     private ScLocalString _hoverText;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScElement()
     {
-        super.install();
-
         _htmlId = new ScLocalString(getKey());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
@@ -83,21 +79,35 @@ public abstract class ScElement
         _htmlId.setValue(e);
     }
 
-    @Override
-    public String getJquerySelector()
-    {
-        return ScJquery.formatSelector(this);
-    }
-
-    public String getJqueryReference()
-    {
-        return ScJquery.formatReference(this);
-    }
+    //##################################################
+    //# post dom
+    //##################################################
 
     @Override
-    public ScHtmlIdAjax ajax()
+    public final ScHtmlIdAjax getPostDomScript()
     {
-        return new ScHtmlIdAjax(this, getRootScript());
+        return ScHtmlIdAjax.createOnDelegate(this, super.getPostDomScript());
+    }
+
+    @Override
+    public final ScHtmlIdAjax getPostRenderScript()
+    {
+        return ScHtmlIdAjax.createOnDelegate(this, super.getPostRenderScript());
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public ScHtmlIdAjax _htmlIdAjax()
+    {
+        return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    public void ajaxSetAttribute(String key, String value)
+    {
+        _htmlIdAjax().setAttribute(key, value);
     }
 
     //##################################################
@@ -148,18 +158,6 @@ public abstract class ScElement
         return style();
     }
 
-    @Override
-    public void show()
-    {
-        style().show();
-    }
-
-    @Override
-    public void hide()
-    {
-        style().hide();
-    }
-
     //##################################################
     //# hover text
     //##################################################
@@ -194,4 +192,33 @@ public abstract class ScElement
         out.printAttribute("title", getHoverText());
     }
 
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        _htmlId.compressMemory();
+        _css.compressMemory();
+        _style.compressMemory();
+        _hoverText.compressMemory();
+    }
+
+    //##################################################
+    //# visibility
+    //##################################################
+
+    @Override
+    public final void setVisible(boolean e)
+    {
+        style().show(e);
+    }
+
+    @Override
+    public final boolean getVisible()
+    {
+        return !style().hasHide();
+    }
 }

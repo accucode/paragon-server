@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,9 +32,9 @@ import com.kodemore.string.KmStringBuilder;
  * I manage a list of scripts, roughly representing the
  * contents of a "block".  That is, the lines _between_
  * matching braces {...}.
- * 
+ *
  * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients 
+ * methods such as toast(...).  However, when clients
  * directly compose their own script, then those clients
  * are responsible for manually including any appropriate
  * whitespace or terminators.  The basic add/run methods
@@ -118,6 +118,11 @@ public abstract class ScAbstractScript
     protected String json(CharSequence s)
     {
         return KmJsonUtility.format(s);
+    }
+
+    protected String json(Boolean e)
+    {
+        return KmJsonUtility.format(e);
     }
 
     protected ScServletData getData()

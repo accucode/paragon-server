@@ -1,0 +1,44 @@
+/*****************************
+ ** dialog
+ *****************************/
+
+
+
+/*****************************
+ ** jquery overrides
+ *****************************/
+
+.ui-widget-overlay
+    opacity:        $dialog-overlayOpacity                  if $dialog-overlayOpacity
+
+.ui-dialog
+    border:         none !important
+    box-shadow:     $dialog-shadow                          if $dialog-shadow
+    padding:        0
+
+.ui-dialog-titlebar
+    background:     $dialog-titleBackground                 if $dialog-titleBackground
+    border-bottom:  $dialog-titleBorder                     if $dialog-titleBorder
+
+.ui-dialog-title
+    font:           $dialog-titleFont                       if $dialog-titleFont
+
+.dialogNoClose .ui-dialog-titlebar-close
+    /* optionally hide the default close button */
+    display: none;
+
+/*****************************
+ ** app
+ *****************************/
+
+.dialog-header
+    background:     $dialog-headerBackground                if $dialog-headerBackground
+    border-bottom:  $dialog-headerBorder                    if $dialog-headerBorder
+
+.dialog-body
+    background:     $dialog-bodyBackground                  if $dialog-bodyBackground
+    
+
+.dialog-footer
+    background:     $dialog-footerBackground                if $dialog-footerBackground
+    border-top:     $dialog-footerBorder                    if $dialog-footerBorder

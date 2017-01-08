@@ -25,12 +25,19 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The unique identifier.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name          = utcDate
@@ -38,11 +45,13 @@ attributes
     : type          = date
     : required      = true
 
+
     field
     : name          = name
     : help          = The display name.  E.g.: the classname of the servlet or job.
     : type          = text100
     : required      = true
+
 
     field
     : name          = count
@@ -50,11 +59,18 @@ attributes
     : type          = integer
     : required      = true
 
+
+    //*****************************************************
+    //** aggregate ms
+    //*****************************************************
+
+
     field
     : name          = minimumMs
     : help          = Aggregate information about the individual logs.
     : type          = integer
     : required      = true
+
 
     field
     : name          = maximumMs
@@ -62,11 +78,13 @@ attributes
     : type          = integer
     : required      = true
 
+
     field
     : name          = averageMs
     : help          = Aggregate information about the individual logs.
     : type          = integer
     : required      = true
+
 
     field
     : name          = totalMs

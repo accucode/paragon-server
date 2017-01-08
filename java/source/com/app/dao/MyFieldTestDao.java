@@ -1,10 +1,6 @@
 package com.app.dao;
 
-import com.kodemore.collection.*;
-
-import com.app.dao.base.*;
-import com.app.filter.*;
-import com.app.model.*;
+import com.app.dao.base.MyFieldTestDaoBase;
 
 public class MyFieldTestDao
     extends MyFieldTestDaoBase

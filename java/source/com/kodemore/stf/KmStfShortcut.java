@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ public class KmStfShortcut
      * parsing the attributes of an element with a matching
      * name.
      */
-    private String _elementName;
+    private String  _elementName;
 
     /**
      * If set, then this shortcut will only apply when parsing
@@ -50,7 +50,7 @@ public class KmStfShortcut
      * exactly one wildcard path element.  A double ** indicates
      * 0-to-many wildcard path elements.
      */
-    private String _elementPath;
+    private String  _elementPath;
 
     /**
      * If defined, the shortcut will only match arguments
@@ -59,12 +59,12 @@ public class KmStfShortcut
      * prefix is typically a symbol (e.g.: @, #, $) to avoid
      * confusion, but this is not strictly required.
      */
-    private String _argumentPrefix;
+    private String  _argumentPrefix;
 
     /**
      * The attribute key the argument will be applied to.
      */
-    private String _attributeKey;
+    private String  _attributeKey;
 
     /**
      * If true, multiple arguments will be appended to the 

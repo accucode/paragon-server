@@ -1,7 +1,8 @@
 package com.app.model;
 
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScEnumDropdownField;
 
+import com.app.model.base.MyEmailStatus;
 import com.app.model.base.MyEmailToolsBase;
 
 /**
@@ -29,10 +30,10 @@ public class MyEmailTools
     //# convenience
     //##################################################
 
-    public ScDropdown newStatusDropdown()
+    public ScEnumDropdownField newStatusDropdown()
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScEnumDropdownField e;
+        e = new ScEnumDropdownField();
         e.setLabel("Status");
         e.addOption(MyEmailStatus.Draft);
         e.addOption(MyEmailStatus.Ready);

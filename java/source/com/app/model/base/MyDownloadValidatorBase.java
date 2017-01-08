@@ -36,8 +36,11 @@ public class MyDownloadValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
-    private KmStringValidator nameValidator;
     private KmTimestampValidator createdUtcTsValidator;
+    private KmStringValidator nameValidator;
+    private KmStringValidator typeCodeValidator;
+    private KmStringValidator fileNameValidator;
+    private KmBlobValidator bytesValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -48,8 +51,11 @@ public class MyDownloadValidatorBase
     {
         super();
         uidValidator = newUidValidator();
-        nameValidator = newNameValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
+        nameValidator = newNameValidator();
+        typeCodeValidator = newTypeCodeValidator();
+        fileNameValidator = newFileNameValidator();
+        bytesValidator = newBytesValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -62,14 +68,29 @@ public class MyDownloadValidatorBase
         return uidValidator;
     }
 
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
     public KmStringValidator getNameValidator()
     {
         return nameValidator;
     }
 
-    public KmTimestampValidator getCreatedUtcTsValidator()
+    public KmStringValidator getTypeCodeValidator()
     {
-        return createdUtcTsValidator;
+        return typeCodeValidator;
+    }
+
+    public KmStringValidator getFileNameValidator()
+    {
+        return fileNameValidator;
+    }
+
+    public KmBlobValidator getBytesValidator()
+    {
+        return bytesValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -86,8 +107,11 @@ public class MyDownloadValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setName(nameValidator.convertOnly(value.getName()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setName(nameValidator.convertOnly(value.getName()));
+        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
+        value.setFileName(fileNameValidator.convertOnly(value.getFileName()));
+        value.setBytes(bytesValidator.convertOnly(value.getBytes()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -96,8 +120,11 @@ public class MyDownloadValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        nameValidator.validateOnly(value.getName(), errors);
+        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
+        fileNameValidator.validateOnly(value.getFileName(), errors);
+        bytesValidator.validateOnly(value.getBytes(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasUser() )
@@ -120,18 +147,6 @@ public class MyDownloadValidatorBase
         return e;
     }
 
-    public KmStringValidator newNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("download");
-        e.setField("name");
-        e.setRequired();
-        return e;
-    }
-
     public KmTimestampValidator newCreatedUtcTsValidator()
     {
         KmTimestampValidator e;
@@ -139,6 +154,53 @@ public class MyDownloadValidatorBase
         e.setModel("download");
         e.setField("createdUtcTs");
         e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(200);
+        e.setAllowsPrintable(true);
+        e.setModel("download");
+        e.setField("name");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newTypeCodeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsLetters(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
+        e.setStripsAllSpaces(true);
+        e.setModel("download");
+        e.setField("typeCode");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newFileNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModel("download");
+        e.setField("fileName");
+        return e;
+    }
+
+    public KmBlobValidator newBytesValidator()
+    {
+        KmBlobValidator e;
+        e = new KmBlobValidator();
+        e.setModel("download");
+        e.setField("bytes");
         return e;
     }
 

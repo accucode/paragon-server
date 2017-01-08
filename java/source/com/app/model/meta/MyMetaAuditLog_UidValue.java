@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaAuditLog_UidValue
     {
         return "The foreign key reference uid, if applicable.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaAuditLog_UidValue
         return getAccess().getAuditLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaAuditLog_UidValue
     {
         return model.getUidValue();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, String value)
     {
         model.setUidValue(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, String value)
     {
         return model.hasUidValue(value);
     }
-    
+
 }

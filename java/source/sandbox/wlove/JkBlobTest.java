@@ -3,7 +3,7 @@ package sandbox.wlove;
 import com.kodemore.command.KmDao;
 import com.kodemore.utility.KmRandom;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyEmail;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
@@ -41,17 +41,17 @@ public class JkBlobTest
         e.setSubject("subject");
         e.addTextPart(msg);
         e.markReady();
-        e.attachDao();
+        e.daoAttach();
         return e.getUid();
     }
 
     private String findFirstPartUid(String emailUid)
     {
         MyEmail email = getAccess().findEmailUid(emailUid);
-        return email.getParts().getFirst().getData().formatString();
+        return email.getParts().getAny().getData().formatString();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

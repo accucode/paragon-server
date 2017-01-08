@@ -41,7 +41,9 @@ public abstract class MyHibernateCacheTestToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyHibernateCacheTestFilter());
         e.setFinder(new MyHibernateCacheTestFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

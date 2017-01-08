@@ -134,5 +134,4 @@ public abstract class KmDao
     {
         return KmDaoBridge.getInstance().getStaleObjectRetryCount();
     }
-
 }

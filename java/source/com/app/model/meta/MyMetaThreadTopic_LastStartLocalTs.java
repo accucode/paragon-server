@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -43,15 +44,15 @@ public class MyMetaThreadTopic_LastStartLocalTs
     @Override
     public String getLabel()
     {
-        return "Laststart";
+        return "Last Start";
     }
 
     @Override
     public String getHelp()
     {
-        return "The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.";
+        return "The last start timestamp converted to the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaThreadTopic_LastStartLocalTs
     {
         return model.getLastStartLocalTs();
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, KmTimestamp value)
     {
         return model.hasLastStartLocalTs(value);
     }
-    
+
 }

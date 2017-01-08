@@ -46,8 +46,8 @@ public class JkEmailTest
         KmEmail e;
         e = new KmEmail();
         e.setKey("12345");
-        e.addTo("wlove@accucode.com");
-        e.setFrom("velocityservice@gmail.com");
+        e.addTo("john.doe@example.com");
+        e.setFrom("john.doe@example.com");
         e.setSubject("gmail test");
         e.addPart().setText("gmail test message.");
         return e;

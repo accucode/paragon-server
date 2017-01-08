@@ -22,6 +22,18 @@ public class KmFile
     implements Comparable<KmFile>, KmFileConstantsIF
 {
     //##################################################
+    //# instance creation
+    //##################################################
+
+    /**
+     * Create a new instance for the current working folder.
+     */
+    public static KmFile workingFolder()
+    {
+        return new KmFile(Kmu.getWorkingFolder());
+    }
+
+    //##################################################
     //# variables
     //##################################################
 

@@ -16,66 +16,406 @@
 <body>
 <h1>project</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>Almost everything is managed within the context of a project. For example: the depots, product catalogs, and orders are all managed by project.  Although two projects may define depots with the same name, each project will actually have their own separate depot.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
-  <td>uid&nbsp;</td>
-  
+  <td>active&nbsp;</td>
+
+  <td>boolean
+              </td>
+
   <td>
-            <i>Help</i><br>
-        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
-            &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-            pk<br>                required<br>           &nbsp;
+    Inactive projects are generally hidden from view&#44; however&#44; they are still visible to administrators&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>name&nbsp;</td>
-  
+  <td>businessDays&nbsp;</td>
+
+  <td>dayFrequency
+              </td>
+
   <td>
-            <i>Help</i><br>
-        The display name.<br>
-            &nbsp;
+                                        &nbsp;
   </td>
-  
+
+  <td>
+    The nominal business days &#40;e&#46;g&#46;&#58; Monday through Friday&#41;&#46; This may be displayed to customers&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>businessEndTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The nominal end of business hours&#46; This may be displayed to customers&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>businessStartTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The nominal start of business hours&#46; This may be displayed to customers&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>catalogVersion&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    An internal version number for the product catalog&#46;  This is incremented any time a new version of a product or price sheet is published&#46;  This provides a simple way to coordinate in&#45;memory caches&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>code&nbsp;</td>
+
+  <td>projectCode
+                <br><nobr>max length: 5</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The unique code that identifies this project&#46;<br><br> Also&#44; this code is used as a prefix for various numbers within the project&#46; For example&#58; sales orders and tickets&#46;<br><br> The code can be modified&#44; but this is generally not recommended&#46; Preexisting numbers are NOT updated when the code is updated and this can result in long confusion long term&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>companyName&nbsp;</td>
+
   <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                   required<br>           &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    The name of the company resposible for this project&#46; This may be used on various documents such as emails and pick lists&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>lockVersion
               </td>
+
   <td>
-                         &nbsp;
+                                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The display name&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>sendEmailFrom&nbsp;</td>
+
+  <td>email
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The email address that all project emails will be sent FROM&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

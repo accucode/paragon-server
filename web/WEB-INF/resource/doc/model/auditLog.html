@@ -16,369 +16,543 @@
 <body>
 <h1>auditLog</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>I maintain a log of changes made to the domain.  Each record identify a single attribute that has been modified on a given model.  For example, a single record may record that the user John Doe changed the Widget's price to $13.00 on Jan 1, 2015.
+ This is intended to be a historical archive that can be easily exported to a third-party reporting.  All records must be immutable; records can be added, but not modified.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
-</tr>
-<tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The globally unique identifier.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>transactionUid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        A unique identifier of the database transaction.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>userName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The user's name (denormalized).<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>typeCode&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The type of change.<br>
-            &nbsp;
-  </td>
-  
-  <td>letterCode
-        <br><nobr>max length: 1</nobr>           <br>allows(
-                      letters
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>utcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The time this change was made.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>modelType&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The type of model; e.g.: Project, Depot, User, etc.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>modelName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The common, but non-unique name of the model. Models generally rely on long UIDs as their unique identifier so we also store a model's display string as a 'name'.  Although this name is not guaranteed to be unique, it is generally human-readable and is usually sufficient to identify which model was affected.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>modelUid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The unique id of the model.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>fieldName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The name of the field that was modified.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>newValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        A human readable summary of the new/current value.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>oldValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        A human readable summary of the old/previous value.<br>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>stringValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The truncated string value, if applicable.<br>
-            &nbsp;
-  </td>
-  
-  <td>text1000
-        <br><nobr>max length: 1000</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>integerValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The integer value, if applicable.<br>
-            &nbsp;
-  </td>
-  
-  <td>integer
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>longValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The long value, if applicable.<br>
-            &nbsp;
-  </td>
-  
-  <td>long
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>doubleValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The double value, if applicable.<br>
-            &nbsp;
-  </td>
-  
-  <td>double
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>moneyValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The money value, if applicable.<br>
-            &nbsp;
-  </td>
-  
-  <td>money
-              </td>
-  <td>
-                         &nbsp;
-  </td>
+  <th>Description</th>
 </tr>
 <tr>
   <td>booleanValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The boolean value, if applicable.<br>
-            &nbsp;
-  </td>
-  
+
   <td>boolean
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    The boolean value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time this change was made&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>dateValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date value, if applicable.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    The date value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainBundleUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    I am used to identity a bundle of logs related to a particular domain&#46; In many cases&#44; a particular domain will have multiple fields modified at the same time&#46;  The bundle identifies this group of changes&#46;  Sometimes multiple bundles may occur within the same transaction for the same domain&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The common&#44; but non&#45;unique name of the domain&#46; Models generally rely on long UIDs as their unique identifier so we also store a domain&#39;s display string as a &#39;name&#39;&#46;  Although this name is not guaranteed to be unique&#44; it is generally human&#45;readable and is usually sufficient to identify which domain was affected&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainType&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The type of domain&#59; e&#46;g&#46;&#58; project&#44; depot&#44; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTypeLabel&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A more friendly format of the domain type&#46; E&#46;g&#46;&#58; project &#61;&#62; Project&#59; salesOrderLine &#61;&#62; Sales Order Line&#59; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The unique id of the domain model&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>doubleValue&nbsp;</td>
+
+  <td>double
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The double value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>fieldName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The name of the field that was modified&#46; This is effectively the java&#47;database name&#46; For example&#58; count&#44; phone&#44; primaryShippingAddress&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>fieldNameLabel&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A more friendly format of the field name&#46; E&#46;g&#46;&#58; count &#61;&#62; Count&#59; primaryShippingAddress &#61;&#62; Primary Shipping Address&#59; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>integerValue&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The integer value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>longValue&nbsp;</td>
+
+  <td>long
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The long value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>moneyValue&nbsp;</td>
+
+  <td>money
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The money value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>newValue&nbsp;</td>
+
+  <td>multiline100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+              <br><nobr>allows whitespace</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    A human readable summary of the new&#47;current value&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>oldValue&nbsp;</td>
+
+  <td>multiline100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+              <br><nobr>allows whitespace</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    A human readable summary of the old&#47;previous value&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>stringValue&nbsp;</td>
+
+  <td>multiline1000
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows printable</nobr>
+              <br><nobr>allows whitespace</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The truncated string value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>timestampValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The timestamp value, if applicable.<br>
-            &nbsp;
-  </td>
-  
+
   <td>timestamp
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    The timestamp value&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>uidValue&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The foreign key reference uid, if applicable.<br>
-            &nbsp;
-  </td>
-  
+  <td>transactionUid&nbsp;</td>
+
   <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    A unique identifier of the database transaction&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>typeCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>typeName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The type of change.<br>
-            &nbsp;
-  </td>
-  
+
   <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uidValue&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The foreign key reference uid&#44; if applicable&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>userName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s name &#40;denormalized&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

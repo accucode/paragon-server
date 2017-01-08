@@ -2,16 +2,16 @@ package com.kodemore.twitter;
 
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
- * 
+ *
  * https://dev.twitter.com/docs/platform-objects/users
- * 
- * review_steve KmTwitterCoordinates
+ *
+ * KmTwitterCoordinates
  */
 public class KmTwitterCoordinate
     extends Object
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private Double _longitude;

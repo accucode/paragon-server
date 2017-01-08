@@ -1,11 +1,13 @@
 package com.app.utility;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyDownload;
 import com.app.model.MyPasswordReset;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyTenant;
+import com.app.ui.core.MyServletData;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 
@@ -13,9 +15,14 @@ public class MyUrls
     implements MyServletConstantsIF
 {
     //##################################################
-    //# top urls
+    //# urls
     //##################################################
 
+    /**
+     * A entry url that generally leads back to the top of the module
+     * you are already in. For example, this will re-enter the main app,
+     * developer tools, or onling store that you are already viewing.
+     */
     public static String getEntryUrl()
     {
         return formatUrl("");
@@ -23,10 +30,15 @@ public class MyUrls
 
     public static String getEntryUrl(ScParameterList params)
     {
-        if ( params == null || params.isEmpty() )
-            return formatUrl("");
+        return params == null || params.isEmpty()
+            ? formatUrl("")
+            : formatServletUrl("main", params);
+    }
 
-        return formatServletUrl("main", params);
+    public static String getEntryUrl(MyTenant tenant, ScParameterList params)
+    {
+        return formatServletUrl(tenant, "main", params);
+
     }
 
     public static String getPasswordResetUrl(MyPasswordReset e)
@@ -47,6 +59,11 @@ public class MyUrls
     public static String getDownloadUrl(MyDownload e)
     {
         return formatServletUrl("download/" + e.getUid());
+    }
+
+    public static String getOneAllCallbackUrl()
+    {
+        return formatServletUrl("oneall");
     }
 
     //##################################################
@@ -71,6 +88,12 @@ public class MyUrls
         return formatUrl(path, params);
     }
 
+    private static String formatServletUrl(MyTenant tenant, String servlet, ScParameterList params)
+    {
+        String path = formatServletPath(servlet);
+        return formatUrl(tenant, path, params);
+    }
+
     private static String formatUrl(String path)
     {
         ScParameterList params = null;
@@ -79,47 +102,56 @@ public class MyUrls
 
     private static String formatUrl(String path, ScParameterList params)
     {
-        MyPropertyRegistry p = getProperties();
-        String scheme = p.getServletScheme();
-        String host = p.getServletHost();
-        String port = p.getServletPort();
+        MyServletData data = MyServletData.getLocal();
+
+        String scheme = data.getRequestScheme();
+        String host = data.getRequestServerHostName();
+        int port = data.getRequestServerPort();
+
+        return formatUrl(scheme, host, port, path, params);
+    }
+
+    private static String formatUrl(MyTenant tenant, String path, ScParameterList params)
+    {
+        MyServletData data = MyServletData.getLocal();
+
+        String scheme = data.getRequestScheme();
+        String host = tenant.getHostname();
+        int port = data.getRequestServerPort();
+
         return formatUrl(scheme, host, port, path, params);
     }
 
     public static String formatUrl(
         String scheme,
         String host,
-        String port,
+        Integer port,
         String path,
         ScParameterList requestParams)
     {
-        StringBuilder out = new StringBuilder();
+        KmStringBuilder out = new KmStringBuilder();
+
         if ( Kmu.hasValue(scheme) )
         {
-            out.append(scheme);
-            out.append("://");
+            out.print(scheme);
+            out.print("://");
         }
 
-        out.append(host);
+        out.print(host);
 
-        if ( Kmu.hasValue(port) )
+        if ( port != null && port != 80 )
         {
-            out.append(":");
-            out.append(port);
+            out.print(":");
+            out.print(port);
         }
 
         if ( Kmu.hasValue(path) )
-            out.append(path);
+            out.print(path);
 
         if ( requestParams != null )
-            out.append(requestParams.formatUrl());
+            out.print(requestParams.formatUrl());
 
         return out.toString();
-    }
-
-    private static MyPropertyRegistry getProperties()
-    {
-        return MyGlobals.getProperties();
     }
 
 }

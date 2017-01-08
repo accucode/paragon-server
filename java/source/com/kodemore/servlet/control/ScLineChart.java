@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,11 +47,8 @@ public class ScLineChart
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScLineChart()
     {
-        super.install();
-
         _dataSeries = new KmList<>();
     }
 
@@ -97,7 +94,7 @@ public class ScLineChart
     //##################################################
 
     @Override
-    protected void initializeChart(KmStringBuilder out)
+    protected void initializeChartOn(KmStringBuilder out)
     {
         out.print("var chart;");
         out.print("chart = nv.models.lineChart().useInteractiveGuideline(true);");
@@ -107,7 +104,7 @@ public class ScLineChart
     }
 
     @Override
-    protected void formatXAxis(KmStringBuilder out)
+    protected void formatXAxisOn(KmStringBuilder out)
     {
         out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisScale());
 
@@ -118,7 +115,7 @@ public class ScLineChart
     }
 
     @Override
-    protected void formatYAxis(KmStringBuilder out)
+    protected void formatYAxisOn(KmStringBuilder out)
     {
         out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisScale());
 

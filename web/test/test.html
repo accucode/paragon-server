@@ -10,8 +10,12 @@
     <meta http-equiv="Expires"          content="-1">
 
 <!-- BEGIN_STANDARD_HEADER -->
+    <!-- imported from testStandardHeader.html -->
+
     <!-- reset -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
     <!-- jquery (not deferred) -->
     <script src="../static/version/jquery/core/jquery-1.10.2.min.js"></script>
@@ -33,30 +37,18 @@
     <link rel="stylesheet" type="text/css" href="../static/version/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
     <script defer src="../static/version/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
 
-    <!-- cl editor -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.css", -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.min.js"></script> -->
-
     <!-- block ui -->
     <script defer src="../static/version/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
 
     <!-- cookie -->
-    <script defer src="../static/version/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+    <script defer src="../static/version/jquery/js-cookie-2.1.0/js.cookie.js"></script>
 
     <!-- transit -->
     <script defer src="../static/version/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
 
-    <!-- Twitter Bootstrap -->
-    <!-- "../static/version/bootstrap-2.3.2/css/bootstrap.min.css", -->
-    <!-- "../static/version/bootstrap-2.3.2/js/bootstrap.min.js", -->
-
-    <!-- bootstap select -->
-    <link rel="stylesheet" type="text/css" href="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.css">
-    <script defer src="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
-
     <!-- dropzone -->
-    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-3.6.1/dropzone.css">
-    <script defer src="../static/version/dropzone-3.6.1/dropzone.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-4.3.0/dropzone.css">
+    <script defer src="../static/version/dropzone-4.3.0/dropzone.js"></script>
 
     <!-- json -->
     <script defer src="../static/version/json-2010.11.18/json2.js"></script>
@@ -89,6 +81,25 @@
     <script defer src="../static/version/nvd3-1.1.10/src/models/line.js"></script>
     <script defer src="../static/version/nvd3-1.1.10/src/models/lineChart.js"></script>
 
+    <!-- ckEditor -->
+    <script defer src="../static/version/ckeditor-4.5.11/ckeditor.js"></script>
+    <script defer src="../static/version/ckeditor-4.5.11/adapters/jquery.js"></script>
+
+    <!-- moment -->
+    <script defer src="../static/version/moment/moment-2.14.1.min.js"></script>
+    <script defer src="../static/version/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="../static/version/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <!-- popr -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/popr-1.0.0/popr.css">
+    <script src="../static/version/jquery/popr-1.0.0/popr.js"></script>
+
     <!-- kodemore -->
     <script defer src="../static/version/app/common/script/kmExtensions.js"></script>
     <script defer src="../static/version/app/common/script/kmu.js"></script>
@@ -96,82 +107,167 @@
     <script defer src="../static/version/app/common/script/kmDropdownMenu.js"></script>
     <script defer src="../static/version/app/common/script/kmTimeAgo.js"></script>
     <script defer src="../static/version/app/common/script/kmDateAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmClock.js"></script>
 
     <!-- app -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/button.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/dropdownMenu.css">
     <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/spice.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/tools.css">
-
-    <!-- ckEditor -->
-    <script src="../static/version/ckeditor/ckeditor.js"></script>
-
-    <!-- full calendar -->
-    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-2.4.0/fullcalendar.min.css">
-    <script src="../static/version/fullcalendar-2.4.0/moment.min.js"></script>
-    <script src="../static/version/fullcalendar-2.4.0/fullcalendar.min.js"></script>
-
-    <!-- html2canvas -->
-    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
-    <!--  <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.svg.js"></script>  -->
 <!-- END_STANDARD_HEADER -->
 
     <style type="text/css">
-        #pageLoadMessage
+        .xHeader
         {
-            font: italic bold 30px sans-serif;
-            position: fixed;
-            left:   0;
-            right:  0;
-            top:    0;
-            height: 50px;
-            padding: 10px;
-            background: linear-gradient(#aaa, #f8f8f8);
+            display:        flex;
+            flex-direction: row;
+            align-items:    flex-start;
+            box-sizing:     border-box;
+            height:         108px;
         }
+
+        .xLeft
+        {
+            display:        flex;
+            flex-direction: row;
+            flex-shrink:    1;
+            flex-grow:      0;
+            align-items:    flex-start;
+            overflow:       hidden;
+            position:       relative;
+            box-sizing:     border-box;
+            padding-right:  10px;
+            margin-left:    10px;
+            /* transform:      skew(-10deg, 0) translate(10px); */
+        }
+
+        .xRight
+        {
+            display:        flex;
+            flex-direction: row;
+            align-items:    flex-start;
+            flex-grow:      1;
+            height:         108px;
+            box-sizing:     border-box;
+            margin-left:    20px;
+        }
+
+        .xItem
+        {
+            box-sizing:     border-box;
+            height:         98px;
+            background:     #eee;
+            border:         1px solid #888;
+            border-bottom:  none;
+            margin-left:    5px;
+            margin-top:     10px;
+            white-space:    nowrap;
+            cursor:         pointer;
+            position:       relative;
+        }
+
+        .xItem > span
+        {
+            display:        block;
+            width:          20px;
+            transform:      rotate(270deg) translate(-60px);
+            padding:        10px;
+            font:           normal 1.5rem roboto;
+        }
+
+        .xItem:hover
+        {
+            text-decoration: underline;
+        }
+
+        .xSelected
+        {
+            color:          #fff;
+            height:         108px;
+            background:     #888;
+            font:           bold 1.5rem roboto;
+            margin-top:     0px;
+        }
+
+        .xSelected > span
+        {
+            font:           bold 1.5rem roboto;
+        }
+
+        .xFade
+        {
+            position:       absolute;
+            right:          0;
+            width:          10px;
+            height:         98px;
+            background:     linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1.0) 100%)
+        }
+
+        .xDropdown
+        {
+            font:           normal 16px sans-serif;
+            margin:         4px 10px 0px 10px;
+            padding:        5px;
+        }
+
+        .xFooter
+        {
+            box-sizing:     border-box;
+            height:         10px;
+            background:     #888;
+        }
+
     </style>
 
     <script>
-    function test()
-    {
-        Kmu.screenCapture(function(s)
+        function init()
         {
-            $('#textarea').val(s);
+        }
+
+        $(document).ready(function()
+        {
+            init();
         });
-    }
     </script>
+
 </head>
 
-<body>
-<div id="a" style="border:1px solid blue; padding:5px;">aaa</div>
-<div id="b" style="border:1px solid blue; padding:5px;" data-kmvalue="bbb">bbb</div>
-<input type="checkbox" id="cb" name="cb" value="a" checked>checkbox<br>
+<body class='fill pad auto'>
 
-<input type="radio" id="ra" name="radio" value="a" checked>aaa
-<input type="radio" id="rb" name="radio" value="a">bbb
-<br>
+    <div class="boxGray pad">
+        <button onclick='location.reload();'>reload</button>
+        <button onclick='init();'>init</button>
+    </div>
+    <br>
 
-<input type="text" id="text" name="text" value="test"><br>
+    <div class='xHeader'>
 
-<select id="select" name="select" multiple="multiple">
-    <option selected="selected">text1</option>
-    <option>text2</option>
-    <option>text3</option>
-    <option>text4</option>
-    <option>text5</option>
- </select>
- <br>
- <br>
- textarea<br>
- <textarea id="textarea" name="textarea" rows=5 cols=40 data-old-value="one&#10;two"></textarea>
- <br>
+        <div class='xLeft'>
+            <div class='xItem'><span>Order</span></div>
+            <div class='xItem xSelected'><span>Lines</span></div>
+            <div class='xItem'><span>Shipments</span></div>
+            <div class='xItem'><span>Contacts</span></div>
+            <div class='xItem'><span>Requests</span></div>
+            <div class='xItem'><span>Visits</span></div>
+            <div class='xItem'><span>Surveys</span></div>
+            <div class='xItem'><span>Checks</span></div>
+            <div class='xItem'><span>Tasks</span></div>
+            <div class='xItem'><span>Email</span></div>
+            <div class='xItem'><span>Attachments</span></div>
+            <div class='xItem'><span>Blurbs</span></div>
+            <div class='xItem'><span>Notes</span></div>
+            <div class='xFade'></div>
+        </div>
 
-<input type="hidden" id="h" value="abc"><br>
+        <div class='xRight'>
+            <select class='xDropdown'>
+               <option>select...</option>
+               <option>aaa aaa aaa</option>
+               <option>bbb bbb bbb</option>
+               <option>ccc ccc ccc</option>
+            </select>
+        </div>
 
-<br>
+    </div>
 
-<button onclick='location.reload(true);'>refresh</button>
-<button onclick='test();'>test</button>
+    <div class='xFooter'></div>
 
 </body>
 </html>

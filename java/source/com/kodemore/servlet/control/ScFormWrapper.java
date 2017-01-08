@@ -1,17 +1,17 @@
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScVisibilityScript;
 
 /**
  * I am effectively just a form, but I WRAP the form rather than EXTENDing it.
- * This allows for me to provide all of the convenient functionality of a form internally,
- * but to hide the form's methods from clients.
+ * This allows for me to provide all of the convenient functionality of a form
+ * internally, but to hide the form's methods from clients.
  */
 public class ScFormWrapper
     extends ScControl
@@ -24,14 +24,11 @@ public class ScFormWrapper
     private ScForm _inner;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScFormWrapper()
     {
-        super.install();
-
         _inner = new ScForm();
         _inner.setParent(this);
     }
@@ -40,7 +37,7 @@ public class ScFormWrapper
     //# components
     //##################################################
 
-    protected ScForm getInner()
+    protected final ScForm getInner()
     {
         return _inner;
     }
@@ -52,9 +49,9 @@ public class ScFormWrapper
     }
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        return getInner().getComponents();
+        return KmList.createWith(_inner);
     }
 
     //##################################################
@@ -80,18 +77,30 @@ public class ScFormWrapper
     @Override
     public String getHtmlId()
     {
-        return getInner().getHtmlId();
+        return _inner.getHtmlId();
     }
 
     @Override
-    public String getJquerySelector()
+    public ScHtmlIdAjax _htmlIdAjax()
     {
-        return getInner().getJquerySelector();
+        return ScHtmlIdAjax.createOnRoot(this);
     }
 
     @Override
-    public ScHtmlIdAjax ajax()
+    public boolean getVisible()
     {
-        return getInner().ajax();
+        return _inner.getVisible();
+    }
+
+    @Override
+    public void setVisible(boolean e)
+    {
+        _inner.setVisible(e);
+    }
+
+    @Override
+    public ScVisibilityScript ajaxShow(boolean e)
+    {
+        return _inner.ajaxShow(e);
     }
 }

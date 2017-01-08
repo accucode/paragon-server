@@ -69,7 +69,7 @@ public final class MyGroupTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().boxGray().auto().gap();
 
         root.add(newGroup("aaa", "the gaps between children are provided the css 'gap'."));
         root.add(newGroup("bbb", "normal"));
@@ -106,7 +106,7 @@ public final class MyGroupTestPage
     {
         ScGroup e;
         e = newGroup(title, msg);
-        e.css().clearBoth();
+        e.css()._clearBoth();
         return e;
     }
 
@@ -114,7 +114,7 @@ public final class MyGroupTestPage
     {
         ScGroup e;
         e = newGroup(title, msg);
-        e.css().floatLeft().width200();
+        e.css()._floatLeft().width200();
         return e;
     }
 
@@ -122,7 +122,7 @@ public final class MyGroupTestPage
     {
         ScGroup e;
         e = newLeftGroup(title, msg);
-        e.css().clearBoth();
+        e.css()._clearBoth();
         return e;
     }
 

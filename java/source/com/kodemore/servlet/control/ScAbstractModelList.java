@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,16 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
+import java.util.function.Function;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.field.ScHtmlId;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I am a container that displays an element for each model in the list.
@@ -43,7 +43,7 @@ import com.kodemore.servlet.variable.ScLocalList;
  * different views for each model in the list.
  *
  * Clients are responsible for defining a unique key for each model, typically
- * the model's primary key.  This allows ajax methods to dynamically update
+ * the model's primary key (uid).  This allows ajax methods to dynamically update
  * the view - adding, removing, and replacing individual list elements as needed.
  *
  * NOTE: because my children are dynamically drawn, I am generally NOT suited
@@ -72,27 +72,24 @@ public abstract class ScAbstractModelList<T>
      *
      * Usually, the keyAdapter is simply configured to return each
      * model's primary key (as a string).  However, if a given model
-     * may appear multiple times in the same list, then a key that
-     * uniquely identifies each element is needed.
+     * may appear multiple times in the same list, then an artificial
+     * key must be returned to uniquely identifies each element.
      */
-    private KmAdaptorIF<T,String> _keyAdapter;
+    private Function<T,String> _keyFunction;
 
     /**
      * The list of values (models) to be displayed in the list.
      * If empty, the container will still be rendered, thus allowing
      * for subsequent dynamic updates via ajax.
      */
-    private ScLocalList<T> _values;
+    private ScLocalList<T>     _values;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAbstractModelList()
     {
-        super.install();
-
         _values = new ScLocalList<>();
     }
 
@@ -110,34 +107,23 @@ public abstract class ScAbstractModelList<T>
         _values.setValue(v);
     }
 
+    public void clearValues()
+    {
+        setValues(KmList.createEmpty());
+    }
+
     //==================================================
     //= accessing :: key adapter
     //==================================================
 
-    public KmAdaptorIF<T,String> getKeyAdapter()
+    public Function<T,String> getKeyFunction()
     {
-        return _keyAdapter;
+        return _keyFunction;
     }
 
-    public void setKeyAdapter(KmAdaptorIF<T,String> e)
+    public void setKeyFunction(Function<T,String> e)
     {
-        _keyAdapter = e;
-    }
-
-    public void setKeyAdapter(KmMetaAttribute<T,String> e)
-    {
-        setKeyAdapter(e.getAdaptor());
-    }
-
-    //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControlIF> getComponents()
-    {
-        // empty
-        return super.getComponents();
+        _keyFunction = e;
     }
 
     //##################################################
@@ -186,29 +172,29 @@ public abstract class ScAbstractModelList<T>
 
     private void renderItemOn(KmHtmlBuilder out, T value, boolean visible)
     {
-        ScBox box;
+        ScDiv box;
         box = composeItemBoxFor(value, visible);
         box.renderOn(out);
     }
 
-    protected ScBox composeItemBoxFor(T value)
+    protected ScDiv composeItemBoxFor(T value)
     {
         return composeItemBoxFor(value, true);
     }
 
-    protected ScBox composeItemBoxFor(T value, boolean visible)
+    protected ScDiv composeItemBoxFor(T value, boolean visible)
     {
-        ScBox root = createBoxFor(value);
+        ScDiv root = createBoxFor(value);
 
         if ( !visible )
             root.style().hide();
 
-        renderItemOn(root, value);
+        composeItemOn(root, value);
 
         return root;
     }
 
-    protected abstract void renderItemOn(ScBox root, T value);
+    protected abstract void composeItemOn(ScDiv root, T value);
 
     //##################################################
     //# ajax
@@ -227,12 +213,16 @@ public abstract class ScAbstractModelList<T>
         for ( T e : values )
             renderItemOn(out, e);
 
-        ajax().appendContents(out);
+        ScHtmlIdAjax ajax;
+        ajax = _htmlIdAjax();
+        ajax.appendContents(out);
+        ajax.run(out.getPostDom());
+        ajax.run(out.getPostRender());
     }
 
     public void ajaxRemoveAll()
     {
-        ajax().clearContents();
+        _htmlIdAjax().clearContents();
     }
 
     public void ajaxRemoveValue(T value)
@@ -247,16 +237,18 @@ public abstract class ScAbstractModelList<T>
     {
         KmHtmlBuilder out = renderItem(value, false);
         String html = out.formatHtml();
+        ScBlockScript postDom = out.getPostDom();
+        ScBlockScript postRender = out.getPostRender();
 
         ScHtmlIdAjax listAjax;
-        listAjax = ajax();
+        listAjax = _htmlIdAjax();
         listAjax.appendContents(html);
-        listAjax.run(out.getPostDom());
+        listAjax.run(postDom);
 
         ScHtmlIdAjax valueAjax;
         valueAjax = ajaxFor(value);
         valueAjax.show().slide();
-        valueAjax.whenDone().run(out.getPostRender());
+        valueAjax.whenDone().run(postRender);
     }
 
     public void ajaxPrependValue(T value)
@@ -265,7 +257,7 @@ public abstract class ScAbstractModelList<T>
         String html = out.formatHtml();
 
         ScHtmlIdAjax listAjax;
-        listAjax = ajax();
+        listAjax = _htmlIdAjax();
         listAjax.prependContents(html);
         listAjax.run(out.getPostDom());
 
@@ -302,19 +294,19 @@ public abstract class ScAbstractModelList<T>
 
     public void ajaxRefresh(T value)
     {
-        ScBox box;
+        ScDiv box;
         box = composeItemBoxFor(value);
-        box.ajax().replace();
+        box.ajaxReplace();
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private ScBox createBoxFor(T value)
+    private ScDiv createBoxFor(T value)
     {
-        ScBox root;
-        root = new ScBox();
+        ScDiv root;
+        root = new ScDiv();
         root.setHtmlId(getHtmlIdFor(value));
         return root;
     }
@@ -328,7 +320,7 @@ public abstract class ScAbstractModelList<T>
     protected ScHtmlId getHtmlIdFor(T value)
     {
         String id = _getHtmlIdFor(value);
-        return new ScHtmlId(id, ajax());
+        return new ScHtmlId(id, getRootScript());
     }
 
     private String _getHtmlIdFor(T value)
@@ -341,16 +333,11 @@ public abstract class ScAbstractModelList<T>
 
     protected ScHtmlIdAjax ajaxFor(T value)
     {
-        return getHtmlIdFor(value).ajax();
+        return getHtmlIdFor(value)._htmlIdAjax();
     }
 
     protected String getKeyFor(T value)
     {
-        KmAdaptorIF<T,String> a = getKeyAdapter();
-
-        if ( a == null )
-            return null;
-
-        return a.getValue(value);
+        return Kmu.applySafe(getKeyFunction(), value);
     }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,27 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
+import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStringList;
@@ -59,26 +66,59 @@ public class ScAutoCompleteField
     private static final String PARAMETER_TRACKED_VALUES = "trackedValues";
 
     //##################################################
+    //# static :: layout enum
+    //##################################################
+
+    /**
+     * The various layout options.
+     */
+    private static enum Layout
+    {
+        /**
+         * Treat the control as an inline element, with a fixed width.
+         * This is similar to the way a standalone input element works.
+         * This is the default.
+         */
+        inline,
+
+        /**
+         * Treat the control as a block element (not inline).
+         * The control will generally span an entire row, much like a div.
+         */
+        block,
+
+        /**
+         * For use inside a flexbox (row), the child will fill the available space.
+         */
+        flexFiller
+    }
+
+    //##################################################
     //# variables
     //##################################################
+
+    /**
+     * The html name for the input element.
+     */
+    private ScLocalString            _htmlName;
 
     /**
      * The value of the text field.  This value is read
      * from the form post, and displayed in the text field.
      */
-    private ScLocalString _text;
+    private ScLocalString            _text;
 
     /**
      * The number of characters that must be entered in
      * order to trigger autocompletion.  Valid values
      * are 1..n.  The default is 1.
      */
-    private ScLocalInteger _triggerLength;
+    private ScLocalInteger           _triggerLength;
 
     /**
      * The list of options to display in the list.
      */
-    private ScLocalStringList _options;
+    private ScLocalStringList        _options;
 
     /**
      * Used to dynamically fill the options as the
@@ -96,54 +136,155 @@ public class ScAutoCompleteField
      */
     private KmList<ScEncodedValueIF> _trackedValues;
 
+    private ScLocalBoolean           _readOnly;
+
+    /**
+     * The type of layout to apply. Because this is a composite with multiple
+     * pieces (wrapper, input, image) it is not safe for clients to directly
+     * set the layout via css.  Instead, clients use one of the layout*() methods
+     * that ensure the different elements are coordinated correctly.
+     */
+    private Layout                   _layout;
+
+    /**
+     * Used in conjuction with the layoutFixed.
+     */
+    private int                      _layoutWidth;
+
+    /**
+     * Clients are not allowed directly access to the css since that will likely
+     * cause problems.  However, clients are allowed to directly adjust the margin
+     * for minor layout adjustments.
+     */
+    private ScLocalCss               _cssMargin;
+
+    /**
+     * If set, this action is run when a user selects a value from the list,
+     * and BEFORE that value is copied into the text field.
+     * data.getExtra is populated with the selected value.
+     */
+    private ScAction                 _selectAction;
+
+    /**
+     * The prompt to display INSIDE the text field when no value is entered.
+     */
+    private ScLocalString            _placeholder;
+
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAutoCompleteField()
     {
-        super.install();
-
+        _htmlName = new ScLocalString(getKey());
         _text = new ScLocalString();
         _triggerLength = new ScLocalInteger(1);
         _options = new ScLocalStringList();
         _callback = null;
         _trackedValues = new KmList<>();
+        _readOnly = new ScLocalBoolean(false);
+        _cssMargin = new ScLocalCss();
+        _placeholder = new ScLocalString();
+        layoutInline();
     }
 
     //##################################################
-    //# text
+    //# html id
     //##################################################
 
-    public String getText()
+    @Override
+    public String getHtmlId()
     {
-        return _text.getValue();
+        return getKey();
     }
 
-    public void setText(String e)
+    public String getInputHtmlId()
     {
-        _text.setValue(e);
+        return getHtmlId() + "-input";
     }
 
-    public boolean hasText()
+    private ScHtmlIdAjax inputAjax()
     {
-        return Kmu.hasValue(getText());
+        return new ScHtmlId(getInputHtmlId(), getRootScript())._htmlIdAjax();
     }
 
-    public boolean hasText(String e)
+    //##################################################
+    //# html name
+    //##################################################
+
+    public String getHtmlName()
     {
-        return _text.is(e);
+        return _htmlName.getValue();
     }
 
-    public void clearText()
+    public void setHtmlName(String e)
     {
-        _text.setNull();
+        _htmlName.setValue(e);
     }
 
-    public boolean isEmpty()
+    //##################################################
+    //# css
+    //##################################################
+
+    public KmCssMarginBuilder cssMargin()
     {
-        return !hasText();
+        return _cssMargin.toMarginBuilder();
+    }
+
+    //##################################################
+    //# value
+    //##################################################
+
+    @Override
+    public String getValue()
+    {
+        return _text.hasValue()
+            ? _text.getValue()
+            : null;
+    }
+
+    @Override
+    public void setValue(String e)
+    {
+        if ( Kmu.hasValue(e) )
+            _text.setValue(e);
+        else
+            _text.clearValue();
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _text.saveValue();
+    }
+
+    @Override
+    public void resetValue()
+    {
+        _text.resetValue();
+    }
+
+    //##################################################
+    //# read only
+    //##################################################
+
+    public boolean getReadOnly()
+    {
+        return _readOnly.isTrue();
+    }
+
+    public void setReadOnly(boolean e)
+    {
+        _readOnly.setValue(e);
+    }
+
+    public boolean isEnabled()
+    {
+        return !getReadOnly();
     }
 
     //##################################################
@@ -217,86 +358,92 @@ public class ScAutoCompleteField
         _trackedValues.add(e);
     }
 
-    public void trackAll(ScControlIF c)
+    public void trackAll(ScControl c)
     {
-        if ( c instanceof ScEncodedValueIF )
-            track((ScEncodedValueIF)c);
-
-        Iterator<ScControlIF> i = c.getComponents();
-        while ( i.hasNext() )
-        {
-            ScControlIF e = i.next();
-
-            if ( e instanceof ScEncodedValueIF )
-                track((ScEncodedValueIF)e);
-
-            trackAll(e);
-        }
+        c.visitAllEncodedValues(e -> track(e));
     }
 
     private KmList<?> getTrackedValues()
     {
-        KmList<Object> v = new KmList<>();
-
-        for ( ScEncodedValueIF value : _trackedValues )
-            v.add(value.getEncodedValue());
-
-        return v;
+        return _trackedValues.collect(e -> e.getEncodableValue());
     }
 
     //##################################################
-    //# value
+    //# layout
     //##################################################
 
-    @Override
-    public String getValue()
+    public void layoutInline()
     {
-        if ( _text.isEmpty() )
-            return null;
-
-        return _text.getValue();
+        layoutInline(200);
     }
 
-    @Override
-    public void setValue(String e)
+    public void layoutInline(int widthPx)
     {
-        _text.setValue(e);
+        _layout = Layout.inline;
+        _layoutWidth = widthPx;
+    }
+
+    public void layoutBlock()
+    {
+        _layout = Layout.block;
+    }
+
+    public void layoutFlexFiller()
+    {
+        _layout = Layout.flexFiller;
+    }
+
+    public void setWidthFull()
+    {
+        layoutBlock();
     }
 
     //##################################################
-    //# page session
+    //# on select
     //##################################################
 
-    @Override
-    public void saveFieldValues()
+    public ScAction getSelectAction()
     {
-        super.saveFieldValues();
-        _text.saveValue();
+        return _selectAction;
     }
 
-    @Override
-    public void resetFieldValues()
+    public void setSelectAction(Runnable r)
     {
-        super.resetFieldValues();
-        resetValue();
+        setSelectAction(newUncheckedAction(r));
     }
 
-    @Override
-    public void resetValue()
+    public void setSelectAction(ScAction e)
     {
-        _text.resetValue();
+        _selectAction = e;
     }
 
-    @Override
-    public boolean validateQuietly()
+    public boolean hasSelectAction()
     {
-        if ( !super.validateQuietly() )
-            return false;
+        return _selectAction != null;
+    }
 
-        if ( hasErrors() )
-            return false;
+    //##################################################
+    //# placeholder
+    //##################################################
 
-        return true;
+    public void setPlaceholder(String e)
+    {
+        _placeholder.setValue(e);
+    }
+
+    public String getPlaceholder()
+    {
+        return _placeholder.getValue();
+    }
+
+    public void clearPlaceHolder()
+    {
+        setPlaceholder(null);
+    }
+
+    public boolean hasPlaceholder()
+    {
+        return _placeholder.hasValue();
     }
 
     //##################################################
@@ -304,14 +451,13 @@ public class ScAutoCompleteField
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    protected void readParameters_here(ScServletData data)
     {
-        super.readParameters(data);
+        super.readParameters_here(data);
 
         String name = getHtmlName();
         String text = data.getParameter(name);
-
-        setText(text);
+        setValue(text);
     }
 
     //##################################################
@@ -321,34 +467,86 @@ public class ScAutoCompleteField
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        out.open("input");
-        renderAttributesOn(out);
+        KmCssDefaultBuilder css = getCss();
+        KmStyleBuilder style = new KmStyleBuilder();
+        applyLayoutTo(css, style);
+
+        out.openDiv();
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute(css);
+        out.printAttribute(style);
         out.close();
 
-        String ref = getJqueryReference();
-        KmJsonMap settings = formatSettings();
+        renderHelpOn(out);
+        renderInputOn(out);
+
+        out.endDiv();
+    }
+
+    private void renderHelpOn(KmHtmlBuilder out)
+    {
+        out.printHelpImage(getHelp());
+    }
+
+    private void renderInputOn(KmHtmlBuilder out)
+    {
+        out.open("input");
+        out.printAttribute("id", getInputHtmlId());
+        out.printAttribute("name", getHtmlName());
+        out.printAttribute("type", "text");
+        out.printAttribute("value", getValue());
+        out.printAttribute("placeholder", getPlaceholder());
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, getValue());
+
+        out.close();
+
+        String ref = ScJquery.formatIdReference(getInputHtmlId());
+        KmJsonMap settings = formatOptions();
         out.getPostDom().run("%s.autocomplete(%s);", ref, settings);
 
         // no end tag
     }
 
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
+    //==================================================
+    //= render :: supuport
+    //==================================================
 
-        out.printAttribute("type", "text");
-        out.printAttribute("value", getText());
-        out.printAttribute(formatCss());
-        printOldValueAttributeOn(out, getValue());
+    private KmCssDefaultBuilder getCss()
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.autoCompleteField();
+        css.addAll(cssMargin().getSelectors());
+
+        if ( isEditable() )
+            css.autoCompleteField_editable();
+        else
+            css.autoCompleteField_readonly();
+        return css;
     }
 
-    private KmCssDefaultBuilder formatCss()
+    private void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
     {
-        return newCssBuilder().textField();
+        switch ( _layout )
+        {
+            case inline:
+                css.inlineBlock();
+                style.width(_layoutWidth);
+                break;
+
+            case block:
+                css.block();
+                break;
+
+            case flexFiller:
+                css.flexChildFiller();
+                break;
+        }
     }
 
-    private KmJsonMap formatSettings()
+    private KmJsonMap formatOptions()
     {
         KmJsonMap map;
         map = new KmJsonMap();
@@ -358,6 +556,20 @@ public class ScAutoCompleteField
             map.setString("source", getSourceCallback());
         else
             map.setArray("source", getSourceOptions());
+
+        if ( hasSelectAction() )
+        {
+            ScActionScript script;
+            script = new ScActionScript();
+            script.setAction(getSelectAction());
+            script.setForm(findFormWrapper());
+            script.setExtraLiteral("ui.item.label");
+
+            String fn;
+            fn = Kmu.format("function(ev,ui){%s}", script);
+
+            map.setLiteral("select", fn);
+        }
 
         return map;
     }
@@ -465,7 +677,7 @@ public class ScAutoCompleteField
 
             ScEncodedValueIF nextValue;
             nextValue = trackedIterator.next();
-            nextValue.setEncodedValue(nextDecode);
+            nextValue.setEncodableValue(nextDecode);
         }
     }
 
@@ -474,13 +686,23 @@ public class ScAutoCompleteField
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(String e)
     {
-        String value = getText();
-        ajax().setValue(value);
+        ajaxSetFieldValue(e, getChangeTracking());
+    }
 
-        if ( value == null )
-            value = "";
-        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+    @Override
+    public void ajaxSetFieldValue(String e, boolean updateOldValue)
+    {
+        String htmlValue = hasValue()
+            ? getValue()
+            : "";
+
+        ScHtmlIdAjax ajax;
+        ajax = inputAjax();
+        ajax.setValue(htmlValue);
+
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
     }
 }

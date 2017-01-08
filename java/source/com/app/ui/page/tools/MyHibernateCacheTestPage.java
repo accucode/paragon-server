@@ -3,8 +3,8 @@ package com.app.ui.page.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -13,7 +13,7 @@ import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyHibernateCacheTest;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -48,7 +48,7 @@ public final class MyHibernateCacheTestPage
 
     private ScIntegerField _recordCountField;
     private ScIntegerField _runCountField;
-    private ScBox          _resultBox;
+    private ScDiv          _resultBox;
 
     //##################################################
     //# settings
@@ -83,9 +83,9 @@ public final class MyHibernateCacheTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _resultBox = new ScBox();
+        _resultBox = new ScDiv();
 
-        root.css().pad();
+        root.css().fill().auto();
 
         ScForm form;
         form = root.addForm();
@@ -101,15 +101,15 @@ public final class MyHibernateCacheTestPage
         root.add(_resultBox);
     }
 
-    public ScBox createInsertDataBox()
+    public ScDiv createInsertDataBox()
     {
         _recordCountField = new ScIntegerField();
         _recordCountField.setLabel("Record Count");
         _recordCountField.setValue(100);
         _recordCountField.disableChangeTracking();
 
-        ScBox box;
-        box = new ScBox();
+        ScDiv box;
+        box = new ScDiv();
         box.setLabel("Insert Data");
         box.css().marginRightChildren5();
         box.add(_recordCountField);
@@ -124,8 +124,8 @@ public final class MyHibernateCacheTestPage
         _runCountField.setValue(20);
         _runCountField.disableChangeTracking();
 
-        ScBox box;
-        box = new ScBox();
+        ScDiv box;
+        box = new ScDiv();
         box.setLabel("Run Test");
         box.css().marginRightChildren5();
         box.add(_runCountField);
@@ -155,9 +155,9 @@ public final class MyHibernateCacheTestPage
             MyHibernateCacheTest e;
             e = new MyHibernateCacheTest();
             e.setData(Kmu.getLoremIpsum(100));
-            e.attachDao();
+            e.daoAttach();
         }
-        _resultBox.ajax().setHtml(n + " inserted into database");
+        _resultBox.ajaxSetHtml(n + " inserted into database");
     }
 
     private void handleTestRun()
@@ -174,12 +174,12 @@ public final class MyHibernateCacheTestPage
             out.printfln("%s test run, %.1f ms.", i + 1, t.getMilliseconds());
         }
 
-        _resultBox.ajax().setHtml(out);
+        _resultBox.ajaxSetHtml(out);
     }
 
     private void readTestData()
     {
-        KmList<MyHibernateCacheTest> v = MyDaoRegistry.getInstance().findAllHibernateCacheTests();
+        KmList<MyHibernateCacheTest> v = MyDaoAccess.getInstance().findAllHibernateCacheTests();
         for ( MyHibernateCacheTest e : v )
             e.getData();
     }

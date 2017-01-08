@@ -163,7 +163,7 @@ public class KmgModelDelegate
     }
 
     @Override
-    public KmgModelType getType()
+    public KmgModelFieldType getType()
     {
         return getField().getType();
     }
@@ -243,9 +243,9 @@ public class KmgModelDelegate
     @Override
     public void parse(KmStfElement x)
     {
-        checkAttributeKeys(x, "fieldName", "name", "label");
+        checkAttributeKeys(x, "field", "name", "label");
 
-        _fieldName = parseRequiredName(x, "fieldName");
+        _fieldName = parseRequiredName(x, "field");
         _nameOverride = parseName(x, "name");
         _label = parseString(x, "label", null);
     }
@@ -254,7 +254,7 @@ public class KmgModelDelegate
     public void validate()
     {
         if ( getField() == null )
-            throw newFatal(
+            throw newError(
                 "Cannot resolve attribute(%s) field(%s).",
                 getAttribute().getName(),
                 _fieldName);
@@ -274,6 +274,11 @@ public class KmgModelDelegate
     public String getf_name()
     {
         return Kmu.toKneelingCamelCase(getName());
+    }
+
+    public String getf_helpJavaString()
+    {
+        return Kmu.encodeJavaString(getHelp());
     }
 
     public String getf_help()

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,6 @@ package com.kodemore.time;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -34,7 +32,7 @@ import com.kodemore.utility.Kmu;
  * date with various convenience methods.
  */
 public class KmDateInterval
-    implements KmReadOnlyIF, Comparable<KmDateInterval>, Serializable, Iterable<KmDate>
+    implements Comparable<KmDateInterval>, Serializable, Iterable<KmDate>
 {
     //##################################################
     //# instance creation
@@ -53,9 +51,8 @@ public class KmDateInterval
     //# variables
     //##################################################
 
-    private KmDate  _start;
-    private KmDate  _end;
-    private boolean _readOnly;
+    private KmDate _start;
+    private KmDate _end;
 
     //##################################################
     //# contructor
@@ -213,10 +210,13 @@ public class KmDateInterval
     {
         if ( d == null )
             return false;
+
         if ( hasStart() && getStart().isAfter(d) )
             return false;
+
         if ( hasEnd() && getEnd().isBefore(d) )
             return false;
+
         return true;
     }
 
@@ -224,10 +224,13 @@ public class KmDateInterval
     {
         if ( d == null )
             return false;
+
         if ( hasStart() && getStart().isOnOrAfter(d) )
             return false;
+
         if ( hasEnd() && getEnd().isOnOrBefore(d) )
             return false;
+
         return true;
     }
 
@@ -240,6 +243,7 @@ public class KmDateInterval
     {
         if ( di == null )
             return false;
+
         return containsInclusive(di.getStart()) && containsInclusive(di.getEnd());
     }
 
@@ -247,6 +251,7 @@ public class KmDateInterval
     {
         if ( di == null )
             return false;
+
         return containsExclusive(di.getStart()) && containsExclusive(di.getEnd());
     }
 
@@ -328,25 +333,20 @@ public class KmDateInterval
     }
 
     //##################################################
-    //# read only
+    //# conversion
     //##################################################
 
-    @Override
-    public boolean isReadOnly()
+    public KmTimestampInterval toTimestampInterval()
     {
-        return _readOnly;
-    }
+        KmTimestamp start = hasStart()
+            ? getStart().getStartOfDay()
+            : null;
 
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
+        KmTimestamp end = hasEnd()
+            ? getEnd().getEndOfDay()
+            : null;
 
-    public void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
+        return KmTimestampInterval.create(start, end);
     }
 
     //##################################################

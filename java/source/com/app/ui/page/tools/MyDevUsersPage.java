@@ -3,14 +3,14 @@ package com.app.ui.page.tools;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScGridGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScTwoPanelLayout;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.filter.MyUserFilter;
@@ -85,24 +85,26 @@ public final class MyDevUsersPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css();
+        root.css().fill();
 
-        ScAbsoluteLayout layout;
-        layout = root.addAbsoluteLayout();
-        layout.pad();
+        ScTwoPanelLayout layout;
+        layout = root.addTwoPanelLayout();
+        layout.css().fill();
+        layout.getLeftGroup().setTitle("Users");
+        layout.getRightGroup().setTitle("Edit");
 
-        ScDiv top = layout.addTop(140);
-        layout.padTop();
+        ScDiv leftBox;
+        leftBox = layout.getLeftBox();
+        leftBox.css().flexColumn().columnSpacer10();
 
-        ScDiv left = layout.addLeftPercent(50);
-        ScDiv center = layout.addCenter();
+        ScDiv rightBox = layout.getRightBox();
 
-        installFilter(top);
-        installGrid(left);
-        installFrame(center);
+        installFilterOn(leftBox);
+        installGridOn(leftBox);
+        installFrameOn(rightBox);
     }
 
-    private void installFilter(ScContainer root)
+    private void installFilterOn(ScContainer root)
     {
         _searchField = new ScTextField();
         _searchField.setLabel("Find");
@@ -110,9 +112,9 @@ public final class MyDevUsersPage
 
         ScFilterBox box;
         box = root.addFilterBox();
-        box.layoutFill();
         box.setTitle("Search");
         box.setAction(this::handleSearch);
+        box.getGroup().setFlavorPrimary();
 
         ScFieldTable fields;
         fields = box.addFieldTable();
@@ -125,29 +127,24 @@ public final class MyDevUsersPage
     //= install :: grid
     //==================================================
 
-    private void installGrid(ScContainer root)
+    private void installGridOn(ScContainer root)
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScGroup group;
-        group = root.addGroup();
-        group.setTitle("Results");
-        group.css().fill().marginRight();
-
-        ScDiv body;
-        body = group.getBody();
-        body.css().relative().noBorder();
-
         ScGrid<MyUser> grid;
-        grid = body.addGrid();
-        grid.layoutFill();
+        grid = new ScGrid<>();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
-        grid.addLinkColumn(x.Name, this::handleView, x.Uid);
+        grid.addLinkColumn(x.FullName, this::handleView, x.Uid);
         grid.addColumn(x.Email);
         grid.addColumn(x.RoleName);
+        grid.layoutFill();
 
         _grid = grid;
+
+        ScGridGroup<MyUser> group;
+        group = root.addGroup("Results", grid);
+        group.css().flexChildFiller();
     }
 
     private KmFilterFactoryIF<MyUser> newFetcher()
@@ -178,11 +175,10 @@ public final class MyDevUsersPage
     //= install :: frame
     //==================================================
 
-    private void installFrame(ScContainer root)
+    private void installFrameOn(ScContainer root)
     {
         _frame = new MyDevUserFrame();
         _frame.setOnChange(this::handleOnChange);
-        _frame.css().fill().marginLeft();
 
         root.add(_frame);
     }

@@ -1,0 +1,37 @@
+/*****************************
+ ** tooltip
+ *****************************/
+
+/**
+ * This is used to identify elements that should display their 'title'
+ * using the custom jquery tooltip popup.
+ */
+.helpTooltip
+    /* noop - prevent compression */
+    content: normal
+
+/**
+ * The styling to be used for popup help text that relies on the
+ * jquery tooltip.
+ */
+.helpTooltipPopup
+    font:           $tooltip-font                           if $tooltip-font
+    padding:        $tooltip-padding                        if $tooltip-padding
+    background:     $tooltip-background                     if $tooltip-background
+    border:         $tooltip-border                         if $tooltip-border
+    max-width:      $tooltip-width                          if $tooltip-width
+    box-shadow:     $tooltip-shadow                         if $tooltip-shadow
+
+/**
+ * This is used for a variety of fields to display a small help triangle
+ * in the upper right corner of the control.  The actual image is specified
+ * in the application as the html img src to avoid undesired visual artifacts.
+ */
+img.helpTriangle
+    position:   absolute
+    top:        0
+    right:      0
+    height:     $tooltip-triangleSize                       if $tooltip-triangleSize
+    width:      $tooltip-triangleSize                       if $tooltip-triangleSize
+    cursor:     help
+

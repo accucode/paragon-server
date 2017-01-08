@@ -24,7 +24,7 @@ public class KmgModelDependsOn
     /**
      * The method to call when any of the attributes change.
      */
-    private String _onChange;
+    private String         _onChange;
 
     //##################################################
     //# constructor
@@ -73,7 +73,7 @@ public class KmgModelDependsOn
                 continue;
             }
 
-            throw newFatal("Unknown depend value (%s).", s);
+            throw newError("Unknown depend value (%s).", s);
         }
         return v;
     }
@@ -106,7 +106,7 @@ public class KmgModelDependsOn
         _values = parseStrings(e, "value");
 
         if ( _values.isEmpty() )
-            throw newFatal(e, "depend values is empty.");
+            throw newError(e, "depend values is empty.");
 
         String def = "update" + getParentName();
 

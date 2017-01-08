@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,79 +22,115 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.Kmu;
 
 public class ScErrorWrapper
     extends ScAbstractWrapper
 {
     //##################################################
-    //# constants
+    //# enum
     //##################################################
 
-    private static final String PREFIX          = KmCssDefaultConstantsIF.errorBox_prefix;
-    private static final String PART_WRAPPER    = KmCssDefaultConstantsIF.errorBox_part_wrapper;
-    private static final String PART_MESSAGE    = KmCssDefaultConstantsIF.errorBox_part_message;
-    private static final String FLAVOR_ATTACHED = KmCssDefaultConstantsIF.errorBox_flavor_attached;
-    private static final String FLAVOR_DETACHED = KmCssDefaultConstantsIF.errorBox_flavor_detached;
+    private static enum Flavor
+    {
+        attached,
+        detached;
+    }
 
     //##################################################
     //# variables
     //##################################################
 
     private ScLocalString _flavor;
-    private ScBox         _messageBox;
+    private ScDiv         _messageBox;
+    private ScLocalCss    _css;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScErrorWrapper()
     {
-        super.install();
-
         _flavor = new ScLocalString();
         setFlavorDetached();
 
-        _messageBox = new ScBox();
+        _messageBox = new ScDiv();
         _messageBox.setParent(this);
         _messageBox.css().error();
         _messageBox.hide();
+
+        _css = new ScLocalCss();
+    }
+
+    public ScErrorWrapper(ScControl child)
+    {
+        this();
+        setChild(child);
+
+        // this is required for transient fields that are dynamically generated
+        if ( child instanceof ScHtmlIdIF )
+        {
+            String htmlId = Kmu.format("%s-errorBox", ((ScHtmlIdIF)child).getHtmlId());
+            _messageBox.setHtmlId(htmlId);
+        }
     }
 
     //##################################################
     //# flavor
     //##################################################
 
-    public String getFlavor()
+    private Flavor getFlavor()
     {
-        return _flavor.getValue();
+        String name = _flavor.getValue();
+        return Flavor.valueOf(name);
     }
 
-    private void setFlavor(String e)
+    private void setFlavor(Flavor e)
     {
-        _flavor.setValue(e);
+        _flavor.setValue(e.name());
     }
 
     public void setFlavorAttached()
     {
-        setFlavor(FLAVOR_ATTACHED);
+        setFlavor(Flavor.attached);
     }
 
     public void setFlavorDetached()
     {
-        setFlavor(FLAVOR_DETACHED);
+        setFlavor(Flavor.detached);
     }
 
-    private String formatWrapperCss()
+    //##################################################
+    //# css
+    //##################################################
+
+    public KmCssDefaultBuilder css()
     {
-        KmCssDefaultBuilder e;
-        e = newCssBuilder();
-        e.add(PREFIX, PART_WRAPPER, getFlavor());
-        return e.toString();
+        return _css.toDefaultBuilder();
+    }
+
+    private String formatCss()
+    {
+        KmCssDefaultBuilder css = css();
+
+        switch ( getFlavor() )
+        {
+            case attached:
+                css.error_attachedBox();
+                break;
+
+            case detached:
+                css.error_attachedBox();
+                break;
+        }
+
+        return css.toString();
     }
 
     //##################################################
@@ -104,16 +140,11 @@ public class ScErrorWrapper
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        if ( !hasChild() )
-            return;
-
         out.openDiv();
-        out.printAttribute("class", formatWrapperCss());
+        out.printAttribute("class", formatCss());
         out.close();
 
         renderChildOn(out);
-
-        _messageBox.css().add(PREFIX, PART_MESSAGE, getFlavor());
         _messageBox.renderOn(out);
 
         out.endDiv();
@@ -127,17 +158,29 @@ public class ScErrorWrapper
     protected void ajaxShowError()
     {
         String s = formatErrors();
-        if ( s == null )
+        if ( s.isEmpty() )
             return;
 
-        _messageBox.ajax().setText(s);
-        _messageBox.ajax().show().slide();
+        _messageBox.ajaxSetText(s);
+        _messageBox.ajaxShow().slide();
+    }
+
+    @Override
+    public String formatErrors()
+    {
+        return getChild().collectErrors().joinLines();
+    }
+
+    @Override
+    public void collectErrorsOn(KmList<String> v)
+    {
+        // nothing
     }
 
     @Override
     protected void ajaxHideError()
     {
-        _messageBox.ajax().hide();
+        _messageBox.ajaxHide();
     }
 
 }

@@ -1,0 +1,52 @@
+<response>
+      <control>
+            <status>success</status>
+            <senderid>Accu2015</senderid>
+            <controlid>controlId001</controlid>
+            <uniqueid>false</uniqueid>
+            <dtdversion>2.1</dtdversion>
+      </control>
+      <operation>
+            <authentication>
+                  <status>success</status>
+                  <userid>wlove</userid>
+                  <companyid>Accu2015</companyid>
+                  <sessiontimestamp>2016-10-18T15:31:40-07:00</sessiontimestamp>
+            </authentication>
+            <result>
+                  <status>success</status>
+                  <function>get_list</function>
+                  <controlid>controlId001</controlid>
+                  <listtype start="0" end="0" total="9545">contact</listtype>
+                  <data>
+                        <contact>
+                              <contactname>06-1275 Alladien</contactname>
+                              <printas>06-1275 Alladien</printas>
+                              <companyname>06-1275 Alladien</companyname>
+                              <prefix/>
+                              <firstname/>
+                              <lastname/>
+                              <initial/>
+                              <phone1/>
+                              <phone2/>
+                              <cellphone/>
+                              <pager/>
+                              <fax/>
+                              <email1/>
+                              <email2/>
+                              <url1/>
+                              <url2/>
+                              <status>active</status>
+                              <mailaddress>
+                                    <address1>3775 NW 77th St</address1>
+                                    <address2/>
+                                    <city>Miami</city>
+                                    <state>FL</state>
+                                    <zip>33147</zip>
+                                    <country>United States</country>
+                              </mailaddress>
+                        </contact>
+                  </data>
+            </result>
+      </operation>
+</response>

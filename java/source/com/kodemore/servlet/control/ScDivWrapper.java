@@ -1,7 +1,6 @@
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -10,7 +9,7 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 
 /**
  * I am effectively just a div, but I WRAP the div rather than EXTENDing it.
- * This allows for me to provide all of the convenient functionality of a div internally,
+ * This allows for me to provide all of the functionality of a div internally,
  * but to hide the div's methods from clients.
  */
 public class ScDivWrapper
@@ -24,14 +23,11 @@ public class ScDivWrapper
     private ScDiv _inner;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDivWrapper()
     {
-        super.install();
-
         _inner = new ScDiv();
         _inner.setParent(this);
     }
@@ -52,9 +48,9 @@ public class ScDivWrapper
     }
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        return getInner().getComponents();
+        return KmList.createWith(_inner);
     }
 
     //##################################################
@@ -84,14 +80,34 @@ public class ScDivWrapper
     }
 
     @Override
-    public String getJquerySelector()
+    public ScHtmlIdAjax _htmlIdAjax()
     {
-        return getInner().getJquerySelector();
+        return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxHideAllErrors()
+    {
+        _htmlIdAjax().hideAllErrors();
+    }
+
+    //##################################################
+    //# visible
+    //##################################################
+
+    @Override
+    public final void setVisible(boolean e)
+    {
+        _inner.setVisible(e);
     }
 
     @Override
-    public ScHtmlIdAjax ajax()
+    public final boolean getVisible()
     {
-        return getInner().ajax();
+        return _inner.getVisible();
     }
 }

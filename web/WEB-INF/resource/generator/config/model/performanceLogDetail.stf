@@ -23,12 +23,31 @@ database
 
 attributes
 
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
     field
-    : name          = uid
-    : help          = The unique identifier.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
+    : name          = createdUtcTs
+    : help...
+        ---
+        The time when this log was created.
+        This is usually very very close to when the task ended (not started).
+        ---
+    : type          = timestamp
+    : default       = nowUtc()
+    : required      = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name          = name
@@ -36,16 +55,6 @@ attributes
     : type          = text100
     : required      = true
 
-    field
-    : name          = createdUtcTs
-    : help...
-        ---
-        The time when this log was created.  This is usually very very close to
-        when the task ended (not started).
-        ---
-    : type          = timestamp
-    : default       = getNowUtc()
-    : required      = true
 
     field
     : name          = durationMs

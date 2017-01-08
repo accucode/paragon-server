@@ -1,6 +1,6 @@
 package com.app.filter;
 
-import com.kodemore.utility.KmNamedEnumIF;
+import com.kodemore.utility.KmEnumIF;
 
 import com.app.criteria.MyPatchCriteria;
 import com.app.filter.base.MyPatchFilterBase;
@@ -13,22 +13,9 @@ public class MyPatchFilter
     //##################################################
 
     public static enum Sort
-        implements KmNamedEnumIF
+        implements KmEnumIF
     {
-        Name("Name");
-
-        private String _name;
-
-        private Sort(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        Name;
     }
 
     //##################################################
@@ -36,7 +23,17 @@ public class MyPatchFilter
     //##################################################
 
     private Sort    _sort;
-    private boolean _sortAscending;
+    private boolean _ascending;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyPatchFilter()
+    {
+        sortOnName();
+        sortAscending();
+    }
 
     //##################################################
     //# sort
@@ -44,21 +41,26 @@ public class MyPatchFilter
 
     public void sortOnName()
     {
-        sortOn(Sort.Name);
+        setSort(Sort.Name);
     }
 
-    //##################################################
-    //# sort (support)
-    //##################################################
+    //==================================================
+    //= sort :: accessing
+    //==================================================
+
+    public Sort getSort()
+    {
+        return _sort;
+    }
+
+    public void setSort(Sort e)
+    {
+        _sort = e;
+    }
 
     public void sortOn(int i)
     {
-        sortOn(Sort.values()[i]);
-    }
-
-    public void sortOn(Sort e)
-    {
-        _sort = e;
+        setSort(Sort.values()[i]);
     }
 
     public boolean usesSort()
@@ -66,23 +68,28 @@ public class MyPatchFilter
         return _sort != null;
     }
 
-    //##################################################
-    //# sort order
-    //##################################################
+    //==================================================
+    //= sort :: ascending
+    //==================================================
+
+    public boolean getAscending()
+    {
+        return _ascending;
+    }
+
+    public void setAscending(boolean e)
+    {
+        _ascending = e;
+    }
 
     public void sortAscending()
     {
-        sortAscending(true);
-    }
-
-    public void sortAscending(boolean e)
-    {
-        _sortAscending = e;
+        setAscending(true);
     }
 
     public void sortDescending()
     {
-        sortAscending(false);
+        setAscending(false);
     }
 
     //##################################################
@@ -90,20 +97,21 @@ public class MyPatchFilter
     //##################################################
 
     @Override
-    public void applyConditionsTo(MyPatchCriteria c)
+    protected void applyConditionsTo(MyPatchCriteria c)
     {
         // none
     }
 
     @Override
-    public void applySortsTo(MyPatchCriteria c)
+    protected void applySortsTo(MyPatchCriteria c)
     {
         if ( !usesSort() )
             return;
 
-        boolean asc = _sortAscending;
+        Sort sort = getSort();
+        boolean asc = getAscending();
 
-        switch ( _sort )
+        switch ( sort )
         {
             case Name:
                 c.sortOnName(asc);

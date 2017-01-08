@@ -19,7 +19,7 @@ public class KmgModelField
      * The name of the field.  The name should be defined in kneeling camel case.
      * E.g.: color, topColor, firstTopColor.
      */
-    private String _name;
+    private String            _name;
 
     /**
      * The optional display label used for this field.
@@ -27,29 +27,29 @@ public class KmgModelField
      * The label can be explicitly set to empty string to indicate that no label
      * should be used.
      */
-    private String _label;
+    private String            _label;
 
     /**
      * The free form comment of this field.
      */
-    private String _comment;
+    private String            _comment;
 
     /**
      * The help text, suitable for display to users.
      */
-    private String _help;
+    private String            _help;
 
     /**
      * The data type.  All data types are defined in the types.stf file.
      */
-    private KmgModelType _type;
+    private KmgModelFieldType _type;
 
     /**
      * Indicates that this field is part of the primary key.  If multiple
      * fields are flagged as a primary key, then their primary key sequence
      * is determined by their relative sequence in the fields list.
      */
-    private boolean _primaryKey;
+    private boolean           _primaryKey;
 
     /**
      * Indicates that this field is an auto-incrementing "identity" field.
@@ -57,30 +57,30 @@ public class KmgModelField
      * Also, the corresponding format must be an integer (or big integer)
      * type.
      */
-    private boolean _identity;
+    private boolean           _identity;
 
     /**
      * Indicates the field is required.  For most types this simply means
      * non-null.  String types are also limited from being empty (length=0).
      */
-    private boolean _required;
+    private boolean           _required;
 
     /**
      * Used to indicate that this field is a getter rather than an editable field.
      */
-    private boolean _abstract;
+    private boolean           _abstract;
 
     /**
      * A string representation of the default value for this field.  If null,
      * then no default value will be set.  There is no checking until compile time;
      * the default value is just used exactly as is in the class's constructor.
      */
-    private String _defaultValue;
+    private String            _defaultValue;
 
     /**
      * The description of the enum mapping, if any.
      */
-    private KmgModelEnum _enum;
+    private KmgModelEnum      _enum;
 
     /**
      * The list of attributes that I depend on, and what
@@ -91,12 +91,12 @@ public class KmgModelField
     /**
      * Call these methods when I change.
      */
-    private KmList<String> _onChangeMethods;
+    private KmList<String>    _onChangeMethods;
 
     /**
      * The java code for a custom getter.
      */
-    private String _getter;
+    private String            _getter;
 
     /**
      * There are currently three options.
@@ -104,7 +104,7 @@ public class KmgModelField
      *      - false, changes are NOT logged.
      *      - mask, changes are logged but always report *** as the value.
      */
-    private String _auditLogMode;
+    private String            _auditLogMode;
 
     //##################################################
     //# constructor
@@ -186,7 +186,7 @@ public class KmgModelField
     }
 
     @Override
-    public KmgModelType getType()
+    public KmgModelFieldType getType()
     {
         return _type;
     }
@@ -197,16 +197,16 @@ public class KmgModelField
         return getType().getProtoType();
     }
 
-    public void setType(KmgModelType e)
+    public void setType(KmgModelFieldType e)
     {
         _type = e;
     }
 
     public void setType(String name)
     {
-        KmgModelType type = getRoot().getType(name);
+        KmgModelFieldType type = getRoot().getType(name);
         if ( type == null )
-            throw newFatal("Unknown type: " + type);
+            throw newError("Unknown type: " + type);
 
         _type = type;
     }
@@ -505,11 +505,11 @@ public class KmgModelField
         String typeName = parseRequiredString(x, "type");
         _type = getRoot().getType(typeName);
         if ( _type == null )
-            throw newFatal(x, "Unknown type: %s", typeName);
+            throw newError(x, "Unknown type: %s", typeName);
 
         _auditLogMode = parseString(x, "auditLog", "true");
         if ( !Kmu.matchesAny(_auditLogMode, "true", "false", "mask") )
-            throw newFatal(x, "Unknown audit log: %s", _auditLogMode);
+            throw newError(x, "Unknown audit log: %s", _auditLogMode);
 
         String onChange = parseString(x, "onChange", null);
         if ( Kmu.hasValue(onChange) )
@@ -547,11 +547,11 @@ public class KmgModelField
     public void validate()
     {
         if ( !hasBaseType() )
-            throw newFatal("Cannnot resolve base type.");
+            throw newError("Cannnot resolve base type.");
 
         if ( hasBaseType("string") )
             if ( !getType().hasMaximumLength() )
-                throw newFatal("String baseType requires maximum length.");
+                throw newError("String baseType requires maximum length.");
 
         if ( hasEnum() )
             getEnum().validate();
@@ -609,7 +609,9 @@ public class KmgModelField
 
     public String getf_defaultValue()
     {
-        return getDefaultValue();
+        return hasDefaultValue()
+            ? getDefaultValue()
+            : "null";
     }
 
     @Override
@@ -655,6 +657,23 @@ public class KmgModelField
     }
 
     public String getf_help()
+    {
+        return getHelp();
+    }
+
+    public String getf_helpHtml()
+    {
+        if ( !hasHelp() )
+            return "";
+
+        String s;
+        s = getHelp();
+        s = Kmu.escapeHtml(s, true);
+        s = Kmu.replaceAll(s, "<br>", "<br><br>");
+        return s;
+    }
+
+    public String getf_helpJavaString()
     {
         return Kmu.encodeJavaString(getHelp());
     }

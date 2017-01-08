@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,29 @@ public class ScLongField
     extends ScAbstractTextField<Long>
 {
     //##################################################
-    //# value
+    //# conversion
     //##################################################
 
     @Override
-    public Long getValueFor(String s)
+    protected Long textToValue(String text)
     {
-        return getFormatter().parseLong(s);
+        return getFormatter().parseLong(text);
     }
 
     @Override
-    public void setValue(Long value)
+    protected String valueToText(Long value)
     {
-        String s = getFormatter().formatLong(value);
-        setText(s);
+        return getFormatter().formatLong(value);
+    }
+
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public Long getSampleValue()
+    {
+        return 123L;
     }
 
 }

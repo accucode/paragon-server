@@ -3,7 +3,7 @@ package com.app.ui.control;
 import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScDiv;
 
 public abstract class MyEditDialog<T>
     extends MyDialog
@@ -15,14 +15,11 @@ public abstract class MyEditDialog<T>
     private KmList<Consumer<T>> _savedListeners;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyEditDialog()
     {
-        super.install();
-
         _savedListeners = new KmList<>();
 
         setSubmitAction(this::handleSave);
@@ -31,11 +28,11 @@ public abstract class MyEditDialog<T>
 
     private void installButtons()
     {
-        ScFlexbox footer;
+        ScDiv footer;
         footer = showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
-        footer.addSubmitButton("Save");
+        footer.addSaveButton();
         footer.addCancelButton(this::ajaxClose);
     }
 

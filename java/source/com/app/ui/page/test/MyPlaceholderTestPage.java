@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -76,24 +76,25 @@ public final class MyPlaceholderTestPage
         _textField = new ScTextField();
         _textField.setLabel("Field");
         _textField.setPlaceholder("Enter a name");
-        _textField.css().padLeft5();
+        _textField.cssMargin().left5();
+
+        root.css().fill().auto().boxGray().gap();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleSubmit);
-        form.css().gap();
 
         ScGroup group;
         group = form.addGroup("Placeholder Test");
 
         String msg = "The following field should show a 'placeholder' hint inside the field...";
 
-        ScBox box;
+        ScDiv box;
         box = group.getBody().addGap();
-        box.addBox().addText(msg);
+        box.addDiv().addText(msg);
         box.addFieldTable().add(_textField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton();
         buttons.addResetButton();
@@ -122,7 +123,7 @@ public final class MyPlaceholderTestPage
         if ( s == null )
             s = "<null>";
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast(s);
     }
 

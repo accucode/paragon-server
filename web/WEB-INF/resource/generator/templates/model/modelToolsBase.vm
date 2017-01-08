@@ -36,7 +36,9 @@ public abstract class ${model.f_ToolsBaseClass}
         e.setLabel(Meta.getLabel());
         e.setFilter(new ${model.f_FilterClass}());
         e.setFinder(new ${model.f_FinderClass}());
-        e.setOptionKeyAdaptor(Meta.${model.primaryKeyField.f_Name});
+        e.setOptionKeyFunction(Meta.${model.primaryKeyField.f_Name});
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 #end

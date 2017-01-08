@@ -6,7 +6,7 @@ import com.kodemore.database.KmDatabaseConnectionFactory;
 import com.kodemore.sql.adaptor.KmSqlAdaptor;
 import com.kodemore.sql.adaptor.mySql.KmSqlMySqlAdaptor;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 /**
@@ -34,7 +34,7 @@ public class MyDatabaseConnectionFactory
     @Override
     public String getDefaultSchema()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         return p.getDatabaseSchema();
     }
@@ -48,7 +48,7 @@ public class MyDatabaseConnectionFactory
     @Override
     public Connection openRaw()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         String driver = p.getDatabaseDriver();
         String uri = p.getDatabaseUri();
@@ -62,7 +62,7 @@ public class MyDatabaseConnectionFactory
     //# support
     //##################################################
 
-    private MyPropertyRegistry getProperties()
+    private MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

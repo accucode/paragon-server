@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPatch_InstalledUtcTs
     {
         return "The date and time when the patch was installed in this database.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPatch_InstalledUtcTs
         return getAccess().getPatchDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPatch_InstalledUtcTs
     {
         return model.getInstalledUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyPatch model, KmTimestamp value)
     {
         model.setInstalledUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPatch model, KmTimestamp value)
     {
         return model.hasInstalledUtcTs(value);
     }
-    
+
 }

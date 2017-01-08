@@ -15,7 +15,7 @@ public class ScCoderRegistry
     //# variables
     //##################################################
 
-    private KmMap<String,ScCoderIF> _coders;
+    private KmMap<String,ScCoderIF>     _coders;
 
     //##################################################
     //# constructor
@@ -77,6 +77,8 @@ public class ScCoderRegistry
         registerCoder(new ScBooleanCoder());
 
         registerCoder(new ScDateCoder());
+        registerCoder(new ScDateIntervalCoder());
+        registerCoder(new ScTimeCoder());
         registerCoder(new ScTimestampCoder());
         registerCoder(new ScQuantityCoder());
         registerCoder(new ScActionCoder());
@@ -84,6 +86,7 @@ public class ScCoderRegistry
 
         registerCoder(new ScListCoder());
         registerCoder(new ScMapCoder());
-    }
 
+        registerCoder(new ScOptionCoder());
+    }
 }

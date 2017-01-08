@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyHibernateCacheTestCriteria
@@ -245,8 +246,37 @@ public class MyHibernateCacheTestCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyHibernateCacheTestJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyHibernateCacheTestJunction any()
+    {
+        return addOr();
+    }
+
+    public MyHibernateCacheTestJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyHibernateCacheTestJunction addNotAnd()
+    {
+        return new MyHibernateCacheTestJunction(parent().addNotAnd());
+    }
+
+    public MyHibernateCacheTestJunction addNotOr()
+    {
+        return new MyHibernateCacheTestJunction(parent().addNotOr());
+    }
 
     public MyHibernateCacheTestJunction addAnd()
     {

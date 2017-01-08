@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyFieldTestCriteria
@@ -42,6 +43,16 @@ public class MyFieldTestCriteria
     public KmhStringCondition whereUid()
     {
         return new KmhStringCondition(context(), fullName(UID));
+    }
+
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
     }
 
     public KmhStringCondition whereNameValue()
@@ -94,6 +105,16 @@ public class MyFieldTestCriteria
         return new KmhStringCondition(context(), fullName(PIN_NUMBER_2));
     }
 
+    public KmhDurationCondition whereDuration()
+    {
+        return new KmhDurationCondition(context(), fullName(DURATION));
+    }
+
+    public KmhPropertyCondition<KmDayFrequency> whereDayFrequency()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(DAY_FREQUENCY));
+    }
+
     public KmhIntegerCondition whereLockVersion()
     {
         return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
@@ -119,6 +140,42 @@ public class MyFieldTestCriteria
             sortOnUid();
         else
             sortOnUidDescending();
+    }
+
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnNameValue()
@@ -301,6 +358,42 @@ public class MyFieldTestCriteria
             sortOnPinNumber2Descending();
     }
 
+    public void sortOnDuration()
+    {
+        parent().sortAscending(DURATION);
+    }
+
+    public void sortOnDurationDescending()
+    {
+        parent().sortDescending(DURATION);
+    }
+
+    public void sortOnDuration(boolean asc)
+    {
+        if ( asc )
+            sortOnDuration();
+        else
+            sortOnDurationDescending();
+    }
+
+    public void sortOnDayFrequency()
+    {
+        parent().sortAscending(DAY_FREQUENCY);
+    }
+
+    public void sortOnDayFrequencyDescending()
+    {
+        parent().sortDescending(DAY_FREQUENCY);
+    }
+
+    public void sortOnDayFrequency(boolean asc)
+    {
+        if ( asc )
+            sortOnDayFrequency();
+        else
+            sortOnDayFrequencyDescending();
+    }
+
     public void sortOnLockVersion()
     {
         parent().sortAscending(LOCK_VERSION);
@@ -361,6 +454,94 @@ public class MyFieldTestCriteria
     public void groupByUid()
     {
         groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -804,6 +985,94 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
+    //# projections (duration)
+    //##################################################
+
+    public void selectDuration()
+    {
+        select(DURATION);
+    }
+
+    public void selectDistinctDuration()
+    {
+        selectDistinct(DURATION);
+    }
+
+    public void selectCountDistinctDuration()
+    {
+        selectCountDistinct(DURATION);
+    }
+
+    public void selectMinimumDuration()
+    {
+        selectMinimum(DURATION);
+    }
+
+    public void selectMaximumDuration()
+    {
+        selectMaximum(DURATION);
+    }
+
+    public void selectAverageDuration()
+    {
+        selectAverage(DURATION);
+    }
+
+    public void selectSumDuration()
+    {
+        selectSum(DURATION);
+    }
+
+    public void groupByDuration()
+    {
+        groupBy(DURATION);
+    }
+
+    //##################################################
+    //# projections (dayFrequency)
+    //##################################################
+
+    public void selectDayFrequency()
+    {
+        select(DAY_FREQUENCY);
+    }
+
+    public void selectDistinctDayFrequency()
+    {
+        selectDistinct(DAY_FREQUENCY);
+    }
+
+    public void selectCountDistinctDayFrequency()
+    {
+        selectCountDistinct(DAY_FREQUENCY);
+    }
+
+    public void selectMinimumDayFrequency()
+    {
+        selectMinimum(DAY_FREQUENCY);
+    }
+
+    public void selectMaximumDayFrequency()
+    {
+        selectMaximum(DAY_FREQUENCY);
+    }
+
+    public void selectAverageDayFrequency()
+    {
+        selectAverage(DAY_FREQUENCY);
+    }
+
+    public void selectSumDayFrequency()
+    {
+        selectSum(DAY_FREQUENCY);
+    }
+
+    public void groupByDayFrequency()
+    {
+        groupBy(DAY_FREQUENCY);
+    }
+
+    //##################################################
     //# projections (lockVersion)
     //##################################################
 
@@ -848,6 +1117,100 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
+    //# association (CreatedBy)
+    //##################################################
+
+    public void selectCreatedByUid()
+    {
+        select(CREATED_BY_UID);
+    }
+
+    public void selectMinimumCreatedByUid()
+    {
+        selectMinimum(CREATED_BY_UID);
+    }
+
+    public void selectMaximumCreatedByUid()
+    {
+        selectMaximum(CREATED_BY_UID);
+    }
+
+    public void groupByCreatedByUid()
+    {
+        groupBy(CREATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToCreatedBy()
+    {
+        return new MyUserCriteria(joinTo(CREATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToCreatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(CREATED_BY));
+    }
+
+    public KmhStringCondition whereCreatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+    }
+
+    public void whereCreatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNull();
+        else
+            whereCreatedByUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    //##################################################
     //# association (UserTest)
     //##################################################
 
@@ -868,7 +1231,7 @@ public class MyFieldTestCriteria
 
     public void groupByUserTestUid()
     {
-        groupBy(USER_TEST);
+        groupBy(USER_TEST_UID);
     }
 
     public MyUserCriteria joinToUserTest()
@@ -895,8 +1258,37 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyFieldTestJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyFieldTestJunction any()
+    {
+        return addOr();
+    }
+
+    public MyFieldTestJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyFieldTestJunction addNotAnd()
+    {
+        return new MyFieldTestJunction(parent().addNotAnd());
+    }
+
+    public MyFieldTestJunction addNotOr()
+    {
+        return new MyFieldTestJunction(parent().addNotOr());
+    }
 
     public MyFieldTestJunction addAnd()
     {

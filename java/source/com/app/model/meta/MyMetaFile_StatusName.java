@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -51,7 +52,7 @@ public class MyMetaFile_StatusName
     {
         return "The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaFile_StatusName
     {
         return model.getStatusName();
     }
-    
+
     @Override
     public boolean hasValueFor(MyFile model, String value)
     {
         return model.hasStatusName(value);
     }
-    
+
 }

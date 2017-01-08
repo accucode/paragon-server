@@ -19,7 +19,7 @@ public enum MyLabelBarcodeType
     //# find
     //##################################################
 
-    private static final KmList<MyLabelBarcodeType> _values;
+    private static final KmList<MyLabelBarcodeType>       _values;
     private static final KmMap<String,MyLabelBarcodeType> _codes;
 
     static

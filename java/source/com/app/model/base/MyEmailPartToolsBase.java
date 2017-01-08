@@ -41,7 +41,9 @@ public abstract class MyEmailPartToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyEmailPartFilter());
         e.setFinder(new MyEmailPartFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

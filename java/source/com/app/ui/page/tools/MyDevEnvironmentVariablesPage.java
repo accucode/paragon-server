@@ -4,12 +4,13 @@ import java.util.Set;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
+import com.kodemore.servlet.control.ScTransientContainer;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -42,7 +43,7 @@ public final class MyDevEnvironmentVariablesPage
     //# variables
     //##################################################
 
-    private ScLiteral _literal;
+    private ScTransientContainer _container;
 
     //##################################################
     //# settings
@@ -77,12 +78,17 @@ public final class MyDevEnvironmentVariablesPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill();
 
         ScGroup group;
         group = root.addGroup("Environment Variables");
+        group.css().fill();
 
-        _literal = group.getBody().addPad().addLiteral();
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad().auto();
+
+        _container = body.addTransientContainer();
     }
 
     //##################################################
@@ -92,13 +98,12 @@ public final class MyDevEnvironmentVariablesPage
     @Override
     protected void preRender()
     {
-        String html = composeProperties();
-        _literal.setValue(html);
+        composeProperties();
     }
 
-    private String composeProperties()
+    private void composeProperties()
     {
-        ScTable table = new ScTable();
+        ScTable table = _container.addTable();
 
         for ( String key : getKeys() )
         {
@@ -117,8 +122,6 @@ public final class MyDevEnvironmentVariablesPage
             cell.css().pad3().wordBreakAll();
             cell.addText(getValueFor(key));
         }
-
-        return table.renderHtml();
     }
 
     private KmList<String> getKeys()

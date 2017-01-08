@@ -41,7 +41,9 @@ public abstract class MyUserToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyUserFilter());
         e.setFinder(new MyUserFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

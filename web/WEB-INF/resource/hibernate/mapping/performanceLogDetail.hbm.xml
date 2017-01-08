@@ -32,15 +32,15 @@
         </id>
 
         <property
-            name="name"
-            column="name"
-            type="string"
-            />
-
-        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
             />
 
         <property

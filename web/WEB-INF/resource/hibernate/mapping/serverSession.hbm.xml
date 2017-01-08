@@ -68,6 +68,13 @@
             />
 
         <many-to-one
+            name="tenant"
+            column="tenantUid"
+            class="com.app.model.MyTenant"
+            cascade="none"
+            />
+
+        <many-to-one
             name="user"
             column="userUid"
             class="com.app.model.MyUser"
@@ -75,16 +82,9 @@
             />
 
         <many-to-one
-            name="autoSignIn"
-            column="autoSignInUid"
-            class="com.app.model.MyAutoSignIn"
-            cascade="none"
-            />
-
-        <many-to-one
-            name="currentProject"
-            column="currentProjectUid"
-            class="com.app.model.MyProject"
+            name="autoLogin"
+            column="autoLoginUid"
+            class="com.app.model.MyAutoLogin"
             cascade="none"
             />
 

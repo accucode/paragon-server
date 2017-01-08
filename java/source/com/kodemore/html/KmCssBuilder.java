@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,10 @@ import com.kodemore.utility.Kmu;
  * I provide the basis for chaining css.  I delegate
  * responsibility for storing the underlying value
  * to a value holder.
- * 
+ *
  * I, and my subclasses, are intended to be used with
- * method "chaining."  
- * 
+ * method "chaining."
+ *
  *      Given: e.css() returns an ScCssWrapper
  *      Then: e.css().add("footer").remove("pad").toggle("bold");
  *
@@ -44,22 +44,22 @@ import com.kodemore.utility.Kmu;
  * the selectors found in .css files.  So given a css subclass
  * that contains class selectors for "footer", "pad" and "bold"
  * you might...
- * 
+ *
  *      e.css().footer().pad().bold();
  *      e.css().add().footer().pad().bold();
  *      e.css().add().footer().remove().pad().toggle().bold();
- *      
- * General pattern... 
- * 
- *      Calling the add, remove, and toggle methods WITH a 
- *      parameter will mutate the underlying css selectors 
- *      appropriately.  These methods do NOT change the 
- *      current mode.  
- *        
- *      Calling the add, remove, and toggle methods WITHOUT 
+ *
+ * General pattern...
+ *
+ *      Calling the add, remove, and toggle methods WITH a
+ *      parameter will mutate the underlying css selectors
+ *      appropriately.  These methods do NOT change the
+ *      current mode.
+ *
+ *      Calling the add, remove, and toggle methods WITHOUT
  *      a parameter change the mode, but do NOT mutate the
  *      underlying value.  All subsequent calls to 'apply'
- *      reflect the current mode. 
+ *      reflect the current mode.
  */
 public class KmCssBuilder
 {
@@ -112,8 +112,18 @@ public class KmCssBuilder
         _holder.setValue(e);
     }
 
+    public boolean hasValue()
+    {
+        return Kmu.hasValue(getValue());
+    }
+
+    public boolean isEmpty()
+    {
+        return !hasValue();
+    }
+
     /**
-     * Return a copy.  The copy will have the same value as the 
+     * Return a copy.  The copy will have the same value as the
      * original, but will be detached from the original value HOLDER.
      */
     public KmCssBuilder getCopy()
@@ -234,6 +244,12 @@ public class KmCssBuilder
     //##################################################
     //# convenience
     //##################################################
+
+    public void addAll(KmList<String> v)
+    {
+        for ( String e : v )
+            add(e);
+    }
 
     public KmList<String> getSelectors()
     {

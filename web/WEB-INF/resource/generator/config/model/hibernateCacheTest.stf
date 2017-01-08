@@ -3,7 +3,7 @@ model
 : help...
     ---
     I am used to test the hibernate second level cache.
-    --- 
+    ---
 
 database
 : auditLog  = false
@@ -11,13 +11,19 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name      = data

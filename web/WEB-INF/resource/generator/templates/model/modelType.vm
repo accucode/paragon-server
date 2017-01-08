@@ -1,0 +1,87 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
+import ${package}.model.*;
+
+public enum ${Prefix}ModelType
+    implements KmEnumIF
+{
+$utility.protocol("values")
+
+#foreach ( $model in $root.databaseModels )
+    ${model.f_NAME}("${model.f_Name}","${model.f_Name}"),
+#end
+    ;
+
+$utility.protocol("find")
+
+    private static final KmList<${Prefix}ModelType> _values;
+    private static final KmMap<String,${Prefix}ModelType> _codes;
+
+    static
+    {
+        _values = new KmList<>();
+        _values.addAll(values());
+
+        _codes = new KmMap<>();
+        for ( ${Prefix}ModelType e : EnumSet.allOf(${Prefix}ModelType.class) )
+            _codes.put(e.getCode(), e);
+    }
+
+    public static KmList<${Prefix}ModelType> getValues()
+    {
+        return _values;
+    }
+
+    public static ${Prefix}ModelType findCode(String code)
+    {
+        return _codes.get(code);
+    }
+
+$utility.protocol("variables")
+
+    private String _code;
+    private String _label;
+
+$utility.protocol("constructor")
+
+    private ${Prefix}ModelType(String code, String label)
+    {
+        _code = code;
+        _label = label;
+    }
+
+$utility.protocol("accessing")
+
+    @Override
+    public String getCode()
+    {
+        return _code;
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return _label;
+    }
+
+$utility.protocol("class")
+
+    public Class<?> getJavaClass()
+    {
+        switch ( this )
+        {
+#foreach ( $model in $root.databaseModels )
+            case ${model.f_NAME}:
+                return ${model.f_Class}.class;
+
+#end
+        }
+        throw Kmu.newEnumError(this);
+    }
+}

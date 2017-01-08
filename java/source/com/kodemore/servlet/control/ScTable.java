@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -40,18 +37,15 @@ public class ScTable
 
     private KmList<ScTableRow> _rows;
 
-    private ScLocalCss   _defaultCellCss;
-    private ScLocalStyle _defaultCellStyle;
+    private ScLocalCss         _defaultCellCss;
+    private ScLocalStyle       _defaultCellStyle;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTable()
     {
-        super.install();
-
         _rows = new KmList<>();
 
         _defaultCellCss = new ScLocalCss();
@@ -169,12 +163,8 @@ public class ScTable
     //##################################################
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getRows());
-        return i;
+        return getRows().collect(e -> e.asControl());
     }
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaEmailRecipient_Address
     {
         return null;
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmailRecipient_Address
         return getAccess().getEmailRecipientDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmailRecipient_Address
     {
         return model.getAddress();
     }
-    
+
     @Override
     public void setValueFor(MyEmailRecipient model, String value)
     {
         model.setAddress(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmailRecipient model, String value)
     {
         return model.hasAddress(value);
     }
-    
+
 }

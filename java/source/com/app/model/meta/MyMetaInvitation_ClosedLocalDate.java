@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaInvitation_ClosedLocalDate
     @Override
     public String getHelp()
     {
-        return "The date and time when this invitation was closed (e.g.: accepted).";
+        return "The closed date based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaInvitation_ClosedLocalDate
     {
         return model.getClosedLocalDate();
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, KmDate value)
     {
         return model.hasClosedLocalDate(value);
     }
-    
+
 }

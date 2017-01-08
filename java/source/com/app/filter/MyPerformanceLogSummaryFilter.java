@@ -1,7 +1,7 @@
 package com.app.filter;
 
 import com.kodemore.time.KmDate;
-import com.kodemore.utility.KmNamedEnumIF;
+import com.kodemore.utility.KmEnumIF;
 
 import com.app.criteria.MyPerformanceLogSummaryCriteria;
 import com.app.filter.base.MyPerformanceLogSummaryFilterBase;
@@ -14,31 +14,21 @@ public class MyPerformanceLogSummaryFilter
     //##################################################
 
     public static enum Sort
-        implements KmNamedEnumIF
+        implements KmEnumIF
     {
-        Uid("Uid"),
-        Name("Name"),
-        Count("Count"),
-        Average("Average"),
-        Total("Total");
-
-        private String _name;
-
-        private Sort(String name)
-        {
-            _name = name;
-        }
-
-        @Override
-        public String getName()
-        {
-            return _name;
-        }
+        Uid,
+        Name,
+        Count,
+        Average,
+        Total;
     }
 
     //##################################################
     //# variables
     //##################################################
+
+    private Sort    _sort;
+    private boolean _ascending;
 
     private String  _name;
     private boolean _usesName;
@@ -49,8 +39,97 @@ public class MyPerformanceLogSummaryFilter
     private KmDate  _maximumDate;
     private boolean _usesMaximumDate;
 
-    private Sort    _sort;
-    private boolean _sortAscending;
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyPerformanceLogSummaryFilter()
+    {
+        sortOnUid();
+        sortAscending();
+    }
+
+    //##################################################
+    //# sort
+    //##################################################
+
+    public void sortOnUid()
+    {
+        setSort(Sort.Uid);
+    }
+
+    public void sortOnName()
+    {
+        setSort(Sort.Name);
+    }
+
+    public void sortOnCount()
+    {
+        setSort(Sort.Count);
+    }
+
+    public void sortOnAverage()
+    {
+        setSort(Sort.Average);
+    }
+
+    public void sortOnTotal()
+    {
+        setSort(Sort.Total);
+    }
+
+    //==================================================
+    //= sort :: accessing
+    //==================================================
+
+    public Sort getSort()
+    {
+        return _sort;
+    }
+
+    public void setSort(Sort e)
+    {
+        _sort = e;
+    }
+
+    public void sortOn(int i)
+    {
+        setSort(Sort.values()[i]);
+    }
+
+    public void sortOn(String name)
+    {
+        setSort(Sort.valueOf(name));
+    }
+
+    public boolean usesSort()
+    {
+        return _sort != null;
+    }
+
+    //==================================================
+    //= sort :: ascending
+    //==================================================
+
+    public boolean getAscending()
+    {
+        return _ascending;
+    }
+
+    public void setAscending(boolean e)
+    {
+        _ascending = e;
+    }
+
+    public void sortAscending()
+    {
+        setAscending(true);
+    }
+
+    public void sortDescending()
+    {
+        setAscending(false);
+    }
 
     //##################################################
     //# name
@@ -113,73 +192,6 @@ public class MyPerformanceLogSummaryFilter
     }
 
     //##################################################
-    //# sort
-    //##################################################
-
-    public void sortOnUid()
-    {
-        sortOn(Sort.Uid);
-    }
-
-    public void sortOnName()
-    {
-        sortOn(Sort.Name);
-    }
-
-    public void sortOnCount()
-    {
-        sortOn(Sort.Count);
-    }
-
-    public void sortOnAverage()
-    {
-        sortOn(Sort.Average);
-    }
-
-    public void sortOnTotal()
-    {
-        sortOn(Sort.Total);
-    }
-
-    //##################################################
-    //# sort (support)
-    //##################################################
-
-    public void sortOn(int i)
-    {
-        sortOn(Sort.values()[i]);
-    }
-
-    public void sortOn(Sort e)
-    {
-        _sort = e;
-    }
-
-    public boolean usesSort()
-    {
-        return _sort != null;
-    }
-
-    //##################################################
-    //# sort order
-    //##################################################
-
-    public void sortAscending()
-    {
-        sortAscending(true);
-    }
-
-    public void sortAscending(boolean e)
-    {
-        _sortAscending = e;
-    }
-
-    public void sortDescending()
-    {
-        sortAscending(false);
-    }
-
-    //##################################################
     //# apply
     //##################################################
 
@@ -202,9 +214,10 @@ public class MyPerformanceLogSummaryFilter
         if ( !usesSort() )
             return;
 
-        boolean asc = _sortAscending;
+        Sort sort = getSort();
+        boolean asc = getAscending();
 
-        switch ( _sort )
+        switch ( sort )
         {
             case Uid:
                 c.sortOnUid(asc);

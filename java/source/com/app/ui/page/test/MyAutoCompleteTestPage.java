@@ -2,12 +2,12 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 
 import com.app.ui.page.MyPage;
@@ -77,27 +77,25 @@ public final class MyAutoCompleteTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _staticField = new ScAutoCompleteField();
-        _staticField.setLabel("Static");
-        _staticField.addOption("acorn");
-        _staticField.addOption("another");
-        _staticField.addOption("apple");
-        _staticField.addOption("barn");
-        _staticField.addOption("bandit");
-        _staticField.addOption("baggage");
-        _staticField.addOption("candy");
-        _staticField.addOption("camping");
-        _staticField.addOption("cinder");
+        root.css().fill().auto().flexColumn().columnSpacer10();
+
+        installFormTestOn(root);
+        installLayoutTestOn(root);
+    }
+
+    private void installFormTestOn(ScContainer root)
+    {
+        _staticField = newField("Static");
 
         _dynamicField = new ScAutoCompleteField();
         _dynamicField.setLabel("Dynamic");
-        _dynamicField.setCallback(newCallback());
-
-        root.css().pad();
+        _dynamicField.setHelp("Some dynamic options.");
+        _dynamicField.setCallback(this::getOptionsFor);
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleSubmit);
+        form.css().flexChildStatic();
 
         ScGroup group;
         group = form.addGroup("Auto Complete Tests");
@@ -107,31 +105,81 @@ public final class MyAutoCompleteTestPage
         fields.add(_staticField);
         fields.add(_dynamicField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton();
         buttons.addResetButton();
     }
 
-    private ScAutoCompleteCallbackIF newCallback()
+    private void installLayoutTestOn(ScContainer root)
     {
-        return new ScAutoCompleteCallbackIF()
-        {
-            @Override
-            public KmList<String> getOptionsFor(String term)
-            {
-                term = term + "";
+        ScAutoCompleteField field;
 
-                KmList<String> v;
-                v = new KmList<>();
-                v.add(term + "1");
-                v.add(term + "2");
-                v.add(term + "3");
-                v.add(term + "4");
-                v.add(term + "5");
-                return v;
-            }
-        };
+        ScGroup group;
+        group = root.addGroup("Layout");
+        group.css().flexChildStatic();
+
+        ScFieldTable table;
+        table = group.getBody().addPad().addFieldTable();
+
+        field = newField("inline");
+        field.layoutInline();
+        table.add(field);
+
+        field = newField("inline(400)");
+        field.layoutInline(400);
+        table.add(field);
+
+        field = newField("block");
+        field.layoutBlock();
+        table.add(field);
+
+        field = newField("");
+        field.layoutFlexFiller();
+        field.cssMargin().left().right();
+
+        ScDiv row;
+        row = table.addFlexRow();
+        row.setLabel("flex filler");
+        row.addButton("before");
+        row.add(field);
+        row.addButton("after");
+    }
+
+    private ScAutoCompleteField newField(String label)
+    {
+        ScAutoCompleteField e;
+        e = new ScAutoCompleteField();
+        e.setLabel(label);
+        e.setHelp("Some static options.");
+        e.addOption("acorn");
+        e.addOption("another");
+        e.addOption("apple");
+        e.addOption("barn");
+        e.addOption("bandit");
+        e.addOption("baggage");
+        e.addOption("candy");
+        e.addOption("camping");
+        e.addOption("cinder");
+        return e;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private KmList<String> getOptionsFor(String term)
+    {
+        term = term + "";
+
+        KmList<String> v;
+        v = new KmList<>();
+        v.add(term + "1");
+        v.add(term + "2");
+        v.add(term + "3");
+        v.add(term + "4");
+        v.add(term + "5");
+        return v;
     }
 
     //##################################################
@@ -156,7 +204,7 @@ public final class MyAutoCompleteTestPage
         String s1 = _staticField.getValue();
         String s2 = _dynamicField.getValue();
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast("%s\n%s", s1, s2);
     }
 }

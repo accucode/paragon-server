@@ -1,7 +1,7 @@
 package com.kodemore.hibernate;
 
 import com.kodemore.hibernate.basic.KmhElement;
-import com.kodemore.utility.KmCodedEnumIF;
+import com.kodemore.utility.KmEnumIF;
 
 public class KmhStringCondition
     extends KmhPropertyCondition<String>
@@ -47,7 +47,7 @@ public class KmhStringCondition
     //# coded enum
     //##################################################
 
-    public void is(KmCodedEnumIF e)
+    public void is(KmEnumIF e)
     {
         if ( e == null )
             isNull();
@@ -55,12 +55,11 @@ public class KmhStringCondition
             is(e.getCode());
     }
 
-    public void isNot(KmCodedEnumIF e)
+    public void isNot(KmEnumIF e)
     {
         if ( e == null )
             isNotNull();
         else
             isNot(e.getCode());
     }
-
 }

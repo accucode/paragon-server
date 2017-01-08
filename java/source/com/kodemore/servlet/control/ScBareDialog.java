@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -71,7 +71,7 @@ public class ScBareDialog
     private ScLocalBoolean _resizable;
 
     /**
-     * The dialog's width.  The default is 300px.
+     * The dialog's width.
      */
     private ScLocalInteger _width;
 
@@ -94,15 +94,12 @@ public class ScBareDialog
     private ScLocalBoolean _closeOnEscape;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScBareDialog()
     {
-        super.install();
-
-        _width = new ScLocalInteger(null);
+        _width = new ScLocalInteger(600);
         _height = new ScLocalInteger(null);
         _draggable = new ScLocalBoolean(true);
         _resizable = new ScLocalBoolean(true);
@@ -245,17 +242,18 @@ public class ScBareDialog
     //##################################################
 
     /**
-     * Create the dialog wrapper and overlay.  Also, if the dialog does not
-     * have a parent, then first add it to the dom.
+     * Create the dialog wrapper and overlay.
+     * Add the dialog to the DOM if neeeded.
      */
     public void ajaxOpen()
     {
+        preRender();
         ajaxAttachToBody();
 
         if ( getCloseOnEscape() )
             ajaxCloseOnEscape();
 
-        ajax().run("$('%s').dialog(%s);", getJquerySelector(), getOpenOptions());
+        getRootScript().run("$('%s').dialog(%s);", getJquerySelector(), getOpenOptions());
     }
 
     /**
@@ -271,13 +269,13 @@ public class ScBareDialog
         s = ScBlockScript.create();
         s.closeDialog(getForm());
 
-        ajax().onEscape(s);
+        _htmlIdAjax().onEscape(s);
     }
 
     private void ajaxAttachToBody()
     {
         ScAddContentScript e;
-        e = ajax().addContents();
+        e = _htmlIdAjax().addContents();
         e.setContent(getInner());
         e.setSelector("body");
     }
@@ -308,8 +306,10 @@ public class ScBareDialog
 
         e.setLiteral("close", formatOnCloseFunction());
 
-        //        KmJsonMap pos;
-        //        pos = e.setMap("position");
+        KmJsonMap pos;
+        pos = e.setMap("position");
+        pos.setString("my", "top");
+        pos.setString("at", "center top+5%");
         //        pos.setString("my", "center");
         //        pos.setString("at", "center top+30%");
         //        pos.setString("of", "#someTarget");
@@ -355,7 +355,7 @@ public class ScBareDialog
 
     public void ajaxClose()
     {
-        ajax().closeDialog();
+        _htmlIdAjax().closeDialog();
     }
 
     //##################################################

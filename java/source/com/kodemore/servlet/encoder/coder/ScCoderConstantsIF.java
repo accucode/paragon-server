@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,18 +28,22 @@ public interface ScCoderConstantsIF
     //# coders
     //##################################################
 
-    String CODER_ACTION     = "a";
-    String CODER_BOOLEAN    = "b";
-    String CODER_DOUBLE     = "d";
-    String CODER_DATE       = "D";
-    String CODER_HTML_COLOR = "h";
-    String CODER_INTEGER    = "i";
-    String CODER_LONG       = "l";
-    String CODER_MAP        = "m";
-    String CODER_NULL       = "n";
-    String CODER_QUANTITY   = "q";
-    String CODER_STRING     = "s";
-    String CODER_TIMESTAMP  = "t";
-    String CODER_LIST       = "v";
-    String CODER_VISIBILITY = "y";
+    String CODER_ACTION        = "a";
+    String CODER_BOOLEAN       = "b";
+    String CODER_DATE          = "d";
+    String CODER_DATE_INTERVAL = "e";
+    String CODER_DOUBLE        = "f";
+    String CODER_HTML_COLOR    = "h";
+    String CODER_INTEGER       = "i";
+    String CODER_LONG          = "l";
+    String CODER_MAP           = "m";
+    String CODER_NULL          = "n";
+    String CODER_OPTION        = "o";
+    String CODER_QUANTITY      = "q";
+    String CODER_STRING        = "s";
+    String CODER_TIME          = "t";
+    String CODER_TIMESTAMP     = "u";
+    String CODER_LIST          = "v";
+    String CODER_VISIBILITY    = "y";
+
 }

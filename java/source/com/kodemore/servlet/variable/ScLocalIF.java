@@ -58,7 +58,7 @@ public interface ScLocalIF
      * I.e.: there is an accessible ScServletData instance.
      *
      * If there is NO available http request, then set() should
-     * set the local's default value, which is subsequently 
+     * set the local's default value, which is subsequently
      * shared by all thread and all http requests.  Since all pages
      * are created prior to processing any http requests, this applies
      * to all locals created and configured downstread of aPage.createRoot().
@@ -79,12 +79,6 @@ public interface ScLocalIF
     //##################################################
     //# load / save
     //##################################################
-    /**
-     * Load the thread local state (from the page session).
-     * Clients may call this safely but should rarely need to
-     * since the session state is normally loaded automatically.
-     */
-    void loadValue();
 
     /**
      * Save the local state into the page session.
@@ -97,7 +91,7 @@ public interface ScLocalIF
     void saveValue();
 
     /**
-     * Reset the local state to the default values.  NOTE: this does not
+     * Reset the local state to the default value.  NOTE: this does not
      * save the state.  So if you have previously saved a modified version
      * of the state, then resetting will only reset for the current thread.
      * If you want to reset the values permanantly for this session, you
@@ -153,11 +147,11 @@ public interface ScLocalIF
      * Get an encodable value.
      */
     @Override
-    Object getEncodedValue();
+    Object getEncodableValue();
 
     /**
      * Set an encodable value.
      */
     @Override
-    void setEncodedValue(Object e);
+    void setEncodableValue(Object e);
 }

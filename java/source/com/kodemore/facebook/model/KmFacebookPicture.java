@@ -6,7 +6,7 @@ import com.kodemore.json.KmJsonMap;
  * A user's Facebook profile picture
  */
 public class KmFacebookPicture
-extends Object
+    extends Object
 {
     //##################################################
     //# constants

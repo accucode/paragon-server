@@ -1,9 +1,11 @@
 package com.app.model;
 
 import com.app.model.base.MyPatchBase;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyPatch
     extends MyPatchBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor

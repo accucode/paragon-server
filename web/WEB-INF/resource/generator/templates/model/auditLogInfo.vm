@@ -60,11 +60,21 @@ $utility.protocol("setup")
         _disabledFields.add(formatFieldKey("${model.name}", "${field.name}"));
 #end
 #end
+#foreach ( $field in ${model.editableAssociations} )
+#if ( $field.isAuditLogDisabled() )
+        _disabledFields.add(formatFieldKey("${model.name}", "${field.name}"));
+#end
+#end
 #end
 
         _maskedFields = new KmSetImpl<>();
 #foreach ( $model in $root.databaseModels )
 #foreach ( $field in ${model.editableFields} )
+#if ( $field.isAuditLogMasked() )
+        _maskedFields.add(formatFieldKey("${model.name}", "${field.name}"));
+#end
+#end
+#foreach ( $field in ${model.editableAssociations} )
 #if ( $field.isAuditLogMasked() )
         _maskedFields.add(formatFieldKey("${model.name}", "${field.name}"));
 #end

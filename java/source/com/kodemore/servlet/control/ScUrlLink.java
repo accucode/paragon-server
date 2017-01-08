@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -38,14 +38,11 @@ public class ScUrlLink
     private ScLocalString _target;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScUrlLink()
     {
-        super.install();
-
         _href = new ScLocalString();
         _target = new ScLocalString();
     }
@@ -66,7 +63,7 @@ public class ScUrlLink
 
     /**
      * Used to navigate within the current page using the #tag
-     * notation.  With an ajax application this is used to 
+     * notation.  With an ajax application this is used to
      * manage the use of the browser back button.  The parameter
      * should be provided WITHOUT the leading hash.
      */

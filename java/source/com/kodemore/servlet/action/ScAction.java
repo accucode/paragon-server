@@ -2,7 +2,8 @@ package com.kodemore.servlet.action;
 
 import com.kodemore.command.KmDaoRunnableCommand;
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmSignalingException;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScKeyIF;
 import com.kodemore.utility.Kmu;
@@ -19,7 +20,7 @@ public class ScAction
      * Keys must be consistently assigned and registered during application
      * startup so that all JVMs use the same keys for the same actions.
      */
-    private String _key;
+    private String              _key;
 
     /**
      * Used to check security and handle errors.
@@ -31,30 +32,53 @@ public class ScAction
      * name of the context, but in some cases it may be usefult to have a
      * more specific name appended to the context.
      */
-    private String   _name;
+    private String              _name;
+
     /**
      * The behavior to be executed.
      */
-    private Runnable _runnable;
+    private Runnable            _runnable;
 
     /**
      * If true (the default) the runnable will be executed inside a
      * hibernate (database) transaction.
      */
-    private boolean _useTransaction;
+    private boolean             _useTransaction;
 
     /**
      * If true (the default) the client browser warn the user if there
      * are any dirty fields before submitting the action.
      */
-    private boolean _changeTracking;
+    private boolean             _changeTracking;
+
+    /**
+     * By default, action use client-side javascript to check for unsaved changes
+     * before posting the ajax action (see changeTracking).
+     *
+     * The normal behavior uses the _contextSupplier to find an enclosing scope,
+     * e.g., an ScNavigator.  If an enclosing scope is found, then we only check
+     * for unsaved changes inside that scope. If no scope is found, the entire
+     * page is checked for unsaved changes.
+     *
+     * This value allows us to override the default behavior.
+     * If set, then unsaved changes are only checked inside this container.
+     */
+    private ScHtmlIdIF          _changeTrackingScopeOverride;
 
     /**
      * If true, the slow command warning will be disabled.
      * This is false by default, but is particularly useful for development
      * tools that are expected to take more than a few seconds to run.
      */
-    private boolean _disableSlowCommandWarning;
+    private boolean             _disableSlowCommandWarning;
+
+    /**
+     * If set this wedge is executed between run() and handle().
+     * Clients should generally NOT use this.  It is intended
+     * as a way for certain framework code to perform special setup
+     * before calling handle.
+     */
+    private Runnable            _wedge;
 
     //##################################################
     //# constructor
@@ -70,6 +94,7 @@ public class ScAction
         _runnable = r;
         _useTransaction = true;
         _changeTracking = true;
+        _changeTrackingScopeOverride = null;
         _disableSlowCommandWarning = false;
     }
 
@@ -89,20 +114,54 @@ public class ScAction
     }
 
     //##################################################
-    //# context
+    //# transaction
     //##################################################
 
-    public ScContextIF getContext()
+    public boolean getUseTransaction()
     {
-        if ( _contextSupplier == null )
-            return null;
-
-        return _contextSupplier.getContext();
+        return _useTransaction;
     }
 
-    public boolean hasContext()
+    public void setUseTransaction(boolean e)
     {
-        return getContext() != null;
+        _useTransaction = e;
+    }
+
+    public void disableTransaction()
+    {
+        setUseTransaction(false);
+    }
+
+    //##################################################
+    //# security manager
+    //##################################################
+
+    public ScSecurityManagerIF getSecurityManager()
+    {
+        return _contextSupplier == null
+            ? null
+            : _contextSupplier.getSecurityManager();
+    }
+
+    public boolean hasSecurityManager()
+    {
+        return getSecurityManager() != null;
+    }
+
+    //##################################################
+    //# error manager
+    //##################################################
+
+    public ScErrorManagerIF getErrorManager()
+    {
+        return _contextSupplier == null
+            ? null
+            : _contextSupplier.getErrorManager();
+    }
+
+    public boolean hasErrorManager()
+    {
+        return getErrorManager() != null;
     }
 
     //##################################################
@@ -124,17 +183,6 @@ public class ScAction
         return Kmu.hasValue(getName());
     }
 
-    public String getFullName()
-    {
-        String c = hasContext()
-            ? getContext().getClass().getSimpleName()
-            : "noContext";
-
-        return hasName()
-            ? c + "." + getName()
-            : c;
-    }
-
     //##################################################
     //# change tracking
     //##################################################
@@ -152,6 +200,82 @@ public class ScAction
     public void disableChangeTracking()
     {
         setChangeTracking(false);
+    }
+
+    //##################################################
+    //# change tracking scope
+    //##################################################
+
+    public ScHtmlIdIF getChangeTrackingScope()
+    {
+        return hasChangeTrackingScopeOverride()
+            ? getChangeTrackingScopeOverride()
+            : findChangeTrackingScopeWrapper();
+    }
+
+    public boolean hasChangeTrackingScope()
+    {
+        return getChangeTrackingScope() != null;
+    }
+
+    //==================================================
+    //= override
+    //==================================================
+
+    public ScHtmlIdIF getChangeTrackingScopeOverride()
+    {
+        return _changeTrackingScopeOverride;
+    }
+
+    public void setChangeTrackingScopeOverride(ScHtmlIdIF e)
+    {
+        _changeTrackingScopeOverride = e;
+    }
+
+    public boolean hasChangeTrackingScopeOverride()
+    {
+        return _changeTrackingScopeOverride != null;
+    }
+
+    //==================================================
+    //= find
+    //==================================================
+
+    private ScHtmlIdIF findChangeTrackingScopeWrapper()
+    {
+        if ( !(_contextSupplier instanceof ScControl) )
+            return null;
+
+        ScControl c = (ScControl)_contextSupplier;
+        while ( true )
+        {
+            if ( c == null )
+                return null;
+
+            if ( c.isChangeTrackingScope() )
+                return c.asChangeTrackingScope();
+
+            c = c.getParent();
+        }
+    }
+
+    //##################################################
+    //# wedge
+    //##################################################
+
+    public Runnable getWedge()
+    {
+        return _wedge;
+    }
+
+    public void setWedge(Runnable e)
+    {
+        _wedge = e;
+    }
+
+    public boolean hasWedge()
+    {
+        return getWedge() != null;
     }
 
     //##################################################
@@ -213,31 +337,24 @@ public class ScAction
 
     private void _run()
     {
-        ScContextIF ctx = getContext();
         try
         {
-            if ( ctx != null )
-                ctx.checkSecurity();
+            ScSecurityManagerIF secMgr = getSecurityManager();
+            if ( secMgr != null )
+                secMgr.checkSecurity();
+
+            if ( hasWedge() )
+                getWedge().run();
 
             _runnable.run();
         }
         catch ( KmApplicationException ex )
         {
-            if ( ctx == null )
+            ScErrorManagerIF errMgr = getErrorManager();
+            if ( errMgr == null )
                 throw ex;
 
-            ctx.handleError(ex);
-        }
-        catch ( KmSignalingException ex )
-        {
-            throw ex;
-        }
-        catch ( RuntimeException ex )
-        {
-            if ( ctx == null )
-                throw ex;
-
-            ctx.handleFatal(ex);
+            errMgr.handleError(ex);
         }
     }
 }

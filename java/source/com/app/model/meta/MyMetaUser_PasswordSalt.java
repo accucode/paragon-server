@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaUser_PasswordSalt
     @Override
     public String getHelp()
     {
-        return "The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.";
+        return "The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created. Once set the salt should never be changed, changing it will invalidate the password.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaUser_PasswordSalt
         return getAccess().getUserDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaUser_PasswordSalt
     {
         return model.getPasswordSalt();
     }
-    
+
     @Override
     public void setValueFor(MyUser model, String value)
     {
         model.setPasswordSalt(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyUser model, String value)
     {
         return model.hasPasswordSalt(value);
     }
-    
+
 }

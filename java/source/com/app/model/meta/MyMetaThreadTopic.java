@@ -51,17 +51,18 @@ public class MyMetaThreadTopic
         return "threadTopic";
     }
 
-    public static MyThreadTopicValidator getValidator()
+    public MyThreadTopicValidator getValidator()
     {
         return MyThreadTopicValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "I help to ensure that only one thread runs a particular activity (topic), even across multiple JVMs.\n To correctly ensure that only one JVM is running a given task, every JVM must check this table before starting a particular topic.  Additionally, once a particular JVM is assigned ownership, it must 'touch' the pertinent topic at least once a minute, updating the lastTouched time.  Without this touch, a long running task will eventually be deemed hung/dead, and another JVM will be allowed to become the new owner.  This could result in multiple threads running the same task.  To avoid this, break long running tasks into smaller database transactions, and ensure that the topic is 'touched' periodically.";
     }
@@ -78,6 +79,7 @@ public class MyMetaThreadTopic
     public static final MyMetaThreadTopic_LastEndUtcTs LastEndUtcTs = new MyMetaThreadTopic_LastEndUtcTs();
     public static final MyMetaThreadTopic_LastTouchUtcTs LastTouchUtcTs = new MyMetaThreadTopic_LastTouchUtcTs();
     public static final MyMetaThreadTopic_LockVersion LockVersion = new MyMetaThreadTopic_LockVersion();
+    public static final MyMetaThreadTopic_DisplayString DisplayString = new MyMetaThreadTopic_DisplayString();
     public static final MyMetaThreadTopic_LastStartLocalTs LastStartLocalTs = new MyMetaThreadTopic_LastStartLocalTs();
     public static final MyMetaThreadTopic_LastStartLocalTsMessage LastStartLocalTsMessage = new MyMetaThreadTopic_LastStartLocalTsMessage();
     public static final MyMetaThreadTopic_LastStartLocalDate LastStartLocalDate = new MyMetaThreadTopic_LastStartLocalDate();

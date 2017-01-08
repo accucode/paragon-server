@@ -36,6 +36,8 @@ public class MyEmailRecipientValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
+    private KmTimestampValidator createdUtcTsValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmStringValidator addressValidator;
     private KmStringValidator typeCodeValidator;
     private KmIntegerValidator lockVersionValidator;
@@ -48,6 +50,8 @@ public class MyEmailRecipientValidatorBase
     {
         super();
         uidValidator = newUidValidator();
+        createdUtcTsValidator = newCreatedUtcTsValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         addressValidator = newAddressValidator();
         typeCodeValidator = newTypeCodeValidator();
         lockVersionValidator = newLockVersionValidator();
@@ -60,6 +64,16 @@ public class MyEmailRecipientValidatorBase
     public KmStringValidator getUidValidator()
     {
         return uidValidator;
+    }
+
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
+    public KmTimestampValidator getUpdatedUtcTsValidator()
+    {
+        return updatedUtcTsValidator;
     }
 
     public KmStringValidator getAddressValidator()
@@ -86,6 +100,8 @@ public class MyEmailRecipientValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
         value.setAddress(addressValidator.convertOnly(value.getAddress()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -96,6 +112,8 @@ public class MyEmailRecipientValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
+        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
         addressValidator.validateOnly(value.getAddress(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
@@ -120,6 +138,26 @@ public class MyEmailRecipientValidatorBase
         return e;
     }
 
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("emailRecipient");
+        e.setField("createdUtcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newUpdatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("emailRecipient");
+        e.setField("updatedUtcTs");
+        e.setRequired();
+        return e;
+    }
+
     public KmStringValidator newAddressValidator()
     {
         KmStringValidator e;
@@ -136,9 +174,10 @@ public class MyEmailRecipientValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
+        e.setMaximumLength(30);
         e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
         e.setModel("emailRecipient");
         e.setField("typeCode");

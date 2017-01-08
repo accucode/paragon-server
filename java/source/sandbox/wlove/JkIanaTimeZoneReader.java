@@ -31,8 +31,8 @@ public class JkIanaTimeZoneReader
     private KmList<String> _lines;
     private int            _index;
 
-    private KmList<Rule> _rules = new KmList<>();
-    private KmList<Zone> _zones = new KmList<>();
+    private KmList<Rule>   _rules = new KmList<>();
+    private KmList<Zone>   _zones = new KmList<>();
 
     //##################################################
     //# run

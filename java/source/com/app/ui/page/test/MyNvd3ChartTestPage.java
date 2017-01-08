@@ -4,8 +4,8 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScAbstractChart;
 import com.kodemore.servlet.control.ScBarChart;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScChartSeries;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLineChart;
 import com.kodemore.servlet.control.ScMultiBarChart;
@@ -99,8 +99,8 @@ public final class MyNvd3ChartTestPage
 
     private void installLineTabOn(ScNotebook tabs)
     {
-        ScBox tab;
-        tab = tabs.addBox();
+        ScDiv tab;
+        tab = tabs.addDiv();
         tab.setLabel("Line Chart");
         tab.css().gap();
 
@@ -119,8 +119,8 @@ public final class MyNvd3ChartTestPage
 
     private void installBarTabOn(ScNotebook tabs)
     {
-        ScBox tab;
-        tab = tabs.addBox();
+        ScDiv tab;
+        tab = tabs.addDiv();
         tab.setLabel("Bar Chart");
         tab.css().gap();
 
@@ -138,8 +138,8 @@ public final class MyNvd3ChartTestPage
 
     private void installMultiBarTabOn(ScNotebook tabs)
     {
-        ScBox tab;
-        tab = tabs.addBox();
+        ScDiv tab;
+        tab = tabs.addDiv();
         tab.setLabel("Multi Bar Chart");
         tab.css().gap();
 
@@ -158,8 +158,8 @@ public final class MyNvd3ChartTestPage
 
     private void installPieTabOn(ScNotebook tabs)
     {
-        ScBox tab;
-        tab = tabs.addBox();
+        ScDiv tab;
+        tab = tabs.addDiv();
         tab.setLabel("Pie Chart");
         tab.css().gap();
 
@@ -325,21 +325,23 @@ public final class MyNvd3ChartTestPage
         return point;
     }
 
-    private void generateBarChartData(ScBarChart pie)
+    private void generateBarChartData(ScBarChart chart)
     {
-        pie.addBar("pi (blue)", 3.14, KmHtmlColor.createBlue());
-        pie.addBar("phi (black)", 1.618, KmHtmlColor.createBlack());
-        pie.addBar("gamma (green)", 1.4, KmHtmlColor.createGreen());
-        pie.addBar("e", 2.72);
-        pie.addBar("0", 0);
-        pie.addBar("-1", -1);
-        pie.addBar("Square Root of 2", 1.414);
-        pie.addBar("Random 1", getRandomNumber());
-        pie.addBar("Random 2 (This is Extra Text to denonstate a large label)", getRandomNumber());
-        pie.addBar(
+        chart.addBar("pi (blue)", 3.14, KmHtmlColor.createBlue());
+        chart.addBar("phi (black)", 1.618, KmHtmlColor.createBlack());
+        chart.addBar("gamma (green)", 1.4, KmHtmlColor.createGreen());
+        chart.addBar("e", 2.72);
+        chart.addBar("0", 0);
+        chart.addBar("-1", -1);
+        chart.addBar("Square Root of 2", 1.414);
+        chart.addBar("Random 1", getRandomNumber());
+        chart.addBar(
+            "Random 2 (This is Extra Text to denonstate a large label)",
+            getRandomNumber());
+        chart.addBar(
             "Random 3 (Enabling Stagger Labels helps display large labels)",
             getRandomNumber());
-        pie.addBar("Random 4", getRandomNumber());
+        chart.addBar("Random 4", getRandomNumber());
     }
 
     private double getRandomNumber()
@@ -348,13 +350,13 @@ public final class MyNvd3ChartTestPage
         return r.getDouble() + r.getInteger(3) - r.getInteger(3);
     }
 
-    private void generatePieChartData(ScPieChart pie)
+    private void generatePieChartData(ScPieChart chart)
     {
-        pie.addSlice("pi", 3.14);
-        pie.addSlice("phi", 1.618);
-        pie.addSlice("gamma", 1.4);
-        pie.addSlice("e", 2.72);
-        pie.addSlice("1", 1);
+        chart.addSlice("pi", 3.14);
+        chart.addSlice("phi", 1.618);
+        chart.addSlice("gamma", 1.4);
+        chart.addSlice("e", 2.72);
+        chart.addSlice("1", 1);
     }
 
 }

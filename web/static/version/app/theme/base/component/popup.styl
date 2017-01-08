@@ -1,0 +1,50 @@
+/*****************************
+ ** popup menu
+ *****************************/
+
+/*****************************
+ ** OBSOLETE
+ **
+ ** This was used for the somewhat awkward popup/dropdown menus.
+ ** Specifically, for the user and depot menus in the page header.
+ *****************************/
+
+
+.popup-container
+    position:           relative
+    display:            inline-block
+
+.popup-button
+    color:              black
+    padding:            0px 5px
+    cursor:             pointer
+    font:               normal 1.4rem $fontFamily
+    background:         transparent
+    border:             none
+
+.popup-content
+    display:            none
+    position:           absolute
+    min-width:          150px
+    box-shadow:         0px 8px 16px 0px rgba(0,0,0,0.2)
+    background-color:   #ddd
+    border:             1px solid #bbb
+    z-index:            999999
+
+.popup-contentRight
+    right:              0
+
+.popup-container:hover .popupContent
+    display:            block
+
+.popup-content a
+    font:               normal 1.4rem $fontFamily
+    color:              black
+    padding:            10px 8px
+    text-decoration:    none
+    display:            block
+
+.popup-content a:hover
+    background-color:   yellow
+    color:              blue
+

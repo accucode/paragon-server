@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.hibernate.KmhTimestampCondition;
 import com.kodemore.hibernate.type.KmhTimestampType;
 import com.kodemore.meta.KmMetaTimestampProperty;
@@ -30,7 +30,7 @@ public class KmProtoTimestamp
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return "datetime";
     }

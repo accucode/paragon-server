@@ -35,7 +35,7 @@ public class MyApplicationLogDao
             return false;
 
         for ( MyApplicationLog e : v )
-            e.deleteDao();
+            e.daoDelete();
 
         return true;
     }

@@ -14,13 +14,13 @@ public class KmFacebookEducation
     //# constants
     //##################################################
 
-    private static final String SCHOOL_KEY       = "school";
-    private static final String DEGREE_KEY       = "degree";
-    private static final String YEAR_KEY         = "year";
-    private static final String CONCENTATION_KEY = "concentration";
-    private static final String TYPE_KEY         = "type";
-    private static final String WITH_KEY         = "with";
-    private static final String CLASSES_KEY      = "classes";
+    private static final String      SCHOOL_KEY       = "school";
+    private static final String      DEGREE_KEY       = "degree";
+    private static final String      YEAR_KEY         = "year";
+    private static final String      CONCENTATION_KEY = "concentration";
+    private static final String      TYPE_KEY         = "type";
+    private static final String      WITH_KEY         = "with";
+    private static final String      CLASSES_KEY      = "classes";
 
     //##################################################
     //# variables 

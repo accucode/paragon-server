@@ -16,66 +16,107 @@
 <body>
 <h1>hibernateCacheTest</h1>
 
-${model.f_comment}<br>
-<br>
-
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
-  <th>Attributes</th>
+  <th>Summary</th>
 </tr>
 <tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The globally unique identifier.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                required<br>           &nbsp;
-  </td>
+  <td>I am used to test the hibernate second level cache.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<table class="attributeTable">
+<tr>
+  <th>Fields</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
   <td>data&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        Random data used for testing.<br>
-            &nbsp;
-  </td>
-  
+
   <td>text1000
-        <br><nobr>max length: 1000</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                   required<br>           &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    Random data used for testing&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>lockVersion
               </td>
+
   <td>
-                         &nbsp;
+                                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

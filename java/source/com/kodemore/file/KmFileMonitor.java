@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -76,19 +76,19 @@ public class KmFileMonitor
      * The list of known files, along with their last modified
      * timestamp (as an ordinal value).
      */
-    private KmMap<KmFile,Long> _files;
+    private KmMap<KmFile,Long>        _files;
 
     /**
      * The handler responsible for performing a custom action
      * any time a file is added or changed.
      */
-    private KmFileMonitorHandler _handler;
+    private KmFileMonitorHandler      _handler;
 
     /**
      * The background thread that is responsible for scanning
      * for file changes.
      */
-    private KmThread _thread;
+    private KmThread                  _thread;
 
     /**
      * The frequency at which we scan for modified files.
@@ -104,10 +104,10 @@ public class KmFileMonitor
      * If true, print a brief log message each time the scan
      * process completes.
      */
-    private boolean _logScan;
+    private boolean                   _logScan;
 
-    private KmTimestamp _lastNewScanTs;
-    private KmTimestamp _lastModifiedScanTs;
+    private KmTimestamp               _lastNewScanTs;
+    private KmTimestamp               _lastModifiedScanTs;
 
     //##################################################
     //# constructor

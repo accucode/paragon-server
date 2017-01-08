@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,6 @@ package com.kodemore.types;
 import java.io.Serializable;
 
 import com.kodemore.utility.KmCopyIF;
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -40,7 +38,7 @@ import com.kodemore.utility.Kmu;
  *
  */
 public abstract class KmAbstractDouble
-    implements KmReadOnlyIF, KmCopyIF, Comparable<KmAbstractDouble>, Cloneable, Serializable
+    implements KmCopyIF, Comparable<KmAbstractDouble>, Cloneable, Serializable
 {
     //##################################################
     //# constants (template keys)
@@ -54,8 +52,7 @@ public abstract class KmAbstractDouble
     //# variables
     //##################################################
 
-    private double  _value;
-    private boolean _readOnly;
+    private double             _value;
 
     //##################################################
     //# constructor
@@ -108,7 +105,6 @@ public abstract class KmAbstractDouble
 
     public void setValue(double e)
     {
-        checkReadOnly();
         _value = e;
     }
 
@@ -123,13 +119,11 @@ public abstract class KmAbstractDouble
 
     public void add(double e)
     {
-        checkReadOnly();
         _value += e;
     }
 
     public void add(KmAbstractDouble e)
     {
-        checkReadOnly();
         if ( e == null )
             return;
         _value += e.getValue();
@@ -137,13 +131,11 @@ public abstract class KmAbstractDouble
 
     public void subtract(double e)
     {
-        checkReadOnly();
         _value -= e;
     }
 
     public void subtract(KmAbstractDouble e)
     {
-        checkReadOnly();
         if ( e == null )
             return;
         _value -= e.getValue();
@@ -151,13 +143,11 @@ public abstract class KmAbstractDouble
 
     public void multiply(double d)
     {
-        checkReadOnly();
         _value *= d;
     }
 
     public void divide(double d)
     {
-        checkReadOnly();
         _value /= d;
     }
 
@@ -245,9 +235,7 @@ public abstract class KmAbstractDouble
     @Override
     public KmAbstractDouble getCopy()
     {
-        KmAbstractDouble e = Kmu.getSerializedCopy(this);
-        e.setReadOnly(false);
-        return e;
+        return Kmu.getSerializedCopy(this);
     }
 
     //##################################################
@@ -279,27 +267,4 @@ public abstract class KmAbstractDouble
     {
         return Kmu.formatDouble(_value, displayScale, commas);
     }
-
-    //##################################################
-    //# read only
-    //##################################################
-
-    @Override
-    public boolean isReadOnly()
-    {
-        return _readOnly;
-    }
-
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
-
-    public void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
-    }
-
 }

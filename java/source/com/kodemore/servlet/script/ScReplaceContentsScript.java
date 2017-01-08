@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,9 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScTransition;
+import com.kodemore.servlet.control.ScTransitionType;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -44,41 +45,41 @@ public class ScReplaceContentsScript
      * need to set the outer selector to the enclosing TABLE
      * for the animation to work correctly.
      */
-    private String _outerSelector;
+    private String           _outerSelector;
 
     /**
      * The selector whose contents will be replaced.
      *
      * See outerSelector.
      */
-    private String _innerSelector;
+    private String           _innerSelector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String _contents;
+    private String           _contents;
 
     /**
      * The script to run after the dom has been replaced.
      */
-    private ScBlockScript _postDomScript;
+    private ScBlockScript    _postDomScript;
 
     /**
      * The script to run after the html has been rendered.
      * This is run AFTER any transition effects.
      */
-    private ScBlockScript _postRenderScript;
+    private ScBlockScript    _postRenderScript;
 
     /**
      * The transition to use.
      */
-    private ScTransition _transition;
+    private ScTransitionType _transition;
 
     /**
      * The speed of the transition.  Ignored if the transition
      * does not support it.
      */
-    private Integer _speed;
+    private Integer          _speed;
 
     //##################################################
     //# constructor
@@ -242,17 +243,17 @@ public class ScReplaceContentsScript
     //# transitions
     //##################################################
 
-    public ScTransition getTransition()
+    public ScTransitionType getTransition()
     {
         return _transition;
     }
 
-    public void setTransition(ScTransition e)
+    public void setTransition(ScTransitionType e)
     {
-        setTransition(e, 150);
+        setTransition(e, ScConstantsIF.DEFAULT_SPEED_MS);
     }
 
-    public void setTransition(ScTransition e, Integer ms)
+    public void setTransition(ScTransitionType e, Integer ms)
     {
         _transition = e;
         _speed = ms;
@@ -295,7 +296,7 @@ public class ScReplaceContentsScript
             return;
         }
 
-        ScTransition e = getTransition();
+        ScTransitionType e = getTransition();
         switch ( e )
         {
             case Fade:
@@ -308,6 +309,10 @@ public class ScReplaceContentsScript
 
             case SlideRight:
                 formatRightOn(out);
+                return;
+
+            case Flip:
+                formatFlipOn(out);
                 return;
         }
 
@@ -334,6 +339,11 @@ public class ScReplaceContentsScript
         formatCallOn(out, "Kmu.jsonReplaceRight");
     }
 
+    private void formatFlipOn(KmStringBuilder out)
+    {
+        formatCallOn(out, "Kmu.jsonReplaceFlip");
+    }
+
     private void formatCallOn(KmStringBuilder out, String fn)
     {
         ScBlockScript s;
@@ -346,7 +356,6 @@ public class ScReplaceContentsScript
     {
         KmJsonMap e;
         e = new KmJsonMap();
-
         e.setString("html", getContents());
         e.setString("inner", getInnerSelector());
 
@@ -357,10 +366,18 @@ public class ScReplaceContentsScript
             e.setInteger("speed", getSpeed());
 
         if ( hasPostDomScript() )
-            e.setString("postDomScript", getPostDomScript().formatScript());
+        {
+            String s = getPostDomScript().formatScript();
+            if ( Kmu.hasValue(s) )
+                e.setString("postDomScript", s);
+        }
 
         if ( hasPostRenderScript() )
-            e.setString("postRenderScript", getPostRenderScript().formatScript());
+        {
+            String s = getPostRenderScript().formatScript();
+            if ( Kmu.hasValue(s) )
+                e.setString("postRenderScript", s);
+        }
 
         return e;
     }
@@ -371,19 +388,19 @@ public class ScReplaceContentsScript
 
     public ScReplaceContentsScript fade()
     {
-        setTransition(ScTransition.Fade);
+        setTransition(ScTransitionType.Fade);
         return this;
     }
 
     public ScReplaceContentsScript slideLeft()
     {
-        setTransition(ScTransition.SlideLeft);
+        setTransition(ScTransitionType.SlideLeft);
         return this;
     }
 
     public ScReplaceContentsScript slideRight()
     {
-        setTransition(ScTransition.SlideRight);
+        setTransition(ScTransitionType.SlideRight);
         return this;
     }
 

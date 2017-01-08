@@ -1,0 +1,20 @@
+model
+: name      = namedIntegerVo
+: help...
+    ---
+    This is a non-persistent domain model; it is NOT stored in the database.
+    ---
+
+attributes
+
+    field
+    : name          = name
+    : help          = The display name.
+    : type          = text100
+    : primaryKey    = true
+
+    field
+    : name      = value
+    : comment   = The value.
+    : type      = integer
+

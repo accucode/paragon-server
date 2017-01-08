@@ -6,9 +6,12 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyEmailBase;
+import com.app.model.base.MyEmailPartType;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyEmail
     extends MyEmailBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor
@@ -61,7 +64,7 @@ public class MyEmail
 
     public KmCollection<String> getCcAddresses()
     {
-        return getRecipients().select(e -> e.isTypeTo()).collect(e -> e.getAddress());
+        return getRecipients().select(e -> e.isTypeCc()).collect(e -> e.getAddress());
     }
 
     @Override
@@ -98,10 +101,26 @@ public class MyEmail
 
     public void addHtmlPart(String html)
     {
+        boolean replaceParagraphs = false;
+        addHtmlPart(html, replaceParagraphs);
+    }
+
+    public void addHtmlPart(String html, boolean replaceParagraphs)
+    {
+        if ( replaceParagraphs )
+            html = replaceParagraphs(html);
+
         MyEmailPart e;
         e = addPart();
         e.setTypeHtml();
         e.setData(html);
+    }
+
+    private String replaceParagraphs(String html)
+    {
+        html = Kmu.replaceAll(html, "<p>", "");
+        html = Kmu.replaceAll(html, "</p>", "<br>");
+        return html;
     }
 
     public void addAttachmentPart(String data, String name)
@@ -135,7 +154,7 @@ public class MyEmail
     public void markPending()
     {
         setStatusPending();
-        setSentUtcTs(getNowUtc());
+        setSentUtcTs(nowUtc());
     }
 
     public void markSent()
@@ -202,5 +221,4 @@ public class MyEmail
     {
         return getSubject();
     }
-
 }

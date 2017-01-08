@@ -1,9 +1,9 @@
 package com.app.ui.page.test;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.script.ScOpenWindowScript;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -70,8 +70,9 @@ public final class MyOpenWindowTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
-        root.addButton("Open Window", this::handleTest);
+        root.css().fill().flexRow().rowSpacer5().auto();
+        root.addButton("Open Window", this::handleOpen);
+        root.addButton("Print Window", this::handlePrint);
     }
 
     //##################################################
@@ -88,35 +89,43 @@ public final class MyOpenWindowTestPage
     //# handle
     //##################################################
 
-    private void handleTest()
+    private void handlePrint()
     {
-        KmTimestamp ts = KmTimestamp.nowUtc().toLocal();
+        ajaxOpenWindow(true);
+    }
 
-        String title = Kmu.format("New Window, %s:%s", ts.getMinute(), ts.getSecond());
+    private void handleOpen()
+    {
+        ajaxOpenWindow(false);
+    }
 
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printDocType();
-        out.beginHtml();
-        out.printTitle(title);
-        out.beginBody();
-        out.println("This is a popup window!");
-        out.println(ts);
-        out.endBody();
-        out.endHtml();
+    private void ajaxOpenWindow(boolean print)
+    {
+        KmTimestamp now;
+        now = getNowUtc().toLocal();
 
-        String html;
-        html = out.toString();
+        String title;
+        title = Kmu.format("New Window, %s:%s", now.getMinute(), now.getSecond());
 
-        KmJsonMap args;
-        args = new KmJsonMap();
-        args.setString("name", "myWindow");
-        args.setString("html", html);
+        KmHtmlBuilder html;
+        html = new KmHtmlBuilder();
+        html.printDocType();
+        html.beginHtml();
+        html.printTitle(title);
+        html.beginBody();
+        html.println("This is a new window/tab!");
+        html.print("You can use ");
+        html.printBold("formatted");
+        html.println(" html.");
+        html.println(now);
+        html.endBody();
+        html.endHtml();
 
-        String json;
-        json = args.formatJson();
-
-        ajax().run("Kmu.openWindow(%s);", json);
+        ScOpenWindowScript s;
+        s = ajax().openWindow();
+        s.setHtml(html);
+        s.setName("myWindow");
+        s.setPrint(print);
     }
 
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPatch_Name
     {
         return "The unique key. This is typically a short date-ish value such as: 20140131-1.txt. The patches are applied in the sequence implied by their collating sequence.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPatch_Name
         return getAccess().getPatchDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPatch_Name
     {
         return model.getName();
     }
-    
+
     @Override
     public void setValueFor(MyPatch model, String value)
     {
         model.setName(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPatch model, String value)
     {
         return model.hasName(value);
     }
-    
+
 }

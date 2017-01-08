@@ -3,15 +3,19 @@
 <html>
 <head>
     <title>CkEditor Test</title>
-    
+
     <meta http-equiv="Content-Type"     content="text/html; charset=UTF-8">
     <meta http-equiv="Cache-Control"    content="no-cache">
     <meta http-equiv="Pragma"           content="no-cache">
     <meta http-equiv="Expires"          content="-1">
 
 <!-- BEGIN_STANDARD_HEADER -->
+    <!-- imported from testStandardHeader.html -->
+
     <!-- reset -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
     <!-- jquery (not deferred) -->
     <script src="../static/version/jquery/core/jquery-1.10.2.min.js"></script>
@@ -33,30 +37,18 @@
     <link rel="stylesheet" type="text/css" href="../static/version/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
     <script defer src="../static/version/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
 
-    <!-- cl editor -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.css", -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.min.js"></script> -->
-
     <!-- block ui -->
     <script defer src="../static/version/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
 
     <!-- cookie -->
-    <script defer src="../static/version/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+    <script defer src="../static/version/jquery/js-cookie-2.1.0/js.cookie.js"></script>
 
     <!-- transit -->
     <script defer src="../static/version/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
 
-    <!-- Twitter Bootstrap -->
-    <!-- "../static/version/bootstrap-2.3.2/css/bootstrap.min.css", -->
-    <!-- "../static/version/bootstrap-2.3.2/js/bootstrap.min.js", -->
-
-    <!-- bootstap select -->
-    <link rel="stylesheet" type="text/css" href="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.css">
-    <script defer src="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
-
     <!-- dropzone -->
-    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-3.6.1/dropzone.css">
-    <script defer src="../static/version/dropzone-3.6.1/dropzone.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-4.3.0/dropzone.css">
+    <script defer src="../static/version/dropzone-4.3.0/dropzone.js"></script>
 
     <!-- json -->
     <script defer src="../static/version/json-2010.11.18/json2.js"></script>
@@ -89,6 +81,25 @@
     <script defer src="../static/version/nvd3-1.1.10/src/models/line.js"></script>
     <script defer src="../static/version/nvd3-1.1.10/src/models/lineChart.js"></script>
 
+    <!-- ckEditor -->
+    <script defer src="../static/version/ckeditor-4.5.11/ckeditor.js"></script>
+    <script defer src="../static/version/ckeditor-4.5.11/adapters/jquery.js"></script>
+
+    <!-- moment -->
+    <script defer src="../static/version/moment/moment-2.14.1.min.js"></script>
+    <script defer src="../static/version/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="../static/version/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <!-- popr -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/popr-1.0.0/popr.css">
+    <script src="../static/version/jquery/popr-1.0.0/popr.js"></script>
+
     <!-- kodemore -->
     <script defer src="../static/version/app/common/script/kmExtensions.js"></script>
     <script defer src="../static/version/app/common/script/kmu.js"></script>
@@ -96,101 +107,109 @@
     <script defer src="../static/version/app/common/script/kmDropdownMenu.js"></script>
     <script defer src="../static/version/app/common/script/kmTimeAgo.js"></script>
     <script defer src="../static/version/app/common/script/kmDateAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmClock.js"></script>
 
     <!-- app -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/button.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/dropdownMenu.css">
     <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/spice.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/tools.css">
-
-    <!-- ckEditor -->
-    <script src="../static/version/ckeditor/ckeditor.js"></script>
-
-    <!-- full calendar -->
-    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-2.4.0/fullcalendar.min.css">
-    <script src="../static/version/fullcalendar-2.4.0/moment.min.js"></script>
-    <script src="../static/version/fullcalendar-2.4.0/fullcalendar.min.js"></script>
-
-    <!-- html2canvas -->
-    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
 <!-- END_STANDARD_HEADER -->
-    
-    <!-- ckEditor -->
-    <script src="../static/version/ckeditor/ckeditor.js"></script>
-    <script src="../static/version/ckeditor/adapters/jquery.js"></script>
-    
-    <script type="text/javascript">
 
+    <script type="text/javascript">
         function myLoad()
         {
-            $('#ckEditor').ckeditor(function() {
-    	    	this.on( 'change', function ( ev ) {
+            $('#ckEditor').ckeditor(function()
+            {
+                Kmu.ckEditorFill('ckEditor');
+                this.on('change', function(ev)
+                {
                     this.updateElement();
                 });
-    	    });
+            },
+            {
+                contentsCss : [ '../static/version/app/theme/default/css/reset.css',
+                                '../static/version/app/theme/default/css/button.css',
+                                '../static/version/app/theme/default/css/dropdownMenu.css',
+                                '../static/version/app/theme/default/css/theme.css',
+                                '../static/version/app/theme/default/css/tools.css',
+                                '../static/version/app/theme/default/css/ckEditorOverrides.css']
+            });
         }
 
         function handleGo()
         {
-        	var s = $('#ckEditor', '#form').val();
-        	
-        	$("#output1").text(s);
+            var s = $('#ckEditor', '#form').val();
+            $("#output1").text(s);
         }
-        
+
         function handleInsertContent()
         {
-        	CKEDITOR.instances.ckEditor.setData(
-        			'<p><strong>Inserted Content</strong></p>' +
-        			'<p>Here is some sample text illustrating various styles including ' + 
-        			'<strong>bold</strong> and <em>itallic</em> text.</p>'
-        			);
+            CKEDITOR.instances.ckEditor.setData(
+                    '<p><strong>Inserted Content</strong></p>' +
+                    '<p>Here is some sample text illustrating various styles including ' +
+                    '<strong>bold</strong> and <em>itallic</em> text.</p>'
+                    );
         }
-        
+
         function handleReset()
         {
-        	Kmu.resetFieldsToOldValue();
+            Kmu.resetDirtyFields();
         }
-        
-        function showValues() {
-            var str = $( "form" ).serialize();
-            $( "#results" ).text( str );
-          }
-          $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
-          $( "select" ).on( "change", showValues );
-          showValues();
-        
+
+        function showValues()
+        {
+            var str = $("form").serialize();
+            $("#results").text(str);
+        }
+
+        $("input[type='checkbox'], input[type='radio']").on("click", showValues);
+        $("select" ).on("change", showValues);
+        showValues();
     </script>
-    
+
 </head>
 
-<body onload='myLoad();'>
+<body onload='myLoad();' class="">
 
-<div id="main">
+    <form id="form" class='gap20'>
 
-<form id="form">
+        <div class='boxGray pad'>
+            CkEditor Test
+        </div>
 
-    <h1>CkEditor Test</h1>
-    <br>
-    <textarea rows="" cols="" id="ckEditor" data-km-old-value="Old Value" data-km-is-rte=true name="ckEditor"></textarea>
-    <br>
-    <button type="button" class="button button-element-default" onclick="handleGo();">
-        GO
-    </button>
-    <button type="button" class="button button-element-default" onclick="handleInsertContent();">
-        Insert Content
-    </button>
-    <button type="button" class="button button-element-default" onclick="handleReset();">
-        Reset
-    </button>
-    <br>
-    <br>
-    <div id="output1">out1</div>
-    
-</form>
+        <div class="size400 boxBlue relative">
+            <textarea
+                id="ckEditor"
+                rows=""
+                cols=""
+                data-km-old-value="Old Value"
+                data-km-is-rte=true
+                name="ckEditor">
+            </textarea>
+        </div>
 
-</div>
+        <div class="boxGray buttonBox">
+            <button
+                type="button"
+                class="button button-element-default"
+                onclick="handleGo();">
+                GO
+            </button>
+            <button
+                type="button"
+                class="button button-element-default"
+                onclick="handleInsertContent();">
+                Insert Content
+            </button>
+            <button
+                type="button"
+                class="button button-element-default"
+                onclick="handleReset();">
+                Reset
+            </button>
+        </div>
 
+        <div id="output1" class="width400 height200 borderBlack auto">
+        </div>
+    </form>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 package com.kodemore.meta;
 
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScLongField;
 import com.kodemore.validator.KmLongValidator;
 
@@ -29,19 +29,22 @@ public abstract class KmMetaLongProperty<T>
         return e;
     }
 
-    public ScDropdown newDropdown(int min, int max)
+    public ScDropdownField<Long> newDropdown(int min, int max)
     {
         return newDropdown(getLabel(), min, max);
     }
 
-    public ScDropdown newDropdown(String label, int min, int max)
+    public ScDropdownField<Long> newDropdown(String label, int min, int max)
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScDropdownField<Long> e;
+        e = new ScDropdownField<>();
         e.setLabel(label);
         e.setHelp(getHelp());
         e.setValueAdaptor(this);
-        e.addOptionRange(min, max);
+
+        for ( int i = min; i <= max; i++ )
+            e.addOption((long)i, i + "");
+
         return e;
     }
 

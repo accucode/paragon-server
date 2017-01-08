@@ -25,5 +25,6 @@ public interface MyPerformanceLogSummaryDaoConstantsIF
     String MAXIMUM_MS = "maximumMs";
     String AVERAGE_MS = "averageMs";
     String TOTAL_MS = "totalMs";
+    String DISPLAY_STRING = "displayString";
 
 }

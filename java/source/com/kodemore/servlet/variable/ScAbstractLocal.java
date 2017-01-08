@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,26 @@
 
 package com.kodemore.servlet.variable;
 
-import com.kodemore.servlet.ScPageSessionAccess;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.thread.KmThreadLocalManager;
+import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.KmValueHolderIF;
 import com.kodemore.utility.Kmu;
 
 /**
  * See comments in ScLocalIF
  */
-public abstract class ScAbstractLocal
-    implements ScLocalIF
+public abstract class ScAbstractLocal<T>
+    implements ScLocalIF, KmValueHolderIF<T>, KmCompressMemoryIF
 {
     //##################################################
     //# variables
     //##################################################
 
-    private String               _key;
-    private boolean              _autoSave;
-    private ThreadLocal<Boolean> _loaded;
+    private String  _key;
+    private boolean _global;
+    private boolean _autoSave;
+    private T       _default;
 
     //##################################################
     //# constructor
@@ -48,19 +49,47 @@ public abstract class ScAbstractLocal
 
     public ScAbstractLocal()
     {
+        this(null);
+    }
+
+    public ScAbstractLocal(T def)
+    {
         _key = ScControlRegistry.getInstance().getNextKey();
         _autoSave = false;
-        _loaded = newLocal();
+        _default = def;
     }
 
     //##################################################
-    //# setup
+    //# key
     //##################################################
 
     public String getKey()
     {
         return _key;
     }
+
+    public boolean hasKey(String e)
+    {
+        return _key.equals(e);
+    }
+
+    //##################################################
+    //# global
+    //##################################################
+
+    public void setGlobal()
+    {
+        _global = true;
+    }
+
+    public boolean getGlobal()
+    {
+        return _global;
+    }
+
+    //##################################################
+    //# auto save
+    //##################################################
 
     @Override
     public void setAutoSave()
@@ -75,15 +104,91 @@ public abstract class ScAbstractLocal
     }
 
     //##################################################
-    //# testing
+    //# value
     //##################################################
 
-    public boolean isNull()
+    @Override
+    public T getValue()
+    {
+        if ( getGlobal() )
+            return getGlobalValue();
+
+        return getSessionValue();
+    }
+
+    private T getGlobalValue()
+    {
+        ScServletData data = getData();
+
+        if ( data == null )
+            return _default;
+
+        return data.getPageSession().getGlobalValueFor(_key, _default);
+    }
+
+    private T getSessionValue()
+    {
+        ScServletData data = getData();
+
+        if ( data == null )
+            return _default;
+
+        return data.getPageSession().getValueFor(_key, _default);
+    }
+
+    @Override
+    public void setValue(T e)
+    {
+        if ( getGlobal() )
+            setGlobalValue(e);
+        else
+            setSessionValue(e);
+    }
+
+    private void setGlobalValue(T e)
+    {
+        ScServletData data = getData();
+
+        if ( data == null )
+        {
+            _default = e;
+            return;
+        }
+
+        if ( Kmu.isEqual(e, _default) )
+            data.getPageSession().removeGlobalKey(_key);
+        else
+            data.getPageSession().setGlobalValueFor(_key, e);
+    }
+
+    private void setSessionValue(T e)
+    {
+        ScServletData data = getData();
+
+        if ( data == null )
+        {
+            _default = e;
+            return;
+        }
+
+        if ( Kmu.isEqual(e, _default) )
+            data.getPageSession().removeKey(_key);
+        else
+            data.getPageSession().setValueFor(_key, e);
+
+        checkAutoSave();
+    }
+
+    //==================================================
+    //= value :: convenience
+    //==================================================
+
+    public final boolean isNull()
     {
         return getObjectValue() == null;
     }
 
-    public boolean isNotNull()
+    public final boolean isNotNull()
     {
         return !isNull();
     }
@@ -93,19 +198,24 @@ public abstract class ScAbstractLocal
         return isNotNull();
     }
 
-    public boolean hasValue(Object e)
+    public final boolean hasValue(Object e)
     {
         return Kmu.isEqual(getObjectValue(), e);
     }
 
-    public boolean is(Object e)
+    public final boolean is(Object e)
     {
         return hasValue(e);
     }
 
-    public boolean isNot(Object e)
+    public final boolean isNot(Object e)
     {
         return !is(e);
+    }
+
+    public void clearValue()
+    {
+        setValue(null);
     }
 
     //##################################################
@@ -113,86 +223,36 @@ public abstract class ScAbstractLocal
     //##################################################
 
     @Override
-    public final void loadValue()
-    {
-        if ( !hasData() )
-            return;
-
-        resetLocal();
-        loadLocal();
-        markLoaded();
-    }
-
-    @Override
     public final void saveValue()
     {
-        if ( !hasData() )
+        ScServletData data = getData();
+        if ( data == null )
             return;
 
-        ensureLoaded();
-        saveLocal();
+        data.getPageSession().saveKey(_key);
     }
 
     @Override
     public final void resetValue()
     {
-        if ( !hasData() )
+        ScServletData data = getData();
+        if ( data == null )
             return;
 
-        resetLocal();
-        markLoaded();
+        data.getPageSession().removeKey(_key);
         checkAutoSave();
-    }
-
-    //##################################################
-    //# session (local)
-    //##################################################
-
-    /**
-     * Load the local state (from the session).
-     */
-    protected abstract void loadLocal();
-
-    /**
-     * Save the local state (to the session).
-     */
-    protected abstract void saveLocal();
-
-    /**
-     * Reset the local state to the non-thread defaults.
-     */
-    protected abstract void resetLocal();
-
-    //##################################################
-    //# loaded
-    //##################################################
-
-    protected final boolean isLoaded()
-    {
-        return _loaded.get() != null;
-    }
-
-    protected final void markLoaded()
-    {
-        _loaded.set(true);
-    }
-
-    protected void ensureLoaded()
-    {
-        if ( !isLoaded() )
-            loadValue();
     }
 
     //##################################################
     //# data
     //##################################################
 
-    protected ScServletData getData()
+    private ScServletData getData()
     {
         return ScServletData.getLocal();
     }
 
-    protected boolean hasData()
+    private boolean hasData()
     {
         return getData() != null;
     }
@@ -202,55 +262,14 @@ public abstract class ScAbstractLocal
     //##################################################
 
     @Override
-    public String toString()
+    public final String toString()
     {
-        String s = Kmu.format("%s(%s)", formatShortClassName(), getKey());
+        String s = Kmu.format("%s(%s)", getClass().getSimpleName(), getKey());
 
-        String value = formatValue();
-        if ( value != null )
-            s += " = " + value;
+        if ( hasValue() )
+            s += " = " + getValue();
 
         return s;
-    }
-
-    private String formatShortClassName()
-    {
-        return Kmu.getSimpleClassName(this);
-    }
-
-    public String formatValue()
-    {
-        return null;
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    protected void checkAutoSave()
-    {
-        if ( getAutoSave() )
-            saveValue();
-    }
-
-    protected ScPageSessionAccess getSessionAccess()
-    {
-        return getData().getPageSessionAccess();
-    }
-
-    protected void unsupported()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * ThreadLocals should generally be created via the manager.
-     * This allows us to proactively clean up (remove) the local
-     * values at the end of the http request.
-     */
-    protected <E> ThreadLocal<E> newLocal()
-    {
-        return KmThreadLocalManager.newLocal();
     }
 
     //##################################################
@@ -258,10 +277,17 @@ public abstract class ScAbstractLocal
     //##################################################
 
     @Override
-    public abstract Object getObjectValue();
+    public final Object getObjectValue()
+    {
+        return getValue();
+    }
 
     @Override
-    public abstract void setObjectValue(Object e);
+    @SuppressWarnings("unchecked")
+    public final void setObjectValue(Object e)
+    {
+        setValue((T)e);
+    }
 
     //##################################################
     //# EncodedValueIF
@@ -271,7 +297,7 @@ public abstract class ScAbstractLocal
      * Get the value in an encoded form.
      */
     @Override
-    public Object getEncodedValue()
+    public Object getEncodableValue()
     {
         return getObjectValue();
     }
@@ -280,9 +306,48 @@ public abstract class ScAbstractLocal
      * Set the value from an encoded form.
      */
     @Override
-    public void setEncodedValue(Object e)
+    public void setEncodableValue(Object e)
     {
         setObjectValue(e);
+    }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        // subclass
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private void checkAutoSave()
+    {
+        if ( getAutoSave() )
+            saveValue();
+    }
+
+    //##################################################
+    //# debug
+    //##################################################
+
+    public void printDebug()
+    {
+        System.out.println("ScAbstractLocal.printDebug");
+        System.out.println("    key:      " + _key);
+        System.out.println("    autoSave: " + _autoSave);
+        System.out.println("    default:  " + _default);
+        System.out.println("    value:    " + getValue());
+
+        if ( hasData() )
+            getData().getPageSession().printDebug(getKey());
     }
 
 }

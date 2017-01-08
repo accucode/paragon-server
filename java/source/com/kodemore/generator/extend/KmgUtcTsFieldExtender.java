@@ -23,27 +23,27 @@ public class KmgUtcTsFieldExtender
             return;
 
         String name;
-        String label;
         String help;
         String body;
         String type;
 
-        String prefix;
-        prefix = Kmu.removeSuffix(field.getName(), suffix);
-
-        KmgModel model;
-        model = field.getModel();
+        String prefix = Kmu.removeSuffix(field.getName(), suffix);
+        String label = Kmu.formatCamelCaseAsCapitalizedWords(prefix);
+        KmgModel model = field.getModel();
 
         name = prefix + "LocalTs";
-        label = Kmu.capitalizeWords(prefix);
-        help = field.getHelp();
+        help = Kmu.format(
+            "The %s timestamp converted to the user's local timezone.",
+            label.toLowerCase());
         body = Kmu.format("return KmTimestampUtility.toLocal(%s());", field.getf_getMethod());
         type = "timestamp";
         KmgModelField localTs = model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalTsMessage";
-        label = Kmu.capitalizeWords(prefix);
-        help = field.getHelp();
+        help = Kmu.format(
+            "The %s timestamp converted to the user's local timezone, "
+                + "and formatted as a string that includes the timezone code.",
+            label.toLowerCase());
         body = Kmu.format(
             "return KmTimestampUtility.formatLocalMessage(%s());",
             field.getf_getMethod());
@@ -51,15 +51,15 @@ public class KmgUtcTsFieldExtender
         model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalDate";
-        label = Kmu.capitalizeWords(prefix);
-        help = field.getHelp();
+        help = Kmu.format("The %s date based on the user's local timezone.", label.toLowerCase());
         body = Kmu.format("return KmTimestampUtility.getDate(%s());", localTs.getf_getMethod());
         type = "date";
         model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalTime";
-        label = Kmu.capitalizeWords(prefix);
-        help = field.getHelp();
+        help = Kmu.format(
+            "The %s time of day based on the user's local timezone.",
+            label.toLowerCase());
         body = Kmu.format("return KmTimestampUtility.getTime(%s());", localTs.getf_getMethod());
         type = "time";
         model.addCustomGetter(name, label, help, body, type);

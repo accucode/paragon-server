@@ -41,7 +41,9 @@ public abstract class MyAuditLogToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyAuditLogFilter());
         e.setFinder(new MyAuditLogFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

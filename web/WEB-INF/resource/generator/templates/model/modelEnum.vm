@@ -1,6 +1,6 @@
 ${javaAutoGenerationComment}
 
-package ${package}.model;
+package ${package}.model.base;
 
 import java.util.*;
 
@@ -8,7 +8,7 @@ import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
 public enum ${enum.f_Class}
-    implements KmCodedEnumIF
+    implements KmEnumIF
 {
 $utility.protocol("values")
 
@@ -45,14 +45,14 @@ $utility.protocol("find")
 $utility.protocol("variables")
 
     private String _code;
-    private String _name;
+    private String _label;
 
 $utility.protocol("constructor")
 
-    private ${enum.f_Class}(String code, String name)
+    private ${enum.f_Class}(String code, String label)
     {
         _code = code;
-        _name = name;
+        _label = label;
     }
 
 $utility.protocol("accessing")
@@ -64,9 +64,9 @@ $utility.protocol("accessing")
     }
 
     @Override
-    public String getName()
+    public String getLabel()
     {
-        return _name;
+        return _label;
     }
 
 $utility.protocol("testing")

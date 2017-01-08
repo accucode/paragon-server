@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -44,7 +45,7 @@ public class MyMetaUser_TimeZoneCode
     @Override
     public String getLabel()
     {
-        return "Time Zone Code";
+        return "Time Zone";
     }
 
     @Override
@@ -52,7 +53,7 @@ public class MyMetaUser_TimeZoneCode
     {
         return "The user's preferred time zone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaUser_TimeZoneCode
         return getAccess().getUserDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaUser_TimeZoneCode
     {
         return model.getTimeZoneCode();
     }
-    
+
     @Override
     public void setValueFor(MyUser model, String value)
     {
         model.setTimeZoneCode(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyUser model, String value)
     {
         return model.hasTimeZoneCode(value);
     }
-    
+
 }

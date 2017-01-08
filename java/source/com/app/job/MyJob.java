@@ -2,12 +2,11 @@ package com.app.job;
 
 import com.kodemore.job.KmJob;
 import com.kodemore.time.KmClock;
-import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyPerformanceLogBuffer;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUtility;
 
@@ -21,7 +20,9 @@ public abstract class MyJob
     @Override
     protected void logPerformance(int ms)
     {
-        MyPerformanceLogBuffer.push("job... " + getName(), ms);
+        boolean enabled = getProperties().getJobPerformanceLogEnabled();
+        if ( enabled )
+            MyPerformanceLogBuffer.push("job... " + getName(), ms);
     }
 
     //##################################################
@@ -66,22 +67,17 @@ public abstract class MyJob
     //# convenience
     //##################################################
 
-    protected MyPropertyRegistry getProperties()
+    protected MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }
 
     protected KmTimestamp getNowUtc()
     {
-        return KmClock.getNowUtc();
+        return KmClock.getUtcTimestamp();
     }
 
-    protected KmDate getTodayUtc()
-    {
-        return KmClock.getTodayUtc();
-    }
-
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

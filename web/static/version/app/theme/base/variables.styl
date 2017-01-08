@@ -1,0 +1,630 @@
+/*******************************************************************
+ * Theme: base
+ *
+ * The general structure of the css is shared in stylus files
+ * that are common to all themes. This file specifies various
+ * variables and overrides specific css as needed.
+ *******************************************************************/
+
+//******************************
+//** general
+//******************************
+
+$fontFamily                             = roboto, sans-serif
+
+$shadowColor                            = rgba(0, 0, 0, 0.2)
+$shadowColor-dark                       = rgba(0, 0, 0, 0.4)
+
+$shadow                                 = 4px 4px 4px $shadowColor
+$shadow-dark                            = 4px 4px 4px $shadowColor-dark
+
+//******************************
+//** html
+//******************************
+
+$body-font                              = normal 1.4rem $fontFamily
+$body-color                             = #000000
+$body-background                        = #ffffff
+
+//******************************
+//** header
+//******************************
+
+$header-height                          = 50px
+
+$header-background                      = #000
+$header-productionBackground            = #f00
+$header-stageBackground                 = #00f
+
+$header-logoFont                        = italic bold 3rem $fontFamily
+$header-logoColor                       = #fff
+
+$header-projectFont                     = bold 2.0rem $fontFamily
+$header-projectColor                    = #fff
+
+$header-depotFont                       = bold 2.0rem $fontFamily
+$header-depotColor                      = #fff
+
+$header-timeFont                        = bold 2.0rem $fontFamily
+$header-timeColor                       = #fff
+
+$header-timeZoneFont                    = bold 2.0rem $fontFamily
+$header-timeZoneColor                   = yellow
+
+$header-taskFont                        = bold 2.0rem $fontFamily
+$header-taskColor                       = #fff
+
+$header-userFont                        = bold 2.0rem $fontFamily
+$header-userColor                       = #fff
+
+
+//******************************
+//** title
+//******************************
+
+$title-height                           = 40px
+$title-background                       = #FFFFFF
+$title-nameColor                        = #0D70AC
+$title-nameFont                         = bold 2.2rem $fontFamily
+
+//******************************
+//** footer
+//******************************
+
+$footer-height                          = 20px
+$footer-font                            = normal 1.1rem $fontFamily
+$footer-color                           = rgba(0, 0, 0, 0.6)
+$footer-background                      = transparent
+$footer-border                          = none
+$footer-padding                         = 5px
+
+//******************************
+//** content
+//******************************
+
+$content-background                     = #FFFFFF
+$content-leftMargin                     = 20px
+$content-rightMargin                    = 20px
+
+//******************************
+//** menu
+//******************************
+
+$menu-height                            = 40px
+
+$menu-background                        = #0d70ac
+$menu-background-open                   = #eee
+$menu-background-hover                  = #ddd
+
+$menu-shadow                            = 4px 4px 4px rgba(0, 0, 0, 0.2)
+
+$menu-topHeight                         = 18px
+$menu-topLineHeight                     = 18px
+$menu-topFont                           = bold 1.8rem $fontFamily
+$menu-topColor                          = #fff
+$menu-topPadding                        = 5px 10px
+
+$menu-subFont                           = italic 1.6rem $fontFamily
+$menu-subColor                          = #000
+$menu-subWidth                          = 150px
+$menu-subPadding                        = 5px 10px
+$menu-subDividerBorder                  = 1px solid darken($menu-background, 20)
+
+$menu-borderSize                        = 2px
+$menu-borderColor                       = #000
+$menu-borderRadius                      = 5px
+
+
+//******************************
+//** group
+//******************************
+
+$group-shadow                           = 4px 4px 4px rgba(0, 0, 0, 0.2)
+
+$group-titleFont                        = bold 2.0rem $fontFamily
+$group-titlePadding                     = 0px 10px
+
+$group-borderStyle                      = solid
+$group-borderSize                       = 2px
+$group-borderInnerSize                  = 1px
+
+$groupFade                              = 95%
+
+//------------------------------
+//-- group :: normal
+//------------------------------
+
+$group-normal-bannerColor               = #fff
+$group-normal-bannerBackground          = #17b
+
+$group-normal-headerColor               = #000
+$group-normal-headerBackground          = lighten($group-normal-bannerBackground, $groupFade)
+
+$group-normal-bodyColor                 = #000
+$group-normal-bodyBackground            = lighten($group-normal-bannerBackground, $groupFade)
+
+$group-normal-footerColor               = #000
+$group-normal-footerBackground          = lighten($group-normal-bannerBackground, $groupFade)
+
+$group-normal-borderColor               = $group-normal-bannerBackground
+
+//------------------------------
+//-- group :: primary
+//------------------------------
+
+$group-primary-bannerColor              = #fff
+$group-primary-bannerBackground         = #1b7
+
+$group-primary-headerColor              = #000
+$group-primary-headerBackground         = lighten($group-primary-bannerBackground, $groupFade)
+
+$group-primary-bodyColor                = #000
+$group-primary-bodyBackground           = lighten($group-primary-bannerBackground, $groupFade)
+
+$group-primary-footerColor              = #000
+$group-primary-footerBackground         = lighten($group-primary-bannerBackground, $groupFade)
+
+$group-primary-borderColor              = $group-primary-bannerBackground
+
+//------------------------------
+//-- group :: secondary
+//------------------------------
+
+$group-secondary-bannerColor            = #fff
+$group-secondary-bannerBackground       = #fb0
+
+$group-secondary-headerColor            = #000
+$group-secondary-headerBackground       = lighten($group-secondary-bannerBackground, $groupFade)
+
+$group-secondary-bodyColor              = #000
+$group-secondary-bodyBackground         = lighten($group-secondary-bannerBackground, $groupFade)
+
+$group-secondary-footerColor            = #000
+$group-secondary-footerBackground       = lighten($group-secondary-bannerBackground, $groupFade)
+
+$group-secondary-borderColor            = $group-secondary-bannerBackground
+
+//------------------------------
+//-- group :: tertiary
+//------------------------------
+
+$group-tertiary-bannerColor             = #fff
+$group-tertiary-bannerBackground        = #1af
+
+$group-tertiary-headerColor             = #000
+$group-tertiary-headerBackground        = lighten($group-tertiary-bannerBackground, $groupFade)
+
+$group-tertiary-bodyColor               = #000
+$group-tertiary-bodyBackground          = lighten($group-tertiary-bannerBackground, $groupFade)
+
+$group-tertiary-footerColor             = #000
+$group-tertiary-footerBackground        = lighten($group-tertiary-bannerBackground, $groupFade)
+
+$group-tertiary-borderColor             = $group-tertiary-bannerBackground
+
+
+//------------------------------
+//-- group :: alert
+//------------------------------
+
+$group-alert-bannerColor                = #fff
+$group-alert-bannerBackground           = #e00
+
+$group-alert-headerColor                = #000
+$group-alert-headerBackground           = lighten($group-alert-bannerBackground, $groupFade)
+
+$group-alert-bodyColor                  = #000
+$group-alert-bodyBackground             = lighten($group-alert-bannerBackground, $groupFade)
+
+$group-alert-footerColor                = #000
+$group-alert-footerBackground           = lighten($group-alert-bannerBackground, $groupFade)
+
+$group-alert-borderColor                = #e00
+
+
+//******************************
+//** form filter
+//******************************
+
+$formFilterLineTextColor                = #fff
+$formFilterLineBackgroundColor          = #f8f8f8
+$formFilterLineBorderColor              = #EBECEE
+
+$formFilterIndicatorColorOn             = #fc2
+$formFilterIndicatorColorOff            = #088
+$formFilterIndicatorColorSearch         = #fff
+
+$formFilterLineSelectionColor           = #242A36
+
+//******************************
+//** field
+//******************************
+
+$fieldBackgroundColor                   = #fff
+
+
+//******************************
+//** fieldset
+//******************************
+
+$fieldset-legendFont                    = normal 1.6rem $fontFamily
+$fieldset-legendPadding                 = 2px 14px
+
+$fieldset-legendColor                   = #ffffff
+$fieldset-legendBackground              = #6699bb
+$fieldset-legendBorder                  = 1px solid #69b
+$fieldset-legendRadius                  = 0
+
+$fieldset-bodyColor                     = #000000
+$fieldset-bodyBackground                = #f8f8f8
+$fieldset-bodyBorder                    = 1px solid #69b
+$fieldset-bodyRadius                    = 0
+
+//******************************
+//** button
+//******************************
+
+$button-height                          = 30px
+$button-minimumWidth                    = 30px
+$button-padding                         = 3px 7px
+$button-radius                          = 3px
+
+$button-font                            = normal 1.6rem $fontFamily
+$button-primaryFont                     = bold   1.6rem $fontFamily
+
+$button-textTransform                   = none
+$button-textTransform-hover             = ()
+$button-textTransform-active            = ()
+
+$button-shadow                          = 2px 2px 2px $shadowColor
+$button-shadow-hover                    = 2px 2px 2px $shadowColor-dark
+$button-shadow-active                   = $button-shadow-hover
+
+$button-imageMargin                     = 0px 2px -3px 1px
+$button-imageWidth                      = 16px
+$button-imageHeight                     = 16px
+$button-imagePadding                    = 0px
+
+$button-focusOutline                    = 1px dotted rgba(0, 0, 255, 0.2)
+$button-focusOutlineOffset              = -4px
+
+//------------------------------
+//-- button :: normal
+//------------------------------
+
+$tempColor = #ddd
+$tempLight = lighten($tempColor, 10)
+$tempDark  = darken($tempColor,  10)
+
+$button-normalColor                     = #369
+$button-normalBackground                = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
+$button-normalBorder                    = 1px solid $tempDark
+
+$button-normalColor-hover               = ()
+$button-normalBackground-hover          = ()
+$button-normalBorder-hover              = ()
+
+$button-normalColor-active              = ()
+$button-normalBackground-active         = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
+$button-normalBorder-active             = ()
+
+//------------------------------
+//-- button :: positive
+//------------------------------
+
+$tempColor = #5b7
+$tempLight = lighten($tempColor, 10)
+$tempDark  = darken($tempColor,  10)
+
+$button-positiveColor                   = #fff
+$button-positiveBackground              = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
+$button-positiveBorder                  = 1px solid $tempDark
+
+$button-positiveColor-hover             = ()
+$button-positiveBackground-hover        = ()
+$button-positiveBorder-hover            = ()
+
+$button-positiveColor-active            = ()
+$button-positiveBackground-active       = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
+$button-positiveBorder-active           = ()
+
+//------------------------------
+//-- button :: negative
+//------------------------------
+
+$tempColor = #e91
+$tempLight = lighten($tempColor, 10)
+$tempDark  = darken($tempColor,  10)
+
+$button-negativeColor                   = #fff
+$button-negativeBackground              = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
+$button-negativeBorder                  = 1px solid $tempDark
+
+$button-negativeColor-hover             = ()
+$button-negativeBackground-hover        = ()
+$button-negativeBorder-hover            = ()
+
+$button-negativeColor-active            = ()
+$button-negativeBackground-active       = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
+$button-negativeBorder-active           = ()
+
+//------------------------------
+//-- button :: delete
+//------------------------------
+
+$tempColor = #e00
+$tempLight = lighten($tempColor, 10)
+$tempDark  = darken($tempColor,  10)
+
+$button-deleteColor                     = #fff
+$button-deleteBackground                = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
+$button-deleteBorder                    = 1px solid $tempDark
+
+$button-deleteColor-hover               = ()
+$button-deleteBackground-hover          = ()
+$button-deleteBorder-hover              = ()
+
+$button-deleteColor-active              = ()
+$button-deleteBackground-active         = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
+$button-deleteBorder-active             = ()
+
+//------------------------------
+//-- button :: icon
+//------------------------------
+
+$tempColor = rgba(208, 208, 208, 0.2)
+$tempLight = lighten($tempColor, 20)
+$tempDark  = darken($tempColor,  20)
+
+$button-iconColor                       = transparent
+$button-iconBackground                  = transparent
+$button-iconBorder                      = 1px solid transparent
+
+$button-iconColor-hover                 = ()
+$button-iconBackground-hover            = $tempColor
+$button-iconBorder-hover                = 1px solid $tempDark
+
+$button-iconColor-active                = ()
+$button-iconBackground-active           = $tempLight
+$button-iconBorder-active               = 1px solid $tempDark
+
+//------------------------------
+//-- button :: disabled
+//------------------------------
+
+$button-disabledColor                   = #d81
+$button-disabledBackground              = #ddd
+$button-disabledBorder                  = 1px solid #bbb
+
+$button-disabledColor-hover             = ()
+$button-disabledBackground-hover        = ()
+$button-disabledBorder-hover            = ()
+
+$button-disabledColor-active            = ()
+$button-disabledBackground-active       = ()
+$button-disabledBorder-active           = ()
+
+//******************************
+//** tooltip
+//******************************
+
+$tooltip-font                           = normal 1.4rem $fontFamily
+$tooltip-padding                        = 10px
+$tooltip-background                     = #ffa
+$tooltip-border                         = 1px solid #88f
+$tooltip-width                          = 300px
+$tooltip-shadow                         = 0px 0px 20px 4px rgba(0,0,0,0.75)
+$tooltip-triangleSize                   = 0.8rem
+
+//******************************
+//** dialog
+//******************************
+
+$dialog-overlayOpacity                  = 0.5
+$dialog-shadow                          = 0px 0px 10px 10px rgba(0, 0, 0, 0.4)
+$dialog-titleFont                       = bold 2.0rem $fontFamily
+
+$dialog-titleBackground                 = #ccc
+$dialog-titleBorder                     = 1px solid #aaa
+
+$dialog-headerBackground                = #fff
+$dialog-headerBorder                    = 1px solid #aaa
+
+$dialog-footerBackground                = #eee
+$dialog-footerBorder                    = 1px solid #aaa
+
+$dialog-bodyBackground                  = #fff
+
+//******************************
+//** active task
+//******************************
+
+$activeTask-padding                     = 5px
+$activeTask-border                      = 1px solid #ccc
+$activeTask-backgroundColor             = #0d70ac
+$activeTask-dividerHeight               = 25px
+
+//******************************
+//** scrollbar
+//******************************
+
+$scrollbar-useCustom                    = true
+$scrollbar-barSize                      = 20px
+
+//------------------------------
+//-- scrollbar :: track
+//------------------------------
+
+$scrollbar-trackBackground              = transparent
+$scrollbar-trackBackgroundClip          = border-box
+$scrollbar-trackBorder                  = none
+$scrollbar-trackRadius                  = 0
+
+$scrollbar-trackBackground-hover        = rgba(0, 0, 0, 0.05)
+$scrollbar-trackBackgroundClip-hover    = border-box
+$scrollbar-trackBorder-hover            = none
+$scrollbar-trackRadius-hover            = 0
+
+$scrollbar-trackBackground-active       = rgba(0, 0, 0, 0.05)
+$scrollbar-trackBackgroundClip-active   = border-box
+$scrollbar-trackBorder-active           = none
+$scrollbar-trackRadius-active           = 0
+
+//------------------------------
+//-- scrollbar :: thumb
+//------------------------------
+
+$scrollbar-thumbBackground              = rgba(0, 0, 0, 0.2)
+$scrollbar-thumbBackgroundClip          = padding-box
+$scrollbar-thumbBorder                  = 5px solid rgba(0, 0, 0, 0)
+$scrollbar-thumbRadius                  = 10px
+
+$scrollbar-thumbBackground-hover        = rgba(0, 0, 0, 0.2)
+$scrollbar-thumbBackgroundClip-hover    = padding-box
+$scrollbar-thumbBorder-hover            = 5px solid rgba(0, 0, 0, 0)
+$scrollbar-thumbRadius-hover            = 10px
+
+$scrollbar-thumbBackground-active       = rgba(0, 0, 0, 0.4)
+$scrollbar-thumbBackgroundClip-active   = padding-box
+$scrollbar-thumbBorder-active           = 5px solid rgba(0, 0, 0, 0)
+$scrollbar-thumbRadius-active           = 10px
+
+//------------------------------
+//-- scrollbar :: button
+//------------------------------
+
+$scrollbar-buttonSize                   = 0
+$scrollbar-buttonBackground             = transparent
+
+//******************************
+//** calendar
+//******************************
+
+$calendar-eventSelectionColor           = #000
+$calendar-eventSelectionBackground      = #00f
+$calendar-eventSelectionBorder          = 1px solid #000
+
+$calendar-holidayColor                  = #000
+$calendar-holidayBackground             = #ff0
+$calendar-holidayBorder                 = 1px solid #000
+
+$calendar-eventAColor                   = #000
+$calendar-eventABackground              = #fcc
+$calendar-eventABorder                  = 1px solid #000
+
+$calendar-eventBColor                   = #000
+$calendar-eventBBackground              = #cfc
+$calendar-eventBBorder                  = 1px solid #000
+
+$calendar-eventCColor                   = #000
+$calendar-eventCBackground              = #ccf
+$calendar-eventCBorder                  = 1px solid #000
+
+//******************************
+//** dashboard
+//******************************
+
+$dashboard-gap                          = 20px
+
+$dashboard-sampleShortSize              = 150px
+$dashboard-sampleLongSize               = 250px
+$dashboard-sampleGap                    = 10px
+$dashboard-sampleFont                   = bold 1.4rem $fontFamily
+$dashboard-sampleBackground             = #eee
+$dashboard-sampleBorder                 = 1px solid black
+$dashboard-samplePadding                = 10px
+
+//******************************
+//** error
+//******************************
+
+$error-attachedFont                     = normal 1.2rem $fontFamily
+$error-attachedColor                    = red
+$error-attachedBackground               = white
+$error-attachedBorder                   = 1px solid red
+$error-attachedPadding                  = 5px
+$error-attachedMargin                   = 0px
+
+$error-detachedFont                     = normal 1.2rem $fontFamily
+$error-detachedColor                    = red
+$error-detachedBackground               = white
+$error-detachedBorder                   = 1px solid red
+$error-detachedPadding                  = 2px 5px
+$error-detachedMargin                   = 1px 0 4px 0
+
+//******************************
+//** model list
+//******************************
+
+$modelList-background                   = transparent
+
+//------------------------------
+//-- model list :: item
+//------------------------------
+
+$modelList-itemHeight                   = 50px
+$modelList-itemMargin                   = 0px
+$modelList-itemBackground-hover         = #ddd
+
+$modelList-itemColor                    = #444
+$modelList-itemBackground               = #fff
+$modelList-itemBorderWidth              = 0px 1px 1px 1px
+$modelList-itemBorderStyle              = solid
+$modelList-itemBorderColor              = #ccc
+
+$modelList-itemColor-select             = #444
+$modelList-itemBackground-select        = #eee
+$modelList-itemBorderWidth-select       = $modelList-itemBorderWidth
+$modelList-itemBorderStyle-select       = $modelList-itemBorderStyle
+$modelList-itemBorderColor-select       = $modelList-itemBorderColor
+
+$modelList-itemColor-strikeout          = #888
+$modelList-itemBackground-strikeout     = #fff
+$modelList-itemBorder-strikeout         = 1px solid #f0f0f0
+$modelList-itemBorderWidth-strikeout    = $modelList-itemBorderWidth
+$modelList-itemBorderStyle-strikeout    = $modelList-itemBorderStyle
+$modelList-itemBorderColor-strikeout    = $modelList-itemBorderColor
+
+$modelList-itemMessageBoxPadding        = 5px
+$modelList-itemMenuBoxPadding           = 5px
+
+$modelList-itemTitleFont                = bold 1.6rem $fontFamily
+$modelList-itemTitleColor               = #000
+
+$modelList-itemSubtitleFont             = normal 1.4rem $fontFamily
+$modelList-itemSubtitleColor            = #000
+
+$modelList-indicatorVisible             = false
+$modelList-indicatorWidth               = 2px
+$modelList-indicatorHeight              = 30px
+$modelList-indicatorMargin              = 5px
+
+// left right
+
+//******************************
+//** link
+//******************************
+
+$link-color                            = #00f
+$link-font                             = normal 1.6rem $fontFamily
+$link-textDecoration                   = none
+
+$link-color-hover                      = $link-color
+$link-font-hover                       = $link-font
+$link-textDecoration-hover             = underline
+
+//******************************
+//** popr
+//******************************
+
+$popr-font                      = normal 1.6rem $fontFamily
+$popr-color                     = #000
+$popr-backgroundColor           = #eee
+$popr-backgroundColor-hover     = #ddd
+$popr-borderSize                = 2px
+$popr-borderColor               = #888
+$popr-shadow                    = 4px 4px 4px rgba(0, 0, 0, 0.4)
+
+//******************************
+//** end
+//******************************

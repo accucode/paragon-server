@@ -10,7 +10,8 @@ import com.kodemore.time.KmClock;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyTenant;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 public class MyServletData
@@ -127,7 +128,7 @@ public class MyServletData
 
     private void writeLastReults(String value, String ext)
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
         if ( p.getWriteLastServletResults() )
         {
             String name = getLastName() + "." + ext;
@@ -165,7 +166,7 @@ public class MyServletData
         out.println();
         out.println();
         out.println(Kmu.dashes(80));
-        out.println(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
+        out.println(KmClock.getUtcTimestamp().format_m_d_yyyy_hh_mm_ss());
         out.println("bytes: " + s.length());
         out.println(Kmu.dashes(80));
         out.println(s);
@@ -174,10 +175,24 @@ public class MyServletData
     }
 
     //##################################################
+    //# tenant
+    //##################################################
+
+    /**
+     * Determine the tenant based on the hostname.
+     * This REQUIRES a preexisting hibernate session.
+     */
+    public final MyTenant getTenant()
+    {
+        String host = getRequestServerHostName();
+        return MyGlobals.getAccess().getTenantDao().findHostname(host);
+    }
+
+    //##################################################
     //# support
     //##################################################
 
-    protected MyPropertyRegistry getProperties()
+    protected MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

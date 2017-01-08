@@ -20,6 +20,7 @@ public interface MyPatchDaoConstantsIF
     String NAME = "name";
     String INSTALLED_UTC_TS = "installedUtcTs";
     String SOURCE = "source";
+    String DISPLAY_STRING = "displayString";
     String INSTALLED_LOCAL_TS = "installedLocalTs";
     String INSTALLED_LOCAL_TS_MESSAGE = "installedLocalTsMessage";
     String INSTALLED_LOCAL_DATE = "installedLocalDate";

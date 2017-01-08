@@ -20,5 +20,6 @@ public interface MyHibernateCacheTestDaoConstantsIF
     String UID = "uid";
     String DATA = "data";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
 
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaUserActivation_ExpirationLocalTime
     @Override
     public String getHelp()
     {
-        return "The date and time when this activation expires.";
+        return "The expiration time of day based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaUserActivation_ExpirationLocalTime
     {
         return model.getExpirationLocalTime();
     }
-    
+
     @Override
     public boolean hasValueFor(MyUserActivation model, KmTime value)
     {
         return model.hasExpirationLocalTime(value);
     }
-    
+
 }

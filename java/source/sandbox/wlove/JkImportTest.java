@@ -28,18 +28,18 @@ public class JkImportTest
     //# variables
     //##################################################
 
-    private int      _lineNumber;
-    private String   _line;
-    private String[] _parts;
+    private int                 _lineNumber;
+    private String              _line;
+    private String[]            _parts;
 
-    private KmList<String> _hostNames;
-    private KmList<String> _serviceNames;
+    private KmList<String>      _hostNames;
+    private KmList<String>      _serviceNames;
 
-    private int _maximumOutputLength;
-    private int _maximumPerformanceLength;
+    private int                 _maximumOutputLength;
+    private int                 _maximumPerformanceLength;
 
-    private KmTimestamp _minimumTime;
-    private KmTimestamp _maximumTime;
+    private KmTimestamp         _minimumTime;
+    private KmTimestamp         _maximumTime;
 
     //##################################################
     //# constructor

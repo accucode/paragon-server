@@ -4,10 +4,14 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyInvitationBase;
+import com.app.model.base.MyInvitationType;
+import com.app.model.core.MySystemDomainIF;
 import com.app.utility.MyUrls;
 
+// todo_wyatt: review, move to tenant or project?
 public class MyInvitation
     extends MyInvitationBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor
@@ -18,20 +22,6 @@ public class MyInvitation
         super();
 
         setStatusPending();
-    }
-
-    //##################################################
-    //# role
-    //##################################################
-
-    public MyMemberRole getRole()
-    {
-        return MyMemberRole.findCode(getRoleCode());
-    }
-
-    public void setRole(MyMemberRole e)
-    {
-        setRoleCode(getCodeFor(e));
     }
 
     //##################################################
@@ -65,7 +55,7 @@ public class MyInvitation
         e.setSubject(formatSubject());
         e.addHtmlPart(formatHtmlMessage());
         e.setStatusReady();
-        e.attachDao();
+        e.daoAttach();
     }
 
     //##################################################
@@ -149,7 +139,7 @@ public class MyInvitation
 
     private String formatSenderName()
     {
-        return getFromUserName();
+        return getFromUserFullName();
     }
 
     private String getDoNoReplyEmail()

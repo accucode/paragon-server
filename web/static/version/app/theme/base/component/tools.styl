@@ -1,0 +1,932 @@
+/*******************************************************************
+ ** clearfix
+ *******************************************************************/
+
+/**
+ * This is the clear fix hack.
+ * This should no longer be needed since we largely use flexbox
+ * instead of floated divs. Also, the clearfix hack interferes
+ * with flexbox layouts. Discuss with technical lead before using.
+ */
+._clearfix:after
+{
+    content: ".";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+/*******************************************************************
+ ** no space
+ *******************************************************************/
+
+.noSpace
+{
+    margin: 0;
+    padding: 0;
+    border-collapse: 0;
+    border-spacing: 0;
+}
+
+/*******************************************************************
+ ** width
+ *******************************************************************/
+
+.width20p   { width: 20%;   }
+.width25p   { width: 25%;   }
+.width30p   { width: 30%;   }
+.width33p   { width: 33%;   }
+.width50p   { width: 50%;   }
+.width100p  { width: 100%;  }
+.widthFull  { width: 100%;  }
+
+.width10    { width: 10px;  }
+.width20    { width: 20px;  }
+.width50    { width: 50px;  }
+.width100   { width: 100px; }
+.width150   { width: 150px; }
+.width200   { width: 200px; }
+.width250   { width: 250px; }
+.width300   { width: 300px; }
+.width350   { width: 350px; }
+.width400   { width: 400px; }
+.width500   { width: 500px; }
+
+/*******************************************************************
+ ** height
+ *******************************************************************/
+
+.height10   { height: 10px;     }
+.height20   { height: 20px;     }
+.height25   { height: 25px;     }
+.height50   { height: 50px;     }
+.height100  { height: 100px;    }
+.height150  { height: 150px;    }
+.height200  { height: 200px;    }
+.height300  { height: 300px;    }
+.height400  { height: 400px;    }
+.height500  { height: 500px;    }
+
+.heightFull { height: 100% }
+.heightNone { height: 0; font-size: 0; line-height: 0; }
+
+/*******************************************************************
+ ** size
+ *******************************************************************/
+
+.size16     { width: 16px;  height: 16px;   }
+.size24     { width: 24px;  height: 24px;   }
+.size32     { width: 32px;  height: 32px;   }
+.size48     { width: 48px;  height: 48px;   }
+.size64     { width: 64px;  height: 64px;   }
+
+.size100    { width: 100px; height: 100px;  }
+.size200    { width: 200px; height: 200px;  }
+.size300    { width: 300px; height: 300px;  }
+.size400    { width: 400px; height: 400px;  }
+
+/*******************************************************************
+ ** right
+ *******************************************************************/
+
+.right0     { right: 0;     }
+.right5     { right: 5px;   }
+.right10    { right: 10px;  }
+
+/*******************************************************************
+ ** borders
+ *******************************************************************/
+
+.noBorder       { border: none; }
+
+.border         { border:        1px solid black;  }
+.borderLeft     { border-left:   1px solid black;  }
+.borderRight    { border-right:  1px solid black;  }
+.borderTop      { border-top:    1px solid black;  }
+.borderBottom   { border-bottom: 1px solid black;  }
+
+.borderNone     { border: none;             }
+.borderBlack    { border: 1px solid black;  }
+.borderRed      { border: 1px solid red;    }
+.borderBlue     { border: 1px solid blue;   }
+.borderGreen    { border: 1px solid green;  }
+.borderGray     { border: 1px solid gray;   }
+.borderPurple   { border: 1px solid purple; }
+.borderBrown    { border: 1px solid brown; }
+
+.borderBlack2   { border: 2px solid black;  }
+.borderRed2     { border: 2px solid red;    }
+.borderBlue2    { border: 2px solid blue;   }
+.borderGreen2   { border: 2px solid green;  }
+.borderGray2    { border: 2px solid gray;   }
+.borderPurple2  { border: 2px solid purple; }
+.borderBrown2   { border: 2px solid brown; }
+
+.borderDotted   { border: 1px dotted black; }
+.borderDashed   { border: 1px dashed black; }
+.borderSolid    { border: 1px solid  black; }
+.borderDouble   { border: 3px double gray;  }
+.borderInset    { border: 3px inset  gray;  }
+.borderOutset   { border: 3px outset gray;  }
+.borderGroove   { border: 2px groove gray;  }
+.borderRidge    { border: 2px ridge  gray;  }
+
+.groove         { border:        2px groove lightgray; }
+.grooveTop      { border-top:    2px groove lightgray; }
+.grooveBottom   { border-bottom: 2px groove lightgray; }
+.grooveLeft     { border-left:   2px groove lightgray; }
+.grooveRight    { border-right:  2px groove lightgray; }
+
+.outset         { border:        1px outset #fff }
+.outsetTop      { border-top:    1px outset #fff }
+.outsetBottom   { border-bottom: 1px outset #fff }
+.outsetLeft     { border-left:   1px outset #fff }
+.outsetRight    { border-right:  1px outset #fff }
+
+.outsetVertical
+{
+    border-top:    1px outset #fff;
+    border-bottom: 1px outset #fff;
+}
+
+.outsetHorizontal
+{
+    border-left:   1px outset #fff;
+    border-right:  1px outset #fff;
+}
+
+.insetTop       { border-top:    1px inset #fff }
+.insetBottom    { border-bottom: 1px inset #fff }
+.insetLeft      { border-left:   1px inset #fff }
+.insetRight     { border-right:  1px inset #fff }
+
+/*******************************************************************
+ ** border collapse
+ *******************************************************************/
+
+.borderCollapse { border-collapse: collapse;    }
+.borderSeparate { border-collapse: separate;    }
+
+/*******************************************************************
+ ** border rounded
+ *******************************************************************/
+
+.borderRounded
+{
+    -moz-border-radius:                 5px;
+    -webkit-border-radius:              5px;
+    border-radius:                      5px;
+}
+
+.borderRoundedTop
+{
+    -moz-border-radius-topleft:         5px;
+    -moz-border-radius-topright:        5px;
+    -webkit-border-radius-topleft:      5px;
+    -webkit-border-radius-topright:     5px;
+    border-top-left-radius:             5px;
+    border-top-right-radius:            5px;
+}
+
+.borderRoundedBottom
+{
+    -moz-border-radius-bottomleft:      5px;
+    -moz-border-radius-bottomright:     5px;
+    -webkit-border-radius-bottomleft:   5px;
+    -webkit-border-radius-bottomright:  5px;
+    border-bottom-left-radius:          5px;
+    border-bottom-right-radius:         5px;
+}
+
+.borderRounded10
+{
+    -moz-border-radius:                 10px;
+    -webkit-border-radius:              10px;
+    border-radius:                      10px;
+}
+
+.borderRoundedTop10
+{
+    -moz-border-radius-topleft:         10px;
+    -moz-border-radius-topright:        10px;
+    -webkit-border-radius-topleft:      10px;
+    -webkit-border-radius-topright:     10px;
+    border-top-left-radius:             10px;
+    border-top-right-radius:            10px;
+}
+
+.borderRoundedBottom10
+{
+    -moz-border-radius-bottomleft:      10px;
+    -moz-border-radius-bottomright:     10px;
+    -webkit-border-radius-bottomleft:   10px;
+    -webkit-border-radius-bottomright:  10px;
+    border-bottom-left-radius:          10px;
+    border-bottom-right-radius:         10px;
+}
+
+/*******************************************************************
+ ** padding
+ *******************************************************************/
+
+.pad0       { padding: 0px;         }
+.pad1       { padding: 1px;         }
+.pad2       { padding: 2px;         }
+.pad3       { padding: 3px;         }
+.pad4       { padding: 4px;         }
+.pad5       { padding: 5px;         }
+
+.pad10      { padding: 10px;        }
+.pad20      { padding: 20px;        }
+.pad30      { padding: 30px;        }
+.pad50      { padding: 50px;        }
+
+.padLeft5               { padding-left: 5px;    }
+.padLeft5Children > *   { padding-left: 5px;    }
+
+.padRight5              { padding-right: 5px;   }
+.padRight5Children > *  { padding-right: 5px;   }
+
+.pad2x5       { padding: 5px 2px 5px 2px; }
+.pad5x2       { padding: 2px 5px 2px 5px; }
+
+
+/*******************************************************************
+ ** margin
+ *******************************************************************/
+
+.margin0        { margin: 0px;          }
+.margin1        { margin: 1px;          }
+.margin2        { margin: 2px;          }
+.margin3        { margin: 3px;          }
+.margin4        { margin: 4px;          }
+.margin5        { margin: 5px;          }
+
+.marginLeft5    { margin-left: 5px;     }
+.marginRight5   { margin-right: 5px;    }
+.marginTop5     { margin-top: 5px;      }
+.marginBottom5  { margin-bottom: 5px;   }
+
+.margin10       { margin: 10px;         }
+.marginLeft10   { margin-left: 10px;    }
+.marginRight10  { margin-right: 10px;   }
+.marginTop10    { margin-top: 10px;     }
+.marginBottom10 { margin-bottom: 10px;  }
+
+.margin20       { margin: 20px;         }
+.marginLeft20   { margin-left: 20px;    }
+.marginRight20  { margin-right: 20px;   }
+.marginTop20    { margin-top: 20px;     }
+.marginBottom20 { margin-bottom: 20px;  }
+
+.centerMargins  { margin-left: auto; margin-right: auto; }
+.marginCenter   { margin-left: auto; margin-right: auto; }
+
+.marginTopChildren5    > *   { margin-top:    5px; }
+.marginBottomChildren5 > *   { margin-bottom: 5px; }
+.marginLeftChildren5   > *   { margin-left:   5px; }
+.marginRightChildren5  > *   { margin-right:  5px; }
+
+/*******************************************************************
+ ** spaced
+ *******************************************************************/
+
+.spaced5  > *   { margin-bottom:  5px; margin-right:  5px;  }
+.spaced10 > *   { margin-bottom: 10px; margin-right: 10px;  }
+.spaced20 > *   { margin-bottom: 20px; margin-right: 20px;  }
+
+.spacedBottom5  > * { margin-bottom:  5px; }
+.spacedBottom10 > * { margin-bottom: 10px; }
+.spacedBottom20 > * { margin-bottom: 20px; }
+
+.spacedRight5  > *  { margin-right:  5px; }
+.spacedRight10 > *  { margin-right: 10px; }
+.spacedRight20 > *  { margin-right: 20px; }
+
+.spacedLeft5  > *  { margin-left:  5px; }
+.spacedLeft10 > *  { margin-left: 10px; }
+.spacedLeft20 > *  { margin-left: 20px; }
+
+/*******************************************************************
+ ** gapOuter
+ *******************************************************************/
+
+.gapOuter5         { padding:  5px  0px  0px  5px }
+.gapOuter10        { padding: 10px  0px  0px 10px }
+.gapOuter10x3      { padding: 10px  7px  7px 10px }
+.gapOuter10x2      { padding: 10px  8px  8px 10px }
+.gapOuter20        { padding: 20px  0px  0px 20px }
+.gapOuter20x5      { padding: 20px 15px 15px 20px }
+
+
+/*******************************************************************
+ ** gapInner
+ *******************************************************************/
+
+.gapInner5      > * { margin:   0px  5px  5px  0px }
+.gapInner10     > * { margin:   0px 10px 10px  0px }
+.gapInner10x3   > * { margin:   0px  3px  3px  0px }
+.gapInner10x2   > * { margin:   0px  2px  2px  0px }
+.gapInner20     > * { margin:   0px 20px 20px  0px }
+.gapInner20x5   > * { margin:   0px  5px  5px  0px }
+
+
+/*******************************************************************
+ ** gap (full, both inner and outer)
+ *******************************************************************/
+
+.gap5         { padding: 5px   0px  0px  5px }
+.gap5 > *     { margin:  0px   5px  5px  0px }
+
+.gap10        { padding: 10px  0px  0px 10px }
+.gap10 > *    { margin:   0px 10px 10px  0   }
+
+.gap10x3      { padding: 10px  7px  7px 10px }
+.gap10x3 > *  { margin:   0px  3px  3px  0px }
+
+.gap10x2      { padding: 10px  8px  8px 10px }
+.gap10x2 > *  { margin:   0px  2px  2px  0px }
+
+.gap20        { padding: 20px  0px  0px 20px }
+.gap20 > *    { margin:   0px 20px 20px  0px }
+
+.gap20x5      { padding: 20px 15px 15px 20px }
+.gap20x5 > *  { margin:   0px  5px  5px  0px }
+
+/*******************************************************************
+ ** row spacer (gap BETWEEN row items)
+ *******************************************************************/
+
+.rowSpacer5 > *              { margin-left: 5px  }
+.rowSpacer5 > *:first-child  { margin-left: 0px  }
+
+.rowSpacer10 > *             { margin-left: 10px }
+.rowSpacer10 > *:first-child { margin-left: 0px  }
+
+.rowSpacer20 > *             { margin-left: 20px }
+.rowSpacer20 > *:first-child { margin-left: 0px  }
+
+.rowSpacer20r > *             { margin-right: 20px }
+.rowSpacer20r > *:last-child  { margin-right: 0px  }
+
+
+/*******************************************************************
+ ** column spacer (gap BETWEEN row items)
+ *******************************************************************/
+
+.columnSpacer5 > *              { margin-top: 5px  }
+.columnSpacer5 > *:first-child  { margin-top: 0px  }
+
+.columnSpacer10 > *             { margin-top: 10px }
+.columnSpacer10 > *:first-child { margin-top: 0px  }
+
+.columnSpacer20 > *             { margin-top: 20px }
+.columnSpacer20 > *:first-child { margin-top: 0px  }
+
+/*******************************************************************
+ ** post margin (add a bottom/right margin to children)
+ *******************************************************************/
+
+.postMargin10 > *   { margin:   0px 10px 10px  0px }
+.postMargin20 > *   { margin:   0px 20px 20px  0px }
+
+
+/*******************************************************************
+ ** display
+ *******************************************************************/
+
+.displayNone    { display: none;            }
+.displayBlock   { display: block;           }
+.displayInline  { display: inline;          }
+
+.displayTable   { display: table;           }
+.displayRow     { display: table-row;       }
+.displayCell    { display: table-cell;      }
+
+.hide           { display: none;            }
+.block          { display: block;           }
+.inline         { display: inline;          }
+.inlineBlock    { display: inline-block;    }
+
+/*******************************************************************
+ ** visible
+ *******************************************************************/
+
+.visible            { visibility: visible;  }
+.invisible          { visibility: hidden;   }
+
+.visibilityVisible  { visibility: visible;  }
+.visibilityHidden   { visibility: hidden;   }
+
+/*******************************************************************
+ ** float
+ *******************************************************************/
+
+._floatLeft              { float: left;  }
+._floatLeftChildren > *  { float: left;  }
+
+._floatRight             { float: right; }
+._floatRightChildren > * { float: right; }
+
+._floatNone              { float: none;  }
+._floatNoneChildren > *  { float: none;  }
+
+
+/* clear prevents floating elements to the left or right */
+._clearBoth              { clear: both;  }
+._clearLeft              { clear: left;  }
+._clearRight             { clear: right; }
+._clearNone              { clear: none;  }
+
+
+/*******************************************************************
+ ** overflow
+ *******************************************************************/
+
+.auto               { overflow:   auto;     }
+.autoX              { overflow-x: auto;     }
+.autoY              { overflow-y: auto;     }
+
+.scroll             { overflow:   scroll;   }
+.scrollX            { overflow-x: scroll;   }
+.scrollY            { overflow-y: scroll;   }
+
+.noScroll           { overflow: hidden;     }
+.clip               { overflow: hidden;     }
+
+.overflowAuto       { overflow: auto;       }
+.overflowScroll     { overflow: scroll;     }
+.overflowVisible    { overflow: visible;    }
+.overflowHidden     { overflow: hidden;     }
+
+.overflowAutoY      { overflow-y: auto;     }
+.overflowScrollY    { overflow-y: scroll;   }
+.overflowVisibleY   { overflow-y: visible;  }
+.overflowHiddenY    { overflow-y: hidden;   }
+
+.overflowAutoX      { overflow-x: auto;     }
+.overflowScrollX    { overflow-x: scroll;   }
+.overflowVisibleX   { overflow-x: visible;  }
+.overflowHiddenX    { overflow-x: hidden;   }
+
+/*******************************************************************
+ ** text - white space
+ *******************************************************************/
+
+.centerText         { text-align: center;   }
+.textAlignCenter    { text-align: center;   }
+
+.textAlignLeft      { text-align: left;     }
+.textAlignRight     { text-align: right;    }
+
+/*******************************************************************
+ ** text - white space
+ *******************************************************************/
+
+.noWrap             { white-space: nowrap;  }
+.whiteSpaceNoWrap   { white-space: nowrap;  }
+.whiteSpaceNormal   { white-space: normal;  }
+
+/*******************************************************************
+ ** text - words
+ *******************************************************************/
+
+.wordWrapNormal     { word-wrap: normal;        }
+.wordWrapBreak      { word-wrap: break-word;    }
+
+.wordBreakNormal    { word-break: normal;       }
+.wordBreakAll       { word-break: break-all;    }
+.wordBreakKeep      { word-break: keep-all;     }
+
+/*******************************************************************
+ ** text - rotate
+ *******************************************************************/
+
+.rotate90
+    -webkit-transform:  rotate(90deg)
+    -moz-transform:     rotate(90deg)
+    -ms-transform:      rotate(90deg)
+    -o-transform:       rotate(90deg)
+    transform:          rotate(90deg)
+
+/*******************************************************************
+ ** color
+ *******************************************************************/
+
+.colorBlack         { color: black;     }
+.colorBlue          { color: blue;      }
+.colorGreen         { color: green;     }
+.colorRed           { color: red;       }
+.colorWhite         { color: white;     }
+
+/*******************************************************************
+ ** background
+ *******************************************************************/
+
+.backgroundBlack         { background-color: black;     }
+.backgroundBlue          { background-color: blue;      }
+.backgroundGreen         { background-color: green;     }
+.backgroundRed           { background-color: red;       }
+.backgroundWhite         { background-color: white;     }
+.backgroundGray          { background-color: gray;      }
+.backgroundLightGray     { background-color: lightgray; }
+.backgroundYellow        { background-color: yellow;    }
+
+/* The 16+1 gray scale */
+/* Obsolete, move towards the alternate half-tones below 00, 08, 10, 18... ff */
+.backgroundGray000       { background-color: #000;      }
+.backgroundGray111       { background-color: #111;      }
+.backgroundGray222       { background-color: #222;      }
+.backgroundGray333       { background-color: #333;      }
+.backgroundGray444       { background-color: #444;      }
+.backgroundGray555       { background-color: #555;      }
+.backgroundGray666       { background-color: #666;      }
+.backgroundGray777       { background-color: #777;      }
+.backgroundGray888       { background-color: #888;      }
+.backgroundGray999       { background-color: #999;      }
+.backgroundGrayAAA       { background-color: #AAA;      }
+.backgroundGrayBBB       { background-color: #BBB;      }
+.backgroundGrayCCC       { background-color: #CCC;      }
+.backgroundGrayDDD       { background-color: #DDD;      }
+.backgroundGrayEEE       { background-color: #EEE;      }
+.backgroundGrayFFF       { background-color: #FFF;      }
+
+/* The 32+1 gray scale half tones. */
+.backgroundGray00        { background-color: #000000;   }
+.backgroundGray08        { background-color: #080808;   }
+.backgroundGray10        { background-color: #101010;   }
+.backgroundGray18        { background-color: #181818;   }
+.backgroundGray20        { background-color: #202020;   }
+.backgroundGray28        { background-color: #282828;   }
+.backgroundGray30        { background-color: #303030;   }
+.backgroundGray38        { background-color: #383838;   }
+.backgroundGray40        { background-color: #404040;   }
+.backgroundGray48        { background-color: #484848;   }
+.backgroundGray50        { background-color: #505050;   }
+.backgroundGray58        { background-color: #585858;   }
+.backgroundGray60        { background-color: #606060;   }
+.backgroundGray68        { background-color: #686868;   }
+.backgroundGray70        { background-color: #707070;   }
+.backgroundGray78        { background-color: #787878;   }
+.backgroundGray80        { background-color: #808080;   }
+.backgroundGray88        { background-color: #888888;   }
+.backgroundGray90        { background-color: #909090;   }
+.backgroundGray98        { background-color: #989898;   }
+.backgroundGrayA0        { background-color: #A0A0A0;   }
+.backgroundGrayA8        { background-color: #A8A8A8;   }
+.backgroundGrayB0        { background-color: #B0B0B0;   }
+.backgroundGrayB8        { background-color: #B8B8B8;   }
+.backgroundGrayC0        { background-color: #C0C0C0;   }
+.backgroundGrayC8        { background-color: #C8C8C8;   }
+.backgroundGrayD0        { background-color: #D0D0D0;   }
+.backgroundGrayD8        { background-color: #D8D8D8;   }
+.backgroundGrayE0        { background-color: #E0E0E0;   }
+.backgroundGrayE8        { background-color: #E8E8E8;   }
+.backgroundGrayF0        { background-color: #F0F0F0;   }
+.backgroundGrayF8        { background-color: #F8F8F8;   }
+.backgroundGrayFF        { background-color: #FFFFFF;   }
+
+
+/*******************************************************************
+ ** resize
+ *******************************************************************/
+
+.resizeNone         { resize: none;         }
+.resizeBoth         { resize: both;         }
+.resizeHorizontal   { resize: horizontal;   }
+.resizeVertical     { resize: vertical;     }
+
+/*******************************************************************
+ ** font
+ *******************************************************************/
+
+.bold       { font-weight: bold;                }
+.italic     { font-style: italic;               }
+.strike     { text-decoration: line-through;    }
+
+.sans       { font-family: sans-serif;          }
+.serif      { font-family: serif;               }
+.mono       { font-family: monospace;           }
+
+.font10     { font-size: 10px;                  }
+.font12     { font-size: 12px;                  }
+.font14     { font-size: 14px;                  }
+.font16     { font-size: 16px;                  }
+.font18     { font-size: 18px;                  }
+.font20     { font-size: 20px;                  }
+.font24     { font-size: 24px;                  }
+.font36     { font-size: 36px;                  }
+.font48     { font-size: 48px;                  }
+.font60     { font-size: 60px;                  }
+.font100    { font-size: 100px;                 }
+
+.fontPlain  { font-family: sans-serif;          }
+.fontSans   { font-family: sans-serif;          }
+.fontSerif  { font-family: serif;               }
+.fontMono   { font-family: monospace;           }
+
+/*******************************************************************
+ ** vertical align
+ *******************************************************************/
+
+.top        { vertical-align: top;      }
+.middle     { vertical-align: middle;   }
+.bottom     { vertical-align: bottom;   }
+.baseline   { vertical-align: baseline; }
+
+
+/*******************************************************************
+ ** cursor
+ *******************************************************************/
+
+.cursorAuto         { cursor: auto      }
+.cursorCrosshair    { cursor: crosshair }
+.cursorDefault      { cursor: default   }
+.cursorPointer      { cursor: pointer   }
+.cursorHelp         { cursor: help      }
+.cursorMove         { cursor: move      }
+.cursorText         { cursor: text      }
+.cursorWait         { cursor: wait      }
+
+
+/*******************************************************************
+ ** easy boxes (border, background)
+ *******************************************************************/
+
+.box
+{
+    border: thin solid black;
+    background-color: white;
+}
+
+.boxBlue
+{
+    border: thin solid blue;
+    background-color: lightblue;
+}
+
+.boxGreen
+{
+    border: thin solid green;
+    background-color: lightgreen;
+}
+
+.boxRed
+{
+    border: thin solid red;
+    background-color: pink;
+}
+
+.boxYellow
+{
+    border: thin solid yellow;
+    background-color: lightyellow;
+}
+
+.boxGray
+{
+    border: thin solid #ccc;
+    background-color: #eee;
+}
+
+.boxDarkGray
+{
+    border: thin solid #aaa;
+    background-color: #ccc;
+}
+
+.boxWhite
+{
+    border: thin solid #ddd;
+    background-color: #fff;
+}
+
+.boxPurple
+{
+    border: thin solid purple;
+    background-color: mediumpurple;
+}
+
+.boxBrown
+{
+    border: thin solid saddlebrown;
+    background-color: sandybrown;
+}
+
+/*******************************************************************
+ ** box-sizing
+ *******************************************************************/
+
+/* The default; padding and borders ADD to the element width. */
+.boxSizingContent
+{
+    box-sizing:      content-box;
+    -moz-box-sizing: content-box;
+}
+
+/* CSS3 woot; element width remains constant, padding and border are inside the width. */
+.boxSizingBorder
+{
+    box-sizing:      border-box;
+    -moz-box-sizing: border-box;
+}
+
+/*******************************************************************
+ ** shadow
+ *******************************************************************/
+
+.shadow_aaa
+{
+    box-shadow: 5px 5px 5px #aaa;
+}
+
+/*******************************************************************
+ ** position
+ *******************************************************************/
+
+.absolute   { position: absolute; }
+.relative   { position: relative; }
+
+.fill
+{
+    position: absolute;
+
+    left:   0;
+    right:  0;
+    width:  auto;
+
+    top:    0;
+    bottom: 0;
+    height: auto;
+}
+
+.fillOffset5
+{
+    position: absolute;
+
+    left:   5px;
+    right:  5px;
+    width:  auto;
+
+    top:    5px;
+    bottom: 5px;
+    height: auto;
+}
+
+.fillOffset10
+{
+    position: absolute;
+
+    left:   10px;
+    right:  10px;
+    width:  auto;
+
+    top:    10px;
+    bottom: 10px;
+    height: auto;
+}
+
+.fillOffset20
+{
+    position: absolute;
+
+    left:   20px;
+    right:  20px;
+    width:  auto;
+
+    top:    20px;
+    bottom: 20px;
+    height: auto;
+}
+
+/*******************************************************************
+ ** position (for fieldsets)
+ *******************************************************************/
+
+.fieldsetFill
+{
+    position: absolute;
+
+    left:   0;
+    right:  0;
+    width:  auto;
+
+    top:    10px;
+    bottom: 0;
+    height: auto;
+}
+
+.fieldsetFillOffset10
+{
+    position: absolute;
+
+    left:   10px;
+    right:  10px;
+    width:  auto;
+
+    top:    30px;
+    bottom: 10px;
+    height: auto;
+}
+
+.fieldsetFillOffset20
+{
+    position: absolute;
+
+    left:   20px;
+    right:  20px;
+    width:  auto;
+
+    top:    40px;
+    bottom: 20px;
+    height: auto;
+}
+
+
+/*******************************************************************
+ ** flexbox :: parent
+ **
+ ** These styles apply to the PARENT, the flexbox itself.
+ ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *******************************************************************/
+
+/* the style (BLOCK) and direction (row/column) */
+.flexRow            { display: flex; flex-direction: row;              }
+.flexRowReverse     { display: flex; flex-direction: row-reverse;      }
+.flexColumn         { display: flex; flex-direction: column;           }
+.flexColumnReverse  { display: flex; flex-direction: column-reverse;   }
+
+/* the style (INLINE) and direction (row/column) */
+.flexInlineRow            { display: inline-flex; flex-direction: row;              }
+.flexInlineRowReverse     { display: inline-flex; flex-direction: row-reverse;      }
+.flexInlineColumn         { display: inline-flex; flex-direction: column;           }
+.flexInlineColumnReverse  { display: inline-flex; flex-direction: column-reverse;   }
+
+/* distribute items along MAIN axis, default is START */
+.flexAlignStart         { justify-content: flex-start;      }
+.flexAlignEnd           { justify-content: flex-end         }
+.flexAlignCenter        { justify-content: center;          }
+.flexAlignSpaced        { justify-content: space-between;   }
+.flexAlignSpacedAround  { justify-content: space-around;    }
+
+/* distribute items along the CROSS axis, default is START */
+.flexCrossAlignStretch  { align-items: stretch;     }
+.flexCrossAlignStart    { align-items: flex-start;  }
+.flexCrossAlignEnd      { align-items: flex-end;    }
+.flexCrossAlignCenter   { align-items: center;      }
+.flexCrossAlignBaseline { align-items: baseline;    }
+
+/* allow wrapping; default is NONE */
+.flexNoWrap         { flex-wrap: none;          }
+.flexWrap           { flex-wrap: wrap;          }
+.flexWrapReverse    { flex-wrap: wrap-reverse;  }
+
+/* distribute lines along the CROSS axis, ONLY if wrapping is enabled */
+.flexWrapAlignStretch       { align-content: stretch;       }
+.flexWrapAlignStart         { align-content: flex-start;    }
+.flexWrapAlignEnd           { align-content: flex-end       }
+.flexWrapAlignCenter        { align-content: center;        }
+.flexWrapAlignSpaced        { align-content: space-between; }
+.flexWrapAlignSpacedAround  { align-content: space-around;  }
+
+ /*******************************************************************
+ ** flexbox :: child
+ **
+ ** This styles should be applied to the CHILDREN of a flexbox.
+ ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *******************************************************************/
+
+/* can the item grow; default is NO GROW */
+.flexChildGrow      { flex-grow: 1; }
+.flexChildNoGrow    { flex-grow: 0; }
+
+/* can the item shrink, default is SHRINK */
+.flexChildShrink    { flex-shrink: 1; }
+.flexChildNoShrink  { flex-shrink: 0; }
+
+/* convenience for grow and shrink */
+.flexChildStatic    { flex-grow:0; flex-shrink:0; }
+.flexChildFiller    { flex-grow:1; flex-shrink:1; }
+.flexChildFiller0   { flex-grow:1; flex-shrink:1; flex-basis: 0px; }
+
+.flexChildPhiLarge  { flex-grow:8; flex-shrink:8; }
+.flexChildPhiSmall  { flex-grow:5; flex-shrink:5; }
+
+.flexChildPhiLarge0 { flex-grow:8; flex-shrink:8; flex-basis: 0px; }
+.flexChildPhiSmall0 { flex-grow:5; flex-shrink:5; flex-basis: 0px; }
+
+.flexChildSmall  { flex-grow:3; flex-shrink:5; }
+.flexChildSmall0  { flex-grow:3; flex-shrink:5; flex-basis: 0px;}
+
+/* override the item alignment on the CROSS axis, default is AUTO */
+.flexChildCrossOverrideAuto      { align-self: auto;         }
+.flexChildCrossOverrideStart     { align-self: flex-start;   }
+.flexChildCrossOverrideEnd       { align-self: flex-end;     }
+.flexChildCrossOverrideCenter    { align-self: center;       }
+.flexChildCrossOverrideBaseline  { align-self: baseline;     }
+.flexChildCrossOverrideStretch   { align-self: stretch;      }
+
+.flexChildBasis0 { flex-basis: 0px; }

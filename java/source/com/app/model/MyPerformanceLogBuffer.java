@@ -4,7 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.KmTimer;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 /**
@@ -41,7 +41,7 @@ public class MyPerformanceLogBuffer
 
     public static void push(String name, int ms)
     {
-        MyPropertyRegistry p = MyGlobals.getProperties();
+        MyProperties p = MyGlobals.getProperties();
 
         boolean enabled = p.getPerformanceLogFlusherJobEnabled();
         if ( !enabled )

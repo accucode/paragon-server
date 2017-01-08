@@ -4,10 +4,13 @@ import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyServerSessionBase;
+import com.app.model.core.MyTenantDomainIF;
 import com.app.utility.MyConstantsIF;
+import com.app.utility.MyGlobals;
 
 public class MyServerSession
     extends MyServerSessionBase
+    implements MyTenantDomainIF
 {
     //##################################################
     //# constructor
@@ -25,12 +28,12 @@ public class MyServerSession
     public void close()
     {
         setActive(false);
-        setClosedUtcTs(getNowUtc());
+        setClosedUtcTs(nowUtc());
     }
 
     public void touch()
     {
-        setLastTouchedUtcTs(getNowUtc());
+        setLastTouchedUtcTs(nowUtc());
     }
 
     public boolean isFresh()
@@ -46,10 +49,13 @@ public class MyServerSession
         if ( hasWrongVersion() )
             return true;
 
+        if ( hasWrongTenant() )
+            return true;
+
         int timeout = getTimeoutSeconds();
         KmTimestamp lastTouch = getLastTouchedUtcTs();
         KmTimestamp limit = lastTouch.addSeconds(timeout);
-        boolean isPast = getNowUtc().isAfter(limit);
+        boolean isPast = nowUtc().isAfter(limit);
         return isPast;
     }
 
@@ -68,62 +74,10 @@ public class MyServerSession
         return !hasRightVersion();
     }
 
-    //##################################################
-    //# current project
-    //##################################################
-
-    @Override
-    public void setCurrentProject(MyProject e)
+    private boolean hasWrongTenant()
     {
-        super.setCurrentProject(e);
-
-        if ( hasUser() )
-            getUser().setLastProject(e);
-    }
-
-    public void installCurrentProject()
-    {
-        MyUser u = getUser();
-
-        if ( u == null )
-        {
-            clearCurrentProject();
-            return;
-        }
-
-        MyProject p;
-
-        p = getCurrentProject();
-        if ( p != null )
-            if ( p.allowsMember(u) )
-            {
-                setCurrentProject(p);
-                return;
-            }
-
-        p = u.getLastProject();
-        if ( p != null )
-            if ( p.allowsMember(u) )
-            {
-                setCurrentProject(p);
-                return;
-            }
-
-        MyMember m = getAccess().getMemberDao().findFirstFor(u);
-        if ( m != null )
-        {
-            setCurrentProject(m.getProject());
-            return;
-        }
-
-        p = getAccess().getProjectDao().findFirst();
-        if ( p != null )
-        {
-            setCurrentProject(p);
-            return;
-        }
-
-        clearCurrentProject();
+        MyTenant e = MyGlobals.getData().getTenant();
+        return !hasTenant(e);
     }
 
     //##################################################
@@ -133,7 +87,6 @@ public class MyServerSession
     @Override
     public String getDisplayString()
     {
-        return getUser().getName();
+        return getUser().getFullName();
     }
-
 }

@@ -36,9 +36,10 @@ public class MyPasswordResetValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
+    private KmTimestampValidator createdUtcTsValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmStringValidator emailValidator;
     private KmStringValidator tokenValidator;
-    private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator expirationUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
@@ -50,9 +51,10 @@ public class MyPasswordResetValidatorBase
     {
         super();
         uidValidator = newUidValidator();
+        createdUtcTsValidator = newCreatedUtcTsValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         emailValidator = newEmailValidator();
         tokenValidator = newTokenValidator();
-        createdUtcTsValidator = newCreatedUtcTsValidator();
         expirationUtcTsValidator = newExpirationUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
@@ -66,6 +68,16 @@ public class MyPasswordResetValidatorBase
         return uidValidator;
     }
 
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
+    public KmTimestampValidator getUpdatedUtcTsValidator()
+    {
+        return updatedUtcTsValidator;
+    }
+
     public KmStringValidator getEmailValidator()
     {
         return emailValidator;
@@ -74,11 +86,6 @@ public class MyPasswordResetValidatorBase
     public KmStringValidator getTokenValidator()
     {
         return tokenValidator;
-    }
-
-    public KmTimestampValidator getCreatedUtcTsValidator()
-    {
-        return createdUtcTsValidator;
     }
 
     public KmTimestampValidator getExpirationUtcTsValidator()
@@ -100,9 +107,10 @@ public class MyPasswordResetValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
         value.setToken(tokenValidator.convertOnly(value.getToken()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setExpirationUtcTs(expirationUtcTsValidator.convertOnly(value.getExpirationUtcTs()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
@@ -112,12 +120,15 @@ public class MyPasswordResetValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
+        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
         tokenValidator.validateOnly(value.getToken(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         expirationUtcTsValidator.validateOnly(value.getExpirationUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
         // required associations...
+        if ( !value.hasTenant() )
+            errors.add(new KmRequiredValidationError("passwordReset", "tenant"));
     }
 
     //##################################################
@@ -132,6 +143,26 @@ public class MyPasswordResetValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("passwordReset");
         e.setField("uid");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("passwordReset");
+        e.setField("createdUtcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newUpdatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("passwordReset");
+        e.setField("updatedUtcTs");
         e.setRequired();
         return e;
     }
@@ -156,16 +187,6 @@ public class MyPasswordResetValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("passwordReset");
         e.setField("token");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimestampValidator newCreatedUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("passwordReset");
-        e.setField("createdUtcTs");
         e.setRequired();
         return e;
     }

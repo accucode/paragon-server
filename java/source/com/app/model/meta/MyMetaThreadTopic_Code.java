@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaThreadTopic_Code
     {
         return "The unique key. In practice, this is often the (simple) name of the java class that is being run.  The names generally do not matter, as long as they are consistent across all JVMs.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaThreadTopic_Code
         return getAccess().getThreadTopicDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaThreadTopic_Code
     {
         return model.getCode();
     }
-    
+
     @Override
     public void setValueFor(MyThreadTopic model, String value)
     {
         model.setCode(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, String value)
     {
         return model.hasCode(value);
     }
-    
+
 }

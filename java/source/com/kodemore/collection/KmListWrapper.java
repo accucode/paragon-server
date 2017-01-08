@@ -7,8 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.kodemore.utility.KmCompressMemoryIF;
+
 public class KmListWrapper<T>
-    implements List<T>, Serializable
+    implements List<T>, Serializable, KmCompressMemoryIF
 {
     //##################################################
     //# variables
@@ -217,4 +219,13 @@ public class KmListWrapper<T>
         return _list.toArray(a);
     }
 
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        if ( _list instanceof ArrayList )
+            ((ArrayList<?>)_list).trimToSize();
+    }
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,11 +53,11 @@ public class MyMetaInvitation_TypeCode
     {
         return "The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
-        return 3;
+        return 20;
     }
 
     @Override
@@ -87,32 +88,32 @@ public class MyMetaInvitation_TypeCode
         return getAccess().getInvitationDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# enum
     //##################################################
 
-    public ScDropdown newDropdown()
+    public ScEnumDropdownField newDropdown()
     {
         return newDropdown(getLabel());
     }
 
-    public ScDropdown newDropdown(String label)
+    public ScEnumDropdownField newDropdown(String label)
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScEnumDropdownField e;
+        e = new ScEnumDropdownField();
         e.setLabel(label);
         e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValueAdaptor(getAdaptor());
+        e.setValueAdaptor(this);
         e.addOptions(MyInvitationType.values());
         return e;
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -122,17 +123,17 @@ public class MyMetaInvitation_TypeCode
     {
         return model.getTypeCode();
     }
-    
+
     @Override
     public void setValueFor(MyInvitation model, String value)
     {
         model.setTypeCode(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
         return model.hasTypeCode(value);
     }
-    
+
 }

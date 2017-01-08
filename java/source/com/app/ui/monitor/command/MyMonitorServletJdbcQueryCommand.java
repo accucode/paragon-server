@@ -2,7 +2,7 @@ package com.app.ui.monitor.command;
 
 import com.kodemore.database.KmDatabaseTool;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.ui.monitor.MyMonitorServletData;
 import com.app.utility.MyGlobals;
 
@@ -61,7 +61,7 @@ public class MyMonitorServletJdbcQueryCommand
     //# support
     //##################################################
 
-    private MyPropertyRegistry getProperties()
+    private MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

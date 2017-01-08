@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,9 +42,9 @@ public abstract class ScVisibilityScript
 
     /**
      * The target selector.  This can be any valid jquery
-     * selector, and may match zero, one, or many elements. 
+     * selector, and may match zero, one, or many elements.
      */
-    private String _selector;
+    private String   _selector;
 
     /**
      * The optional animation effect to use.  By default,
@@ -55,7 +55,7 @@ public abstract class ScVisibilityScript
 
     /**
      * The optional easing to control the animation effect.
-     * 
+     *
      * We have a wide library of functions available due
      * to the use of the jquery ui effects library.  See...
      *      http://jqueryui.com/resources/demos/effect/easing.html
@@ -66,7 +66,7 @@ public abstract class ScVisibilityScript
      * The speed to be used if an easing function is specified.
      * This is ignored if no easing method is used.
      */
-    private Integer _speedMs;
+    private Integer  _speedMs;
 
     //##################################################
     //# constructor
@@ -75,7 +75,7 @@ public abstract class ScVisibilityScript
     public ScVisibilityScript()
     {
         _selector = null;
-        _effect = ScConstantsIF.DEFAULT_EFFECT;
+        _effect = null;
         _easing = ScConstantsIF.DEFAULT_EASING;
         _speedMs = ScConstantsIF.DEFAULT_SPEED_MS;
     }
@@ -230,29 +230,35 @@ public abstract class ScVisibilityScript
     //# chaining
     //##################################################
 
-    protected ScVisibilityScript fade()
+    public ScVisibilityScript immediate()
+    {
+        setEffect(null);
+        return this;
+    }
+
+    public ScVisibilityScript fade()
     {
         setEffect(ScEffect.fade);
         return this;
     }
 
-    protected ScVisibilityScript fade(int ms)
+    public ScVisibilityScript fade(int ms)
     {
         return fade().speed(ms);
     }
 
-    protected ScVisibilityScript slide()
+    public ScVisibilityScript slide()
     {
         setEffect(ScEffect.slide);
         return this;
     }
 
-    protected ScVisibilityScript slide(int ms)
+    public ScVisibilityScript slide(int ms)
     {
         return slide().speed(ms);
     }
 
-    protected ScVisibilityScript speed(int ms)
+    public ScVisibilityScript speed(int ms)
     {
         setSpeedMs(ms);
         return this;

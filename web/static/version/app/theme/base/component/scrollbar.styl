@@ -1,0 +1,93 @@
+/*******************************************************************
+ ** scrollbar
+ **
+ ** Update all scrollbars.
+ **
+ ** This relies on webkit styling. It works for Chrome but not IE.
+ ** Non-webkit browser should still render standard scrollbars.
+ *******************************************************************/
+
+if $scrollbar-useCustom
+
+    /*****************************
+     * wrapper
+     *****************************/
+
+    ::-webkit-scrollbar
+        width:          $scrollbar-barSize
+        height:         $scrollbar-barSize
+
+    /*****************************
+     * track
+     *****************************/
+
+    ::-webkit-scrollbar-track
+        background:         $scrollbar-trackBackground
+        background-clip:    $scrollbar-trackBackgroundClip
+        border:             $scrollbar-trackBorder
+        border-radius:      $scrollbar-trackRadius
+
+    ::-webkit-scrollbar-track:hover
+        background:         $scrollbar-trackBackground-hover
+        background-clip:    $scrollbar-trackBackgroundClip-hover
+        border:             $scrollbar-trackBorder-hover
+        border-radius:      $scrollbar-trackRadius-hover
+
+    ::-webkit-scrollbar-track:active
+        background:         $scrollbar-trackBackground-active
+        background-clip:    $scrollbar-trackBackgroundClip-active
+        border:             $scrollbar-trackBorder-active
+        border-radius:      $scrollbar-trackRadius-active
+
+    /*****************************
+     * thumb
+     *****************************/
+
+    ::-webkit-scrollbar-thumb
+        background:         $scrollbar-thumbBackground
+        background-clip:    $scrollbar-thumbBackgroundClip
+        border:             $scrollbar-thumbBorder
+        border-radius:      $scrollbar-thumbRadius
+        min-height: 20px;
+
+    ::-webkit-scrollbar-thumb:hover
+        background:         $scrollbar-thumbBackground-hover
+        background-clip:    $scrollbar-thumbBackgroundClip-hover
+        border:             $scrollbar-thumbBorder-hover
+        border-radius:      $scrollbar-thumbRadius-hover
+
+    ::-webkit-scrollbar-thumb:active
+        background:         $scrollbar-thumbBackground-active
+        background-clip:    $scrollbar-thumbBackgroundClip-active
+        border:             $scrollbar-thumbBorder-active
+        border-radius:      $scrollbar-thumbRadius-active
+
+    /*****************************
+     * button
+     *****************************/
+
+    ::-webkit-scrollbar-button
+        width:          $scrollbar-buttonSize
+        height:         $scrollbar-buttonSize
+        background:     $scrollbar-buttonBackground
+
+    /*****************************
+     * corner
+     *****************************/
+
+    ::-webkit-scrollbar-corner
+        background:     transparent
+
+
+    /*****************************
+     * internet explorer
+     *****************************/
+
+    body, html
+        scrollbar-face-color:       #eee
+        scrollbar-track-color:      transparent
+        scrollbar-arrow-color:      transparent
+        scrollbar-shadow-color:     transparent
+        scrollbar-highlight-color:  transparent
+        scrollbar-3dlight-color:    transparent
+        scrollbar-darkshadow-Color: transparent

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,10 +25,11 @@ package com.kodemore.servlet.script;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.ScPageIF;
+import com.kodemore.servlet.ScPageSession;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -61,6 +62,15 @@ public abstract class ScBlockScript
     public static ScBlockScript create()
     {
         return new ScSimpleBlockScript();
+    }
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    protected ScBlockScript()
+    {
+        // protected, clients should use create().
     }
 
     //##################################################
@@ -151,7 +161,8 @@ public abstract class ScBlockScript
 
     public void addCss(String sel, String css)
     {
-        run("$(%s).addClass(%s);", json(sel), json(css));
+        if ( Kmu.hasValue(css) )
+            run("$(%s).addClass(%s);", json(sel), json(css));
     }
 
     public void addCss(ScHtmlIdIF target, String css)
@@ -167,6 +178,16 @@ public abstract class ScBlockScript
     public void removeCss(ScHtmlIdIF target, String css)
     {
         removeCss(target.getJquerySelector(), css);
+    }
+
+    public void toggleCss(String sel, String css)
+    {
+        run("$(%s).toggleClass(%s);", json(sel), json(css));
+    }
+
+    public void toggleCss(ScHtmlIdIF target, String css)
+    {
+        toggleCss(target.getJquerySelector(), css);
     }
 
     public void setCss(String sel, String css)
@@ -372,28 +393,31 @@ public abstract class ScBlockScript
     }
 
     //##################################################
+    //# set checked
+    //##################################################
+
+    public ScSetCheckedByNameScript setCheckedByName()
+    {
+        ScSetCheckedByNameScript e;
+        e = new ScSetCheckedByNameScript();
+        run(e);
+        return e;
+    }
+
+    //##################################################
     //# navigation
     //##################################################
 
     /**
      * All enterPage methods redirect to me.
      *
-     * Before running the enterPage script, I update the CURRENT page session.  Updating the
-     * page session as part of navigation is relatively rare, but when it does happen, it is
-     * important to ensure that the client side session gets updated BEFORE triggering the
-     * client side history and navigation flows.
+     * I update the CURRENT page session BEFORE running the enterPage script.
+     * Updating the page session as part of navigation is relatively rare, but
+     * when it does happen, it is important to ensure that the client side session
+     * gets updated BEFORE triggering the client side history and navigation flows.
      */
     private ScEnterPageScript _enterPage()
     {
-        /**
-         * low_wyatt: updatePageSession?
-         * Because of the way this is coded, the updatePageSession is effectively
-         * hardcoded to always CLEAR the session, rather than updating it with the
-         * current value.  ???
-         */
-
-        updatePageSession();
-
         ScEnterPageScript e;
         e = new ScEnterPageScript();
         run(e);
@@ -413,6 +437,23 @@ public abstract class ScBlockScript
         ScEnterPageScript e;
         e = _enterPage();
         e.setUrl(pg);
+        return e;
+    }
+
+    public ScEnterPageScript enterPage(ScPageIF pg, boolean withState)
+    {
+        ScEnterPageScript e;
+        e = _enterPage();
+        e.setUrl(pg, withState);
+        return e;
+    }
+
+    public ScEnterPageScript enterPageClearSession(ScPageIF pg, boolean withState)
+    {
+        ScEnterPageScript e;
+        e = _enterPage();
+        e.setUrl(pg, withState);
+        e.setClearPageSession(true);
         return e;
     }
 
@@ -497,13 +538,17 @@ public abstract class ScBlockScript
         run("Kmu.focus();");
     }
 
-    public void focus(ScHtmlIdIF e)
+    public void focus(ScControlIF e)
     {
         if ( e == null )
             return;
 
-        e = e.getFocusTarget();
-        focus(e.getJquerySelector());
+        ScHtmlIdIF target = e.getFocusTarget();
+        if ( target == null )
+            return;
+
+        String sel = target.getJquerySelector();
+        focus(sel);
     }
 
     public void focus(String sel)
@@ -660,8 +705,10 @@ public abstract class ScBlockScript
      */
     public void updatePageSession()
     {
-        KmJsonMap json = getData().getPageSessionEncodedValues();
-        run("KmNavigator.updatePageSession(%s);", json);
+        ScPageSession ps = getData().getPageSession();
+        String global = ps.formatGlobalValues();
+        String session = ps.formatSessionValues();
+        run("KmNavigator.updatePageSession(%s,%s);", json(global), json(session));
     }
 
     /**
@@ -711,6 +758,11 @@ public abstract class ScBlockScript
         run("Kmu.copyToClipboard();");
     }
 
+    public void copyFieldToClipboard(String sel)
+    {
+        run("Kmu.selectAndCopyField(%s);", json(sel));
+    }
+
     //##################################################
     //# html attributes
     //##################################################
@@ -741,6 +793,11 @@ public abstract class ScBlockScript
     public void setValue(ScHtmlIdIF field, String value)
     {
         run("%s.val(%s);", formatReference(field), json(value));
+    }
+
+    public void setValue(String sel, String value)
+    {
+        run("$(%s).val(%s);", json(sel), json(value));
     }
 
     public void clearValue(ScHtmlIdIF field)
@@ -905,6 +962,18 @@ public abstract class ScBlockScript
         return block;
     }
 
+    public void onKeyUp(String sel, ScScriptIF script)
+    {
+        String fn = "$(%s).keyup(function(){%s});";
+
+        ScScriptPattern e;
+        e = new ScScriptPattern();
+        e.setPattern(fn);
+        e.addArgument(json(sel));
+        e.addArgument(script);
+        run(e);
+    }
+
     public void onKeyUp(ScHtmlIdIF target, ScScriptIF script)
     {
         String ref = formatReference(target);
@@ -946,6 +1015,18 @@ public abstract class ScBlockScript
         ScScriptPattern e;
         e = new ScScriptPattern();
         e.setPattern(fn);
+        e.addArgument(script);
+        run(e);
+    }
+
+    public void onChange(String sel, ScScriptIF script)
+    {
+        String fn = "$(%s).change(function(){%s});";
+
+        ScScriptPattern e;
+        e = new ScScriptPattern();
+        e.setPattern(fn);
+        e.addArgument(json(sel));
         e.addArgument(script);
         run(e);
     }
@@ -1043,91 +1124,6 @@ public abstract class ScBlockScript
         out.endHtml();
 
         return out.toString();
-    }
-
-    //##################################################
-    //# equalize
-    //##################################################
-
-    /**
-     * Equalize the sizes of all elements that match the selector.
-     */
-    public ScEqualizeScript equalize(String sel)
-    {
-        ScEqualizeScript e;
-        e = new ScEqualizeScript();
-        e.setSelector(sel);
-
-        run(e);
-        return e;
-    }
-
-    /**
-     * Equalize the immediate children of the target.
-     */
-    public ScEqualizeScript equalizeChildrenOf(ScHtmlIdIF target)
-    {
-        return equalizeChildrenOf(target.getJquerySelector());
-    }
-
-    /**
-     * Equalize the immediate children of the target.
-     */
-    public ScEqualizeScript equalizeChildrenOf(String sel)
-    {
-        sel += " > *";
-        return equalize(sel);
-    }
-
-    /**
-     * Equalize all groups contained in the target.
-     */
-    public ScEqualizeScript equalizeGroupsIn(ScHtmlIdIF target)
-    {
-        return equalizeGroupsIn(target.getJquerySelector());
-    }
-
-    /**
-     * Equalize all groups contained in the target.
-     */
-    public ScEqualizeScript equalizeGroupsIn(String sel)
-    {
-        String klass = KmCssDefaultConstantsIF.group;
-        return equalizeClassIn(sel, klass);
-    }
-
-    /**
-     * Equalize all group bodies contained in the target.
-     */
-    public ScEqualizeScript equalizeGroupBodiesIn(ScHtmlIdIF target)
-    {
-        return equalizeGroupBodiesIn(target.getJquerySelector());
-    }
-
-    /**
-     * Equalize the group bodies within the target.
-     */
-    public ScEqualizeScript equalizeGroupBodiesIn(String sel)
-    {
-        String klass = KmCssDefaultConstantsIF.groupBody;
-        return equalizeClassIn(sel, klass);
-    }
-
-    /**
-     * Equalize all elements with a matching class, contained in the target.
-     */
-    public ScEqualizeScript equalizeClassIn(ScHtmlIdIF target, String klass)
-    {
-        return equalizeClassIn(target.getJquerySelector(), klass);
-    }
-
-    /**
-     * Equalize all elements with a matching class, contained in the target.
-     */
-    public ScEqualizeScript equalizeClassIn(String sel, String klass)
-    {
-        sel += " ." + klass;
-        return equalize(sel);
     }
 
     //##################################################
@@ -1239,9 +1235,25 @@ public abstract class ScBlockScript
     //# old values
     //##################################################
 
-    public void resetFieldsToOldValue()
+    public ScResetScript resetDirtyFields()
     {
-        run("Kmu.resetFieldsToOldValue();");
+        return new ScResetScript();
+    }
+
+    public ScResetScript resetDirtyFieldsAround(ScControl source)
+    {
+        ScResetScript e;
+        e = new ScResetScript();
+        e.setSource(source);
+        return e;
+    }
+
+    public ScResetScript resetDirtyFieldsWithin(ScHtmlIdIF target)
+    {
+        ScResetScript e;
+        e = new ScResetScript();
+        e.setTarget(target);
+        return e;
     }
 
     //##################################################

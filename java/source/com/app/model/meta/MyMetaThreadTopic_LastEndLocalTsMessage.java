@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -43,15 +44,15 @@ public class MyMetaThreadTopic_LastEndLocalTsMessage
     @Override
     public String getLabel()
     {
-        return "Lastend";
+        return "Last End";
     }
 
     @Override
     public String getHelp()
     {
-        return "The last time the owner ENDED this task. This is only used for auditing; not for coordinating ownership.";
+        return "The last end timestamp converted to the user's local timezone, and formatted as a string that includes the timezone code.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaThreadTopic_LastEndLocalTsMessage
     {
         return model.getLastEndLocalTsMessage();
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, String value)
     {
         return model.hasLastEndLocalTsMessage(value);
     }
-    
+
 }

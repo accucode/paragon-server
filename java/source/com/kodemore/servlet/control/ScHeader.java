@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -38,14 +38,11 @@ public class ScHeader
     private ScLocalString  _style;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScHeader()
     {
-        super.install();
-
         _text = new ScLocalString();
         _level = new ScLocalInteger(1);
         _style = new ScLocalString();

@@ -2,7 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -46,11 +46,11 @@ public final class MyBlockTestPage
     //# variables
     //##################################################
 
-    private ScGroup _group;
+    private ScGroup          _group;
 
-    private ScTextField _nameField1;
-    private ScTextField _nameField2;
-    private ScTextField _nameField3;
+    private ScTextField      _nameField1;
+    private ScTextField      _nameField2;
+    private ScTextField      _nameField3;
 
     //##################################################
     //# settings
@@ -85,15 +85,17 @@ public final class MyBlockTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        installTestGroup(root);
-        installFormGroup1(root);
-        installFormGroup2(root);
-        installFormGroup3(root);
+        root.css().fill().auto().boxGray();
+
+        installTestGroupOn(root);
+        installFormGroup1On(root);
+        installFormGroup2On(root);
+        installFormGroup3On(root);
     }
 
-    private void installTestGroup(ScBox root)
+    private void installTestGroupOn(ScDiv root)
     {
-        ScBox buttons;
+        ScDiv buttons;
         buttons = root.addButtonBox();
         buttons.addButton("Block Page", this::handleBlockPage);
         buttons.addButton("Block Group", this::handleBlockGroup);
@@ -105,20 +107,21 @@ public final class MyBlockTestPage
         ScGroup group;
         group = root.addPad().addGroup("Block Tests");
 
-        ScBox lines;
-        lines = group.getBody().addLines();
-        lines.addText("hello world");
-        lines.addText("hello world");
-        lines.addText("hello world");
-        lines.addText("hello world");
-        lines.addText("hello world");
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().pad().columnSpacer5();
+        body.addTextSpan("hello world");
+        body.addTextSpan("hello world");
+        body.addTextSpan("hello world");
+        body.addTextSpan("hello world");
+        body.addTextSpan("hello world");
 
         button.setBlockTarget(group);
 
         _group = group;
     }
 
-    private void installFormGroup1(ScBox root)
+    private void installFormGroup1On(ScDiv root)
     {
         _nameField1 = new ScTextField();
         _nameField1.setLabel("Name1");
@@ -139,13 +142,14 @@ public final class MyBlockTestPage
         ScGroup group;
         group = form.addGroup("Auto Block (group)");
 
-        ScBox lines;
-        lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField1);
-        lines.addSubmitButton();
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().flexCrossAlignStart().columnSpacer5().pad();
+        body.addFieldTable().add(_nameField1);
+        body.addSubmitButton();
     }
 
-    private void installFormGroup2(ScBox root)
+    private void installFormGroup2On(ScDiv root)
     {
         _nameField2 = new ScTextField();
         _nameField2.setLabel("Name2");
@@ -167,13 +171,14 @@ public final class MyBlockTestPage
         group = form.addGroup("Auto Block (form)");
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
-        ScBox lines;
-        lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField2);
-        lines.addSubmitButton();
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().flexCrossAlignStart().columnSpacer5().pad();
+        body.addFieldTable().add(_nameField2);
+        body.addSubmitButton();
     }
 
-    private void installFormGroup3(ScBox root)
+    private void installFormGroup3On(ScDiv root)
     {
         _nameField3 = new ScTextField();
         _nameField3.setLabel("Name3");
@@ -194,10 +199,11 @@ public final class MyBlockTestPage
         group = form.addGroup("Auto Block (page)");
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
-        ScBox lines;
-        lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField3);
-        lines.addSubmitButton();
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().flexCrossAlignStart().columnSpacer5().pad();
+        body.addFieldTable().add(_nameField3);
+        body.addSubmitButton();
     }
 
     //##################################################
@@ -221,12 +227,12 @@ public final class MyBlockTestPage
 
     private void handleBlockGroup()
     {
-        _group.ajax().block();
+        _group.ajaxBlock();
     }
 
     private void handleUnblockGroup()
     {
-        _group.ajax().unblock();
+        _group.ajaxUnblock();
     }
 
     private void handleBlockRequest()

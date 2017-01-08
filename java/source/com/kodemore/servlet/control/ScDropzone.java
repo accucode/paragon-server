@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,23 +30,38 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.json.KmJsonReader;
 import com.kodemore.log.KmLog;
+import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.encoder.ScDecoder;
+import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.servlet.script.ScVisibilityScript;
+import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalStyle;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScDropzone
     extends ScControl
     implements ScHtmlIdIF
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final String       KEY    = "key";
+    private static final String       FIELDS = "fields";
+
     //##################################################
     //# variables
     //##################################################
@@ -61,9 +76,9 @@ public class ScDropzone
      * If true, uploaded items will display a 'remove file' or 'cancel upload' button.
      * This really just removes the item from the client-side display.  There is no
      * support for removing the file from the server.  See also _removeAction.
-     * This is true by default.
+     * This is false by default.
      */
-    private ScLocalBoolean _showsRemoveButtons;
+    private ScLocalBoolean            _showsRemoveButtons;
 
     /**
      * This is called when the user clicks the remove/cancel button on an uploaded file.
@@ -72,42 +87,87 @@ public class ScDropzone
      * that the user removed/cancelled an upload, but doesn't tell the server WHICH file
      * was removed/cancelled.
      */
-    private ScAction _removeAction;
+    private ScAction                  _removeAction;
+
+    /**
+     * This action is run when client finishes uploading the queued files.
+     */
+    private ScAction                  _doneAction;
+
+    /**
+     * A container for any hidden fields to be tracked.
+     * The value of each hidden field is encoded into the browser
+     * and subsequently included during the upload.  This allows
+     * clients to easily attach additional context so that they
+     * know how to handle the uploaded file.
+     *
+     * Wyatt Love, 2/25/2016
+     * This is currently a kludge.  As of the currently dropzone
+     * version 4.3.0, there are three ways to support this.
+     *
+     * 1) Using hidden fields in the html form; doesn't work.
+     * 2) Using dropzone's 'params' option; doesn't work.
+     * 3) Manually encoding the details into the url.
+     *
+     * Either of the first two would have benn preferable but they
+     * don't appear to work at this time. Review on the web indicates
+     * that many other people are having the same problem.  For now
+     * we simply encode the hidden fields into the url manually.
+     * We don't expect to use this very often, or to need a lot of
+     * fields, so this should be sufficient.
+     */
+    private ScContainer               _hiddenFields;
+
+    private ScLocalStyle              _style;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDropzone()
     {
-        super.install();
-
-        _showsRemoveButtons = new ScLocalBoolean(true);
+        _showsRemoveButtons = new ScLocalBoolean(false);
+        _hiddenFields = new ScSimpleContainer();
+        _style = new ScLocalStyle();
     }
 
     //##################################################
-    //# print
+    //# accessing
     //##################################################
+
+    //==================================================
+    //= html id
+    //==================================================
 
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    public String getHtmlId()
     {
-        out.openForm();
-        out.printAttribute("action", "");
-        out.printAttribute("id", getHtmlId());
-        out.printAttribute("class", "dropzone");
-        out.close();
-        out.endForm();
-
-        ScBlockScript script;
-        script = out.getPostDom();
-        script.run("$('%s').dropzone(%s);", getJquerySelector(), getOptions());
+        return getKey();
     }
 
-    //##################################################
-    //# remove action
-    //##################################################
+    @Override
+    public ScHtmlIdAjax _htmlIdAjax()
+    {
+        return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    //==================================================
+    //= remove buttons
+    //==================================================
+
+    private boolean getShowsRemoveButtons()
+    {
+        return _showsRemoveButtons.getValue();
+    }
+
+    public void setShowsRemoveButtons(boolean b)
+    {
+        _showsRemoveButtons.setValue(b);
+    }
+
+    //==================================================
+    //= remove action
+    //==================================================
 
     public ScAction getRemoveAction()
     {
@@ -124,80 +184,42 @@ public class ScDropzone
         return getRemoveAction() != null;
     }
 
-    //##################################################
-    //# html id
-    //##################################################
+    //==================================================
+    //= done action
+    //==================================================
 
-    @Override
-    public String getHtmlId()
+    public ScAction getDoneAction()
     {
-        return getKey();
+        return _doneAction;
     }
 
-    @Override
-    public String getJquerySelector()
+    public void setDoneAction(Runnable e)
     {
-        return ScJquery.formatSelector(this);
+        setDoneAction(newCheckedAction(e));
     }
 
-    @Override
-    public ScHtmlIdAjax ajax()
+    public void setDoneAction(ScAction e)
     {
-        return new ScHtmlIdAjax(this, getRootScript());
+        _doneAction = e;
     }
 
-    //##################################################
-    //# options
-    //##################################################
-
-    private KmJsonMap getOptions()
+    public boolean hasDoneAction()
     {
-        KmJsonMap map;
-        map = new KmJsonMap();
-        map.setString("url", formatRequestUrl());
-        map.setString("method", "post");
-
-        if ( getShowsRemoveButtons() )
-            map.setBoolean("addRemoveLinks", true);
-
-        if ( hasRemoveAction() )
-        {
-            String fn = Kmu.format(
-                "function(){this.on('removedfile',function(file){%s})}",
-                formatOnRemoveAction());
-            map.setLiteral("init", fn);
-        }
-
-        return map;
-    }
-
-    private String formatRequestUrl()
-    {
-        ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
-        ScServletCallback c = r.getDropzoneCallback();
-        return c.getPath(getKey());
-    }
-
-    private String formatOnRemoveAction()
-    {
-        ScActionScript s;
-        s = new ScActionScript();
-        s.setAction(getRemoveAction());
-        return s.formatScript();
+        return _doneAction != null;
     }
 
     //##################################################
-    //# accessing
+    //# hidden fields
     //##################################################
 
-    private boolean getShowsRemoveButtons()
+    public <E> ScHiddenField<E> addHiddenField()
     {
-        return _showsRemoveButtons.getValue();
+        return _hiddenFields.addHiddenField();
     }
 
-    public void setShowsRemoveButtons(boolean b)
+    public <E> ScHiddenField<E> addHiddenField(KmMetaAttribute<?,E> attr)
     {
-        _showsRemoveButtons.setValue(b);
+        return _hiddenFields.addHiddenField(attr);
     }
 
     //##################################################
@@ -220,23 +242,190 @@ public class ScDropzone
     }
 
     //##################################################
-    //# servlet callback
+    //# style
     //##################################################
 
-    public static void handleServletCallback(String pathSuffix)
+    private KmStyleBuilder style()
     {
-        ScDropzone dz = findDropzoneForPath(pathSuffix);
+        return _style.toBuilder();
+    }
+
+    @Override
+    public boolean getVisible()
+    {
+        return !style().hasHide();
+    }
+
+    @Override
+    public void setVisible(boolean e)
+    {
+        style().show(e);
+    }
+
+    //##################################################
+    //# render
+    //##################################################
+
+    @Override
+    protected void renderControlOn(KmHtmlBuilder out)
+    {
+        out.openForm();
+        out.printAttribute("action", formatCallbackUrl());
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute("class", "dropzone");
+        out.printAttribute(style());
+        out.printAttribute("enctype", "multipart/form-data");
+        out.printAttribute("method", "post");
+        out.close();
+        out.endForm();
+
+        ScBlockScript script;
+        script = out.getPostDom();
+        script.run("%s.dropzone(%s);", getJqueryReference(), composeOptions());
+    }
+
+    //==================================================
+    //= render :: options
+    //==================================================
+
+    private KmJsonMap composeOptions()
+    {
+        KmJsonMap map = new KmJsonMap();
+        composeUrlOn(map);
+        composeRemoveButtonsOn(map);
+        composeRemoveActionOn(map);
+        composeInitOn(map);
+        return map;
+    }
+
+    private void composeUrlOn(KmJsonMap map)
+    {
+        String url = formatCallbackUrl();
+
+        map.setString("url", url);
+        map.setString("method", "post");
+    }
+
+    private String formatCallbackUrl()
+    {
+        String encodedSuffix = formatCallbackSuffix();
+
+        ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
+        ScServletCallback c = r.getDropzoneCallback();
+        return c.getPath(encodedSuffix);
+    }
+
+    private void composeRemoveButtonsOn(KmJsonMap map)
+    {
+        if ( getShowsRemoveButtons() )
+            map.setBoolean("addRemoveLinks", true);
+    }
+
+    private void composeRemoveActionOn(KmJsonMap map)
+    {
+        if ( !hasRemoveAction() )
+            return;
+
+        ScActionScript s;
+        s = new ScActionScript();
+        s.setAction(getRemoveAction());
+
+        String fn = Kmu.format(
+            "function(){this.on('removedfile',function(file){%s})}",
+            s.formatScript());
+
+        map.setLiteral("init", fn);
+    }
+
+    private void composeInitOn(KmJsonMap map)
+    {
+        if ( !hasDoneAction() )
+            return;
+
+        ScActionScript script;
+        script = new ScActionScript();
+        script.setAction(getDoneAction());
+
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.print("function()");
+        out.print("{");
+        out.print("this.on('queuecomplete', function()");
+        out.print("{");
+        out.print(script);
+        out.print("})");
+        out.print("}");
+
+        map.setLiteral("init", out);
+    }
+
+    //##################################################
+    //# callback suffix
+    //##################################################
+
+    /**
+     * Format a url compatible suffix that contains the information
+     * necessary to subsquently handle the uploaded file.
+     *
+     * The suffix include the control's key as well as the details
+     * of any hidden fields.  This must be compatible with
+     * handleCallbackSuffix.
+     *
+     * @see #handleCallbackSuffix
+     */
+    private String formatCallbackSuffix()
+    {
+        KmJsonMap map;
+        map = new KmJsonMap();
+        map.setString(KEY, getKey());
+
+        KmJsonMap fields;
+        fields = map.setMap(FIELDS);
+
+        KmList<ScControl> v = _hiddenFields.getChildren();
+        for ( ScControl c : v )
+        {
+            ScHiddenField<?> h = (ScHiddenField<?>)c;
+            fields.setString(h.getKey(), encode(h.getValue()));
+        }
+
+        String decodedSuffix = map.toString();
+        return Kmu.encodeUtf8(decodedSuffix);
+    }
+
+    /**
+     * Handle an http request.  The callback has already isolated
+     * the suffix that contains the pertinent details that were
+     * originally encoded in formatCallbackSuffix.
+     *
+     * @see #formatCallbackSuffix
+     */
+    public static void handleServletCallback(String suffix)
+    {
+        String decodedSuffix = Kmu.decodeUtf8(suffix);
+
+        KmJsonMap map = KmJsonReader.parseJsonMap(decodedSuffix);
+        String key = map.getString(KEY);
+
+        KmJsonMap fields = map.getMap("fields");
+        KmList<String> fieldKeys = fields.getKeys();
+        for ( String fieldKey : fieldKeys )
+        {
+            ScControlRegistry r = ScControlRegistry.getInstance();
+            Object fieldValue = ScDecoder.staticDecode(fields.getString(fieldKey));
+
+            ScHiddenField<?> hidden;
+            hidden = (ScHiddenField<?>)r.getControl(fieldKey);
+            hidden.setValueUntyped(fieldValue);
+        }
+
+        ScDropzone dz = findDropzoneForKey(key);
         if ( dz != null )
             dz.handlePost();
     }
 
-    private static ScDropzone findDropzoneForPath(String suffix)
+    private static ScDropzone findDropzoneForKey(String key)
     {
-        /*
-         * We assume the pathSuffix is the control's key since that is
-         * what we provided when composing the url.  See formatRequestUrl().
-         */
-        String key = suffix;
         if ( Kmu.isEmpty(key) )
             return null;
 
@@ -262,13 +451,24 @@ public class ScDropzone
         try
         {
             KmList<FileItem> files = getData().getUploadedFiles();
-
             for ( FileItem item : files )
                 try (BufferedInputStream in = Kmu.toBufferedInputStream(item.getInputStream()))
                 {
-                    String fileName = FilenameUtils.getName(item.getName());
-                    byte[] data = Kmu.readBytesFrom(in);
+                    String itemName = item.getName();
+                    if ( itemName == null )
+                    {
+                        KmLog.info("Dropzone cannot upload file, itemName is null.");
+                        break;
+                    }
 
+                    String fileName = FilenameUtils.getName(itemName);
+                    if ( fileName == null )
+                    {
+                        KmLog.info("Dropzone cannot upload file, fileName is null.");
+                        break;
+                    }
+
+                    byte[] data = Kmu.readBytesFrom(in);
                     getUploadHandler().upload(fileName, data);
                 }
         }
@@ -277,4 +477,15 @@ public class ScDropzone
             KmLog.error(ex, "Dropzone upload failure.");
         }
     }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public ScVisibilityScript ajaxShow(boolean e)
+    {
+        return _htmlIdAjax().show(e);
+    }
+
 }

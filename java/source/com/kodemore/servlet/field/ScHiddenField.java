@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,81 +23,92 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.variable.ScLocal;
+import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalCss;
 
 public class ScHiddenField<T>
-    extends ScInputField<T>
+    extends ScField<T>
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalObject _value;
+    private String         _htmlName;
+    private ScLocal<T>     _value;
+    private ScLocalBoolean _enabled;
+
+    /**
+     * Hidden fields rarely need css.
+     * However, in rare cases, we may use css classes to coordinate
+     * certain types of business logic.
+     */
+    private ScLocalCss     _cssHidden;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScHiddenField()
     {
-        super.install();
-
-        _value = new ScLocalObject();
+        _value = new ScLocal<>();
+        _htmlName = getHtmlId();
+        _enabled = new ScLocalBoolean(true);
+        _cssHidden = new ScLocalCss();
     }
 
     //##################################################
-    //# type
+    //# html id
     //##################################################
 
     @Override
-    protected String getInputType()
+    public String getHtmlId()
     {
-        return "hidden";
+        return getKey();
+    }
+
+    //==================================================
+    //= html name
+    //==================================================
+
+    public String getHtmlName()
+    {
+        return _htmlName;
+    }
+
+    public void setHtmlName(String e)
+    {
+        _htmlName = e;
     }
 
     //##################################################
-    //# render
+    //# value
     //##################################################
 
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
-    {
-        super.renderAttributesOn(out);
-
-        out.printAttribute("value", encode(getValue()));
-    }
-
-    //##################################################
-    //# parameters
-    //##################################################
-
-    @Override
-    public void readParameters(ScServletData data)
-    {
-        super.readParameters(data);
-
-        if ( hasKeyParameter(data) )
-            _value.setValue(decodeKeyParameter(data));
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    @SuppressWarnings("unchecked")
     @Override
     public T getValue()
     {
-        return (T)_value.getValue();
+        return _value.getValue();
     }
 
     @Override
     public void setValue(T e)
     {
         _value.setValue(e);
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _value.saveValue();
     }
 
     @Override
@@ -110,10 +121,66 @@ public class ScHiddenField<T>
     //# editable
     //##################################################
 
+    public boolean getEnabled()
+    {
+        return _enabled.isTrue();
+    }
+
+    public void setEnabled(boolean e)
+    {
+        _enabled.setValue(e);
+    }
+
     @Override
     public boolean isEditable()
     {
-        return false;
+        return getEnabled();
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public KmCssDefaultBuilder cssHidden()
+    {
+        return _cssHidden.toBuilder();
+    }
+    //##################################################
+    //# render
+    //##################################################
+
+    @Override
+    protected void renderControlOn(KmHtmlBuilder out)
+    {
+        out.open("input");
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute("name", getHtmlName());
+        out.printAttribute("type", "hidden");
+        out.printAttribute("value", encode(getValue()));
+        out.printAttribute(cssHidden());
+
+        if ( !getEnabled() )
+            out.printAttribute("disabled", "disabled");
+
+        out.close();
+        // no end tag
+    }
+
+    //##################################################
+    //# parameters
+    //##################################################
+
+    @Override
+    protected void readParameters_here(ScServletData data)
+    {
+        super.readParameters_here(data);
+
+        String name = getHtmlName();
+        if ( data.hasParameter(name) )
+        {
+            Object value = decode(data.getParameter(name));
+            setValueUntyped(value);
+        }
     }
 
     //##################################################
@@ -121,12 +188,21 @@ public class ScHiddenField<T>
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(T e)
     {
-        String value = encode(getValue());
-
-        ajax().setValue(value);
-        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(e, getChangeTracking());
     }
 
+    @Override
+    public void ajaxSetFieldValue(T e, boolean updateOldValue)
+    {
+        String htmlValue = encode(e);
+
+        ScHtmlIdAjax ajax;
+        ajax = _htmlIdAjax();
+        ajax.setValue(htmlValue);
+
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+    }
 }

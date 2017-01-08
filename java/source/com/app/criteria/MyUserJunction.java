@@ -43,24 +43,34 @@ public class MyUserJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereName()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
+    public KmhStringCondition whereFirstName()
+    {
+        return new KmhStringCondition(context(), fullName(FIRST_NAME));
+    }
+
+    public KmhStringCondition whereLastName()
+    {
+        return new KmhStringCondition(context(), fullName(LAST_NAME));
+    }
+
+    public KmhStringCondition whereNickname()
+    {
+        return new KmhStringCondition(context(), fullName(NICKNAME));
     }
 
     public KmhStringCondition whereEmail()
     {
         return new KmhStringCondition(context(), fullName(EMAIL));
-    }
-
-    public KmhStringCondition wherePhone()
-    {
-        return new KmhStringCondition(context(), fullName(PHONE));
-    }
-
-    public KmhBooleanCondition whereVerified()
-    {
-        return new KmhBooleanCondition(context(), fullName(VERIFIED));
     }
 
     public KmhStringCondition wherePasswordSalt()
@@ -73,6 +83,16 @@ public class MyUserJunction
         return new KmhStringCondition(context(), fullName(PASSWORD_HASH));
     }
 
+    public KmhStringCondition wherePhone()
+    {
+        return new KmhStringCondition(context(), fullName(PHONE));
+    }
+
+    public KmhBooleanCondition whereActive()
+    {
+        return new KmhBooleanCondition(context(), fullName(ACTIVE));
+    }
+
     public KmhStringCondition whereTimeZoneCode()
     {
         return new KmhStringCondition(context(), fullName(TIME_ZONE_CODE));
@@ -81,6 +101,56 @@ public class MyUserJunction
     public KmhStringCondition whereRoleCode()
     {
         return new KmhStringCondition(context(), fullName(ROLE_CODE));
+    }
+
+    public KmhStringCondition whereDashboardOrientationTypeCode()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_ORIENTATION_TYPE_CODE));
+    }
+
+    public KmhIntegerCondition whereDashboardLineCount1()
+    {
+        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_1));
+    }
+
+    public KmhIntegerCondition whereDashboardLineCount2()
+    {
+        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_2));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeA()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_A));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeB()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_B));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeC()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_C));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeD()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_D));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeE()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_E));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeF()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_F));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeG()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_G));
     }
 
     public KmhIntegerCondition whereLockVersion()

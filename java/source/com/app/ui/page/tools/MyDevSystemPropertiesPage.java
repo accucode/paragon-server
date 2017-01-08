@@ -20,7 +20,7 @@ public final class MyDevSystemPropertiesPage
     //# variables
     //##################################################
 
-    private ScTransientContainer _container;
+    private ScTransientContainer             _container;
 
     //##################################################
     //# singleton
@@ -76,7 +76,7 @@ public final class MyDevSystemPropertiesPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto().columnSpacer10();
 
         _container = root.addTransientContainer();
     }
@@ -88,7 +88,10 @@ public final class MyDevSystemPropertiesPage
     @Override
     protected void preRender()
     {
-        KmList<String> prefixes = KmSystemProperties.getAllPrefixes();
+        KmList<String> prefixes;
+        prefixes = KmSystemProperties.getAllPrefixes();
+        prefixes.sort(e -> e.toLowerCase());
+
         for ( String e : prefixes )
             preRenderPrefix(e);
     }

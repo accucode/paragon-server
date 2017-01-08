@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaServerSession_Version
     {
         return "The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaServerSession_Version
         return getAccess().getServerSessionDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaServerSession_Version
     {
         return model.getVersion();
     }
-    
+
     @Override
     public void setValueFor(MyServerSession model, String value)
     {
         model.setVersion(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyServerSession model, String value)
     {
         return model.hasVersion(value);
     }
-    
+
 }

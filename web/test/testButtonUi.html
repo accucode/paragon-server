@@ -17,36 +17,36 @@
   -     Image.    Support an optional 16x16 embedded icon.
   -     Hover.    Visually indicate when hovered (aka rollover)
   -     Click.    Visually indicate when clicked.
-  - 
+  -
   - Non-compatible effects.  There are a number of CSS effects that
   - have been applied for those browsers that support them.  These
   - effects make the buttons "prettier" but should not affect the user's
   - interpretation of the buttons.  Effects should only be used if they
   - degrade politely in browsers that do not support them.  Effects being
-  - used: transitions, shadows, rounded corners, hovers. 
+  - used: transitions, shadows, rounded corners, hovers.
   -
   - These styles are based loosely on those discussed by particletree.
-  - However, the html and css have been redesigned with different 
+  - However, the html and css have been redesigned with different
   - structure and colors.
   - http://particletree.com/features/rediscovering-the-button-element/
-  - 
+  -
   - This sample used images from silk, however any 16x16 pngs will work.
   - http://www.famfamfam.com/
   -
-  - Shadows: 
+  - Shadows:
   -     The shadows add a lot to the feel of the buttons.
   -     The shadows are supported by multiple version of various browsers.
   -     Shadows are NOT supported by IE.  Not even IE9.
   -     When not supported, the shadows are simply not displayed.
-  - 
-  - Outlines: 
+  -
+  - Outlines:
   -     I have currently disabled outlines.
   -     I would prefer to enable outlines; e.g.: to display a dashed box around
   -     the button when it is clicked.  However, Firefox displays the outline
   -     outside of the shadow box, and therefore it looks odd.  For now, I would
   -     prefer to use shadow boxes when available, so I am NOT using outlines.
-  -  
-  - Rounded Corners: 
+  -
+  - Rounded Corners:
   -     I am currently using rounded corners.  The effect is slight and meant
   -     to soften the buttons rather than add a strong effect.  Rounded corners
   -     have fairly broad support and degrade to normal rectangular corners.
@@ -55,8 +55,8 @@
   - Buttons are styled as inline-blocks.  We no longer float them as floats tend
   - to have more problems with dynamic layouts.  Using inline-blocks has a small
   - impact on the button's appearance when clicked (:active) but the difference is
-  - negligible.  
-  --> 
+  - negligible.
+  -->
 
 
 <html>
@@ -64,8 +64,12 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
 <!-- BEGIN_STANDARD_HEADER -->
+    <!-- imported from testStandardHeader.html -->
+
     <!-- reset -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
     <!-- jquery (not deferred) -->
     <script src="../static/version/jquery/core/jquery-1.10.2.min.js"></script>
@@ -87,30 +91,18 @@
     <link rel="stylesheet" type="text/css" href="../static/version/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
     <script defer src="../static/version/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
 
-    <!-- cl editor -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.css", -->
-    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.min.js"></script> -->
-
     <!-- block ui -->
     <script defer src="../static/version/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
 
     <!-- cookie -->
-    <script defer src="../static/version/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+    <script defer src="../static/version/jquery/js-cookie-2.1.0/js.cookie.js"></script>
 
     <!-- transit -->
     <script defer src="../static/version/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
 
-    <!-- Twitter Bootstrap -->
-    <!-- "../static/version/bootstrap-2.3.2/css/bootstrap.min.css", -->
-    <!-- "../static/version/bootstrap-2.3.2/js/bootstrap.min.js", -->
-
-    <!-- bootstap select -->
-    <link rel="stylesheet" type="text/css" href="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.css">
-    <script defer src="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
-
     <!-- dropzone -->
-    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-3.6.1/dropzone.css">
-    <script defer src="../static/version/dropzone-3.6.1/dropzone.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-4.3.0/dropzone.css">
+    <script defer src="../static/version/dropzone-4.3.0/dropzone.js"></script>
 
     <!-- json -->
     <script defer src="../static/version/json-2010.11.18/json2.js"></script>
@@ -143,6 +135,25 @@
     <script defer src="../static/version/nvd3-1.1.10/src/models/line.js"></script>
     <script defer src="../static/version/nvd3-1.1.10/src/models/lineChart.js"></script>
 
+    <!-- ckEditor -->
+    <script defer src="../static/version/ckeditor-4.5.11/ckeditor.js"></script>
+    <script defer src="../static/version/ckeditor-4.5.11/adapters/jquery.js"></script>
+
+    <!-- moment -->
+    <script defer src="../static/version/moment/moment-2.14.1.min.js"></script>
+    <script defer src="../static/version/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="../static/version/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <!-- popr -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/popr-1.0.0/popr.css">
+    <script src="../static/version/jquery/popr-1.0.0/popr.js"></script>
+
     <!-- kodemore -->
     <script defer src="../static/version/app/common/script/kmExtensions.js"></script>
     <script defer src="../static/version/app/common/script/kmu.js"></script>
@@ -150,24 +161,10 @@
     <script defer src="../static/version/app/common/script/kmDropdownMenu.js"></script>
     <script defer src="../static/version/app/common/script/kmTimeAgo.js"></script>
     <script defer src="../static/version/app/common/script/kmDateAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmClock.js"></script>
 
     <!-- app -->
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/button.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/dropdownMenu.css">
     <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/spice.css">
-    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/tools.css">
-
-    <!-- ckEditor -->
-    <script src="../static/version/ckeditor/ckeditor.js"></script>
-
-    <!-- full calendar -->
-    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-2.4.0/fullcalendar.min.css">
-    <script src="../static/version/fullcalendar-2.4.0/moment.min.js"></script>
-    <script src="../static/version/fullcalendar-2.4.0/fullcalendar.min.js"></script>
-
-    <!-- html2canvas -->
-    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
 <!-- END_STANDARD_HEADER -->
 
     <script type="text/javascript">
@@ -176,12 +173,12 @@
         {
             $("#main").show();
         }
-        
+
         function myClick()
         {
             // Kmu.toast('click');
         }
-        
+
     </script>
 
     <style type="text/css">
@@ -202,27 +199,27 @@
 <div id="main" style="display:none" class="gap10">
 
     <div class="boxGray">
-        
+
         <div class="backgroundLightGray pad" onclick="$('#notes').slideToggle();">
             Notes (toggle)
         </div>
-        
+
         <div id="notes" class="hide pad10">
             <p class="bold">Summary</p>
             <p>This page demonstrates the standard buttons used in the application.
                 The themes are based on the standard application styles derived from
                 resources such as reset.css, theme.css, and button.css.
             </p>
-            
+
             <br>
             <p class="bold">Rules</p>
-            <p> 
+            <p>
                 <ul>
                     <li>Buttons are always displayed as inline-blocks.
                     </li>
-                    <li>Buttons should always include the class: "button".  
+                    <li>Buttons should always include the class: "button".
                         Additional styles can be applied to indicate positive
-                        or negative emphasis, as well as which button is the 
+                        or negative emphasis, as well as which button is the
                         primary.
                     </li>
                     <li>Buttons should always be wrapped inside a div with the
@@ -232,12 +229,12 @@
                         use of margins for the purpose of layout should be applied
                         to the wrapping div.
                     </li>
-                    <li>There is currently no way to truly center buttons. 
+                    <li>There is currently no way to truly center buttons.
                         However, we can reasonably approximate a centered button
                         by right-aligning a button with a container set to 50%
                         width.  An example of this is included below.
                     </li>
-                </ul>  
+                </ul>
             </p>
         </div>
     </div>
@@ -245,75 +242,75 @@
 
     <div class="myBox">
         <div class="marginRightChildren">
-        
+
             <div>Normal Buttons</div>
-        
+
             <button type="button" class="button button-element-default" onclick="myClick();">
                 Button
             </button>
-                
+
             <button type="button" class="button button-element-default" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/cart.png" alt="">
                 With Image
             </button>
-                
+
             <button type="button" class="button button-element-positive" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/tick.png" alt="">
                 Positive
             </button>
-                
+
             <button type="button" class="button button-element-negative" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/cross.png" alt="">
                 Negative
             </button>
-            
+
             <button type="button" class="button button-element-disabled" disabled="disabled" onclick="myClick();">
                 Disabled
             </button>
-            
+
         </div>
     </div>
-    
-    
-        
+
+
+
     <div class="myBox">
         <div class="marginRightChildren">
-                
+
             <div>Primary Buttons</div>
-            
+
             <button type="button" class="button button-element-default buttonPrimary" onclick="myClick();">
                 Button
             </button>
-                
+
             <button type="button" class="button button-element-default buttonPrimary" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/cart.png" alt="">
                 With Image
             </button>
-                
+
             <button type="button" class="button button-element-positive buttonPrimary" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/tick.png" alt="">
                 Positive
             </button>
-                
+
             <button type="button" class="button button-element-negative buttonPrimary" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/cross.png" alt="">
                 Negative
             </button>
-            
+
             <button type="button" class="button button-element-disabled buttonPrimary" disabled="disabled" onclick="myClick();">
                 Disabled
             </button>
-            
+
         </div>
     </div>
-    
-    
-        
+
+
+
     <div class="myBox">
         <div>Simple Layout.</div>
-    
+
         <div class="floatLeft width50p">
-            
+
             <button type="button" class="button button-element-default" onclick="myClick();">
                 Button
             </button>
@@ -324,24 +321,24 @@
                     With Image
                 </button>
             </div>
-            
+
         </div>
-                        
+
         <div class="floatRight marginLeftChildren">
-        
+
             <button type="button" class="button button-element-negative" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/cross.png" alt="">
                 Negative
             </button>
-            
+
             <button type="button" class="button button-element-positive buttonPrimary" onclick="myClick();">
                 <img src="../static/version/silk-1.3/icons/tick.png" alt="">
                 Positive
             </button>
-                
+
         </div>
     </div>
-    
+
     <div class="myBox">
         <div>
             <div>No spacing.</div>
@@ -358,7 +355,34 @@
         </div>
     </div>
 
-    
+
+    <button
+        class="button button-element-default"
+        style="display:inline-block"
+        type="button">
+            Advanced
+            <img
+                src="../static/version/app/theme/base/image/helpTriangle.png"
+                border="0"
+                alt=""
+                class="helpTriangle helpTooltip"
+                title="title"
+                style="right:-3px">
+    </button>
+
+    <button
+        class="button button-element-default"
+        style="display:inline-block"
+        type="button">
+            Advanced
+            <img
+                src="../static/version/app/theme/base/image/helpTriangle.png"
+                border="0"
+                alt=""
+                class="helpTriangle helpTooltip"
+                title="title"
+                style="right:-3px">
+    </button>
 </div>
 </body>
 

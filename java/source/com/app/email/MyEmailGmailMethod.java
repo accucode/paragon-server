@@ -2,7 +2,7 @@ package com.app.email;
 
 import com.kodemore.email.method.KmEmailSmtpMethod;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 /**
@@ -14,7 +14,7 @@ public class MyEmailGmailMethod
 {
     public MyEmailGmailMethod()
     {
-        MyPropertyRegistry p = MyGlobals.getProperties();
+        MyProperties p = MyGlobals.getProperties();
 
         setSmtpScheme(p.getGmailScheme());
         setSmtpHost(p.getGmailHost());

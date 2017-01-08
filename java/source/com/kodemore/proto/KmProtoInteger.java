@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.hibernate.KmhIntegerCondition;
 import com.kodemore.meta.KmMetaIntegerProperty;
 import com.kodemore.servlet.field.ScIntegerField;
@@ -22,7 +22,7 @@ public class KmProtoInteger
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return "int";
     }

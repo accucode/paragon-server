@@ -5,7 +5,7 @@ package com.kodemore.servlet;
  */
 public interface ScEncodedValueIF
 {
-    Object getEncodedValue();
+    Object getEncodableValue();
 
-    void setEncodedValue(Object e);
+    void setEncodableValue(Object e);
 }

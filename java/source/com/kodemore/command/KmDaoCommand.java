@@ -35,7 +35,7 @@ public abstract class KmDaoCommand
      * Log a warning if the command takes too long to run.
      * This does not interrupt or otherwise affect the command.
      */
-    private int _warningThresholdMs;
+    private int                   _warningThresholdMs;
 
     /**
      * If true, ignore any stale object exceptions.
@@ -50,19 +50,19 @@ public abstract class KmDaoCommand
      * reached, any additional exception will be throw unless this flag
      * is set to ignore it.
      */
-    private boolean _ignoreStaleExceptions;
+    private boolean               _ignoreStaleExceptions;
 
     /**
      * The number of times to retry the transaction if a stale object
      * exception is detected.
      */
-    private int _staleObjectRetryCount;
+    private int                   _staleObjectRetryCount;
 
     /**
      * The delay to way before retrying the transaction after a stale
      * object exception.
      */
-    private int _staleObjectRetryDelayMs;
+    private int                   _staleObjectRetryDelayMs;
 
     /**
      * The database lock key.  We primarily rely on optimistic locking
@@ -73,7 +73,7 @@ public abstract class KmDaoCommand
      * This creates a global lock on the entire database installation and
      * should generally be avoided except where absolutely necessary.
      */
-    private String _lockKey;
+    private String                _lockKey;
 
     //##################################################
     //# constructor
@@ -175,11 +175,11 @@ public abstract class KmDaoCommand
 
                 if ( retries >= retryCount )
                 {
-                if ( _ignoreStaleExceptions )
-                    break;
+                    if ( _ignoreStaleExceptions )
+                        break;
 
-                throw new KmhDaoOptimisticLockException(ex);
-            }
+                    throw new KmhDaoOptimisticLockException(ex);
+                }
 
                 retries++;
                 Kmu.sleepMs(retryDelayMs);
@@ -221,7 +221,7 @@ public abstract class KmDaoCommand
         }
         catch ( KmDaoRollbackException ex )
         {
-            // ignore
+            // handled in finally
         }
         finally
         {

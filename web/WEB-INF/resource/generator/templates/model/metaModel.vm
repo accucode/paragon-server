@@ -39,17 +39,18 @@ $utility.protocol("accessing")
         return "$model.f_name";
     }
 
-    public static ${model.f_ValidatorClass} getValidator()
+    public ${model.f_ValidatorClass} getValidator()
     {
         return ${model.f_ValidatorClass}.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return ${model.f_commentJavaString};
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return ${model.f_helpJavaString};
     }

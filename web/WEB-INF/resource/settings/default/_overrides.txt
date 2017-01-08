@@ -5,43 +5,43 @@
 servletScheme                               = http
 servletHost                                 = localhost
 servletPort                                 = 8080
-                                            
+
 servletRedirect                             = y
-                                            
+
 servletShowStackTrace                       = y
 serverSessionTimeoutSeconds                 = 3600
-                                            
+
 webResourceVersioning                       = dev
-                                            
-                                            
+
+
 #######################################
 ## database
 #######################################
 
-databaseSchema                              = field_service
+databaseSchema                              = core
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://localhost:3306/
 databaseUser                                = root
 databasePassword                            = root
 
 
-#######################################     
-## google chart                             
-#######################################     
-                                            
+#######################################
+## google chart
+#######################################
+
 googleChartScheme                           = http
 googleChartHost                             = localhost
 googleChartPort                             = 8080
 googleChartPath                             = app/servlet/chart
-                                            
-                                            
-#######################################     
-## email                                    
-#######################################     
-                                            
+
+
+#######################################
+## email
+#######################################
+
 sendEmailEnabled                            = y
-sendEmailOverrideTo                         = 
-                                            
+sendEmailOverrideTo                         =
+
 sendEmailMethod                             = smtp
 sendEmailMethod                             = noop
 sendEmailMethod                             = print
@@ -53,8 +53,8 @@ sendEmailJobIdleSeconds                     = 1
 smtpScheme                                  = http
 smtpHost                                    = smtp.sendgrid.net
 smtpPort                                    = 587
-smtpUser                                    = 
-smtpPassword                                = 
+smtpUser                                    =
+smtpPassword                                =
 smtpUseSsl                                  = false
 
 
@@ -72,15 +72,15 @@ ftpEnabled                                  = n
 monitorJobEnabled                           = n
 monitorJobActiveSeconds                     = 3600
 monitorJobIdleSeconds                       = 3600
-                                            
+
 overridesReloaderJobEnabled                 = y
 overridesReloaderJobActiveSeconds           = 1
 overridesReloaderJobIdleSeconds             = 1
-                                            
+
 deleteOldServerSessionsJobEnabled           = y
 deleteOldServerSessionsJobActiveSeconds     = 1
 deleteOldServerSessionsJobIdleSeconds       = 1
-                                            
+
 deleteOldSystemLogsJobEnabled               = y
 deleteOldSystemLogsJobActiveSeconds         = 1
 deleteOldSystemLogsJobIdleSeconds           = 1
@@ -93,7 +93,7 @@ performanceLogJobEnabled                    = y
 performanceLogJobActiveSeconds              = 10
 performanceLogJobIdleSeconds                = 10
 
-                                            
+
 #######################################
 ## misc
 #######################################
@@ -101,18 +101,18 @@ performanceLogJobIdleSeconds                = 10
 showHibernateSql                            = n
 daoCommandWarningThresholdMs                = 5000
 servletShowStackTrace                       = y
-                                            
+
 writeLastServletResults                     = y
 writeLastServletResultsCounter              = n
-                                            
+
 contextFormatterEnabled                     = y
 contextFormatterLines                       = 25
-                                            
+
 checkRecommendedBrowser                     = n
-                                            
+
 maintenancePeriodStartHour                  = 0
 maintenancePeriodEndHour                    = 23
-                                            
+
 memoryLeakLoopEnabled                       = n
 memoryLeakLoopSpeedMs                       = 200
 

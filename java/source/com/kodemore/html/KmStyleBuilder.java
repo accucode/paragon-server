@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.html;
 
@@ -42,7 +42,7 @@ public class KmStyleBuilder
     //# constants
     //##################################################
 
-    private static final int DEFAULT_GAP = 10;
+    private static final int        DEFAULT_GAP = 10;
 
     //##################################################
     //# variables
@@ -76,6 +76,11 @@ public class KmStyleBuilder
     public void setValue(String e)
     {
         _holder.setValue(e);
+    }
+
+    public boolean hasValue()
+    {
+        return Kmu.hasValue(getValue());
     }
 
     public void clearValue()
@@ -225,6 +230,11 @@ public class KmStyleBuilder
         }
 
         return v;
+    }
+
+    public boolean hasAssociation(String key, String value)
+    {
+        return getAssociations().containsIf(e -> e.hasKeyValue(key, value));
     }
 
     //##################################################
@@ -463,6 +473,14 @@ public class KmStyleBuilder
     {
         if ( px != null )
             addValue("max-width", px, "px");
+
+        return this;
+    }
+
+    public KmStyleBuilder maxWidthPercent(Integer percentage)
+    {
+        if ( percentage != null )
+            addValue("max-width", percentage, "%");
 
         return this;
     }
@@ -734,9 +752,31 @@ public class KmStyleBuilder
         return this;
     }
 
+    public boolean hasHide()
+    {
+        return hasAssociation("display", "none");
+    }
+
+    //##################################################
+    //# visibility
+    //##################################################
+
+    public KmStyleBuilder visibility(boolean show)
+    {
+        return show
+            ? removeVisibility()
+            : visibilityHidden();
+    }
+
     public KmStyleBuilder visibilityHidden()
     {
         setValue("visibility", "hidden");
+        return this;
+    }
+
+    public KmStyleBuilder removeVisibility()
+    {
+        removeValue("visibility");
         return this;
     }
 
@@ -747,6 +787,28 @@ public class KmStyleBuilder
     public KmStyleBuilder noBorder()
     {
         setValue("border", "none");
+        return this;
+    }
+
+    //##################################################
+    //# overflow
+    //##################################################
+
+    public KmStyleBuilder overflowAuto()
+    {
+        setValue("overflow", "auto");
+        return this;
+    }
+
+    public KmStyleBuilder overflowHidden()
+    {
+        setValue("overflow", "hidden");
+        return this;
+    }
+
+    public KmStyleBuilder overflowYAuto()
+    {
+        setValue("overflow-y", "auto");
         return this;
     }
 
@@ -781,12 +843,22 @@ public class KmStyleBuilder
     }
 
     //##################################################
-    //# background
+    //# miscellaneous
     //##################################################
+
+    public void color(String value)
+    {
+        setValue("color", value);
+    }
 
     public void backgroundColor(String value)
     {
         setValue("background-color", value);
+    }
+
+    public void zIndex(int z)
+    {
+        setValue("z-index", z, null);
     }
 
     //##################################################

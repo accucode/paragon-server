@@ -1,11 +1,8 @@
 package com.app.filter.core;
 
-import java.io.Serializable;
-
-import com.kodemore.dao.KmAbstractDao;
 import com.kodemore.filter.KmFilter;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.utility.MyGlobals;
 
 public abstract class MyFilter<T>
@@ -15,9 +12,7 @@ public abstract class MyFilter<T>
     //# dao
     //##################################################
 
-    protected abstract KmAbstractDao<T,? extends Serializable> getDao();
-
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

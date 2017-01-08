@@ -4,17 +4,17 @@ import com.kodemore.collection.KmList;
 
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
- * 
+ *
  * https://dev.twitter.com/docs/platform-objects/entities
- * 
- * review_steve KmTwitterEntities
+ *
+ * KmTwitterEntities
  */
 public class KmTwitterEntities
     extends Object
 {
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmList<String>               _hashtags;

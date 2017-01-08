@@ -1,0 +1,15 @@
+    // 'Include' this in model definitions for the standard
+    // primary key.
+
+    field
+    : name          = uid
+    : help...
+        ---
+        The global unique key.  This is a large hex-encoded number, and
+        is usually not displayed to users.  This is currently NOT a standard
+        format, but is instead a format that we use internally.
+        ---
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true

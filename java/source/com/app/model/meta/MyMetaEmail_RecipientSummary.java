@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -51,7 +52,7 @@ public class MyMetaEmail_RecipientSummary
     {
         return "A summary of the recipients.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaEmail_RecipientSummary
     {
         return model.getRecipientSummary();
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmail model, String value)
     {
         return model.hasRecipientSummary(value);
     }
-    
+
 }

@@ -2,10 +2,8 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -49,9 +47,9 @@ public final class MyLocalValueTestPage
     //# variables
     //##################################################
 
-    private ScGroup        _fieldGroup;
-    private ScTextField    _textField;
-    private ScIntegerField _integerField;
+    private ScGroup           _fieldGroup;
+    private ScTextField       _textField;
+    private ScIntegerField    _integerField;
 
     private ScLocalStringList _listValues1;
     private ScTextArea        _listField1;
@@ -92,13 +90,13 @@ public final class MyLocalValueTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().flexColumn().columnSpacer10().auto();
 
         installFieldGroup(root);
         installListGroup(root);
     }
 
-    private void installFieldGroup(ScBox root)
+    private void installFieldGroup(ScDiv root)
     {
         _textField = new ScTextField();
         _textField.setLabel("Text");
@@ -116,9 +114,9 @@ public final class MyLocalValueTestPage
         ScGroup group;
         group = form.addGroup("Local Value Tests");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
-        body.addBox()
+        body.addDiv()
             .addText(
                 ""
                     + "'Local' variables allow the developer to manage state in multi-tenant "
@@ -148,18 +146,18 @@ public final class MyLocalValueTestPage
         _fieldGroup = group;
     }
 
-    private void installListGroup(ScBox root)
+    private void installListGroup(ScDiv root)
     {
         _listField1 = new ScTextArea();
         _listField1.setLabel("List (empty)");
-        _listField1.style().width(150).height(100);
+        _listField1.layoutInline(150, 100);
         _listField1.disableChangeTracking();
 
         _listValues1 = new ScLocalStringList();
 
         _listField2 = new ScTextArea();
         _listField2.setLabel("List (a,b,c)");
-        _listField2.style().width(150).height(100);
+        _listField2.layoutInline(150, 100);
         _listField2.disableChangeTracking();
 
         _listValues2 = new ScLocalStringList();
@@ -173,9 +171,9 @@ public final class MyLocalValueTestPage
         ScGroup group;
         group = form.addGroup("... With Lists");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
-        body.addBox()
+        body.addDiv()
             .addText(
                 ""
                     + "This sample tests ScLocalList directly, the field is used "
@@ -184,14 +182,16 @@ public final class MyLocalValueTestPage
 
         body.addBreak();
 
-        ScFlexbox col;
-        col = body.addInlineColumn();
+        ScDiv col;
+        col = body.addDiv();
+        col.css().flexInlineColumn();
         col.addLabelFor(_listField1);
         col.add(_listField1);
 
         body.addNonBreakingSpace();
 
-        col = body.addInlineColumn();
+        col = body.addDiv();
+        col.css().flexInlineColumn();
         col.addLabelFor(_listField2);
         col.add(_listField2);
 
@@ -220,7 +220,7 @@ public final class MyLocalValueTestPage
 
     private void handleSaveFields()
     {
-        _fieldGroup.ajax().hideAllErrors();
+        _fieldGroup.ajaxHideAllErrors();
         _fieldGroup.validate();
         _fieldGroup.saveFieldValues();
 
@@ -229,7 +229,7 @@ public final class MyLocalValueTestPage
 
     private void handleResetFields()
     {
-        _fieldGroup.ajax().hideAllErrors();
+        _fieldGroup.ajaxHideAllErrors();
         _fieldGroup.resetFieldValues();
 
         ajaxUpdateFields();
@@ -237,7 +237,7 @@ public final class MyLocalValueTestPage
 
     private void handleResetAndSaveFields()
     {
-        _fieldGroup.ajax().hideAllErrors();
+        _fieldGroup.ajaxHideAllErrors();
         _fieldGroup.resetFieldValues();
         _fieldGroup.saveFieldValues();
 
@@ -280,15 +280,15 @@ public final class MyLocalValueTestPage
 
     private void ajaxUpdateFields()
     {
-        _fieldGroup.ajaxUpdateValues();
-        _fieldGroup.ajax().focus();
+        _fieldGroup.ajaxUpdateFieldValues();
+        _fieldGroup.ajaxFocus();
     }
 
     private void ajaxUpdateLists()
     {
         updateLists();
-        _listField1.ajaxUpdateValues();
-        _listField2.ajaxUpdateValues();
+        _listField1.ajaxUpdateFieldValues();
+        _listField2.ajaxUpdateFieldValues();
     }
 
     private void updateLists()

@@ -1,23 +1,21 @@
 package com.app.ui.page.tools;
 
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
+import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.field.ScDropdown;
-import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.ui.control.MyCardFrame;
 import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyDevUserFrame
-    extends MyCardFrame
+    extends ScCardFrame
 {
     //##################################################
     //# variables
@@ -25,22 +23,17 @@ public class MyDevUserFrame
 
     private ScLocalString _userUid;
 
-    private ScCard _viewChild;
-    private ScCard _editChild;
+    private ScCard        _viewChild;
+    private ScCard        _editChild;
 
-    private Runnable _onChange;
+    private Runnable      _onChange;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyDevUserFrame()
     {
-        super.install();
-
-        useFlipAnimation();
-
         _userUid = new ScLocalString();
         _userUid.setAutoSave();
 
@@ -58,20 +51,20 @@ public class MyDevUserFrame
         ScGroup group;
         group = child.addGroup("View");
 
-        ScDiv header;
-        header = group.getBanner().addFloatRight();
-        header.css().pad5();
+        ScDiv buttons;
+        buttons = group.getBanner().getRight();
+        buttons.css().pad5();
 
         ScActionButton button;
-        button = header.addButton("Edit", this::handleEdit);
+        button = buttons.addButton("Edit", this::handleEdit);
         button.setImage(MyButtonUrls.edit());
 
         ScFieldTable fields;
         fields = group.getBody().addPad().addFieldTable();
-        fields.addText(x.Uid);
-        fields.addText(x.Email);
-        fields.addText(x.Name);
-        fields.addText(x.RoleName);
+        fields.addFieldText(x.Uid);
+        fields.addFieldText(x.LongName);
+        fields.addFieldText(x.Email);
+        fields.addFieldText(x.RoleName);
 
         return child;
     }
@@ -80,34 +73,13 @@ public class MyDevUserFrame
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScAction saveAction;
-        saveAction = newAction(this::handleEditSaved);
-        saveAction.disableChangeTracking();
-
-        ScAction cancelAction;
-        cancelAction = newAction(this::handleEditCancelled);
-        cancelAction.disableChangeTracking();
-
-        ScTextField emailField;
-        emailField = x.Email.newField();
-        emailField.setWidthFull();
-
-        ScTextField nameField;
-        nameField = x.Name.newField();
-        nameField.setWidthFull();
-
-        ScDropdown roleField;
-        roleField = x.RoleCode.newDropdown();
-        roleField.setValueAdaptor(x.RoleCode);
-        roleField.css().widthFull();
-
         ScCard child;
         child = addCard();
 
         ScForm form;
         form = child.addForm();
-        form.setSubmitAction(saveAction);
-        form.onEscape().run(cancelAction);
+        form.setSubmitAction(this::handleEditSaved);
+        form.setEscapeAction(this::handleEditCancelled);
 
         ScGroup group;
         group = form.addGroup("Edit");
@@ -116,17 +88,21 @@ public class MyDevUserFrame
         ScFieldTable fields;
         fields = group.getBody().addPad().addFieldTable();
         fields.css().widthFull();
-        fields.addText(x.Uid);
-        fields.add(emailField);
-        fields.add(nameField);
-        fields.add(roleField);
-
-        group.addBodyDivider();
+        fields.addFieldText(x.Uid);
+        fields.addSpace();
+        fields.addFieldFull(x.FirstName);
+        fields.addFieldFull(x.LastName);
+        fields.addFieldFull(x.Nickname);
+        fields.addSpace();
+        fields.addFieldFull(x.Email);
+        fields.addFieldFull(x.Phone);
+        fields.addSpace();
+        fields.add(x.RoleCode.newDropdown());
 
         ScDiv footer;
-        footer = group.getBody().addButtonBox();
-        footer.addSubmitButton("Save");
-        footer.addCancelButton(cancelAction);
+        footer = group.showFooter().addButtonBox();
+        footer.addSaveButton();
+        footer.addCancelButton(this::handleEditCancelled);
 
         return child;
     }
@@ -185,7 +161,7 @@ public class MyDevUserFrame
     private MyUser getUser()
     {
         String uid = _userUid.getValue();
-        return getAccess().findUserUid(uid);
+        return MyGlobals.getAccess().findUserUid(uid);
     }
 
     private void setUser(MyUser e)
@@ -199,13 +175,13 @@ public class MyDevUserFrame
     private void renderView()
     {
         _viewChild.applyFromModel(getUser());
-        _viewChild.ajaxPrint();
+        _viewChild.ajaxPrintCard();
     }
 
     private void renderEdit()
     {
         _editChild.applyFromModel(getUser());
-        _editChild.ajaxPrint();
+        _editChild.ajaxPrintCard();
     }
 
     //##################################################

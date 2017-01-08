@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ import com.kodemore.collection.KmList;
  * mutations.
  */
 public class ScLocalList<T>
-    extends ScSimpleLocal<KmList<T>>
+    extends ScAbstractLocal<KmList<T>>
     implements Iterable<T>
 {
     //##################################################
@@ -89,12 +89,21 @@ public class ScLocalList<T>
         _setValue(copy);
     }
 
-    public void remove(T e)
+    public boolean remove(T e)
+    {
+        KmList<T> copy = getValue();
+        if ( !copy.remove(e) )
+            return false;
+
+        _setValue(copy);
+        return true;
+    }
+
+    public void removeAny(T e)
     {
         KmList<T> copy;
         copy = getValue();
-        copy.remove(e);
-
+        copy.removeAny(e);
         _setValue(copy);
     }
 
@@ -107,13 +116,13 @@ public class ScLocalList<T>
         _setValue(copy);
     }
 
-    public void removeLastSafe()
+    public T removeLastSafe()
     {
         KmList<T> copy;
         copy = getValue();
-        copy.removeLastSafe();
-
+        T value = copy.removeLastSafe();
         _setValue(copy);
+        return value;
     }
 
     public void clear()
@@ -150,21 +159,6 @@ public class ScLocalList<T>
         return _getValue().get(i);
     }
 
-    public T getFirst()
-    {
-        return _getValue().getFirst();
-    }
-
-    public T getLast()
-    {
-        return _getValue().getLast();
-    }
-
-    public T getLastSafe()
-    {
-        return _getValue().getLastSafe();
-    }
-
     public int size()
     {
         return _getValue().size();
@@ -179,6 +173,39 @@ public class ScLocalList<T>
     public Iterator<T> iterator()
     {
         return _getValue().iterator();
+    }
+
+    //==================================================
+    //= first
+    //==================================================
+
+    public T getFirst()
+    {
+        return _getValue().getFirst();
+    }
+
+    public T getFirstSafe()
+    {
+        return _getValue().getFirstSafe();
+    }
+
+    public boolean isFirst(T e)
+    {
+        return _getValue().isFirst(e);
+    }
+
+    //==================================================
+    //= last
+    //==================================================
+
+    public T getLast()
+    {
+        return _getValue().getLast();
+    }
+
+    public T getLastSafe()
+    {
+        return _getValue().getLastSafe();
     }
 
     public boolean isLast(T e)

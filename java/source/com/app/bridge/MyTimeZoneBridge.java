@@ -1,9 +1,9 @@
 package com.app.bridge;
 
-import java.time.ZoneId;
-
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.time.KmTimeZoneBridge;
 
+import com.app.dao.core.MyDaoSessionManager;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.ui.core.MyServletData;
@@ -12,21 +12,47 @@ import com.app.utility.MyGlobals;
 public class MyTimeZoneBridge
     extends KmTimeZoneBridge
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final KmTimeZone DEFAULT_ZONE = KmTimeZone.Mountain;
+
+    //##################################################
+    //# accessing
+    //##################################################
+
     @Override
-    public ZoneId getLocalTimeZone()
+    public KmTimeZone getLocalZone()
     {
         MyServletData data = MyGlobals.getData();
         if ( data == null )
-            return null;
+            return DEFAULT_ZONE;
+
+        if ( !hasDaoSession() )
+            return DEFAULT_ZONE;
 
         MyServerSession ss = MyGlobals.getServerSession();
         if ( ss == null )
-            return null;
+            return DEFAULT_ZONE;
 
         MyUser u = ss.getUser();
         if ( u == null )
-            return null;
+            return DEFAULT_ZONE;
 
-        return u.getTimeZone();
+        KmTimeZone zone = u.getTimeZone();
+        if ( zone == null )
+            return DEFAULT_ZONE;
+
+        return zone;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private boolean hasDaoSession()
+    {
+        return MyDaoSessionManager.isInstalled() && MyDaoSessionManager.getInstance().isActive();
     }
 }

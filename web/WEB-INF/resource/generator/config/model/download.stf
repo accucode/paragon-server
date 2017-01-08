@@ -3,13 +3,13 @@ model
 : help...
     ---
     I am used to manage file downloads to the client browser.  When a client requests a file
-    the server returns a token (url) that redirects the user to the page where the download 
+    the server returns a token (url) that redirects the user to the page where the download
     can actually occur.  This helps avoid the problem of download interferring with the current
     user interface, especially with the single page ajax ui we now use.  However, this also
     means that additional security is needed to ensure that users cannot access someone else's
     download.  Only the "user" identified in this record is allowed to download the specified
     file.
-    --- 
+    ---
 
 
 database
@@ -23,26 +23,27 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
 
-    field
-    : name      = name
-    : help      = The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.
-    : type      = name
-    : required  = true
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
 
     field
     : name      = createdUtcTs
-    : help      = The date and time this record was created.
+    : help      = The time this record was originally created.
     : type      = timestamp
     : required  = true
-    : default   = getNowUtc() 
+    : default   = nowUtc()
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
 
     association
     : name      = user
@@ -52,3 +53,70 @@ attributes
     : required  = true
 
 
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help...
+        ---
+        The display name of this download. This is used for all types of download.
+        In particular, note that the Name may not match the name of the file and/or
+        attachment.
+        ---
+    : type      = fileName
+    : required  = true
+
+
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : label     = Type
+    : help...
+        ---
+        The type of download.
+
+        File, use the local file system.
+
+        Attachment, use the specified attachment.
+
+        Bytes, use the byte data stored dirctly in this record.
+        ---
+    : type      = longEnumCode
+    : required  = true
+    : default   = MyUserRole.Other.getCode()
+
+        enum
+            value(#File)
+            value(#Bytes)
+
+
+    //*****************************************************
+    //** content
+    //*****************************************************
+
+
+    field
+    : name      = fileName
+    : help...
+        ---
+        The name of the file to be downloaded.
+        This is only used if the type is File.
+        ---
+    : type      = name
+
+
+    field
+    : name      = bytes
+    : help...
+        ---
+        The binary content stored directly in the database.
+        Long-term this should be switched to Amazon s3.
+        ---
+    : type      = blob

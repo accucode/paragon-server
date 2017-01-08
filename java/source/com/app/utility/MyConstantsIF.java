@@ -10,7 +10,7 @@ public interface MyConstantsIF
      * The name of the project.  It is used in a variety of
      * contexts and may be displayed on screen to users.
      */
-    String APPLICATION_NAME = "Paragon Server";
+    String APPLICATION_NAME     = "Paragon";
 
     /**
      * The build number is important.  It should be updated
@@ -18,7 +18,7 @@ public interface MyConstantsIF
      * Typical format is Build-YYMMDD-R.  Where R is the number
      * of revisions on a given day.
      */
-    String APPLICATION_VERSION = "Build-150811-1";
+    String APPLICATION_VERSION  = "Build-170101-1";
 
     /**
      * This should be a globally unique value, that identifies
@@ -30,15 +30,14 @@ public interface MyConstantsIF
      * and authentications used to access the application.
      * New values can be generated via Kmu.newUid().
      *
-     * This salt has been is a stub.
-     * This must be updated for each new project.
+     * This salt has NOT been updated.
      */
-    String APPLICATION_SHA_SALT = "0000000-0000000-0000000-000000";
+    String APPLICATION_SHA_SALT = "REPLACE-THIS-FOR-REAL-PROJECT";
 
     //##################################################
     //# copyright
     //##################################################
 
-    String COPYRIGHT_TEXT = "Open Source, Apache License";
-    String COPYRIGHT_HTML = "Open Source, Apache License";
+    String COPYRIGHT_TEXT       = "Copyright 2014-2017 Example Inc.";
+    String COPYRIGHT_HTML       = "&copy; 2014-2017 Example Inc.";
 }

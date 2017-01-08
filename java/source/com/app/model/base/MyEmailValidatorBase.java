@@ -37,6 +37,7 @@ public class MyEmailValidatorBase
 
     private KmStringValidator uidValidator;
     private KmTimestampValidator createdUtcTsValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmTimestampValidator sentUtcTsValidator;
     private KmStringValidator subjectValidator;
     private KmStringValidator fromAddressValidator;
@@ -53,6 +54,7 @@ public class MyEmailValidatorBase
         super();
         uidValidator = newUidValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         sentUtcTsValidator = newSentUtcTsValidator();
         subjectValidator = newSubjectValidator();
         fromAddressValidator = newFromAddressValidator();
@@ -73,6 +75,11 @@ public class MyEmailValidatorBase
     public KmTimestampValidator getCreatedUtcTsValidator()
     {
         return createdUtcTsValidator;
+    }
+
+    public KmTimestampValidator getUpdatedUtcTsValidator()
+    {
+        return updatedUtcTsValidator;
     }
 
     public KmTimestampValidator getSentUtcTsValidator()
@@ -115,6 +122,7 @@ public class MyEmailValidatorBase
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
         value.setSentUtcTs(sentUtcTsValidator.convertOnly(value.getSentUtcTs()));
         value.setSubject(subjectValidator.convertOnly(value.getSubject()));
         value.setFromAddress(fromAddressValidator.convertOnly(value.getFromAddress()));
@@ -129,6 +137,7 @@ public class MyEmailValidatorBase
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
         sentUtcTsValidator.validateOnly(value.getSentUtcTs(), errors);
         subjectValidator.validateOnly(value.getSubject(), errors);
         fromAddressValidator.validateOnly(value.getFromAddress(), errors);
@@ -164,6 +173,16 @@ public class MyEmailValidatorBase
         return e;
     }
 
+    public KmTimestampValidator newUpdatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("email");
+        e.setField("updatedUtcTs");
+        e.setRequired();
+        return e;
+    }
+
     public KmTimestampValidator newSentUtcTsValidator()
     {
         KmTimestampValidator e;
@@ -177,7 +196,7 @@ public class MyEmailValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(100);
+        e.setMaximumLength(200);
         e.setAllowsPrintable(true);
         e.setModel("email");
         e.setField("subject");
@@ -199,9 +218,10 @@ public class MyEmailValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
+        e.setMaximumLength(30);
         e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
         e.setModel("email");
         e.setField("statusCode");

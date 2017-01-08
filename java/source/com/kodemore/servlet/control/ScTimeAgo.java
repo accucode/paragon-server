@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalTimestamp;
 import com.kodemore.time.KmTimestamp;
 
@@ -42,18 +43,18 @@ public class ScTimeAgo
     //##################################################
 
     private ScLocalTimestamp _utcTs;
+    private ScLocalBoolean   _showsSuffix;
 
     //##################################################
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTimeAgo()
     {
-        super.install();
+        _utcTs = new ScLocalTimestamp();
+        _showsSuffix = new ScLocalBoolean(true);
 
         css().add("timeago");
-        _utcTs = new ScLocalTimestamp();
     }
 
     //##################################################
@@ -73,6 +74,25 @@ public class ScTimeAgo
     public boolean hasUtcTs()
     {
         return _utcTs.hasValue();
+    }
+
+    //##################################################
+    //# suffix
+    //##################################################
+
+    public boolean getShowsSuffix()
+    {
+        return _showsSuffix.getValue();
+    }
+
+    public void setShowsSuffix(boolean e)
+    {
+        _showsSuffix.setValue(e);
+    }
+
+    public void hideSuffix()
+    {
+        setShowsSuffix(false);
     }
 
     //##################################################
@@ -96,8 +116,9 @@ public class ScTimeAgo
 
         if ( hasUtcTs() )
         {
-            out.printAttribute("datetime", getUtcTs().formatIsoUtc());
-            out.getPostDom().run("KmTimeAgo.update('%s');", getJquerySelector());
+            out.printDataAttribute("timeago-datetime", getUtcTs().formatIsoUtc());
+            out.printDataAttribute("timeago-suffix", getShowsSuffix());
+            out.getPostDom().run("KmTimeAgo.update(%s);", json(getJquerySelector()));
         }
     }
 }

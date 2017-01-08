@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaDownload_CreatedLocalDate
     @Override
     public String getHelp()
     {
-        return "The date and time this record was created.";
+        return "The created date based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaDownload_CreatedLocalDate
     {
         return model.getCreatedLocalDate();
     }
-    
+
     @Override
     public boolean hasValueFor(MyDownload model, KmDate value)
     {
         return model.hasCreatedLocalDate(value);
     }
-    
+
 }

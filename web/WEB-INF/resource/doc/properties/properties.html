@@ -10,12 +10,12 @@
 
 <html>
 <head>
-  <title>Paragon Server Properties</title>
+  <title>Temp Properties</title>
   <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 <body>
 
-<h1>Paragon Server Properties</h1>
+<h1>Temp Properties</h1>
 
 <h2>production</h2>
     <table cellspacing=0 cellpadding=3 border=1>
@@ -107,6 +107,12 @@
         <td>2000&nbsp;</td>
       </tr>
       <tr>
+        <td>jobPerformanceLogEnabled&nbsp;</td>
+        <td>When enabled each job's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java job class can override this to force enablement.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
         <td>sqlWarningThresholdMs&nbsp;</td>
         <td>Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.&nbsp;</td>
         <td>integer&nbsp;</td>
@@ -115,7 +121,77 @@
     </table>
     <br>
 
-<h2>email</h2>
+<h2>emailJob</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
+      </tr>
+      <tr>
+        <td>sendEmailBatch&nbsp;</td>
+        <td>The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>10&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailEnabled&nbsp;</td>
+        <td>If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailJobActiveSeconds&nbsp;</td>
+        <td>The active frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>5&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailJobIdleSeconds&nbsp;</td>
+        <td>The idle frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>60&nbsp;</td>
+      </tr>
+    </table>
+    <br>
+
+<h2>emailSupport</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
+      </tr>
+      <tr>
+        <td>sendEmailFromAddress&nbsp;</td>
+        <td>The address that will be listed as the 'from' address.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>admin@example.com&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailMethod&nbsp;</td>
+        <td>The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>print&nbsp;</td>
+      </tr>
+      <tr>
+        <td>sendEmailOverrideTo&nbsp;</td>
+        <td>If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <br>
+
+<h2>emailGoogleMail</h2>
     <table cellspacing=0 cellpadding=3 border=1>
       <tr>
         <th>Property</th>
@@ -153,53 +229,16 @@
         <td>string&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
+    </table>
+    <br>
+
+<h2>emailSmtp</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
       <tr>
-        <td>sendEmailBatch&nbsp;</td>
-        <td>The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailEnabled&nbsp;</td>
-        <td>If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailFromAddress&nbsp;</td>
-        <td>The address that will be listed as the 'from' address.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>DoNotReply@accucode.com&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailMethod&nbsp;</td>
-        <td>The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>print&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailOverrideTo&nbsp;</td>
-        <td>If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
       </tr>
       <tr>
         <td>smtpHost&nbsp;</td>
@@ -249,28 +288,28 @@
         <th>Default</th>
       </tr>
       <tr>
-        <td>servletHost&nbsp;</td>
-        <td>This should be set to the appropriate host name. For simple development 'localhost' can typically be used. However, some development and local debugging may need a static IP address.&nbsp;</td>
+        <td>bootstrapSystemHostname&nbsp;</td>
+        <td>This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.&nbsp;</td>
         <td>string&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>system.4work.expert&nbsp;</td>
       </tr>
       <tr>
-        <td>servletPort&nbsp;</td>
-        <td>The port number used to serve the servlet requests. Normally left blank, so that it defaults based on the scheme.&nbsp;</td>
+        <td>marketingUrl&nbsp;</td>
+        <td>The url used to redirect people to the marketing website.&nbsp;</td>
         <td>string&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>http://www.4work.expert&nbsp;</td>
       </tr>
       <tr>
-        <td>servletRedirect&nbsp;</td>
-        <td>If true, then attempt to redirect users to the appropriate scheme.&nbsp;</td>
+        <td>servletSslRedirect&nbsp;</td>
+        <td>If true, requests to the main application servlet will be redirected as an SSL request.&nbsp;</td>
         <td>boolean&nbsp;</td>
         <td>true&nbsp;</td>
       </tr>
       <tr>
-        <td>servletScheme&nbsp;</td>
-        <td>The scheme used. Typically http, though this may also be set to https.&nbsp;</td>
+        <td>supportUrl&nbsp;</td>
+        <td>The url used to redirect people to the general support team and/or help desk.&nbsp;</td>
         <td>string&nbsp;</td>
-        <td>http&nbsp;</td>
+        <td>http://www.4work.expert&nbsp;</td>
       </tr>
       <tr>
         <td>writeLastServletResults&nbsp;</td>
@@ -507,6 +546,24 @@
         <td>10&nbsp;</td>
       </tr>
       <tr>
+        <td>clearThemeCacheJobActiveSeconds&nbsp;</td>
+        <td>The active frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>300&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clearThemeCacheJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clearThemeCacheJobIdleSeconds&nbsp;</td>
+        <td>The idle frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>300&nbsp;</td>
+      </tr>
+      <tr>
         <td>csvUploadProcessorJobActiveSeconds&nbsp;</td>
         <td>x&nbsp;</td>
         <td>integer&nbsp;</td>
@@ -532,7 +589,7 @@
       </tr>
       <tr>
         <td>dataProcessorJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
         <td>boolean&nbsp;</td>
         <td>true&nbsp;</td>
       </tr>
@@ -650,6 +707,42 @@
         <td>integer&nbsp;</td>
         <td>10&nbsp;</td>
       </tr>
+      <tr>
+        <td>taskReleaseHoldJobActiveSeconds&nbsp;</td>
+        <td>The active frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>1&nbsp;</td>
+      </tr>
+      <tr>
+        <td>taskReleaseHoldJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>taskReleaseHoldJobIdleSeconds&nbsp;</td>
+        <td>The idle frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>60&nbsp;</td>
+      </tr>
+      <tr>
+        <td>taskSchedulerJobActiveSeconds&nbsp;</td>
+        <td>The active frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>60&nbsp;</td>
+      </tr>
+      <tr>
+        <td>taskSchedulerJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>taskSchedulerJobIdleSeconds&nbsp;</td>
+        <td>The idle frquency of the job.&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>5&nbsp;</td>
+      </tr>
     </table>
     <br>
 
@@ -675,7 +768,7 @@
       </tr>
       <tr>
         <td>autoLoginEmail&nbsp;</td>
-        <td>If not blank, automatically login as this user.  Useful for development.&nbsp;</td>
+        <td>Used in development to enable automatic login.&nbsp;</td>
         <td>string&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
@@ -690,6 +783,12 @@
         <td>The default time zone used for new users.&nbsp;</td>
         <td>string&nbsp;</td>
         <td>EST-D&nbsp;</td>
+      </tr>
+      <tr>
+        <td>deleteThreadTopicsOnStart&nbsp;</td>
+        <td>If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
       </tr>
       <tr>
         <td>fileUploadRefreshMs&nbsp;</td>
@@ -726,6 +825,18 @@
         <td>The speed of the memory leak test page.&nbsp;</td>
         <td>integer&nbsp;</td>
         <td>0&nbsp;</td>
+      </tr>
+      <tr>
+        <td>printAjaxTime&nbsp;</td>
+        <td>If true, the time spent on each ajax call is logged.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
+      </tr>
+      <tr>
+        <td>renderDebugDomComments&nbsp;</td>
+        <td>If true, render an html comment into the dom that identifies the class name of the page and various controls.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
       </tr>
       <tr>
         <td>showHibernateSql&nbsp;</td>
@@ -796,6 +907,64 @@
         <td>If set, the system will create a default user when bootstrapping the initial database installation.&nbsp;</td>
         <td>string&nbsp;</td>
         <td>&nbsp;</td>
+      </tr>
+    </table>
+    <br>
+
+<h2>oneAll</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
+      </tr>
+      <tr>
+        <td>oneAllEnabled&nbsp;</td>
+        <td>Determine if the oneAll login is enabled. This is disabled by default, and can only be enabled in a hosting environment that has a routable domain name.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
+      </tr>
+      <tr>
+        <td>oneAllHost&nbsp;</td>
+        <td>The oneAll uri used to host our authentication service. This is provided by oneAll. E.g.: ourApplication.api.oneall.com&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>oneAllPrivateKey&nbsp;</td>
+        <td>The private key provided by OneAll.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>oneAllPublicKey&nbsp;</td>
+        <td>The public key provided by OneAll.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <br>
+
+<h2>intacct</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
+      </tr>
+      <tr>
+        <td>intacctSenderId&nbsp;</td>
+        <td>The senderId and password are used to establish a connection with Intacct Web Services, but NOT with any specific company/account. Access to company data is controlled through the user authentication details which may be configured for a particular tenant.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>Accu2015&nbsp;</td>
+      </tr>
+      <tr>
+        <td>intacctSenderPassword&nbsp;</td>
+        <td>See intacctSenderId.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>C78k06P1M5&nbsp;</td>
       </tr>
     </table>
     <br>

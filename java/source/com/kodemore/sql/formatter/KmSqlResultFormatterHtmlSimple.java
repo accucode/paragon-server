@@ -80,10 +80,14 @@ public class KmSqlResultFormatterHtmlSimple
     //##################################################
 
     @Override
-    public void formatUpdate(String schema, String sql, int count, KmTimer timer)
+    public void formatUpdate(String schema, String sql, int count, KmTimer timer, boolean rollback)
     {
         String color = COLOR_UPDATE;
         String result = "count: " + count;
+
+        if ( rollback )
+            result = result + " (ROLLED BACK)";
+
         printResult(schema, sql, timer, result, color);
     }
 

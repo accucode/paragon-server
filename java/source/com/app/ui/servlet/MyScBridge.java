@@ -3,7 +3,7 @@ package com.app.ui.servlet;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScTransition;
+import com.kodemore.servlet.control.ScTransitionType;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScReplaceContentsScript;
 import com.kodemore.servlet.utility.ScBridge;
@@ -12,7 +12,7 @@ import com.kodemore.servlet.utility.ScPageLayoutBridge;
 import com.app.model.MyCssConstantsIF;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageErrorDialog;
-import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
 public class MyScBridge
@@ -43,7 +43,7 @@ public class MyScBridge
     }
 
     //##################################################
-    //# overrides
+    //# errors
     //##################################################
 
     @Override
@@ -53,21 +53,51 @@ public class MyScBridge
     }
 
     @Override
-    public int getTransitionSlideMs()
+    public void warnIfInstalled()
+    {
+        MyInstaller.warnIfInstalled();
+    }
+
+    //##################################################
+    //# debug
+    //##################################################
+
+    @Override
+    public boolean getRenderDebugDomComments()
+    {
+        return MyGlobals.getProperties().getRenderDebugDomComments();
+    }
+
+    //##################################################
+    //# page transition
+    //##################################################
+
+    @Override
+    public int getPageTransitionSlideMs()
     {
         return MyCssConstantsIF.PAGE_TRANSITION_SLIDE_MS;
     }
 
     @Override
-    public int getTransitionFadeMs()
+    public int getPageTransitionFadeMs()
     {
-        return 100;
+        return MyCssConstantsIF.PAGE_TRANSITION_FADE_MS;
+    }
+
+    //##################################################
+    //# card frame transition
+    //##################################################
+
+    @Override
+    public ScTransitionType getCardFrameTransitionType()
+    {
+        return MyCssConstantsIF.CARD_FRAME_TRANSITION_TYPE;
     }
 
     @Override
-    public void warnIfInstalled()
+    public int getCardFrameTransitionSpeedMs()
     {
-        MyInstaller.warnIfInstalled();
+        return MyCssConstantsIF.CARD_FRAME_TRANSITION_SPEED_MS;
     }
 
     //##################################################
@@ -93,22 +123,21 @@ public class MyScBridge
     private void printMainTransition(ScReplaceContentsScript r)
     {
         ScBridge bridge = ScBridge.getInstance();
+        int fadeMs = bridge.getPageTransitionFadeMs();
+        int slideMs = bridge.getPageTransitionSlideMs();
 
-        int fadeMs = bridge.getTransitionFadeMs();
-        int slideMs = bridge.getTransitionSlideMs();
-
-        r.setTransition(ScTransition.Fade, fadeMs);
+        r.setTransition(ScTransitionType.Fade, fadeMs);
 
         ScServletData data = ScServletData.getLocal();
         if ( data.isNavigateForward() )
         {
-            ScTransition effect = ScTransition.SlideLeft;
+            ScTransitionType effect = ScTransitionType.SlideLeft;
             r.setTransition(effect, slideMs);
         }
 
         if ( data.isNavigateBack() )
         {
-            ScTransition effect = ScTransition.SlideRight;
+            ScTransitionType effect = ScTransitionType.SlideRight;
             r.setTransition(effect, slideMs);
         }
     }
@@ -119,11 +148,7 @@ public class MyScBridge
         postRender = r.getPostRenderScript();
 
         if ( focus )
-            postRender.focus(e.getFocusTarget());
-
-        MyPageLayout layout;
-        layout = MyPageLayout.getInstance();
-        layout.glowTitleOn(postRender);
+            postRender.focus(e);
     }
 
     private String getMainSelector()
@@ -144,4 +169,5 @@ public class MyScBridge
     {
         return MyServletData.getLocal();
     }
+
 }

@@ -6,7 +6,7 @@ model
     For example: the depots, product catalogs, and orders are all managed by project.  Although
     two projects may define depots with the same name, each project will actually have their
     own separate depot.
-    ---   
+    ---
 
 database
 : auditLog  = true
@@ -15,18 +15,48 @@ database
     index
     : name      = projectName
     : unique    = true
+    : on        = tenant
     : on        = name
-    
+
+
+    index
+    : name      = projectCode
+    : unique    = true
+    : on        = tenant
+    : on        = code
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant that owns this project.
+    : modelName = tenant
+    : relation  = parent
+    : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
 
     field
     : name      = name
@@ -34,37 +64,131 @@ attributes
     : type      = name
     : required  = true
 
-    collection
-    : name          = member
-    : comment       = The members (users) assigned to this project.
-    : relation      = children
-    : elementModel  = member
-    : elementField  = project
 
-    collection
-    : name          = depot
-    : comment       = The depots for this project.
-    : relation      = children
-    : elementModel  = depot
-    : elementField  = project
-    
-    collection
-    : name          = region
-    : comment       = The regions for this project.
-    : relation      = children
-    : elementModel  = region
-    : elementField  = project
+    //*****************************************************
+    //** code
+    //*****************************************************
 
-    collection
-    : name          = vendor
-    : comment       = The vendors for this project.
-    : relation      = children
-    : elementModel  = vendor
-    : elementField  = project
-    
-    collection
-    : name          = skill
-    : comment       = The skills for this project.
-    : relation      = children
-    : elementModel  = skill
-    : elementField  = project
+    field
+    : name      = code
+    : help...
+        ---
+        The unique code that identifies this project.
+
+        Also, this code is used as a prefix for various numbers within the
+        project. For example: sales orders and tickets.
+
+        The code can be modified, but this is generally not recommended.
+        Preexisting numbers are NOT updated when the code is updated and this
+        can result in long confusion long term.
+        ---
+    : type      = projectCode
+    : required  = true
+
+
+    //*****************************************************
+    //** company
+    //*****************************************************
+
+
+    field
+    : name      = companyName
+    : help...
+        ---
+        The name of the company resposible for this project.
+        This may be used on various documents such as emails and pick lists.
+        ---
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** email
+    //*****************************************************
+
+
+    field
+    : name      = sendEmailFrom
+    : help...
+        ---
+        The email address that all project emails will be sent FROM.
+        ---
+    : type      = email
+    : required  = true
+
+
+    //*****************************************************
+    //** active
+    //*****************************************************
+
+
+    field
+    : name      = active
+    : help...
+        ---
+        Inactive projects are generally hidden from view, however, they are
+        still visible to administrators.
+        ---
+    : type      = boolean
+    : default   = true
+    : required  = true
+
+
+    //*****************************************************
+    //** catalog
+    //*****************************************************
+
+
+    field
+    : name      = catalogVersion
+    : help...
+        ---
+        An internal version number for the product catalog.  This is incremented
+        any time a new version of a product or price sheet is published.  This
+        provides a simple way to coordinate in-memory caches.
+        ---
+    : type      = integer
+    : default   = 1
+    : required  = true
+    : auditLog  = false
+
+
+    //*****************************************************
+    //** business hours
+    //*****************************************************
+
+
+    field
+    : name      = businessDays
+    : help...
+        ---
+        The nominal business days (e.g.: Monday through Friday).
+        This may be displayed to customers.
+        ---
+    : type      = dayFrequency
+    : default   = MyProject.DEFAULT_BUSINESS_DAYS
+
+
+    field
+    : name      = businessStartTime
+    : help...
+        ---
+        The nominal start of business hours.
+        This may be displayed to customers.
+        ---
+    : type      = time
+    : default   = MyProject.DEFAULT_BUSINESS_START_TIME
+    : required  = true
+
+
+    field
+    : name      = businessEndTime
+    : help...
+        ---
+        The nominal end of business hours.
+        This may be displayed to customers.
+        ---
+    : type      = time
+    : default   = MyProject.DEFAULT_BUSINESS_END_TIME
+    : required  = true
+

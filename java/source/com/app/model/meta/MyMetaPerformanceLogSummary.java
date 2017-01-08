@@ -51,17 +51,18 @@ public class MyMetaPerformanceLogSummary
         return "performanceLogSummary";
     }
 
-    public static MyPerformanceLogSummaryValidator getValidator()
+    public MyPerformanceLogSummaryValidator getValidator()
     {
         return MyPerformanceLogSummaryValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "A daily summary of the performance logs.  The logs for each day are grouped by name stored with various aggregates such as the min, max, and average durations.  Although the individual performance logs are automatically deleted (after a ~week), these daily summary logs are kept indefinitely for long term reporting.";
     }
@@ -78,6 +79,7 @@ public class MyMetaPerformanceLogSummary
     public static final MyMetaPerformanceLogSummary_MaximumMs MaximumMs = new MyMetaPerformanceLogSummary_MaximumMs();
     public static final MyMetaPerformanceLogSummary_AverageMs AverageMs = new MyMetaPerformanceLogSummary_AverageMs();
     public static final MyMetaPerformanceLogSummary_TotalMs TotalMs = new MyMetaPerformanceLogSummary_TotalMs();
+    public static final MyMetaPerformanceLogSummary_DisplayString DisplayString = new MyMetaPerformanceLogSummary_DisplayString();
 
     //##################################################
     //# associations

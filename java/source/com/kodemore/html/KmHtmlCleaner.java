@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I provide a convenient tool for stripping unwanted tags from html.
@@ -60,6 +61,14 @@ public class KmHtmlCleaner
      */
     private KmList<String> _blacklist;
 
+    private boolean        _allowImages;
+    private boolean        _allowLinks;
+
+    /**
+     * If true, the default, any non-printable characters will be stripped.
+     */
+    private boolean        _stripsNonPrintable;
+
     //##################################################
     //# constructor
     //##################################################
@@ -68,6 +77,11 @@ public class KmHtmlCleaner
     {
         _whitelist = new KmList<>();
         _blacklist = new KmList<>();
+
+        _allowImages = false;
+        _allowLinks = false;
+
+        _stripsNonPrintable = true;
     }
 
     //##################################################
@@ -94,6 +108,41 @@ public class KmHtmlCleaner
         _blacklist = e;
     }
 
+    public boolean allowsImages()
+    {
+        return _allowImages;
+    }
+
+    public void allowImages()
+    {
+        _allowImages = true;
+    }
+
+    public void removeImages()
+    {
+        _allowImages = false;
+    }
+
+    public boolean allowsLinks()
+    {
+        return _allowLinks;
+    }
+
+    public void allowLinks()
+    {
+        _allowLinks = true;
+    }
+
+    public boolean getStripsNonPrintable()
+    {
+        return _stripsNonPrintable;
+    }
+
+    public void setStripsNonPrintable(boolean e)
+    {
+        _stripsNonPrintable = e;
+    }
+
     //##################################################
     //# convenience
     //##################################################
@@ -108,25 +157,42 @@ public class KmHtmlCleaner
         getBlacklist().add(tag);
     }
 
-    public String clean(String e)
+    public String clean(String source)
     {
-        Document doc = Jsoup.parseBodyFragment(e);
+        Document doc = Jsoup.parseBodyFragment(source);
 
-        KmList<String> bl = getBlacklist();
-
-        for ( String tag : bl )
+        for ( String tag : getBlacklist() )
             doc.getElementsByTag(tag).remove();
 
-        e = doc.html();
-        Whitelist wl = new Whitelist();
-        wl.addTags(getWhitelist().toStringArray());
+        String html = doc.html();
 
-        return Jsoup.clean(e, wl);
+        Whitelist white;
+        white = new Whitelist();
+        white.addTags(getWhitelist().toStringArray());
+
+        addTableTo(white);
+
+        if ( allowsImages() )
+            addImagesTo(white);
+
+        if ( allowsLinks() )
+            addLinksTo(white);
+
+        // allow class tags for all
+        white.addAttributes(":all", "class", "style");
+
+        String out = Jsoup.clean(html, white);
+
+        if ( getStripsNonPrintable() )
+            out = Kmu.stripNonMultiLinePrintable(out);
+
+        return out;
     }
 
     public void setDefaultWhitelist()
     {
         addToWhitelist("strong");
+        addToWhitelist("span");
         addToWhitelist("em");
         addToWhitelist("e");
         addToWhitelist("sub");
@@ -136,6 +202,36 @@ public class KmHtmlCleaner
         addToWhitelist("ol");
         addToWhitelist("ul");
         addToWhitelist("li");
+        addToWhitelist("h1");
+        addToWhitelist("h2");
+        addToWhitelist("h3");
+        addToWhitelist("h4");
+        addToWhitelist("br");
+    }
+
+    private void addImagesTo(Whitelist wl)
+    {
+        wl.addTags("img");
+        wl.addAttributes("img", "alt", "src", "style");
+    }
+
+    private void addLinksTo(Whitelist wl)
+    {
+        wl.addTags("a");
+        wl.addAttributes("a", "target", "href");
+    }
+
+    private void addTableTo(Whitelist wl)
+    {
+        wl.addTags("table");
+        wl.addTags("tbody");
+        wl.addTags("tfoot");
+        wl.addTags("head");
+        wl.addTags("th");
+        wl.addTags("tr");
+        wl.addTags("td");
+        wl.addTags("caption");
+        wl.addAttributes("table", "style", "border");
     }
 
     public void setDefaultBlacklist()
@@ -155,6 +251,7 @@ public class KmHtmlCleaner
         KmHtmlCleaner c;
         c = new KmHtmlCleaner();
         c.addToWhitelist("b");
+        c.addToWhitelist("img");
         c.addToBlacklist("s");
 
         String out = c.clean(s);

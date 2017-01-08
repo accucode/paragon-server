@@ -63,12 +63,11 @@ public final class MyWyattTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().pad();
-        root.addButton("test", this::handleTest);
+        root.addButton("Test", this::handleTest);
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -83,6 +82,6 @@ public final class MyWyattTestPage
 
     private void handleTest()
     {
-        ajax().toast("hello");
+        ajaxToast("hello");
     }
 }

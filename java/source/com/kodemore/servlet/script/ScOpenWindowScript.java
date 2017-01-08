@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -40,28 +41,33 @@ public class ScOpenWindowScript
      * If set, the new window will load its contents from this url.
      * Clients should usually set either the url or the html, but not both.
      */
-    private String _url;
+    private String  _url;
 
     /**
      * If set, the new window will load its contents from this html.
      * Clients should usually set either the url or the html, but not both.
      */
 
-    private String _html;
+    private String  _html;
 
     /**
-     * The internal window name.  If left null, the window will not have a 
+     * The internal window name.  If left null, the window will not have a
      * name and a new window will be opened.  Specifying a window name will
      * reuse an existing window if one with the same name is available.
      */
-    private String _name;
+    private String  _name;
 
     /**
      * The parameter string used by javascript window.open(...).
      * For example: "width=480,height=300,toolbar=0,location=0,...";
      * This is usually left null.
      */
-    private String _parameters;
+    private String  _parameters;
+
+    /**
+     * If true, attempt to print the window after it has opened.
+     */
+    private boolean _print;
 
     //##################################################
     //# constructor
@@ -103,6 +109,11 @@ public class ScOpenWindowScript
     public void setHtml(String e)
     {
         _html = e;
+    }
+
+    public void setHtml(KmHtmlBuilder out)
+    {
+        setHtml(out.formatHtml());
     }
 
     public boolean hasHtml()
@@ -149,7 +160,26 @@ public class ScOpenWindowScript
     }
 
     //##################################################
-    //# scriptIF 
+    //# print
+    //##################################################
+
+    public boolean getPrint()
+    {
+        return _print;
+    }
+
+    public void setPrint(boolean e)
+    {
+        _print = e;
+    }
+
+    public void setPrint()
+    {
+        setPrint(true);
+    }
+
+    //##################################################
+    //# scriptIF
     //##################################################
 
     @Override
@@ -170,6 +200,10 @@ public class ScOpenWindowScript
         if ( hasParameters() )
             args.setString("params", getParameters());
 
+        if ( getPrint() )
+            args.setBoolean("print", getPrint());
+
         out.printf("Kmu.openWindow(%s);", args);
     }
+
 }

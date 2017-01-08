@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 package com.kodemore.servlet.variable;
 
 public class ScLocalObject
-    extends ScSimpleLocal<Object>
+    extends ScAbstractLocal<Object>
 {
     //##################################################
     //# constructor

@@ -52,7 +52,7 @@ public class MyTestServlet
         out.println();
 
         out.println("Time (UTC)");
-        out.printBold(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
+        out.printBold(KmClock.getUtcTimestamp().format_m_d_yyyy_hh_mm_ss());
         out.println();
         out.println();
 

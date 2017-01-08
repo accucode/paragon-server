@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,13 @@ import com.kodemore.utility.Kmu;
 
 /**
  * A simple control which displays Code39 barcodes.
- * 
- * Only digits (0-9) can be encoded.  The value to be 
+ *
+ * Only digits (0-9) can be encoded.  The value to be
  * encoded will be automatically validated before display.
- * If the value is null or invalid, a warning will be 
- * displayed instead. The start and stop bit are added 
+ * If the value is null or invalid, a warning will be
+ * displayed instead. The start and stop bit are added
  * automtically.
- * 
+ *
  * Because of the limitations of barcode font formatting,
  * only code39 barcodes can currently be displayed.
  */

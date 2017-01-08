@@ -26,7 +26,7 @@ public class JkNameTest
     //# variables
     //##################################################
 
-    private KmList<Node> nodes;
+    private KmList<Node>   nodes;
 
     private KmList<String> prefixes;
     private KmList<String> suffixes;

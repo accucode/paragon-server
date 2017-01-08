@@ -48,17 +48,28 @@ public class MyLog4jManager
 
     private static void load()
     {
-        if ( exists() )
+        try
         {
-            _lastModified = getLastModified();
-            DOMConfigurator.configure(_file.getRealPath());
+            if ( !loadConfigurationFile() )
+                resetToConsole();
         }
-        else
+        catch ( RuntimeException ex )
         {
             _lastModified = 0;
             resetToConsole();
+            KmLog.warnTrace("Cannot load log4j file ", ex);
         }
         KmLog.info("Log4j configuration loaded.");
+    }
+
+    private static boolean loadConfigurationFile()
+    {
+        if ( !exists() )
+            return false;
+
+        _lastModified = getLastModified();
+        DOMConfigurator.configure(_file.getRealPath());
+        return true;
     }
 
     private static void resetToConsole()

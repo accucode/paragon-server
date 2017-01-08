@@ -38,6 +38,18 @@
             />
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="nameValue"
             column="nameValue"
             type="string"
@@ -95,6 +107,32 @@
             name="pinNumber2"
             column="pinNumber2"
             type="string"
+            />
+
+        <property
+            name="duration"
+            column="duration"
+            type="com.kodemore.hibernate.type.KmhDurationType"
+            />
+
+        <property
+            name="dayFrequency"
+            column="dayFrequency"
+            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
             />
 
         <many-to-one

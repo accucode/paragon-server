@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,22 +39,17 @@ public class ScInternalFrame
     private ScLocalInteger _width;
     private ScLocalInteger _height;
     private ScLocalBoolean _border;
-    private ScLocalBoolean _scrolling;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScInternalFrame()
     {
-        super.install();
-
         _source = new ScLocalString();
-        _width = new ScLocalInteger(800);
-        _height = new ScLocalInteger(600);
+        _width = new ScLocalInteger();
+        _height = new ScLocalInteger();
         _border = new ScLocalBoolean();
-        _scrolling = new ScLocalBoolean();
     }
 
     //##################################################
@@ -80,7 +75,6 @@ public class ScInternalFrame
         out.printAttribute("width", _width.getValue());
         out.printAttribute("height", _height.getValue());
         out.printAttribute("frameborder", formatBorderAttribute());
-        out.printAttribute("scrolling", formatScrollingAttribute());
     }
 
     //##################################################
@@ -152,43 +146,11 @@ public class ScInternalFrame
     private String formatBorderAttribute()
     {
         if ( !hasBorder() )
-            return "0";
+            return null;
 
-        if ( _border.getValue() )
-            return "1";
-
-        return "0";
-    }
-
-    //##################################################
-    //# scrolling
-    //##################################################
-
-    public boolean getScrolling()
-    {
-        return _scrolling.getValue();
-    }
-
-    public void setScrolling(Boolean e)
-    {
-        _scrolling.setValue(e);
-    }
-
-    public boolean hasScrolling()
-    {
-        return _scrolling.hasValue();
-    }
-
-    private String formatScrollingAttribute()
-    {
-        Boolean b = _scrolling.getValue();
-        if ( b == null )
-            return "auto";
-
-        if ( b.equals(true) )
-            return "yes";
-
-        return "no";
+        return _border.getValue()
+            ? "1"
+            : "0";
     }
 
     //##################################################

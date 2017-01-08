@@ -51,17 +51,18 @@ public class MyMetaPasswordReset
         return "passwordReset";
     }
 
-    public static MyPasswordResetValidator getValidator()
+    public MyPasswordResetValidator getValidator()
     {
         return MyPasswordResetValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "A request to reset a user's password.  When a user requests to reset a password, we confirm the request by sending an email.  When the user responds to the email, the response is checked against this record to authenticate the request.";
     }
@@ -71,22 +72,33 @@ public class MyMetaPasswordReset
     //##################################################
 
     public static final MyMetaPasswordReset_Uid Uid = new MyMetaPasswordReset_Uid();
+    public static final MyMetaPasswordReset_CreatedUtcTs CreatedUtcTs = new MyMetaPasswordReset_CreatedUtcTs();
+    public static final MyMetaPasswordReset_UpdatedUtcTs UpdatedUtcTs = new MyMetaPasswordReset_UpdatedUtcTs();
     public static final MyMetaPasswordReset_Email Email = new MyMetaPasswordReset_Email();
     public static final MyMetaPasswordReset_Token Token = new MyMetaPasswordReset_Token();
-    public static final MyMetaPasswordReset_CreatedUtcTs CreatedUtcTs = new MyMetaPasswordReset_CreatedUtcTs();
     public static final MyMetaPasswordReset_ExpirationUtcTs ExpirationUtcTs = new MyMetaPasswordReset_ExpirationUtcTs();
     public static final MyMetaPasswordReset_LockVersion LockVersion = new MyMetaPasswordReset_LockVersion();
+    public static final MyMetaPasswordReset_DisplayString DisplayString = new MyMetaPasswordReset_DisplayString();
     public static final MyMetaPasswordReset_CreatedLocalTs CreatedLocalTs = new MyMetaPasswordReset_CreatedLocalTs();
     public static final MyMetaPasswordReset_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaPasswordReset_CreatedLocalTsMessage();
     public static final MyMetaPasswordReset_CreatedLocalDate CreatedLocalDate = new MyMetaPasswordReset_CreatedLocalDate();
     public static final MyMetaPasswordReset_CreatedLocalTime CreatedLocalTime = new MyMetaPasswordReset_CreatedLocalTime();
+    public static final MyMetaPasswordReset_UpdatedLocalTs UpdatedLocalTs = new MyMetaPasswordReset_UpdatedLocalTs();
+    public static final MyMetaPasswordReset_UpdatedLocalTsMessage UpdatedLocalTsMessage = new MyMetaPasswordReset_UpdatedLocalTsMessage();
+    public static final MyMetaPasswordReset_UpdatedLocalDate UpdatedLocalDate = new MyMetaPasswordReset_UpdatedLocalDate();
+    public static final MyMetaPasswordReset_UpdatedLocalTime UpdatedLocalTime = new MyMetaPasswordReset_UpdatedLocalTime();
     public static final MyMetaPasswordReset_ExpirationLocalTs ExpirationLocalTs = new MyMetaPasswordReset_ExpirationLocalTs();
     public static final MyMetaPasswordReset_ExpirationLocalTsMessage ExpirationLocalTsMessage = new MyMetaPasswordReset_ExpirationLocalTsMessage();
     public static final MyMetaPasswordReset_ExpirationLocalDate ExpirationLocalDate = new MyMetaPasswordReset_ExpirationLocalDate();
     public static final MyMetaPasswordReset_ExpirationLocalTime ExpirationLocalTime = new MyMetaPasswordReset_ExpirationLocalTime();
+    public static final MyMetaPasswordReset_CreatedByFullName CreatedByFullName = new MyMetaPasswordReset_CreatedByFullName();
+    public static final MyMetaPasswordReset_UpdatedByFullName UpdatedByFullName = new MyMetaPasswordReset_UpdatedByFullName();
 
     //##################################################
     //# associations
     //##################################################
 
+    public static final MyMetaPasswordReset_CreatedBy CreatedBy = new MyMetaPasswordReset_CreatedBy();
+    public static final MyMetaPasswordReset_UpdatedBy UpdatedBy = new MyMetaPasswordReset_UpdatedBy();
+    public static final MyMetaPasswordReset_Tenant Tenant = new MyMetaPasswordReset_Tenant();
 }

@@ -1,17 +1,14 @@
 package com.app.ui.page.tools;
 
-import java.time.ZoneId;
-
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.time.KmTimeConstantsIF;
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -89,12 +86,11 @@ public final class MyDevUtilityPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css();
+        root.css().fill().auto();
 
-        ScFlexbox row;
-        row = root.addRow();
-        row.css().gap();
-        row.wrap();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexRow().flexWrap().boxGray().gap();
 
         installSingleVmGroup(row);
         installExceptionGroup(row);
@@ -106,25 +102,29 @@ public final class MyDevUtilityPage
     private void installSingleVmGroup(ScContainer root)
     {
         ScGroup group;
-        group = root.addInlineGroup("Single VM");
+        group = root.addGroup("Single VM");
+        group.layoutInline();
 
-        ScBox box;
-        box = group.getBody().addLinkBox();
-        box.addLink("garbage collection", this::handleGarbageCollection);
-        box.addLink("reload properties", this::handleReloadProperties);
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().columnSpacer5().pad();
+        body.addLink("garbage collection", this::handleGarbageCollection);
+        body.addLink("reload properties", this::handleReloadProperties);
     }
 
     private void installExceptionGroup(ScContainer root)
     {
         ScGroup group;
-        group = root.addInlineGroup("Exceptions");
+        group = root.addGroup("Exceptions");
+        group.layoutInline();
 
-        ScBox box;
-        box = group.getBody().addLinkBox();
-        box.addLink("message", this::handleMessage);
-        box.addLink("error", this::handleError);
-        box.addLink("fatal", this::handleFatal);
-        box.addLink("runtime exception", this::handleRuntimeException);
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().pad().columnSpacer5();
+        body.addLink("message", this::handleMessage);
+        body.addLink("error", this::handleError);
+        body.addLink("fatal", this::handleFatal);
+        body.addLink("runtime exception", this::handleRuntimeException);
     }
 
     private void installTimeGroup(ScContainer root)
@@ -139,7 +139,8 @@ public final class MyDevUtilityPage
         _denverText.setLabel("Denver");
 
         ScGroup group;
-        group = root.addInlineGroup("Time");
+        group = root.addGroup("Time");
+        group.layoutInline();
 
         ScFieldTable fields;
         fields = group.getBody().addPad().addFieldTable();
@@ -152,11 +153,13 @@ public final class MyDevUtilityPage
     private void installTestGroup(ScContainer root)
     {
         ScGroup group;
-        group = root.addInlineGroup("Tests");
+        group = root.addGroup("Tests");
+        group.layoutInline();
 
-        ScBox box;
-        box = group.getBody().addLinkBox();
-        box.addLink("uid sequence", this::handleUidSequence);
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().pad().columnSpacer5();
+        body.addLink("uid sequence", this::handleUidSequence);
     }
 
     private void installRequestGroup(ScContainer root)
@@ -171,7 +174,8 @@ public final class MyDevUtilityPage
         _isFirefoxText.setLabel("isFirefox");
 
         ScGroup group;
-        group = root.addInlineGroup("Request / Response");
+        group = root.addGroup("Request / Response");
+        group.layoutInline();
 
         ScFieldTable fields;
         fields = group.getBody().addPad().addFieldTable();
@@ -194,10 +198,9 @@ public final class MyDevUtilityPage
         boolean isFirefox = data.isUserAgentFirefox();
 
         KmTimestamp now = getNowUtc();
-        ZoneId denverZone = KmTimeConstantsIF.DENVER_ZONE;
-
+        KmTimeZone denverTz = KmTimeZone.Mountain;
         KmTimestamp localTs = now.toLocal();
-        KmTimestamp denverTs = now.toLocal(denverZone);
+        KmTimestamp denverTs = now.toLocal(denverTz);
 
         _userAgentText.setFormattedValue(userAgent);
         _isInternetExplorerText.setFormattedValue(isIE);

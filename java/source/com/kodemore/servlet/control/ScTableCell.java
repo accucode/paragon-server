@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -36,20 +36,17 @@ public class ScTableCell
     private ScLocalInteger _columnSpan;
     private ScLocalInteger _rowSpan;
 
-    private ScLocalString _horizontalAlign;
-    private ScLocalString _verticalAlign;
+    private ScLocalString  _horizontalAlign;
+    private ScLocalString  _verticalAlign;
 
-    private ScLocalString _width;
+    private ScLocalString  _width;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTableCell()
     {
-        super.install();
-
         _columnSpan = new ScLocalInteger();
         _rowSpan = new ScLocalInteger();
         _horizontalAlign = new ScLocalString();

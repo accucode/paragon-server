@@ -78,6 +78,7 @@ An animated css menu.
 http://www.dynamicdrive.com/dynamicindex1/ddsmoothmenu.htm
 License: custom; keep notice intact
 
+
 ------------------------------
 Other
 ------------------------------
@@ -87,12 +88,10 @@ A drag and drop file uploader
 http://www.dropzonejs.com/
 License: MIT
 
-------------------------------
-Java jars
-------------------------------
+CkEditor
+A rich text editor
+http://ckeditor.com/
+License: GNU Version 2
 
-The java libraries are documented in:
 
-    $project/web/WEB-INF/lib/_credits.txt
 
-[end]

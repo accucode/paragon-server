@@ -38,15 +38,33 @@
             />
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="name"
             column="name"
             type="string"
             />
 
         <property
-            name="createdUtcTs"
-            column="createdUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
+            name="fileName"
+            column="fileName"
+            type="string"
+            />
+
+        <property
+            name="bytes"
+            column="bytes"
+            type="com.kodemore.hibernate.type.KmhBlobType"
             />
 
         <many-to-one

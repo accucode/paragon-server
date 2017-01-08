@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,26 +48,26 @@ public abstract class KmSqlAdaptor
     //# variables
     //##################################################
 
-    private KmSqlValueAdaptor<String> _stringAdaptor;
+    private KmSqlValueAdaptor<String>         _stringAdaptor;
 
-    private KmSqlValueAdaptor<Integer> _integerAdaptor;
-    private KmSqlValueAdaptor<Long>    _longAdaptor;
-    private KmSqlValueAdaptor<Double>  _doubleAdaptor;
-    private KmSqlValueAdaptor<Boolean> _booleanAdaptor;
+    private KmSqlValueAdaptor<Integer>        _integerAdaptor;
+    private KmSqlValueAdaptor<Long>           _longAdaptor;
+    private KmSqlValueAdaptor<Double>         _doubleAdaptor;
+    private KmSqlValueAdaptor<Boolean>        _booleanAdaptor;
 
-    private KmSqlValueAdaptor<KmDate>      _dateAdaptor;
-    private KmSqlValueAdaptor<KmTime>      _timeAdaptor;
-    private KmSqlValueAdaptor<KmTimestamp> _timestampAdaptor;
+    private KmSqlValueAdaptor<KmDate>         _dateAdaptor;
+    private KmSqlValueAdaptor<KmTime>         _timeAdaptor;
+    private KmSqlValueAdaptor<KmTimestamp>    _timestampAdaptor;
 
     private KmSqlValueAdaptor<KmBlob>         _byteArrayAdaptor;
     private KmSqlValueAdaptor<KmDayFrequency> _dayFrequencyAdaptor;
 
-    private KmSqlValueAdaptor<KmMoney>    _moneyAdaptor;
-    private KmSqlValueAdaptor<KmKilogram> _kilogramAdaptor;
-    private KmSqlValueAdaptor<KmQuantity> _quantityAdaptor;
-    private KmSqlValueAdaptor<KmWeight>   _weightAdaptor;
-    private KmSqlValueAdaptor<KmRate>     _rateAdaptor;
-    private KmSqlValueAdaptor<KmCost>     _costAdaptor;
+    private KmSqlValueAdaptor<KmMoney>        _moneyAdaptor;
+    private KmSqlValueAdaptor<KmKilogram>     _kilogramAdaptor;
+    private KmSqlValueAdaptor<KmQuantity>     _quantityAdaptor;
+    private KmSqlValueAdaptor<KmWeight>       _weightAdaptor;
+    private KmSqlValueAdaptor<KmRate>         _rateAdaptor;
+    private KmSqlValueAdaptor<KmCost>         _costAdaptor;
 
     //##################################################
     //# constructor

@@ -3,11 +3,10 @@
 
 pushd ..\..
 
-echo %awscli_home%\aws %1 %2 %3 %4 %5 %6 %7 %8 %9
-"%awscli_home%\aws" --region us-east-1 %1 %2 %3 %4 %5 %6 %7 %8 %9
+echo %awscli_home%\aws %*
+"%awscli_home%\aws" --region us-east-1 %*
 set cmdResult=%errorlevel%
 
 popd
 
-Exit /B %cmdResult%
-
+exit /B %cmdResult%

@@ -52,45 +52,49 @@ Kmu.currentPageKey = null;
 
 /**
  * options
- *     action
- *             Required string.
- *             The action key that identifies the server side function to execute.
+ *      action
+ *          Required string.
+ *          The action key that identifies the server side function to execute.
  *
- *     form
- *             Optional string selector.
- *             Identifies the parameters to be submitted with this request.
+ *      form
+ *          Optional string selector.
+ *          Identifies the parameters to be submitted with this request.
  *
- *     argument
- *             Optional string.
- *             The server expects this to be encoded.
- *             See ScEncoder.
+ *      argument
+ *          Optional string.
+ *          The server expects this to be encoded.
+ *          See ScEncoder.
  *
- *     extra
- *             Optional string.
- *            If set, pass this value without any encoding.
+ *      extra
+ *          Optional string.
+ *          If set, pass this value without any encoding.
  *
- *     block
- *             Optional string.
- *             If set, block the ui component BEFORE the ajax request.
- *             This should be a valid css selector.
+ *      block
+ *          Optional string selector.
+ *          If set, block the ui component BEFORE the ajax request.
+ *          This should be a valid css selector.
  *
- *     confirmation
- *             Optional string
- *             If set, prompt the user to confirm (Ok/Cancel) before submitting.
- *             Confirmation is handled with a simple window.confirm() dialog.
+ *      confirmation
+ *          Optional html string
+ *          If set, prompt the user to confirm (Ok/Cancel) before submitting.
+ *          Confirmation is handled with a simple jquery popup modal dialog.
+ *          Confirmation is handled BEFORE the dirty check for change tracking.
  *
- *     direction
- *             Optional string (forward, back, refresh, unknown).
- *             If set indicates the navigation direction.
+ *      direction
+ *          Optional string (forward, back, refresh, unknown).
+ *          If set indicates the navigation direction.
  *
- *     changeTracking
- *             If true (the default) warn the user if there are any dirty fields.
+ *      changeTracking
+ *          Optional boolean.
+ *          If true (the default) warn the user if there are any dirty fields.
+ *
+ *      changeScope
+ *          Optional string selector.
+ *          If set, changes are only checked inside this container.
+ *          If not set, check the entire page.
  */
 Kmu.ajax = function(options)
 {
-    if ( !Kmu.checkAjaxConfirmation(options) )
-        return;
-
     var ajaxFn = function()
     {
         var onSuccessArr
@@ -103,31 +107,77 @@ Kmu.ajax = function(options)
         $.ajax(
         {
             type:       'POST',
-            url:         '/servlet/ajax',
-            dataType:     'json',
-            data:         data,
-            success:     onSuccessArr,
-            error:         Kmu.ajaxError,
-            complete:     Kmu.ajaxComplete
+            url:        '/servlet/ajax',
+            dataType:   'json',
+            data:       data,
+            success:    onSuccessArr,
+            error:      Kmu.ajaxError,
+            complete:   Kmu.ajaxComplete
         });
     };
 
-    var warn = options.changeTracking;
-    Kmu.warnIfDirty(ajaxFn, warn);
+    var warnIfDirtyFn = function()
+    {
+        Kmu.warnIfDirty(
+        {
+            fn: ajaxFn,
+            changeTracking: options.changeTracking,
+            changeScope: options.changeScope
+        });
+    }
+
+    if ( !options.confirmation )
+        warnIfDirtyFn();
+    else
+        Kmu.confirmAndThen(options.confirmation.toString(), warnIfDirtyFn);
 }
 
-Kmu.checkAjaxConfirmation = function(options)
-{
-    if ( !options.confirmation )
-        return true;
 
-    var msg = options.confirmation.toString();
-    return confirm(msg);
+/**
+ * Use a modal dialog to confirm that the user wants to continue.
+ * If they say yes/ok, then run the supplied function.
+ */
+Kmu.confirmAndThen = function(htmlMsg, fn)
+{
+    // The dialog element is predefined in pageLayout.html.
+    var dialog = $("#confirmDialog");
+    $('#confirmDialogMessage').html(htmlMsg);
+
+    dialog.dialog(
+    {
+        height: 200,
+        modal: true,
+        stack: true,
+        resizable: false,
+        draggable: false,
+        closeOnEscape: false, // 'true' interferes with global event listeners.
+        close: function()
+        {
+            $(this).dialog('destroy');
+        },
+        buttons:
+        {
+            "Continue": function()
+            {
+                $(this).dialog("close");
+                fn();
+            },
+            "Cancel": function()
+            {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    dialog.parent().onEscape(function()
+    {
+        dialog.dialog('close');
+    });
 }
 
 Kmu.initAjaxBlocking = function(options)
 {
-       var onSuccessArr = [];
+    var onSuccessArr = [];
 
     if ( options.block )
     {
@@ -165,12 +215,11 @@ Kmu.formatAjaxBaseParams = function(options)
     e._currentPageKey       = Kmu.currentPageKey;
     e._windowLocation       = window.location.href;
 
-    e._isHeaderVisible      = $('#pageHeader').isVisible();
-    e._isFooterVisible      = $('#pageFooter').isVisible();
-    e._isTopMenuVisible     = $('#pageTopMenu').isVisible();
-    e._isLeftMenuVisible    = $('#pageLeftMenu').isVisible();
-    e._isPageTitleVisible   = $('#pageTitle').isVisible();
-    e._isPageContentVisible = $('#pageContent').isVisible();
+    e._isPageHeaderVisible  = $('#header').isVisible();
+    e._isPageFooterVisible  = $('#footer').isVisible();
+    e._isPageMenuVisible    = $('#menu').isVisible();
+    e._isPageTitleVisible   = $('#title').isVisible();
+    e._isPageContentVisible = $('#content').isVisible();
 
     if ( options.form )
         e._form = options.form;
@@ -187,9 +236,13 @@ Kmu.formatAjaxBaseParams = function(options)
     if ( options.direction )
         e._direction = options.direction;
 
+    var gs = KmNavigator.getGlobalSession();
+    if ( gs )
+        e._globalSession = gs;
+
     var ps = KmNavigator.getPageSession();
     if ( ps )
-        e._session = JSON.stringify(ps);
+        e._session = ps;
 
     return $.param(e);
 }
@@ -220,7 +273,7 @@ Kmu.ajaxSuccess = function(result)
 {
     try
     {
-        if ( result.script )
+        if ( result && result.script )
             eval(result.script);
     }
     catch ( ex )
@@ -243,6 +296,47 @@ Kmu.ajaxError = function(req, status, error)
 Kmu.ajaxComplete = function(jqXHR, textStatus)
 {
 }
+
+//**********************************************************
+//** dialogs
+//**********************************************************
+
+/**
+ * Use a modal dialog to display a message.
+ */
+Kmu.showNotice = function(htmlMsg)
+{
+    // The dialog element is predefined in pageLayout.html.
+    var dialog = $("#noticeDialog");
+    $('#noticeDialogMessage').html(htmlMsg);
+
+    dialog.dialog(
+    {
+        height: 200,
+        modal: true,
+        stack: true,
+        resizable: false,
+        draggable: false,
+        closeOnEscape: false, // 'true' interferes with global event listeners.
+        close: function()
+        {
+            $(this).dialog('destroy');
+        },
+        buttons:
+        {
+            "Close": function()
+            {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    dialog.parent().onEscape(function()
+    {
+        dialog.dialog('close');
+    });
+}
+
 
 //**********************************************************
 //** dom
@@ -524,6 +618,11 @@ Kmu.jsonReplaceFade = function(json)
         : inner;
 
     var speed = json.speed;
+    if ( !speed )
+        speed = 250;
+
+    // half for hide, half for show.
+    speed = speed / 2;
 
     outer.hide('fade', {}, speed, function()
     {
@@ -552,6 +651,11 @@ Kmu.jsonReplaceLeft = function(json)
         : inner;
 
     var speed = json.speed;
+    if ( !speed )
+        speed = 250;
+
+    // half for hide, half for show.
+    speed = speed / 2;
 
     outer.hide('slide', {direction:'left'}, speed, function()
     {
@@ -580,6 +684,11 @@ Kmu.jsonReplaceRight = function(json)
         : inner;
 
     var speed = json.speed;
+    if ( !speed )
+        speed = 250;
+
+    // half for hide, half for show.
+    speed = speed / 2;
 
     outer.hide('slide', {direction:'right'}, speed, function()
     {
@@ -598,6 +707,72 @@ Kmu.jsonReplaceRight = function(json)
         });
     });
 }
+
+Kmu.jsonReplaceFlip = function(json)
+{
+    var inner = $(json.inner);
+
+    var outer = json.outer
+        ? $(json.outer)
+        : inner;
+
+    outer.promise().done(function()
+    {
+
+        var easing   = jQuery.easing.def;
+        var style    = outer.attr('style');
+
+        var speed = json.speed;
+        if ( !speed )
+            speed = 250;
+
+        // half for hide, half for show.
+        speed = speed / 2;
+
+        outer.transition(
+        {
+            rotateY:  90,
+            duration: speed,
+            easing:   easing
+        });
+
+        outer.promise().done(function()
+        {
+            outer.hide();
+
+            inner.empty();
+            if ( json.html )
+                inner.html(json.html);
+
+            if ( json.postDomScript )
+                eval(json.postDomScript);
+
+            outer.show();
+
+            outer.promise().done(function()
+            {
+                outer.transition(
+                {
+                       rotateY:  0,
+                       duration: speed,
+                       easing:   easing
+                });
+
+                outer.promise().done(function()
+                {
+                    if ( json.postRenderScript )
+                        eval(json.postRenderScript);
+
+                    if ( style )
+                        outer.attr('style', style);
+                    else
+                        outer.removeAttr('style');
+                });
+            });
+        });
+    });
+}
+
 
 Kmu.jsonShow = function(json)
 {
@@ -624,7 +799,7 @@ Kmu.evalSafe = function(s)
 
 //**********************************************************
 //** cookies
-//** https://github.com/carhartl/jquery-cookie
+//** https://github.com/js-cookie/js-cookie
 //**********************************************************
 
 /**
@@ -633,7 +808,7 @@ Kmu.evalSafe = function(s)
  */
 Kmu.getCookie = function(key)
 {
-    return $.cookie(key);
+    return Cookies.get(key);
 }
 
 /**
@@ -641,8 +816,8 @@ Kmu.getCookie = function(key)
  */
 Kmu.setCookie = function(key, value)
 {
-    var options = { days: 365 };
-    $.cookie(key, value, options);
+    var options = { expires: 365 };
+    Cookies.set(key, value, options);
 }
 
 /**
@@ -650,7 +825,7 @@ Kmu.setCookie = function(key, value)
  */
 Kmu.setSessionCookie = function(key, value)
 {
-    $.cookie(key, value);
+    Cookies.set(key, value);
 }
 
 /**
@@ -658,7 +833,8 @@ Kmu.setSessionCookie = function(key, value)
  */
 Kmu.hasCookie = function(key)
 {
-    return $.cookie(key) == null;
+    var e = Cookies.get(key);
+    return e !== null && e !== undefined && e !== '';
 }
 
 /**
@@ -668,7 +844,7 @@ Kmu.clearCookie = function(key)
 {
     // Set to empty string instead of null.
     // In some cases (e.g.: FF7) setting null doesn't work correctly.
-    $.cookie(key, '');
+    Kmu.setSessionCookie(key, '');
 }
 
 //**********************************************************
@@ -969,6 +1145,7 @@ Kmu.resetCursor = function(sel)
  *     name:    The name of the new window.
  *     params:  A single string listing all of the window parameters.
  *     html:    The html to add to the window after it opens.
+ *     print:   If true, attempt to print the window after it opens.
  */
 Kmu.openWindow = function(args)
 {
@@ -998,6 +1175,10 @@ Kmu.openWindow = function(args)
         w.document.write(html);
         w.document.close();
     }
+
+    var print = (args.print === true);
+    if ( w && print )
+        w.print();
 }
 
 
@@ -1117,82 +1298,6 @@ $.blockUI.defaults.css = {};
 
 
 //**********************************************************
-//** equalize
-//**********************************************************
-
-/**
- * This function will equalize the height and width of elements
- * passed in a jquery selector.
- *
- * This method is probably obsolete. In most cases, using the
- * flexbox css styles solves the same problem without javascript.
- */
-Kmu.equalize = function(options)
-{
-    var selector    = options.selector;
-    var height      = options.height;
-    var width       = options.width;
-    var tallest     = options.minHeight || 0;
-    var widest      = options.minWidth || 0;
-    var maxHeight   = options.maxHeight;
-    var maxWidth    = options.maxWidth;
-    var fillerSel = ".equalizeFiller";
-
-    // equalize width
-
-    if ( width )
-    {
-        $(selector).each(function()
-        {
-            if ( $(this).width() > widest )
-                widest = $(this).width();
-        });
-
-        if ( maxWidth && widest > maxWidth )
-                widest = maxWidth;
-
-        $(selector).each(function()
-        {
-            $(this).width(widest);
-        });
-    }
-
-    // equalize height
-
-    if ( height )
-    {
-        $(selector).find(fillerSel).each(function()
-        {
-            $(this).height(0);
-        });
-
-        $(selector).each(function()
-        {
-            if ( $(this).height() > tallest )
-                tallest = $(this).height();
-        });
-
-        if ( maxHeight && tallest > maxHeight )
-                tallest = maxHeight;
-
-        $(selector).each(function()
-        {
-            var filler = $(this).find(fillerSel);
-
-            if ( filler.length > 0 )
-            {
-                var diff = tallest - $(this).height();
-
-                if ( diff > 0 )
-                    filler.first().height(diff);
-            }
-            else
-                $(this).height(tallest);
-        });
-    }
-}
-
-//**********************************************************
 //** flip
 //**********************************************************
 
@@ -1202,16 +1307,18 @@ Kmu.flipHide = function(options)
     var duration = options.duration;
     var easing = options.easing;
 
-    $(selector).transition(
+    var target = $(selector);
+
+    target.transition(
     {
         rotateY: 90,
         duration: duration,
         easing: easing
     });
 
-    $(selector).promise().done(function()
+    target.promise().done(function()
     {
-        $(selector).hide();
+        target.hide();
     });
 }
 
@@ -1221,9 +1328,11 @@ Kmu.flipShow = function(options)
     var duration = options.duration;
     var easing = options.easing;
 
-    $(selector).show();
+    var target = $(selector);
 
-    $(selector).transition(
+    target.show();
+
+    target.transition(
     {
         rotateY: 0,
         duration: duration,
@@ -1604,24 +1713,33 @@ Kmu.dmsRenumber = function()
 
 
 //**********************************************************
-//** old value
+//** old/dirty value
 //**********************************************************
 
 Kmu.oldValueTargets = ["input", "textarea", "select"];
 
 /**
  * Attempt to reset ALL controls on the PAGE to their original values.
+ *
+ * scope:
+ *         Identifies the scope of the document to search for dirty values.
+ *         If specified, this must be a valid selector.
+ *         If null/undefined, check the entire page.
  */
-Kmu.resetFieldsToOldValue = function()
+Kmu.resetDirtyFields = function(scope)
 {
     var arr = Kmu.oldValueTargets;
     var n = arr.length;
     for ( var i=0; i<n; i++ )
     {
         var target = arr[i];
-        $(target).each(function(i, e)
+        var elements = scope
+            ? $(scope).find(target)
+            : $(target);
+
+        elements.each(function(i, e)
         {
-            Kmu.resetFieldToOldValue(e);
+            Kmu.resetDirtyField(e);
         });
     }
 }
@@ -1629,7 +1747,7 @@ Kmu.resetFieldsToOldValue = function()
 /**
  * Attempt to reset a SINGLE control to its original value.
  */
-Kmu.resetFieldToOldValue = function(e)
+Kmu.resetDirtyField = function(e)
 {
     e = $(e);
     var old;
@@ -1644,45 +1762,61 @@ Kmu.resetFieldToOldValue = function(e)
     old = e.data('kmOldChecked');
     if ( old !== undefined )
     {
-        e[0].checked = (old == 'true');
+        var checked = (old == true) || (old == 'true');
+        e.prop('checked', checked);
         return;
     }
 }
 
 /**
- * Check all fields on the page.
+ * Check all fields on the PAGE.
  *
  * If NONE of the fields have been changed, execute continueFn.
  *
  * If ANY of the fields have been changed, display a warning, then execute
  * continueFn if the user accepts the warning.
  *
- * Also, if the optional warn parameter is false,
- * skip the warning and execute continueFn.
+ * Options
+ *         fn:
+ *             the no-arg function to run.
+ *         changeTracking:
+ *              A boolean that indicates if change tracking is enabled.
+ *             If not enabled, run the function without any warnings.
+ *             Defaults to true, if absent/null/undefined.
+ *         changeScope:
+ *             Identifies the scope of the document to search for dirty values.
+ *             If specified, this must be a valid selector.
+ *             If absent/null/undefined, check the entire page.
  */
-Kmu.warnIfDirty = function(continueFn, warn)
+Kmu.warnIfDirty = function(options)
 {
-    if ( warn === false )
+    var fn              = options.fn;
+    var skipWarning     = options.changeTracking === false;
+    var scope           = options.changeScope;
+
+    if ( skipWarning )
     {
-        continueFn();
+        fn();
         return;
     }
 
-    if ( !Kmu.hasDirtyValues() )
+    if ( !Kmu.hasDirtyValues(scope) )
     {
-        continueFn();
+        fn();
         return;
     }
 
     // The dialog element is predefined in pageLayout.html.
-    $("#warnIfDirtyDialog").dialog(
+    var dialog;
+    dialog = $("#warnIfDirtyDialog");
+    dialog.dialog(
     {
         height: 200,
         modal: true,
         stack: true,
         resizable: false,
         draggable: false,
-        closeOnEscape: false, // true interferes with global event listeners.
+        closeOnEscape: false, // 'true' interferes with global event listeners.
         close: function()
         {
             $(this).dialog('destroy');
@@ -1692,7 +1826,8 @@ Kmu.warnIfDirty = function(continueFn, warn)
             "Continue Without Saving": function()
             {
                 $(this).dialog("close");
-                continueFn();
+                Kmu.resetDirtyFields(scope);
+                fn();
             },
             "Cancel": function()
             {
@@ -1701,17 +1836,22 @@ Kmu.warnIfDirty = function(continueFn, warn)
         }
     });
 
-    $('#warnIfDirtyDialog').parent().onEscape(function()
+    dialog.parent().onEscape(function()
     {
-        $('#warnIfDirtyDialog').dialog('close');
+        dialog.dialog('close');
     });
 }
 
 /**
  * Check if any field on the page has a different value than its oldValue.
  * Return true if at least one changed field is found.
+ *
+ * scope
+ *         If specified, search the contents of this selector.
+ *         If null/undefined, search the entire page.
+ *
  */
-Kmu.hasDirtyValues = function()
+Kmu.hasDirtyValues = function(scope)
 {
     var arr = Kmu.oldValueTargets;
     var n = arr.length;
@@ -1720,12 +1860,17 @@ Kmu.hasDirtyValues = function()
     for ( var i=0; i<n; i++ )
     {
         var target = arr[i];
-        $(target).each(function(i, e)
+        var elements = scope
+            ? $(scope).find(target)
+            : $(target);
+
+        elements.each(function(i, e)
         {
             if ( Kmu.hasDirtyValue(e))
             {
                 dirty = true;
-                return false;
+                // console.log('Dirty: ' + $(e).attr('id'));
+                return false; // return from the elements.each function
             }
         });
 
@@ -1751,10 +1896,39 @@ Kmu.hasDirtyValue = function(e)
 
     old = e.data('kmOldChecked');
     if ( old !== undefined )
-        return e[0].checked != (old == 'true');
+        return e[0].checked != (old == true);
 
     return false;
 }
+
+Kmu.showNoticeIfDirty = function(scope)
+{
+    var dirty = Kmu.hasDirtyValues(scope);
+    if ( !dirty )
+        return true;
+
+    Kmu.showNotice(
+        'You have unsaved changes.<br>' +
+        'Save or cancel the changes before continuing.');
+    return false;
+}
+
+/**
+ * Set a single fields old value to the current value of the field.
+ */
+Kmu.updateOldValue = function(e)
+{
+    e = $(e);
+    
+    console.log(e);
+    console.log(e.val());
+    
+    e.data('kmOldValue',e.val());
+}
+
+//**********************************************************
+//** select text
+//**********************************************************
 
 /**
  * Select (highlight) the text in the specified element.
@@ -1786,11 +1960,56 @@ Kmu.selectText = function(sel)
     }
 }
 
+/**
+ * Deselect (un-highlight) the selected text.
+ */
+Kmu.deselect = function()
+{
+    // Chrome
+    if (window.getSelection && window.getSelection().empty)
+    {
+        window.getSelection().empty();
+        return;
+    }
+
+    // Firefox
+    if (window.getSelection && window.getSelection().removeAllRanges)
+    {
+        window.getSelection().removeAllRanges();
+        return;
+    }
+
+    // IE?
+    if (document.selection)
+    {
+        document.selection.empty();
+        return;
+    }
+}
+
+/**
+ * Select and copy the text with an element.
+ * E.g.: copy the text within a DIV element.
+ * To copy the text in a field use selectAndCopyField.
+ */
 Kmu.selectAndCopyText = function(sel)
 {
     Kmu.selectText(sel);
     Kmu.copyToClipboard();
+    Kmu.deselect();
 }
+
+/**
+ * Select and copy the text with an input field.
+ * To copy the text in a div selectAndCopyText.
+ */
+Kmu.selectAndCopyField = function(sel)
+{
+    $(sel).select();
+    Kmu.copyToClipboard();
+    // Kmu.deselect();
+}
+
 
 /**
  * Use execCommand to ask the browser to copy the current selection
@@ -1887,79 +2106,110 @@ Kmu.screenCapture = function(options)
 //**********************************************************
 
 /**
- * Calllback for when a user selects a section of the calendar.
- * The start and end times of the selection are submitted to the server
- * as in a json object in the extra parameter of Kmu.ajax().
- * See ScCalendar.setOnSelectAction().
+ * Request event data from the server via ajax.
  */
-Kmu.calendarSelectAjax = function(action, start, end)
+Kmu.calendarGetAjaxData = function(calendar, form)
 {
-    var e = {
+    var result = {};
+
+    if ( form )
+    {
+        var arr = form.serializeArray();
+        var n = arr.length;
+        for ( var i=0; i<n; i++ )
+        {
+            var e = arr[i];
+            result[e.name] = e.value;
+        }
+    }
+
+    var gs = KmNavigator.getGlobalSession();
+    if ( gs )
+        result._globalSession = gs;
+
+    var ps = KmNavigator.getPageSession();
+    if ( ps )
+        result._session = ps;
+
+    return result;
+}
+
+
+/**
+ * Notify the server that the user selected a region on the calendar.
+ * This is typically used to create a new event.
+ *
+ * Use the standard action/action mechanism to pass the event details
+ * in the 'extra' parameter.
+ *
+ * See ScCalendar.java
+ */
+Kmu.ajaxCalendarSelect = function(start, end, ajaxOptions)
+{
+    var e =
+    {
         eventStart: start.valueOf(),
-        eventEnd:     end.valueOf()
-    };
+        eventEnd:   end.valueOf()
+    }
 
-    var options = {
-        action: action.key,
-        extra: JSON.stringify(e)
-    };
-
-    Kmu.ajax(options);
+    ajaxOptions.extra = JSON.stringify(e);
+    Kmu.ajax(ajaxOptions);
 }
 
 /**
- * Hook for firing an action when a user interacts with the calendar.  The event's
- * information is submitted to the server in a json object in the extra parameter
- * of Kmu.ajax().  ScCalendar has convenience methods for extracting the event from
- * the request.
+ * Notify the server that the user clicked (or moved) on an existing event.
+ *
+ * Use the standard action/action mechanism to pass the event details
+ * in the 'extra' parameter.
+ *
  * See ScCalendar.java
  */
-Kmu.calendarAjax = function(action, event)
+Kmu.ajaxCalendarEvent = function(event, ajaxOptions)
 {
     var eventEnd = null;
     if ( event.end )
         eventEnd = event.end.valueOf();
 
-    var e = {
-        eventUid:         event.id,
-        eventTitle:     event.title,
-        eventStart:     event.start.valueOf(),
-        eventEnd:         eventEnd,
-        eventAllDay:    event.allDay,
-        eventColor:     event.color
+    var e =
+    {
+        eventUid:               event.id,
+        eventTitle:             event.title,
+        eventStart:             event.start.valueOf(),
+        eventEnd:               eventEnd,
+        eventAllDay:            event.allDay,
+        eventCssName:           event.className,
+        eventTextColor:         event.textColor,
+        eventBackgroundColor:   event.backgroundColor,
+        eventBorderColor:       event.backgroundColor
     };
 
-    var options = {
-        action: action.key,
-        extra: JSON.stringify(e)
-    };
-
-    Kmu.ajax(options);
+    ajaxOptions.extra = JSON.stringify(e);
+    Kmu.ajax(ajaxOptions);
 }
 
 /**
- * This is used to update events, since removing and then re-adding an event with
- * the same id can cause issues.  Note we only copy the fields that are actually
- * set in the java code.
+ * This is used to update existing calendar events.
+ * Removing and re-adding event with the same id can cause issues.
  */
-Kmu.calendarUpdateEventAjax = function(calendar, event)
+Kmu.calendarUpdateEvent = function(calendar, event)
 {
-    var old = calendar.fullCalendar('clientEvents', event.id)[0];
+    var e = calendar.fullCalendar('clientEvents', event.id)[0];
+    var exists = !!e;
 
-    if ( !old )
-    {
-        console.log("old is null");
-        return;
-    }
+    if ( !exists )
+        e = {};
 
-    old.id     = event.id;
-    old.title  = event.title;
-    old.start  = event.start;
-    old.end    = event.end;
-    old.allDay = event.allDay;
-    old.color  = event.color;
+    e.id     = event.id;
+    e.title  = event.title;
+    e.start  = event.start;
+    e.end    = event.end;
+    e.allDay = event.allDay;
+    e.color  = event.color;
 
-    calendar.fullCalendar('updateEvent', old);
+    if ( exists )
+        calendar.fullCalendar('updateEvent', e);
+    else
+        calendar.fullCalendar('addEventSource', [e]);
 }
 
 //**********************************************************
@@ -2024,6 +2274,19 @@ Kmu.enableChoiceByValue = function(parent, val)
     $(parent).buttonset();
 }
 
+/**
+ * This is used to make change tracking work for choice fields.  It
+ * updates the hidden field with the selected value.
+ */
+Kmu.updateChoiceHiddenField = function(parent)
+{
+    var sel = parent + " > input:radio:checked";
+    var value = $(sel).val();
+    var hidden = parent + " > :hidden";
+
+    $(hidden).val(value);
+}
+
 Kmu.findChoiceByValue = function(parent, val)
 {
     var sel = parent + " > input[value='" + val + "']";
@@ -2034,4 +2297,267 @@ Kmu.findLabelForChoice = function(parent, choiceId)
 {
     var sel = parent + " > label[for='" + choiceId + "']";
     return $(sel);
+}
+
+
+//**********************************************************
+//** set checked by name
+//**********************************************************
+
+/**
+ * Find any checkbox that match the specified name,
+ * then set their checked state.
+ *
+ * options...
+ * name: the name of the checkbox(es) to be updated.
+ * value: the (optional) value of the checkbox(es) to be updated.
+ * changeTracking: determine if change tracking is enabled
+ * checked: sets the checkbox(es) to be checked or unchecked.
+ *
+ * $("input[name='NAME']").filter("input[value='VALUE']")[0].checked = CHECKED;
+ */
+Kmu.setCheckedByName = function(options)
+{
+    var nameSel = "input[name='" + options.name + "']";
+    var v = $(nameSel);
+
+    if ( options.value )
+    {
+        var valueSel = "input[value='" + options.value + "']";
+        v = v.filter(valueSel);
+    }
+
+    v.each(function()
+    {
+        this.checked = options.checked;
+
+        if ( options.changeTracking )
+            $(this).data("km-old-checked", options.checked);
+    });
+}
+
+//**********************************************************
+//** encode utf8
+//**********************************************************
+
+/**
+ * Encode a string to utf8.
+ * http://ecmanaut.blogspot.ca/2006/07/encoding-decoding-utf8-in-javascript.html
+ */
+Kmu.encodeUtf8 = function(s)
+{
+    return unescape(encodeURIComponent(s));
+}
+
+/**
+ * Decode a string from utf8.
+ * http://ecmanaut.blogspot.ca/2006/07/encoding-decoding-utf8-in-javascript.html
+ */
+Kmu.decodeUtf8 = function(s)
+{
+    return decodeURIComponent(escape(s));
+}
+
+//**********************************************************
+//** ckeditor (html editor)
+//**********************************************************
+
+/**
+ * Attempt to resize a ckeditor to fill its parent.
+ * This was tested with version 4.5.8.
+ * This overrides the style properties with a combination
+ * of absolute and flexbox layouts, applied to the nested
+ * elements of the ckeditor.
+ */
+Kmu.ckEditorFill = function(textAreaId)
+{
+    var ckeSel = '#cke_' + textAreaId;
+
+    var cke      = $(ckeSel);
+    var inner    = $(ckeSel + ' > .cke_inner');
+    var top      = $(ckeSel + ' > .cke_inner > .cke_top');
+    var contents = $(ckeSel + ' > .cke_inner > .cke_contents');
+    var iframe   = $(ckeSel + ' > .cke_inner > .cke_contents > iframe');
+
+    if ( cke.size() != 1 )
+    {
+        console.log('ckEditorFill, cannot find cke.');
+        return;
+    }
+
+    if ( inner.size() != 1 )
+    {
+        console.log('ckEditorFill, cannot find inner.');
+        return;
+    }
+
+    if ( top.size() != 1 )
+    {
+        console.log('ckEditorFill, cannot find top.');
+        return;
+    }
+
+    if ( contents.size() != 1 )
+    {
+        console.log('ckEditorFill, cannot find contents.');
+        return;
+    }
+
+    if ( iframe.size() != 1 )
+    {
+        console.log('ckEditorFill, cannot find iframe.');
+        return;
+    }
+
+    var s;
+
+    // cke
+    s = '';
+    s = s + 'display: block;';
+    s = s + 'position:absolute; left:0; right:0; top:0; bottom:0;';
+    cke.prop('style', s);
+
+    // inner
+    s = '';
+    s = s + 'position:absolute; left:0; right:0; top:0; bottom:0;';
+    s = s + 'display: flex; flex-direction: column;';
+    inner.prop('style', s);
+
+    // top
+    s = '';
+    s = s + 'flex-grow:0; flex-shrink:0;';
+    top.prop('style', s);
+
+   // content
+    s = '';
+    s = s + 'flex-grow:1; flex-shrink:1;';
+    s = s + 'display: flex; flex-direction: column;';
+    contents.prop('style', s);
+
+    // iframe
+    s = '';
+    s = s + 'flex-grow:1; flex-shrink:1;';
+    iframe.prop('style', s);
+}
+
+Kmu.ckEditorSetValue = function(target, value, updateOldValue)
+{
+    var e = target;
+    
+    if ( updateOldValue )
+        e.val(value).done(function() 
+        {
+            e.data('kmOldValue',e.val())
+        });
+    else
+        e.val(value);
+}
+
+//**********************************************************
+//** help tooltip
+//**********************************************************
+
+/**
+ * Install custom popup tooltips for application help messages.
+ * Although the tooltip is install on the entire document, it
+ * uses a custom content function to limit its use to elements
+ * that have the 'helpTooltip' class.
+ */
+Kmu.initTooltip = function()
+{
+    $(document).tooltip(
+    {
+        content: function(callback)
+        {
+            var e = $(this);
+            if ( e.hasClass('helpTooltip') )
+                callback(e.attr('title'));
+        },
+        tooltipClass: 'helpTooltipPopup',
+        position:
+        {
+            my: "left+5 top",
+            at: "right center",
+            collision: "flipfit"
+        }
+    });
+}
+
+//**********************************************************
+//** popup
+//**********************************************************
+
+/**
+ * Reset ALL popup menus.
+ */
+Kmu.resetPopups = function()
+{
+    var sel = '.popupContent';
+    $(sel).hide();
+    setTimeout(function() { $(sel).css('display', '') }, 0);
+}
+
+//**********************************************************
+//** css menu
+//**********************************************************
+
+/**
+ * Close the top navigation menu.
+ * The menu is a simple css menu that opens on hover,
+ * so we manually force it to hide, then reshow it.
+ */
+Kmu.closeMenu = function()
+{
+    var sel = '.menu ul ul';
+    $(sel).hide();
+    setTimeout(function() { $(sel).show() }, 0);
+}
+
+//**********************************************************
+//** math
+//**********************************************************
+
+/**
+ * Round the value to the requested number of decimal places.
+ * Return a NUMBER which although correctly rounded, may display fewer decimal places.
+ */
+Kmu.roundTo = function(value, places)
+{
+    var t = Math.pow(10, places);
+    return (Math.round((value * t)
+        + (places>0?1:0) * (Math.sign(value) * (10 / Math.pow(100, places)))) / t);
+}
+
+/**
+ * Round the value to the requested number of decimal places.
+ * Return a STRING formatted to the requested decimal places.
+ */
+Kmu.roundPrecise = function(value, places)
+{
+    return Kmu.roundTo(value, places).toFixed(places);
+}
+
+//**********************************************************
+//** math
+//**********************************************************
+
+/**
+ * Adjust the tab book's overlay to match the specified tab.
+ */
+Kmu.adjustTabBookOverlay = function(overlaySel, tabSel)
+{
+    var borderWidth = $(tabSel).css('border-left-width');
+    var tabPosition = 'left+' + borderWidth + ' bottom';
+    var tabWidth    = $(tabSel).innerWidth();
+
+    var e;
+    e = $(overlaySel);
+    e.innerWidth(tabWidth);
+    e.position(
+    {
+        my: 'left top',
+        at: tabPosition,
+        of: tabSel,
+        collision: 'none'
+    });
 }

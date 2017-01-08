@@ -50,6 +50,15 @@ public abstract class KmJsonUtility
         return withoutBrackets(v);
     }
 
+    public static String format(Boolean e)
+    {
+        KmJsonArray v;
+        v = new KmJsonArray();
+        v.addBoolean(e);
+
+        return withoutBrackets(v);
+    }
+
     public static String formatNull()
     {
         return "null";

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaFile_Path
     {
         return "The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaFile_Path
         return getAccess().getFileDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaFile_Path
     {
         return model.getPath();
     }
-    
+
     @Override
     public void setValueFor(MyFile model, String value)
     {
         model.setPath(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyFile model, String value)
     {
         return model.hasPath(value);
     }
-    
+
 }

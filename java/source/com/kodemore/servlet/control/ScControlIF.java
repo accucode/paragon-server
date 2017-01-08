@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,11 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
+import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.field.ScControlVisitorIF;
-import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 
 public interface ScControlIF
 {
@@ -39,9 +34,11 @@ public interface ScControlIF
     //# hierarchy
     //##################################################
 
+    ScControl getParent();
+
     void setParent(ScControl e);
 
-    Iterator<ScControlIF> getComponents();
+    KmList<ScControl> getChildren();
 
     ScHtmlIdIF getFocusTarget();
 
@@ -54,12 +51,14 @@ public interface ScControlIF
     void renderOn(KmHtmlBuilder out);
 
     //##################################################
-    //# accept
+    //# visit
     //##################################################
 
-    void accept(ScControlVisitorIF e);
+    void visitAll(Consumer<ScControl> e);
 
-    boolean accept(ScStoppableControlVisitorIF e);
+    void visitAllFields(Consumer<ScFieldIF<?>> e);
+
+    void visitAllForms(Consumer<ScForm> e);
 
     //##################################################
     //# fields
@@ -68,6 +67,14 @@ public interface ScControlIF
     void saveFieldValues();
 
     void resetFieldValues();
+
+    //##################################################
+    //# label
+    //##################################################
+
+    String getLabel();
+
+    void setLabel(String e);
 
     //##################################################
     //# apply
@@ -90,16 +97,15 @@ public interface ScControlIF
     boolean hasErrors();
 
     //##################################################
-    //# find
-    //##################################################
-
-    @SuppressWarnings("rawtypes")
-    ScField findFieldFor(KmMetaAttribute<?,?> attr);
-
-    //##################################################
     //# parameters
     //##################################################
 
-    void readParameters(ScServletData data);
+    void readParameters();
+
+    //##################################################
+    //# casting
+    //##################################################
+
+    public ScControl asControl();
 
 }

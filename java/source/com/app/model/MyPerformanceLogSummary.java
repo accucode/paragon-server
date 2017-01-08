@@ -3,9 +3,11 @@ package com.app.model;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyPerformanceLogSummaryBase;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyPerformanceLogSummary
     extends MyPerformanceLogSummaryBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor

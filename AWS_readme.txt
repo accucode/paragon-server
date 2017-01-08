@@ -9,32 +9,16 @@ Installing and configuring Toolkit
         
         2.  We suggest changing the install location to the following...
             Regardless, remember the install location because it must match below.
-                c:\java\IAMCli
-
-    Create AWS credentials
-    
-        1.  Create a new user in the and download the credentials CSV file
-        
-        2.  Create a new (C:\java\AWSCLI\aws-credentials.txt)
-            Format:
-                AWSAccessKeyId=<ACCESS KEY>
-                AWSSecretKey=<SECRET KEY>
-
-        3.  Modify kmSetEnvLocal.bat
-                set aws_credential_file=C:\java\AWSCLI\aws-credentials.txt
-                set awscli_home=C:\java\AWSCLI
+                c:\java\awscli
                 
-        4.  Run the ExportSettings target of the Setup ANT script.
-
-Deploying software to AWS
-
-    The following scripts are used to manage the AWS environment
-        [project_home]/ant/Production
-        [project_home]/ant/Test
-        [project_home]/ant/Development
-
-    1.  Perform all pre-deployment steps. e.g. Tagging, updating build number
-    2.  Run the makeWarUsingTemp target to create the war file in [project_home]/temp
-    3.  Run the deploy target to push the war file into the AWS environment.
+    Configuring AWS CLI permissions
+        1.  In cmd shell, go to the directory where the AWS Cli is installed.
+        2.  Run, aws configure --profile core
+                Access key ID from credentials file
+                Secret Access key from credentials file
+                Default region name is us-east-1
+                Default output format, just hit enter to accept the default.
+        3.  Add env var to developer version of the setEnvLocal file
+                set awscli_home=C:\java\awscli    
 
  [end]

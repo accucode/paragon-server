@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 import com.kodemore.servlet.variable.ScLocalRawFunction;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.Kmu;
 
 /**
  * The typical button that we use to run an action.
@@ -46,22 +47,19 @@ public class ScActionButton
     private ScLocalRawFunction _argument;
     private ScLocalString      _extra;
     private ScLocalHtmlId      _blockTarget;
-    private ScLocalString      _confirmationMessage;
+    private ScLocalString      _confirmationMessageHtml;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScActionButton()
     {
-        super.install();
-
         _action = new ScLocalAction();
         _argument = new ScLocalRawFunction();
         _extra = new ScLocalString();
         _blockTarget = new ScLocalHtmlId();
-        _confirmationMessage = new ScLocalString();
+        _confirmationMessageHtml = new ScLocalString();
     }
 
     //##################################################
@@ -69,7 +67,7 @@ public class ScActionButton
     //##################################################
 
     @Override
-    protected String formatHtmlType()
+    protected String getButtonType()
     {
         return "button";
     }
@@ -90,7 +88,7 @@ public class ScActionButton
 
     public ScAction setAction(Runnable r)
     {
-        ScAction a = newAction(r);
+        ScAction a = newCheckedAction(r);
         _action.setValue(a);
         return a;
     }
@@ -129,20 +127,20 @@ public class ScActionButton
         _extra.setValue(e);
     }
 
-    public String getConfirmationMessage()
+    public String getConfirmationMessageHtml()
     {
-        return _confirmationMessage.getValue();
+        return _confirmationMessageHtml.getValue();
     }
 
-    public void setConfirmationMessage(String e)
+    public void setConfirmationMessageHtml(String html)
     {
-        _confirmationMessage.setValue(e);
+        _confirmationMessageHtml.setValue(html);
     }
 
-    public void disableChangeTracking()
+    public void setConfirmationMessageText(String text)
     {
-        if ( hasAction() )
-            getAction().disableChangeTracking();
+        String html = Kmu.escapeHtml(text, true);
+        setConfirmationMessageHtml(html);
     }
 
     //##################################################
@@ -189,8 +187,7 @@ public class ScActionButton
         s.setForm(form);
         s.setModel(getModel());
         s.setBlockTarget(block);
-        s.setConfirmationMessage(getConfirmationMessage());
-
+        s.setConfirmationMessage(getConfirmationMessageHtml());
         return s.formatScript();
     }
 }

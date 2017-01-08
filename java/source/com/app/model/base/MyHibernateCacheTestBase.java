@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyHibernateCacheTestBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -51,6 +54,7 @@ public abstract class MyHibernateCacheTestBase
     {
         super();
         setUid(newUid());
+        setLockVersion(0);
     }
 
     //##################################################
@@ -64,7 +68,6 @@ public abstract class MyHibernateCacheTestBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -105,7 +108,6 @@ public abstract class MyHibernateCacheTestBase
 
     public void setData(String e)
     {
-        checkReadOnly();
         e = Validator.getDataValidator().convertOnly(e);
         data = e;
     }
@@ -146,7 +148,6 @@ public abstract class MyHibernateCacheTestBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -164,6 +165,22 @@ public abstract class MyHibernateCacheTestBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
 
@@ -202,7 +219,20 @@ public abstract class MyHibernateCacheTestBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyHibernateCacheTest getBasicCopy()
+    {
+        MyHibernateCacheTest e;
+        e = new MyHibernateCacheTest();
+        e.setData(getData());
+        return e;
     }
 
     //##################################################
@@ -235,6 +265,7 @@ public abstract class MyHibernateCacheTestBase
     {
         if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 
@@ -293,4 +324,10 @@ public abstract class MyHibernateCacheTestBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

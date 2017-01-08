@@ -3,7 +3,7 @@ package sandbox.wlove;
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoRunnableCommand;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyFieldTest;
 import com.app.model.MyProject;
 import com.app.utility.MyGlobals;
@@ -53,13 +53,13 @@ public class JkDaoChangeTrackingTest
         //        MyProject p2 = projects.get(1);
 
         //        MyUser root;
-        //        root = getAccess().getUserDao().findEmail("root");
+        //        root = getAccess().getUserDao().findRoot();
 
         MyFieldTest test;
         test = new MyFieldTest();
         test.setNameValue("bob");
         test.setIntegerValue(1);
-        test.attachDao();
+        test.daoAttach();
 
         //        test = getAccess().findFieldTestUid("6MU2D31-KGSXH5-J01HPX-9OL887");
         //        test.setMoneyTest(KmMoney.ZERO.add(5.25));
@@ -69,7 +69,7 @@ public class JkDaoChangeTrackingTest
     //# support
     //##################################################
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

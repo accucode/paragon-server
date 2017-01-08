@@ -41,7 +41,9 @@ public abstract class MyThreadTopicToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyThreadTopicFilter());
         e.setFinder(new MyThreadTopicFinder());
-        e.setOptionKeyAdaptor(Meta.Code);
+        e.setOptionKeyFunction(Meta.Code);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

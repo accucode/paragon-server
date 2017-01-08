@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -68,13 +68,13 @@ public class KmTimestamp
 
     public static KmTimestamp fromInstant(Instant i)
     {
-        LocalDateTime e = i.atZone(UTC_ZONE).toLocalDateTime();
+        LocalDateTime e = i.atZone(KmTimeZone.UTC.getZoneId()).toLocalDateTime();
         return fromLocalDateTime(e);
     }
 
     public Instant toInstant()
     {
-        return _inner.atZone(UTC_ZONE).toInstant();
+        return _inner.atZone(KmTimeZone.UTC.getZoneId()).toInstant();
     }
 
     //==================================================
@@ -130,7 +130,7 @@ public class KmTimestamp
      */
     public int toEpochSeconds()
     {
-        return (int)toInstant().toEpochMilli() / 1000;
+        return (int)(toInstant().toEpochMilli() / 1000);
     }
 
     //==================================================
@@ -151,14 +151,14 @@ public class KmTimestamp
     //= conversion :: java timestamp
     //==================================================
 
-    public static KmTimestamp fromJavaTimestamp(Timestamp e)
+    public static KmTimestamp fromSqlTimestamp(Timestamp e)
     {
-        return fromInstant(e.toInstant());
+        return fromLocalDateTime(e.toLocalDateTime());
     }
 
-    public Timestamp toJavaTimestamp()
+    public Timestamp toSqlTimestamp()
     {
-        return Timestamp.from(toInstant());
+        return Timestamp.valueOf(toLocalDateTime());
     }
 
     //==================================================
@@ -178,6 +178,17 @@ public class KmTimestamp
     public int toMySqlOrdinal()
     {
         return toEpochSeconds();
+    }
+
+    //##################################################
+    //# static :: time zone
+    //##################################################
+
+    public static KmTimestamp changeZone(KmTimestamp ts, KmTimeZone from, KmTimeZone to)
+    {
+        return ts == null
+            ? null
+            : ts.changeZone(from, to);
     }
 
     //##################################################
@@ -222,6 +233,11 @@ public class KmTimestamp
     public boolean hasTime(KmTime e)
     {
         return getTime().equals(e);
+    }
+
+    public KmTimestamp withTime(KmTime time)
+    {
+        return KmTimestamp.fromDateTime(getDate(), time);
     }
 
     //##################################################
@@ -277,6 +293,16 @@ public class KmTimestamp
         return getDate().getEndOfDay();
     }
 
+    public KmTimestamp getStartOfWeek()
+    {
+        return addWeek().getDate().getStartOfWeek().getStartOfDay();
+    }
+
+    public KmTimestamp getEndOfWeek()
+    {
+        return getDate().getEndOfWeek().getEndOfDay();
+    }
+
     public KmTimestamp getStartOfMonth()
     {
         return getDate().getStartOfMonth().getStartOfDay();
@@ -311,8 +337,10 @@ public class KmTimestamp
     public int compareTo(KmTimestamp e)
     {
         int i = getDate().compareTo(e.getDate());
+
         if ( i != 0 )
             return i;
+
         return getTime().compareTo(e.getTime());
     }
 
@@ -329,6 +357,7 @@ public class KmTimestamp
     {
         if ( ti.hasStart() )
             return isBefore(ti.getStart());
+
         return false;
     }
 
@@ -370,8 +399,10 @@ public class KmTimestamp
     {
         if ( start != null && isBefore(start) )
             return false;
+
         if ( end != null && isAfter(end) )
             return false;
+
         return true;
     }
 
@@ -383,8 +414,10 @@ public class KmTimestamp
     {
         if ( start != null && isOnOrBefore(start) )
             return false;
+
         if ( end != null && isOnOrAfter(end) )
             return false;
+
         return true;
     }
 
@@ -400,17 +433,17 @@ public class KmTimestamp
 
     public boolean isAfterNowUtc()
     {
-        return isAfter(KmClock.getNowUtc());
+        return isAfter(KmClock.getUtcTimestamp());
     }
 
     public boolean isBeforeNowUtc()
     {
-        return isBefore(KmClock.getNowUtc());
+        return isBefore(KmClock.getUtcTimestamp());
     }
 
     public boolean isNowUtc()
     {
-        return equals(KmClock.getNowUtc());
+        return equals(KmClock.getUtcTimestamp());
     }
 
     //##################################################
@@ -546,6 +579,11 @@ public class KmTimestamp
         return addSeconds(-i);
     }
 
+    public KmTimestamp subtractDuration(KmDuration d)
+    {
+        return addDuration(d.negate());
+    }
+
     //##################################################
     //# difference
     //##################################################
@@ -597,13 +635,87 @@ public class KmTimestamp
     }
 
     //##################################################
+    //# convert
+    //##################################################
+
+    public KmTimestampInterval toInterval(KmTimestamp end)
+    {
+        KmTimestamp start = this;
+        return KmTimestampInterval.create(start, end);
+    }
+
+    //##################################################
+    //# time zone
+    //##################################################
+
+    /**
+     * Attempt to change from one local time zone to another.
+     * If either the from or to zones are null, return myself (unchanged).
+     */
+    public KmTimestamp changeZone(KmTimeZone from, KmTimeZone to)
+    {
+        if ( from == null )
+            return this;
+
+        if ( to == null )
+            return this;
+
+        if ( from.equals(to) )
+            return this;
+
+        ZoneId fromId = from.getZoneId();
+        ZoneId toId = to.getZoneId();
+
+        Instant instant = _inner.atZone(fromId).toInstant();
+        LocalDateTime local = instant.atZone(toId).toLocalDateTime();
+        return fromLocalDateTime(local);
+    }
+
+    /**
+     * Convert to utc, assuming I am in the application's local zone.
+     */
+    public KmTimestamp toUtc()
+    {
+        return changeZone(_localZone(), KmTimeZone.UTC);
+    }
+
+    /**
+     * Convert to utc, assuming I am in the specified local zone.
+     */
+    public KmTimestamp toUtc(KmTimeZone fromLocalTz)
+    {
+        return changeZone(fromLocalTz, KmTimeZone.UTC);
+    }
+
+    /**
+     * Convert to the application's local zone, assuming I am in utc.
+     */
+    public KmTimestamp toLocal()
+    {
+        return changeZone(KmTimeZone.UTC, _localZone());
+    }
+
+    /**
+     * Convert to the specified local zone, assuming I am in utc.
+     */
+    public KmTimestamp toLocal(KmTimeZone localTz)
+    {
+        return changeZone(KmTimeZone.UTC, localTz);
+    }
+
+    private KmTimeZone _localZone()
+    {
+        return KmTimeZoneBridge.getInstance().getLocalZone();
+    }
+
+    //##################################################
     //# display
     //##################################################
 
     @Override
     public String toString()
     {
-        return KmTimestampUtility.format_m_dd_yy_h_mm_ss_am(this);
+        return KmTimestampUtility.format_mm_dd_yy_hh_mm_ss_am(this);
     }
 
     public String format(String s)
@@ -639,75 +751,19 @@ public class KmTimestamp
         return getDate().format_m_d_yyyy() + " " + getTime().format_hh24_mm_ss();
     }
 
+    public String format_m_d_yyyy_h_mm_am()
+    {
+        return getDate().format_m_d_yyyy() + " " + getTime().format_h_mm_am();
+    }
+
     public String formatTimeAgoUtc()
     {
-        return KmClock.getNowUtc().diff(this).formatTimeAgo();
+        return KmClock.getUtcTimestamp().diff(this).formatTimeAgo();
     }
 
     public String formatTimeAgoLocal()
     {
-        return KmClock.getNowLocal().diff(this).formatTimeAgo();
-    }
-
-    //##################################################
-    //# time zone
-    //##################################################
-
-    /**
-     * Convert to a utc timestamp, assuming I am in the default local zone.
-     */
-    public KmTimestamp toUtc()
-    {
-        ZoneId from = getDefaultLocalZone();
-        ZoneId to = UTC_ZONE;
-        return changeZone(from, to);
-    }
-
-    /**
-     * Convert to a utc timestamp, assuming I am in the specified local zone.
-     */
-    public KmTimestamp toUtc(ZoneId from)
-    {
-        ZoneId to = UTC_ZONE;
-        return changeZone(from, to);
-    }
-
-    /**
-     * Convert to a local timestamp, assuming I am in UTC zone.
-     */
-    public KmTimestamp toLocal()
-    {
-        ZoneId from = UTC_ZONE;
-        ZoneId to = getDefaultLocalZone();
-        return changeZone(from, to);
-    }
-
-    public KmTimestamp toLocal(ZoneId from)
-    {
-        ZoneId to = getDefaultLocalZone();
-        return changeZone(from, to);
-    }
-
-    /**
-     * Convert from one time zone to another.
-     */
-    public KmTimestamp changeZone(ZoneId from, ZoneId to)
-    {
-        if ( from.equals(to) )
-            return this;
-
-        LocalDateTime e = _inner.atZone(from).withZoneSameInstant(to).toLocalDateTime();
-        return fromLocalDateTime(e);
-    }
-
-    public KmDate toLocalDate(ZoneId zone)
-    {
-        return toLocal(zone).getDate();
-    }
-
-    public KmTime toLocalTime(ZoneId zone)
-    {
-        return toLocal(zone).getTime();
+        return KmClock.getUtcTimestamp().toLocal().diff(this).formatTimeAgo();
     }
 
     public String formatLocal()
@@ -720,9 +776,9 @@ public class KmTimestamp
         return KmTimestampUtility.formatLocalMessage(this);
     }
 
-    public String formatLocalMessage(ZoneId zone)
+    public String formatLocalMessage(KmTimeZone localTz)
     {
-        return KmTimestampUtility.formatLocalMessage(this, zone);
+        return KmTimestampUtility.formatLocalMessage(this, localTz);
     }
 
     public String formatMySql()
@@ -735,24 +791,6 @@ public class KmTimestamp
             getHour(),
             getMinute(),
             getSecond());
-    }
-
-    private static ZoneId getDefaultLocalZone()
-    {
-        return KmTimeZoneBridge.getInstance().getLocalTimeZone();
-    }
-
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String... args)
-    {
-        KmTimestamp a = KmClock.getNowLocal();
-        KmTimestamp b = KmTimestamp.fromEpochMs(a.toEpochMs());
-
-        System.out.println(a);
-        System.out.println(b);
     }
 
 }

@@ -16,12 +16,11 @@ public class JkFtpTest
 
         System.out.println();
         System.out.println("connect...");
-        // System.out.println(c.connect("ftp.drivehq.com", "wyattlove", "terrible"));
-        System.out.println(c.connect("stagingftp.ryzex.com", "accucode", "zse45rdxcft6"));
+        System.out.println(c.connect("ftp.example.com", "user", "password"));
 
         System.out.println();
         System.out.println("put a.txt...");
-        System.out.println(c.putTextFile("/from_accucode/a.txt", "12345"));
+        System.out.println(c.putTextFile("/folder/a.txt", "12345"));
 
         //        System.out.println();
         //        System.out.println("rename a.txt -> z.txt...");

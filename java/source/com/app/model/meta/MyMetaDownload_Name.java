@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,13 +51,13 @@ public class MyMetaDownload_Name
     @Override
     public String getHelp()
     {
-        return "The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.";
+        return "The display name of this download. This is used for all types of download. In particular, note that the Name may not match the name of the file and/or attachment.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
-        return 15;
+        return 25;
     }
 
     @Override
@@ -87,11 +88,11 @@ public class MyMetaDownload_Name
         return getAccess().getDownloadDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaDownload_Name
     {
         return model.getName();
     }
-    
+
     @Override
     public void setValueFor(MyDownload model, String value)
     {
         model.setName(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyDownload model, String value)
     {
         return model.hasName(value);
     }
-    
+
 }

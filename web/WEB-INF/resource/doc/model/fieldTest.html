@@ -16,191 +16,451 @@
 <body>
 <h1>fieldTest</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>This is NOT used by the application. Rather it is used solely to test frameworks during development.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
-</tr>
-<tr>
-  <td>uid&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The globally unique identifier.<br>
-            &nbsp;
-  </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-            pk<br>                required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>nameValue&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>integerValue&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>integer
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>longTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>long
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>doubleTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>double
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>moneyTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>money
-              </td>
-  <td>
-                         &nbsp;
-  </td>
+  <th>Description</th>
 </tr>
 <tr>
   <td>booleanTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
+
   <td>boolean
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>dateTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>timestampTest&nbsp;</td>
-  
-  <td>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
+  <td>dayFrequency&nbsp;</td>
+
+  <td>dayFrequency
               </td>
+
   <td>
-                         &nbsp;
+                                        &nbsp;
   </td>
+
+  <td>
+    Day frequency &#40;mon&#44; tue&#44; wed&#44; etc&#41;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>pinNumber1&nbsp;</td>
-  
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        Included in the auditLog , but masked.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>text5
-        <br><nobr>max length: 5</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>pinNumber2&nbsp;</td>
-  
+  <td>doubleTest&nbsp;</td>
+
+  <td>double
+              </td>
+
   <td>
-            <i>Help</i><br>
-        Excluded from the auditLog .<br>
-            &nbsp;
+                                        &nbsp;
   </td>
-  
-  <td>text5
-        <br><nobr>max length: 5</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    
+    &nbsp;
   </td>
+
+</tr>
+<tr>
+  <td>duration&nbsp;</td>
+
+  <td>duration
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    Duration in seconds&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>integerValue&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>lockVersion
               </td>
+
   <td>
-                         &nbsp;
+                                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>longTest&nbsp;</td>
+
+  <td>long
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>moneyTest&nbsp;</td>
+
+  <td>money
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>nameValue&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>pinNumber1&nbsp;</td>
+
+  <td>text5
+                <br><nobr>max length: 5</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                         <nobr>audit masked</nobr>         &nbsp;
+  </td>
+
+  <td>
+    Included in the auditLog &#44; but masked&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>pinNumber2&nbsp;</td>
+
+  <td>text5
+                <br><nobr>max length: 5</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    Excluded from the auditLog&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>timestampTest&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

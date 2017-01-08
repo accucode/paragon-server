@@ -1,0 +1,68 @@
+${javaAutoGenerationComment}
+
+package ${package}.dao.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+
+import ${package}.dao.*;
+import ${package}.model.*;
+import ${package}.model.meta.*;
+import ${package}.utility.*;
+
+public class ${Prefix}DaoAccess
+{
+$utility.protocol("instance")
+
+    private static final ${Prefix}DaoAccess _instance = new ${Prefix}DaoAccess();
+
+    public static final ${Prefix}DaoAccess getInstance()
+    {
+        return _instance;
+    }
+
+$utility.protocol("all")
+
+    public KmList<KmAbstractDao<?,?>> getAllDaos()
+    {
+        KmList<KmAbstractDao<?,?>> v;
+        v = new KmList<>();
+#foreach ( $model in $root.databaseModels )
+        v.add(get${model.f_Name}Dao());
+#end
+        return v;
+    }
+
+#foreach ( $model in $root.databaseModels )
+$utility.protocol("${model.f_name}")
+
+    public ${model.f_DaoClass} get${model.f_Name}Dao()
+    {
+        return new ${model.f_DaoClass}();
+    }
+
+    public KmList<${model.f_Class}> findAll${model.f_Names}()
+    {
+        return get${model.f_Name}Dao().findAll();
+    }
+
+    public ${model.f_Class} find${model.f_Name}${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
+    {
+        return get${model.f_Name}Dao().find${model.primaryKeyField.f_Name}(e);
+    }
+
+#end
+
+$utility.protocol("convenience")
+
+    public void flush()
+    {
+        ${Prefix}Globals.getDaoSession().flush();
+    }
+
+    public boolean tryFlush()
+    {
+        return ${Prefix}Globals.getDaoSession().tryFlush();
+    }
+
+}

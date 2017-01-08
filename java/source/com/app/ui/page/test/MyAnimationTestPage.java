@@ -2,7 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -39,7 +38,7 @@ public final class MyAnimationTestPage
     //# variables
     //##################################################
 
-    private KmList<ScBox> _group;
+    private KmList<ScDiv> _group;
 
     //##################################################
     //# settings
@@ -74,13 +73,13 @@ public final class MyAnimationTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
 
         ScGroup group;
         group = addGroup("Group");
 
         ScDiv right;
-        right = group.getBanner().addFloatRight();
+        right = group.getBanner().getRight();
         right.css().gap5();
         right.addButton("Async", this::handleAsyncToggle);
         right.addButton("Sync", this::handleSyncToggle);
@@ -98,28 +97,29 @@ public final class MyAnimationTestPage
         return e;
     }
 
-    private KmList<ScBox> addBoxesTo(ScGroup group)
+    private KmList<ScDiv> addBoxesTo(ScGroup group)
     {
-        ScBox lines;
-        lines = group.getBody().addLines();
+        ScDiv body;
+        body = group.getBody();
+        body.css().flexColumn().pad().columnSpacer5();
 
-        KmList<ScBox> v = new KmList<>();
+        KmList<ScDiv> v = new KmList<>();
 
         int n = 5;
         for ( int i = 0; i < n; i++ )
         {
-            ScBox e = createBox(i);
+            ScDiv e = createBox(i);
             v.add(e);
-            lines.add(e);
+            body.add(e);
         }
 
         return v;
     }
 
-    private ScBox createBox(int i)
+    private ScDiv createBox(int i)
     {
-        ScBox e;
-        e = new ScBox();
+        ScDiv e;
+        e = new ScDiv();
         e.css().boxBlue().pad().hide();
         e.addText("box " + (i + 1));
         return e;
@@ -141,20 +141,20 @@ public final class MyAnimationTestPage
 
     private void handleAsyncToggle()
     {
-        KmList<ScBox> v = _group;
-        for ( ScBox e : v )
-            e.ajax().toggle().slide();
+        KmList<ScDiv> v = _group;
+        for ( ScDiv e : v )
+            e.ajaxToggle().slide();
     }
 
     private void handleSyncToggle()
     {
         ScBlockScript ajax = ajax();
 
-        KmList<ScBox> v = _group;
-        for ( ScBox e : v )
+        KmList<ScDiv> v = _group;
+        for ( ScDiv e : v )
         {
             ajax.toggle(e).slide();
-            e.ajax().pushWhenDone();
+            e.ajaxPushWhenDone();
         }
     }
 }

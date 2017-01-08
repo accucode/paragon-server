@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,26 +28,48 @@ public class ScTimeField
     extends ScAbstractTextField<KmTime>
 {
     //##################################################
-    //# value
+    //# constructor
+    //##################################################
+
+    public ScTimeField()
+    {
+        setPlaceholder("hh:mm am");
+    }
+
+    //##################################################
+    //# layout
     //##################################################
 
     @Override
-    public KmTime getValueFor(String s)
+    protected int getDefaultWidth()
     {
-        return getFormatter().parseTime(s);
+        return 100;
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    @Override
+    protected KmTime textToValue(String text)
+    {
+        return getFormatter().parseTime(text);
     }
 
     @Override
-    public void setValue(KmTime value)
+    protected String valueToText(KmTime value)
     {
-        String s = getFormatter().formatTime(value);
-        setText(s);
+        return getFormatter().formatTime(value);
     }
 
+    //##################################################
+    //# sample
+    //##################################################
+
     @Override
-    public String getSampleFormat()
+    public KmTime getSampleValue()
     {
-        return getFormatter().getTimeSample();
+        return KmTime.fromHourMinute(13, 30);
     }
 
 }

@@ -2,9 +2,9 @@ model
 : name      = fieldTest
 : help...
     ---
-    This is NOT used by the application.  
+    This is NOT used by the application.
     Rather it is used solely to test frameworks during development.
-    --- 
+    ---
 
 database
 : auditLog  = true
@@ -12,74 +12,80 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
 
 
     field
     : name      = nameValue
-    : help      = 
+    : help      =
     : type      = name
     : required  = false
 
 
     field
     : name      = integerValue
-    : help      = 
+    : help      =
     : type      = integer
     : required  = false
 
 
     field
     : name      = longTest
-    : help      = 
+    : help      =
     : type      = long
     : required  = false
 
 
     field
     : name      = doubleTest
-    : help      = 
+    : help      =
     : type      = double
     : required  = false
 
 
     field
     : name      = moneyTest
-    : help      = 
+    : help      =
     : type      = money
     : required  = false
 
 
     field
     : name      = booleanTest
-    : help      = 
+    : help      =
     : type      = boolean
     : required  = false
 
-    
+
     field
     : name      = dateTest
-    : help      = 
+    : help      =
     : type      = date
     : required  = false
 
-    
+
     field
     : name      = timestampTest
-    : help      = 
+    : help      =
     : type      = timestamp
     : required  = false
 
-    
+
     association
     : name      = userTest
-    : help      = 
+    : help      =
     : modelName = user
     : relation  = reference
     : required  = false
@@ -88,14 +94,28 @@ attributes
     field
     : name      = pinNumber1
     : help      = Included in the auditLog , but masked.
-    : type      = text5 
+    : type      = text5
     : required  = false
     : auditLog  = mask
 
-    
+
     field
     : name      = pinNumber2
-    : help      = Excluded from the auditLog .
-    : type      = text5 
+    : help      = Excluded from the auditLog.
+    : type      = text5
     : required  = false
     : auditLog  = false
+
+
+    field
+    : name      = duration
+    : help      = Duration in seconds.
+    : type      = duration
+    : required  = false
+
+
+    field
+    : name      = dayFrequency
+    : help      = Day frequency (mon, tue, wed, etc)
+    : type      = dayFrequency
+    : required  = false

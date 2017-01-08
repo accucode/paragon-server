@@ -1,16 +1,23 @@
 package com.app.ui.servlet;
 
+import com.kodemore.collection.KmMap;
+import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
-import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.utility.Kmu;
 
+import com.app.dao.MyTenantDao;
 import com.app.file.MyResourceFiles;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyServerSession;
+import com.app.model.MyTenant;
+import com.app.property.MyProperties;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
+import com.app.ui.page.login.MyLoginUtility;
+import com.app.utility.MyAppNavigator;
 import com.app.utility.MyConstantsIF;
-import com.app.utility.MyNavigator;
+import com.app.utility.MyGlobals;
 import com.app.utility.MyUrlBridge;
 import com.app.utility.MyUrls;
 
@@ -20,7 +27,7 @@ import com.app.utility.MyUrls;
  *
  * -- Redirect to a standard url.
  * -- Redirect the GET with a POST (to avoid caching).
- * -- Begin the server session and register.
+ * -- Begin the server session and register the cookie.
  * -- Generate the minimal html page, just enough to bootstrap the first ajax request.
  */
 public class MyMainServlet
@@ -28,7 +35,7 @@ public class MyMainServlet
     implements MyServletConstantsIF
 {
     //##################################################
-    //# get / post
+    //# get
     //##################################################
 
     @Override
@@ -36,23 +43,99 @@ public class MyMainServlet
     {
         MyServletData data = getData();
 
-        if ( handleRedirectUrl(data) )
+        if ( handleLocalhostCheck(data) )
+            return;
+
+        if ( handleTenantCheck(data) )
+            return;
+
+        if ( handleSslRedirect(data) )
             return;
 
         data.redirectWithPost();
     }
 
-    @Override
-    protected void doPost()
+    /**
+     * In development, redirect "localhost" to the system tenant.
+     */
+    private boolean handleLocalhostCheck(MyServletData data)
     {
-        beginServerSession();
-        String html = formatHtml();
-        getData().setHtmlResult(html);
+        MyProperties p = getProperties();
+
+        boolean dev = p.isEnvironmentDevelopment();
+        if ( !dev )
+            return false;
+
+        String host = data.getRequestServerHostName();
+        boolean isLocalhost = host.equalsIgnoreCase("localhost");
+
+        if ( !isLocalhost )
+            return false;
+
+        redirectToSystemTenant(data);
+        return true;
     }
 
-    //##################################################
-    //# redirect
-    //##################################################
+    private void redirectToSystemTenant(MyServletData data)
+    {
+        MyTenantDao dao = MyGlobals.getAccess().getTenantDao();
+        MyTenant tenant = KmDao.fetch(dao::findSystemTenant);
+
+        String scheme = data.getRequestScheme();
+        String host = tenant.getHostname();
+        int port = data.getRequestServerPort();
+
+        String url = Kmu.format("%s://%s:%s", scheme, host, port);
+        data.redirectTo(url);
+    }
+
+    /**
+     * Confirm the request is for a valid tenant.
+     * The tenant is determined by the URL hostname.
+     */
+    private boolean handleTenantCheck(MyServletData data)
+    {
+        MyTenant tenant = KmDao.fetch(data::getTenant);
+        if ( tenant != null )
+            return false;
+
+        printUnknownTenantPage(data);
+        return true;
+    }
+
+    private void printUnknownTenantPage(MyServletData data)
+    {
+        String appName = MyConstantsIF.APPLICATION_NAME;
+        String marketingUrl = getProperties().getMarketingUrl();
+        String supportUrl = getProperties().getSupportUrl();
+
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printDocType();
+        out.beginHtml();
+
+        out.beginHead();
+        out.printMetaCharsetUtf8();
+        out.printTitle(appName);
+        out.endHead();
+
+        out.beginBody();
+
+        out.printHeader(1, "Welcome to " + appName);
+        out.printHeader(2, "The requested tenant is not available.");
+        out.println();
+        out.print("For sales and marketing use: ");
+        out.printLink(marketingUrl);
+        out.println();
+        out.println();
+        out.print("For technical issues and assistance, contact our support team: ");
+        out.printLink(supportUrl);
+
+        out.endBody();
+        out.endHtml();
+
+        data.setHtmlResult(out);
+    }
 
     /**
      * Redirect the client to a standard url.
@@ -60,80 +143,98 @@ public class MyMainServlet
      * to a standard host name.  This will also force the user
      * to https (if enabled).
      */
-    protected boolean handleRedirectUrl(MyServletData data)
+    protected boolean handleSslRedirect(MyServletData data)
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
-        if ( !p.getServletRedirect() )
+        if ( !p.getServletSslRedirect() )
             return false;
 
-        String scheme = p.getServletScheme();
-        String host = p.getServletHost();
-        String port = p.getServletPort();
+        if ( data.hasSecureRequest() )
+            return false;
 
-        String requestScheme = data.getRequestScheme();
-        String requestHost = data.getRequestServerName();
+        String requestHost = data.getRequestServerHostName();
         String requestPath = data.getRequestUri();
         ScParameterList requestParams = data.getParameterList();
 
-        boolean schemeMatches = requestScheme.equalsIgnoreCase(scheme);
-        boolean hostMatches = requestHost.equalsIgnoreCase(host);
-
-        if ( schemeMatches && hostMatches )
-            return false;
+        String sslScheme = "https";
+        int sslPort = 443;
 
         String url;
-        url = MyUrls.formatUrl(scheme, host, port, requestPath, requestParams);
+        url = MyUrls.formatUrl(sslScheme, requestHost, sslPort, requestPath, requestParams);
 
         data.redirectTo(url);
-
         return true;
     }
 
     //##################################################
-    //# format html
+    //# post
     //##################################################
 
-    private String formatHtml()
+    @Override
+    protected void doPost()
     {
-        KmFile file = MyResourceFiles.getInstance().getPageLayout();
+        MyServerSession ss = beginServerSession();
+        String html = formatAppPage(ss);
+        getData().setHtmlResult(html);
+    }
 
-        String name = MyConstantsIF.APPLICATION_NAME;
-        String version = MyConstantsIF.APPLICATION_VERSION;
-        String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
-        String query = formatQueryString();
-        String html = MyPageLayout.getInstance().renderHtml();
-        String bodyClass = formatBodyClass();
+    //##################################################
+    //# app page
+    //##################################################
+
+    private String formatAppPage(MyServerSession ss)
+    {
+        MyResourceFiles files = MyResourceFiles.getInstance();
+        KmFile file = files.getPageLayout();
 
         String s;
         s = file.readString();
-        s = Kmu.replaceAll(s, "${applicationName}", name);
-        s = Kmu.replaceAll(s, "${applicationVersion}", version);
-        s = Kmu.replaceAll(s, "${versionFolder}", versionFolder);
-        s = Kmu.replaceAll(s, "${query}", query);
-        s = Kmu.replaceAll(s, "${html}", html);
-        s = Kmu.replaceAll(s, "${bodyClass}", bodyClass);
+        s = Kmu.replaceAll(s, getAppMacros(ss));
         return s;
     }
 
-    private String formatQueryString()
+    private KmMap<String,String> getAppMacros(MyServerSession ss)
+    {
+        KmMap<String,String> map;
+        map = new KmMap<>();
+        map.put("${applicationName}", MyConstantsIF.APPLICATION_NAME);
+        map.put("${applicationVersion}", MyConstantsIF.APPLICATION_VERSION);
+        map.put("${versionFolder}", MyUrlBridge.getInstance().getVersionFolder());
+        map.put("${query}", formatAppQueryString());
+        map.put("${html}", MyPageLayout.getInstance().renderHtml());
+        map.put("${bodyClass}", MyLoginUtility.getEnvironmentCssFor(ss.getUser()));
+        map.put("${oneAllHead}", formatAppOneAllHead());
+        map.put("${themeToken}", MyServletConstantsIF.THEME_TOKEN);
+        map.put("${pageMenuFieldId}", MyPageLayout.getInstance().getMenu().getPageMenuFieldId());
+        map.put("${initialGlobalSession}", getData().getPageSession().formatGlobalValues());
+        map.put("${initialPageSession}", getData().getPageSession().formatSessionValues());
+        return map;
+    }
+
+    private String formatAppQueryString()
     {
         String s = getData().formatParametersAsQueryString();
 
         if ( Kmu.isEmpty(s) )
-            s = MyNavigator.formatEntryPageQueryString();
+            s = MyAppNavigator.formatEntryPageQueryString();
 
         return s;
     }
 
-    private String formatBodyClass()
+    private String formatAppOneAllHead()
     {
-        if ( getProperties().isEnvironmentStage() )
-            return KmCssDefaultConstantsIF.environmentStage;
+        boolean enabled = getProperties().getOneAllEnabled();
+        if ( !enabled )
+            return "";
 
-        if ( getProperties().isEnvironmentProduction() )
-            return KmCssDefaultConstantsIF.environmentProduction;
+        MyResourceFiles files = MyResourceFiles.getInstance();
+        String template = files.getOneAllHead().readString();
 
-        return "";
+        String host = getProperties().getOneAllHost();
+        if ( host == null )
+            host = "";
+
+        return Kmu.replaceAll(template, "${oneAllHost}", host);
     }
 }

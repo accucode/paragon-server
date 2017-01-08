@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScGroup;
@@ -71,20 +71,24 @@ public final class MyFieldsetTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto().boxGray().gap();
 
-        ScGroup group;
-        group = root.addGroup("Fieldsets");
+        ScGroup group = root.addGroup("Fieldsets");
+        ScDiv body = group.getBody().addGap();
 
-        ScBox body;
-        body = group.getBody().addGap();
+        addNameSetOn(body);
+        addPhoneSetOn(body);
+    }
 
-        ScFieldset box;
-        box = body.addFieldset("Name");
-        box.css().floatLeft().pad();
+    private void addNameSetOn(ScDiv body)
+    {
+        ScFieldset set;
+        set = body.addFieldset("Name");
+        set.css().pad();
+        set.setHelp("Name fields.");
 
         ScFieldTable fields;
-        fields = box.addFieldTable();
+        fields = set.addFieldTable();
         fields.addTextField().setLabel("First");
         fields.addTextField().setLabel("Middle");
 
@@ -93,11 +97,17 @@ public final class MyFieldsetTestPage
         field.setLabel("Last");
         field.setValue("readonly");
         field.setReadOnly();
+    }
 
-        box = body.addFieldset("Phone");
-        box.css().floatLeft().pad();
+    private void addPhoneSetOn(ScDiv body)
+    {
+        ScFieldset set;
+        set = body.addFieldset("Phone");
+        set.css().pad();
+        set.setHelp("Phone fields.");
 
-        fields = box.addFieldTable();
+        ScFieldTable fields;
+        fields = set.addFieldTable();
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");

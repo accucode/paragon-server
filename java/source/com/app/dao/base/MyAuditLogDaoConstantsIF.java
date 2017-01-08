@@ -18,13 +18,14 @@ public interface MyAuditLogDaoConstantsIF
     //##################################################
 
     String UID = "uid";
+    String CREATED_UTC_TS = "createdUtcTs";
     String TRANSACTION_UID = "transactionUid";
     String USER_NAME = "userName";
     String TYPE_CODE = "typeCode";
-    String UTC_TS = "utcTs";
-    String MODEL_TYPE = "modelType";
-    String MODEL_NAME = "modelName";
-    String MODEL_UID = "modelUid";
+    String DOMAIN_TYPE = "domainType";
+    String DOMAIN_NAME = "domainName";
+    String DOMAIN_UID = "domainUid";
+    String DOMAIN_BUNDLE_UID = "domainBundleUid";
     String FIELD_NAME = "fieldName";
     String NEW_VALUE = "newValue";
     String OLD_VALUE = "oldValue";
@@ -37,7 +38,14 @@ public interface MyAuditLogDaoConstantsIF
     String DATE_VALUE = "dateValue";
     String TIMESTAMP_VALUE = "timestampValue";
     String UID_VALUE = "uidValue";
+    String DOMAIN_TYPE_LABEL = "domainTypeLabel";
+    String FIELD_NAME_LABEL = "fieldNameLabel";
+    String DISPLAY_STRING = "displayString";
     String TYPE_NAME = "typeName";
+    String CREATED_LOCAL_TS = "createdLocalTs";
+    String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
+    String CREATED_LOCAL_DATE = "createdLocalDate";
+    String CREATED_LOCAL_TIME = "createdLocalTime";
 
     //##################################################
     //# associations

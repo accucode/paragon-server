@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -62,9 +62,9 @@ public class KmProfileTraceNode
     private String                     _name;
     private int                        _lineNumber;
 
-    private int    _count;
-    private double _localPercent;
-    private double _totalPercent;
+    private int                        _count;
+    private double                     _localPercent;
+    private double                     _totalPercent;
 
     //##################################################
     //# constructor

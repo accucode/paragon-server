@@ -16,131 +16,174 @@
 <body>
 <h1>patch</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>The list of all database patches. These are used to coordinate database migrations. During database migration checks, the list of patches on the file system are compared to the list of patches known in this table.  f</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
-  <td>name&nbsp;</td>
-  
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The unique key. This is typically a short date-ish value such as: 20140131-1.txt. The patches are applied in the sequence implied by their collating sequence.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-            pk<br>                      &nbsp;
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
   </td>
-</tr>
-<tr>
-  <td>installedUtcTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the patch was installed in this database.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>source&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The full raw script.  This contains both the text originally used to upgrade, as well as the text used to subsequently downgrade.  Each script has a maximum length of 50,000 characters.<br>
-            &nbsp;
-  </td>
-  
-  <td>bigText
-        <br><nobr>max length: 50000</nobr>           <br>allows(
-                      printable
-                        ,&nbsp;
-                whitespace
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>installedLocalTs&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the patch was installed in this database.<br>
-            &nbsp;
-  </td>
-  
-  <td>timestamp
-              </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>installedLocalTsMessage&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the patch was installed in this database.<br>
-            &nbsp;
-  </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>installedLocalDate&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the patch was installed in this database.<br>
-            &nbsp;
-  </td>
-  
+
   <td>date
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The installed date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>installedLocalTime&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The date and time when the patch was installed in this database.<br>
-            &nbsp;
-  </td>
-  
+
   <td>time
               </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The installed time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>installedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The installed timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>installedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The installed timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>installedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The date and time when the patch was installed in this database&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                          &nbsp;
+  </td>
+
+  <td>
+    The unique key&#46; This is typically a short date&#45;ish value such as&#58; 20140131&#45;1&#46;txt&#46; The patches are applied in the sequence implied by their collating sequence&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>source&nbsp;</td>
+
+  <td>bigText
+                <br><nobr>max length: 50000</nobr>
+                      <br><nobr>allows printable</nobr>
+              <br><nobr>allows whitespace</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The full raw script&#46;  This contains both the text originally used to upgrade&#44; as well as the text used to subsequently downgrade&#46;  Each script has a maximum length of 50&#44;000 characters&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

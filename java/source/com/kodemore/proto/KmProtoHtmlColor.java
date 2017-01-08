@@ -1,6 +1,6 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
 import com.kodemore.hibernate.type.KmhHtmlColorType;
 import com.kodemore.meta.KmMetaHtmlColorProperty;
 import com.kodemore.servlet.field.ScColorField;
@@ -23,7 +23,7 @@ public class KmProtoHtmlColor
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return "char(7)";
     }

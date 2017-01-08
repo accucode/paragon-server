@@ -18,6 +18,7 @@ import com.kodemore.validator.*;
 import ${package}.dao.*;
 import ${package}.dao.base.*;
 import ${package}.model.*;
+import ${package}.model.base.*;
 import ${package}.model.core.*;
 import ${package}.utility.*;
 
@@ -45,12 +46,12 @@ $utility.protocol("accessing")
     public String getHelp()
     {
 #if ( $field.hasHelp() )
-        return "${field.f_help}";
+        return "${field.f_helpJavaString}";
 #else
         return null;
 #end
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -86,32 +87,32 @@ $utility.protocol("dao")
         return ${field.model.f_daoGetter}();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
 #end
 #if ( $field.hasEnum() )
 $utility.protocol("enum")
 
-    public ScDropdown newDropdown()
+    public ScEnumDropdownField newDropdown()
     {
         return newDropdown(getLabel());
     }
 
-    public ScDropdown newDropdown(String label)
+    public ScEnumDropdownField newDropdown(String label)
     {
-        ScDropdown e;
-        e = new ScDropdown();
+        ScEnumDropdownField e;
+        e = new ScEnumDropdownField();
         e.setLabel(label);
         e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValueAdaptor(getAdaptor());
+        e.setValueAdaptor(this);
         e.addOptions(${field.enum.f_Class}.values());
         return e;
     }
-    
+
 #end
 $utility.protocol("value")
 
@@ -120,19 +121,19 @@ $utility.protocol("value")
     {
         return model.${field.f_getMethod}();
     }
-    
+
 #if ( $field.isEditable() )
     @Override
     public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
     {
         model.${field.f_setMethod}(value);
     }
-    
-#end    
+
+#end
     @Override
     public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
     {
         return model.${field.f_hasMethod}(value);
     }
-    
+
 }

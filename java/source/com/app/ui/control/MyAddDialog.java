@@ -3,11 +3,10 @@ package com.app.ui.control;
 import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.KmhAttachDaoIF;
-import com.kodemore.servlet.action.ScAction;
+import com.kodemore.hibernate.KmhDaoDomainIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSubmitButton;
 
 public abstract class MyAddDialog<T>
@@ -19,32 +18,25 @@ public abstract class MyAddDialog<T>
 
     private KmList<Consumer<T>> _saveListeners;
 
-    private ScSubmitButton _saveButton;
-    private ScActionButton _cancelButton;
+    private ScSubmitButton      _saveButton;
+    private ScActionButton      _cancelButton;
 
     //##################################################
-    //# install
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public MyAddDialog()
     {
-        super.install();
-
         _saveListeners = new KmList<>();
 
         setSubmitAction(this::handleSave);
-        installButtons();
-    }
 
-    private void installButtons()
-    {
-        ScFlexbox footer;
+        ScDiv footer;
         footer = showFooter();
-        footer.alignEnd();
+        footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
 
-        _saveButton = footer.addSubmitButton("Save");
+        _saveButton = footer.addSaveButton();
         _cancelButton = footer.addCancelButton(this::ajaxClose);
     }
 
@@ -99,8 +91,8 @@ public abstract class MyAddDialog<T>
         if ( e == null )
             return;
 
-        if ( e instanceof KmhAttachDaoIF )
-            ((KmhAttachDaoIF)e).attachDao();
+        if ( e instanceof KmhDaoDomainIF )
+            ((KmhDaoDomainIF)e).daoAttach();
 
         ajaxClose();
         fireSaveListeners(e);
@@ -170,5 +162,4 @@ public abstract class MyAddDialog<T>
         getSaveButton().ajaxDisable();
         getForm().ajaxOnSubmit(action);
     }
-
 }

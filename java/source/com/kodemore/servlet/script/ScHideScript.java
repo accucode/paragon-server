@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,6 @@ public class ScHideScript
     public ScHideScript()
     {
         super();
-
         setEasing(ScConstantsIF.DEFAULT_HIDE_EASING);
     }
 
@@ -77,6 +76,12 @@ public class ScHideScript
     //##################################################
     //# chaining
     //##################################################
+
+    @Override
+    public ScHideScript immediate()
+    {
+        return (ScHideScript)super.immediate();
+    }
 
     @Override
     public ScHideScript fade()

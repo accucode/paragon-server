@@ -37,6 +37,18 @@ public class MyMetaFieldTest_UserTest
         return "userTest";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "User Test";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return null;
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaFieldTest_UserTest
     {
         return model.getUserTest();
     }
-    
+
     @Override
     public void setValueFor(MyFieldTest model, MyUser value)
     {
         model.setUserTest(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyFieldTest model, MyUser value)
     {

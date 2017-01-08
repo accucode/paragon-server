@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -65,8 +65,8 @@ public class KmCssParser
     //# variables
     //##################################################
 
-    private String      _css;
-    private CSSRuleList _rules;
+    private String            _css;
+    private CSSRuleList       _rules;
 
     //##################################################
     //# parse
@@ -94,9 +94,17 @@ public class KmCssParser
 
     public void parseCss(String css)
     {
+        parseCss(css, true);
+    }
+
+    public void parseCss(String css, boolean simplify)
+    {
         try
         {
             _css = css;
+
+            if ( simplify )
+                css = simplify(css);
 
             Reader reader = new StringReader(css);
             InputSource source = new InputSource(reader);
@@ -386,6 +394,22 @@ public class KmCssParser
         KmList<String> ids = p.getIdSelectors();
         for ( String e : ids )
             System.out.println("  " + e);
+    }
+
+    //##################################################
+    //# simplify
+    //##################################################
+
+    /**
+     * I am optionally used to simplify elements of the source css
+     * that the SAC parser does not understand.
+     */
+    private String simplify(String css)
+    {
+        css = Kmu.replaceAll(css, "::-webkit-", ":-webkit-");
+        css = Kmu.replaceAll(css, "@media (orientation: portrait)", "@media portrait");
+        css = Kmu.replaceAll(css, "@media (orientation: landscape)", "@media landscape");
+        return css;
     }
 
 }

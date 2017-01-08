@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyPerformanceLogDetailCriteria
@@ -44,14 +45,14 @@ public class MyPerformanceLogDetailCriteria
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
         return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
     public KmhIntegerCondition whereDurationMs()
@@ -81,24 +82,6 @@ public class MyPerformanceLogDetailCriteria
             sortOnUidDescending();
     }
 
-    public void sortOnName()
-    {
-        parent().sortAscending(NAME);
-    }
-
-    public void sortOnNameDescending()
-    {
-        parent().sortDescending(NAME);
-    }
-
-    public void sortOnName(boolean asc)
-    {
-        if ( asc )
-            sortOnName();
-        else
-            sortOnNameDescending();
-    }
-
     public void sortOnCreatedUtcTs()
     {
         parent().sortAscending(CREATED_UTC_TS);
@@ -115,6 +98,24 @@ public class MyPerformanceLogDetailCriteria
             sortOnCreatedUtcTs();
         else
             sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnName()
+    {
+        parent().sortAscending(NAME);
+    }
+
+    public void sortOnNameDescending()
+    {
+        parent().sortDescending(NAME);
+    }
+
+    public void sortOnName(boolean asc)
+    {
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
     }
 
     public void sortOnDurationMs()
@@ -180,50 +181,6 @@ public class MyPerformanceLogDetailCriteria
     }
 
     //##################################################
-    //# projections (name)
-    //##################################################
-
-    public void selectName()
-    {
-        select(NAME);
-    }
-
-    public void selectDistinctName()
-    {
-        selectDistinct(NAME);
-    }
-
-    public void selectCountDistinctName()
-    {
-        selectCountDistinct(NAME);
-    }
-
-    public void selectMinimumName()
-    {
-        selectMinimum(NAME);
-    }
-
-    public void selectMaximumName()
-    {
-        selectMaximum(NAME);
-    }
-
-    public void selectAverageName()
-    {
-        selectAverage(NAME);
-    }
-
-    public void selectSumName()
-    {
-        selectSum(NAME);
-    }
-
-    public void groupByName()
-    {
-        groupBy(NAME);
-    }
-
-    //##################################################
     //# projections (createdUtcTs)
     //##################################################
 
@@ -265,6 +222,50 @@ public class MyPerformanceLogDetailCriteria
     public void groupByCreatedUtcTs()
     {
         groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (name)
+    //##################################################
+
+    public void selectName()
+    {
+        select(NAME);
+    }
+
+    public void selectDistinctName()
+    {
+        selectDistinct(NAME);
+    }
+
+    public void selectCountDistinctName()
+    {
+        selectCountDistinct(NAME);
+    }
+
+    public void selectMinimumName()
+    {
+        selectMinimum(NAME);
+    }
+
+    public void selectMaximumName()
+    {
+        selectMaximum(NAME);
+    }
+
+    public void selectAverageName()
+    {
+        selectAverage(NAME);
+    }
+
+    public void selectSumName()
+    {
+        selectSum(NAME);
+    }
+
+    public void groupByName()
+    {
+        groupBy(NAME);
     }
 
     //##################################################
@@ -312,8 +313,37 @@ public class MyPerformanceLogDetailCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyPerformanceLogDetailJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyPerformanceLogDetailJunction any()
+    {
+        return addOr();
+    }
+
+    public MyPerformanceLogDetailJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyPerformanceLogDetailJunction addNotAnd()
+    {
+        return new MyPerformanceLogDetailJunction(parent().addNotAnd());
+    }
+
+    public MyPerformanceLogDetailJunction addNotOr()
+    {
+        return new MyPerformanceLogDetailJunction(parent().addNotOr());
+    }
 
     public MyPerformanceLogDetailJunction addAnd()
     {

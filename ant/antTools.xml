@@ -1,7 +1,9 @@
 <project name="Tools" basedir="..">
 
-    <property name='dummy' value=''/>  
+    <property name='dummy' value=''/>
     <import file="antCore.xml"/>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
     <!--
     ****************************************
@@ -79,7 +81,7 @@
             debug="on"
             memoryinitialsize="256m"
             memorymaximumsize="256m"
-        	includeantruntime="false">
+            includeantruntime="false">
             <compilerarg line="-g -nowarn -verbose -Xstdout compile.txt"/>
         </javac>
     </target>
@@ -128,6 +130,29 @@
         </antcall>
     </target>
 
+
+    <target
+        name="validateProjectCopier"
+        depends="init"
+        description="Validate the project copier.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.projectCopier.MyProjectCopierValidatorTool"/>
+        </antcall>
+    </target>
+
+
+    <target
+        name="validateDomainHierarchy"
+        depends="init"
+        description="Validate the domain hierarchy.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyDomainHierarchyCheckerTool"/>
+        </antcall>
+    </target>
+
+
     <target
         name="generateClean"
         depends="clean,deleteGenerated,generateAll"
@@ -156,7 +181,7 @@
     ** STANDALONE HTML TEST
     ****************************************
     -->
-    
+
     <target
         name="updateHtmlTestHeaders"
         description="Standardize the header of standalone html tests">
@@ -165,5 +190,34 @@
             <param name="javaClass" value="com.app.tools.MyTestHtmlFormatter"/>
         </antcall>
     </target>
-    
+
+    <!--
+    ****************************************
+    ** STYLUS
+    ****************************************
+    -->
+
+    <target
+        name="generateThemes"
+        description="Generate the css for all themes.">
+        <foreach target="generateThemeFor" param="dir">
+            <path>
+                <dirset dir="web\static\version\app\theme">
+                    <include name="*"    />
+                    <exclude name="base" />
+                </dirset>
+            </path>
+        </foreach>
+    </target>
+
+    <target
+        name="generateThemeFor">
+        <exec
+            executable="${env.USERPROFILE}\AppData\Roaming\npm\stylus.cmd">
+            <arg value="${dir}\theme.styl" />
+            <arg value="--out" />
+            <arg value="${dir}\css" />
+        </exec>
+    </target>
+
 </project>

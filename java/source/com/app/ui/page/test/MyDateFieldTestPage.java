@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -88,7 +88,7 @@ public final class MyDateFieldTestPage
         _endField = new ScDateField();
         _endField.setLabel("End Date");
 
-        root.css().pad();
+        root.css().fill().auto();
 
         ScForm form;
         form = root.addForm();
@@ -103,7 +103,7 @@ public final class MyDateFieldTestPage
         fields.add(_startField);
         fields.add(_endField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton();
         buttons.addResetButton();
@@ -138,7 +138,7 @@ public final class MyDateFieldTestPage
         out.printfln("Start = %s.", start);
         out.printfln("End = %s.", end);
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast(out);
     }
 

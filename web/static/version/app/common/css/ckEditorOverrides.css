@@ -1,0 +1,9 @@
+/*
+ * This is required so the the CKEditor can use the same css as the rest
+ * of the app. The app normally disables scrolling, but this must be
+ * re-enabled for the editor.
+ */
+body
+{
+    overflow: auto;
+}

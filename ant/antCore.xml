@@ -118,9 +118,9 @@
             destdir="${javaClasses}"
             classpath="${classpath.full}"
             debug="on"
-            memoryinitialsize="512m"
-            memorymaximumsize="512m"
-        	includeantruntime="false">
+            memoryinitialsize="1024m"
+            memorymaximumsize="1024m"
+            includeantruntime="false">
             <compilerarg line="-g -nowarn"/>
         </javac>
     </target>
@@ -154,13 +154,13 @@
             <arg line="${javaArgs}"/>
         </java>
     </target>
-	
+
     <!--
     ****************************************
     ** WAR
     ****************************************
     -->
-	
+
     <target name = "makeWar" depends="compile">
         <war destfile="${temp}/paragon.war" webxml="${web}/WEB-INF/web.xml">
             <fileset dir="${web}">

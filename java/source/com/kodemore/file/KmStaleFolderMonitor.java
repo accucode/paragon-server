@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,10 +46,10 @@ public class KmStaleFolderMonitor
     //# variables
     //##################################################
 
-    private String  _folderPath;
-    private int     _staleMinutes;
-    private int     _inactiveMinutes;
-    private boolean _logResults;
+    private String                    _folderPath;
+    private int                       _staleMinutes;
+    private int                       _inactiveMinutes;
+    private boolean                   _logResults;
 
     private File                      _folder;
     private KmMap<String,KmTimestamp> _lastFilenameUtsTs;
@@ -62,7 +62,7 @@ public class KmStaleFolderMonitor
     public KmStaleFolderMonitor()
     {
         _lastFilenameUtsTs = new KmMap<>();
-        _lastNewFileUtcTs = KmClock.getNowUtc();
+        _lastNewFileUtcTs = KmClock.getUtcTimestamp();
     }
 
     //##################################################
@@ -116,7 +116,7 @@ public class KmStaleFolderMonitor
 
     public void run()
     {
-        KmTimestamp now = KmClock.getNowUtc();
+        KmTimestamp now = KmClock.getUtcTimestamp();
 
         if ( _folder == null )
             _folder = new File(_folderPath);

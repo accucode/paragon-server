@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -18,42 +18,45 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.html.KmCssBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScVisibilityScript;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalStyle;
 
 public class ScFieldTable
     extends ScChildContainer
+    implements ScHtmlIdIF
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScSpan _labelSpan;
-    private ScText _labelText;
+    private ScSpan         _labelSpan;
+    private ScText         _labelText;
 
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
+    private ScLocalCss     _css;
+    private ScLocalStyle   _style;
 
-    private ScLocalCss _rightCss;
+    private ScLocalCss     _rightCss;
+    private ScLocalBoolean _fullWidth;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScFieldTable()
     {
-        super.install();
-
         _labelSpan = new ScSpan();
         _labelSpan.setParent(this);
         _labelSpan.css().label();
@@ -64,22 +67,32 @@ public class ScFieldTable
         _style = new ScLocalStyle();
 
         _rightCss = new ScLocalCss();
+        _fullWidth = new ScLocalBoolean(true);
     }
 
     //##################################################
-    //# override
+    //# add
     //##################################################
 
     @Override
-    public <T extends ScControl> T add(T e)
+    public final <T extends ScControl> T add(T e)
     {
-        ScErrorWrapper w;
-        w = new ScErrorWrapper();
-        w.setChild(e);
-
-        super.add(w);
-
+        addWrapper(e);
         return e;
+    }
+
+    /**
+     * Add an errorWrapper around e, then adds that wrapper
+     * to myself. This is the same behavior as the more standard
+     * add() method, but this returns the errorWrapper.
+     */
+    public final <T extends ScControl> ScErrorWrapper addWrapper(T e)
+    {
+        ScErrorWrapper w = e instanceof ScErrorWrapper
+            ? (ScErrorWrapper)e
+            : new ScErrorWrapper(e);
+
+        return super.add(w);
     }
 
     //##################################################
@@ -149,9 +162,23 @@ public class ScFieldTable
         return _rightCss.toDefaultBuilder();
     }
 
-    public String formatRightCss()
+    //##################################################
+    //# full width
+    //##################################################
+
+    public boolean getFullWidth()
     {
-        return rightCss().toString();
+        return _fullWidth.getValue();
+    }
+
+    public void setFullWidth(boolean e)
+    {
+        _fullWidth.setValue(e);
+    }
+
+    public void disableFullWidth()
+    {
+        setFullWidth(false);
     }
 
     //##################################################
@@ -161,9 +188,10 @@ public class ScFieldTable
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        KmList<ScControl> v = getChildren();
+        KmList<ScErrorWrapper> v = getChildren().collect(e -> (ScErrorWrapper)e);
 
         out.open("table");
+        out.printAttribute("id", getHtmlId());
         out.printAttribute("class", formatCss());
         out.printAttribute("style", formatStyle());
         out.close();
@@ -175,7 +203,7 @@ public class ScFieldTable
         out.end("table");
     }
 
-    private void renderRow(KmHtmlBuilder out, ScControl e, int row)
+    private void renderRow(KmHtmlBuilder out, ScErrorWrapper e, int row)
     {
         out.open("tr");
         out.printAttribute("class", "fields");
@@ -184,57 +212,129 @@ public class ScFieldTable
         out.end("tr");
     }
 
-    private void renderLabelAndField(KmHtmlBuilder out, ScControl e, int row)
+    private void renderLabelAndField(KmHtmlBuilder out, ScErrorWrapper e, int row)
     {
         renderLabel(out, e, row, 0);
-        renderField(out, e, row, 1);
+        renderStar(out, e, row, 1);
+        renderField(out, e, row, 2);
     }
 
-    private void renderLabel(KmHtmlBuilder out, ScControl e, int row, int col)
+    private void renderStar(KmHtmlBuilder out, ScErrorWrapper wrapper, int row, int col)
     {
         beginTd(out, row, col);
-
-        _labelText.setValue(e.getLabel());
-        _labelSpan.renderOn(out);
-
+        if ( isVisible(wrapper.getChild()) )
+            if ( wrapper.containsRequiredField() )
+            {
+                out.beginDivCss(KmCssDefaultConstantsIF.requiredStar);
+                out.print("*");
+                out.endDiv();
+            }
         endTd(out);
     }
 
-    private void renderField(KmHtmlBuilder out, ScControl e, int row, int col)
+    private void renderLabel(KmHtmlBuilder out, ScErrorWrapper e, int row, int col)
     {
         beginTd(out, row, col);
+        if ( isVisible(e.getChild()) )
+        {
+            _labelText.setValue(e.getLabel());
+            _labelSpan.renderOn(out);
+        }
+        endTd(out);
+    }
 
+    private void renderField(KmHtmlBuilder out, ScErrorWrapper e, int row, int col)
+    {
+        beginTd(out, row, col);
         e.renderOn(out);
-
         endTd(out);
     }
 
     private void beginTd(KmHtmlBuilder out, int row, int col)
     {
-        KmCssBuilder css;
-        css = new KmCssBuilder();
-
-        css.add("fields");
-
-        if ( row == 0 )
-            css.add("fieldsTop");
-        else
-            css.add("fieldsMore");
-
-        if ( col == 0 )
-            css.add("fieldsLeft");
-        else
-        {
-            css.add("fieldsRight");
-            css.add(formatRightCss());
-        }
-
-        out.beginCss("td", css.getValue());
+        String css = getCssFor(row, col);
+        out.beginCss("td", css);
     }
 
     private void endTd(KmHtmlBuilder out)
     {
         out.end("td");
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private boolean isVisible(ScControl e)
+    {
+        if ( e instanceof ScVisibleIF )
+            return ((ScVisibleIF)e).getVisible();
+
+        return true;
+    }
+
+    private String getCssFor(int row, int col)
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.add("fields");
+
+        // row style
+        if ( row == 0 )
+            css.fieldsTop();
+        else
+            css.fieldsMore();
+
+        // col style
+        if ( col == 0 )
+            css.fieldsLeft();
+
+        if ( col == 1 )
+            css.fieldsStar();
+
+        if ( col == 2 )
+        {
+            css.fieldsRight();
+            if ( _fullWidth.isTrue() )
+                css.widthFull();
+            css.add(rightCss().getValue());
+        }
+
+        return css.getValue();
+    }
+
+    //##################################################
+    //# html id
+    //##################################################
+
+    @Override
+    public String getHtmlId()
+    {
+        return getKey();
+    }
+
+    @Override
+    public boolean getVisible()
+    {
+        return !style().hasHide();
+    }
+
+    @Override
+    public void setVisible(boolean e)
+    {
+        style().show(e);
+    }
+
+    @Override
+    public ScHtmlIdAjax _htmlIdAjax()
+    {
+        return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    @Override
+    public ScVisibilityScript ajaxShow(boolean e)
+    {
+        return _htmlIdAjax().show(e);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -51,6 +51,15 @@ public class KmMap<K, V>
     //##################################################
     //# accessing
     //##################################################
+
+    /**
+     * Return the value for the specified key.
+     * This is simply a type-safe alias for get(key).
+     */
+    public V getValue(K key)
+    {
+        return get(key);
+    }
 
     public KmList<K> getKeys()
     {

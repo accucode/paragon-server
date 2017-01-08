@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaServerSession_Active
     {
         return "This indicates if the session is currently active, or if it has expired.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaServerSession_Active
         return getAccess().getServerSessionDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaServerSession_Active
     {
         return model.getActive();
     }
-    
+
     @Override
     public void setValueFor(MyServerSession model, Boolean value)
     {
         model.setActive(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyServerSession model, Boolean value)
     {
         return model.hasActive(value);
     }
-    
+
 }

@@ -37,6 +37,18 @@ public class MyMetaAuditLog_User
         return "user";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "User";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The user that made this change.  May be null for automated updates.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaAuditLog_User
     {
         return model.getUser();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, MyUser value)
     {
         model.setUser(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, MyUser value)
     {

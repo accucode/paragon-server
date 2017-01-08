@@ -37,6 +37,18 @@ public class MyMetaInvitation_Project
         return "project";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "Project";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The project to which the invitation referred.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaInvitation_Project
     {
         return model.getProject();
     }
-    
+
     @Override
     public void setValueFor(MyInvitation model, MyProject value)
     {
         model.setProject(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, MyProject value)
     {

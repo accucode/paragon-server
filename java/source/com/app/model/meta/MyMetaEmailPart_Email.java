@@ -37,6 +37,18 @@ public class MyMetaEmailPart_Email
         return "email";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "Email";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return null;
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaEmailPart_Email
     {
         return model.getEmail();
     }
-    
+
     @Override
     public void setValueFor(MyEmailPart model, MyEmail value)
     {
         model.setEmail(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmailPart model, MyEmail value)
     {

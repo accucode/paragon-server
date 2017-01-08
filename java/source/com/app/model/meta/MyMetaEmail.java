@@ -51,17 +51,18 @@ public class MyMetaEmail
         return "email";
     }
 
-    public static MyEmailValidator getValidator()
+    public MyEmailValidator getValidator()
     {
         return MyEmailValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "I am used to manage emails.  This allows the application to easily create an email as part of a database transaction, and to subsequently send (and re-send) the email as needed.  This also provides a convenient log of email that were previously sent.";
     }
@@ -72,6 +73,7 @@ public class MyMetaEmail
 
     public static final MyMetaEmail_Uid Uid = new MyMetaEmail_Uid();
     public static final MyMetaEmail_CreatedUtcTs CreatedUtcTs = new MyMetaEmail_CreatedUtcTs();
+    public static final MyMetaEmail_UpdatedUtcTs UpdatedUtcTs = new MyMetaEmail_UpdatedUtcTs();
     public static final MyMetaEmail_SentUtcTs SentUtcTs = new MyMetaEmail_SentUtcTs();
     public static final MyMetaEmail_Subject Subject = new MyMetaEmail_Subject();
     public static final MyMetaEmail_FromAddress FromAddress = new MyMetaEmail_FromAddress();
@@ -82,18 +84,27 @@ public class MyMetaEmail
     public static final MyMetaEmail_CcAddressesLabel CcAddressesLabel = new MyMetaEmail_CcAddressesLabel();
     public static final MyMetaEmail_PartsAsHtml PartsAsHtml = new MyMetaEmail_PartsAsHtml();
     public static final MyMetaEmail_LockVersion LockVersion = new MyMetaEmail_LockVersion();
+    public static final MyMetaEmail_DisplayString DisplayString = new MyMetaEmail_DisplayString();
     public static final MyMetaEmail_StatusName StatusName = new MyMetaEmail_StatusName();
     public static final MyMetaEmail_CreatedLocalTs CreatedLocalTs = new MyMetaEmail_CreatedLocalTs();
     public static final MyMetaEmail_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaEmail_CreatedLocalTsMessage();
     public static final MyMetaEmail_CreatedLocalDate CreatedLocalDate = new MyMetaEmail_CreatedLocalDate();
     public static final MyMetaEmail_CreatedLocalTime CreatedLocalTime = new MyMetaEmail_CreatedLocalTime();
+    public static final MyMetaEmail_UpdatedLocalTs UpdatedLocalTs = new MyMetaEmail_UpdatedLocalTs();
+    public static final MyMetaEmail_UpdatedLocalTsMessage UpdatedLocalTsMessage = new MyMetaEmail_UpdatedLocalTsMessage();
+    public static final MyMetaEmail_UpdatedLocalDate UpdatedLocalDate = new MyMetaEmail_UpdatedLocalDate();
+    public static final MyMetaEmail_UpdatedLocalTime UpdatedLocalTime = new MyMetaEmail_UpdatedLocalTime();
     public static final MyMetaEmail_SentLocalTs SentLocalTs = new MyMetaEmail_SentLocalTs();
     public static final MyMetaEmail_SentLocalTsMessage SentLocalTsMessage = new MyMetaEmail_SentLocalTsMessage();
     public static final MyMetaEmail_SentLocalDate SentLocalDate = new MyMetaEmail_SentLocalDate();
     public static final MyMetaEmail_SentLocalTime SentLocalTime = new MyMetaEmail_SentLocalTime();
+    public static final MyMetaEmail_CreatedByFullName CreatedByFullName = new MyMetaEmail_CreatedByFullName();
+    public static final MyMetaEmail_UpdatedByFullName UpdatedByFullName = new MyMetaEmail_UpdatedByFullName();
 
     //##################################################
     //# associations
     //##################################################
 
+    public static final MyMetaEmail_CreatedBy CreatedBy = new MyMetaEmail_CreatedBy();
+    public static final MyMetaEmail_UpdatedBy UpdatedBy = new MyMetaEmail_UpdatedBy();
 }

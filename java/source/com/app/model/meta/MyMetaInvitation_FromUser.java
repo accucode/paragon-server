@@ -37,6 +37,18 @@ public class MyMetaInvitation_FromUser
         return "fromUser";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "From User";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The user that issued the invitation.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaInvitation_FromUser
     {
         return model.getFromUser();
     }
-    
+
     @Override
     public void setValueFor(MyInvitation model, MyUser value)
     {
         model.setFromUser(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyInvitation model, MyUser value)
     {

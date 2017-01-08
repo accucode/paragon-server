@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyAuditLogCriteria
@@ -42,6 +43,11 @@ public class MyAuditLogCriteria
     public KmhStringCondition whereUid()
     {
         return new KmhStringCondition(context(), fullName(UID));
+    }
+
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhStringCondition whereTransactionUid()
@@ -129,24 +135,24 @@ public class MyAuditLogCriteria
             whereTypeIsNotDelete();
     }
 
-    public KmhTimestampCondition whereUtcTs()
+    public KmhStringCondition whereDomainType()
     {
-        return new KmhTimestampCondition(context(), fullName(UTC_TS));
+        return new KmhStringCondition(context(), fullName(DOMAIN_TYPE));
     }
 
-    public KmhStringCondition whereModelType()
+    public KmhStringCondition whereDomainName()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_TYPE));
+        return new KmhStringCondition(context(), fullName(DOMAIN_NAME));
     }
 
-    public KmhStringCondition whereModelName()
+    public KmhStringCondition whereDomainUid()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_NAME));
+        return new KmhStringCondition(context(), fullName(DOMAIN_UID));
     }
 
-    public KmhStringCondition whereModelUid()
+    public KmhStringCondition whereDomainBundleUid()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_UID));
+        return new KmhStringCondition(context(), fullName(DOMAIN_BUNDLE_UID));
     }
 
     public KmhStringCondition whereFieldName()
@@ -231,6 +237,24 @@ public class MyAuditLogCriteria
             sortOnUidDescending();
     }
 
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
     public void sortOnTransactionUid()
     {
         parent().sortAscending(TRANSACTION_UID);
@@ -285,76 +309,76 @@ public class MyAuditLogCriteria
             sortOnTypeCodeDescending();
     }
 
-    public void sortOnUtcTs()
+    public void sortOnDomainType()
     {
-        parent().sortAscending(UTC_TS);
+        parent().sortAscending(DOMAIN_TYPE);
     }
 
-    public void sortOnUtcTsDescending()
+    public void sortOnDomainTypeDescending()
     {
-        parent().sortDescending(UTC_TS);
+        parent().sortDescending(DOMAIN_TYPE);
     }
 
-    public void sortOnUtcTs(boolean asc)
+    public void sortOnDomainType(boolean asc)
     {
         if ( asc )
-            sortOnUtcTs();
+            sortOnDomainType();
         else
-            sortOnUtcTsDescending();
+            sortOnDomainTypeDescending();
     }
 
-    public void sortOnModelType()
+    public void sortOnDomainName()
     {
-        parent().sortAscending(MODEL_TYPE);
+        parent().sortAscending(DOMAIN_NAME);
     }
 
-    public void sortOnModelTypeDescending()
+    public void sortOnDomainNameDescending()
     {
-        parent().sortDescending(MODEL_TYPE);
+        parent().sortDescending(DOMAIN_NAME);
     }
 
-    public void sortOnModelType(boolean asc)
+    public void sortOnDomainName(boolean asc)
     {
         if ( asc )
-            sortOnModelType();
+            sortOnDomainName();
         else
-            sortOnModelTypeDescending();
+            sortOnDomainNameDescending();
     }
 
-    public void sortOnModelName()
+    public void sortOnDomainUid()
     {
-        parent().sortAscending(MODEL_NAME);
+        parent().sortAscending(DOMAIN_UID);
     }
 
-    public void sortOnModelNameDescending()
+    public void sortOnDomainUidDescending()
     {
-        parent().sortDescending(MODEL_NAME);
+        parent().sortDescending(DOMAIN_UID);
     }
 
-    public void sortOnModelName(boolean asc)
+    public void sortOnDomainUid(boolean asc)
     {
         if ( asc )
-            sortOnModelName();
+            sortOnDomainUid();
         else
-            sortOnModelNameDescending();
+            sortOnDomainUidDescending();
     }
 
-    public void sortOnModelUid()
+    public void sortOnDomainBundleUid()
     {
-        parent().sortAscending(MODEL_UID);
+        parent().sortAscending(DOMAIN_BUNDLE_UID);
     }
 
-    public void sortOnModelUidDescending()
+    public void sortOnDomainBundleUidDescending()
     {
-        parent().sortDescending(MODEL_UID);
+        parent().sortDescending(DOMAIN_BUNDLE_UID);
     }
 
-    public void sortOnModelUid(boolean asc)
+    public void sortOnDomainBundleUid(boolean asc)
     {
         if ( asc )
-            sortOnModelUid();
+            sortOnDomainBundleUid();
         else
-            sortOnModelUidDescending();
+            sortOnDomainBundleUidDescending();
     }
 
     public void sortOnFieldName()
@@ -618,6 +642,50 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
     //# projections (transactionUid)
     //##################################################
 
@@ -750,179 +818,179 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
-    //# projections (utcTs)
+    //# projections (domainType)
     //##################################################
 
-    public void selectUtcTs()
+    public void selectDomainType()
     {
-        select(UTC_TS);
+        select(DOMAIN_TYPE);
     }
 
-    public void selectDistinctUtcTs()
+    public void selectDistinctDomainType()
     {
-        selectDistinct(UTC_TS);
+        selectDistinct(DOMAIN_TYPE);
     }
 
-    public void selectCountDistinctUtcTs()
+    public void selectCountDistinctDomainType()
     {
-        selectCountDistinct(UTC_TS);
+        selectCountDistinct(DOMAIN_TYPE);
     }
 
-    public void selectMinimumUtcTs()
+    public void selectMinimumDomainType()
     {
-        selectMinimum(UTC_TS);
+        selectMinimum(DOMAIN_TYPE);
     }
 
-    public void selectMaximumUtcTs()
+    public void selectMaximumDomainType()
     {
-        selectMaximum(UTC_TS);
+        selectMaximum(DOMAIN_TYPE);
     }
 
-    public void selectAverageUtcTs()
+    public void selectAverageDomainType()
     {
-        selectAverage(UTC_TS);
+        selectAverage(DOMAIN_TYPE);
     }
 
-    public void selectSumUtcTs()
+    public void selectSumDomainType()
     {
-        selectSum(UTC_TS);
+        selectSum(DOMAIN_TYPE);
     }
 
-    public void groupByUtcTs()
+    public void groupByDomainType()
     {
-        groupBy(UTC_TS);
-    }
-
-    //##################################################
-    //# projections (modelType)
-    //##################################################
-
-    public void selectModelType()
-    {
-        select(MODEL_TYPE);
-    }
-
-    public void selectDistinctModelType()
-    {
-        selectDistinct(MODEL_TYPE);
-    }
-
-    public void selectCountDistinctModelType()
-    {
-        selectCountDistinct(MODEL_TYPE);
-    }
-
-    public void selectMinimumModelType()
-    {
-        selectMinimum(MODEL_TYPE);
-    }
-
-    public void selectMaximumModelType()
-    {
-        selectMaximum(MODEL_TYPE);
-    }
-
-    public void selectAverageModelType()
-    {
-        selectAverage(MODEL_TYPE);
-    }
-
-    public void selectSumModelType()
-    {
-        selectSum(MODEL_TYPE);
-    }
-
-    public void groupByModelType()
-    {
-        groupBy(MODEL_TYPE);
+        groupBy(DOMAIN_TYPE);
     }
 
     //##################################################
-    //# projections (modelName)
+    //# projections (domainName)
     //##################################################
 
-    public void selectModelName()
+    public void selectDomainName()
     {
-        select(MODEL_NAME);
+        select(DOMAIN_NAME);
     }
 
-    public void selectDistinctModelName()
+    public void selectDistinctDomainName()
     {
-        selectDistinct(MODEL_NAME);
+        selectDistinct(DOMAIN_NAME);
     }
 
-    public void selectCountDistinctModelName()
+    public void selectCountDistinctDomainName()
     {
-        selectCountDistinct(MODEL_NAME);
+        selectCountDistinct(DOMAIN_NAME);
     }
 
-    public void selectMinimumModelName()
+    public void selectMinimumDomainName()
     {
-        selectMinimum(MODEL_NAME);
+        selectMinimum(DOMAIN_NAME);
     }
 
-    public void selectMaximumModelName()
+    public void selectMaximumDomainName()
     {
-        selectMaximum(MODEL_NAME);
+        selectMaximum(DOMAIN_NAME);
     }
 
-    public void selectAverageModelName()
+    public void selectAverageDomainName()
     {
-        selectAverage(MODEL_NAME);
+        selectAverage(DOMAIN_NAME);
     }
 
-    public void selectSumModelName()
+    public void selectSumDomainName()
     {
-        selectSum(MODEL_NAME);
+        selectSum(DOMAIN_NAME);
     }
 
-    public void groupByModelName()
+    public void groupByDomainName()
     {
-        groupBy(MODEL_NAME);
+        groupBy(DOMAIN_NAME);
     }
 
     //##################################################
-    //# projections (modelUid)
+    //# projections (domainUid)
     //##################################################
 
-    public void selectModelUid()
+    public void selectDomainUid()
     {
-        select(MODEL_UID);
+        select(DOMAIN_UID);
     }
 
-    public void selectDistinctModelUid()
+    public void selectDistinctDomainUid()
     {
-        selectDistinct(MODEL_UID);
+        selectDistinct(DOMAIN_UID);
     }
 
-    public void selectCountDistinctModelUid()
+    public void selectCountDistinctDomainUid()
     {
-        selectCountDistinct(MODEL_UID);
+        selectCountDistinct(DOMAIN_UID);
     }
 
-    public void selectMinimumModelUid()
+    public void selectMinimumDomainUid()
     {
-        selectMinimum(MODEL_UID);
+        selectMinimum(DOMAIN_UID);
     }
 
-    public void selectMaximumModelUid()
+    public void selectMaximumDomainUid()
     {
-        selectMaximum(MODEL_UID);
+        selectMaximum(DOMAIN_UID);
     }
 
-    public void selectAverageModelUid()
+    public void selectAverageDomainUid()
     {
-        selectAverage(MODEL_UID);
+        selectAverage(DOMAIN_UID);
     }
 
-    public void selectSumModelUid()
+    public void selectSumDomainUid()
     {
-        selectSum(MODEL_UID);
+        selectSum(DOMAIN_UID);
     }
 
-    public void groupByModelUid()
+    public void groupByDomainUid()
     {
-        groupBy(MODEL_UID);
+        groupBy(DOMAIN_UID);
+    }
+
+    //##################################################
+    //# projections (domainBundleUid)
+    //##################################################
+
+    public void selectDomainBundleUid()
+    {
+        select(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectDistinctDomainBundleUid()
+    {
+        selectDistinct(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectCountDistinctDomainBundleUid()
+    {
+        selectCountDistinct(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectMinimumDomainBundleUid()
+    {
+        selectMinimum(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectMaximumDomainBundleUid()
+    {
+        selectMaximum(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectAverageDomainBundleUid()
+    {
+        selectAverage(DOMAIN_BUNDLE_UID);
+    }
+
+    public void selectSumDomainBundleUid()
+    {
+        selectSum(DOMAIN_BUNDLE_UID);
+    }
+
+    public void groupByDomainBundleUid()
+    {
+        groupBy(DOMAIN_BUNDLE_UID);
     }
 
     //##################################################
@@ -1474,7 +1542,7 @@ public class MyAuditLogCriteria
 
     public void groupByUserUid()
     {
-        groupBy(USER);
+        groupBy(USER_UID);
     }
 
     public MyUserCriteria joinToUser()
@@ -1501,8 +1569,37 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyAuditLogJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyAuditLogJunction any()
+    {
+        return addOr();
+    }
+
+    public MyAuditLogJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyAuditLogJunction addNotAnd()
+    {
+        return new MyAuditLogJunction(parent().addNotAnd());
+    }
+
+    public MyAuditLogJunction addNotOr()
+    {
+        return new MyAuditLogJunction(parent().addNotOr());
+    }
 
     public MyAuditLogJunction addAnd()
     {

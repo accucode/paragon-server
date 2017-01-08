@@ -17,8 +17,8 @@ public abstract class ScAbstractServlet<T extends ScServletData>
     //# constants
     //##################################################
 
-    private static final boolean MONITOR_GET  = false;
-    private static final boolean MONITOR_POST = false;
+    private static final boolean           MONITOR_GET  = false;
+    private static final boolean           MONITOR_POST = false;
 
     //##################################################
     //# accumulator (static)
@@ -65,10 +65,12 @@ public abstract class ScAbstractServlet<T extends ScServletData>
 
     private void _doGet(HttpServletRequest request, HttpServletResponse response)
     {
-        T data = newServletData(request, response);
+        T data = null;
         try
         {
+            data = newServletData(request, response);
             doGet();
+            data.flushResult();
         }
         catch ( Exception ex )
         {
@@ -116,10 +118,12 @@ public abstract class ScAbstractServlet<T extends ScServletData>
 
     private void _doPost(HttpServletRequest request, HttpServletResponse response)
     {
-        T data = newServletData(request, response);
+        T data = null;
         try
         {
+            data = newServletData(request, response);
             doPost();
+            data.flushResult();
         }
         catch ( Exception ex )
         {
@@ -139,7 +143,9 @@ public abstract class ScAbstractServlet<T extends ScServletData>
 
     private void cleanUp(T data)
     {
-        data.flushResult();
+        if ( data == null )
+            return;
+
         data.releaseResources();
 
         if ( logsPerformance() )

@@ -18,7 +18,7 @@ public class KmDaoSupplierCommand<T>
      * The result returned by the supplier.
      * This is only valid after the transaction completes successfully.
      */
-    private T _result;
+    private T           _result;
 
     //##################################################
     //# constructor

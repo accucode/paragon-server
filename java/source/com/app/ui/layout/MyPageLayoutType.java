@@ -9,20 +9,22 @@ public enum MyPageLayoutType
     //##################################################
 
     /**
-     * Shows just the header, footer, and content.
-     * The content fills the area between the header and footer.
+     * Shows nothing but the content.
+     * This does not even show the header or footer.
      */
     bare,
 
     /**
-     * Adds the top tabs and the page title.
+     * Shows only the header, footer.
+     * The content fills the area between the header and footer.
      */
-    simple,
+    basic,
 
     /**
-     * Adds the sub menu.
+     * This is the normal layout, used for most pages in the application.
+     * It includes menu and page title in addition to the header and footer.
      */
-    nested;
+    normal;
 
     //##################################################
     //# header
@@ -30,20 +32,30 @@ public enum MyPageLayoutType
 
     public boolean showsHeader()
     {
-        return true;
+        MyPageLayoutType type = this;
+        switch ( type )
+        {
+            case bare:
+                return false;
+
+            case basic:
+            case normal:
+                return true;
+        }
+        return false;
     }
 
     public String getHeaderCss()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case bare:
-                return KmCssDefaultConstantsIF.appHeader_bare;
+                return KmCssDefaultConstantsIF.header_bare;
 
-            case simple:
-            case nested:
-                return KmCssDefaultConstantsIF.appHeader_normal;
+            case basic:
+            case normal:
+                return KmCssDefaultConstantsIF.header_normal;
         }
         return null;
     }
@@ -54,7 +66,17 @@ public enum MyPageLayoutType
 
     public boolean showsFooter()
     {
-        return true;
+        MyPageLayoutType type = this;
+        switch ( type )
+        {
+            case bare:
+                return false;
+
+            case basic:
+            case normal:
+                return true;
+        }
+        return false;
     }
 
     public String getFooterCss()
@@ -63,42 +85,15 @@ public enum MyPageLayoutType
         switch ( e )
         {
             case bare:
-                return KmCssDefaultConstantsIF.appFooter_bare;
-
-            case simple:
-            case nested:
-                return KmCssDefaultConstantsIF.appFooter_normal;
-
+            case basic:
+            case normal:
+                return KmCssDefaultConstantsIF.footer;
         }
         return null;
     }
 
     //##################################################
-    //# tabs (primary navigation)
-    //##################################################
-
-    public boolean showsTabs()
-    {
-        MyPageLayoutType e = this;
-        switch ( e )
-        {
-            case nested:
-            case simple:
-                return true;
-
-            case bare:
-                return false;
-        }
-        return false;
-    }
-
-    public String getTabsCss()
-    {
-        return KmCssDefaultConstantsIF.appTabs;
-    }
-
-    //##################################################
-    //# menu (secondary navigation)
+    //# nav
     //##################################################
 
     public boolean showsMenu()
@@ -106,11 +101,11 @@ public enum MyPageLayoutType
         MyPageLayoutType e = this;
         switch ( e )
         {
-            case nested:
+            case normal:
                 return true;
 
             case bare:
-            case simple:
+            case basic:
                 return false;
         }
         return false;
@@ -118,7 +113,15 @@ public enum MyPageLayoutType
 
     public String getMenuCss()
     {
-        return KmCssDefaultConstantsIF.appMenu;
+        MyPageLayoutType e = this;
+        switch ( e )
+        {
+            case bare:
+            case basic:
+            case normal:
+                return KmCssDefaultConstantsIF.menu;
+        }
+        return null;
     }
 
     //##################################################
@@ -130,11 +133,11 @@ public enum MyPageLayoutType
         MyPageLayoutType e = this;
         switch ( e )
         {
-            case simple:
-            case nested:
+            case normal:
                 return true;
 
             case bare:
+            case basic:
                 return false;
         }
         return false;
@@ -146,14 +149,13 @@ public enum MyPageLayoutType
         switch ( e )
         {
             case bare:
-                return KmCssDefaultConstantsIF.appTitle_bare;
+                return KmCssDefaultConstantsIF.title_bare;
 
-            case simple:
-                return KmCssDefaultConstantsIF.appTitle_simple;
+            case basic:
+                return KmCssDefaultConstantsIF.title_basic;
 
-            case nested:
-                return KmCssDefaultConstantsIF.appTitle_nested;
-
+            case normal:
+                return KmCssDefaultConstantsIF.title_normal;
         }
         return null;
     }
@@ -173,14 +175,13 @@ public enum MyPageLayoutType
         switch ( e )
         {
             case bare:
-                return KmCssDefaultConstantsIF.appContent_bare;
+                return KmCssDefaultConstantsIF.content_bare;
 
-            case simple:
-                return KmCssDefaultConstantsIF.appContent_simple;
+            case basic:
+                return KmCssDefaultConstantsIF.content_basic;
 
-            case nested:
-                return KmCssDefaultConstantsIF.appContent_nested;
-
+            case normal:
+                return KmCssDefaultConstantsIF.content_normal;
         }
         return null;
     }

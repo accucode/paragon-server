@@ -2,15 +2,22 @@ package com.app.utility;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.utility.ScUrlBridge;
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSha1;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyProject;
+import com.app.model.MyTenant;
+import com.app.model.core.MyProjectDomainIF;
+import com.app.model.core.MyTenantDomainIF;
+import com.app.property.MyProperties;
 
 public class MyUtility
 {
@@ -117,7 +124,7 @@ public class MyUtility
         return m;
     }
 
-    public static ScDropdown newStateDropdown()
+    public static ScDropdownField<String> newStateDropdown()
     {
         KmMap<String,String> states = getStates();
 
@@ -125,8 +132,8 @@ public class MyUtility
         names = states.getKeys();
         names.sort();
 
-        ScDropdown e;
-        e = new ScDropdown();
+        ScDropdownField<String> e;
+        e = new ScDropdownField<>();
         e.setLabel("State");
         for ( String name : names )
         {
@@ -234,7 +241,7 @@ public class MyUtility
     {
         int hour = MyGlobals.getNowUtc().getHour();
 
-        MyPropertyRegistry p = MyGlobals.getProperties();
+        MyProperties p = MyGlobals.getProperties();
         int start = p.getMaintenancePeriodStartHour();
         int end = p.getMaintenancePeriodEndHour();
 
@@ -270,4 +277,61 @@ public class MyUtility
 
         Kmu.writeFile(path, html);
     }
+
+    //##################################################
+    //# html
+    //##################################################
+
+    /**
+     * This is a bit awkward, but at least this is now in a single
+     * place rather than copying the list of css files in multiple
+     * places.
+     */
+    public static void printStyleLinksOn(KmHtmlBuilder out)
+    {
+        ScUrlBridge urls = ScUrlBridge.getInstance();
+
+        out.printStyleLink(urls.getResetCss());
+        out.printStyleLink(urls.getThemeCss());
+    }
+
+    //##################################################
+    //# time zone
+    //##################################################
+
+    public static ScDropdownField<String> newTimeZoneDropdown()
+    {
+        ScDropdownField<String> dd;
+        dd = new ScDropdownField<>();
+        dd.setLabel("Time Zone");
+
+        for ( KmTimeZone e : KmTimeZone.getCommonZones() )
+            dd.addOption(e.getCode(), e.getName());
+
+        dd.addOption(null, "--------------------");
+
+        for ( KmTimeZone e : KmTimeZone.getAllZones() )
+            dd.addOption(e.getCode(), e.getName());
+
+        return dd;
+    }
+
+    //##################################################
+    //# context
+    //##################################################
+
+    public static MyTenant getTenantFor(Object e)
+    {
+        return e instanceof MyTenantDomainIF
+            ? ((MyTenantDomainIF)e).getTenant()
+            : null;
+    }
+
+    public static MyProject getProjectFor(Object e)
+    {
+        return e instanceof MyProjectDomainIF
+            ? ((MyProjectDomainIF)e).getProject()
+            : null;
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I implement an interval for timestamps.  I define a start and end
- * timestamp with various convenience methods.  
- * 
- * The start and/or end dates may be null for an open ended range.  
- * If both the start and end date are specified, then the start date 
+ * timestamp with various convenience methods.
+ *
+ * The start and/or end dates may be null for an open ended range.
+ * If both the start and end date are specified, then the start date
  * MUST be on or before the end date.
  */
 public class KmTimestampInterval
@@ -71,6 +71,10 @@ public class KmTimestampInterval
     //# accessing
     //##################################################
 
+    //==================================================
+    //= start
+    //==================================================
+
     public KmTimestamp getStart()
     {
         return _start;
@@ -91,6 +95,10 @@ public class KmTimestampInterval
         return Kmu.isEqual(getStart(), ts);
     }
 
+    //==================================================
+    //= end
+    //==================================================
+
     public KmTimestamp getEnd()
     {
         return _end;
@@ -110,6 +118,33 @@ public class KmTimestampInterval
     {
         return Kmu.isEqual(getEnd(), ts);
     }
+
+    //==================================================
+    //= dates
+    //==================================================
+
+    public KmDate getStartDate()
+    {
+        return hasStart()
+            ? getStart().getDate()
+            : null;
+    }
+
+    public KmDate getEndDate()
+    {
+        return hasEnd()
+            ? getEnd().getDate()
+            : null;
+    }
+
+    public KmDateInterval toDateInterval()
+    {
+        return KmDateInterval.create(getStartDate(), getEndDate());
+    }
+
+    //==================================================
+    //= duration
+    //==================================================
 
     /**
      * Return the duration between the start and end.
@@ -297,18 +332,73 @@ public class KmTimestampInterval
     }
 
     //##################################################
+    //# conversion (utc)
+    //##################################################
+
+    public KmTimestampInterval toUtc()
+    {
+        KmTimestamp startUtc = hasStart()
+            ? getStart().toUtc()
+            : null;
+
+        KmTimestamp endUtc = hasEnd()
+            ? getEnd().toUtc()
+            : null;
+
+        return create(startUtc, endUtc);
+    }
+
+    public KmTimestampInterval toUtc(KmTimeZone zone)
+    {
+        KmTimestamp startUtc = hasStart()
+            ? getStart().toUtc(zone)
+            : null;
+
+        KmTimestamp endUtc = hasEnd()
+            ? getEnd().toUtc(zone)
+            : null;
+
+        return create(startUtc, endUtc);
+    }
+
+    //==================================================
+    //= conversion :: local
+    //==================================================
+
+    public KmTimestampInterval toLocal()
+    {
+        KmTimestamp startLocal = hasStart()
+            ? getStart().toLocal()
+            : null;
+
+        KmTimestamp endLocal = hasEnd()
+            ? getEnd().toLocal()
+            : null;
+
+        return create(startLocal, endLocal);
+    }
+
+    public KmTimestampInterval toLocal(KmTimeZone zone)
+    {
+        KmTimestamp startLocal = hasStart()
+            ? getStart().toLocal(zone)
+            : null;
+
+        KmTimestamp endLocal = hasEnd()
+            ? getEnd().toLocal(zone)
+            : null;
+
+        return create(startLocal, endLocal);
+    }
+
+    //##################################################
     //# display
     //##################################################
 
     @Override
     public String toString()
     {
-        return Kmu.format(getToStringFormat(), getStart(), getEnd());
-    }
-
-    public static String getToStringFormat()
-    {
-        return "%s - %s";
+        return Kmu.format("%s - %s", getStart(), getEnd());
     }
 
     //##################################################
@@ -364,5 +454,4 @@ public class KmTimestampInterval
         System.out.println("    ts2.intersects(ts1): " + ts2.intersects(ts1));
 
     }
-
 }

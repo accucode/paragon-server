@@ -1,0 +1,133 @@
+model
+: name      = tenant
+: help...
+    ---
+    Each tenant identifies a segregated unit of business within the application.
+    Each tenant has their own set of projects, customers, depots, etc.
+    No information is shared between separate tenants.
+    ---
+
+database
+: auditLog  = false
+: locking   = true
+
+attributes
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+
+
+    field
+    : name      = createdUtcTs
+    : help      = The time this record was originally created.
+    : type      = timestamp
+    : required  = true
+    : default   = nowUtc()
+    : auditLog  = false
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The short display name of this tenant.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** host
+    //*****************************************************
+
+
+    field
+    : name      = hostname
+    : help      = The url hostname used to identify the tenant.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** theme
+    //*****************************************************
+
+
+    field
+    : name      = themeCode
+    : help      = Identify the theme.
+    : type      = name
+    : required  = true
+    : default   = MyTheme.Default.getCode()
+
+
+    abstractField
+    : name      = themeName
+    : label     = Theme
+    : help      = The display name of the current theme.
+    : type      = calculated
+
+
+    //*****************************************************
+    //** intacct
+    //*****************************************************
+
+
+    field
+    : name      = intacctCompanyId
+    : help...
+        ---
+        The intacct company, used for integration.
+        This is the company name entered on the Intacct login page.
+        ---
+    : type      = name
+
+
+    field
+    : name      = intacctUserId
+    : help...
+        ---
+        The intacct user, used for integration.
+        This is the user id entered on the Intacct login page.
+        Intacct's recommendation is to use 'xml_gateway'.
+        However, any valid Intacct user can be used.
+        ---
+    : type      = name
+
+
+    field
+    : name      = intacctUserPassword
+    : help...
+        ---
+        The intacct password, used for integration.
+        This is the user password entered on the Intacct login page.
+        ---
+    : type      = name
+
+
+    //*****************************************************
+    //** children
+    //*****************************************************
+
+
+    collection
+    : name          = project
+    : comment       = The projects for this tenant.
+    : relation      = children
+    : elementModel  = project
+    : elementField  = tenant
+
+
+    collection
+    : name          = user
+    : comment       = The user for this tenant.
+    : relation      = children
+    : elementModel  = user
+    : elementField  = tenant
+

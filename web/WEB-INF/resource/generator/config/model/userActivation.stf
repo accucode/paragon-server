@@ -19,19 +19,40 @@ database
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant.
+    : modelName = tenant
+    : relation  = reference
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name      = email
     : help      = The email to be activated.
     : type      = email
     : required  = true
+
 
     field
     : name      = token
@@ -40,12 +61,6 @@ attributes
     : default   = newUid()
     : required  = true
 
-    field
-    : name      = createdUtcTs
-    : help      = The date and time when the activation was created.
-    : type      = timestamp
-    : default   = getNowUtc()
-    : required  = true
 
     field
     : name      = expirationUtcTs

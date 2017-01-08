@@ -1,11 +1,14 @@
 package com.app.ui.page;
 
+import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmResult;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyProject;
 import com.app.model.MyUser;
 
 public enum MySecurityLevel
+                implements KmEnumIF
 {
     //##################################################
     //# values
@@ -20,25 +23,6 @@ public enum MySecurityLevel
      * Requires sign in.  The user must be logged in.
      */
     user,
-
-    /**
-     * Requires project member.  A project must be selected, and the current user
-     * must be a member of the selected project.
-     */
-    member,
-
-    /**
-     * Requires project manager.  A project must be selected, and the current user
-     * must be a manager of the selected project.
-     */
-    manager,
-
-    /**
-     * Requires an admin.  The global admin functions, generally limited to a few
-     * features such as creating new projects and managing user profiles across
-     * multiple projects.
-     */
-    admin,
 
     /**
      * Requires a developer.  The global developer functions.  This is primarily
@@ -61,9 +45,6 @@ public enum MySecurityLevel
                 return false;
 
             case user:
-            case member:
-            case manager:
-            case admin:
             case developer:
                 return true;
         }
@@ -71,103 +52,78 @@ public enum MySecurityLevel
         return true;
     }
 
+    //##################################################
+    //# check
+    //##################################################
+
     public void check(MyUser u, MyProject p)
     {
-        MySecurityLevel e = this;
-        switch ( e )
+        KmResult<Boolean> result = allows(u, p);
+        if ( result.hasError() )
+            throw Kmu.newSecurityError(result.getError());
+    }
+
+    //##################################################
+    //# allows
+    //##################################################
+
+    /**
+     * @param u The user requesting accessing.
+     * @param p The project being accessed.
+     */
+    public KmResult<Boolean> allows(MyUser u, MyProject p)
+    {
+        MySecurityLevel level = this;
+        switch ( level )
         {
             case none:
-                checkAny();
-                break;
+                return yes();
 
             case user:
-                checkUser(u);
-                break;
-
-            case member:
-                checkMember(u, p);
-                break;
-
-            case manager:
-                checkManager(u, p);
-                break;
-
-            case admin:
-                checkAdmin(u);
-                break;
+                return allowsUser(u);
 
             case developer:
-                checkDeveloper(u);
-                break;
+                return allowsDeveloper(u);
         }
+        throw Kmu.newEnumError(this);
     }
 
-    //##################################################
-    //# support
-    //##################################################
+    //==================================================
+    //= allows :: private
+    //==================================================
 
-    private void checkAny()
-    {
-        // none
-    }
-
-    private void checkUser(MyUser u)
+    private KmResult<Boolean> allowsUser(MyUser u)
     {
         if ( u == null )
-            securityError("Requires sign in.");
+            return no("Requires sign in.");
+
+        if ( !u.isActive() )
+            return no("Requires active user.");
+
+        return yes();
     }
 
-    private void checkProject(MyProject p)
+    private KmResult<Boolean> allowsDeveloper(MyUser u)
     {
-        if ( p == null )
-            securityError("Requires project.");
+        KmResult<Boolean> result;
+
+        result = allowsUser(u);
+        if ( result.hasError() )
+            return result;
+
+        return u.allowsDeveloper()
+            ? yes()
+            : no("Requires developer.");
     }
 
-    private void checkMember(MyUser u, MyProject p)
+    private KmResult<Boolean> yes()
     {
-        checkUser(u);
-        checkProject(p);
-
-        if ( p.hasMember(u) || u.allowsAdmin() )
-            return;
-
-        securityError("Requires project member");
+        return KmResult.TRUE;
     }
 
-    private void checkManager(MyUser u, MyProject p)
+    private KmResult<Boolean> no(String s)
     {
-        checkUser(u);
-        checkProject(p);
-
-        if ( p.hasManager(u) || u.allowsAdmin() )
-            return;
-
-        securityError("Requires project manager");
-    }
-
-    private void checkAdmin(MyUser u)
-    {
-        checkUser(u);
-
-        if ( u.allowsAdmin() )
-            return;
-
-        securityError("Requires admin.");
-    }
-
-    private void checkDeveloper(MyUser u)
-    {
-        checkUser(u);
-
-        if ( u.allowsDeveloper() )
-            return;
-
-        securityError("Requires developer.");
-    }
-
-    private void securityError(String msg)
-    {
-        Kmu.throwSecurityError(msg);
+        return KmResult.createError(s);
     }
 
 }

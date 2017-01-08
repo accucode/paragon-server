@@ -21,8 +21,8 @@ public class KmFacebookIdName
     //# variables 
     //##################################################
 
-    private String _id;
-    private String _name;
+    private String              _id;
+    private String              _name;
 
     //##################################################
     //# accessing

@@ -1,6 +1,7 @@
 package com.app.generator;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.exception.KmApplicationException;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
 import com.kodemore.generator.KmgGenerator;
@@ -35,11 +36,15 @@ public class MyGenerator
             e.setArgs(args);
             e.generate();
         }
+        catch ( KmApplicationException ex )
+        {
+            System.out.flush();
+            System.err.flush();
+        }
         catch ( RuntimeException ex )
         {
             System.out.flush();
             System.err.flush();
-
             ex.printStackTrace(System.out);
         }
     }
@@ -53,7 +58,7 @@ public class MyGenerator
      * specific classes.  In particular this prefix is used during code
      * generation.
      */
-    private static final String APPLICATION_PREFIX = "my";
+    private static final String APPLICATION_PREFIX  = "my";
 
     /**
      * The root package that contains the application specific code.
@@ -64,13 +69,13 @@ public class MyGenerator
     //# variables
     //##################################################
 
-    private KmgRoot        _root;
-    private KmList<String> _args;
+    private KmgRoot             _root;
+    private KmList<String>      _args;
 
-    private boolean _installedModels;
-    private boolean _installedProperties;
-    private boolean _installedPages;
-    private boolean _installedCss;
+    private boolean             _installedModels;
+    private boolean             _installedProperties;
+    private boolean             _installedPages;
+    private boolean             _installedCss;
 
     //##################################################
     //# constructor
@@ -232,12 +237,7 @@ public class MyGenerator
         if ( _installedCss )
             return;
 
-        String prefix = "web/static/version/app/theme/default/css/";
-
-        String themePath = prefix + "theme.css";
-        String spicePath = prefix + "spice.css";
-        String toolsPath = prefix + "tools.css";
-        String buttonPath = prefix + "button.css";
+        String themePath = "web/static/version/app/theme/default/css/theme.css";
 
         KmgRoot root;
         root = getRoot();
@@ -245,19 +245,13 @@ public class MyGenerator
         KmgCssBundle e;
         e = root.addCssBundle("default");
         addSelectorsTo(e, themePath);
-        addSelectorsTo(e, spicePath);
-        addSelectorsTo(e, toolsPath);
-        addSelectorsTo(e, buttonPath);
-
-        e = root.addCssBundle("spice");
-        addSelectorsTo(e, spicePath);
 
         _installedCss = true;
     }
 
     private void addSelectorsTo(KmgCssBundle bundle, String path)
     {
-        System.out.println("parse style sheeet: " + path);
+        System.out.println("parse style sheet: " + path);
 
         path = getRootPath(path);
 
@@ -296,7 +290,7 @@ public class MyGenerator
 
         String pkg = APPLICATION_PACKAGE;
         String pkgPrefix = Kmu.replaceAll(pkg, DOT, SLASH);
-        String pkgSuffix = "ui/page";
+        String pkgSuffix = "ui";
 
         String path;
         path = MyDevelopmentFiles.getJavaSourcePath(pkgPrefix, pkgSuffix);

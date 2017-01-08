@@ -25,4 +25,43 @@ public class ScActions
     }
 
     private static ScActions _instance;
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    /**
+     * A global noop (Non Operation).
+     */
+    private ScAction         _noopAction;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private ScActions()
+    {
+        ScGlobalContext globalCtx = ScGlobalContext.getInstance();
+
+        _noopAction = new ScAction(globalCtx, this::handleNoop);
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public ScAction getNoopAction()
+    {
+        return _noopAction;
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleNoop()
+    {
+        // do nothing
+    }
+
 }

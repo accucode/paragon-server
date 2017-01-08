@@ -1,18 +1,19 @@
 package com.app.ui.page;
 
 import com.kodemore.dao.KmDaoSession;
+import com.kodemore.servlet.MyGlobalSession;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.model.MySettings;
+import com.app.model.MyTenant;
 import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyMenuItem;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutType;
 import com.app.utility.MyGlobals;
@@ -31,26 +32,8 @@ public abstract class MyPage
         super.checkLayout();
 
         getLayout().checkLayoutFor(this);
-    }
 
-    //==================================================
-    //= layout :: shows
-    //==================================================
-
-    public MyMenuItem getPrimaryMenuItem()
-    {
-        if ( hasMenu() )
-            return getMenu().getPrimary();
-
-        return null;
-    }
-
-    public MyMenuItem getSecondaryMenuItem()
-    {
-        if ( hasMenu() )
-            return getMenu().getSecondary();
-
-        return null;
+        checkProject();
     }
 
     //==================================================
@@ -64,30 +47,7 @@ public abstract class MyPage
 
     public MyPageLayoutType getLayoutType()
     {
-        MyMenuItem menu = getMenu();
-
-        if ( menu == null )
-            return MyPageLayoutType.bare;
-
-        if ( menu.isTop() )
-            return MyPageLayoutType.simple;
-
-        return MyPageLayoutType.nested;
-    }
-
-    private MyMenuItem getMenu()
-    {
-        return getMenuRegistry().findMenuFor(this);
-    }
-
-    private boolean hasMenu()
-    {
-        return getMenu() != null;
-    }
-
-    private MyMenuRegistry getMenuRegistry()
-    {
-        return MyMenuRegistry.getInstance();
+        return MyPageLayoutType.normal;
     }
 
     //##################################################
@@ -103,7 +63,16 @@ public abstract class MyPage
      */
     public final String formatEntryUrl()
     {
-        return MyUrls.getEntryUrl(composeBookmark());
+        return MyUrls.getEntryUrl(composeBookmark(true));
+    }
+
+    //##################################################
+    //# tenant
+    //##################################################
+
+    public final MyTenant getCurrentTenant()
+    {
+        return getServerSession().getTenant();
     }
 
     //##################################################
@@ -139,7 +108,7 @@ public abstract class MyPage
 
     public MyProject getCurrentProject()
     {
-        return getServerSession().getCurrentProject();
+        return getPageSession().getCurrentProject();
     }
 
     public String getCurrentProjectUid()
@@ -156,6 +125,25 @@ public abstract class MyPage
         return getCurrentProject() != null;
     }
 
+    /**
+     * Check to see if the current project from the page session
+     * matches the user's last selected project. If not, set it.
+     */
+    private void checkProject()
+    {
+        if ( !hasCurrentUser() )
+            return;
+
+        if ( !hasCurrentProject() )
+            return;
+
+        MyUser user = getCurrentUser();
+        MyProject currentProject = getCurrentProject();
+
+        if ( !user.hasLastProject(currentProject) )
+            user.setLastProject(currentProject);
+    }
+
     //##################################################
     //# security
     //##################################################
@@ -163,17 +151,16 @@ public abstract class MyPage
     @Override
     public void checkSecurity()
     {
-        MySecurityLevel sec = getSecurityLevel();
         MyUser u = getCurrentUser();
         MyProject p = getCurrentProject();
 
-        sec.check(u, p);
+        getSecurityLevel().check(u, p);
     }
 
     public abstract MySecurityLevel getSecurityLevel();
 
     @Override
-    public boolean requiresUser()
+    public final boolean requiresUser()
     {
         return getSecurityLevel().requiresUser();
     }
@@ -193,6 +180,11 @@ public abstract class MyPage
         return MyGlobals.getServerSession();
     }
 
+    protected MyGlobalSession getPageSession()
+    {
+        return MyGlobals.getGlobalSession();
+    }
+
     protected KmDate getTodayUtc()
     {
         return getNowUtc().getDate();
@@ -203,7 +195,7 @@ public abstract class MyPage
         return MyGlobals.getNowUtc();
     }
 
-    protected MyPropertyRegistry getProperties()
+    protected MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }
@@ -223,7 +215,7 @@ public abstract class MyPage
         getDaoSession().flush();
     }
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

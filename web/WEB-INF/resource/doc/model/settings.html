@@ -16,63 +16,105 @@
 <body>
 <h1>settings</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>A single record with global settings.  This provides a simply, typesafe way to store some global settings in the database.  For example, we could define a global contact (email or phone) for technical assistance with the portal.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
   <td>code&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The unique key; hardcoded to 1.<br>
-            &nbsp;
-  </td>
-  
+
   <td>integer
               </td>
+
   <td>
-            pk<br>                required<br>           &nbsp;
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    The unique key&#59; hardcoded to 1&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>someMessage&nbsp;</td>
-  
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        Just a placeholder until more useful settings are defined.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>text100
-        <br><nobr>max length: 100</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>lockVersion
               </td>
+
   <td>
-                         &nbsp;
+                                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>someMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    Just a placeholder until more useful settings are defined&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

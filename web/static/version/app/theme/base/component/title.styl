@@ -1,0 +1,58 @@
+/*****************************
+ ** page title
+ *****************************/
+
+/**
+ * The unique ID for the page title box.
+ * Used by javascript.
+ */
+#title
+    /* noop - prevent compression */
+    content: normal;
+
+.title-bare,
+.title-basic
+    display: none
+
+.title-normal
+    box-sizing:         border-box
+    position:           absolute
+    left:               0px
+    right:              0px
+    top:                $header-height + $menu-height
+    height:             $title-height
+    display:            flex
+    align-items:        center
+    justify-content:    space-around
+    overflow:           hidden
+    background:         $title-background
+
+/*****************************
+ ** name
+ *****************************/
+
+.title-left
+    flex-grow:          1
+    padding-left:       20px
+
+.title-nameText
+    color:              $title-nameColor
+    font:               $title-nameFont
+    white-space:        nowrap
+
+/*****************************
+ ** help
+ *****************************/
+
+.title-right
+    flex-shrink:        0
+    padding-right:      20px
+
+.title-help
+    box-sizing:         border-box
+    cursor:             help
+    vertical-align:     middle
+    background:         url(../image/pageHelp.png) no-repeat
+    height:             16px
+    width:              16px
+    padding-left:       16px /* equal to width */

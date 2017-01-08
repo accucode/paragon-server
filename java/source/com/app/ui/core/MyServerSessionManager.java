@@ -2,8 +2,9 @@ package com.app.ui.core;
 
 import com.app.finder.MyServerSessionFinder;
 import com.app.model.MyServerSession;
+import com.app.model.MyTenant;
 import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 
@@ -23,14 +24,15 @@ public class MyServerSessionManager
      * Start a new session.
      * If a session already exists, close it first.
      */
-    public static void beginSession()
+    public static void beginSession(MyTenant tenant)
     {
         endSession();
 
         MyServerSession ss;
         ss = new MyServerSession();
         ss.setVersion(MyConstantsIF.APPLICATION_VERSION);
-        ss.attachDao();
+        ss.setTenant(tenant);
+        ss.daoAttach();
 
         setCookieUid(ss.getUid());
     }
@@ -116,14 +118,13 @@ public class MyServerSessionManager
     //# login
     //##################################################
 
-    public static MyServerSession signIn(MyUser u)
+    public static MyServerSession logIn(MyUser u)
     {
         MyServerSession ss;
         ss = getSession();
         ss.setUser(u);
-        ss.installCurrentProject();
+        ss.setTenant(u.getTenant());
         ss.validate();
-
         return ss;
     }
 
@@ -149,7 +150,7 @@ public class MyServerSessionManager
 
     private static void setCookieUid(String uid)
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         int timeout = p.getServerSessionTimeoutSeconds();
         boolean secure = p.getServerSessionSecure();
@@ -169,7 +170,7 @@ public class MyServerSessionManager
         return MyGlobals.getData();
     }
 
-    private static MyPropertyRegistry getProperties()
+    private static MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

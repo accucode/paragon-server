@@ -20,7 +20,7 @@ public class KmgCssBundle
     /**
      * The ID style sheet selectors.  E.g.: #someId.
      */
-    private KmList<KmgCssSelector> _idSelectors;
+    private KmList<KmgCssSelector>  _idSelectors;
 
     /**
      * The CLASS style sheet selectors.  E.g.: .someClass.

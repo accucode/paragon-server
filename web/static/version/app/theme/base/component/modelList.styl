@@ -1,0 +1,171 @@
+/*****************************
+ ** model list
+ *****************************/
+
+.modelList
+    overflow-x:         hidden;
+    overflow-y:         auto;
+    background:         $modelList-background               if $modelList-background
+
+/*****************************
+ ** item
+ *****************************/
+
+.modelList-item
+    position:           relative
+
+    box-sizing:         border-box
+    height:             $modelList-itemHeight               if $modelList-itemHeight
+
+    margin:             $modelList-itemMargin               if $modelList-itemMargin
+
+    display:            flex;
+    align-items:        center;
+
+    color:              $modelList-itemColor                if $modelList-itemColor
+    background-color:   $modelList-itemBackground           if $modelList-itemBackground
+
+    cursor:             pointer;
+    border-width:       $modelList-itemBorderWidth          if $modelList-itemBorderWidth
+    border-style:       $modelList-itemBorderStyle          if $modelList-itemBorderStyle
+    border-color:       $modelList-itemBorderColor          if $modelList-itemBorderColor
+
+.modelList-item:hover
+    background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
+
+.modelList-itemSelected
+    background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
+    border-width:       $modelList-itemBorderWidth-select   if $modelList-itemBorderWidth-select
+    border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
+    border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
+
+.modelList-itemStrikeout
+    color:              $modelList-itemColor-strikeout
+    background:         $modelList-itemBackground-strikeout
+    border-width:       $modelList-itemBorderWidth-strikeout    if $modelList-itemBorderWidth-strikeout
+    border-style:       $modelList-itemBorderStyle-strikeout    if $modelList-itemBorderStyle-strikeout
+    border-color:       $modelList-itemBorderColor-strikeout    if $modelList-itemBorderColor-strikeout
+    text-decoration:    line-through
+
+/*****************************
+ ** task designer
+ *****************************/
+
+.modelList-taskDesignerItem
+    position:           relative
+
+    box-sizing:         border-box
+
+    margin:             $modelList-itemMargin               if $modelList-itemMargin
+
+    display:            flex
+    align-items:        center
+
+    color:              $modelList-itemColor                if $modelList-itemColor
+    background-color:   $modelList-itemBackground           if $modelList-itemBackground
+
+    cursor:             pointer
+    border-width:       $modelList-itemBorderWidth          if $modelList-itemBorderWidth
+    border-style:       $modelList-itemBorderStyle          if $modelList-itemBorderStyle
+    border-color:       $modelList-itemBorderColor          if $modelList-itemBorderColor
+
+.modelList-taskDesignerItem:hover
+    background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
+    
+.modelList-taskDesignerItem > div > button
+    min-width:          200px;       
+
+
+/*****************************
+ ** error box
+ *****************************/
+
+.modelList-itemErrorBox
+    flex-grow:          0
+    flex-shrink:        0
+    overflow:           hidden
+    padding-left:       5px
+
+/*****************************
+ ** messageBox
+ *****************************/
+
+.modelList-itemMessageBox
+    flex-grow:          1
+    flex-shrink:        1
+    overflow:           hidden
+    padding:            $modelList-itemMessageBoxPadding    if $modelList-itemMessageBoxPadding
+
+/*****************************
+ ** title
+ *****************************/
+
+.modelList-itemTitle
+    font:               $modelList-itemTitleFont            if $modelList-itemTitleFont
+    color:              $modelList-itemTitleColor           if $modelList-itemTitleColor
+    white-space:        nowrap
+
+.modelList-itemSubtitle
+    font:               $modelList-itemSubtitleFont         if $modelList-itemSubtitleFont
+    color:              $modelList-itemSubtitleColor        if $modelList-itemSubtitleColor
+    white-space:        nowrap
+
+/*****************************
+ ** menu box
+ *****************************/
+
+.modelList-itemMenuBoxRow
+    display:            flex
+    flex-direction:     row
+    flex-shrink:        0
+    padding:            $modelList-itemMenuBoxPadding      if $modelList-itemMenuBoxPadding
+
+.modelList-itemMenuBoxRow > *
+    margin-left:        5px
+
+.modelList-item:hover .modelList-itemMenuBoxRow
+    visibility:         visible
+
+.modelList-itemMenuBoxColumn
+    display:            flex
+    flex-direction:     column
+    flex-shrink:        0
+    padding:            5px
+    margin-right:       10px
+
+.modelList-itemMenuBoxColumn > *
+    margin-left:        5px
+
+.modelList-item:hover .modelList-itemMenuBoxColumn
+    visibility:         visible
+
+/*****************************
+ ** indicator
+ *****************************/
+
+.modelListItemIndicator
+    if $modelList-indicatorVisible
+        border:         $modelList-indicatorWidth solid black   if $modelList-indicatorWidth
+        height:         $modelList-indicatorHeight              if $modelList-indicatorHeight
+        margin:         $modelList-indicatorMargin              if $modelList-indicatorMargin
+    else
+        display:        none
+
+.modelList-item .modelListItemIndicator
+    border-color:   $formFilterIndicatorColorOff
+
+.modelList-itemSelected .modelListItemIndicator
+    border-color:   $formFilterIndicatorColorOn
+    box-shadow:     -6px 1px 17px 2px $formFilterIndicatorColorOn
+
+/*******************************************************************
+ ** secondary group
+ *******************************************************************/
+
+.groupSecondary .modelListItemIndicator
+    border-color:   #FFCD1C;
+
+.groupSecondary .modelList-itemSelected .modelListItemIndicator
+    border-color:   #27D1E9;
+    box-shadow:     -6px 1px 17px 2px #27D1E9;
+

@@ -1,18 +1,46 @@
 package com.app.model;
 
-import java.time.ZoneId;
-
-import com.kodemore.collection.KmList;
-import com.kodemore.time.KmTimeConstantsIF;
-import com.kodemore.time.KmTimeZoneUtility;
+import com.kodemore.time.KmClock;
+import com.kodemore.time.KmTimeZone;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyUserBase;
+import com.app.model.core.MyTenantDomainIF;
+import com.app.model.support.MyPersonNameIF;
+import com.app.model.support.MyPersonNameUtility;
+import com.app.ui.dashboard.core.MyDashboardOrientationType;
+import com.app.ui.dashboard.core.MyDashboardPanelType;
 import com.app.utility.MyUtility;
 
 public class MyUser
     extends MyUserBase
+    implements MyTenantDomainIF, MyPersonNameIF
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * The number of minutes a user needs to be inactive to be condsidered stale.
+     */
+    private static final int       TIMEOUT_MINUTES   = 10;
+
+    public static final KmTimeZone DEFAULT_TIME_ZONE = KmTimeZone.Mountain;
+
+    /**
+     * Root is a special user.
+     * We use this to bootstrap the system, and sometimes for testing.
+     */
+    public static final String     ROOT_EMAIL        = "root";
+
+    /**
+     * The user name that we use a placeholder to represent actions
+     * performed directly by the system.
+     */
+    public static final String     SYSTEM_NAME       = "System";
+
     //##################################################
     //# constructor
     //##################################################
@@ -21,7 +49,8 @@ public class MyUser
     {
         super();
 
-        setTimeZone(KmTimeConstantsIF.DENVER_ZONE);
+        setTimeZone(DEFAULT_TIME_ZONE);
+        setRandomPassword();
     }
 
     //##################################################
@@ -69,17 +98,22 @@ public class MyUser
     //# time zone
     //##################################################
 
-    public ZoneId getTimeZone()
+    public KmTimeZone getTimeZone()
     {
-        return KmTimeZoneUtility.getZoneOrUtc(getTimeZoneCode());
+        return KmTimeZone.findCode(getTimeZoneCode());
     }
 
-    public void setTimeZone(ZoneId e)
+    public void setTimeZone(KmTimeZone e)
     {
         if ( e == null )
-            setTimeZoneCode(null);
+            clearTimeZoneCode();
         else
-            setTimeZoneCode(e.getId());
+            setTimeZoneCode(e.getCode());
+    }
+
+    public boolean hasTimeZone()
+    {
+        return getTimeZone() != null;
     }
 
     //##################################################
@@ -88,7 +122,7 @@ public class MyUser
 
     public boolean allowsLogin()
     {
-        return isVerified();
+        return isActive();
     }
 
     public boolean allowsDeveloper()
@@ -101,45 +135,60 @@ public class MyUser
         return isRoleAdmin() || allowsDeveloper();
     }
 
+    /**
+     * Return true if the this user is allowed to manange
+     * (e.g.: add/edit) developers.
+     */
+    public boolean allowsManageDevelopers()
+    {
+        return allowsDeveloper();
+    }
+
+    public boolean allowsClearPassword()
+    {
+        return allowsDeveloper();
+    }
+
+    public boolean allowsProxy()
+    {
+        return allowsDeveloper();
+    }
+
+    /**
+     * Return true if this user is allowed to copy projects across
+     * different tenants.
+     */
+    public boolean allowsCrossTenantAccess()
+    {
+        return allowsDeveloper();
+    }
+
     //##################################################
-    //# projects
+    //# name
     //##################################################
 
-    public KmList<MyMember> getMemberships()
+    @Override
+    public String getFullName()
     {
-        return getAccess().getMemberDao().findUser(this);
+        return MyPersonNameUtility.getFullName(this);
     }
 
-    public KmList<MyProject> getProjects()
+    @Override
+    public String getFormalName()
     {
-        return getMemberships().collect(e -> e.getProject());
+        return MyPersonNameUtility.getFormalName(this);
     }
 
-    public KmList<MyProject> getProjectsByName()
+    @Override
+    public String getShortName()
     {
-        KmList<MyProject> v;
-        v = getProjects();
-        v.sortOn(MyProject::getName);
-        return v;
+        return MyPersonNameUtility.getShortName(this);
     }
 
-    public KmList<String> getProjectNames()
+    @Override
+    public String getLongName()
     {
-        return getProjectsByName().collect(e -> e.getName());
-    }
-
-    public boolean isMemberOf(MyProject e)
-    {
-        return getMembershipFor(e) != null;
-    }
-
-    public MyMember getMembershipFor(MyProject p)
-    {
-        for ( MyMember m : getMemberships() )
-            if ( m.hasProject(p) )
-                return m;
-
-        return null;
+        return MyPersonNameUtility.getLongName(this);
     }
 
     //##################################################
@@ -149,7 +198,89 @@ public class MyUser
     @Override
     public String getDisplayString()
     {
-        return getName();
+        return getFullName();
+    }
+
+    //##################################################
+    //# inactive
+    //##################################################
+
+    public boolean isStale()
+    {
+        KmTimestamp lastTouched = getSessionLastTouchedTs();
+
+        if ( lastTouched == null )
+            return true;
+
+        KmTimestamp inactiveTime = KmClock.getUtcTimestamp().subtractMinutes(TIMEOUT_MINUTES);
+
+        if ( lastTouched.isBefore(inactiveTime) )
+            return true;
+
+        return false;
+    }
+
+    private KmTimestamp getSessionLastTouchedTs()
+    {
+        MyServerSession ss = getAccess().getServerSessionDao().findLastTouchedFor(this);
+
+        return ss == null
+            ? null
+            : ss.getLastTouchedUtcTs();
+    }
+
+    //##################################################
+    //# dashboard orientation
+    //##################################################
+
+    public MyDashboardOrientationType getDashboardOrientationType()
+    {
+        String code = getDashboardOrientationTypeCode();
+        return MyDashboardOrientationType.findCode(code);
+    }
+
+    public void setDashboardOrientationType(MyDashboardOrientationType e)
+    {
+        setDashboardOrientationTypeCode(KmEnumIF.getCodeFor(e));
+    }
+
+    //##################################################
+    //# dashboard panels
+    //##################################################
+
+    public MyDashboardPanelType getDashboardPanelTypeA()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeA());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeB()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeB());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeC()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeC());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeD()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeD());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeE()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeE());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeF()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeF());
+    }
+
+    public MyDashboardPanelType getDashboardPanelTypeG()
+    {
+        return MyDashboardPanelType.findCode(getDashboardPanelCodeG());
     }
 
 }

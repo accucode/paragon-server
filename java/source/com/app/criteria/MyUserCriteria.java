@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyUserCriteria
@@ -44,24 +45,34 @@ public class MyUserCriteria
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereName()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+    }
+
+    public KmhStringCondition whereFirstName()
+    {
+        return new KmhStringCondition(context(), fullName(FIRST_NAME));
+    }
+
+    public KmhStringCondition whereLastName()
+    {
+        return new KmhStringCondition(context(), fullName(LAST_NAME));
+    }
+
+    public KmhStringCondition whereNickname()
+    {
+        return new KmhStringCondition(context(), fullName(NICKNAME));
     }
 
     public KmhStringCondition whereEmail()
     {
         return new KmhStringCondition(context(), fullName(EMAIL));
-    }
-
-    public KmhStringCondition wherePhone()
-    {
-        return new KmhStringCondition(context(), fullName(PHONE));
-    }
-
-    public KmhBooleanCondition whereVerified()
-    {
-        return new KmhBooleanCondition(context(), fullName(VERIFIED));
     }
 
     public KmhStringCondition wherePasswordSalt()
@@ -72,6 +83,16 @@ public class MyUserCriteria
     public KmhStringCondition wherePasswordHash()
     {
         return new KmhStringCondition(context(), fullName(PASSWORD_HASH));
+    }
+
+    public KmhStringCondition wherePhone()
+    {
+        return new KmhStringCondition(context(), fullName(PHONE));
+    }
+
+    public KmhBooleanCondition whereActive()
+    {
+        return new KmhBooleanCondition(context(), fullName(ACTIVE));
     }
 
     public KmhStringCondition whereTimeZoneCode()
@@ -154,6 +175,56 @@ public class MyUserCriteria
             whereRoleIsNotOther();
     }
 
+    public KmhStringCondition whereDashboardOrientationTypeCode()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_ORIENTATION_TYPE_CODE));
+    }
+
+    public KmhIntegerCondition whereDashboardLineCount1()
+    {
+        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_1));
+    }
+
+    public KmhIntegerCondition whereDashboardLineCount2()
+    {
+        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_2));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeA()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_A));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeB()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_B));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeC()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_C));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeD()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_D));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeE()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_E));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeF()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_F));
+    }
+
+    public KmhStringCondition whereDashboardPanelCodeG()
+    {
+        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_G));
+    }
+
     public KmhIntegerCondition whereLockVersion()
     {
         return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
@@ -181,22 +252,94 @@ public class MyUserCriteria
             sortOnUidDescending();
     }
 
-    public void sortOnName()
+    public void sortOnCreatedUtcTs()
     {
-        parent().sortAscending(NAME);
+        parent().sortAscending(CREATED_UTC_TS);
     }
 
-    public void sortOnNameDescending()
+    public void sortOnCreatedUtcTsDescending()
     {
-        parent().sortDescending(NAME);
+        parent().sortDescending(CREATED_UTC_TS);
     }
 
-    public void sortOnName(boolean asc)
+    public void sortOnCreatedUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnName();
+            sortOnCreatedUtcTs();
         else
-            sortOnNameDescending();
+            sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
+    }
+
+    public void sortOnFirstName()
+    {
+        parent().sortAscending(FIRST_NAME);
+    }
+
+    public void sortOnFirstNameDescending()
+    {
+        parent().sortDescending(FIRST_NAME);
+    }
+
+    public void sortOnFirstName(boolean asc)
+    {
+        if ( asc )
+            sortOnFirstName();
+        else
+            sortOnFirstNameDescending();
+    }
+
+    public void sortOnLastName()
+    {
+        parent().sortAscending(LAST_NAME);
+    }
+
+    public void sortOnLastNameDescending()
+    {
+        parent().sortDescending(LAST_NAME);
+    }
+
+    public void sortOnLastName(boolean asc)
+    {
+        if ( asc )
+            sortOnLastName();
+        else
+            sortOnLastNameDescending();
+    }
+
+    public void sortOnNickname()
+    {
+        parent().sortAscending(NICKNAME);
+    }
+
+    public void sortOnNicknameDescending()
+    {
+        parent().sortDescending(NICKNAME);
+    }
+
+    public void sortOnNickname(boolean asc)
+    {
+        if ( asc )
+            sortOnNickname();
+        else
+            sortOnNicknameDescending();
     }
 
     public void sortOnEmail()
@@ -215,42 +358,6 @@ public class MyUserCriteria
             sortOnEmail();
         else
             sortOnEmailDescending();
-    }
-
-    public void sortOnPhone()
-    {
-        parent().sortAscending(PHONE);
-    }
-
-    public void sortOnPhoneDescending()
-    {
-        parent().sortDescending(PHONE);
-    }
-
-    public void sortOnPhone(boolean asc)
-    {
-        if ( asc )
-            sortOnPhone();
-        else
-            sortOnPhoneDescending();
-    }
-
-    public void sortOnVerified()
-    {
-        parent().sortAscending(VERIFIED);
-    }
-
-    public void sortOnVerifiedDescending()
-    {
-        parent().sortDescending(VERIFIED);
-    }
-
-    public void sortOnVerified(boolean asc)
-    {
-        if ( asc )
-            sortOnVerified();
-        else
-            sortOnVerifiedDescending();
     }
 
     public void sortOnPasswordSalt()
@@ -289,6 +396,42 @@ public class MyUserCriteria
             sortOnPasswordHashDescending();
     }
 
+    public void sortOnPhone()
+    {
+        parent().sortAscending(PHONE);
+    }
+
+    public void sortOnPhoneDescending()
+    {
+        parent().sortDescending(PHONE);
+    }
+
+    public void sortOnPhone(boolean asc)
+    {
+        if ( asc )
+            sortOnPhone();
+        else
+            sortOnPhoneDescending();
+    }
+
+    public void sortOnActive()
+    {
+        parent().sortAscending(ACTIVE);
+    }
+
+    public void sortOnActiveDescending()
+    {
+        parent().sortDescending(ACTIVE);
+    }
+
+    public void sortOnActive(boolean asc)
+    {
+        if ( asc )
+            sortOnActive();
+        else
+            sortOnActiveDescending();
+    }
+
     public void sortOnTimeZoneCode()
     {
         parent().sortAscending(TIME_ZONE_CODE);
@@ -323,6 +466,186 @@ public class MyUserCriteria
             sortOnRoleCode();
         else
             sortOnRoleCodeDescending();
+    }
+
+    public void sortOnDashboardOrientationTypeCode()
+    {
+        parent().sortAscending(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void sortOnDashboardOrientationTypeCodeDescending()
+    {
+        parent().sortDescending(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void sortOnDashboardOrientationTypeCode(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardOrientationTypeCode();
+        else
+            sortOnDashboardOrientationTypeCodeDescending();
+    }
+
+    public void sortOnDashboardLineCount1()
+    {
+        parent().sortAscending(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void sortOnDashboardLineCount1Descending()
+    {
+        parent().sortDescending(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void sortOnDashboardLineCount1(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardLineCount1();
+        else
+            sortOnDashboardLineCount1Descending();
+    }
+
+    public void sortOnDashboardLineCount2()
+    {
+        parent().sortAscending(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void sortOnDashboardLineCount2Descending()
+    {
+        parent().sortDescending(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void sortOnDashboardLineCount2(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardLineCount2();
+        else
+            sortOnDashboardLineCount2Descending();
+    }
+
+    public void sortOnDashboardPanelCodeA()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void sortOnDashboardPanelCodeADescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void sortOnDashboardPanelCodeA(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeA();
+        else
+            sortOnDashboardPanelCodeADescending();
+    }
+
+    public void sortOnDashboardPanelCodeB()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void sortOnDashboardPanelCodeBDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void sortOnDashboardPanelCodeB(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeB();
+        else
+            sortOnDashboardPanelCodeBDescending();
+    }
+
+    public void sortOnDashboardPanelCodeC()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void sortOnDashboardPanelCodeCDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void sortOnDashboardPanelCodeC(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeC();
+        else
+            sortOnDashboardPanelCodeCDescending();
+    }
+
+    public void sortOnDashboardPanelCodeD()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void sortOnDashboardPanelCodeDDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void sortOnDashboardPanelCodeD(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeD();
+        else
+            sortOnDashboardPanelCodeDDescending();
+    }
+
+    public void sortOnDashboardPanelCodeE()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void sortOnDashboardPanelCodeEDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void sortOnDashboardPanelCodeE(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeE();
+        else
+            sortOnDashboardPanelCodeEDescending();
+    }
+
+    public void sortOnDashboardPanelCodeF()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void sortOnDashboardPanelCodeFDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void sortOnDashboardPanelCodeF(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeF();
+        else
+            sortOnDashboardPanelCodeFDescending();
+    }
+
+    public void sortOnDashboardPanelCodeG()
+    {
+        parent().sortAscending(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void sortOnDashboardPanelCodeGDescending()
+    {
+        parent().sortDescending(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void sortOnDashboardPanelCodeG(boolean asc)
+    {
+        if ( asc )
+            sortOnDashboardPanelCodeG();
+        else
+            sortOnDashboardPanelCodeGDescending();
     }
 
     public void sortOnLockVersion()
@@ -388,47 +711,223 @@ public class MyUserCriteria
     }
 
     //##################################################
-    //# projections (name)
+    //# projections (createdUtcTs)
     //##################################################
 
-    public void selectName()
+    public void selectCreatedUtcTs()
     {
-        select(NAME);
+        select(CREATED_UTC_TS);
     }
 
-    public void selectDistinctName()
+    public void selectDistinctCreatedUtcTs()
     {
-        selectDistinct(NAME);
+        selectDistinct(CREATED_UTC_TS);
     }
 
-    public void selectCountDistinctName()
+    public void selectCountDistinctCreatedUtcTs()
     {
-        selectCountDistinct(NAME);
+        selectCountDistinct(CREATED_UTC_TS);
     }
 
-    public void selectMinimumName()
+    public void selectMinimumCreatedUtcTs()
     {
-        selectMinimum(NAME);
+        selectMinimum(CREATED_UTC_TS);
     }
 
-    public void selectMaximumName()
+    public void selectMaximumCreatedUtcTs()
     {
-        selectMaximum(NAME);
+        selectMaximum(CREATED_UTC_TS);
     }
 
-    public void selectAverageName()
+    public void selectAverageCreatedUtcTs()
     {
-        selectAverage(NAME);
+        selectAverage(CREATED_UTC_TS);
     }
 
-    public void selectSumName()
+    public void selectSumCreatedUtcTs()
     {
-        selectSum(NAME);
+        selectSum(CREATED_UTC_TS);
     }
 
-    public void groupByName()
+    public void groupByCreatedUtcTs()
     {
-        groupBy(NAME);
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (firstName)
+    //##################################################
+
+    public void selectFirstName()
+    {
+        select(FIRST_NAME);
+    }
+
+    public void selectDistinctFirstName()
+    {
+        selectDistinct(FIRST_NAME);
+    }
+
+    public void selectCountDistinctFirstName()
+    {
+        selectCountDistinct(FIRST_NAME);
+    }
+
+    public void selectMinimumFirstName()
+    {
+        selectMinimum(FIRST_NAME);
+    }
+
+    public void selectMaximumFirstName()
+    {
+        selectMaximum(FIRST_NAME);
+    }
+
+    public void selectAverageFirstName()
+    {
+        selectAverage(FIRST_NAME);
+    }
+
+    public void selectSumFirstName()
+    {
+        selectSum(FIRST_NAME);
+    }
+
+    public void groupByFirstName()
+    {
+        groupBy(FIRST_NAME);
+    }
+
+    //##################################################
+    //# projections (lastName)
+    //##################################################
+
+    public void selectLastName()
+    {
+        select(LAST_NAME);
+    }
+
+    public void selectDistinctLastName()
+    {
+        selectDistinct(LAST_NAME);
+    }
+
+    public void selectCountDistinctLastName()
+    {
+        selectCountDistinct(LAST_NAME);
+    }
+
+    public void selectMinimumLastName()
+    {
+        selectMinimum(LAST_NAME);
+    }
+
+    public void selectMaximumLastName()
+    {
+        selectMaximum(LAST_NAME);
+    }
+
+    public void selectAverageLastName()
+    {
+        selectAverage(LAST_NAME);
+    }
+
+    public void selectSumLastName()
+    {
+        selectSum(LAST_NAME);
+    }
+
+    public void groupByLastName()
+    {
+        groupBy(LAST_NAME);
+    }
+
+    //##################################################
+    //# projections (nickname)
+    //##################################################
+
+    public void selectNickname()
+    {
+        select(NICKNAME);
+    }
+
+    public void selectDistinctNickname()
+    {
+        selectDistinct(NICKNAME);
+    }
+
+    public void selectCountDistinctNickname()
+    {
+        selectCountDistinct(NICKNAME);
+    }
+
+    public void selectMinimumNickname()
+    {
+        selectMinimum(NICKNAME);
+    }
+
+    public void selectMaximumNickname()
+    {
+        selectMaximum(NICKNAME);
+    }
+
+    public void selectAverageNickname()
+    {
+        selectAverage(NICKNAME);
+    }
+
+    public void selectSumNickname()
+    {
+        selectSum(NICKNAME);
+    }
+
+    public void groupByNickname()
+    {
+        groupBy(NICKNAME);
     }
 
     //##################################################
@@ -473,94 +972,6 @@ public class MyUserCriteria
     public void groupByEmail()
     {
         groupBy(EMAIL);
-    }
-
-    //##################################################
-    //# projections (phone)
-    //##################################################
-
-    public void selectPhone()
-    {
-        select(PHONE);
-    }
-
-    public void selectDistinctPhone()
-    {
-        selectDistinct(PHONE);
-    }
-
-    public void selectCountDistinctPhone()
-    {
-        selectCountDistinct(PHONE);
-    }
-
-    public void selectMinimumPhone()
-    {
-        selectMinimum(PHONE);
-    }
-
-    public void selectMaximumPhone()
-    {
-        selectMaximum(PHONE);
-    }
-
-    public void selectAveragePhone()
-    {
-        selectAverage(PHONE);
-    }
-
-    public void selectSumPhone()
-    {
-        selectSum(PHONE);
-    }
-
-    public void groupByPhone()
-    {
-        groupBy(PHONE);
-    }
-
-    //##################################################
-    //# projections (verified)
-    //##################################################
-
-    public void selectVerified()
-    {
-        select(VERIFIED);
-    }
-
-    public void selectDistinctVerified()
-    {
-        selectDistinct(VERIFIED);
-    }
-
-    public void selectCountDistinctVerified()
-    {
-        selectCountDistinct(VERIFIED);
-    }
-
-    public void selectMinimumVerified()
-    {
-        selectMinimum(VERIFIED);
-    }
-
-    public void selectMaximumVerified()
-    {
-        selectMaximum(VERIFIED);
-    }
-
-    public void selectAverageVerified()
-    {
-        selectAverage(VERIFIED);
-    }
-
-    public void selectSumVerified()
-    {
-        selectSum(VERIFIED);
-    }
-
-    public void groupByVerified()
-    {
-        groupBy(VERIFIED);
     }
 
     //##################################################
@@ -652,6 +1063,94 @@ public class MyUserCriteria
     }
 
     //##################################################
+    //# projections (phone)
+    //##################################################
+
+    public void selectPhone()
+    {
+        select(PHONE);
+    }
+
+    public void selectDistinctPhone()
+    {
+        selectDistinct(PHONE);
+    }
+
+    public void selectCountDistinctPhone()
+    {
+        selectCountDistinct(PHONE);
+    }
+
+    public void selectMinimumPhone()
+    {
+        selectMinimum(PHONE);
+    }
+
+    public void selectMaximumPhone()
+    {
+        selectMaximum(PHONE);
+    }
+
+    public void selectAveragePhone()
+    {
+        selectAverage(PHONE);
+    }
+
+    public void selectSumPhone()
+    {
+        selectSum(PHONE);
+    }
+
+    public void groupByPhone()
+    {
+        groupBy(PHONE);
+    }
+
+    //##################################################
+    //# projections (active)
+    //##################################################
+
+    public void selectActive()
+    {
+        select(ACTIVE);
+    }
+
+    public void selectDistinctActive()
+    {
+        selectDistinct(ACTIVE);
+    }
+
+    public void selectCountDistinctActive()
+    {
+        selectCountDistinct(ACTIVE);
+    }
+
+    public void selectMinimumActive()
+    {
+        selectMinimum(ACTIVE);
+    }
+
+    public void selectMaximumActive()
+    {
+        selectMaximum(ACTIVE);
+    }
+
+    public void selectAverageActive()
+    {
+        selectAverage(ACTIVE);
+    }
+
+    public void selectSumActive()
+    {
+        selectSum(ACTIVE);
+    }
+
+    public void groupByActive()
+    {
+        groupBy(ACTIVE);
+    }
+
+    //##################################################
     //# projections (timeZoneCode)
     //##################################################
 
@@ -740,6 +1239,446 @@ public class MyUserCriteria
     }
 
     //##################################################
+    //# projections (dashboardOrientationTypeCode)
+    //##################################################
+
+    public void selectDashboardOrientationTypeCode()
+    {
+        select(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectDistinctDashboardOrientationTypeCode()
+    {
+        selectDistinct(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectCountDistinctDashboardOrientationTypeCode()
+    {
+        selectCountDistinct(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectMinimumDashboardOrientationTypeCode()
+    {
+        selectMinimum(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectMaximumDashboardOrientationTypeCode()
+    {
+        selectMaximum(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectAverageDashboardOrientationTypeCode()
+    {
+        selectAverage(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void selectSumDashboardOrientationTypeCode()
+    {
+        selectSum(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    public void groupByDashboardOrientationTypeCode()
+    {
+        groupBy(DASHBOARD_ORIENTATION_TYPE_CODE);
+    }
+
+    //##################################################
+    //# projections (dashboardLineCount1)
+    //##################################################
+
+    public void selectDashboardLineCount1()
+    {
+        select(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectDistinctDashboardLineCount1()
+    {
+        selectDistinct(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectCountDistinctDashboardLineCount1()
+    {
+        selectCountDistinct(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectMinimumDashboardLineCount1()
+    {
+        selectMinimum(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectMaximumDashboardLineCount1()
+    {
+        selectMaximum(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectAverageDashboardLineCount1()
+    {
+        selectAverage(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void selectSumDashboardLineCount1()
+    {
+        selectSum(DASHBOARD_LINE_COUNT_1);
+    }
+
+    public void groupByDashboardLineCount1()
+    {
+        groupBy(DASHBOARD_LINE_COUNT_1);
+    }
+
+    //##################################################
+    //# projections (dashboardLineCount2)
+    //##################################################
+
+    public void selectDashboardLineCount2()
+    {
+        select(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectDistinctDashboardLineCount2()
+    {
+        selectDistinct(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectCountDistinctDashboardLineCount2()
+    {
+        selectCountDistinct(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectMinimumDashboardLineCount2()
+    {
+        selectMinimum(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectMaximumDashboardLineCount2()
+    {
+        selectMaximum(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectAverageDashboardLineCount2()
+    {
+        selectAverage(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void selectSumDashboardLineCount2()
+    {
+        selectSum(DASHBOARD_LINE_COUNT_2);
+    }
+
+    public void groupByDashboardLineCount2()
+    {
+        groupBy(DASHBOARD_LINE_COUNT_2);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeA)
+    //##################################################
+
+    public void selectDashboardPanelCodeA()
+    {
+        select(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectDistinctDashboardPanelCodeA()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeA()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectMinimumDashboardPanelCodeA()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectMaximumDashboardPanelCodeA()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectAverageDashboardPanelCodeA()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void selectSumDashboardPanelCodeA()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_A);
+    }
+
+    public void groupByDashboardPanelCodeA()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_A);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeB)
+    //##################################################
+
+    public void selectDashboardPanelCodeB()
+    {
+        select(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectDistinctDashboardPanelCodeB()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeB()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectMinimumDashboardPanelCodeB()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectMaximumDashboardPanelCodeB()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectAverageDashboardPanelCodeB()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void selectSumDashboardPanelCodeB()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_B);
+    }
+
+    public void groupByDashboardPanelCodeB()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_B);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeC)
+    //##################################################
+
+    public void selectDashboardPanelCodeC()
+    {
+        select(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectDistinctDashboardPanelCodeC()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeC()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectMinimumDashboardPanelCodeC()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectMaximumDashboardPanelCodeC()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectAverageDashboardPanelCodeC()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void selectSumDashboardPanelCodeC()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_C);
+    }
+
+    public void groupByDashboardPanelCodeC()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_C);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeD)
+    //##################################################
+
+    public void selectDashboardPanelCodeD()
+    {
+        select(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectDistinctDashboardPanelCodeD()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeD()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectMinimumDashboardPanelCodeD()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectMaximumDashboardPanelCodeD()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectAverageDashboardPanelCodeD()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void selectSumDashboardPanelCodeD()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_D);
+    }
+
+    public void groupByDashboardPanelCodeD()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_D);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeE)
+    //##################################################
+
+    public void selectDashboardPanelCodeE()
+    {
+        select(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectDistinctDashboardPanelCodeE()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeE()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectMinimumDashboardPanelCodeE()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectMaximumDashboardPanelCodeE()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectAverageDashboardPanelCodeE()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void selectSumDashboardPanelCodeE()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_E);
+    }
+
+    public void groupByDashboardPanelCodeE()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_E);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeF)
+    //##################################################
+
+    public void selectDashboardPanelCodeF()
+    {
+        select(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectDistinctDashboardPanelCodeF()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeF()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectMinimumDashboardPanelCodeF()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectMaximumDashboardPanelCodeF()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectAverageDashboardPanelCodeF()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void selectSumDashboardPanelCodeF()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_F);
+    }
+
+    public void groupByDashboardPanelCodeF()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_F);
+    }
+
+    //##################################################
+    //# projections (dashboardPanelCodeG)
+    //##################################################
+
+    public void selectDashboardPanelCodeG()
+    {
+        select(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectDistinctDashboardPanelCodeG()
+    {
+        selectDistinct(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectCountDistinctDashboardPanelCodeG()
+    {
+        selectCountDistinct(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectMinimumDashboardPanelCodeG()
+    {
+        selectMinimum(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectMaximumDashboardPanelCodeG()
+    {
+        selectMaximum(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectAverageDashboardPanelCodeG()
+    {
+        selectAverage(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void selectSumDashboardPanelCodeG()
+    {
+        selectSum(DASHBOARD_PANEL_CODE_G);
+    }
+
+    public void groupByDashboardPanelCodeG()
+    {
+        groupBy(DASHBOARD_PANEL_CODE_G);
+    }
+
+    //##################################################
     //# projections (lockVersion)
     //##################################################
 
@@ -784,6 +1723,147 @@ public class MyUserCriteria
     }
 
     //##################################################
+    //# association (CreatedBy)
+    //##################################################
+
+    public void selectCreatedByUid()
+    {
+        select(CREATED_BY_UID);
+    }
+
+    public void selectMinimumCreatedByUid()
+    {
+        selectMinimum(CREATED_BY_UID);
+    }
+
+    public void selectMaximumCreatedByUid()
+    {
+        selectMaximum(CREATED_BY_UID);
+    }
+
+    public void groupByCreatedByUid()
+    {
+        groupBy(CREATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToCreatedBy()
+    {
+        return new MyUserCriteria(joinTo(CREATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToCreatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(CREATED_BY));
+    }
+
+    public KmhStringCondition whereCreatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+    }
+
+    public void whereCreatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNull();
+        else
+            whereCreatedByUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (Tenant)
+    //##################################################
+
+    public void selectTenantUid()
+    {
+        select(TENANT_UID);
+    }
+
+    public void selectMinimumTenantUid()
+    {
+        selectMinimum(TENANT_UID);
+    }
+
+    public void selectMaximumTenantUid()
+    {
+        selectMaximum(TENANT_UID);
+    }
+
+    public void groupByTenantUid()
+    {
+        groupBy(TENANT_UID);
+    }
+
+    public MyTenantCriteria joinToTenant()
+    {
+        return new MyTenantCriteria(joinTo(TENANT));
+    }
+
+    public MyTenantCriteria leftJoinToTenant()
+    {
+        return new MyTenantCriteria(leftJoinTo(TENANT));
+    }
+
+    public KmhStringCondition whereTenantUid()
+    {
+        return new KmhStringCondition(parent(), fullName(TENANT_UID));
+    }
+
+    public void whereTenantIs(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNull();
+        else
+            whereTenantUid().is(e.getUid());
+    }
+
+    //##################################################
     //# association (LastProject)
     //##################################################
 
@@ -804,7 +1884,7 @@ public class MyUserCriteria
 
     public void groupByLastProjectUid()
     {
-        groupBy(LAST_PROJECT);
+        groupBy(LAST_PROJECT_UID);
     }
 
     public MyProjectCriteria joinToLastProject()
@@ -831,8 +1911,37 @@ public class MyUserCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyUserJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyUserJunction any()
+    {
+        return addOr();
+    }
+
+    public MyUserJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyUserJunction addNotAnd()
+    {
+        return new MyUserJunction(parent().addNotAnd());
+    }
+
+    public MyUserJunction addNotOr()
+    {
+        return new MyUserJunction(parent().addNotOr());
+    }
 
     public MyUserJunction addAnd()
     {

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,14 +35,11 @@ public class ScLiteral
     private ScLocalRawFunction _function;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScLiteral()
     {
-        super.install();
-
         _function = new ScLocalRawFunction();
     }
 
@@ -53,11 +50,7 @@ public class ScLiteral
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        String html = formatHtml();
-        if ( html == null )
-            return;
-
-        out.printLiteral(html);
+        out.printLiteral(formatHtml());
     }
 
     private String formatHtml()
@@ -76,6 +69,11 @@ public class ScLiteral
     public void setValue(Object e)
     {
         _function.setValue(ScUtility.toFunction(e));
+    }
+
+    public void setValue(KmHtmlBuilder e)
+    {
+        setValue(e.formatHtml());
     }
 
     public void clearValue()

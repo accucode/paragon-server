@@ -14,7 +14,7 @@ public interface KmgModelFieldIF
 
     String getHelp();
 
-    KmgModelType getType();
+    KmgModelFieldType getType();
 
     KmProtoType getProtoType();
 

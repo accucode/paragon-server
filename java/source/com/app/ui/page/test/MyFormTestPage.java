@@ -1,7 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -76,12 +75,13 @@ public final class MyFormTestPage
     {
         _textField = new ScTextField();
         _textField.setLabel("Field");
-        _textField.css().padLeft5();
+        _textField.cssMargin().left5();
+
+        root.css().fill().auto().boxGray().gap();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleSubmit);
-        form.css().gap();
 
         ScGroup group;
         group = form.addGroup("Form Test");
@@ -91,7 +91,7 @@ public final class MyFormTestPage
         footer = group.getFooter();
         footer.show();
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton();
         buttons.addResetButton();
@@ -120,7 +120,7 @@ public final class MyFormTestPage
         if ( s == null )
             s = "<null>";
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast(s);
     }
 

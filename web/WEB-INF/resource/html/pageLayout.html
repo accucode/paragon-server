@@ -15,7 +15,9 @@ Version: ${applicationVersion}
     <meta http-equiv="Expires"          content="-1">
 
     <!-- reset -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
     <!-- jquery (not deferred) -->
     <script src="/static/${versionFolder}/jquery/core/jquery-1.10.2.min.js"></script>
@@ -45,28 +47,39 @@ Version: ${applicationVersion}
     <script defer src="/static/${versionFolder}/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
 
     <!-- cookie -->
-    <script defer src="/static/${versionFolder}/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+    <script defer src="/static/${versionFolder}/jquery/js-cookie-2.1.0/js.cookie.js"></script>
 
     <!-- transit -->
     <script defer src="/static/${versionFolder}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
 
-    <!-- Twitter Bootstrap -->
-    <!-- "/static/${versionFolder}/bootstrap-2.3.2/css/bootstrap.min.css", -->
-    <!-- "/static/${versionFolder}/bootstrap-2.3.2/js/bootstrap.min.js", -->
-
-    <!-- bootstap select -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.css">
-    <script defer src="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
-
     <!-- dropzone -->
+    <!--
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/dropzone-3.6.1/dropzone.css">
     <script defer src="/static/${versionFolder}/dropzone-3.6.1/dropzone.js"></script>
+    -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/dropzone-4.3.0/dropzone.css">
+    <script defer src="/static/${versionFolder}/dropzone-4.3.0/dropzone.js"></script>
 
     <!-- json -->
     <script defer src="/static/${versionFolder}/json-2010.11.18/json2.js"></script>
 
-    <!-- Code39 Azalea -->
-    <!-- <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/azaleaCode39/Code39Azalea.min.css"> -->
+    <!-- Code39 Azalea
+    -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/azaleaCode39/Code39Azalea.css">
+    <!--
+    <style>
+        @font-face
+        {
+        font-family: Code39AzaleaFont;
+        src: url('/static/${versionFolder}/azaleaCode39/Code39Azalea.eot') format('embedded-opentype'), /* IE9 Compat Modes */
+           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.woff') format('woff'), /* Modern Browsers */
+           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.ttf') format('truetype'), /* Safari, Android, iOS */
+           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.svg#Code39Azalea') format('svg'); /* Legacy iOS */
+        font-weight: normal;
+        font-style: normal;
+        }
+    </style>
+    -->
 
     <!-- history -->
     <script defer src="/static/${versionFolder}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
@@ -93,6 +106,34 @@ Version: ${applicationVersion}
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/line.js"></script>
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/lineChart.js"></script>
 
+    <!-- ckEditor -->
+    <script defer src="/static/${versionFolder}/ckeditor-4.5.11/ckeditor.js"></script>
+    <script defer src="/static/${versionFolder}/ckeditor-4.5.11/adapters/jquery.js"></script>
+
+    <!-- moment -->
+    <script defer src="/static/${versionFolder}/moment/moment-2.14.1.min.js"></script>
+    <script defer src="/static/${versionFolder}/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar 2.x
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.css">
+    <script defer src="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.js"></script>
+    -->
+
+    <!-- full calendar 3.x -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="/static/${versionFolder}/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script defer src="/static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <!-- popr -->
+    <!--
+    use popr.styl instead, included in stylus theme.
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/popr-1.0.0/popr.css">
+    -->
+    <script src="/static/${versionFolder}/jquery/popr-1.0.0/popr.js"></script>
+
+
     <!-- kodemore -->
     <script defer src="/static/${versionFolder}/app/common/script/kmExtensions.js"></script>
     <script defer src="/static/${versionFolder}/app/common/script/kmu.js"></script>
@@ -100,56 +141,70 @@ Version: ${applicationVersion}
     <script defer src="/static/${versionFolder}/app/common/script/kmDropdownMenu.js"></script>
     <script defer src="/static/${versionFolder}/app/common/script/kmTimeAgo.js"></script>
     <script defer src="/static/${versionFolder}/app/common/script/kmDateAgo.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmClock.js"></script>
 
     <!-- app -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/button.css">
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/dropdownMenu.css">
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/spice.css">
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/tools.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/${themeToken}/css/theme.css">
 
-    <!-- ckEditor -->
-    <script defer src="/static/${versionFolder}/ckeditor/ckeditor.js"></script>
-    <script defer src="/static/${versionFolder}/ckeditor/adapters/jquery.js"></script>
-
-    <!-- full calendar -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.css">
-    <script defer src="/static/${versionFolder}/fullcalendar-2.4.0/moment.min.js"></script>
-    <script defer src="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.js"></script>
-
-    <!-- html2canvas -->
-    <script defer src="/static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
 
     <script type="text/javascript">
         $(function()
         {
             $('#pageLoadMessage').remove();
 
+            Dropzone.autoDiscover = false;
+
             KmDropdownMenu.installAutoClose();
             KmTimeAgo.init();
+            KmClock.init();
+            Kmu.initTooltip();
 
+            initNavigator();
+            initJumpToMenu();
+        });
+
+        function initNavigator()
+        {
             KmNavigator.defaultTitle = "${applicationName}";
             KmNavigator.init(
             {
-                url: "${query}"
+                url: "${query}",
+                globalSession: "${initialGlobalSession}",
+                pageSession: "${initialPageSession}"
             });
-        });
+        }
+
+        function initJumpToMenu()
+        {
+            document.addEventListener("keydown", function(ev)
+            {
+                if ( ev.altKey && ev.which == 191 )
+                {
+                    var field;
+                    field = $('#${pageMenuFieldId}');
+                    field.val('');
+                    field.focus();
+                }
+            });
+        }
+
     </script>
 
     <style type="text/css">
         #pageLoadMessage
         {
-            font: italic bold 30px sans-serif;
+            font: italic bold 16px sans-serif;
             position: fixed;
             left:   0;
             right:  0;
             top:    0;
-            height: 50px;
+            height: 30px;
             padding: 10px;
-            background: linear-gradient(#aaa, #f8f8f8);
+            background-color: #aaa;
+            z-index: 9999999;
         }
     </style>
-
+${oneAllHead}
 </head>
 
 <body class="${bodyClass}">
@@ -158,8 +213,18 @@ Version: ${applicationVersion}
     </div>
 
     <!-- This is used by kmu.js => warnIfDirty() -->
-    <div id="warnIfDirtyDialog" title="Unsaved Changes!" class="hide">
+    <div id="warnIfDirtyDialog" title="Unsaved Changes!" style="display:none">
         You have unsaved changes!
+    </div>
+
+    <!-- This is used by kmu.js => confirmAndThen() -->
+    <div id="confirmDialog" title="Confirm?" style="display:none">
+        <span id="confirmDialogMessage"></span>
+    </div>
+
+    <!-- This is used by kmu.js => showNotice() -->
+    <div id="noticeDialog" title="Notice..." style="display:none">
+        <span id="noticeDialogMessage"></span>
     </div>
 
     ${html}

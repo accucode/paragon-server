@@ -38,6 +38,18 @@
             />
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="name"
             column="name"
             type="string"
@@ -47,12 +59,6 @@
             name="path"
             column="path"
             type="string"
-            />
-
-        <property
-            name="createdUtcTs"
-            column="createdUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
@@ -71,6 +77,20 @@
             name="partialSize"
             column="partialSize"
             type="integer"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
             />
 
     </class>

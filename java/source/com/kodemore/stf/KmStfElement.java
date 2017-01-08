@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,18 +47,18 @@ public class KmStfElement
      * Element names must start with a letter and cannot
      * contain whitespace.
      */
-    private String _name;
+    private String                 _name;
 
     /**
      * The line where this element occurred in the source.
      */
-    private int _line;
+    private int                    _line;
 
     /**
      * The indentation level of this element.
      * Effectively the number of spaces that prefix the line.
      */
-    private int _indent;
+    private int                    _indent;
 
     /**
      * The attribute values associated with this element.
@@ -68,12 +68,12 @@ public class KmStfElement
     /**
      * My parent element.  This is null for top level elements.
      */
-    private KmStfElement _parent;
+    private KmStfElement           _parent;
 
     /**
      * The children.  This is a recursive composite.
      */
-    private KmList<KmStfElement> _children;
+    private KmList<KmStfElement>   _children;
 
     //##################################################
     //# constructor

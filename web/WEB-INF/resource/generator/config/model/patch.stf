@@ -13,6 +13,12 @@ database
 
 attributes
 
+
+    //*****************************************************
+    //** name (pk)
+    //*****************************************************
+
+
     field
     : name          = name
     : help...
@@ -24,12 +30,24 @@ attributes
     : type          = name
     : primaryKey    = true
 
+
+    //*****************************************************
+    //** installed
+    //*****************************************************
+
+
     field
     : name      = installedUtcTs
     : help      = The date and time when the patch was installed in this database.
     : type      = timestamp
-    : default   = getNowUtc()
+    : default   = nowUtc()
     : required  = true
+
+
+    //*****************************************************
+    //** source
+    //*****************************************************
+
 
     field
     : name      = source

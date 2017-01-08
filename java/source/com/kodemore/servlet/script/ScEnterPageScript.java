@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -51,14 +51,14 @@ public class ScEnterPageScript
      * the queryString which indicates the appropriate page like so:
      *      ?page=somePage
      */
-    private String _url;
+    private String  _url;
 
     /**
      * The title to be displayed in the browser's title and/or tab.
      * This is not well supported by browsers yet.
      * The default is null.
      */
-    private String _title;
+    private String  _title;
 
     /**
      * If true, do a replaceState instead of a pushState.  This replaces
@@ -80,6 +80,11 @@ public class ScEnterPageScript
      * are any dirty fields before updating the browser navigation.
      */
     private boolean _changeTracking;
+
+    /**
+     * If true, clear the page session before navigation.
+     */
+    private boolean _clearPageSession;
 
     //##################################################
     //# constructor
@@ -107,7 +112,13 @@ public class ScEnterPageScript
 
     public void setUrl(ScPageIF page)
     {
-        String url = page.formatQueryString();
+        boolean withState = true;
+        setUrl(page, withState);
+    }
+
+    public void setUrl(ScPageIF page, boolean withState)
+    {
+        String url = page.formatQueryString(withState);
         setUrl(url);
     }
 
@@ -188,6 +199,20 @@ public class ScEnterPageScript
     }
 
     //##################################################
+    //# clear page session
+    //#################################################
+
+    public boolean getClearPageSession()
+    {
+        return _clearPageSession;
+    }
+
+    public void setClearPageSession(boolean e)
+    {
+        _clearPageSession = e;
+    }
+
+    //##################################################
     //# format
     //##################################################
 
@@ -209,6 +234,13 @@ public class ScEnterPageScript
 
         if ( !getChangeTracking() )
             json.setBoolean("changeTracking", false);
+
+        if ( getClearPageSession() )
+            json.setBoolean("clearPageSession", true);
+
+        // global/page session
+        json.setString("globalSession", getData().getPageSession().formatGlobalValues());
+        json.setString("pageSession", getData().getPageSession().formatSessionValues());
 
         ScBlockScript s;
         s = ScBlockScript.create();

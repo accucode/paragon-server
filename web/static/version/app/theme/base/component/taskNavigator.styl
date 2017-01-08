@@ -1,0 +1,210 @@
+/*******************************************************************
+ ** Navigator
+ **
+ ** The navigator is composed of a tree (on the left)
+ ** and a swappable frame (on the right) for the selected node.
+ **
+ ** The tree is composed as a 'recursive composite.'
+ ** Roughly as follows...
+ **
+ ** tree, the container around the entire tree.
+ **     node, a single node in the tree, the recursive composite.
+ **         banner, identifies the node with actions for select, toggle, and close.
+ **             message, clicking this selects the node and updates the frame.
+ **                 title
+ **                     toggle, a clickable area that shows/hides the children.
+ **                     close, a clickable area used to close/remove the node.
+ **                     title text
+ **                 subtitle wrapper
+ **                     subtitle
+ **                     indicator
+ **         children, contains a list of nodes, the recursive composite.
+ *******************************************************************/
+
+/********************
+ * variables
+ ********************/
+
+$navBorderColor         = #aaaaaa
+$navItemBorderColor     = #008c83;
+$navItemIndicatorColor  = #FFCD1C
+
+
+/********************
+ * tree
+ ********************/
+
+.navTree
+{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/**********
+ * banner
+ **********/
+
+.navTreeBanner
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+}
+
+.navTreeExpandButton
+{
+    width:  16px;
+    height: 16px;
+    background-image: url(../image/treeExpand.png);
+}
+.navTreeExpanded .navTreeExpandButton
+{
+    display: none;
+}
+
+.navTreeCollapseButton
+{
+    width:  16px;
+    height: 16px;
+    background-image: url(../image/treeCollapse.png);
+}
+
+.navTreeCollapsed .navTreeCollapseButton
+{
+    display: none;
+}
+
+/**********
+ * body
+ **********/
+
+.navTreeExpanded .navTreeBody
+{
+    flex-grow:   1;
+    flex-shrink: 1;
+
+    display:    block;
+    width:      200px;
+    margin-top: 10px;
+    overflow:   auto;
+}
+
+.navTreeCollapsed .navTreeBody
+{
+    display: none
+}
+
+.navTreeCollapsed .navTreeNode
+{
+    display: none;
+}
+
+.navTreeExpanded .navTreeNode
+{
+    display: block;
+}
+
+.navTreeNodeBanner
+{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid $navBorderColor;
+    cursor: pointer;
+    box-shadow: 6px 6px 10px $shadowColor;
+    margin-bottom: 10px;
+}
+
+.navTreeNodeSelected > .navTreeNodeBanner
+{
+    background-color: #eaeaea;
+}
+
+.navTreeNodeMessage
+{
+    flex-grow:   1;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.navTreeNodeTitle
+{
+    background-color: #008C83;
+    color: white;
+    font: bold 1.6rem $fontFamily;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+}
+
+.navTreeNodeTitleText
+{
+    font-size: 1.2rem;
+    flex-grow: 1;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.navTreeNodeSubtitle
+{
+    font-size: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 3px;
+    flex-grow: 1;
+}
+
+.navTreeNodeSubtitleWrapper
+{
+    display: flex;
+}
+
+.navItemIndicator
+{
+    flex-grow: 0;
+    flex-shrink: 0;
+    border: 2px solid;
+    border-color: $navItemBorderColor;
+    margin-right: 2px;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    margin-left: 1px;
+}
+
+.navTreeNodeSelected > .navTreeNodeBanner .navItemIndicator
+{
+    border-color: $navItemIndicatorColor;
+    box-shadow: -6px 1px 17px 2px $navItemIndicatorColor;
+}
+
+.navTreeNodeToggle
+{
+    margin:      2px;
+    width:       15px;
+    height:      15px;
+    flex-grow:   0;
+    flex-shrink: 0;
+    background-image: url(../image/navNodeExpand.png);
+    background-repeat: no-repeat;
+}
+
+.nodeCollapsed .navTreeNodeToggle
+{
+    background-image: url(../image/navNodeCollapse.png);
+    background-repeat: no-repeat;
+}
+
+.navTreeNodeClose
+{
+    margin:      2px;
+    width:       15px;
+    height:      15px;
+    flex-grow:   0;
+    flex-shrink: 0;
+    background-image: url(../image/navNodeRemove.png);
+    background-repeat: no-repeat;
+}
+
+.navTreeNodeChildren
+{
+    padding-left: 8px;
+}

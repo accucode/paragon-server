@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,25 @@ import com.kodemore.utility.Kmu;
  */
 public class KmStringTokenizer
 {
+    //##################################################
+    //# main / sample
+    //##################################################
+
+    public static void main(String... args)
+    {
+        KmStringTokenizer e;
+        e = new KmStringTokenizer();
+        e.addCommaDelimiter();
+        e.addSemicolonDelimiter();
+
+        KmList<String> v = e.split("one,two;three;;four;");
+        int n = v.size();
+
+        System.out.println("Size: " + n);
+        for ( int i = 0; i < n; i++ )
+            System.out.printf("%2s - [%s]%n", i, v.get(i));
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -228,22 +247,4 @@ public class KmStringTokenizer
         return source.indexOf(del, i) == i;
     }
 
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String... args)
-    {
-        KmStringTokenizer e;
-        e = new KmStringTokenizer();
-        e.addCommaDelimiter();
-        e.addSemicolonDelimiter();
-
-        KmList<String> v = e.split("one,two;three;;four;");
-        int n = v.size();
-
-        System.out.println("Size: " + n);
-        for ( int i = 0; i < n; i++ )
-            System.out.printf("%2s - [%s]%n", i, v.get(i));
-    }
 }

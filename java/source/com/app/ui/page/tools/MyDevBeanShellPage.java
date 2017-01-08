@@ -2,7 +2,7 @@ package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -43,7 +43,7 @@ public final class MyDevBeanShellPage
     //##################################################
 
     private ScTextArea _scriptField;
-    private ScBox      _resultsBox;
+    private ScDiv      _resultsBox;
 
     //##################################################
     //# settings
@@ -78,26 +78,27 @@ public final class MyDevBeanShellPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScAction submitAction = newAction(this::handleSubmit);
+        ScAction submitAction = newCheckedAction(this::handleSubmit);
 
         _scriptField = new ScTextArea();
-        _scriptField.style().height(100);
-        _scriptField.setWidthFull();
+        _scriptField.layoutBlock(100);
         _scriptField.disableChangeTracking();
+
+        root.css().fill().auto().columnSpacer10();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(submitAction);
-        form.css().pad();
 
         ScGroup group;
         group = form.addGroup("Bean Shell");
         group.getBody().addGap().add(_scriptField);
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton();
 
-        _resultsBox = root.addBox();
-        _resultsBox.css().gap();
+        ScDiv buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+
+        _resultsBox = root.addDiv();
     }
 
     //##################################################
@@ -128,11 +129,11 @@ public final class MyDevBeanShellPage
         group.style().hide();
 
         ScAddContentScript add;
-        add = _resultsBox.ajax().addContents();
+        add = _resultsBox.ajaxAddContents();
         add.setModePrepend();
         add.setContent(group);
 
-        group.ajax().show().slide();
+        group.ajaxShow().slide();
     }
 
     private KmBeanShell evaluate(String script)
@@ -151,12 +152,13 @@ public final class MyDevBeanShellPage
         return e;
     }
 
-    private ScGroup composeResults(KmBeanShell bs)
+    private ScGroup composeResults(KmBeanShell shell)
     {
         ScGroup group;
         group = new ScGroup();
+        group.css().marginBottom10();
 
-        if ( bs.isOk() )
+        if ( shell.isOk() )
             group.setTitle("Ok");
         else
         {
@@ -164,37 +166,37 @@ public final class MyDevBeanShellPage
             group.bannerCss().backgroundRed();
         }
 
-        ScBox pad;
+        ScDiv pad;
         pad = group.getBody().addPad();
-        pad.addText(bs.getSource());
+        pad.addText(shell.getSource());
 
-        if ( bs.hasResult() )
+        if ( shell.hasResult() )
         {
             group.addBodyDivider();
 
             pad = group.getBody().addPad();
-            pad.addBox().addBold("Results");
-            pad.addBox().addText(bs.getResult() + "");
+            pad.addDiv().addBold("Results");
+            pad.addDiv().addText(shell.getResult() + "");
         }
 
-        if ( bs.hasOutput() )
+        if ( shell.hasOutput() )
         {
             group.addBodyDivider();
 
             pad = group.getBody().addPad();
-            pad.addBox().addBold("Output");
-            pad.addText(bs.getOutput());
+            pad.addDiv().addBold("Output");
+            pad.addText(shell.getOutput());
         }
 
-        if ( bs.hasException() )
+        if ( shell.hasException() )
         {
             group.addBodyDivider();
 
             pad = group.getBody().addPad();
-            pad.addBox().addBold("Exception");
-            pad.addText(bs.formatException());
+            pad.addDiv().addBold("Exception");
+            pad.addText(shell.formatException());
             pad.addBreak();
-            pad.addText(bs.getStackTrace());
+            pad.addText(shell.getStackTrace());
         }
 
         return group;

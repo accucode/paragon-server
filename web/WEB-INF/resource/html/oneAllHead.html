@@ -1,0 +1,12 @@
+    <!-- OneAll Social Login, this should be included in the html HEAD. -->
+    <script type="text/javascript">
+        var oa;
+        oa = document.createElement('script');
+        oa.type = 'text/javascript';
+        oa.async = false;
+        oa.src = '//${oneAllHost}/socialize/library.js'
+
+        var s;
+        s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(oa, s)
+    </script>

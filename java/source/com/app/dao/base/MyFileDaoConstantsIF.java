@@ -18,17 +18,33 @@ public interface MyFileDaoConstantsIF
     //##################################################
 
     String UID = "uid";
+    String CREATED_UTC_TS = "createdUtcTs";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String NAME = "name";
     String PATH = "path";
-    String CREATED_UTC_TS = "createdUtcTs";
     String STATUS_CODE = "statusCode";
     String SIZE = "size";
     String PARTIAL_SIZE = "partialSize";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
     String STATUS_NAME = "statusName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
     String CREATED_LOCAL_TIME = "createdLocalTime";
+    String UPDATED_LOCAL_TS = "updatedLocalTs";
+    String UPDATED_LOCAL_TS_MESSAGE = "updatedLocalTsMessage";
+    String UPDATED_LOCAL_DATE = "updatedLocalDate";
+    String UPDATED_LOCAL_TIME = "updatedLocalTime";
+
+    //##################################################
+    //# associations
+    //##################################################
+
+    String CREATED_BY = "createdBy";
+    String CREATED_BY_UID = "createdBy.uid";
+
+    String UPDATED_BY = "updatedBy";
+    String UPDATED_BY_UID = "updatedBy.uid";
 
 }

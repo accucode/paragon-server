@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -38,9 +38,9 @@ public abstract class KmJob
     //# variables
     //##################################################
 
-    private long _lastStartTime;
-    private long _lastEndTime;
-    private int  _lastRunTime;
+    private long    _lastStartTime;
+    private long    _lastEndTime;
+    private int     _lastRunTime;
 
     private boolean _running;
 

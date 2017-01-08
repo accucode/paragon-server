@@ -51,17 +51,18 @@ public class MyMetaApplicationLog
         return "applicationLog";
     }
 
-    public static MyApplicationLogValidator getValidator()
+    public MyApplicationLogValidator getValidator()
     {
         return MyApplicationLogValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "Used to persist log4j events with a custom appender. In general, everything that would normally be logged with log4j is echoed here.";
     }
@@ -80,6 +81,7 @@ public class MyMetaApplicationLog
     public static final MyMetaApplicationLog_ThreadName ThreadName = new MyMetaApplicationLog_ThreadName();
     public static final MyMetaApplicationLog_Trace Trace = new MyMetaApplicationLog_Trace();
     public static final MyMetaApplicationLog_LevelCodeName LevelCodeName = new MyMetaApplicationLog_LevelCodeName();
+    public static final MyMetaApplicationLog_DisplayString DisplayString = new MyMetaApplicationLog_DisplayString();
     public static final MyMetaApplicationLog_CreatedLocalTs CreatedLocalTs = new MyMetaApplicationLog_CreatedLocalTs();
     public static final MyMetaApplicationLog_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaApplicationLog_CreatedLocalTsMessage();
     public static final MyMetaApplicationLog_CreatedLocalDate CreatedLocalDate = new MyMetaApplicationLog_CreatedLocalDate();

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPasswordReset_ExpirationUtcTs
     {
         return "The date and time when this request expires.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPasswordReset_ExpirationUtcTs
         return getAccess().getPasswordResetDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPasswordReset_ExpirationUtcTs
     {
         return model.getExpirationUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyPasswordReset model, KmTimestamp value)
     {
         model.setExpirationUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPasswordReset model, KmTimestamp value)
     {
         return model.hasExpirationUtcTs(value);
     }
-    
+
 }

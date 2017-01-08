@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,8 @@ package com.kodemore.servlet.control;
 
 import java.util.function.Function;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalRenderer;
@@ -42,20 +40,17 @@ public abstract class ScAbstractLink
     private ScLocalRenderer _text;
 
     /**
-     * If false, set the tabindex = -1 so that the link will
-     * not receive tab focus.
+     * If true, the default, the link may receive tab focus.
+     * If false, set the tabindex = -1 to disable tab focus.
      */
-    private ScLocalBoolean _focusable;
+    private ScLocalBoolean  _focusable;
 
     //##################################################
-    //# initialize
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAbstractLink()
     {
-        super.install();
-
         _text = new ScLocalRenderer();
         _focusable = new ScLocalBoolean(true);
 
@@ -74,18 +69,6 @@ public abstract class ScAbstractLink
     public void setText(String e)
     {
         _text.setValue(e);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void setText(KmAdaptorIF e)
-    {
-        _text.setAdaptor(e);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void setText(KmMetaAttribute e)
-    {
-        _text.setAttribute(e);
     }
 
     public void setText(Function<?,?> e)

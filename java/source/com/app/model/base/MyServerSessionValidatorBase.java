@@ -127,6 +127,8 @@ public class MyServerSessionValidatorBase
         versionValidator.validateOnly(value.getVersion(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
         // required associations...
+        if ( !value.hasTenant() )
+            errors.add(new KmRequiredValidationError("serverSession", "tenant"));
     }
 
     //##################################################
@@ -141,6 +143,7 @@ public class MyServerSessionValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("serverSession");
         e.setField("uid");
+        e.setRequired();
         return e;
     }
 

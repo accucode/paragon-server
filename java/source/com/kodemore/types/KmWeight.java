@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,10 @@ package com.kodemore.types;
 import java.io.Serializable;
 
 import com.kodemore.utility.KmCopyIF;
-import com.kodemore.utility.KmReadOnlyException;
-import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
 
 public class KmWeight
-    implements KmReadOnlyIF, KmCopyIF, Comparable<KmWeight>, Serializable
+    implements KmCopyIF, Comparable<KmWeight>, Serializable
 {
     //##################################################
     //# instance creation
@@ -47,7 +45,6 @@ public class KmWeight
 
     private double       _value;
     private KmWeightUnit _unit;
-    private boolean      _readOnly;
 
     //##################################################
     //# constructor
@@ -80,13 +77,11 @@ public class KmWeight
 
     public void setValue(double d)
     {
-        checkReadOnly();
         _value = d;
     }
 
     public void setValue(double d, KmWeightUnit u)
     {
-        checkReadOnly();
         _value = d;
         _unit = u;
     }
@@ -98,7 +93,6 @@ public class KmWeight
 
     public void setUnit(KmWeightUnit e)
     {
-        checkReadOnly();
         _unit = e;
     }
 
@@ -109,28 +103,6 @@ public class KmWeight
     public double getKilogramValue()
     {
         return getValue(KmWeightUnit.KILOGRAM);
-    }
-
-    //##################################################
-    //# read only
-    //##################################################
-
-    @Override
-    public boolean isReadOnly()
-    {
-        return _readOnly;
-    }
-
-    @Override
-    public void setReadOnly(boolean b)
-    {
-        _readOnly = b;
-    }
-
-    private void checkReadOnly()
-    {
-        if ( _readOnly )
-            throw new KmReadOnlyException(this);
     }
 
     //##################################################

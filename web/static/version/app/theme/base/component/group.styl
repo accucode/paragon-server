@@ -1,0 +1,315 @@
+/*******************************************************************
+ ** group (default)
+ **
+ ** The default groups are designed to vertically expand as needed
+ ** based on the contents of the body.
+ *******************************************************************/
+
+/**
+ * the html structure looks like:
+ *
+ *      div.group
+ *          div.groupBannerHeader (for detached shadows)
+ *              div.groupBanner
+ *              div.groupHeader
+ *          div.groupBody
+ *          div.groupFooter
+ */
+
+/******************************
+ * internal variables
+ ******************************/
+
+$group-normal-border        = $group-borderSize $group-borderStyle $group-normal-borderColor
+$group-primary-border       = $group-borderSize $group-borderStyle $group-primary-borderColor
+$group-secondary-border     = $group-borderSize $group-borderStyle $group-secondary-borderColor
+$group-tertiary-border      = $group-borderSize $group-borderStyle $group-tertiary-borderColor
+$group-alert-border         = $group-borderSize $group-borderStyle $group-alert-borderColor
+
+/******************************
+ * base
+ ******************************/
+
+.group
+{
+    box-sizing:     border-box
+}
+
+.groupBlock
+{
+    display:        flex
+    flex-direction: column
+}
+
+.groupInline
+{
+    display:        inline-flex
+    flex-direction: column
+}
+
+/******************************
+ * banner header
+ ******************************/
+
+.bannerHeader
+
+/******************************
+ * banner
+ ******************************/
+
+.groupBanner
+    flex-grow:      0
+    flex-shrink:    0
+    overflow:       visible
+    height:         30px
+
+/******************************
+ * banner title
+ ******************************/
+
+.groupTitle
+    font:           $group-titleFont        if $group-titleFont
+    padding:        $group-titlePadding     if $group-titlePadding
+    white-space:    nowrap
+
+/******************************
+ * header
+ ******************************/
+
+.groupHeader
+    flex-grow:       0
+    flex-shrink:     0
+    overflow:        hidden
+
+/******************************
+ * body
+ ******************************/
+
+.groupBody
+    position:        relative
+    flex-grow:       1
+    flex-shrink:     1
+
+/******************************
+ * footer
+ ******************************/
+
+.groupFooter
+    flex-grow:       0
+    flex-shrink:     0
+    overflow:        hidden
+
+/******************************
+ * normal
+ ******************************/
+
+.groupNormal
+    border:     $group-normal-border
+
+.groupNormal > .groupBannerHeader
+    border:     $group-normal-border
+
+.groupNormal > .groupBannerHeader > .groupBanner
+    color:      $group-normal-bannerColor
+    background: $group-normal-bannerBackground
+    border:     $group-normal-border
+
+.groupNormal > .groupBannerHeader > .groupHeader
+    color:      $group-normal-headerColor
+    background: $group-normal-headerBackground
+    border:     $group-normal-border
+
+.groupNormal > .groupBody
+    color:      $group-normal-bodyColor
+    background: $group-normal-bodyBackground
+    border:     red
+
+.groupNormal > .groupFooter
+    color:      $group-normal-footerColor
+    background: $group-normal-footerBackground
+    border:     $group-normal-border
+
+/******************************
+ * primary
+ ******************************/
+
+.groupPrimary
+    border:     $group-primary-border
+
+.groupPrimary > .groupBannerHeader
+    border:     $group-primary-border
+
+.groupPrimary > .groupBannerHeader > .groupBanner
+    color:      $group-primary-bannerColor
+    background: $group-primary-bannerBackground
+    border:     $group-primary-border
+
+.groupPrimary > .groupBannerHeader > .groupHeader
+    color:      $group-primary-headerColor
+    background: $group-primary-headerBackground
+    border:     $group-primary-border
+
+.groupPrimary > .groupBody
+    color:      $group-primary-bodyColor
+    background: $group-primary-bodyBackground
+    border:     $group-primary-border
+
+.groupPrimary > .groupFooter
+    color:      $group-primary-footerColor
+    background: $group-primary-footerBackground
+    border:     $group-primary-border
+
+/******************************
+ * secondary
+ ******************************/
+
+.groupSecondary
+    border:     $group-secondary-border
+
+.groupSecondary > .groupBannerHeader
+    border:     $group-secondary-border
+
+.groupSecondary > .groupBannerHeader > .groupBanner
+    color:      $group-secondary-bannerColor
+    background: $group-secondary-bannerBackground
+    border:     $group-secondary-border
+
+.groupSecondary > .groupBannerHeader > .groupHeader
+    color:      $group-secondary-headerColor
+    background: $group-secondary-headerBackground
+    border:     $group-secondary-border
+
+.groupSecondary > .groupBody
+    color:      $group-secondary-bodyColor
+    background: $group-secondary-bodyBackground
+    border:     $group-secondary-border
+
+.groupSecondary > .groupFooter
+    color:      $group-secondary-footerColor
+    background: $group-secondary-footerBackground
+    border:     $group-secondary-border
+
+/******************************
+ * tertiary
+ ******************************/
+
+.groupTertiary
+    border:     $group-tertiary-border
+
+.groupTertiary > .groupBannerHeader
+    border:     $group-tertiary-border
+
+.groupTertiary > .groupBannerHeader > .groupBanner
+    color:      $group-tertiary-bannerColor
+    background: $group-tertiary-bannerBackground
+    border:     $group-tertiary-border
+
+.groupTertiary > .groupBannerHeader > .groupHeader
+    color:      $group-tertiary-headerColor
+    background: $group-tertiary-headerBackground
+    border:     $group-tertiary-border
+
+.groupTertiary > .groupBody
+    color:      $group-tertiary-bodyColor
+    background: $group-tertiary-bodyBackground
+    border:     $group-tertiary-border
+
+.groupTertiary > .groupFooter
+    color:      $group-tertiary-footerColor
+    background: $group-tertiary-footerBackground
+    border:     $group-tertiary-border
+
+/******************************
+ * alert
+ ******************************/
+
+.groupAlert
+    border:     $group-alert-border
+
+.groupAlert > .groupBannerHeader
+    border:     $group-alert-border
+
+.groupAlert > .groupBannerHeader > .groupBanner
+    color:      $group-alert-bannerColor
+    background: $group-alert-bannerBackground
+    border:     $group-alert-border
+
+.groupAlert > .groupBannerHeader > .groupHeader
+    color:      $group-alert-headerColor
+    background: $group-alert-headerBackground
+    border:     $group-alert-border
+
+.groupAlert > .groupBody
+    color:      $group-alert-bodyColor
+    background: $group-alert-bodyBackground
+    border:     $group-alert-border
+
+.groupAlert > .groupFooter
+    color:      $group-alert-footerColor
+    background: $group-alert-footerBackground
+    border:     $group-alert-border
+
+
+/******************************
+ * attached
+ ******************************/
+
+.groupAttached
+    box-shadow:             $group-shadow
+
+.groupAttached > .groupBannerHeader
+    border:                 none
+
+.groupAttached > .groupBannerHeader > .groupBanner
+    border-left:            none
+    border-right:           none
+    border-top:             none
+
+.groupAttached > .groupBannerHeader > .groupHeader
+    border-left:            none
+    border-right:           none
+    border-top:             none
+    border-bottom-width:    $group-borderInnerSize
+
+.groupAttached > .groupBody
+    border:                 none
+
+.groupAttached > .groupFooter
+    border-top-width:       $group-borderInnerSize
+    border-left:            none
+    border-right:           none
+    border-bottom:          none
+
+/******************************
+ * detached
+ ******************************/
+
+.groupDetached
+    border:         none
+
+.groupDetached > .groupBody
+    border:         none
+    background:     none
+
+.groupDetached > .groupBannerHeader
+    box-shadow:     $group-shadow
+    margin-bottom:  10px
+
+.groupDetached > .groupBannerHeader > .groupBanner
+    border:         none
+
+.groupDetached > .groupBannerHeader > .groupHeader
+    border-left:    none
+    border-right:   none
+    border-bottom:  none
+
+.groupDetached > .groupFooter
+    box-shadow:     $group-shadow
+
+/******************************
+ * divider
+ ******************************/
+
+.groupDivider
+    height:     1px
+    border-top: 1px solid #cccccc

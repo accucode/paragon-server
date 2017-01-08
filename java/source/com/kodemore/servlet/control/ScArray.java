@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,13 +32,13 @@ import com.kodemore.servlet.variable.ScLocalStyle;
 
 /**
  * I am a fancy <table> - my outermost html element is literally
- * a <table> tag.  
- * 
- * Clients use me to easily organize a collection of controls into 
+ * a <table> tag.
+ *
+ * Clients use me to easily organize a collection of controls into
  * rows and/or columns.  By default, my children are all displayed
  * in a single vertical column; however the layout is easily changed
  * by calling either setColumnCount or setRowCount.
- * 
+ *
  * A gap may be displayed between each of the rows and columns.
  * See DEFAULT_GAP.  Gaps are displayed using extra rows and cell
  * to avoid any layout interference with the actual child controls.
@@ -57,38 +57,35 @@ public class ScArray
     //# variables
     //##################################################
 
-    private ScLocalInteger _rowCount;
-    private ScLocalInteger _columnCount;
+    private ScLocalInteger   _rowCount;
+    private ScLocalInteger   _columnCount;
 
     /**
      * The cell class and style are applied to the TDs of
      * those cells that contain child controls, even if the
      * cell is "empty".  However, the cell class/style is
-     * not applied to the gaps.  
+     * not applied to the gaps.
      */
-    private ScLocalCss _cellCss;
+    private ScLocalCss       _cellCss;
 
-    private ScLocalStyle _cellStyle;
+    private ScLocalStyle     _cellStyle;
 
     /**
      * The gap to display between all columns.
      */
-    private ScLocalInteger _horizontalGap;
+    private ScLocalInteger   _horizontalGap;
 
     /**
      * The gap to display between all rows.
      */
-    private ScLocalInteger _verticalGap;
+    private ScLocalInteger   _verticalGap;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScArray()
     {
-        super.install();
-
         _rowCount = new ScLocalInteger();
         _columnCount = new ScLocalInteger();
 

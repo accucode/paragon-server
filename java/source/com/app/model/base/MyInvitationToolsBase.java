@@ -41,7 +41,9 @@ public abstract class MyInvitationToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyInvitationFilter());
         e.setFinder(new MyInvitationFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

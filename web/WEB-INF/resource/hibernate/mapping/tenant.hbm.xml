@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyTenant"
+        table="tenant"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="hostname"
+            column="hostname"
+            type="string"
+            />
+
+        <property
+            name="themeCode"
+            column="themeCode"
+            type="string"
+            />
+
+        <property
+            name="intacctCompanyId"
+            column="intacctCompanyId"
+            type="string"
+            />
+
+        <property
+            name="intacctUserId"
+            column="intacctUserId"
+            type="string"
+            />
+
+        <property
+            name="intacctUserPassword"
+            column="intacctUserPassword"
+            type="string"
+            />
+
+        <bag
+            name="projects"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="tenantUid"/>
+                <one-to-many class="com.app.model.MyProject"/>
+        </bag>
+
+        <bag
+            name="users"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="tenantUid"/>
+                <one-to-many class="com.app.model.MyUser"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

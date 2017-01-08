@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyEmailBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -41,12 +45,15 @@ public abstract class MyEmailBase
 
     private String uid;
     private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private KmTimestamp sentUtcTs;
     private String subject;
     private String fromAddress;
     private String statusCode;
     private String errorNotes;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
     private List<MyEmailRecipient> recipients;
     private List<MyEmailPart> parts;
 
@@ -58,7 +65,11 @@ public abstract class MyEmailBase
     {
         super();
         setUid(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
         recipients = new ArrayList<>();
         parts = new ArrayList<>();
     }
@@ -74,7 +85,6 @@ public abstract class MyEmailBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -115,7 +125,6 @@ public abstract class MyEmailBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getCreatedUtcTsValidator().convertOnly(e);
         createdUtcTs = e;
     }
@@ -136,6 +145,36 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (sentUtcTs)
     //##################################################
 
@@ -146,7 +185,6 @@ public abstract class MyEmailBase
 
     public void setSentUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getSentUtcTsValidator().convertOnly(e);
         sentUtcTs = e;
     }
@@ -177,7 +215,6 @@ public abstract class MyEmailBase
 
     public void setSubject(String e)
     {
-        checkReadOnly();
         e = Validator.getSubjectValidator().convertOnly(e);
         subject = e;
     }
@@ -204,7 +241,7 @@ public abstract class MyEmailBase
 
     public void truncateSubject(boolean ellipses)
     {
-        subject = Kmu.truncate(subject, 100, ellipses);
+        subject = Kmu.truncate(subject, 200, ellipses);
     }
 
     //##################################################
@@ -218,7 +255,6 @@ public abstract class MyEmailBase
 
     public void setFromAddress(String e)
     {
-        checkReadOnly();
         e = Validator.getFromAddressValidator().convertOnly(e);
         fromAddress = e;
     }
@@ -259,7 +295,6 @@ public abstract class MyEmailBase
 
     public void setStatusCode(String e)
     {
-        checkReadOnly();
         e = Validator.getStatusCodeValidator().convertOnly(e);
         statusCode = e;
     }
@@ -286,7 +321,7 @@ public abstract class MyEmailBase
 
     public void truncateStatusCode(boolean ellipses)
     {
-        statusCode = Kmu.truncate(statusCode, 1, ellipses);
+        statusCode = Kmu.truncate(statusCode, 30, ellipses);
     }
 
     public MyEmailStatus getStatus()
@@ -413,7 +448,6 @@ public abstract class MyEmailBase
 
     public void setErrorNotes(String e)
     {
-        checkReadOnly();
         e = Validator.getErrorNotesValidator().convertOnly(e);
         errorNotes = e;
     }
@@ -518,7 +552,6 @@ public abstract class MyEmailBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -539,12 +572,28 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
+
+    //##################################################
     //# field (statusName)
     //##################################################
 
     public final String getStatusName()
     {
-        return Kmu.getName(getStatus());
+        return KmEnumIF.getLabelFor(getStatus());
     }
 
     public boolean hasStatusName()
@@ -634,6 +683,82 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
     //# field (sentLocalTs)
     //##################################################
 
@@ -709,6 +834,108 @@ public abstract class MyEmailBase
         return Kmu.isEqual(getSentLocalTime(), e);
     }
 
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
 
     //##################################################
     //# Recipients (collection)
@@ -719,7 +946,7 @@ public abstract class MyEmailBase
         return new KmHibernateCollection<>(
             getBaseRecipients(),
             (MyEmail)this,
-            MyEmailRecipient.Meta.Email.getAdaptor());
+            MyEmailRecipient.Meta.Email);
     }
 
     public boolean hasRecipients()
@@ -786,7 +1013,7 @@ public abstract class MyEmailBase
         return new KmHibernateCollection<>(
             getBaseParts(),
             (MyEmail)this,
-            MyEmailPart.Meta.Email.getAdaptor());
+            MyEmailPart.Meta.Email);
     }
 
     public KmList<MyEmailPart> getSortedParts()
@@ -823,6 +1050,7 @@ public abstract class MyEmailBase
 
     public void addPart(MyEmailPart e)
     {
+        e.setSequence(getParts().getNextSequence());
         getParts().add(e);
     }
 
@@ -888,17 +1116,37 @@ public abstract class MyEmailBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
 
         List<MyEmailRecipient> old_recipients = recipients;
         recipients = new ArrayList<>();
         for ( MyEmailRecipient e : old_recipients )
             addRecipient(copy(e));
 
-        List<MyEmailPart> old_parts = parts;
+        List<MyEmailPart> old_parts = getSortedParts();
         parts = new ArrayList<>();
         for ( MyEmailPart e : old_parts )
             addPart(copy(e));
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyEmail getBasicCopy()
+    {
+        MyEmail e;
+        e = new MyEmail();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setSentUtcTs(getSentUtcTs());
+        e.setSubject(getSubject());
+        e.setFromAddress(getFromAddress());
+        e.setStatusCode(getStatusCode());
+        e.setErrorNotes(getErrorNotes());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -930,6 +1178,7 @@ public abstract class MyEmailBase
     public boolean isSameIgnoringKey(MyEmail e)
     {
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getSentUtcTs(), e.getSentUtcTs()) ) return false;
         if ( !Kmu.isEqual(getSubject(), e.getSubject()) ) return false;
         if ( !Kmu.isEqual(getFromAddress(), e.getFromAddress()) ) return false;
@@ -940,11 +1189,16 @@ public abstract class MyEmailBase
         if ( !Kmu.isEqual(getCcAddressesLabel(), e.getCcAddressesLabel()) ) return false;
         if ( !Kmu.isEqual(getPartsAsHtml(), e.getPartsAsHtml()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         if ( !Kmu.isEqual(getSentLocalTs(), e.getSentLocalTs()) ) return false;
         if ( !Kmu.isEqual(getSentLocalTsMessage(), e.getSentLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getSentLocalDate(), e.getSentLocalDate()) ) return false;
@@ -984,6 +1238,7 @@ public abstract class MyEmailBase
         System.out.println(this);
         System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    SentUtcTs = " + sentUtcTs);
         System.out.println("    Subject = " + subject);
         System.out.println("    FromAddress = " + fromAddress);
@@ -1012,4 +1267,10 @@ public abstract class MyEmailBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

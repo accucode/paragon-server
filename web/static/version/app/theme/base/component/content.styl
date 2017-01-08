@@ -1,0 +1,59 @@
+/*****************************
+ ** page content
+ *****************************/
+
+/**
+ * The unique ID for the page content box.
+ * Used by javascript.
+ */
+#content
+    /* noop - prevent compression */
+    content: normal
+
+.content-bare
+    position:   absolute
+    left:       0
+    right:      0
+    top:        0
+    bottom:     0
+    overflow:   hidden
+
+.content-basic
+    position:       absolute
+    left:           0
+    right:          0
+    top:            $header-height
+    bottom:         $footer-height
+    overflow:       hidden
+
+.content-normal
+    position:       absolute
+    left:           $content-leftMargin
+    right:          $content-rightMargin
+    top:            $header-height + $menu-height + $title-height
+    bottom:         $footer-height
+    overflow:       visible
+    background:     $content-background
+
+/*****************************
+ ** inner
+ *****************************/
+
+#content-inner
+    /* noop - prevent compression */
+    content: normal
+
+.appContentInner
+    position:       absolute
+    left:           0
+    right:          0
+    top:            0
+    bottom:         0
+    overflow:       visible
+
+/*****************************
+ ** page root
+ *****************************/
+
+.content-pageRoot
+    position:       relative

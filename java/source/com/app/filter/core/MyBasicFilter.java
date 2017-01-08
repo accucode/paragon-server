@@ -1,7 +1,5 @@
 package com.app.filter.core;
 
-import java.io.Serializable;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmAbstractDao;
 import com.kodemore.hibernate.KmhModelCriteria;
@@ -59,8 +57,7 @@ public abstract class MyBasicFilter<T>
     @Override
     public KmList<T> findAll()
     {
-        KmhModelCriteria<T> c = createCriteria();
-        applyTo(c);
+        KmhModelCriteria<T> c = composeFindAllCriteria();
         KmList<?> result = c.findAll();
         return castList(result);
     }
@@ -68,10 +65,7 @@ public abstract class MyBasicFilter<T>
     @Override
     public KmList<T> findBatch(int index, int count)
     {
-        KmhModelCriteria<T> c = createCriteria();
-        applyTo(c);
-        c.setFirstResult(index);
-        c.setMaxResults(count);
+        KmhModelCriteria<T> c = composeFindBatchCriteria(index, count);
         KmList<?> result = c.findAll();
         return castList(result);
     }
@@ -85,11 +79,33 @@ public abstract class MyBasicFilter<T>
     }
 
     //##################################################
+    //# criteria
+    //##################################################
+
+    public KmhModelCriteria<T> composeFindAllCriteria()
+    {
+        KmhModelCriteria<T> c;
+        c = createCriteria();
+        applyTo(c);
+        return c;
+    }
+
+    public KmhModelCriteria<T> composeFindBatchCriteria(int index, int count)
+    {
+        KmhModelCriteria<T> c;
+        c = composeFindAllCriteria();
+        c.setFirstResult(index);
+        c.setMaxResults(count);
+        return c;
+    }
+
+    //##################################################
     //# support
     //##################################################
 
-    @Override
-    protected abstract KmAbstractDao<T,? extends Serializable> getDao();
+    protected abstract KmAbstractDao<T,?> getDao();
+
+    protected abstract KmhModelCriteria<T> createCriteria();
 
     /**
      * Clients should generally use the createCriteria() method instead.
@@ -101,5 +117,4 @@ public abstract class MyBasicFilter<T>
         return getDao()._createCriteria();
     }
 
-    protected abstract KmhModelCriteria<T> createCriteria();
 }

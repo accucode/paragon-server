@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyPerformanceLogSummaryCriteria
@@ -580,8 +581,37 @@ public class MyPerformanceLogSummaryCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyPerformanceLogSummaryJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyPerformanceLogSummaryJunction any()
+    {
+        return addOr();
+    }
+
+    public MyPerformanceLogSummaryJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyPerformanceLogSummaryJunction addNotAnd()
+    {
+        return new MyPerformanceLogSummaryJunction(parent().addNotAnd());
+    }
+
+    public MyPerformanceLogSummaryJunction addNotOr()
+    {
+        return new MyPerformanceLogSummaryJunction(parent().addNotOr());
+    }
 
     public MyPerformanceLogSummaryJunction addAnd()
     {

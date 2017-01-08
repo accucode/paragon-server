@@ -43,22 +43,22 @@ public class MyPropertyManager
     //# variables
     //##################################################
 
-    private static MyPropertyRegistry _defaults;
-    private static MyPropertyRegistry _overrides;
+    private static MyProperties _defaults;
+    private static MyProperties _overrides;
 
-    private static long   _lastModified;
-    private static KmFile _file;
+    private static long               _lastModified;
+    private static KmFile             _file;
 
     //##################################################
     //# accessing
     //##################################################
 
-    private static MyPropertyRegistry getDefault()
+    private static MyProperties getDefault()
     {
         return _defaults;
     }
 
-    public static MyPropertyRegistry getProperties()
+    public static MyProperties getProperties()
     {
         return _overrides;
     }
@@ -84,8 +84,8 @@ public class MyPropertyManager
 
     private static void installDefaults()
     {
-        MyPropertyRegistry r;
-        r = new MyPropertyRegistry();
+        MyProperties r;
+        r = new MyProperties();
         r.setParent(null);
         r.setOverrides(null);
         r.loadDefaults(MyPropertyDefinitions.getAll());
@@ -103,8 +103,8 @@ public class MyPropertyManager
         if ( !file.exists() )
             throw Kmu.newFatal("OVERRIDES FILE DOES NOT EXIST! file(%s).", file);
 
-        MyPropertyRegistry r;
-        r = new MyPropertyRegistry();
+        MyProperties r;
+        r = new MyProperties();
         r.setParent(getDefault());
         r.loadFile(file);
         _overrides = r;
@@ -116,7 +116,7 @@ public class MyPropertyManager
     {
         validate();
 
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         KmSqlStatementWrapper.defaultSlowSqlThresholdMs = p.getSqlWarningThresholdMs();
 
@@ -135,6 +135,7 @@ public class MyPropertyManager
     {
         KmList<String> allKeys = MyPropertyDefinitions.getAllKeys();
         KmList<String> unknownKeys = getProperties().getUnknownKeys(allKeys);
+
         if ( unknownKeys.isNotEmpty() )
         {
             String s = Kmu.format("Unknown properties: %s.", unknownKeys.join());

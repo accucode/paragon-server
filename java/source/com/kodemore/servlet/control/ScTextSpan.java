@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,13 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.renderer.ScRenderer;
+import com.kodemore.servlet.script.ScGlowScript;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
@@ -47,11 +50,8 @@ public class ScTextSpan
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTextSpan()
     {
-        super.install();
-
         _value = new ScLocalRenderer();
     }
 
@@ -84,6 +84,16 @@ public class ScTextSpan
         _value.setAttribute(e);
     }
 
+    public void setValue(Function<?,?> e)
+    {
+        _value.setFunction(e);
+    }
+
+    public void clearValue()
+    {
+        _value.clearValue();
+    }
+
     //##################################################
     //# print
     //##################################################
@@ -106,6 +116,17 @@ public class ScTextSpan
 
     public void ajaxSetText(String value)
     {
-        getRootScript().setText(this, value);
+        _htmlIdAjax().setText(value);
     }
+
+    public void ajaxSetContents(KmHtmlBuilder out)
+    {
+        _htmlIdAjax().setContents(out);
+    }
+
+    public ScGlowScript ajaxGlow()
+    {
+        return _htmlIdAjax().glow();
+    }
+
 }

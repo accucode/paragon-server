@@ -101,7 +101,7 @@ public class MyFormatter
         if ( ts == null )
             return "";
 
-        String f = "{m}/{dd}/{yy} {H}:{MM}{a/p}";
+        String f = "{m}/{dd}/{yy} {H}:{MM} {am/pm}";
         return ts.format(f);
     }
 

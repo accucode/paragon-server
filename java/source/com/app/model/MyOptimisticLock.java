@@ -1,0 +1,41 @@
+package com.app.model;
+
+import com.app.model.base.MyOptimisticLockBase;
+import com.app.model.core.MySystemDomainIF;
+
+public class MyOptimisticLock
+    extends MyOptimisticLockBase
+    implements MySystemDomainIF
+{
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyOptimisticLock()
+    {
+        super();
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    public void touch()
+    {
+        int next = hasLockVersion()
+            ? getLockVersion() + 1
+            : 1;
+
+        setLockVersion(next);
+    }
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
+}

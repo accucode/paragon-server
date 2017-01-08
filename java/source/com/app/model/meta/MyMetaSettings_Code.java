@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaSettings_Code
     {
         return "The unique key; hardcoded to 1.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaSettings_Code
         return getAccess().getSettingsDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaSettings_Code
     {
         return model.getCode();
     }
-    
+
     @Override
     public void setValueFor(MySettings model, Integer value)
     {
         model.setCode(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MySettings model, Integer value)
     {
         return model.hasCode(value);
     }
-    
+
 }

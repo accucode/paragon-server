@@ -6,21 +6,21 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
+import com.kodemore.servlet.control.ScGridGroup;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.field.ScDateField;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.filter.MyApplicationLogFilter;
@@ -58,18 +58,18 @@ public final class MyDevApplicationLogsPage
     //# variables
     //##################################################
 
-    private ScFilterBox _filterBox;
-    private ScDropdown  _levelDropdown;
-    private ScTextField _loggerField;
-    private ScTextField _contextField;
-    private ScDateField _startDateField;
-    private ScDateField _endDateField;
+    private ScFilterBox              _filterBox;
+    private ScDropdownField<Integer> _levelDropdown;
+    private ScTextField              _loggerField;
+    private ScTextField              _contextField;
+    private ScDateField              _startDateField;
+    private ScDateField              _endDateField;
 
     private ScGrid<MyApplicationLog> _grid;
 
-    private ScDiv   _logPanel;
-    private ScGroup _detailGroup;
-    private ScLink  _deleteLogLink;
+    private ScCardFrame              _detailFrame;
+    private ScGroup                  _detailGroup;
+    private ScLink                   _deleteLogLink;
 
     //##################################################
     //# settings
@@ -104,28 +104,24 @@ public final class MyDevApplicationLogsPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fillOffset();
+        root.css().fill().flexColumn().columnSpacer10();
 
-        ScAbsoluteLayout layout;
-        layout = root.addAbsoluteLayout();
+        installFilterOn(root);
 
-        ScDiv top = layout.addTop(200);
-        layout.padTop();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexChildFiller().rowSpacer10();
 
-        ScDiv left = layout.addLeftPercent(50);
-        _logPanel = layout.addCenter();
-
-        installFilter(top);
-        installGrid(left);
-        installDetailGroup();
+        installGridOn(row);
+        installDetailGroupOn(row);
     }
 
-    private void installFilter(ScDiv root)
+    private void installFilterOn(ScDiv root)
     {
         MyApplicationLogTools x = MyApplicationLog.Tools;
 
         _levelDropdown = x.newLevelDropdown();
-        _levelDropdown.addNullAnyPrefix();
+        _levelDropdown.setNullAnyPrefix();
         _levelDropdown.setValue(Level.FATAL.getSyslogEquivalent());
 
         _loggerField = new ScTextField();
@@ -141,7 +137,7 @@ public final class MyDevApplicationLogsPage
         _endDateField.setLabel("End Date");
 
         _filterBox = root.addFilterBox("Filter");
-        _filterBox.layoutFill();
+        _filterBox.getFormWrapper().css().flexChildStatic();
         _filterBox.setAction(this::handleFilter);
 
         ScArray row;
@@ -159,33 +155,25 @@ public final class MyDevApplicationLogsPage
 
         ScActionButton button;
         button = _filterBox.getLeftButtons().addButton("Delete All", this::handleDeleteAll);
-        button.setConfirmationMessage("Delete All Logs?");
+        button.setConfirmationMessageText("Delete All Logs?");
 
         installTestButtons();
     }
 
     private void installTestButtons()
     {
-        ScBox buttons;
+        ScDiv buttons;
         buttons = _filterBox.getRightButtons();
         buttons.addButton("Add Debug", this::handleAddDebugLog);
         buttons.addButton("Add Info", this::handleAddInfoLog);
         buttons.addButton("Add Fatal", this::handleAddFatalLog);
     }
 
-    private void installGrid(ScDiv root)
+    private void installGridOn(ScDiv root)
     {
         MyMetaApplicationLog x = MyApplicationLog.Meta;
 
-        ScGroup group;
-        group = root.addGroup("Results");
-        group.css().fill();
-
-        ScDiv body;
-        body = group.getBody();
-        body.css().relative().noBorder();
-
-        _grid = body.addGrid();
+        _grid = new ScGrid<>();
         _grid.setFilterFactory(newFetcher());
         _grid.trackAll(_filterBox);
         _grid.layoutFill();
@@ -197,24 +185,31 @@ public final class MyDevApplicationLogsPage
         _grid.addColumn(x.CreatedLocalTsMessage);
         _grid.addColumn(x.LevelName, "Level");
         _grid.addColumn(x.Message);
+
+        ScGridGroup<MyApplicationLog> group;
+        group = root.addGroup("Results", _grid);
+        group.css().flexChildFiller0();
     }
 
-    private void installDetailGroup()
+    private void installDetailGroupOn(ScDiv root)
     {
         MyMetaApplicationLog x = MyApplicationLog.Meta;
 
-        ScGroup group;
-        group = new ScGroup();
-        group.setTitle("Detail");
-        group.css().fill().marginLeft();
+        _detailFrame = root.addCardFrame();
+        _detailFrame.setTransitionFade();
+        _detailFrame.css().flexChildFiller0().relative();
 
-        // created, but disconnected from the main content.
+        ScGroup group;
+        group = _detailFrame.addCard(new ScGroup());
+        group.css().fill();
+        group.setTitle("Detail");
+
         _detailGroup = group;
 
         ScSimpleContainer idRow;
         idRow = new ScSimpleContainer();
         idRow.setLabel("Uid");
-        idRow.addText(x.Uid);
+        idRow.addFieldText(x.Uid);
         idRow.addSpace();
 
         _deleteLogLink = idRow.addLink("delete", this::handleDelete, x.Uid);
@@ -223,16 +218,16 @@ public final class MyDevApplicationLogsPage
         group.bodyCss().auto();
 
         ScDiv box;
-        box = group.getBody().addBox();
+        box = group.getBody().addDiv();
         box.css().pad();
 
         ScFieldTable fields;
         fields = box.addFieldTable();
         fields.add(idRow);
-        fields.addText(x.CreatedLocalTsMessage);
-        fields.addText(x.Context);
-        fields.addText(x.LevelName);
-        fields.addText(x.LoggerName);
+        fields.addFieldText(x.CreatedLocalTsMessage);
+        fields.addFieldText(x.Context);
+        fields.addFieldText(x.LevelName);
+        fields.addFieldText(x.LoggerName);
 
         box.addBreak();
         box.addParagraph().addBold("Message");
@@ -260,7 +255,7 @@ public final class MyDevApplicationLogsPage
     private void handleFilter()
     {
         _grid.ajaxReload();
-        _logPanel.ajax().clearContents();
+        _detailFrame.ajaxClose();
     }
 
     private void handleSelect()
@@ -275,7 +270,7 @@ public final class MyDevApplicationLogsPage
         }
 
         _detailGroup.applyFromModel(log);
-        _logPanel.ajax().setContents(_detailGroup).fade();
+        _detailFrame.ajaxPrint(_detailGroup);
     }
 
     private void handleDeleteAll()
@@ -294,10 +289,10 @@ public final class MyDevApplicationLogsPage
         e = getAccess().findApplicationLogUid(uid);
 
         if ( e != null )
-            e.deleteDao();
+            e.daoDelete();
 
         _grid.ajaxReload();
-        _detailGroup.ajax().hide().fade();
+        _detailFrame.ajaxClose();
         ajax().toast("Log %s, deleted.", uid);
     }
 
@@ -343,7 +338,7 @@ public final class MyDevApplicationLogsPage
         f.sortDescending();
 
         if ( _levelDropdown.hasValue() )
-            f.setLevelCode(_levelDropdown.getIntegerValue());
+            f.setLevelCode(_levelDropdown.getValue());
 
         if ( _loggerField.hasValue() )
             f.setLoggerNamePrefix(_loggerField.getValue());

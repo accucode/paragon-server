@@ -1,23 +1,24 @@
 package com.app.ui.layout;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.MyGlobalSession;
+import com.kodemore.servlet.control.ScClockField;
+import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScContainerLink;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.field.ScDropdownMenu;
+import com.kodemore.servlet.control.ScLink;
+import com.kodemore.servlet.control.ScLiteral;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.utility.ScUrls;
+import com.kodemore.utility.Kmu;
 
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
+import com.app.model.MyTenant;
 import com.app.model.MyUser;
-import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.login.MySignInUtility;
-import com.app.ui.page.userProfile.MyUserProfilePage;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyNavigator;
 import com.app.utility.MyUrls;
 
 public class MyPageHeader
@@ -27,115 +28,169 @@ public class MyPageHeader
     //# variables
     //##################################################
 
+    //==================================================
+    //= left
+    //==================================================
+
     /**
      * This is the box we put the logo and app title in.
      */
-    private ScDiv _leftDiv;
+    private ScLiteral              _leftDiv;
 
-    /**
-     * This is the box we put the project and user dropdowns in.
-     */
-    private ScDiv _rightDiv;
+    //==================================================
+    //= middle
+    //==================================================
 
-    private ScDropdownMenu _userDropdown;
-    private ScDropdownMenu _projectDropdown;
-    private ScAction       _selectProjectAction;
+    private ScLink                 _projectLink;
+
+    private ScContainerLink        _clockContainer;
+    private ScClockField           _clockField;
+    private ScTextSpan             _timeZoneText;
+
+    private ScLink                 _userLink;
+
+    //==================================================
+    //= right
+    //==================================================
+
+    private MyProjectDialog        _projectDialog;
+    private MyTimeZoneDialog       _timeZoneDialog;
+    private MyChangePasswordDialog _changePasswordDialog;
+
+    private MyUserDialog           _userDialog;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyPageHeader()
+    {
+        setHtmlId(KmCssDefaultConstantsIF.ID_header);
+
+        installLayout();
+        installDialogs();
+    }
 
     //##################################################
     //# install
     //##################################################
 
-    @Override
-    protected void install()
-    {
-        super.install();
-
-        setHtmlId(KmCssDefaultConstantsIF.ID_appHeader);
-
-        installLayout();
-        installUserDropdown();
-        installProjectDropdown();
-    }
-
     private void installLayout()
     {
-        _leftDiv = addDiv();
-        _leftDiv.css().appHeader_left();
+        ScDiv root = this;
 
-        _rightDiv = addDiv();
-        _rightDiv.css().appHeader_right();
+        installLeftOn(root);
+        installMiddleOn(root);
+        installRightOn(root);
+    }
+
+    private void installLeftOn(ScDiv root)
+    {
+        _leftDiv = root.addLiteral();
     }
 
     //==================================================
-    //= install :: user dropdown
+    //= install :: middle
     //==================================================
 
-    private void installUserDropdown()
+    private void installMiddleOn(ScDiv root)
     {
-        _userDropdown = new ScDropdownMenu();
-        _userDropdown.setTitle("User");
-        _userDropdown.addItem("Profile", newEditUserProfileAction());
-        _userDropdown.addItem("Log out", newLogoutAction());
+        ScDiv box;
+        box = root.addDiv();
+        box.css().header_middle();
+
+        box.add(createProjectLink());
+        box.add(createClockLink());
     }
 
-    private ScAction newEditUserProfileAction()
+    private ScLink createProjectLink()
     {
-        return getGlobalContext().newAction(this::handleEditUserProfile);
+        ScLink link;
+        link = new ScLink();
+        link.setAction(this::handleChangeProject);
+        link.css().header_project();
+        link.hide();
+        _projectLink = link;
+        return link;
     }
 
-    private ScAction newLogoutAction()
+    private ScContainerLink createClockLink()
     {
-        return getGlobalContext().newAction(this::handleLogout);
+        ScContainerLink link;
+        link = new ScContainerLink();
+        link.setAction(this::handleChangeClock);
+        link.css().header_clock();
+        link.hide();
+        _clockContainer = link;
+
+        ScContainer box;
+        box = link.getContainer();
+        box.add(createClockField());
+        box.addNonBreakingSpace();
+        box.add(createTimeZoneText());
+
+        return link;
     }
 
-    private void handleEditUserProfile()
+    private ScClockField createClockField()
     {
-        MyUserProfilePage.getInstance().ajaxEnter();
+        ScClockField e;
+        e = new ScClockField();
+        e.css().header_time();
+        _clockField = e;
+        return e;
     }
 
-    private void handleLogout()
+    private ScTextSpan createTimeZoneText()
     {
-        MySignInUtility.signOut();
-        MyPageLayout.getInstance().ajaxRefreshHeaderContent();
-        MyPageLayout.getInstance().ajaxClearContent();
-        MySignOutPage.getInstance().ajaxEnter();
-    }
-
-    //==================================================
-    //= install :: project dropdown
-    //==================================================
-
-    private void installProjectDropdown()
-    {
-        _selectProjectAction = newSelectProjectAction();
-
-        _projectDropdown = new ScDropdownMenu();
-        _projectDropdown.setTitle("Project");
-    }
-
-    //==================================================
-    //= install :: select project
-    //==================================================
-
-    private ScAction getSelectProjectAction()
-    {
-        return _selectProjectAction;
-    }
-
-    private ScAction newSelectProjectAction()
-    {
-        return getGlobalContext().newAction(this::handleSelectProject);
-    }
-
-    private void handleSelectProject()
-    {
-        String uid = getData().getStringArgument();
-        MyNavigator.selectProject(uid);
+        ScTextSpan e;
+        e = new ScTextSpan();
+        e.css().header_timeZone();
+        _timeZoneText = e;
+        return e;
     }
 
     //==================================================
-    //= refresh :: header
+    //= install :: right
     //==================================================
+
+    private void installRightOn(ScDiv root)
+    {
+        ScDiv div;
+        div = root.addDiv();
+        div.css().header_right();
+
+        div.add(createUserLink());
+    }
+
+    private ScLink createUserLink()
+    {
+        ScLink link;
+        link = new ScLink();
+        link.setAction(this::handleUserActions);
+        link.css().header_user();
+        link.hide();
+        _userLink = link;
+        return link;
+    }
+
+    //==================================================
+    //= install :: dialogs
+    //==================================================
+
+    private void installDialogs()
+    {
+        _projectDialog = new MyProjectDialog();
+        _timeZoneDialog = new MyTimeZoneDialog();
+        _changePasswordDialog = new MyChangePasswordDialog();
+
+        _userDialog = new MyUserDialog();
+        _userDialog.onChangePassword(this::handleChangePassword);
+    }
+
+    //##################################################
+    //# ajax refresh
+    //##################################################
 
     public void ajaxRefresh(boolean show)
     {
@@ -148,98 +203,180 @@ public class MyPageHeader
     private void ajaxShowHeader()
     {
         ajaxRefreshContent();
-        ajax().show();
+        ajaxShow();
     }
 
     private void ajaxHideHeader()
     {
-        ajax().hide();
+        ajaxHide();
+    }
+
+    public void ajaxRefreshContent(boolean show)
+    {
+        ajaxShow(show);
+        ajaxRefreshContent();
     }
 
     public void ajaxRefreshContent()
     {
-        ajaxRefreshLeft();
-        ajaxRefreshRight();
+        updateContents();
+        ajaxReplaceContents();
     }
 
-    private void ajaxRefreshLeft()
+    //##################################################
+    //# update
+    //##################################################
+
+    private void updateContents()
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-
-        renderLogoOn(out);
-
-        _leftDiv.ajax().setContents(out);
+        updateLogo();
+        updateProject();
+        updateClock();
+        updateTimeZone();
+        updateUser();
     }
 
-    private void ajaxRefreshRight()
+    //==================================================
+    //= update :: logo
+    //==================================================
+
+    private void updateLogo()
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
+        KmHtmlBuilder out = new KmHtmlBuilder();
 
-        renderProjectDropdownOn(out);
-        renderUserDropdownOn(out);
+        String tenantName = getCurrentTenant().getName();
+        String appName = MyConstantsIF.APPLICATION_NAME;
 
-        _rightDiv.ajax().setContents(out);
-    }
+        out.open("div");
+        out.printAttribute("class", "header-left");
+        out.close();
 
-    private void renderLogoOn(KmHtmlBuilder out)
-    {
         out.open("a");
-        out.printAttribute("class", KmCssDefaultConstantsIF.appHeaderLink);
+        out.printAttribute("class", KmCssDefaultConstantsIF.header_logoImage);
         out.printAttribute("href", MyUrls.getEntryUrl());
         out.close();
 
         out.open("img");
-        out.printAttribute("class", KmCssDefaultConstantsIF.appHeaderLogoImage);
+        out.printAttribute("class", KmCssDefaultConstantsIF.header_logoImage);
         out.printAttribute("src", ScUrls.getThemeImage("logo35.png"));
         out.printAttribute("width", 35);
         out.printAttribute("height", 35);
         out.close();
 
-        out.beginSpanCss(KmCssDefaultConstantsIF.appHeaderLogoText);
-        out.print(MyConstantsIF.APPLICATION_NAME);
+        out.beginSpanCss(KmCssDefaultConstantsIF.header_logoText);
+        out.printf("%s - %s", appName, tenantName);
         out.endSpan();
 
         out.end("a");
+        out.end("div");
+
+        _leftDiv.setValue(out);
     }
 
-    private void renderUserDropdownOn(KmHtmlBuilder out)
+    //==================================================
+    //= update :: project
+    //==================================================
+
+    private void updateProject()
     {
-        MyUser u = getCurrentUser();
-        if ( u == null )
+        _projectLink.show(showsProject());
+        _projectLink.setText(formatProjectName());
+    }
+
+    private boolean showsProject()
+    {
+        return hasCurrentUser() && hasCurrentTenant() && getCurrentTenant().hasProjects();
+    }
+
+    private String formatProjectName()
+    {
+        MyProject e = getCurrentProject();
+        return e == null
+            ? "<none>"
+            : e.getName();
+    }
+
+    //==================================================
+    //= update :: clock
+    //==================================================
+
+    private void updateClock()
+    {
+        _clockContainer.hide();
+        _clockField.hide();
+
+        if ( !hasCurrentUser() )
             return;
 
-        _userDropdown.setTitle(u.getName());
-        _userDropdown.renderOn(out);
+        _clockContainer.show();
+        _clockField.show();
+        _clockField.setTimeZone(getCurrentUser().getTimeZone());
     }
 
-    private void renderProjectDropdownOn(KmHtmlBuilder out)
+    //==================================================
+    //= update :: time zone
+    //==================================================
+
+    private void updateTimeZone()
     {
-        MyProject a = getCurrentProject();
-        if ( a == null )
+        _timeZoneText.hide();
+
+        if ( !showsTimeZone() )
             return;
 
-        _projectDropdown.setTitle(a.getName());
-        _projectDropdown.clearItems();
-
-        KmList<MyProject> v = getProjectOptions();
-        for ( MyProject e : v )
-            _projectDropdown.addItem(e.getName(), getSelectProjectAction(), e.getUid());
-
-        _projectDropdown.renderOn(out);
+        _timeZoneText.setValue(formatTimeZone());
+        _timeZoneText.show();
     }
 
-    private KmList<MyProject> getProjectOptions()
+    private boolean showsTimeZone()
     {
-        MyUser u = getCurrentUser();
-        if ( u == null )
-            return new KmList<>();
+        return hasCurrentUser();
+    }
 
-        KmList<MyProject> v;
-        v = u.getProjects();
-        v.sortOn(MyProject::getName);
-        return v;
+    private String formatTimeZone()
+    {
+        return Kmu.format("(%s)", getCurrentUser().getTimeZone().getName());
+    }
+
+    //==================================================
+    //= update :: user
+    //==================================================
+
+    private void updateUser()
+    {
+        _userLink.setText(formatUserName());
+        _userLink.show(getCurrentUser() != null);
+    }
+
+    private String formatUserName()
+    {
+        return hasCurrentUser()
+            ? getCurrentUser().getShortName()
+            : "<none>";
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleChangeProject()
+    {
+        _projectDialog.ajaxOpen();
+    }
+
+    private void handleChangeClock()
+    {
+        _timeZoneDialog.ajaxOpen();
+    }
+
+    private void handleUserActions()
+    {
+        _userDialog.ajaxOpen();
+    }
+
+    private void handleChangePassword()
+    {
+        _changePasswordDialog.ajaxOpen();
     }
 
     //##################################################
@@ -248,7 +385,7 @@ public class MyPageHeader
 
     private MyProject getCurrentProject()
     {
-        return getServerSession().getCurrentProject();
+        return getPageSession().getCurrentProject();
     }
 
     private MyUser getCurrentUser()
@@ -256,14 +393,28 @@ public class MyPageHeader
         return getServerSession().getUser();
     }
 
+    private boolean hasCurrentUser()
+    {
+        return getCurrentUser() != null;
+    }
+
+    private MyTenant getCurrentTenant()
+    {
+        return getServerSession().getTenant();
+    }
+
+    public boolean hasCurrentTenant()
+    {
+        return getCurrentTenant() != null;
+    }
+
     private MyServerSession getServerSession()
     {
         return MyGlobals.getServerSession();
     }
 
-    private ScGlobalContext getGlobalContext()
+    private MyGlobalSession getPageSession()
     {
-        return ScGlobalContext.getInstance();
+        return MyGlobals.getGlobalSession();
     }
-
 }

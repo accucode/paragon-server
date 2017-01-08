@@ -1,0 +1,26 @@
+CKEditor 4.5.11
+
+http://ckeditor.com/
+
+To Download new version:
+1. Go to http://ckeditor.com/
+2. Click the download button in upper right.
+3. Select "Or let me customize CKEditor"
+4. Click "Customize & Download CKEditor"
+5. Select "Basic" preset
+6. Add the "Table" and "Table Tools" plugins
+6. Add the follwing plugins:
+    - Image
+    - Justify
+    - Remove Format
+    - Style Combo
+    - Table
+    - Table Tools
+7. Select "Flat" skin
+8. Download Optimized version
+
+Specific configuration options are set up in the config.js file.
+Make a copy of this before updating CKEditor, and place the old
+config.js file back into the CKEditor folder after version upgrades.
+
+Also copy the old styles.js file and replace the new one with the old version.

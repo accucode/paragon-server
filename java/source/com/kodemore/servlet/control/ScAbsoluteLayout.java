@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ package com.kodemore.servlet.control;
 
 import java.util.Iterator;
 
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 
@@ -75,7 +74,7 @@ public class ScAbsoluteLayout
     //# constants
     //##################################################
 
-    private static final int DEFAULT_PAD = 10;
+    private static final int          DEFAULT_PAD = 10;
 
     //##################################################
     //# variables
@@ -83,27 +82,24 @@ public class ScAbsoluteLayout
 
     private KmList<ScStyledControlIF> _children;
 
-    private int _leftPixel;
-    private int _leftPercent;
+    private int                       _leftPixel;
+    private int                       _leftPercent;
 
-    private int _rightPixel;
-    private int _rightPercent;
+    private int                       _rightPixel;
+    private int                       _rightPercent;
 
-    private int _topPixel;
-    private int _topPercent;
+    private int                       _topPixel;
+    private int                       _topPercent;
 
-    private int _bottomPixel;
-    private int _bottomPercent;
+    private int                       _bottomPixel;
+    private int                       _bottomPercent;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScAbsoluteLayout()
     {
-        super.install();
-
         _children = new KmList<>();
     }
 
@@ -111,7 +107,13 @@ public class ScAbsoluteLayout
     //# accessing
     //##################################################
 
-    public KmList<ScStyledControlIF> getChildren()
+    @Override
+    public final KmList<ScControl> getChildren()
+    {
+        return _children.collect(e -> e.asControl());
+    }
+
+    public KmList<ScStyledControlIF> getStyledChildren()
     {
         return _children;
     }
@@ -401,25 +403,9 @@ public class ScAbsoluteLayout
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        Iterator<ScStyledControlIF> i = getChildren().reverseIterator();
+        Iterator<ScStyledControlIF> i = getStyledChildren().reverseIterator();
         while ( i.hasNext() )
             i.next().renderOn(out);
-    }
-
-    //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControlIF> getComponents()
-    {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-
-        i.addAll(super.getComponents());
-        i.addAll(getChildren());
-
-        return i;
     }
 
     //##################################################

@@ -81,13 +81,10 @@ public class KmgModelEnumValue
         _label = parseStringAttribute(x, "label", null);
 
         if ( Kmu.isEmpty(_code) )
-            throw newFatal(x, "No code.");
+            throw newError(x, "Enum code is required.");
 
         if ( Kmu.isEmpty(_name) )
-            throw newFatal(x, "No name.");
-
-        _code = _code.trim();
-        _name = _name.trim();
+            _name = _code;
 
         if ( Kmu.isEmpty(_label) )
             _label = Kmu.formatAsCapitalizedNames(_name);

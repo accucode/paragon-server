@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,19 +28,39 @@ public class ScMoneyField
     extends ScAbstractTextField<KmMoney>
 {
     //##################################################
-    //# value
+    //# default
     //##################################################
 
     @Override
-    public KmMoney getValueFor(String s)
+    protected int getDefaultWidth()
     {
-        return getFormatter().parseMoney(s);
+        return 100;
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    @Override
+    protected KmMoney textToValue(String text)
+    {
+        return getFormatter().parseMoney(text);
     }
 
     @Override
-    public void setValue(KmMoney value)
+    protected String valueToText(KmMoney value)
     {
-        String s = getFormatter().formatMoney(value);
-        setText(s);
+        return getFormatter().formatMoney(value);
     }
+
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public KmMoney getSampleValue()
+    {
+        return new KmMoney(12.3);
+    }
+
 }

@@ -37,6 +37,18 @@ public class MyMetaServerSession_User
         return "user";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "User";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return "The user associated with this session.";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaServerSession_User
     {
         return model.getUser();
     }
-    
+
     @Override
     public void setValueFor(MyServerSession model, MyUser value)
     {
         model.setUser(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyServerSession model, MyUser value)
     {

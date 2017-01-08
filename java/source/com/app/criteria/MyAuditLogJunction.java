@@ -43,6 +43,11 @@ public class MyAuditLogJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+    }
+
     public KmhStringCondition whereTransactionUid()
     {
         return new KmhStringCondition(context(), fullName(TRANSACTION_UID));
@@ -58,24 +63,24 @@ public class MyAuditLogJunction
         return new KmhStringCondition(context(), fullName(TYPE_CODE));
     }
 
-    public KmhTimestampCondition whereUtcTs()
+    public KmhStringCondition whereDomainType()
     {
-        return new KmhTimestampCondition(context(), fullName(UTC_TS));
+        return new KmhStringCondition(context(), fullName(DOMAIN_TYPE));
     }
 
-    public KmhStringCondition whereModelType()
+    public KmhStringCondition whereDomainName()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_TYPE));
+        return new KmhStringCondition(context(), fullName(DOMAIN_NAME));
     }
 
-    public KmhStringCondition whereModelName()
+    public KmhStringCondition whereDomainUid()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_NAME));
+        return new KmhStringCondition(context(), fullName(DOMAIN_UID));
     }
 
-    public KmhStringCondition whereModelUid()
+    public KmhStringCondition whereDomainBundleUid()
     {
-        return new KmhStringCondition(context(), fullName(MODEL_UID));
+        return new KmhStringCondition(context(), fullName(DOMAIN_BUNDLE_UID));
     }
 
     public KmhStringCondition whereFieldName()

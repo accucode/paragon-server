@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
@@ -27,11 +27,19 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.variable.ScLocalRenderer;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 /**
  * I represent simple html text.
- * Specifically, I am NOT an element.
- * If you need formatting; use a paragraph, span, bold, etc...
+ *
+ * I am NOT an element, do NOT have an htmlId
+ * and CANNOT be styled or targeted for dynamic ajax.
+ *
+ * If you need formatting or ajax, use a different class such as
+ * ScTextSpan, or ScFieldText.
+ *
+ * @see ScTextSpan
+ * @see ScFieldText
  */
 public class ScText
     extends ScControl
@@ -43,14 +51,11 @@ public class ScText
     private ScLocalRenderer _value;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScText()
     {
-        super.install();
-
         _value = new ScLocalRenderer();
     }
 
@@ -89,7 +94,7 @@ public class ScText
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -97,4 +102,20 @@ public class ScText
     {
         _value.renderOn(out, this, getModel());
     }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory()
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        _value.compressMemory();
+    }
+
 }

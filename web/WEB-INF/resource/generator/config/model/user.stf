@@ -2,7 +2,7 @@ model
 : name      = user
 : help...
     ---
-    Users define the global list of people that can log in to the system.
+    Users define the people that can log in to a particular tenant.
     Most users are configured as Other and then given project specific roles.
     A few users may be configured as Admin users so that they can create new
     projects.
@@ -15,30 +15,84 @@ database
     index
     : name      = email
     : unique    = true
+    : on        = tenant
     : on        = email
 
 attributes
 
-    field
-    : name          = uid
-    : help          = The global unique key.  This is a big ugly number and is usually not displayed.
-    : type          = uid
-    : default       = newUid()
-    : primaryKey    = true
-    : required      = true
 
-    field
-    : name      = name
-    : help      = The user's full name.  E.g.: "John Doe".
-    : type      = name
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant.
+    : modelName = tenant
+    : relation  = parent
     : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+    #include personName.stf
+
+
+    //*****************************************************
+    //** email / login
+    //*****************************************************
+
 
     field
     : name      = email
     : help      = Used both to sign in, and to send emails to this user.
-    : comment   = Note: this must be unique across the entire system, not just the project.
     : type      = email
     : required  = true
+
+
+    field
+    : name      = passwordSalt
+    : help...
+        ---
+        The salt used for this user. Each user has a different salt.
+        The salt is set to a random value when the user is created.
+        Once set the salt should never be changed, changing it will invalidate the password.
+        ---
+    : type      = uid
+    : default   = newUid()
+    : required  = true
+
+
+    field
+    : name      = passwordHash
+    : help...
+        ---
+        The password sha hash used to authenticate the user.
+        The actual password is not stored.
+        If the user has no password the hash is set to empty string.
+        ---
+    : type      = shaHash
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
 
     field
     : name      = phone
@@ -46,47 +100,139 @@ attributes
     : type      = phone
     : required  = false
 
+
     field
-    : name      = verified
-    : help      = Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.
+    : name      = active
+    : help...
+        ---
+        Indicates if this user is allowed to log in.
+        New users are active by default, but can be de-activated to easily
+        restrict access to the entire system.
+        ---
     : type      = boolean
-    : default   = false
     : required  = true
+    : default   = true
 
-    field
-    : name      = passwordSalt
-    : help      = The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.
-    : type      = uid
-    : default   = newUid()
-    : required  = true
-
-    field
-    : name      = passwordHash
-    : help      = The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.
-    : type      = shaHash
 
     field
     : name      = timeZoneCode
+    : label     = Time Zone
     : help      = The user's preferred time zone.
     : type      = timeZoneCode
-
-    field
-    : name      = roleCode
-    : label     = Role
-    : help      = The global access role.  E.g.: Admin, Developer, or Other.
-    : type      = letterCode
     : required  = true
-    : default   = MyUserRole.Other.getCode() 
-
-        enum
-            value(#D Developer)
-            value(#A Admin)
-            value(#O Other)
 
 
     association
     : name      = lastProject
     : help      = The last project this user was working on.
-    : comment   = 
+    : comment   =
     : modelName = project
     : relation  = reference
+
+
+    //*****************************************************
+    //** role
+    //*****************************************************
+
+
+    field
+    : name      = roleCode
+    : label     = Role
+    : help...
+        ---
+        The user's global access role.
+
+        Developer, has full access to all data and functions in the app.
+
+        Admin, has access to admin functions e.g. adding/editing users and projects.
+
+        Other, any other user.
+        ---
+    : type      = longEnumCode
+    : required  = true
+    : default   = MyUserRole.Other.getCode()
+
+        enum
+            value(#Developer)
+            value(#Admin)
+            value(#Other)
+
+
+    //*****************************************************
+    //** dashboard
+    //*****************************************************
+
+
+    field
+    : name      = dashboardOrientationTypeCode
+    : help...
+        ---
+        Indicates whether the dashboard should be organized for portrait or landscape.
+        The 'Auto' mode will attempt to update the layout automatically depending
+        on the orientation of your screen.
+        ---
+    : type      = longEnumCode
+    : default   = MyDashboardOrientationType.Auto.getCode()
+    : required  = true
+
+
+    field
+    : name      = dashboardLineCount1
+    : help      = The number of panels to display on the first line, 0-3.
+    : type      = integer
+    : default   = 1
+    : required  = true
+
+
+    field
+    : name      = dashboardLineCount2
+    : help      = The number of panels to display on the second line, 0-3.
+    : type      = integer
+    : default   = 0
+    : required  = true
+
+
+    field
+    : name      = dashboardPanelCodeA
+    : help      = The panel to display in position A.
+    : type      = longEnumCode
+    : default   = MyDashboardPanelType.Welcome.getCode()
+    : required  = true
+
+
+    field
+    : name      = dashboardPanelCodeB
+    : help      = The panel to display in position B.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeC
+    : help      = The panel to display in position B.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeD
+    : help      = The panel to display in position D.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeE
+    : help      = The panel to display in position E.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeF
+    : help      = The panel to display in position F.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeG
+    : help      = The panel to display in position G.
+    : type      = longEnumCode
+
+

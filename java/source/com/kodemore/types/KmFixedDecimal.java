@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     //# variables
     //##################################################
 
-    private BigDecimal _value;
+    private BigDecimal         _value;
 
     //##################################################
     //# constructor
@@ -127,20 +127,20 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     }
 
     //##################################################
-    //# accessing
+    //# conversion
     //##################################################
 
-    public int getIntValue()
+    public int toInt()
     {
         return _value.intValue();
     }
 
-    public double getDoubleValue()
+    public double toDouble()
     {
         return _value.doubleValue();
     }
 
-    public BigDecimal getBigDecimal()
+    public BigDecimal toBigDecimal()
     {
         return _value;
     }
@@ -154,7 +154,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     {
         if ( e == null )
             return (T)this;
-        return newFixed(_value.add(e.getBigDecimal()));
+        return newFixed(_value.add(e.toBigDecimal()));
     }
 
     public T add(double e)
@@ -173,7 +173,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     public T subtract(KmFixedDecimal<?> e)
     {
-        return newFixed(_value.subtract(e.getBigDecimal()));
+        return newFixed(_value.subtract(e.toBigDecimal()));
     }
 
     public T subtract(double e)
@@ -192,7 +192,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     public T multiply(KmFixedDecimal<?> e)
     {
-        return newFixed(_value.multiply(e.getBigDecimal()));
+        return newFixed(_value.multiply(e.toBigDecimal()));
     }
 
     public T multiply(double e)
@@ -216,7 +216,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     public T divide(KmFixedDecimal<?> e)
     {
-        return newFixed(_value.divide(e.getBigDecimal(), getRoundingMode()));
+        return newFixed(_value.divide(e.toBigDecimal(), getRoundingMode()));
     }
 
     public T divide(double e)
@@ -286,13 +286,13 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     @Override
     public int hashCode()
     {
-        return getBigDecimal().intValue();
+        return toBigDecimal().intValue();
     }
 
     @Override
     public int compareTo(KmFixedDecimal<?> e)
     {
-        return _value.compareTo(e.getBigDecimal());
+        return _value.compareTo(e.toBigDecimal());
     }
 
     //##################################################
@@ -311,7 +311,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     public boolean isOne()
     {
-        if ( isIntegerValue() )
+        if ( isInteger() )
             return _value.intValueExact() == 1;
 
         return false;
@@ -362,17 +362,27 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
         return compareTo(e) <= 0;
     }
 
-    public boolean isIntegerValue()
+    public boolean isInteger()
     {
         try
         {
-            getBigDecimal().intValueExact();
+            toBigDecimal().intValueExact();
             return true;
         }
         catch ( ArithmeticException ex )
         {
             return false;
         }
+    }
+
+    public boolean isPositiveInteger()
+    {
+        return isPositive() && isInteger();
+    }
+
+    public boolean isWholeNumber()
+    {
+        return isPositiveInteger() || isZero();
     }
 
     //##################################################
@@ -382,7 +392,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     @Override
     public String toString()
     {
-        return format(getScale());
+        return format();
     }
 
     public String getDatabaseString()
@@ -419,9 +429,9 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
      * Otherwise, attempt to reduce the value to thousands, millions,
      * etc; with the associated abbreviation.
      * Examples:
-     *      12.3 >> 12.3
-     *      1,234.56 >> 1.2 K
-     *      12,234,567.89 >> 1.2 M  
+     *      12.3 => 12.3
+     *      1,234.56 => 1.2 K
+     *      12,345,678.90 => 12.3 M
      */
     public String formatShort()
     {
@@ -429,7 +439,12 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
         BigDecimal temp = getRoundedValue();
 
         if ( isLessThan(temp.abs(), K) )
-            return _format(temp, getScale());
+        {
+            String s;
+            s = _format(temp, getScale());
+            s = trimToMinimumScale(s);
+            return s;
+        }
 
         for ( String suffix : getSuffixes() )
         {
@@ -440,6 +455,15 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
         }
 
         return "Overflow";
+    }
+
+    /**
+     * The minimum number of digits to the right of the decimal
+     * for use with the short format.
+     */
+    protected int getMinimumScale()
+    {
+        return 0;
     }
 
     private KmList<String> getSuffixes()
@@ -465,16 +489,18 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     private String _format(BigDecimal source, int scale, boolean commas)
     {
-        BigDecimal rounded;
-        rounded = source.setScale(scale, getRoundingMode());
+        BigDecimal rounded = source.setScale(scale, getRoundingMode());
+        String pattern = _getPattern(scale, commas);
+        DecimalFormat format = new DecimalFormat(pattern);
 
-        String pattern;
-        pattern = _getPattern(scale, commas);
+        String value;
+        value = format.format(rounded);
+        value = trimToMinimumScale(value);
 
-        DecimalFormat format;
-        format = new DecimalFormat(pattern);
+        String prefix = getFormatPrefix();
+        String suffix = getFormatSuffix();
 
-        return format.format(rounded);
+        return prefix + value + suffix;
     }
 
     private String _getPattern(int scale, boolean commas)
@@ -504,6 +530,39 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
         return _value.setScale(scale, getRoundingMode());
     }
 
+    protected String getFormatPrefix()
+    {
+        return "";
+    }
+
+    protected String getFormatSuffix()
+    {
+        return "";
+    }
+
+    private String trimToMinimumScale(String s)
+    {
+        if ( !s.contains(".") )
+            return s;
+
+        int min = getMinimumScale();
+        while ( true )
+        {
+            int i = s.indexOf(".");
+            int rem = s.length() - i - 1;
+            if ( rem <= min )
+                break;
+
+            if ( !s.endsWith("0") )
+                break;
+
+            s = Kmu.removeSuffix(s, "0");
+        }
+
+        s = Kmu.removeSuffix(s, ".");
+        return s;
+    }
+
     //##################################################
     //# main
     //##################################################
@@ -511,7 +570,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     public static void main(String[] args)
     {
         KmMoney m;
-        m = new KmMoney(19999999284.34);
+        m = new KmMoney(12234567.89);
 
         System.out.println(m.format());
         System.out.println(m.formatShort());

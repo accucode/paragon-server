@@ -3,9 +3,11 @@ package com.app.model;
 import com.kodemore.collection.KmBlob;
 
 import com.app.model.base.MyEmailPartBase;
+import com.app.model.core.MySystemDomainIF;
 
 public class MyEmailPart
     extends MyEmailPartBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor
@@ -45,5 +47,4 @@ public class MyEmailPart
     {
         return getTypeName();
     }
-
 }

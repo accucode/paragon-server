@@ -36,8 +36,8 @@ public class MyPerformanceLogDetailValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
-    private KmStringValidator nameValidator;
     private KmTimestampValidator createdUtcTsValidator;
+    private KmStringValidator nameValidator;
     private KmIntegerValidator durationMsValidator;
 
     //##################################################
@@ -48,8 +48,8 @@ public class MyPerformanceLogDetailValidatorBase
     {
         super();
         uidValidator = newUidValidator();
-        nameValidator = newNameValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
+        nameValidator = newNameValidator();
         durationMsValidator = newDurationMsValidator();
     }
 
@@ -62,14 +62,14 @@ public class MyPerformanceLogDetailValidatorBase
         return uidValidator;
     }
 
-    public KmStringValidator getNameValidator()
-    {
-        return nameValidator;
-    }
-
     public KmTimestampValidator getCreatedUtcTsValidator()
     {
         return createdUtcTsValidator;
+    }
+
+    public KmStringValidator getNameValidator()
+    {
+        return nameValidator;
     }
 
     public KmIntegerValidator getDurationMsValidator()
@@ -86,8 +86,8 @@ public class MyPerformanceLogDetailValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setName(nameValidator.convertOnly(value.getName()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setName(nameValidator.convertOnly(value.getName()));
         value.setDurationMs(durationMsValidator.convertOnly(value.getDurationMs()));
     }
 
@@ -96,8 +96,8 @@ public class MyPerformanceLogDetailValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        nameValidator.validateOnly(value.getName(), errors);
         durationMsValidator.validateOnly(value.getDurationMs(), errors);
         // required associations...
     }
@@ -114,6 +114,17 @@ public class MyPerformanceLogDetailValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("performanceLogDetail");
         e.setField("uid");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("performanceLogDetail");
+        e.setField("createdUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -125,16 +136,6 @@ public class MyPerformanceLogDetailValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("performanceLogDetail");
         e.setField("name");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimestampValidator newCreatedUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("performanceLogDetail");
-        e.setField("createdUtcTs");
         e.setRequired();
         return e;
     }

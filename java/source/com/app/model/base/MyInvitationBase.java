@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyInvitationBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -40,13 +44,16 @@ public abstract class MyInvitationBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private String typeCode;
     private String statusCode;
-    private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
     private String toEmail;
     private String roleCode;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
     private MyUser fromUser;
     private MyProject project;
 
@@ -58,7 +65,11 @@ public abstract class MyInvitationBase
     {
         super();
         setUid(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
@@ -72,7 +83,6 @@ public abstract class MyInvitationBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -103,6 +113,66 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (typeCode)
     //##################################################
 
@@ -113,7 +183,6 @@ public abstract class MyInvitationBase
 
     public void setTypeCode(String e)
     {
-        checkReadOnly();
         e = Validator.getTypeCodeValidator().convertOnly(e);
         typeCode = e;
     }
@@ -140,7 +209,7 @@ public abstract class MyInvitationBase
 
     public void truncateTypeCode(boolean ellipses)
     {
-        typeCode = Kmu.truncate(typeCode, 1, ellipses);
+        typeCode = Kmu.truncate(typeCode, 30, ellipses);
     }
 
     public MyInvitationType getType()
@@ -192,7 +261,6 @@ public abstract class MyInvitationBase
 
     public void setStatusCode(String e)
     {
-        checkReadOnly();
         e = Validator.getStatusCodeValidator().convertOnly(e);
         statusCode = e;
     }
@@ -219,7 +287,7 @@ public abstract class MyInvitationBase
 
     public void truncateStatusCode(boolean ellipses)
     {
-        statusCode = Kmu.truncate(statusCode, 1, ellipses);
+        statusCode = Kmu.truncate(statusCode, 30, ellipses);
     }
 
     public MyInvitationStatus getStatus()
@@ -321,37 +389,6 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        checkReadOnly();
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
     //# field (closedUtcTs)
     //##################################################
 
@@ -362,7 +399,6 @@ public abstract class MyInvitationBase
 
     public void setClosedUtcTs(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getClosedUtcTsValidator().convertOnly(e);
         closedUtcTs = e;
     }
@@ -393,7 +429,6 @@ public abstract class MyInvitationBase
 
     public void setToEmail(String e)
     {
-        checkReadOnly();
         e = Validator.getToEmailValidator().convertOnly(e);
         toEmail = e;
     }
@@ -434,7 +469,6 @@ public abstract class MyInvitationBase
 
     public void setRoleCode(String e)
     {
-        checkReadOnly();
         e = Validator.getRoleCodeValidator().convertOnly(e);
         roleCode = e;
     }
@@ -475,7 +509,6 @@ public abstract class MyInvitationBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -496,12 +529,28 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
+
+    //##################################################
     //# field (typeName)
     //##################################################
 
     public final String getTypeName()
     {
-        return Kmu.getName(getType());
+        return KmEnumIF.getLabelFor(getType());
     }
 
     public boolean hasTypeName()
@@ -520,7 +569,7 @@ public abstract class MyInvitationBase
 
     public final String getStatusName()
     {
-        return Kmu.getName(getStatus());
+        return KmEnumIF.getLabelFor(getStatus());
     }
 
     public boolean hasStatusName()
@@ -610,6 +659,82 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
     //# field (closedLocalTs)
     //##################################################
 
@@ -686,6 +811,108 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
+    //##################################################
     //# fromUser
     //##################################################
 
@@ -696,13 +923,11 @@ public abstract class MyInvitationBase
 
     public void setFromUser(MyUser e)
     {
-        checkReadOnly();
         fromUser = e;
     }
 
     public void _setFromUser(MyUser e)
     {
-        checkReadOnly();
         fromUser = e;
     }
 
@@ -721,26 +946,21 @@ public abstract class MyInvitationBase
         return Kmu.isEqual(getFromUser(), e);
     }
 
-    public String getFromUserName()
+    public String getFromUserFullName()
     {
         if ( hasFromUser() )
-            return getFromUser().getName();
+            return getFromUser().getFullName();
         return null;
     }
 
-    public void setFromUserName(String e)
+    public boolean hasFromUserFullName()
     {
-        getFromUser().setName(e);
+        return hasFromUser() && getFromUser().hasFullName();
     }
 
-    public boolean hasFromUserName()
+    public boolean hasFromUserFullName(String e)
     {
-        return hasFromUser() && getFromUser().hasName();
-    }
-
-    public boolean hasFromUserName(String e)
-    {
-        return hasFromUser() && getFromUser().hasName(e);
+        return hasFromUser() && getFromUser().hasFullName(e);
     }
 
     //##################################################
@@ -754,13 +974,11 @@ public abstract class MyInvitationBase
 
     public void setProject(MyProject e)
     {
-        checkReadOnly();
         project = e;
     }
 
     public void _setProject(MyProject e)
     {
-        checkReadOnly();
         project = e;
     }
 
@@ -837,7 +1055,27 @@ public abstract class MyInvitationBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyInvitation getBasicCopy()
+    {
+        MyInvitation e;
+        e = new MyInvitation();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setTypeCode(getTypeCode());
+        e.setStatusCode(getStatusCode());
+        e.setClosedUtcTs(getClosedUtcTs());
+        e.setToEmail(getToEmail());
+        e.setRoleCode(getRoleCode());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -868,19 +1106,25 @@ public abstract class MyInvitationBase
 
     public boolean isSameIgnoringKey(MyInvitation e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
         if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getToEmail(), e.getToEmail()) ) return false;
         if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         if ( !Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
@@ -919,9 +1163,10 @@ public abstract class MyInvitationBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    TypeCode = " + typeCode);
         System.out.println("    StatusCode = " + statusCode);
-        System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);
         System.out.println("    ToEmail = " + toEmail);
         System.out.println("    RoleCode = " + roleCode);
@@ -948,4 +1193,10 @@ public abstract class MyInvitationBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

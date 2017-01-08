@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,13 +50,13 @@ public class ScFilterScript
      * This should identify a single element on the page, and the element
      * must support the ".val()" method.
      */
-    private String _fieldSelector;
+    private String         _fieldSelector;
 
     /**
      * The select that identifies the items to be filtered.
      * These are the elements to be shown or hidden; NOT the text to be matched.
      */
-    private String _itemSelector;
+    private String         _itemSelector;
 
     /**
      * One or more selectors to identify the elements WITHIN each item to be

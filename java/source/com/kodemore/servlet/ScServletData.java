@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -48,9 +50,7 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonObjectIF;
-import com.kodemore.json.KmJsonReader;
 import com.kodemore.log.KmLog;
 import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.ajax.ScAjaxResult;
@@ -95,9 +95,9 @@ public class ScServletData
     //# variables (delgates)
     //##################################################
 
-    private HttpServlet         _servlet;
-    private HttpServletRequest  _request;
-    private HttpServletResponse _response;
+    private HttpServlet          _servlet;
+    private HttpServletRequest   _request;
+    private HttpServletResponse  _response;
 
     //##################################################
     //# variables (setup)
@@ -106,7 +106,7 @@ public class ScServletData
     /**
      * The time when I was created.  Used for logging.
      */
-    private long _creationTimeNanos;
+    private long                 _creationTimeNanos;
 
     /**
      * Determines if parameters values should be normalized.
@@ -115,13 +115,13 @@ public class ScServletData
      * desireable as it helps avoid a large number of potential
      * problems.
      */
-    private boolean _normalizeParameterValues;
+    private boolean              _normalizeParameterValues;
 
     /**
      * The list of parameters extracted from the http request so that
      * values can be overridden during processing.
      */
-    private ScParameterList _parameters;
+    private ScParameterList      _parameters;
 
     /**
      * This is the value submitted in the form's argument parameter.
@@ -130,15 +130,15 @@ public class ScServletData
      * If the argument cannot be parsed it is set to null and an warning
      * is logged.
      */
-    private Object _argument;
+    private Object               _argument;
 
     /**
      * The persistent session information that is propogated through
-     * the page's request cycle, rather than being stored in the
+     * the page's http request cycle, rather than being stored in the
      * server side http session.  Most session information should
      * be stored here.
      */
-    private KmJsonMap _pageSessionEncodedValues;
+    private ScPageSession        _pageSession;
 
     //##################################################
     //# variables (response)
@@ -148,7 +148,7 @@ public class ScServletData
      * A list of application error messages that we intend to display
      * to the user.
      */
-    private KmList<KmErrorIF> _errors;
+    private KmList<KmErrorIF>    _errors;
 
     /**
      * The result that we intend to write to the http response.
@@ -156,14 +156,14 @@ public class ScServletData
      * writing the http response until after we have confirmed
      * that the database transaction successfully committed.
      */
-    private ScResultIF _result;
+    private ScResultIF           _result;
 
     /**
      * The number of bytes written to the http response.
      * This value is only set when the http response is written.
      * Setting the "result" does not immediately affect this value.
      */
-    private int _responseSize;
+    private int                  _responseSize;
 
     /**
      * I provide a copy of the cookies that are set into the response.
@@ -228,7 +228,6 @@ public class ScServletData
         }
     }
 
-    @SuppressWarnings("unchecked")
     private Enumeration<String> getParameterNames()
     {
         return _request.getParameterNames();
@@ -362,9 +361,14 @@ public class ScServletData
         return _getRequest().getScheme();
     }
 
-    public String getRequestServerName()
+    public String getRequestServerHostName()
     {
         return _getRequest().getServerName();
+    }
+
+    public int getRequestServerPort()
+    {
+        return _getRequest().getServerPort();
     }
 
     public Iterator<String> getHeaderNames()
@@ -609,6 +613,11 @@ public class ScServletData
         _parameters.setValue(key, value);
     }
 
+    public void clearParameter(String key)
+    {
+        _parameters.removeKey(key);
+    }
+
     public KmList<String> getParameterKeysStartingWith(String prefix)
     {
         KmList<String> v = new KmList<>();
@@ -632,6 +641,15 @@ public class ScServletData
         return _parameters.getValues(key);
     }
 
+    public String formatParametersAsQueryString()
+    {
+        return getParameterList().formatUrl();
+    }
+
+    //##################################################
+    //# debug
+    //##################################################
+
     public void printParameters()
     {
         KmList<String> keys;
@@ -640,30 +658,44 @@ public class ScServletData
 
         System.out.println("Parameters: " + keys.size());
         for ( String key : keys )
-            System.out.printf("    %s = %s%n", key, getParameters(key).join());
+        {
+            KmList<String> values = getParameters(key);
+            System.out.printf("    %s = %s%n", key, values.join());
+        }
     }
 
-    public String formatParametersAsQueryString()
+    public void printHexParameters()
     {
-        return getParameterList().formatUrl();
+        KmList<String> keys;
+        keys = getParameterKeys();
+        keys.sort();
+
+        System.out.println("Parameters: " + keys.size());
+        for ( String key : keys )
+        {
+            KmList<String> values = getParameters(key).collect(e -> Kmu.formatHexString(e));
+            System.out.printf("    %s = %s%n", key, values.join());
+        }
+    }
+
+    public void printRequestCookies()
+    {
+        System.out.println("printRequestCookies...");
+
+        Cookie[] arr = _getRequest().getCookies();
+        if ( arr == null )
+        {
+            System.out.println("    <none>");
+            return;
+        }
+
+        for ( Cookie e : arr )
+            System.out.printf("    %s = %s%n", e.getName(), Kmu.decodeUtf8(e.getValue()));
     }
 
     //##################################################
     //# cookies
     //##################################################
-
-    // Cookies are handled differently in IE.  In IE, if you are running local
-    // (localhost), cookies can still be created and read even when the Privacy
-    // slider is at the High setting (Block all cookies).  In order to change
-    // this behavior, we have to tell IE to treat localhost as not part of our
-    // intranet.  To do so, do the following:
-    //   1.  Go to Tools|Internet Options|Security tab.
-    //   2.  Click on the Local intranet image then click on the Sites button.
-    //   3.  Uncheck everything in the Local intranet dialog.
-    // There is no need to perform the steps if you're running remotely.
-    // It is just a way to trick IE into thinking that we're running remotely
-    // even if we're local.  Disabling cookies at this point should now yield
-    // consistent results between local and remote testing.
 
     public void setCookie(String key, String value)
     {
@@ -672,9 +704,8 @@ public class ScServletData
 
     public void setCookie(String key, String value, Integer expireSeconds, boolean secure)
     {
-        value = Kmu.encodeUtf8(value);
-
-        Cookie cookie = new Cookie(key, value);
+        Cookie cookie;
+        cookie = newCookie(key, value);
 
         if ( expireSeconds != null )
             cookie.setMaxAge(expireSeconds);
@@ -682,18 +713,15 @@ public class ScServletData
         if ( secure )
             cookie.setSecure(true);
 
-        // share cookies across the domain, regardless of the [servlet] path.
-        cookie.setPath("/");
-
         _setCookie(cookie);
     }
 
     public String getCookie(String key)
     {
         Cookie c = _getCookie(key);
-        if ( c == null )
-            return null;
-        return Kmu.decodeUtf8(c.getValue());
+        return c == null
+            ? null
+            : Kmu.decodeUtf8(c.getValue());
     }
 
     public boolean hasCookie(String key)
@@ -703,7 +731,7 @@ public class ScServletData
 
     public void clearCookie(String key)
     {
-        Cookie e = new Cookie(key, null);
+        Cookie e = newCookie(key, null);
         _clearCookie(e);
     }
 
@@ -736,6 +764,7 @@ public class ScServletData
         for ( Cookie e : _getCookies() )
             if ( e.getName().equals(name) )
                 return e;
+
         return null;
     }
 
@@ -762,13 +791,19 @@ public class ScServletData
 
     public void setTimeoutCookie(String name, String value, int seconds)
     {
-        value = Kmu.encodeUtf8(value);
-
         Cookie c;
-        c = new Cookie(name, value);
+        c = newCookie(name, value);
         c.setMaxAge(seconds);
 
         _setCookie(c);
+    }
+
+    private Cookie newCookie(String name, String value)
+    {
+        Cookie e;
+        e = new Cookie(name, Kmu.encodeUtf8(value));
+        e.setPath("/");
+        return e;
     }
 
     //##################################################
@@ -1029,6 +1064,24 @@ public class ScServletData
         setResult(r);
     }
 
+    public void setOctetResult(byte[] value)
+    {
+        ScSimpleResult r;
+        r = new ScSimpleResult();
+        r.setValue(value);
+        r.setContentTypeOctet();
+        setResult(r);
+    }
+
+    public void setPdfResult(byte[] value)
+    {
+        ScSimpleResult r;
+        r = new ScSimpleResult();
+        r.setValue(value);
+        r.setContentTypePdf();
+        setResult(r);
+    }
+
     public void setJsonResult(KmJsonObjectIF e)
     {
         setJsonResult(e.formatJson());
@@ -1056,8 +1109,8 @@ public class ScServletData
     {
         ScSimpleResult r;
         r = new ScSimpleResult();
-        r.setValue(value);
         r.setAttachmentName(name);
+        r.setValue(value);
         setResult(r);
     }
 
@@ -1099,7 +1152,17 @@ public class ScServletData
         redirectWithPost(getParameterList());
     }
 
+    public void redirectWithPost(String formUri)
+    {
+        redirectWithPost(formUri, null);
+    }
+
     public void redirectWithPost(ScParameterList params)
+    {
+        redirectWithPost(getRequestUri(), params);
+    }
+
+    private void redirectWithPost(String formUri, ScParameterList params)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -1119,16 +1182,19 @@ public class ScServletData
 
         out.openForm();
         out.printAttribute("name", "f");
-        out.printAttribute("action", getRequestUri());
+        out.printAttribute("action", formUri);
         out.printAttribute("method", "post");
         out.close();
 
-        KmList<String> keys = params.getKeys();
-        for ( String key : keys )
+        if ( params != null )
         {
-            KmList<String> values = params.getValues(key);
-            for ( String value : values )
-                out.printHiddenField(key, value);
+            KmList<String> keys = params.getKeys();
+            for ( String key : keys )
+            {
+                KmList<String> values = params.getValues(key);
+                for ( String value : values )
+                    out.printHiddenField(key, value);
+            }
         }
 
         out.endForm();
@@ -1286,6 +1352,23 @@ public class ScServletData
         }
     }
 
+    /**
+     * See HttpServlet.getResource
+     * http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletContext.html#getResource(java.lang.String)
+     */
+    public boolean resourceExists(String path)
+    {
+        try
+        {
+            URL url = _getServlet().getServletContext().getResource(path);
+            return url != null;
+        }
+        catch ( MalformedURLException ex )
+        {
+            return false;
+        }
+    }
+
     //##################################################
     //# log
     //##################################################
@@ -1349,8 +1432,12 @@ public class ScServletData
         if ( s == null )
             return null;
 
-        s = s.replaceAll(CRLF, LF);
-        s = s.replaceAll(CR, LF);
+        s = Kmu.replaceAll(s, CRLF, LF);
+        s = Kmu.replaceAll(s, CR, LF);
+        s = Kmu.replaceAll(s, LEFT_QUOTE, QUOTE);
+        s = Kmu.replaceAll(s, RIGHT_QUOTE, QUOTE);
+        s = Kmu.replaceAll(s, LEFT_TICK, TICK);
+        s = Kmu.replaceAll(s, RIGHT_TICK, TICK);
         s = Kmu.stripNonFormPostable(s);
         s = s.trim();
         return s;
@@ -1360,41 +1447,17 @@ public class ScServletData
     //# page session
     //##################################################
 
-    public ScPageSessionAccess getPageSessionAccess()
+    public ScPageSession getPageSession()
     {
-        return new ScPageSessionAccess(this);
-    }
-
-    public KmJsonMap getPageSessionEncodedValues()
-    {
-        return _pageSessionEncodedValues;
+        return _pageSession;
     }
 
     private void installPageSession()
     {
-        KmJsonMap json = readPageSession();
+        String gs = getParameter(PARAMETER_GLOBAL_SESSION);
+        String ps = getParameter(PARAMETER_PAGE_SESSION);
 
-        KmList<String> keys = json.getKeys();
-        for ( String key : keys )
-            if ( key.startsWith(ScConstantsIF.TRANSIENT_KEY_PREFIX) )
-                json.removeKey(key);
-
-        _pageSessionEncodedValues = json;
-    }
-
-    private KmJsonMap readPageSession()
-    {
-        String s = getParameter(PARAMETER_PAGE_SESSION);
-
-        if ( Kmu.isEmpty(s) )
-            return new KmJsonMap();
-
-        return KmJsonReader.parseJsonMap(s);
-    }
-
-    public void clearPageSession()
-    {
-        _pageSessionEncodedValues.clear();
+        _pageSession = new ScPageSession(gs, ps);
     }
 
     //##################################################
@@ -1562,37 +1625,31 @@ public class ScServletData
 
     public boolean isAppHeaderVisible()
     {
-        String s = getParameter(PARAMETER_IS_APP_HEADER_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_HEADER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
     public boolean isAppFooterVisible()
     {
-        String s = getParameter(PARAMETER_IS_APP_FOOTER_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_FOOTER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isAppTabsVisible()
+    public boolean isPageMenuVisible()
     {
-        String s = getParameter(PARAMETER_IS_APP_TABS_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_MENU_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isAppMenuVisible()
+    public boolean isPageTitleVisible()
     {
-        String s = getParameter(PARAMETER_IS_APP_MENU_VISIBLE);
-        return Kmu.parse_boolean(s);
-    }
-
-    public boolean isAppTitleVisible()
-    {
-        String s = getParameter(PARAMETER_IS_APP_TITLE_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_TITLE_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
     public boolean isAppContentVisible()
     {
-        String s = getParameter(PARAMETER_IS_APP_CONTENT_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_CONTENT_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
@@ -1726,5 +1783,4 @@ public class ScServletData
     {
         return isUserAgentInternetExplorer();
     }
-
 }

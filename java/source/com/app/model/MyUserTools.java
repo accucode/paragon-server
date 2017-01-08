@@ -1,7 +1,5 @@
 package com.app.model;
 
-import com.kodemore.servlet.field.ScDropdown;
-
 import com.app.model.base.MyUserToolsBase;
 
 public class MyUserTools
@@ -21,29 +19,4 @@ public class MyUserTools
     {
         // singleton
     }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public ScDropdown newUidNameDropdown()
-    {
-        ScDropdown e;
-        e = new ScDropdown();
-        e.setLabel("User");
-        e.setOptionValueAdaptor(Meta.Uid);
-        e.setOptionLabelAdaptor(Meta.Name);
-        return e;
-    }
-
-    public ScDropdown newUserRoleDropdown()
-    {
-        ScDropdown e;
-        e = new ScDropdown();
-        e.setLabel("Role");
-        e.setValueAdaptor(Meta.RoleCode);
-        e.addOptions(MyUserRole.values());
-        return e;
-    }
-
 }

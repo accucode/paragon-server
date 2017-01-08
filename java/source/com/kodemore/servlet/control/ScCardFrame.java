@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,11 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.ScConstantsIF;
-import com.kodemore.servlet.script.ScEffect;
-import com.kodemore.servlet.script.ScHideScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScShowScript;
-import com.kodemore.servlet.utility.ScEasing;
+import com.kodemore.servlet.script.ScReplaceContentsScript;
+import com.kodemore.servlet.variable.ScLocalControl;
 
 /**
  * Used to wrap dynamic ajax content.
@@ -47,41 +41,38 @@ public class ScCardFrame
     /**
      * The cards to be displayed in this frame.  Only
      * one card is displayed at a time.  We need to explicitly
-     * store this list so that we can implement getComponents().
+     * store this list so that we can implement getChildren().
      */
-    private KmList<ScCard> _cards;
+    private KmList<ScControl> _cards;
 
     /**
      * If set, then render this card when rendering this frame.
      */
-    private ScCard _defaultCard;
+    private ScLocalControl    _defaultCard;
 
-    private ScEffect _showEffect;
-    private ScEasing _showEasing;
-    private Integer  _showSpeed;
+    /**
+     * The type of transition to be used.
+     * Defaults to FLIP.
+     */
+    private ScTransitionType  _transitionType;
 
-    private ScEffect _hideEffect;
-    private ScEasing _hideEasing;
-    private Integer  _hideSpeed;
+    /**
+     * This controls how fast the transition animation runs.
+     * This is ignored if the transition type is set to none/null.
+     * Defaults to 250ms.
+     */
+    private int               _transitionSpeedMs;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScCardFrame()
     {
-        super.install();
-
         _cards = new KmList<>();
-
-        _showEffect = ScConstantsIF.DEFAULT_EFFECT;
-        _showEasing = ScConstantsIF.DEFAULT_EASING;
-        _showSpeed = ScConstantsIF.DEFAULT_SPEED_MS;
-
-        _hideEffect = ScConstantsIF.DEFAULT_EFFECT;
-        _hideEasing = ScConstantsIF.DEFAULT_EASING;
-        _hideSpeed = ScConstantsIF.DEFAULT_SPEED_MS;
+        _defaultCard = new ScLocalControl();
+        _transitionType = getBridge().getCardFrameTransitionType();
+        _transitionSpeedMs = getBridge().getCardFrameTransitionSpeedMs();
     }
 
     //##################################################
@@ -92,204 +83,113 @@ public class ScCardFrame
      * The list of cards associated with this frame;
      * clients should NOT manipulate this list directly.
      */
-    public KmList<ScCard> getCards()
+    public KmList<ScControl> getCards()
     {
         return _cards;
     }
 
     public ScCard addCard()
     {
-        ScCard e = new ScCard();
-        addCard(e);
-        return e;
+        return addCard(new ScCard());
     }
 
-    public <T extends ScCard> T addCard(T e)
+    public <T extends ScControl> T addCard(T e)
     {
         e.setParent(this);
         _cards.add(e);
         return e;
     }
 
-    public void addDefaultCard(ScCard e)
+    public <T extends ScControl> T addDefaultCard(T e)
     {
         addCard(e);
         setDefaultCard(e);
+        return e;
     }
 
-    public ScCard getDefaultCard()
+    public ScCard addDefaultCard()
     {
-        return _defaultCard;
+        ScCard e = addCard();
+        setDefaultCard(e);
+        return e;
     }
 
-    public void setDefaultCard(ScCard e)
+    public ScControl getDefaultCard()
     {
-        _defaultCard = e;
+        return _defaultCard.getValue();
+    }
+
+    public void setDefaultCard(ScControl e)
+    {
+        _defaultCard.setValue(e);
     }
 
     public boolean hasDefaultCard()
     {
-        return _defaultCard != null;
+        return _defaultCard.hasValue();
     }
 
-    public boolean isDefaultCard(ScCard e)
+    public boolean isDefaultCard(ScControl e)
     {
         return hasDefaultCard() && getDefaultCard() == e;
+    }
+
+    public void clearDefaultCard()
+    {
+        _defaultCard.clearValue();
     }
 
     //##################################################
     //# show effect
     //##################################################
 
-    public ScEffect getShowEffect()
+    public ScTransitionType getTransitionType()
     {
-        return _showEffect;
+        return _transitionType;
     }
 
-    public void setShowEffect(ScEffect e)
+    public void setTransitionType(ScTransitionType e)
     {
-        _showEffect = e;
+        _transitionType = e;
     }
 
-    public void setShowFade()
+    public void setTransitionFade()
     {
-        setShowEffect(ScEffect.fade);
+        setTransitionType(ScTransitionType.Fade);
     }
 
-    public void setShowSlide()
+    public void setTransitionFlip()
     {
-        setShowEffect(ScEffect.slide);
+        setTransitionType(ScTransitionType.Flip);
     }
 
-    public void setShowFlip()
+    public void setTransitionSlideLeft()
     {
-        setShowEffect(ScEffect.flip);
+        setTransitionType(ScTransitionType.SlideLeft);
     }
 
-    public void clearShowEffect()
+    public void setTransitionSlideRight()
     {
-        setShowEffect(null);
+        setTransitionType(ScTransitionType.SlideRight);
     }
 
-    //##################################################
-    //# show easing
-    //##################################################
-
-    public ScEasing getShowEasing()
+    public void setTransitionNone()
     {
-        return _showEasing;
-    }
-
-    public void setShowEasing(ScEasing e)
-    {
-        _showEasing = e;
+        setTransitionType(null);
     }
 
     //##################################################
-    //# show speed
+    //# transition speed
     //##################################################
 
-    public Integer getShowSpeed()
+    public int getTransitionSpeedMs()
     {
-        return _showSpeed;
+        return _transitionSpeedMs;
     }
 
-    public void setShowSpeed(Integer e)
+    public void setTransitionSpeedMs(int i)
     {
-        _showSpeed = e;
-    }
-
-    public boolean hasShowSpeed()
-    {
-        return _showSpeed != null;
-    }
-
-    //##################################################
-    //# hide effect
-    //##################################################
-
-    public ScEffect getHideEffect()
-    {
-        return _hideEffect;
-    }
-
-    public void setHideEffect(ScEffect e)
-    {
-        _hideEffect = e;
-    }
-
-    public boolean hasHideEffect()
-    {
-        return getHideEffect() != null;
-    }
-
-    public void setHideFade()
-    {
-        setHideEffect(ScEffect.fade);
-    }
-
-    public void setHideSlide()
-    {
-        setHideEffect(ScEffect.slide);
-    }
-
-    public void setHideFlip()
-    {
-        setHideEffect(ScEffect.flip);
-    }
-
-    public void clearHideEffect()
-    {
-        setHideEffect(null);
-    }
-
-    //##################################################
-    //# hide easing
-    //##################################################
-
-    public ScEasing getHideEasing()
-    {
-        return _hideEasing;
-    }
-
-    public void setHideEasing(ScEasing e)
-    {
-        _hideEasing = e;
-    }
-
-    //##################################################
-    //# hide speed
-    //##################################################
-
-    public Integer getHideSpeed()
-    {
-        return _hideSpeed;
-    }
-
-    public void setHideSpeed(Integer e)
-    {
-        _hideSpeed = e;
-    }
-
-    public boolean hasHideSpeed()
-    {
-        return _hideSpeed != null;
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public void useFadeAnimation()
-    {
-        setShowFade();
-        setHideFade();
-    }
-
-    public void useFlipAnimation()
-    {
-        setShowFlip();
-        setHideFlip();
+        _transitionSpeedMs = i;
     }
 
     //##################################################
@@ -314,13 +214,9 @@ public class ScCardFrame
     //##################################################
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getCards());
-        return i;
+        return getCards();
     }
 
     //##################################################
@@ -329,7 +225,7 @@ public class ScCardFrame
 
     public void ajaxClear()
     {
-        ajax().clearContents();
+        _htmlIdAjax().clearContents();
     }
 
     public void ajaxPrint()
@@ -342,36 +238,31 @@ public class ScCardFrame
         ajaxPrintFast(getDefaultCard());
     }
 
-    public void ajaxPrint(ScCard e)
+    public void ajaxPrint(ScControl card)
     {
-        ScHtmlIdAjax ajax;
-        ajax = ajax();
+        ScHtmlIdAjax ajax = _htmlIdAjax();
 
-        ScHideScript hide;
-        hide = ajax.hide();
-        hide.setEffect(getHideEffect());
-        hide.setEasing(getHideEasing());
-        hide.setSpeedMs(getHideSpeed());
+        ScReplaceContentsScript r;
+        r = ajax.setContents();
+        r.setInnerSelector(getJquerySelector());
+        r.setContents(card);
+        r.setTransition(getTransitionType());
+        r.setSpeed(getTransitionSpeedMs());
 
-        ajax = ajax.whenDone();
-        ajax.setContents(e);
-
-        ScShowScript show;
-        show = ajax.show();
-        show.setEffect(getShowEffect());
-        show.setEasing(getShowEasing());
-        show.setSpeedMs(getShowSpeed());
-
-        ajax.pushWhenDone();
-        ajax.focus(e);
+        /**
+         * low_wyatt: review focus.
+         * Causes ViewProject card to scroll to bottom
+         * because of the "Copy Project" button.
+         */
+        ajax.whenDone().focus(card);
     }
 
-    public void ajaxPrintFast(ScCard e)
+    public void ajaxPrintFast(ScControl card)
     {
         ScHtmlIdAjax ajax;
-        ajax = ajax();
-        ajax.setContents(e);
-        ajax.focus(e);
+        ajax = _htmlIdAjax();
+        ajax.setContents(card);
+        ajax.focus(card);
     }
 
     //##################################################
@@ -383,9 +274,9 @@ public class ScCardFrame
         ajaxPrint(getDefaultCard());
     }
 
-    public void ajaxClose(ScCard e)
+    public void ajaxClose(ScControl e)
     {
-        if ( e.isDefault() )
+        if ( isDefaultCard(e) )
             ajaxPrint(null);
         else
             ajaxPrintDefault();

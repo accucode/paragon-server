@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -62,13 +62,13 @@ public class KmSqlStatementWrapper
     /**
      * The java.util.Statement that is wrapped for convenience.
      */
-    private Statement _statement;
+    private Statement       _statement;
 
     /**
      * Any statements with a time >= this threshold will be printed
      * as a warning.  A threshold of 0 disables the warnings.
      */
-    private int _slowSqlThresholdMs;
+    private int             _slowSqlThresholdMs;
 
     //##################################################
     //# constructor

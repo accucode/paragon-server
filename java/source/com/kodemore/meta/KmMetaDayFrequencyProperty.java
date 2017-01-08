@@ -1,6 +1,6 @@
 package com.kodemore.meta;
 
-import com.kodemore.servlet.field.ScField;
+import com.kodemore.servlet.field.ScDayFrequencyField;
 import com.kodemore.types.KmDayFrequency;
 import com.kodemore.validator.KmDayFrequencyValidator;
 
@@ -12,15 +12,20 @@ public abstract class KmMetaDayFrequencyProperty<T>
     //##################################################
 
     @Override
-    public ScField<KmDayFrequency> newField()
+    public ScDayFrequencyField newField()
     {
-        return null;
+        return newField(null);
     }
 
     @Override
-    public ScField<KmDayFrequency> newField(String label)
+    public ScDayFrequencyField newField(String label)
     {
-        return null;
+        ScDayFrequencyField e;
+        e = new ScDayFrequencyField();
+        e.setLabel(label);
+        e.setHelp(getHelp());
+        e.setValueAdaptor(this);
+        return e;
     }
 
     //##################################################

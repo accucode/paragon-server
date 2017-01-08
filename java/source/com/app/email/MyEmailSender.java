@@ -17,9 +17,9 @@ import com.app.filter.MyEmailFilter;
 import com.app.finder.MyEmailFinder;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailPart;
-import com.app.model.MyEmailPartType;
-import com.app.model.MyEmailStatus;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.base.MyEmailPartType;
+import com.app.model.base.MyEmailStatus;
+import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
 /**
@@ -251,7 +251,7 @@ public class MyEmailSender
         return getProperties().getSendEmailEnabled();
     }
 
-    private MyPropertyRegistry getProperties()
+    private MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

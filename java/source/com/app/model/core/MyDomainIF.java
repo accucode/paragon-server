@@ -5,5 +5,7 @@ package com.app.model.core;
  */
 public interface MyDomainIF
 {
-    // none
+    void validate();
+
+    String getDisplayString();
 }

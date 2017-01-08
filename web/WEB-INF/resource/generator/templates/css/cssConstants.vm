@@ -29,7 +29,7 @@ $utility.protocol("css composites")
 #foreach ( $flavor in $e.flavorConstants )
     String ${flavor.key} = "${flavor.value}";
 #end
-    
+
 #end
 
 }

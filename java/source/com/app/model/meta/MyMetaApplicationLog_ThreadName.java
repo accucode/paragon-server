@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaApplicationLog_ThreadName
     @Override
     public String getHelp()
     {
-        return "The java thread name.  This is not directly useful except to determine which logs are generated from the same JVM thread.";
+        return "The java thread name. This is not directly useful except to determine which logs are generated from the same JVM thread.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaApplicationLog_ThreadName
         return getAccess().getApplicationLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaApplicationLog_ThreadName
     {
         return model.getThreadName();
     }
-    
+
     @Override
     public void setValueFor(MyApplicationLog model, String value)
     {
         model.setThreadName(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyApplicationLog model, String value)
     {
         return model.hasThreadName(value);
     }
-    
+
 }

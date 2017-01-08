@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,10 @@ package com.kodemore.servlet.renderer;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.utility.ScFormatter;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public abstract class ScRenderer
+    implements KmCompressMemoryIF
 {
     //##################################################
     //# render
@@ -40,6 +42,19 @@ public abstract class ScRenderer
     }
 
     public abstract void renderOn(KmHtmlBuilder out, ScControl parent, Object model);
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory
+     */
+    @Override
+    public void compressMemory()
+    {
+        // subclass
+    }
 
     //##################################################
     //# support

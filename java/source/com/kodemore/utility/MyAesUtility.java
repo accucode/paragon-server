@@ -15,10 +15,10 @@ public class MyAesUtility
     //# variables
     //##################################################
 
-    private byte[]        _key;
-    private SecretKeySpec _keySpec;
-    private Cipher        _encryptCypher;
-    private Cipher        _decryptCipher;
+    private byte[]                   _key;
+    private SecretKeySpec            _keySpec;
+    private Cipher                   _encryptCypher;
+    private Cipher                   _decryptCipher;
 
     //##################################################
     //# constructor

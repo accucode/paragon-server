@@ -7,11 +7,11 @@ setup
 : ifExists          = overwrite
 
 setup
-: name              = propertyRegistryBase
-: template          = propertyRegistry.vm
+: name              = propertiesBase
+: template          = propertiesBase.vm
 : targetDirectory   = java/source/${packagePath}/property/base
 : fileMode          = oneFile
-: fileName          = ${Prefix}PropertyRegistryBase.java
+: fileName          = ${Prefix}PropertiesBase.java
 : ifExists          = overwrite
 
 setup

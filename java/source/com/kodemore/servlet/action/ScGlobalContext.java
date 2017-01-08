@@ -1,7 +1,6 @@
 package com.kodemore.servlet.action;
 
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
@@ -11,7 +10,7 @@ import com.kodemore.utility.Kmu;
  * doesn't display errors to the user.
  */
 public class ScGlobalContext
-    implements ScContextIF, ScContextSupplierIF
+    implements ScContextSupplierIF, ScSecurityManagerIF, ScErrorManagerIF
 {
     //##################################################
     //# instance
@@ -52,29 +51,9 @@ public class ScGlobalContext
     }
 
     @Override
-    public boolean checkSecuritySilently()
-    {
-        try
-        {
-            checkSecurity();
-            return true;
-        }
-        catch ( KmSecurityException ex )
-        {
-            return false;
-        }
-    }
-
-    @Override
     public void handleError(KmApplicationException ex)
     {
         KmLog.error(ex, "Application error in global context.");
-    }
-
-    @Override
-    public void handleFatal(RuntimeException ex)
-    {
-        KmLog.fatal(ex, "Fatal error in global context.");
     }
 
     //##################################################
@@ -82,7 +61,13 @@ public class ScGlobalContext
     //##################################################
 
     @Override
-    public ScContextIF getContext()
+    public ScSecurityManagerIF getSecurityManager()
+    {
+        return this;
+    }
+
+    @Override
+    public ScErrorManagerIF getErrorManager()
     {
         return this;
     }
@@ -91,7 +76,7 @@ public class ScGlobalContext
     //# action
     //##################################################
 
-    public ScAction newAction(Runnable r)
+    public ScAction newCheckedAction(Runnable r)
     {
         return new ScAction(this, r);
     }

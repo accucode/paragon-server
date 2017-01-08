@@ -37,6 +37,18 @@ public class MyMetaEmailRecipient_Email
         return "email";
     }
 
+    @Override
+    public String getLabel()
+    {
+        return "Email";
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return null;
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -46,13 +58,13 @@ public class MyMetaEmailRecipient_Email
     {
         return model.getEmail();
     }
-    
+
     @Override
     public void setValueFor(MyEmailRecipient model, MyEmail value)
     {
         model.setEmail(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmailRecipient model, MyEmail value)
     {

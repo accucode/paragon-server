@@ -1,9 +1,9 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -78,10 +78,12 @@ public final class MyScriptTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        root.css().fill().auto();
+
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleRun);
-        form.css().gap();
+        form.css().columnSpacer10();
 
         installScript(form);
         installSamples(form);
@@ -94,8 +96,7 @@ public final class MyScriptTestPage
 
         ScTextArea field;
         field = group.getBody().addPad().addTextArea();
-        field.setWidthFull();
-        field.style().height(100);
+        field.layoutBlock(100);
         field.disableChangeTracking();
 
         group.addBodyDivider();
@@ -109,7 +110,7 @@ public final class MyScriptTestPage
         ScGroup group;
         group = root.addGroup("Samples");
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.getBody().addButtonBox();
 
         ScButton b;

@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyFileBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -40,13 +44,16 @@ public abstract class MyFileBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private String name;
     private String path;
-    private KmTimestamp createdUtcTs;
     private String statusCode;
     private Integer size;
     private Integer partialSize;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
 
     //##################################################
     //# constructor
@@ -56,7 +63,11 @@ public abstract class MyFileBase
     {
         super();
         setUid(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
@@ -70,7 +81,6 @@ public abstract class MyFileBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -101,6 +111,66 @@ public abstract class MyFileBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -111,7 +181,6 @@ public abstract class MyFileBase
 
     public void setName(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValidator().convertOnly(e);
         name = e;
     }
@@ -152,7 +221,6 @@ public abstract class MyFileBase
 
     public void setPath(String e)
     {
-        checkReadOnly();
         e = Validator.getPathValidator().convertOnly(e);
         path = e;
     }
@@ -183,37 +251,6 @@ public abstract class MyFileBase
     }
 
     //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        checkReadOnly();
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
     //# field (statusCode)
     //##################################################
 
@@ -224,7 +261,6 @@ public abstract class MyFileBase
 
     public void setStatusCode(String e)
     {
-        checkReadOnly();
         e = Validator.getStatusCodeValidator().convertOnly(e);
         statusCode = e;
     }
@@ -251,7 +287,7 @@ public abstract class MyFileBase
 
     public void truncateStatusCode(boolean ellipses)
     {
-        statusCode = Kmu.truncate(statusCode, 1, ellipses);
+        statusCode = Kmu.truncate(statusCode, 30, ellipses);
     }
 
     public MyFileStatus getStatus()
@@ -348,7 +384,6 @@ public abstract class MyFileBase
 
     public void setSize(Integer e)
     {
-        checkReadOnly();
         e = Validator.getSizeValidator().convertOnly(e);
         size = e;
     }
@@ -379,7 +414,6 @@ public abstract class MyFileBase
 
     public void setPartialSize(Integer e)
     {
-        checkReadOnly();
         e = Validator.getPartialSizeValidator().convertOnly(e);
         partialSize = e;
     }
@@ -410,7 +444,6 @@ public abstract class MyFileBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -431,12 +464,28 @@ public abstract class MyFileBase
     }
 
     //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
+
+    //##################################################
     //# field (statusName)
     //##################################################
 
     public final String getStatusName()
     {
-        return Kmu.getName(getStatus());
+        return KmEnumIF.getLabelFor(getStatus());
     }
 
     public boolean hasStatusName()
@@ -525,6 +574,184 @@ public abstract class MyFileBase
         return Kmu.isEqual(getCreatedLocalTime(), e);
     }
 
+    //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
 
     //##################################################
     //# validate
@@ -561,7 +788,27 @@ public abstract class MyFileBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyFile getBasicCopy()
+    {
+        MyFile e;
+        e = new MyFile();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setName(getName());
+        e.setPath(getPath());
+        e.setStatusCode(getStatusCode());
+        e.setSize(getSize());
+        e.setPartialSize(getPartialSize());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -592,18 +839,24 @@ public abstract class MyFileBase
 
     public boolean isSameIgnoringKey(MyFile e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getPath(), e.getPath()) ) return false;
-        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
         if ( !Kmu.isEqual(getSize(), e.getSize()) ) return false;
         if ( !Kmu.isEqual(getPartialSize(), e.getPartialSize()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -638,9 +891,10 @@ public abstract class MyFileBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    Name = " + name);
         System.out.println("    Path = " + path);
-        System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    StatusCode = " + statusCode);
         System.out.println("    Size = " + size);
         System.out.println("    PartialSize = " + partialSize);
@@ -667,4 +921,10 @@ public abstract class MyFileBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPasswordReset_Email
     {
         return "The email to be reset.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPasswordReset_Email
         return getAccess().getPasswordResetDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPasswordReset_Email
     {
         return model.getEmail();
     }
-    
+
     @Override
     public void setValueFor(MyPasswordReset model, String value)
     {
         model.setEmail(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPasswordReset model, String value)
     {
         return model.hasEmail(value);
     }
-    
+
 }

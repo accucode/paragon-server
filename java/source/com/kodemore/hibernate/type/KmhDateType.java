@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,10 @@ import com.kodemore.time.KmDate;
 public class KmhDateType
     extends KmhImmutableType
 {
+    //##################################################
+    //# type
+    //##################################################
+
     private static final int TYPE = java.sql.Types.DATE;
 
     @Override
@@ -52,15 +56,18 @@ public class KmhDateType
         return KmDate.class;
     }
 
+    //##################################################
+    //# get/set
+    //##################################################
+
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor impl, Object owner)
         throws HibernateException, SQLException
     {
         Date e = rs.getDate(names[0]);
-        if ( rs.wasNull() )
-            return null;
-
-        return KmDate.fromJavaDate(e);
+        return rs.wasNull()
+            ? null
+            : KmDate.fromJavaDate(e);
     }
 
     @Override
@@ -74,7 +81,13 @@ public class KmhDateType
         }
 
         KmDate d = (KmDate)value;
-        Date e = new Date(d.toJavaDate().getTime());
+        int yy = d.getYear() - 1900;
+        int mm = d.getMonth() - 1;
+        int dd = d.getDay();
+
+        @SuppressWarnings("deprecation")
+        Date e = new Date(yy, mm, dd);
+
         st.setDate(index, e);
     }
 

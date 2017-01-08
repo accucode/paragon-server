@@ -14,7 +14,7 @@ import com.kodemore.servlet.script.ScDelayedScript;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
@@ -90,9 +90,11 @@ public final class MyMemoryLeakTestPage
         _field.setLabel("Some field");
         _field.disableChangeTracking();
 
+        root.css().fill().auto();
+
         ScForm form;
         form = root.addForm();
-        form.css().gap();
+        form.css().columnSpacer10();
 
         ScGroup group;
         group = form.addGroup("Memory Leak Test");
@@ -100,7 +102,7 @@ public final class MyMemoryLeakTestPage
 
         form.add(newUserGrid());
 
-        _loopAction = newAction(this::handleLoop);
+        _loopAction = newCheckedAction(this::handleLoop);
     }
 
     private ScGrid<MyUser> newUserGrid()
@@ -111,10 +113,9 @@ public final class MyMemoryLeakTestPage
         grid = new ScGrid<>();
         grid.addColumn(x.Uid);
         grid.addColumn(x.Email);
-        grid.addColumn(x.Name);
+        grid.addColumn(x.FullName);
         grid.setFilterFactory(newFetcher());
         grid.setWidthAuto();
-
         return grid;
     }
 
@@ -142,7 +143,7 @@ public final class MyMemoryLeakTestPage
 
     private void checkLoop()
     {
-        MyPropertyRegistry p = getProperties();
+        MyProperties p = getProperties();
 
         boolean enabled = p.getMemoryLeakLoopEnabled();
         Integer ms = p.getMemoryLeakLoopSpeedMs();

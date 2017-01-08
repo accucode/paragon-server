@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -38,7 +38,7 @@ public final class MyChoiceFieldTestPage
     //# variables
     //##################################################
 
-    private ScChoiceField _choiceField;
+    private ScChoiceField<String> _choiceField;
 
     //##################################################
     //# settings
@@ -73,53 +73,48 @@ public final class MyChoiceFieldTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleGo);
+        form.setSubmitAction(this::handleSubmit);
 
         ScGroup group;
         group = form.addGroup("Choice Field");
-        group.css().inlineBlock();
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
+        body.add(createChoiceField());
 
-        body.addFieldLayout().add(createChoiceField());
-
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton();
+        buttons.addButton("Select Blue", this::handleSelectBlue);
         buttons.addButton("Hide Green", this::handleHideGreen);
         buttons.addButton("Show Green", this::handleShowGreen);
         buttons.addButton("Disable Blue", this::handleDisableBlue);
         buttons.addButton("Enable Blue", this::handleEnableBlue);
     }
 
-    private ScChoiceField createChoiceField()
+    private ScChoiceField<String> createChoiceField()
     {
-        ScChoiceField cf;
-        cf = new ScChoiceField();
+        ScChoiceField<String> e;
+        e = new ScChoiceField<>();
+        e.onChange(newUncheckedAction(this::handleChange));
+        e.disableChangeTracking();
+        e.setRequired();
+        e.setHelp("A help message x.");
 
-        cf.addOption(null, "Null");
-        cf.addOption("R", "Red");
-        cf.addOption("G", "Green");
-        cf.addOption("B", "Blue");
-        cf.addOption("1", "One");
-        cf.addOption("2", "Two");
-        cf.addOption("3", "Three");
+        e.addOption(null, "Null");
+        e.addOption("R", "Red");
+        e.addOption("G", "Green");
+        e.addOption("B", "Blue");
+        e.addOption("1", "One");
+        e.addOption("2", "Two");
+        e.addOption("3", "Three");
 
-        cf.setOnChangeAction(this::handleChange);
-
-        cf.setRequired();
-
-        // review_aaron: Change tracking is broken for radios
-        cf.disableChangeTracking();
-
-        _choiceField = cf;
-
-        return cf;
+        _choiceField = e;
+        return e;
     }
 
     //##################################################
@@ -136,13 +131,20 @@ public final class MyChoiceFieldTestPage
     //# handle
     //##################################################
 
-    private void handleGo()
+    private void handleSubmit()
     {
         ajax().hideAllErrors();
 
         _choiceField.validate();
+        _choiceField.ajaxUpdateFieldValues();
 
         ajax().toast(_choiceField.getValue());
+    }
+
+    private void handleSelectBlue()
+    {
+        _choiceField.setValue("B");
+        _choiceField.ajaxUpdateFieldValues();
     }
 
     private void handleHideGreen()
@@ -167,7 +169,7 @@ public final class MyChoiceFieldTestPage
 
     private void handleChange()
     {
-        String value = (String)_choiceField.getValue();
+        String value = _choiceField.getValue();
 
         ajax().toast("Selected: %s", value);
     }

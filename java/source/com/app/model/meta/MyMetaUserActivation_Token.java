@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaUserActivation_Token
     {
         return "A long unique code that allows access without a password.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaUserActivation_Token
         return getAccess().getUserActivationDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaUserActivation_Token
     {
         return model.getToken();
     }
-    
+
     @Override
     public void setValueFor(MyUserActivation model, String value)
     {
         model.setToken(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyUserActivation model, String value)
     {
         return model.hasToken(value);
     }
-    
+
 }

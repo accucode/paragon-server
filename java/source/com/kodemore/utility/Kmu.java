@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.URL;
@@ -57,6 +58,8 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.time.Clock;
 import java.time.ZoneId;
+import java.util.Base64;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -77,11 +80,13 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmSetImpl;
 import com.kodemore.command.KmDaoRollbackException;
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmEnumException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.file.KmFileUtility;
 import com.kodemore.log.KmLog;
 import com.kodemore.string.KmNameTokenizer;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.string.KmStringTokenizer;
 import com.kodemore.text.KmEditDistance;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
@@ -106,42 +111,42 @@ public class Kmu
 
     private static final boolean CHECK_FILE_NAME_CASE = true;
 
-    private static final String DIGITS            = "0123456789";
-    private static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private static final String  DIGITS               = "0123456789";
+    private static final String  UPPERCASE_LETTERS    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String  LOWERCASE_LETTERS    = "abcdefghijklmnopqrstuvwxyz";
 
-    private static final String LETTERS            = UPPERCASE_LETTERS + LOWERCASE_LETTERS;
-    private static final String DIGITS_AND_LETTERS = DIGITS + LETTERS;
+    private static final String  LETTERS              = UPPERCASE_LETTERS + LOWERCASE_LETTERS;
+    private static final String  DIGITS_AND_LETTERS   = DIGITS + LETTERS;
 
-    private static final String HEX_CHAR_STRING = "0123456789ABCDEF";
-    private static final char[] HEX_CHAR_ARRAY  = HEX_CHAR_STRING.toCharArray();
+    private static final String  HEX_CHAR_STRING      = "0123456789ABCDEF";
+    private static final char[]  HEX_CHAR_ARRAY       = HEX_CHAR_STRING.toCharArray();
 
     private static final String  BASE_62_STRING       = DIGITS
-                                                          + UPPERCASE_LETTERS
-                                                          + LOWERCASE_LETTERS;
-    private static final char[] BASE_62_ARRAY  = BASE_62_STRING.toCharArray();
+        + UPPERCASE_LETTERS
+        + LOWERCASE_LETTERS;
+    private static final char[]  BASE_62_ARRAY        = BASE_62_STRING.toCharArray();
 
-    private static final String BASE_36_STRING = DIGITS + UPPERCASE_LETTERS;
-    private static final char[] BASE_36_ARRAY  = BASE_36_STRING.toCharArray();
+    private static final String  BASE_36_STRING       = DIGITS + UPPERCASE_LETTERS;
+    private static final char[]  BASE_36_ARRAY        = BASE_36_STRING.toCharArray();
 
-    private static final String BASE_20_STRING = "BCDFGHJKLMNPQRSTWXZ";
-    private static final char[] BASE_20_ARRAY  = BASE_20_STRING.toCharArray();
+    private static final String  BASE_20_STRING       = "BCDFGHJKLMNPQRSTWXZ";
+    private static final char[]  BASE_20_ARRAY        = BASE_20_STRING.toCharArray();
 
-    private static final String BASE_16_STRING = HEX_CHAR_STRING;
-    private static final char[] BASE_16_ARRAY  = BASE_16_STRING.toCharArray();
+    private static final String  BASE_16_STRING       = HEX_CHAR_STRING;
+    private static final char[]  BASE_16_ARRAY        = BASE_16_STRING.toCharArray();
 
-    private static final char CHAR_CR            = (char)13;
-    private static final char CHAR_LF            = (char)10;
-    private static final char CHAR_NON_PRINTABLE = '?';
+    private static final char    CHAR_CR              = (char)13;
+    private static final char    CHAR_LF              = (char)10;
+    private static final char    CHAR_NON_PRINTABLE   = '?';
 
-    private static final String STRING_CR   = "" + CHAR_CR;
-    private static final String STRING_LF   = "" + CHAR_LF;
-    private static final String STRING_CRLF = "" + CHAR_CR + CHAR_LF;
+    private static final String  STRING_CR            = "" + CHAR_CR;
+    private static final String  STRING_LF            = "" + CHAR_LF;
+    private static final String  STRING_CRLF          = "" + CHAR_CR + CHAR_LF;
 
-    private static final String CHARSET_UTF_8 = "UTF-8";
+    private static final String  CHARSET_UTF_8        = "UTF-8";
 
-    private static final String LIST_DELIMITER      = ", ";
-    private static final String LIST_LINE_DELIMITER = "\n";
+    private static final String  LIST_DELIMITER       = ", ";
+    private static final String  LIST_LINE_DELIMITER  = "\n";
 
     private static final Clock   UID_CLOCK            = Clock.tickSeconds(ZoneId.of("UTC"));
 
@@ -423,8 +428,8 @@ public class Kmu
     }
 
     /**
-     * Parse a string into a KmQuantity. If an error occurs, return the default
-     * value.
+     * Parse a string into a KmQuantity.
+     * If an error occurs, return the default value.
      */
     public static KmQuantity parseQuantity(String s, KmQuantity def)
     {
@@ -433,18 +438,47 @@ public class Kmu
             if ( s == null )
                 return def;
 
-            s = s.trim();
-
-            Double d = parseDouble(s);
+            BigDecimal d = parseBigDecimal(s);
             if ( d == null )
-                return null;
+                return def;
 
             return new KmQuantity(d);
         }
         catch ( Exception ex )
         {
+            return def;
+        }
+    }
+
+    //##################################################
+    //# big decimal
+    //##################################################
+
+    public static BigDecimal parseBigDecimal(String s)
+    {
+        try
+        {
+            if ( s == null )
+                return null;
+
+            s = s.trim();
+
+            DecimalFormat f;
+            f = new DecimalFormat();
+            f.setParseBigDecimal(true);
+            return (BigDecimal)f.parse(s);
+        }
+        catch ( Exception ex )
+        {
             return null;
         }
+    }
+
+    public static void main(String[] args)
+    {
+        String s = " 1,234.2";
+        BigDecimal f = parseBigDecimal(s);
+        System.out.println(f);
     }
 
     //##################################################
@@ -1088,6 +1122,11 @@ public class Kmu
         return UPPERCASE_LETTERS.indexOf(c) >= 0;
     }
 
+    public static boolean isLowerCase(char c)
+    {
+        return LOWERCASE_LETTERS.indexOf(c) >= 0;
+    }
+
     /**
      * Determine if the character is a digit.
      */
@@ -1717,8 +1756,7 @@ public class Kmu
     }
 
     /**
-     * Convert the input string into kneeling camel case, while delimiting on
-     * any spaces.
+     * Convert the input string into kneeling camel case, delimiting on spaces.
      */
     public static String toKneelingCamelCase(String s)
     {
@@ -1746,7 +1784,7 @@ public class Kmu
     }
 
     /**
-     * Convert the input string into camel case, while delimiting on any spaces.
+     * Convert the input string into camel case, delimiting on any spaces.
      */
     public static String toCamelCase(String s)
     {
@@ -1755,7 +1793,12 @@ public class Kmu
 
     /**
      * Split a single camel case token into multiple words.  Insert a space before
-     * each upper case letter, and then trim the result.
+     * each upper case letter.  Supports Acronyms.
+     *
+     * MyABCObject => My ABC Object
+     *
+     * Digits are considered capitol letters. Underscores are converted to spaces
+     * and the result is trimmed.
      */
     public static String formatCamelCaseAsWords(String s)
     {
@@ -1766,13 +1809,42 @@ public class Kmu
         {
             char c = s.charAt(i);
 
-            if ( isUpperCase(c) )
-                out.append(" ");
+            // beginning of string
+            if ( i == 0 )
+            {
+                out.append(c);
+                continue;
+            }
 
+            // end of string
+            if ( i == n - 1 )
+            {
+                out.append(c);
+                continue;
+            }
+
+            // upper case letter or digit
+            if ( isUpperCase(c) || isDigit(c) )
+            {
+                char prev = s.charAt(i - 1);
+                char next = s.charAt(i + 1);
+
+                if ( isLowerCase(prev) || isLowerCase(next) )
+                {
+                    out.append(" ");
+                    out.append(c);
+                    continue;
+                }
+            }
+
+            // all others
             out.append(c);
         }
 
-        return out.toString().trim();
+        String result = out.toString();
+        result = Kmu.replaceAll(result, '_', ' ');
+        result.trim();
+        return result;
     }
 
     /**
@@ -1954,12 +2026,10 @@ public class Kmu
         {
             String s = capitalizeFirstLetter(i.next());
             out.append(s);
-
-            if ( i.hasNext() )
-                out.append(" ");
+            out.append(" ");
         }
 
-        return out.toString();
+        return out.toString().trim();
     }
 
     public static KmList<String> parseNameTokens(String name)
@@ -2331,6 +2401,26 @@ public class Kmu
         return a.toUpperCase().compareTo(b.toUpperCase());
     }
 
+    /**
+     * Convert the string to lower case.  Checks for null.
+     */
+    public static String toLowerCase(String s)
+    {
+        return s == null
+            ? null
+            : s.toLowerCase();
+    }
+
+    /**
+     * Convert the string to upper case.  Checks for null.
+     */
+    public static String toUpperCase(String s)
+    {
+        return s == null
+            ? null
+            : s.toUpperCase();
+    }
+
     //##################################################
     //# text
     //##################################################
@@ -2443,14 +2533,16 @@ public class Kmu
     }
 
     //##################################################
-    //# encode
+    //# encode :: utf8
     //##################################################
 
     public static String encodeUtf8(String s)
     {
         try
         {
-            return URLEncoder.encode(s, CHARSET_UTF_8);
+            return s == null
+                ? null
+                : URLEncoder.encode(s, CHARSET_UTF_8);
         }
         catch ( Exception ex )
         {
@@ -2462,13 +2554,46 @@ public class Kmu
     {
         try
         {
-            return URLDecoder.decode(s, CHARSET_UTF_8);
+            return s == null
+                ? null
+                : URLDecoder.decode(s, CHARSET_UTF_8);
         }
         catch ( Exception ex )
         {
             throw toRuntime(ex);
         }
     }
+
+    //==================================================
+    //= encode :: base64
+    //==================================================
+
+    public static String encode64(byte[] bytes)
+    {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
+    public static byte[] decode64(String s)
+    {
+        return Base64.getDecoder().decode(s);
+    }
+
+    //==================================================
+    //= encode :: image src
+    //==================================================
+
+    /**
+     * Encode an image into a string that can be used an an
+     * embedded string in an html file.
+     */
+    public static String encodeImageSrc(byte[] bytes)
+    {
+        return "data:image/png;base64," + encode64(bytes);
+
+    }
+    //##################################################
+    //# matches
+    //##################################################
 
     /**
      * Determine is the first parameter matches any of the arguments.
@@ -2992,6 +3117,13 @@ public class Kmu
     }
 
     public static Double toDouble(Integer e)
+    {
+        return e == null
+            ? null
+            : e.doubleValue();
+    }
+
+    public static Double toDouble(Long e)
     {
         return e == null
             ? null
@@ -4911,6 +5043,15 @@ public class Kmu
         return Thread.currentThread().getStackTrace()[4].toString();
     }
 
+    public static boolean stackTraceContains(String method)
+    {
+        for ( StackTraceElement e : getStackTrace() )
+            if ( e.getMethodName().contains(method) )
+                return true;
+
+        return false;
+    }
+
     //##################################################
     //# exceptions
     //##################################################
@@ -4963,15 +5104,29 @@ public class Kmu
      * have been added to the http response.  The database transaction
      * will be rolled back.
      */
-    public static void throwDaoRollback()
+    public static KmDaoRollbackException newRollbackException()
     {
-        throw new KmDaoRollbackException();
+        return new KmDaoRollbackException();
     }
 
-    public static void throwSecurityError(String msg, Object... args)
+    public static KmSecurityException newSecurityError(String msg, Object... args)
     {
-        throw new KmSecurityException(msg, args);
+        return new KmSecurityException(msg, args);
     }
+
+    /**
+     * An error has occurred that disallows the requested action from proceeding.
+     * The error is shown at the top of the redisplayed page and the user is
+     * expected to correct the error and resubmit.
+     */
+    public static KmEnumException newEnumError(KmEnumIF e)
+    {
+        return new KmEnumException(e);
+    }
+
+    //==================================================
+    //= root cause
+    //==================================================
 
     public static Throwable getRootCause(Throwable ex)
     {
@@ -5289,6 +5444,11 @@ public class Kmu
         return true;
     }
 
+    public static boolean allNonNull(Object... args)
+    {
+        return hasAllNonNulls(args);
+    }
+
     public static boolean hasAllNonNulls(Object... args)
     {
         int n = args.length;
@@ -5405,6 +5565,42 @@ public class Kmu
         return KmEmailParser.validate(email);
     }
 
+    //==================================================
+    //= parse
+    //==================================================
+
+    public static KmList<String> parseEmails(String s)
+    {
+        if ( s == null )
+            return KmList.createEmpty();
+
+        KmStringTokenizer t;
+        t = new KmStringTokenizer();
+        t.addWhitespaceDelimiters();
+        t.addCommaDelimiter();
+        t.addSemicolonDelimiter();
+        t.setIgnoreEmptyValues();
+        t.setTrimValues();
+
+        KmList<String> v;
+        v = t.split(s);
+        v = v.collect(e -> removeAngleBrackets(e));
+        v.retainIf(e -> Kmu.isValidEmailAddress(e));
+        v.removeDuplicates();
+        return v;
+    }
+
+    private static String removeAngleBrackets(String e)
+    {
+        if ( Kmu.isEmpty(e) )
+            return null;
+
+        if ( e.startsWith("<") && e.endsWith(">") )
+            return e.substring(1, e.length() - 1);
+
+        return e;
+    }
+
     //##################################################
     //# testing
     //##################################################
@@ -5499,26 +5695,6 @@ public class Kmu
             return "" + (char)(a + index);
 
         return "" + (char)(a + index / 26 - 1) + (char)(a + index % 26);
-    }
-
-    //##################################################
-    //# enum
-    //##################################################
-
-    public static String getCode(KmCodedEnumIF e)
-    {
-        if ( e == null )
-            return null;
-
-        return e.getCode();
-    }
-
-    public static String getName(KmCodedEnumIF e)
-    {
-        if ( e == null )
-            return null;
-
-        return e.getName();
     }
 
     //##################################################
@@ -5628,6 +5804,9 @@ public class Kmu
 
     public static String escapeHtml(String s, boolean useBreaks)
     {
+        if ( s == null )
+            return null;
+
         StringBuilder out = new StringBuilder();
 
         s = Kmu.replaceAll(s, "\r\n", "\n");
@@ -5824,7 +6003,7 @@ public class Kmu
     //##################################################
 
     /**
-     * Just checking freeMemory before/after some action isn't enough.
+     * Just checking FREE memory before-and-after some action isn't enough.
      * You might see the free memory stay the same, but if the totalMemory
      * increased by 100Mg, then that means that the action actually used
      * 100Mg even though the free memory didn't change.
@@ -5833,8 +6012,8 @@ public class Kmu
     {
         Runtime rt;
         rt = Runtime.getRuntime();
-        rt.gc();
-        rt.gc(); // the double gc seems to generate more consistent results.
+        rt.gc(); // the double gc...
+        rt.gc(); // ...seems to generate more consistent results.
         return rt.totalMemory() - rt.freeMemory();
     }
 
@@ -5984,6 +6163,22 @@ public class Kmu
     }
 
     /**
+     * I convert a runnable into a comsumer.  The argument accepted by
+     * the consumer is simply ignored.
+     */
+    public static <A> Consumer<A> toConsumer(Runnable runnable)
+    {
+        return new Consumer<A>()
+        {
+            @Override
+            public void accept(A t)
+            {
+                runnable.run();
+            }
+        };
+    }
+
+    /**
      * I convert a value into a function that always returns the same value.
      */
     public static <T, R> Function<T,R> toFunction(R value)
@@ -5996,5 +6191,33 @@ public class Kmu
                 return value;
             }
         };
+    }
+
+    /**
+     * I convert a Function into a Comparator.
+     */
+    public static <T, E extends Comparable<E>> Comparator<T> toComparator(Function<T,E> fn)
+    {
+        return new Comparator<T>()
+        {
+            @Override
+            public int compare(T a, T b)
+            {
+                E aa = fn.apply(a);
+                E bb = fn.apply(b);
+                return aa.compareTo(bb);
+            }
+        };
+    }
+
+    /**
+     * Apply a parameter to a function and return the result.
+     * If the function is null, return null.
+     */
+    public static <T, E> E applySafe(Function<T,E> fn, T t)
+    {
+        return fn == null || t == null
+            ? null
+            : fn.apply(t);
     }
 }

@@ -41,7 +41,9 @@ public abstract class MySettingsToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MySettingsFilter());
         e.setFinder(new MySettingsFinder());
-        e.setOptionKeyAdaptor(Meta.Code);
+        e.setOptionKeyFunction(Meta.Code);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

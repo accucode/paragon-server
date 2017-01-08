@@ -18,8 +18,8 @@ public class KmFacebookDevice
     //# variables 
     //##################################################
 
-    private String _os;
-    private String _hardware;
+    private String              _os;
+    private String              _hardware;
 
     //##################################################
     //# accessing

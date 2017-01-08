@@ -1,0 +1,79 @@
+/*******************************************************************
+ ** common spacing
+ **
+ ** These styles should be included at the bottom of the css.
+ ** This way, they will override defaults applied above.
+ ** For example, the normal .textField (above) sets the default margin to 0,
+ ** but the spacing styles (below) may override the text field's 0-margin.
+ *******************************************************************/
+
+.pad
+{
+    padding: 10px;
+}
+
+.smallPad
+{
+    padding: 5px;
+}
+
+.padVertical
+{
+    padding-top:    10px;
+    padding-bottom: 10px;
+}
+
+.padHorizontal
+{
+    padding-left:  10px;
+    padding-right: 10px;
+}
+
+.padTop                 { padding-top: 10px;    }
+.padTopChildren > *     { padding-top: 10px;    }
+
+.padBottom              { padding-bottom: 10px; }
+.padBottomChildren > *  { padding-bottom: 10px; }
+
+.padLeft                { padding-left: 10px;   }
+.padLeftChildren > *    { padding-left: 10px;   }
+
+.padRight               { padding-right: 10px;  }
+.padRightChildren > *   { padding-right: 10px;  }
+
+.margin                 { margin:        10px;  }
+.marginLeft             { margin-left:   10px;  }
+.marginRight            { margin-right:  10px;  }
+.marginTop              { margin-top:    10px;  }
+.marginBottom           { margin-bottom: 10px;  }
+
+.smallMargin            { margin:        5px;  }
+.smallMarginLeft        { margin-left:   5px;  }
+.smallMarginRight       { margin-right:  5px;  }
+.smallMarginTop         { margin-top:    5px;  }
+.smallMarginBottom      { margin-bottom: 5px;   }
+
+.childMargin > *        { margin:        10px;  }
+.childMarginLeft > *    { margin-left:   10px;  }
+.childMarginRight > *   { margin-right:  10px;  }
+.childMarginTop > *     { margin-top:    10px;  }
+.childMarginBottom > *  { margin-bottom: 10px;  }
+
+.smallChildMargin > *       { margin:        5px;  }
+.smallChildMarginLeft > *   { margin-left:   5px;  }
+.smallChildMarginRight > *  { margin-right:  5px;  }
+.smallChildMarginTop > *    { margin-top:    5px;  }
+.smallChildMarginBottom > * { margin-bottom: 5px;   }
+
+.gapOuter               { padding: 10px  0px  0px 10px }
+.gapInner > *           { margin:   0px 10px 10px  0px }
+
+.gap                    { padding: 10px  0px  0px 10px }
+.gap > *                { margin:   0px 10px 10px  0px }
+
+.smallGap               { padding:  5px 0px 0px 5px }
+.smallGap > *           { margin:   0px 5px 5px 0px }
+
+/* Intended for a single row of buttons */
+.buttonGap              { padding:     10px }
+.buttonGap > *          { margin-right: 5px }

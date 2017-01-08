@@ -2,9 +2,10 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBarcodeCode39;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.utility.Kmu;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -76,26 +77,35 @@ public final class MyBarcodeTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScBarcodeCode39 valid;
-        valid = new ScBarcodeCode39();
-        valid.setValue(VALID_CODE);
-
-        ScBarcodeCode39 invalid;
-        invalid = new ScBarcodeCode39();
-        invalid.setValue(INVALID_CODE);
-
-        root.css().gap();
+        root.css().fill().auto();
 
         ScGroup group;
         group = root.addGroup("Barcode Test");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
-        body.addText("A code39 barcode that contains (valid entry): '%s'.", VALID_CODE);
-        body.add(valid);
+        body.addText(Kmu.format("A code39 barcode that contains (valid entry): '%s'.", VALID_CODE));
+        body.add(newValidBarcode());
         body.addBreak();
-        body.addText("A code39 barcode that contains (invalid entry): '%s'.", INVALID_CODE);
-        body.add(invalid);
+        body.addText(
+            Kmu.format("A code39 barcode that contains (invalid entry): '%s'.", INVALID_CODE));
+        body.add(newInvalidBarcode());
+    }
+
+    private ScBarcodeCode39 newValidBarcode()
+    {
+        ScBarcodeCode39 valid;
+        valid = new ScBarcodeCode39();
+        valid.setValue(VALID_CODE);
+        return valid;
+    }
+
+    private ScBarcodeCode39 newInvalidBarcode()
+    {
+        ScBarcodeCode39 invalid;
+        invalid = new ScBarcodeCode39();
+        invalid.setValue(INVALID_CODE);
+        return invalid;
     }
 
     //##################################################

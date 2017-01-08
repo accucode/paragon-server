@@ -1,8 +1,11 @@
 package com.kodemore.servlet.control;
 
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import com.kodemore.adaptor.KmAdaptorIF;
+import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
@@ -22,8 +25,8 @@ public class ScGridColumn<T>
     //# constants
     //##################################################
 
-    private static final String SORT_ASCENDING  = "asc";
-    private static final String SORT_DESCENDING = "desc";
+    private static final String               SORT_ASCENDING  = "asc";
+    private static final String               SORT_DESCENDING = "desc";
 
     //##################################################
     //# variables
@@ -32,56 +35,62 @@ public class ScGridColumn<T>
     /**
      * The unique key.
      */
-    private String _key;
+    private String                            _key;
 
     /**
      * The grid.
      */
-    private ScGrid<T> _grid;
+    private ScGrid<T>                         _grid;
 
     /**
      * The column header.
      */
-    private ScLocalString _header;
+    private ScLocalString                     _header;
 
     /**
      * The column width, in pixels.
      */
-    private ScLocalInteger _width;
+    private ScLocalInteger                    _width;
 
     /**
      * The horizontal alignment; left, right, center.
      */
-    private ScLocalString _alignment;
+    private ScLocalString                     _alignment;
 
     /**
      * If false the column is hidden by default.
      */
-    private ScLocalBoolean _visible;
+    private ScLocalBoolean                    _visible;
 
     /**
      * If true, the client side grid will allow the user to
      * select it for sorting.
      */
-    private ScLocalBoolean _sortable;
+    private ScLocalBoolean                    _sortable;
 
     /**
      * Sort ascending (true), descending (false), or not sorted (null).
      */
-    private ScLocalBoolean _defaultSort;
+    private ScLocalBoolean                    _defaultSort;
 
     /**
      * Convert each row's model into a value for display in the
      * table's column.  The result must be compatible with the
      * default formatter, ScFormatter.printAny(Object)
      */
-    private ScLocalRenderer _displayRenderer;
+    private ScLocalRenderer                   _displayRenderer;
 
     /**
-     * If non-null, include the column in the csv export.
-     * The result is passed to KmCsvBuffer.printAny();
+     * If non-null, include the column in data exports.
      */
-    private ScLocalFunction<T,Object> _csvFunction;
+    private ScLocalFunction<T,Object>         _exportFunction;
+
+    /**
+     * This consumer is called for each cell in order to determine
+     * the css class(es). The result of the display renderer is
+     * wrapped in a span with the specified css.
+     */
+    private BiConsumer<T,KmCssDefaultBuilder> _spanCss;
 
     //##################################################
     //# constructor
@@ -99,7 +108,7 @@ public class ScGridColumn<T>
         _defaultSort = new ScLocalBoolean(null);
 
         _displayRenderer = new ScLocalRenderer();
-        _csvFunction = new ScLocalFunction<>();
+        _exportFunction = new ScLocalFunction<>();
 
         alignLeft();
         setWidth(150);
@@ -247,6 +256,20 @@ public class ScGridColumn<T>
     }
 
     //##################################################
+    //# span css
+    //##################################################
+
+    public BiConsumer<T,KmCssDefaultBuilder> getSpanCss()
+    {
+        return _spanCss;
+    }
+
+    public void setSpanCss(BiConsumer<T,KmCssDefaultBuilder> e)
+    {
+        _spanCss = e;
+    }
+
+    //##################################################
     //# sortable
     //##################################################
 
@@ -368,22 +391,22 @@ public class ScGridColumn<T>
     }
 
     //##################################################
-    //# csv adaptor
+    //# export adaptor
     //##################################################
 
-    public Function<T,?> getCsvFunction()
+    public Function<T,?> getExportFunction()
     {
-        return _csvFunction.getValue();
+        return _exportFunction.getValue();
     }
 
-    public void setCsvFunction(Function<T,Object> e)
+    public void setExportFunction(Function<T,Object> e)
     {
-        _csvFunction.setValue(e);
+        _exportFunction.setValue(e);
     }
 
-    public boolean hasCsvFunction()
+    public boolean hasExportFunction()
     {
-        return _csvFunction.hasValue();
+        return _exportFunction.hasValue();
     }
 
     //##################################################
@@ -416,9 +439,32 @@ public class ScGridColumn<T>
             return;
         }
 
+        String html = renderCellHtmlFor(model);
+
+        cells.addString(html);
+    }
+
+    private String renderCellHtmlFor(T model)
+    {
         ScControl parent = getGrid();
         String html = getDisplayRenderer().render(parent, model);
-        cells.addString(html);
+
+        if ( _spanCss == null )
+            return html;
+
+        KmCssDefaultBuilder css = new KmCssDefaultBuilder();
+        _spanCss.accept(model, css);
+        if ( css.isEmpty() )
+            return html;
+
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.openSpan();
+        out.printAttribute(css);
+        out.close();
+        out.printLiteral(html);
+        out.endSpan();
+        return out.formatHtml();
     }
 
     private String formatHeader()

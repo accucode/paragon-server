@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ public class ScChartSeries
      * The unique identifier of the data series, and can 
      * not be null.  Doubles as the series label.
      */
-    private String _key;
+    private String      _key;
 
     /**
      * Optional value to determine the color of the data
@@ -49,7 +49,7 @@ public class ScChartSeries
      * On line charts, this attribute determines if the
      * area below the line is filled in or not.
      */
-    private Boolean _area;
+    private Boolean     _area;
 
     /**
      * The data points to be charted.  Each point has an
@@ -144,11 +144,11 @@ public class ScChartSeries
 
     public void addPoint(double x, double y)
     {
-        KmJsonMap point;
-        point = new KmJsonMap();
-        point.setDouble("x", x);
-        point.setDouble("y", y);
-        addPoint(point);
+        KmJsonMap e;
+        e = new KmJsonMap();
+        e.setDouble("x", x);
+        e.setDouble("y", y);
+        addPoint(e);
     }
 
     //##################################################
@@ -162,7 +162,7 @@ public class ScChartSeries
         out.setString("key", getKey());
 
         if ( hasColor() )
-            out.setString("color", getColor().getValue());
+            out.setString("color", getColor().getHexValue());
 
         out.setBoolean("area", isArea());
         out.setArray("values", getPoints());

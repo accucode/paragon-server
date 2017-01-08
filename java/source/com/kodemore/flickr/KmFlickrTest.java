@@ -1,13 +1,6 @@
 package com.kodemore.flickr;
 
 /**
- * (steve)
- * 
- * review_steve (wyatt)
- *      I'm not sure what you want me to review here. 
- */
-
-/**
  * I am used connect to Flickr make various requests.
  */
 public class KmFlickrTest
@@ -26,7 +19,7 @@ public class KmFlickrTest
         c.setAuthSecret("");
 
         /**
-         * fixme_steve (steve) we have to set the method as one of the params, looks like
+         * fixme we have to set the method as one of the params, looks like
          * there is only one api and many methods...if that makes sense
          */
         //        Find PERSON:
@@ -48,7 +41,7 @@ public class KmFlickrTest
         System.out.println(s);
 
         /**
-         * review_steve 
+         * review
          * use kmXmlParser.parse(String xml) to get a KmXmlDocument.
          * once you have the document you can start building the Objects
          */

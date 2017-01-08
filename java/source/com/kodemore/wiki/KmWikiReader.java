@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -57,20 +57,20 @@ public class KmWikiReader
     private KmList<KmWikiParser> _parsers;
     private boolean              _enabledLiterals;
 
-    private String _sourceText;
-    private char[] _source;
+    private String               _sourceText;
+    private char[]               _source;
 
-    private int _index;
-    private int _rowIndex;
-    private int _columnIndex;
+    private int                  _index;
+    private int                  _rowIndex;
+    private int                  _columnIndex;
 
-    private StringBuilder _text;
-    private KmWikiSource  _textSource;
+    private StringBuilder        _text;
+    private KmWikiSource         _textSource;
 
     private KmList<StackElement> _stack;
     private KmList<KmWikiError>  _errors;
 
-    private KmWikiDocument _document;
+    private KmWikiDocument       _document;
 
     //##################################################
     //# constructor

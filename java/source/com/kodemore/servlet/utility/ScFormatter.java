@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,24 @@
 
 package com.kodemore.servlet.utility;
 
+import java.math.BigDecimal;
+
+import com.kodemore.collection.KmList;
 import com.kodemore.log.KmLog;
+import com.kodemore.string.KmStringTokenizer;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
 import com.kodemore.time.KmDateParser;
+import com.kodemore.time.KmDuration;
 import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeFormatter;
 import com.kodemore.time.KmTimeParser;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampFormatter;
 import com.kodemore.time.KmTimestampParser;
+import com.kodemore.time.KmWeekDay;
 import com.kodemore.types.KmCost;
+import com.kodemore.types.KmDayFrequency;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.types.KmKilogram;
 import com.kodemore.types.KmMoney;
@@ -213,13 +220,11 @@ public class ScFormatter
     public KmMoney parseMoney(String s)
     {
         s = Kmu.stripCharacters(s, '$');
-        s = Kmu.stripCharacters(s, ',');
+        BigDecimal d = Kmu.parseBigDecimal(s);
 
-        Double d = Kmu.parseDouble(s);
-        if ( d == null )
-            return null;
-
-        return new KmMoney(d);
+        return d == null
+            ? null
+            : new KmMoney(d);
     }
 
     public String getMoneySample()
@@ -236,7 +241,7 @@ public class ScFormatter
         if ( e == null )
             return formatNull();
 
-        return e.getValue();
+        return e.getHexValue();
     }
 
     public KmHtmlColor parseHtmlColor(String s)
@@ -274,6 +279,45 @@ public class ScFormatter
     }
 
     //##################################################
+    //# day frequency
+    //##################################################
+
+    public String formatDayFrequency(KmDayFrequency e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return e.getWeekDays().collect(x -> x.getLabel()).join();
+    }
+
+    public KmDayFrequency parseDayFrequency(String s)
+    {
+        KmStringTokenizer t;
+        t = new KmStringTokenizer();
+        t.addCommaDelimiter();
+        t.addSemicolonDelimiter();
+        t.addWhitespaceDelimiters();
+        t.setIgnoreEmptyValues();
+        t.setTrimValues();
+
+        KmDayFrequency f = KmDayFrequency.EMPTY;
+
+        for ( String token : t.split(s) )
+        {
+            KmWeekDay day = KmWeekDay.fromToken(token);
+            if ( day != null )
+                f.addDay(day);
+        }
+
+        return f;
+    }
+
+    public String getDayFrequencySample()
+    {
+        return "Monday, Tuesday";
+    }
+
+    //##################################################
     //# date
     //##################################################
 
@@ -281,6 +325,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
+
         return new KmDateFormatter().format(e);
     }
 
@@ -302,7 +347,8 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
-        return new KmTimeFormatter().format(e);
+
+        return new KmTimeFormatter("{H}:{MM} {am/pm}").format(e);
     }
 
     public KmTime parseTime(String s)
@@ -323,6 +369,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
+
         return new KmTimestampFormatter().format(e);
     }
 
@@ -337,6 +384,28 @@ public class ScFormatter
     }
 
     //##################################################
+    //# duration
+    //##################################################
+
+    public String formatDuration(KmDuration e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return e.format();
+    }
+
+    public KmDuration parseDuration(String s)
+    {
+        return KmDuration.fromString(s);
+    }
+
+    public String getDurationSample()
+    {
+        return "5 days 12:31:00";
+    }
+
+    //##################################################
     //# weight
     //##################################################
 
@@ -344,6 +413,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
+
         return formatWeight(e, null);
     }
 
@@ -384,7 +454,8 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
-        return e.format(2);
+
+        return e.format();
     }
 
     public KmKilogram parseKilogram(String s)
@@ -413,11 +484,7 @@ public class ScFormatter
         if ( e == null )
             return formatNull();
 
-        String s;
-        s = e.format();
-        s = Kmu.stripTrailingCharacters(s, '0');
-        s = Kmu.stripTrailingCharacters(s, '.');
-        return s;
+        return e.format();
     }
 
     public KmQuantity parseQuantity(String s)
@@ -523,11 +590,17 @@ public class ScFormatter
         if ( e instanceof KmDate )
             return formatDate((KmDate)e);
 
+        if ( e instanceof KmDayFrequency )
+            return formatDayFrequency((KmDayFrequency)e);
+
         if ( e instanceof KmTime )
             return formatTime((KmTime)e);
 
         if ( e instanceof KmTimestamp )
             return formatTimestamp((KmTimestamp)e);
+
+        if ( e instanceof KmDuration )
+            return formatDuration((KmDuration)e);
 
         if ( e instanceof KmWeight )
             return formatWeight((KmWeight)e);

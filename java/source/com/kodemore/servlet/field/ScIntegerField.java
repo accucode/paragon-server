@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,36 +26,35 @@ public class ScIntegerField
     extends ScAbstractTextField<Integer>
 {
     //##################################################
-    //# value
+    //# conversion
     //##################################################
 
     @Override
-    public Integer getValueFor(String s)
+    protected Integer textToValue(String text)
     {
-        return getFormatter().parseInteger(s);
+        return getFormatter().parseInteger(text);
     }
 
     @Override
-    public void setValue(Integer value)
+    protected String valueToText(Integer value)
     {
-        String s = getFormatter().formatInteger(value);
-        setText(s);
+        return getFormatter().formatInteger(value);
+    }
+
+    @Override
+    protected int getDefaultWidth()
+    {
+        return 100;
     }
 
     //##################################################
-    //# validate
+    //# sample
     //##################################################
 
     @Override
-    public String getInvalidMessage()
+    public Integer getSampleValue()
     {
-        return "Invalid Integer: " + getSampleFormat();
-    }
-
-    @Override
-    public String getSampleFormat()
-    {
-        return "123";
+        return 123;
     }
 
 }

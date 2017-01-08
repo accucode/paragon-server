@@ -17,7 +17,7 @@ public class MyMonitorJob
     //# variables
     //##################################################
 
-    private String _name;
+    private String                _name;
 
     //##################################################
     //# constructor

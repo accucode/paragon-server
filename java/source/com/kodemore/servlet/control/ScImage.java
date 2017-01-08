@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,11 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmCompressMemoryIF;
 
 public class ScImage
     extends ScElement
@@ -35,17 +39,20 @@ public class ScImage
     private ScLocalString _source;
     private ScLocalString _alt;
 
+    /**
+     * A script to run when this control is clicked.
+     */
+    private ScLocalString _onClick;
+
     //##################################################
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScImage()
     {
-        super.install();
-
         _source = new ScLocalString();
         _alt = new ScLocalString("");
+        _onClick = new ScLocalString();
     }
 
     //##################################################
@@ -77,7 +84,40 @@ public class ScImage
     }
 
     //##################################################
-    //# print
+    //# on click
+    //##################################################
+
+    public final String getOnClick()
+    {
+        return _onClick.getValue();
+    }
+
+    public final void onClick(String e)
+    {
+        _onClick.setValue(e);
+    }
+
+    public final void onClick(ScScriptIF e)
+    {
+        _onClick.setValue(e.formatScript());
+    }
+
+    public final void onClick(ScAction e)
+    {
+        onClick(e, null);
+    }
+
+    public final void onClick(ScAction e, Object arg)
+    {
+        ScActionScript script;
+        script = ScActionScript.create(e);
+        script.setArgument(arg);
+
+        onClick(script);
+    }
+
+    //##################################################
+    //# render
     //##################################################
 
     @Override
@@ -97,6 +137,23 @@ public class ScImage
 
         out.printAttribute("src", getSource());
         out.printAttribute("alt", getAlt());
+        out.printAttribute("onclick", getOnClick());
+    }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory()
+     */
+    @Override
+    public void compressMemory()
+    {
+        super.compressMemory();
+
+        _source.compressMemory();
+        _alt.compressMemory();
     }
 
 }

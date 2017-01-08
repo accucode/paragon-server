@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,18 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.control.ScImage;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.servlet.variable.ScLocalStyle;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmRequiredValidator;
-import com.kodemore.validator.KmValidator;
 
 /**
  * I am a multi-line text area, that uses the <textarea>
@@ -47,61 +45,170 @@ public class ScTextArea
     extends ScField<String>
 {
     //##################################################
+    //# enum :: layout
+    //##################################################
+
+    /**
+     * The various layout options.
+     */
+    private static enum Layout
+    {
+        /**
+         * Treat the control as an inline element with a fixed size.
+         * This is similar to the way a standalone textarea element works.
+         * This is the default.
+         */
+        inline,
+
+        /**
+         * Treat the control as a block (not inline) element.
+         * The control will generally span the entire row, similar to a div.
+         * The height must be to a specific value (in pixels).
+         */
+        block,
+
+        /**
+         * For use inside a flexbox (row), the child will fill the available space.
+         * The row and height may be specified, or not.
+         */
+        flexFiller,
+
+        /**
+         * For use inside a non-static container.
+         * This uses absolute positioning to fill the entire container.
+         */
+        fill
+    }
+
+    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString       _text;
-    private ScLocalBoolean      _readOnly;
-    private ScLocalBoolean      _disabled;
-    private ScLocalBoolean      _fullWrapper;
-    private KmValidator<String> _validator;
+    private ScLocalString  _text;
+    private ScLocalBoolean _readOnly;
 
     /**
-     * If true (by default), the original value is included in the html data- attribute
-     * and the client-side browser uses javascript to track if changes are made.
+     * The layout to coordinate with my parent.
+     * The use of width and height depend on the selected layout.
      */
-    private boolean _changeTracking;
+    private Layout         _layout;
+    private Integer        _width;
+    private Integer        _height;
 
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
+    /**
+     * Clients are not allowed directly access to the css since that will likely
+     * cause problems.  However, clients are allowed to directly adjust the margin
+     * for minor layout adjustments.
+     */
+    private ScLocalCss     _cssMargin;
+
+    /**
+     * Enable/disable spellchecking. Enabled by default.
+     */
+    private ScLocalBoolean _spellCheck;
 
     //##################################################
-    //# init
+    //# constructor
+    //##################################################
+
+    public ScTextArea()
+    {
+        _text = new ScLocalString();
+        _readOnly = new ScLocalBoolean(false);
+        _cssMargin = new ScLocalCss();
+        _spellCheck = new ScLocalBoolean(true);
+        layoutInline();
+    }
+
+    //##################################################
+    //# html id
     //##################################################
 
     @Override
-    protected void install()
+    public String getHtmlId()
     {
-        super.install();
+        return getKey();
+    }
 
-        _text = new ScLocalString();
-        _readOnly = new ScLocalBoolean(false);
-        _disabled = new ScLocalBoolean(false);
-        _fullWrapper = new ScLocalBoolean(false);
-        _changeTracking = true;
+    private String getAreaHtmlId()
+    {
+        return getHtmlId() + "-a";
+    }
 
-        _css = new ScLocalCss();
-        _style = new ScLocalStyle();
+    private String getAreaHtmlName()
+    {
+        return getAreaHtmlId();
     }
 
     //##################################################
-    //# full wrapper
+    //# layout
     //##################################################
 
-    public boolean getFullWrapper()
+    public void layoutInline()
     {
-        return _fullWrapper.getValue();
+        layoutInline(300, 100);
     }
 
-    public void setFullWrapper(boolean e)
+    public void layoutInline(int w, int h)
     {
-        _fullWrapper.setValue(e);
+        _layout = Layout.inline;
+        _width = w;
+        _height = h;
     }
 
-    public void setWidthFull()
+    public void layoutBlock(int h)
     {
-        setFullWrapper(true);
-        css().widthFull();
+        _layout = Layout.block;
+        _width = null;
+        _height = h;
+    }
+
+    public void layoutFlexFiller()
+    {
+        layoutFlexFiller(null, null);
+    }
+
+    /**
+     * Note that the width and height are optional (allows null).
+     */
+    public void layoutFlexFiller(Integer w, Integer h)
+    {
+        _layout = Layout.flexFiller;
+        _width = w;
+        _height = h;
+    }
+
+    public void layoutFill()
+    {
+        _layout = Layout.fill;
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public KmCssMarginBuilder cssMargin()
+    {
+        return _cssMargin.toMarginBuilder();
+    }
+
+    //##################################################
+    //# spell check
+    //##################################################
+
+    public boolean getSpellCheck()
+    {
+        return _spellCheck.getValue();
+    }
+
+    public void setSpellCheck(boolean e)
+    {
+        _spellCheck.setValue(e);
+    }
+
+    public void disableSpellCheck()
+    {
+        setSpellCheck(false);
     }
 
     //##################################################
@@ -111,32 +218,13 @@ public class ScTextArea
     @Override
     public String getValue()
     {
-        String s = _text.getValue();
-
-        if ( Kmu.isEmpty(s) )
-            return null;
-
-        return s;
+        return textToValue(_text.getValue());
     }
 
     @Override
-    public void setValue(String e)
+    public void setValue(String value)
     {
-        if ( Kmu.isEmpty(e) )
-            e = null;
-
-        _text.setValue(e);
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _text.resetValue();
-    }
-
-    public void clearValue()
-    {
-        setValue(null);
+        _text.setValue(valueToText(value));
     }
 
     public boolean isEmpty()
@@ -149,77 +237,38 @@ public class ScTextArea
         return !isEmpty();
     }
 
-    //##################################################
-    //# change tracking
-    //##################################################
+    //==================================================
+    //= value :: conversion
+    //==================================================
 
-    public boolean getChangeTracking()
+    private String textToValue(String text)
     {
-        return _changeTracking;
+        return Kmu.isEmpty(text)
+            ? null
+            : text;
     }
 
-    public void setChangeTracking(boolean e)
+    private String valueToText(String value)
     {
-        warnIfInstalled();
-        _changeTracking = e;
+        return value == null
+            ? ""
+            : value;
     }
 
-    public void disableChangeTracking()
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
     {
-        setChangeTracking(false);
+        _text.saveValue();
     }
 
-    //##################################################
-    //# css
-    //##################################################
-
-    public String getCss()
+    @Override
+    public void resetValue()
     {
-        return _css.getValue();
-    }
-
-    public void setCss(String e)
-    {
-        _css.setValue(e);
-    }
-
-    public KmCssDefaultBuilder css()
-    {
-        return _css.toDefaultBuilder();
-    }
-
-    public KmCssDefaultBuilder formatCss()
-    {
-        return css().textField();
-    }
-
-    public KmCssDefaultBuilder formatWrapperCss()
-    {
-        return newCssBuilder().textFieldWrapper();
-    }
-
-    //##################################################
-    //# style
-    //##################################################
-
-    public String getStyle()
-    {
-        return _style.getValue();
-    }
-
-    public void setStyle(String e)
-    {
-        _style.setValue(e);
-    }
-
-    public KmStyleBuilder style()
-    {
-        return _style.toBuilder();
-    }
-
-    public KmStyleBuilder formatStyle()
-    {
-        return style();
+        _text.resetValue();
     }
 
     //##################################################
@@ -242,90 +291,13 @@ public class ScTextArea
     }
 
     //##################################################
-    //# disabled
-    //##################################################
-
-    public void enable()
-    {
-        _disabled.setFalse();
-    }
-
-    public void disable()
-    {
-        _disabled.setTrue();
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
-    }
-
-    //##################################################
-    //# page session
+    //# editable
     //##################################################
 
     @Override
-    public void saveFieldValues()
+    public boolean isEditable()
     {
-        super.saveFieldValues();
-        _text.saveValue();
-    }
-
-    @Override
-    public void resetFieldValues()
-    {
-        super.resetFieldValues();
-        resetValue();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<String> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<String> e)
-    {
-        _validator = e;
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public void setRequired()
-    {
-        if ( hasValidator() )
-        {
-            if ( getValidator().isRequired() )
-                return;
-
-            KmValidator<String> e;
-            e = getValidator().getCopy();
-            e.setRequired();
-            setValidator(e);
-        }
-        else
-            setValidator(new KmRequiredValidator<String>());
-    }
-
-    public void setOptional()
-    {
-        if ( !hasValidator() )
-            return;
-
-        if ( getValidator().isOptional() )
-            return;
-
-        KmValidator<String> e;
-        e = getValidator().getCopy();
-        e.setOptional();
-        setValidator(e);
+        return !isReadOnly();
     }
 
     //##################################################
@@ -335,53 +307,111 @@ public class ScTextArea
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        boolean wrap = getFullWrapper();
+        KmCssDefaultBuilder css = getCss();
+        KmStyleBuilder style = new KmStyleBuilder();
 
-        if ( wrap )
-            renderWrappedTextArea(out);
-        else
-            renderTextArea(out);
-    }
+        if ( !getVisible() )
+            style.hide();
 
-    private void renderWrappedTextArea(KmHtmlBuilder out)
-    {
+        applyLayoutTo(css, style);
+
         out.openDiv();
-        out.printAttribute(formatWrapperCss());
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute(css);
+        out.printAttribute(style);
         out.close();
 
-        renderTextArea(out);
+        renderImageOn(out);
+        renderTextAreaOn(out);
 
         out.endDiv();
     }
 
-    private void renderTextArea(KmHtmlBuilder out)
+    private void renderImageOn(KmHtmlBuilder out)
     {
-        out.open("textarea");
-        renderAttributesOn(out);
-        out.close();
+        if ( !hasHelp() )
+            return;
 
-        if ( hasValue() )
-            out.printWithoutBreaks(getValue());
-
-        out.end("textarea");
+        ScImage e;
+        e = new ScImage();
+        e.css().helpTriangle().helpTooltip();
+        e.setSource(getUrls().getHelpIndicatorUrl());
+        e.setHoverText(getHelp());
+        e.renderOn(out);
     }
 
-    @Override
-    protected void renderAttributesOn(KmHtmlBuilder out)
+    private void renderTextAreaOn(KmHtmlBuilder out)
     {
-        super.renderAttributesOn(out);
-
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
+        out.open("textarea");
+        out.printAttribute("id", getAreaHtmlId());
+        out.printAttribute("name", getAreaHtmlName());
 
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
 
-        if ( isDisabled() )
-            out.printAttribute("disabled", "disabled");
-
         if ( getChangeTracking() )
             printOldValueAttributeOn(out, getValue());
+
+        if ( !getSpellCheck() )
+            out.printAttribute("spellcheck", false);
+
+        out.close();
+        out.printWithoutBreaks(getValue());
+        out.end("textarea");
+    }
+
+    //==================================================
+    //= render :: support
+    //==================================================
+
+    /**
+     * Get the basic css for the outer/wrapper div.
+     */
+    private KmCssDefaultBuilder getCss()
+    {
+        KmCssDefaultBuilder css;
+        css = new KmCssDefaultBuilder();
+        css.textArea();
+        css.addAll(cssMargin().getSelectors());
+
+        if ( isEditable() )
+            css.textArea_editable();
+        else
+            css.textArea_readonly();
+
+        return css;
+    }
+
+    /**
+     * Apply the additional styling necessary to make the layout work correctly.
+     */
+    private void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
+    {
+        switch ( _layout )
+        {
+            case inline:
+                css.flexInlineRow();
+                style.width(_width);
+                style.height(_height);
+                break;
+
+            case block:
+                css.flexRow();
+                style.height(_height);
+                break;
+
+            case flexFiller:
+                css.flexChildFiller();
+                css.flexRow();
+                style.width(_width);
+                style.height(_height);
+                break;
+
+            case fill:
+                css.fill();
+                css.flexRow();
+                break;
+        }
     }
 
     //##################################################
@@ -389,54 +419,13 @@ public class ScTextArea
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    protected void readParameters_here(ScServletData data)
     {
-        super.readParameters(data);
+        super.readParameters_here(data);
 
-        String name = getHtmlName();
+        String name = getAreaHtmlName();
         if ( data.hasParameter(name) )
             _text.setValue(data.getParameter(name));
-    }
-
-    //##################################################
-    //# validate
-    //##################################################
-
-    @Override
-    public boolean validateQuietly()
-    {
-        if ( !super.validateQuietly() )
-            return false;
-
-        if ( hasErrors() )
-            return false;
-
-        if ( _validator == null )
-            return true;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-
-        _validator.validateOnly(getValue(), errors);
-        if ( errors.isEmpty() )
-            return true;
-
-        setErrors(errors);
-        return false;
-    }
-
-    public String getInvalidMessage()
-    {
-        return "Cannot parse value.";
-    }
-
-    //##################################################
-    //# editable
-    //##################################################
-
-    @Override
-    public boolean isEditable()
-    {
-        return !isReadOnly() && !isDisabled();
     }
 
     //##################################################
@@ -444,14 +433,31 @@ public class ScTextArea
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(String value)
     {
-        String value = getValue();
-
-        ajax().setValue(value);
-
-        if ( getChangeTracking() )
-            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(value, getChangeTracking());
     }
 
+    @Override
+    public void ajaxSetFieldValue(String value, boolean updateOldValue)
+    {
+        String htmlValue = valueToText(value);
+
+        ScHtmlIdAjax ajax;
+        ajax = areaAjax();
+        ajax.setValue(htmlValue);
+
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+    }
+
+    //==================================================
+    //= ajax :: support
+    //==================================================
+
+    private ScHtmlIdAjax areaAjax()
+    {
+        ScHtmlId htmlId = new ScHtmlId(getAreaHtmlId(), getRootScript());
+        return ScHtmlIdAjax.createOnRoot(htmlId);
+    }
 }

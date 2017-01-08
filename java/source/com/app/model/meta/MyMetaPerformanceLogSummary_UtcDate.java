@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaPerformanceLogSummary_UtcDate
     {
         return "The day being summarized.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaPerformanceLogSummary_UtcDate
         return getAccess().getPerformanceLogSummaryDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaPerformanceLogSummary_UtcDate
     {
         return model.getUtcDate();
     }
-    
+
     @Override
     public void setValueFor(MyPerformanceLogSummary model, KmDate value)
     {
         model.setUtcDate(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyPerformanceLogSummary model, KmDate value)
     {
         return model.hasUtcDate(value);
     }
-    
+
 }

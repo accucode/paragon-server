@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,10 @@ import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * I implement a dropdown menu using a list, css, and a little javascript.
- * 
- * See 
+ *
+ * See
  *      kmDropdownMenu.js
- *      dropdownMenu.css.
+ *      dropdownMenu.styl.
  *      testDropdownMenu.html
  */
 public class ScDropdownMenu
@@ -49,14 +49,11 @@ public class ScDropdownMenu
     private ScLocalList<ScDropdownMenuItem> _items;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDropdownMenu()
     {
-        super.install();
-
         _title = new ScLocalString("Menu");
         _items = new ScLocalList<>();
     }
@@ -86,7 +83,7 @@ public class ScDropdownMenu
 
     public ScDropdownMenuItem addItem(String text, Runnable r)
     {
-        return addItem(text, newAction(r), null);
+        return addItem(text, newCheckedAction(r), null);
     }
 
     public ScDropdownMenuItem addItem(String text, ScAction action, Object arg)
@@ -106,7 +103,7 @@ public class ScDropdownMenu
         ScDropdownMenuItem e;
         e = new ScDropdownMenuItem();
         e.setText(text);
-        e.setAction(newAction(r), arg);
+        e.setAction(newCheckedAction(r), arg);
 
         _items.add(e);
 
@@ -159,7 +156,9 @@ public class ScDropdownMenu
 
     private void renderTitleOn(KmHtmlBuilder out)
     {
+        out.beginSpanCss("dropdownMenuTitle");
         out.print(getTitle());
+        out.endSpan();
     }
 
     private void renderListOn(KmHtmlBuilder out)

@@ -21,11 +21,15 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyProjectBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -40,13 +44,21 @@ public abstract class MyProjectBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
+    private KmTimestamp updatedUtcTs;
     private String name;
+    private String code;
+    private String companyName;
+    private String sendEmailFrom;
+    private Boolean active;
+    private Integer catalogVersion;
+    private KmDayFrequency businessDays;
+    private KmTime businessStartTime;
+    private KmTime businessEndTime;
     private Integer lockVersion;
-    private List<MyMember> members;
-    private List<MyDepot> depots;
-    private List<MyRegion> regions;
-    private List<MyVendor> vendors;
-    private List<MySkill> skills;
+    private MyUser createdBy;
+    private MyUser updatedBy;
+    private MyTenant tenant;
 
     //##################################################
     //# constructor
@@ -56,11 +68,16 @@ public abstract class MyProjectBase
     {
         super();
         setUid(newUid());
-        members = new ArrayList<>();
-        depots = new ArrayList<>();
-        regions = new ArrayList<>();
-        vendors = new ArrayList<>();
-        skills = new ArrayList<>();
+        setCreatedUtcTs(nowUtc());
+        setUpdatedUtcTs(nowUtc());
+        setActive(true);
+        setCatalogVersion(1);
+        setBusinessDays(MyProject.DEFAULT_BUSINESS_DAYS);
+        setBusinessStartTime(MyProject.DEFAULT_BUSINESS_START_TIME);
+        setBusinessEndTime(MyProject.DEFAULT_BUSINESS_END_TIME);
+        setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
@@ -74,7 +91,6 @@ public abstract class MyProjectBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -105,6 +121,66 @@ public abstract class MyProjectBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -115,7 +191,6 @@ public abstract class MyProjectBase
 
     public void setName(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValidator().convertOnly(e);
         name = e;
     }
@@ -146,6 +221,298 @@ public abstract class MyProjectBase
     }
 
     //##################################################
+    //# field (code)
+    //##################################################
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public void setCode(String e)
+    {
+        e = Validator.getCodeValidator().convertOnly(e);
+        code = e;
+    }
+
+    public void clearCode()
+    {
+        setCode(null);
+    }
+
+    public boolean hasCode()
+    {
+        return Kmu.hasValue(getCode());
+    }
+
+    public boolean hasCode(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getCode(), e);
+    }
+
+    public void truncateCode()
+    {
+        truncateCode(false);
+    }
+
+    public void truncateCode(boolean ellipses)
+    {
+        code = Kmu.truncate(code, 5, ellipses);
+    }
+
+    //##################################################
+    //# field (companyName)
+    //##################################################
+
+    public String getCompanyName()
+    {
+        return companyName;
+    }
+
+    public void setCompanyName(String e)
+    {
+        e = Validator.getCompanyNameValidator().convertOnly(e);
+        companyName = e;
+    }
+
+    public void clearCompanyName()
+    {
+        setCompanyName(null);
+    }
+
+    public boolean hasCompanyName()
+    {
+        return Kmu.hasValue(getCompanyName());
+    }
+
+    public boolean hasCompanyName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getCompanyName(), e);
+    }
+
+    public void truncateCompanyName()
+    {
+        truncateCompanyName(false);
+    }
+
+    public void truncateCompanyName(boolean ellipses)
+    {
+        companyName = Kmu.truncate(companyName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (sendEmailFrom)
+    //##################################################
+
+    public String getSendEmailFrom()
+    {
+        return sendEmailFrom;
+    }
+
+    public void setSendEmailFrom(String e)
+    {
+        e = Validator.getSendEmailFromValidator().convertOnly(e);
+        sendEmailFrom = e;
+    }
+
+    public void clearSendEmailFrom()
+    {
+        setSendEmailFrom(null);
+    }
+
+    public boolean hasSendEmailFrom()
+    {
+        return Kmu.hasValue(getSendEmailFrom());
+    }
+
+    public boolean hasSendEmailFrom(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getSendEmailFrom(), e);
+    }
+
+    public void truncateSendEmailFrom()
+    {
+        truncateSendEmailFrom(false);
+    }
+
+    public void truncateSendEmailFrom(boolean ellipses)
+    {
+        sendEmailFrom = Kmu.truncate(sendEmailFrom, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (active)
+    //##################################################
+
+    public Boolean getActive()
+    {
+        return active;
+    }
+
+    public void setActive(Boolean e)
+    {
+        e = Validator.getActiveValidator().convertOnly(e);
+        active = e;
+    }
+
+    public void clearActive()
+    {
+        setActive(null);
+    }
+
+    public boolean hasActive()
+    {
+        return getActive() != null;
+    }
+
+    public boolean hasActive(Boolean e)
+    {
+        return Kmu.isEqual(getActive(), e);
+    }
+
+    public boolean isActive()
+    {
+        if ( getActive() == null )
+            return false;
+        return getActive();
+    }
+
+    public boolean isNotActive()
+    {
+        return !isActive();
+    }
+
+    public boolean isActive(Boolean b)
+    {
+        return Kmu.isEqual(getActive(), b);
+    }
+
+    public void toggleActive()
+    {
+        setActive(!getActive());
+    }
+
+    //##################################################
+    //# field (catalogVersion)
+    //##################################################
+
+    public Integer getCatalogVersion()
+    {
+        return catalogVersion;
+    }
+
+    public void setCatalogVersion(Integer e)
+    {
+        e = Validator.getCatalogVersionValidator().convertOnly(e);
+        catalogVersion = e;
+    }
+
+    public void clearCatalogVersion()
+    {
+        setCatalogVersion(null);
+    }
+
+    public boolean hasCatalogVersion()
+    {
+        return getCatalogVersion() != null;
+    }
+
+    public boolean hasCatalogVersion(Integer e)
+    {
+        return Kmu.isEqual(getCatalogVersion(), e);
+    }
+
+    //##################################################
+    //# field (businessDays)
+    //##################################################
+
+    public KmDayFrequency getBusinessDays()
+    {
+        return businessDays;
+    }
+
+    public void setBusinessDays(KmDayFrequency e)
+    {
+        e = Validator.getBusinessDaysValidator().convertOnly(e);
+        businessDays = e;
+    }
+
+    public void clearBusinessDays()
+    {
+        setBusinessDays(null);
+    }
+
+    public boolean hasBusinessDays()
+    {
+        return getBusinessDays() != null;
+    }
+
+    public boolean hasBusinessDays(KmDayFrequency e)
+    {
+        return Kmu.isEqual(getBusinessDays(), e);
+    }
+
+    //##################################################
+    //# field (businessStartTime)
+    //##################################################
+
+    public KmTime getBusinessStartTime()
+    {
+        return businessStartTime;
+    }
+
+    public void setBusinessStartTime(KmTime e)
+    {
+        e = Validator.getBusinessStartTimeValidator().convertOnly(e);
+        businessStartTime = e;
+    }
+
+    public void clearBusinessStartTime()
+    {
+        setBusinessStartTime(null);
+    }
+
+    public boolean hasBusinessStartTime()
+    {
+        return getBusinessStartTime() != null;
+    }
+
+    public boolean hasBusinessStartTime(KmTime e)
+    {
+        return Kmu.isEqual(getBusinessStartTime(), e);
+    }
+
+    //##################################################
+    //# field (businessEndTime)
+    //##################################################
+
+    public KmTime getBusinessEndTime()
+    {
+        return businessEndTime;
+    }
+
+    public void setBusinessEndTime(KmTime e)
+    {
+        e = Validator.getBusinessEndTimeValidator().convertOnly(e);
+        businessEndTime = e;
+    }
+
+    public void clearBusinessEndTime()
+    {
+        setBusinessEndTime(null);
+    }
+
+    public boolean hasBusinessEndTime()
+    {
+        return getBusinessEndTime() != null;
+    }
+
+    public boolean hasBusinessEndTime(KmTime e)
+    {
+        return Kmu.isEqual(getBusinessEndTime(), e);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -156,7 +523,6 @@ public abstract class MyProjectBase
 
     public void setLockVersion(Integer e)
     {
-        checkReadOnly();
         e = Validator.getLockVersionValidator().convertOnly(e);
         lockVersion = e;
     }
@@ -176,341 +542,332 @@ public abstract class MyProjectBase
         return Kmu.isEqual(getLockVersion(), e);
     }
 
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
 
     //##################################################
-    //# Members (collection)
+    //# field (createdLocalTs)
     //##################################################
 
-    public KmCollection<MyMember> getMembers()
+    public final KmTimestamp getCreatedLocalTs()
     {
-        return new KmHibernateCollection<>(
-            getBaseMembers(),
-            (MyProject)this,
-            MyMember.Meta.Project.getAdaptor());
+        return KmTimestampUtility.toLocal(getCreatedUtcTs());
     }
 
-    public boolean hasMembers()
+    public boolean hasCreatedLocalTs()
     {
-        return !getBaseMembers().isEmpty();
+        return getCreatedLocalTs() != null;
     }
 
-    public int getMemberCount()
+    public boolean hasCreatedLocalTs(KmTimestamp e)
     {
-        return getBaseMembers().size();
+        return Kmu.isEqual(getCreatedLocalTs(), e);
     }
 
-    public List<MyMember> getBaseMembers()
+    //##################################################
+    //# field (createdLocalTsMessage)
+    //##################################################
+
+    public final String getCreatedLocalTsMessage()
     {
-        return members;
+        return KmTimestampUtility.formatLocalMessage(getCreatedUtcTs());
     }
 
-    public MyMember addMember()
+    public boolean hasCreatedLocalTsMessage()
     {
-        MyMember e;
-        e = new MyMember();
-        getMembers().add(e);
-        return e;
+        return Kmu.hasValue(getCreatedLocalTsMessage());
     }
 
-    public void addMember(MyMember e)
+    public boolean hasCreatedLocalTsMessage(String e)
     {
-        getMembers().add(e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
-    public boolean removeMember(MyMember e)
+    //##################################################
+    //# field (createdLocalDate)
+    //##################################################
+
+    public final KmDate getCreatedLocalDate()
     {
-        return getMembers().remove(e);
+        return KmTimestampUtility.getDate(getCreatedLocalTs());
     }
 
-    public boolean removeMemberUid(String myUid)
+    public boolean hasCreatedLocalDate()
     {
-        MyMember e = findMemberUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeMember(e);
+        return getCreatedLocalDate() != null;
     }
 
-    public MyMember findMemberUid(String myUid)
+    public boolean hasCreatedLocalDate(KmDate e)
     {
-        for ( MyMember e : getBaseMembers() )
-            if ( e.hasUid(myUid) )
-                return e;
+        return Kmu.isEqual(getCreatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTime)
+    //##################################################
+
+    public final KmTime getCreatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getCreatedLocalTs());
+    }
+
+    public boolean hasCreatedLocalTime()
+    {
+        return getCreatedLocalTime() != null;
+    }
+
+    public boolean hasCreatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getCreatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
         return null;
     }
 
-    public void clearMembers()
+    public boolean hasCreatedByFullName()
     {
-        getMembers().clear();
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
     }
 
     //##################################################
-    //# Depots (collection)
+    //# updatedBy
     //##################################################
 
-    public KmCollection<MyDepot> getDepots()
+    public MyUser getUpdatedBy()
     {
-        return new KmHibernateCollection<>(
-            getBaseDepots(),
-            (MyProject)this,
-            MyDepot.Meta.Project.getAdaptor());
+        return updatedBy;
     }
 
-    public boolean hasDepots()
+    public void setUpdatedBy(MyUser e)
     {
-        return !getBaseDepots().isEmpty();
+        updatedBy = e;
     }
 
-    public int getDepotCount()
+    public void _setUpdatedBy(MyUser e)
     {
-        return getBaseDepots().size();
+        updatedBy = e;
     }
 
-    public List<MyDepot> getBaseDepots()
+    public void clearUpdatedBy()
     {
-        return depots;
+        setUpdatedBy(null);
     }
 
-    public MyDepot addDepot()
+    public boolean hasUpdatedBy()
     {
-        MyDepot e;
-        e = new MyDepot();
-        getDepots().add(e);
-        return e;
+        return getUpdatedBy() != null;
     }
 
-    public void addDepot(MyDepot e)
+    public boolean hasUpdatedBy(MyUser e)
     {
-        getDepots().add(e);
+        return Kmu.isEqual(getUpdatedBy(), e);
     }
 
-    public boolean removeDepot(MyDepot e)
+    public String getUpdatedByFullName()
     {
-        return getDepots().remove(e);
-    }
-
-    public boolean removeDepotUid(String myUid)
-    {
-        MyDepot e = findDepotUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeDepot(e);
-    }
-
-    public MyDepot findDepotUid(String myUid)
-    {
-        for ( MyDepot e : getBaseDepots() )
-            if ( e.hasUid(myUid) )
-                return e;
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
         return null;
     }
 
-    public void clearDepots()
+    public boolean hasUpdatedByFullName()
     {
-        getDepots().clear();
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
     }
 
     //##################################################
-    //# Regions (collection)
+    //# tenant
     //##################################################
 
-    public KmCollection<MyRegion> getRegions()
+    public MyTenant getTenant()
     {
-        return new KmHibernateCollection<>(
-            getBaseRegions(),
-            (MyProject)this,
-            MyRegion.Meta.Project.getAdaptor());
+        return tenant;
     }
 
-    public boolean hasRegions()
+    public void setTenant(MyTenant e)
     {
-        return !getBaseRegions().isEmpty();
+        tenant = e;
     }
 
-    public int getRegionCount()
+    public void _setTenant(MyTenant e)
     {
-        return getBaseRegions().size();
+        tenant = e;
     }
 
-    public List<MyRegion> getBaseRegions()
+    public void clearTenant()
     {
-        return regions;
+        setTenant(null);
     }
 
-    public MyRegion addRegion()
+    public boolean hasTenant()
     {
-        MyRegion e;
-        e = new MyRegion();
-        getRegions().add(e);
-        return e;
+        return getTenant() != null;
     }
 
-    public void addRegion(MyRegion e)
+    public boolean hasTenant(MyTenant e)
     {
-        getRegions().add(e);
+        return Kmu.isEqual(getTenant(), e);
     }
 
-    public boolean removeRegion(MyRegion e)
+    public String getTenantName()
     {
-        return getRegions().remove(e);
-    }
-
-    public boolean removeRegionUid(String myUid)
-    {
-        MyRegion e = findRegionUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeRegion(e);
-    }
-
-    public MyRegion findRegionUid(String myUid)
-    {
-        for ( MyRegion e : getBaseRegions() )
-            if ( e.hasUid(myUid) )
-                return e;
+        if ( hasTenant() )
+            return getTenant().getName();
         return null;
     }
 
-    public void clearRegions()
+    public void setTenantName(String e)
     {
-        getRegions().clear();
+        getTenant().setName(e);
     }
 
-    //##################################################
-    //# Vendors (collection)
-    //##################################################
-
-    public KmCollection<MyVendor> getVendors()
+    public boolean hasTenantName()
     {
-        return new KmHibernateCollection<>(
-            getBaseVendors(),
-            (MyProject)this,
-            MyVendor.Meta.Project.getAdaptor());
+        return hasTenant() && getTenant().hasName();
     }
 
-    public boolean hasVendors()
+    public boolean hasTenantName(String e)
     {
-        return !getBaseVendors().isEmpty();
+        return hasTenant() && getTenant().hasName(e);
     }
 
-    public int getVendorCount()
-    {
-        return getBaseVendors().size();
-    }
-
-    public List<MyVendor> getBaseVendors()
-    {
-        return vendors;
-    }
-
-    public MyVendor addVendor()
-    {
-        MyVendor e;
-        e = new MyVendor();
-        getVendors().add(e);
-        return e;
-    }
-
-    public void addVendor(MyVendor e)
-    {
-        getVendors().add(e);
-    }
-
-    public boolean removeVendor(MyVendor e)
-    {
-        return getVendors().remove(e);
-    }
-
-    public boolean removeVendorUid(String myUid)
-    {
-        MyVendor e = findVendorUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeVendor(e);
-    }
-
-    public MyVendor findVendorUid(String myUid)
-    {
-        for ( MyVendor e : getBaseVendors() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearVendors()
-    {
-        getVendors().clear();
-    }
-
-    //##################################################
-    //# Skills (collection)
-    //##################################################
-
-    public KmCollection<MySkill> getSkills()
-    {
-        return new KmHibernateCollection<>(
-            getBaseSkills(),
-            (MyProject)this,
-            MySkill.Meta.Project.getAdaptor());
-    }
-
-    public boolean hasSkills()
-    {
-        return !getBaseSkills().isEmpty();
-    }
-
-    public int getSkillCount()
-    {
-        return getBaseSkills().size();
-    }
-
-    public List<MySkill> getBaseSkills()
-    {
-        return skills;
-    }
-
-    public MySkill addSkill()
-    {
-        MySkill e;
-        e = new MySkill();
-        getSkills().add(e);
-        return e;
-    }
-
-    public void addSkill(MySkill e)
-    {
-        getSkills().add(e);
-    }
-
-    public boolean removeSkill(MySkill e)
-    {
-        return getSkills().remove(e);
-    }
-
-    public boolean removeSkillUid(String myUid)
-    {
-        MySkill e = findSkillUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeSkill(e);
-    }
-
-    public MySkill findSkillUid(String myUid)
-    {
-        for ( MySkill e : getBaseSkills() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearSkills()
-    {
-        getSkills().clear();
-    }
 
     //##################################################
     //# validate
@@ -547,32 +904,32 @@ public abstract class MyProjectBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+        tenant = null;
+    }
 
-        List<MyMember> old_members = members;
-        members = new ArrayList<>();
-        for ( MyMember e : old_members )
-            addMember(copy(e));
-
-        List<MyDepot> old_depots = depots;
-        depots = new ArrayList<>();
-        for ( MyDepot e : old_depots )
-            addDepot(copy(e));
-
-        List<MyRegion> old_regions = regions;
-        regions = new ArrayList<>();
-        for ( MyRegion e : old_regions )
-            addRegion(copy(e));
-
-        List<MyVendor> old_vendors = vendors;
-        vendors = new ArrayList<>();
-        for ( MyVendor e : old_vendors )
-            addVendor(copy(e));
-
-        List<MySkill> old_skills = skills;
-        skills = new ArrayList<>();
-        for ( MySkill e : old_skills )
-            addSkill(copy(e));
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyProject getBasicCopy()
+    {
+        MyProject e;
+        e = new MyProject();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+        e.setName(getName());
+        e.setCode(getCode());
+        e.setCompanyName(getCompanyName());
+        e.setSendEmailFrom(getSendEmailFrom());
+        e.setActive(getActive());
+        e.setCatalogVersion(getCatalogVersion());
+        e.setBusinessDays(getBusinessDays());
+        e.setBusinessStartTime(getBusinessStartTime());
+        e.setBusinessEndTime(getBusinessEndTime());
+        resetBasicTimestamps();
+        return e;
     }
 
     //##################################################
@@ -603,8 +960,27 @@ public abstract class MyProjectBase
 
     public boolean isSameIgnoringKey(MyProject e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getCode(), e.getCode()) ) return false;
+        if ( !Kmu.isEqual(getCompanyName(), e.getCompanyName()) ) return false;
+        if ( !Kmu.isEqual(getSendEmailFrom(), e.getSendEmailFrom()) ) return false;
+        if ( !Kmu.isEqual(getActive(), e.getActive()) ) return false;
+        if ( !Kmu.isEqual(getCatalogVersion(), e.getCatalogVersion()) ) return false;
+        if ( !Kmu.isEqual(getBusinessDays(), e.getBusinessDays()) ) return false;
+        if ( !Kmu.isEqual(getBusinessStartTime(), e.getBusinessStartTime()) ) return false;
+        if ( !Kmu.isEqual(getBusinessEndTime(), e.getBusinessEndTime()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -639,7 +1015,17 @@ public abstract class MyProjectBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    Name = " + name);
+        System.out.println("    Code = " + code);
+        System.out.println("    CompanyName = " + companyName);
+        System.out.println("    SendEmailFrom = " + sendEmailFrom);
+        System.out.println("    Active = " + active);
+        System.out.println("    CatalogVersion = " + catalogVersion);
+        System.out.println("    BusinessDays = " + businessDays);
+        System.out.println("    BusinessStartTime = " + businessStartTime);
+        System.out.println("    BusinessEndTime = " + businessEndTime);
         System.out.println("    LockVersion = " + lockVersion);
     }
 
@@ -663,4 +1049,10 @@ public abstract class MyProjectBase
     {
         return Meta.getName();
     }
+
+    public void daoTouch()
+    {
+        setLockVersion(getLockVersion() + 1);
+    }
+
 }

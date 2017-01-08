@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,18 +30,18 @@ public class KmaGraph
     //# variables
     //##################################################
 
-    private KmaGraphStyledText _title;
+    private KmaGraphStyledText        _title;
 
     private KmList<KmaGraphElementIF> _preGridLeftElements;
     private KmList<KmaGraphElementIF> _preGridRightElements;
     private KmList<KmaGraphElementIF> _postGridLeftElements;
     private KmList<KmaGraphElementIF> _postGridRightElements;
 
-    private KmaGraphAxis _leftAxis;
-    private KmaGraphAxis _rightAxis;
-    private KmaGraphAxis _bottomAxis;
+    private KmaGraphAxis              _leftAxis;
+    private KmaGraphAxis              _rightAxis;
+    private KmaGraphAxis              _bottomAxis;
 
-    private KmaGraphLineStyle _borderStyle;
+    private KmaGraphLineStyle         _borderStyle;
 
     //##################################################
     //# constructor

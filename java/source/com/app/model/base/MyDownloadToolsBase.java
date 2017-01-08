@@ -41,7 +41,9 @@ public abstract class MyDownloadToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyDownloadFilter());
         e.setFinder(new MyDownloadFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

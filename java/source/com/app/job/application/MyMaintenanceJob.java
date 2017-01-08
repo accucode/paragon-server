@@ -70,7 +70,7 @@ public class MyMaintenanceJob
      */
     private boolean checkAlreadyRunToday()
     {
-        KmDate today = getTodayUtc();
+        KmDate today = getNowUtc().getDate();
 
         if ( _lastDate != null )
             if ( _lastDate.isOnOrAfter(today) )

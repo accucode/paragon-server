@@ -24,7 +24,7 @@ public class KmgEnumNameFieldExtender
         String name = e.getName() + "Name";
         String label = getLabelFor(e);
         String help = field.getHelp();
-        String body = Kmu.format("return Kmu.getName(%s());", e.getf_getMethod());
+        String body = Kmu.format("return KmEnumIF.getLabelFor(%s());", e.getf_getMethod());
         String type = "name";
 
         model.addCustomGetter(name, label, help, body, type);

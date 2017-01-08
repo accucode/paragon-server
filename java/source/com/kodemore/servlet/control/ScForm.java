@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,7 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    private ScAction _submitAction;
+    private ScAction           _submitAction;
 
     /**
      * The argument passed with the submit action.
@@ -57,26 +57,30 @@ public class ScForm
     /**
      * An optional target to use as the block root.
      */
-    private ScLocalHtmlId _blockTarget;
+    private ScLocalHtmlId      _blockTarget;
 
     /**
      * If true (the default), then act as a block wrapper.
      * See ScControl.findBlockWrapper().
      */
-    private ScLocalBoolean _blockWrapper;
+    private ScLocalBoolean     _blockWrapper;
+
+    /**
+     * If false (the default) client-side autocompletion is disabled.
+     * @see ScConstantsIF#DEFAULT_AUTO_COMPLETE
+     */
+    private ScLocalBoolean     _autoComplete;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScForm()
     {
-        super.install();
-
         _submitArgument = new ScLocalRawFunction();
         _blockTarget = new ScLocalHtmlId();
         _blockWrapper = new ScLocalBoolean(true);
+        _autoComplete = new ScLocalBoolean(ScConstantsIF.DEFAULT_AUTO_COMPLETE);
 
         submitOnControlEnter();
     }
@@ -102,11 +106,7 @@ public class ScForm
 
     public void setSubmitAction(Runnable r)
     {
-        ScAction action;
-        action = newAction(r);
-        action.disableChangeTracking();
-
-        setSubmitAction(action);
+        setSubmitAction(newUncheckedAction(r));
     }
 
     public void clearSubmitAction()
@@ -181,7 +181,26 @@ public class ScForm
     }
 
     //##################################################
-    //# print
+    //# auto complete
+    //##################################################
+
+    public boolean getAutoComplete()
+    {
+        return _autoComplete.isTrue();
+    }
+
+    public void setAutoComplete(boolean e)
+    {
+        _autoComplete.setValue(e);
+    }
+
+    public void enableAutoComplete()
+    {
+        setAutoComplete(true);
+    }
+
+    //##################################################
+    //# render
     //##################################################
 
     @Override
@@ -191,7 +210,8 @@ public class ScForm
         renderAttributesOn(out);
         out.close();
 
-        out.printHiddenField(ScConstantsIF.PARAMETER_FORM_KEY, getKey());
+        renderAutoCompleteHack(out);
+        renderFormKeyOn(out);
 
         KmList<ScControl> v = getChildren();
         for ( ScControl e : v )
@@ -208,6 +228,9 @@ public class ScForm
         out.printAttribute("method", "post");
         out.printAttribute("action", "");
         out.printAttribute("onsubmit", formatOnSubmit());
+
+        if ( !getAutoComplete() )
+            out.printAttribute("autocomplete", "off");
     }
 
     private String formatOnSubmit()
@@ -233,17 +256,45 @@ public class ScForm
         s.setBlockTarget(block);
 
         return s.formatScript() + suffix;
-
     }
 
-    //##################################################
-    //# types
-    //##################################################
-
-    @Override
-    public boolean isForm()
+    /**
+     * Wyatt Love, 7/26/2016
+     * Render a hidden password field at the beginning of the form,
+     * before any other fields. This kludge is needed because Chrome
+     * currently ignores the autocomplete attribute on both the form
+     * and the input field. To clarify, chrome doesn't necessarily
+     * autofill from your address book, but it always displays the
+     * popup/dropdown list of alternate options that are similar to
+     * what you are typing into a text field. This hack seems to
+     * prevent that from happening. Hopefully we can rmove this at
+     * a later date once there is a better browser-compliant way
+     * to display autocomplete.
+     */
+    private void renderAutoCompleteHack(KmHtmlBuilder out)
     {
-        return true;
+        if ( getAutoComplete() )
+            return;
+
+        out.open("input");
+        out.printAttribute("name", "autoCompleteHack");
+        out.printAttribute("type", "password");
+        out.printAttribute("style", "display:none;");
+        out.close();
+    }
+
+    /**
+     * The form key is rendered into a hidden field so that the server
+     * can easily determine exactly which form is being submitted.
+     *
+     * Also, this hidden field should be rendered AFTER the normal/visible
+     * contents. The reason is that we often use styles like .gap or .columnSpacer
+     * to add spacing between the form's children. These styles don't work well
+     * when the first child is hidden.
+     */
+    private void renderFormKeyOn(KmHtmlBuilder out)
+    {
+        out.printHiddenField(ScConstantsIF.PARAMETER_FORM_KEY, getKey());
     }
 
     //##################################################
@@ -252,7 +303,7 @@ public class ScForm
 
     public void ajaxOnSubmitDoNothing()
     {
-        ajax().setAttribute("onsubmit", "return false;");
+        _htmlIdAjax().setAttribute("onsubmit", "return false;");
     }
 
     public void ajaxOnSubmit(ScScriptIF script)
@@ -263,7 +314,7 @@ public class ScForm
             return;
         }
 
-        ajax().setAttribute("onsubmit", script.formatScript());
+        _htmlIdAjax().setAttribute("onsubmit", script.formatScript());
     }
 
     public void ajaxOnSubmit(ScAction action)
@@ -284,7 +335,7 @@ public class ScForm
 
     public void ajaxOnSubmit(Runnable runnable)
     {
-        ajaxOnSubmit(newAction(runnable));
+        ajaxOnSubmit(newUncheckedAction(runnable));
     }
 
 }

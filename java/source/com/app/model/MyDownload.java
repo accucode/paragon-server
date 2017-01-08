@@ -1,13 +1,16 @@
 package com.app.model;
 
+import com.kodemore.collection.KmBlob;
 import com.kodemore.file.KmFile;
 
 import com.app.file.MySharedFiles;
 import com.app.model.base.MyDownloadBase;
+import com.app.model.core.MySystemDomainIF;
 import com.app.utility.MyUrls;
 
 public class MyDownload
     extends MyDownloadBase
+    implements MySystemDomainIF
 {
     //##################################################
     //# constructor
@@ -25,7 +28,9 @@ public class MyDownload
     @Override
     public String getDisplayString()
     {
-        return getName();
+        return hasName()
+            ? getName()
+            : "Attachment";
     }
 
     public KmFile getFile()
@@ -36,5 +41,21 @@ public class MyDownload
     public String getUrl()
     {
         return MyUrls.getDownloadUrl(this);
+    }
+
+    //##################################################
+    //# blob
+    //##################################################
+
+    public void setByteArray(byte[] bytes)
+    {
+        setBytes(new KmBlob(bytes));
+    }
+
+    public byte[] getByteArray()
+    {
+        return hasBytes()
+            ? getBytes().getValue()
+            : null;
     }
 }

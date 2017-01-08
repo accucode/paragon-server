@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ package com.kodemore.io;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+
+import com.kodemore.utility.Kmu;
 
 public class KmPrintWriter
     extends PrintWriter
@@ -61,5 +63,15 @@ public class KmPrintWriter
     {
         printf(msg, args);
         println();
+    }
+
+    public void printDashes()
+    {
+        printDashes(40);
+    }
+
+    public void printDashes(int n)
+    {
+        println(Kmu.repeat('-', n));
     }
 }

@@ -18,9 +18,10 @@ public interface MyPerformanceLogDetailDaoConstantsIF
     //##################################################
 
     String UID = "uid";
-    String NAME = "name";
     String CREATED_UTC_TS = "createdUtcTs";
+    String NAME = "name";
     String DURATION_MS = "durationMs";
+    String DISPLAY_STRING = "displayString";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

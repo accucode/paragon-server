@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyAuditLogBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -40,13 +43,14 @@ public abstract class MyAuditLogBase
     //##################################################
 
     private String uid;
+    private KmTimestamp createdUtcTs;
     private String transactionUid;
     private String userName;
     private String typeCode;
-    private KmTimestamp utcTs;
-    private String modelType;
-    private String modelName;
-    private String modelUid;
+    private String domainType;
+    private String domainName;
+    private String domainUid;
+    private String domainBundleUid;
     private String fieldName;
     private String newValue;
     private String oldValue;
@@ -69,7 +73,7 @@ public abstract class MyAuditLogBase
     {
         super();
         setUid(newUid());
-        setUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
     }
 
     //##################################################
@@ -83,7 +87,6 @@ public abstract class MyAuditLogBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -114,6 +117,36 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (transactionUid)
     //##################################################
 
@@ -124,7 +157,6 @@ public abstract class MyAuditLogBase
 
     public void setTransactionUid(String e)
     {
-        checkReadOnly();
         e = Validator.getTransactionUidValidator().convertOnly(e);
         transactionUid = e;
     }
@@ -165,7 +197,6 @@ public abstract class MyAuditLogBase
 
     public void setUserName(String e)
     {
-        checkReadOnly();
         e = Validator.getUserNameValidator().convertOnly(e);
         userName = e;
     }
@@ -206,7 +237,6 @@ public abstract class MyAuditLogBase
 
     public void setTypeCode(String e)
     {
-        checkReadOnly();
         e = Validator.getTypeCodeValidator().convertOnly(e);
         typeCode = e;
     }
@@ -233,7 +263,7 @@ public abstract class MyAuditLogBase
 
     public void truncateTypeCode(boolean ellipses)
     {
-        typeCode = Kmu.truncate(typeCode, 1, ellipses);
+        typeCode = Kmu.truncate(typeCode, 30, ellipses);
     }
 
     public MyAuditLogType getType()
@@ -305,157 +335,163 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
-    //# field (utcTs)
+    //# field (domainType)
     //##################################################
 
-    public KmTimestamp getUtcTs()
+    public String getDomainType()
     {
-        return utcTs;
+        return domainType;
     }
 
-    public void setUtcTs(KmTimestamp e)
+    public void setDomainType(String e)
     {
-        checkReadOnly();
-        e = Validator.getUtcTsValidator().convertOnly(e);
-        utcTs = e;
+        e = Validator.getDomainTypeValidator().convertOnly(e);
+        domainType = e;
     }
 
-    public void clearUtcTs()
+    public void clearDomainType()
     {
-        setUtcTs(null);
+        setDomainType(null);
     }
 
-    public boolean hasUtcTs()
+    public boolean hasDomainType()
     {
-        return getUtcTs() != null;
+        return Kmu.hasValue(getDomainType());
     }
 
-    public boolean hasUtcTs(KmTimestamp e)
+    public boolean hasDomainType(String e)
     {
-        return Kmu.isEqual(getUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getDomainType(), e);
     }
 
-    //##################################################
-    //# field (modelType)
-    //##################################################
-
-    public String getModelType()
+    public void truncateDomainType()
     {
-        return modelType;
+        truncateDomainType(false);
     }
 
-    public void setModelType(String e)
+    public void truncateDomainType(boolean ellipses)
     {
-        checkReadOnly();
-        e = Validator.getModelTypeValidator().convertOnly(e);
-        modelType = e;
-    }
-
-    public void clearModelType()
-    {
-        setModelType(null);
-    }
-
-    public boolean hasModelType()
-    {
-        return Kmu.hasValue(getModelType());
-    }
-
-    public boolean hasModelType(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getModelType(), e);
-    }
-
-    public void truncateModelType()
-    {
-        truncateModelType(false);
-    }
-
-    public void truncateModelType(boolean ellipses)
-    {
-        modelType = Kmu.truncate(modelType, 50, ellipses);
+        domainType = Kmu.truncate(domainType, 50, ellipses);
     }
 
     //##################################################
-    //# field (modelName)
+    //# field (domainName)
     //##################################################
 
-    public String getModelName()
+    public String getDomainName()
     {
-        return modelName;
+        return domainName;
     }
 
-    public void setModelName(String e)
+    public void setDomainName(String e)
     {
-        checkReadOnly();
-        e = Validator.getModelNameValidator().convertOnly(e);
-        modelName = e;
+        e = Validator.getDomainNameValidator().convertOnly(e);
+        domainName = e;
     }
 
-    public void clearModelName()
+    public void clearDomainName()
     {
-        setModelName(null);
+        setDomainName(null);
     }
 
-    public boolean hasModelName()
+    public boolean hasDomainName()
     {
-        return Kmu.hasValue(getModelName());
+        return Kmu.hasValue(getDomainName());
     }
 
-    public boolean hasModelName(String e)
+    public boolean hasDomainName(String e)
     {
-        return Kmu.isEqualIgnoreCase(getModelName(), e);
+        return Kmu.isEqualIgnoreCase(getDomainName(), e);
     }
 
-    public void truncateModelName()
+    public void truncateDomainName()
     {
-        truncateModelName(false);
+        truncateDomainName(false);
     }
 
-    public void truncateModelName(boolean ellipses)
+    public void truncateDomainName(boolean ellipses)
     {
-        modelName = Kmu.truncate(modelName, 50, ellipses);
+        domainName = Kmu.truncate(domainName, 50, ellipses);
     }
 
     //##################################################
-    //# field (modelUid)
+    //# field (domainUid)
     //##################################################
 
-    public String getModelUid()
+    public String getDomainUid()
     {
-        return modelUid;
+        return domainUid;
     }
 
-    public void setModelUid(String e)
+    public void setDomainUid(String e)
     {
-        checkReadOnly();
-        e = Validator.getModelUidValidator().convertOnly(e);
-        modelUid = e;
+        e = Validator.getDomainUidValidator().convertOnly(e);
+        domainUid = e;
     }
 
-    public void clearModelUid()
+    public void clearDomainUid()
     {
-        setModelUid(null);
+        setDomainUid(null);
     }
 
-    public boolean hasModelUid()
+    public boolean hasDomainUid()
     {
-        return Kmu.hasValue(getModelUid());
+        return Kmu.hasValue(getDomainUid());
     }
 
-    public boolean hasModelUid(String e)
+    public boolean hasDomainUid(String e)
     {
-        return Kmu.isEqualIgnoreCase(getModelUid(), e);
+        return Kmu.isEqualIgnoreCase(getDomainUid(), e);
     }
 
-    public void truncateModelUid()
+    public void truncateDomainUid()
     {
-        truncateModelUid(false);
+        truncateDomainUid(false);
     }
 
-    public void truncateModelUid(boolean ellipses)
+    public void truncateDomainUid(boolean ellipses)
     {
-        modelUid = Kmu.truncate(modelUid, 30, ellipses);
+        domainUid = Kmu.truncate(domainUid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (domainBundleUid)
+    //##################################################
+
+    public String getDomainBundleUid()
+    {
+        return domainBundleUid;
+    }
+
+    public void setDomainBundleUid(String e)
+    {
+        e = Validator.getDomainBundleUidValidator().convertOnly(e);
+        domainBundleUid = e;
+    }
+
+    public void clearDomainBundleUid()
+    {
+        setDomainBundleUid(null);
+    }
+
+    public boolean hasDomainBundleUid()
+    {
+        return Kmu.hasValue(getDomainBundleUid());
+    }
+
+    public boolean hasDomainBundleUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainBundleUid(), e);
+    }
+
+    public void truncateDomainBundleUid()
+    {
+        truncateDomainBundleUid(false);
+    }
+
+    public void truncateDomainBundleUid(boolean ellipses)
+    {
+        domainBundleUid = Kmu.truncate(domainBundleUid, 30, ellipses);
     }
 
     //##################################################
@@ -469,7 +505,6 @@ public abstract class MyAuditLogBase
 
     public void setFieldName(String e)
     {
-        checkReadOnly();
         e = Validator.getFieldNameValidator().convertOnly(e);
         fieldName = e;
     }
@@ -510,7 +545,6 @@ public abstract class MyAuditLogBase
 
     public void setNewValue(String e)
     {
-        checkReadOnly();
         e = Validator.getNewValueValidator().convertOnly(e);
         newValue = e;
     }
@@ -537,7 +571,7 @@ public abstract class MyAuditLogBase
 
     public void truncateNewValue(boolean ellipses)
     {
-        newValue = Kmu.truncate(newValue, 50, ellipses);
+        newValue = Kmu.truncate(newValue, 100, ellipses);
     }
 
     //##################################################
@@ -551,7 +585,6 @@ public abstract class MyAuditLogBase
 
     public void setOldValue(String e)
     {
-        checkReadOnly();
         e = Validator.getOldValueValidator().convertOnly(e);
         oldValue = e;
     }
@@ -578,7 +611,7 @@ public abstract class MyAuditLogBase
 
     public void truncateOldValue(boolean ellipses)
     {
-        oldValue = Kmu.truncate(oldValue, 50, ellipses);
+        oldValue = Kmu.truncate(oldValue, 100, ellipses);
     }
 
     //##################################################
@@ -592,7 +625,6 @@ public abstract class MyAuditLogBase
 
     public void setStringValue(String e)
     {
-        checkReadOnly();
         e = Validator.getStringValueValidator().convertOnly(e);
         stringValue = e;
     }
@@ -633,7 +665,6 @@ public abstract class MyAuditLogBase
 
     public void setIntegerValue(Integer e)
     {
-        checkReadOnly();
         e = Validator.getIntegerValueValidator().convertOnly(e);
         integerValue = e;
     }
@@ -664,7 +695,6 @@ public abstract class MyAuditLogBase
 
     public void setLongValue(Long e)
     {
-        checkReadOnly();
         e = Validator.getLongValueValidator().convertOnly(e);
         longValue = e;
     }
@@ -695,7 +725,6 @@ public abstract class MyAuditLogBase
 
     public void setDoubleValue(Double e)
     {
-        checkReadOnly();
         e = Validator.getDoubleValueValidator().convertOnly(e);
         doubleValue = e;
     }
@@ -726,7 +755,6 @@ public abstract class MyAuditLogBase
 
     public void setMoneyValue(KmMoney e)
     {
-        checkReadOnly();
         e = Validator.getMoneyValueValidator().convertOnly(e);
         moneyValue = e;
     }
@@ -757,7 +785,6 @@ public abstract class MyAuditLogBase
 
     public void setBooleanValue(Boolean e)
     {
-        checkReadOnly();
         e = Validator.getBooleanValueValidator().convertOnly(e);
         booleanValue = e;
     }
@@ -810,7 +837,6 @@ public abstract class MyAuditLogBase
 
     public void setDateValue(KmDate e)
     {
-        checkReadOnly();
         e = Validator.getDateValueValidator().convertOnly(e);
         dateValue = e;
     }
@@ -841,7 +867,6 @@ public abstract class MyAuditLogBase
 
     public void setTimestampValue(KmTimestamp e)
     {
-        checkReadOnly();
         e = Validator.getTimestampValueValidator().convertOnly(e);
         timestampValue = e;
     }
@@ -872,7 +897,6 @@ public abstract class MyAuditLogBase
 
     public void setUidValue(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValueValidator().convertOnly(e);
         uidValue = e;
     }
@@ -903,12 +927,60 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
+    //# field (domainTypeLabel)
+    //##################################################
+
+    public abstract String getDomainTypeLabel();
+
+    public boolean hasDomainTypeLabel()
+    {
+        return Kmu.hasValue(getDomainTypeLabel());
+    }
+
+    public boolean hasDomainTypeLabel(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTypeLabel(), e);
+    }
+
+    //##################################################
+    //# field (fieldNameLabel)
+    //##################################################
+
+    public abstract String getFieldNameLabel();
+
+    public boolean hasFieldNameLabel()
+    {
+        return Kmu.hasValue(getFieldNameLabel());
+    }
+
+    public boolean hasFieldNameLabel(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFieldNameLabel(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+    }
+
+    //##################################################
     //# field (typeName)
     //##################################################
 
     public final String getTypeName()
     {
-        return Kmu.getName(getType());
+        return KmEnumIF.getLabelFor(getType());
     }
 
     public boolean hasTypeName()
@@ -922,6 +994,82 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
+    //# field (createdLocalTs)
+    //##################################################
+
+    public final KmTimestamp getCreatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getCreatedUtcTs());
+    }
+
+    public boolean hasCreatedLocalTs()
+    {
+        return getCreatedLocalTs() != null;
+    }
+
+    public boolean hasCreatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTsMessage)
+    //##################################################
+
+    public final String getCreatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getCreatedUtcTs());
+    }
+
+    public boolean hasCreatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getCreatedLocalTsMessage());
+    }
+
+    public boolean hasCreatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalDate)
+    //##################################################
+
+    public final KmDate getCreatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getCreatedLocalTs());
+    }
+
+    public boolean hasCreatedLocalDate()
+    {
+        return getCreatedLocalDate() != null;
+    }
+
+    public boolean hasCreatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getCreatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (createdLocalTime)
+    //##################################################
+
+    public final KmTime getCreatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getCreatedLocalTs());
+    }
+
+    public boolean hasCreatedLocalTime()
+    {
+        return getCreatedLocalTime() != null;
+    }
+
+    public boolean hasCreatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getCreatedLocalTime(), e);
+    }
+
+    //##################################################
     //# user
     //##################################################
 
@@ -932,14 +1080,12 @@ public abstract class MyAuditLogBase
 
     public void setUser(MyUser e)
     {
-        checkReadOnly();
         user = e;
         updateUserName();
     }
 
     public void _setUser(MyUser e)
     {
-        checkReadOnly();
         user = e;
     }
 
@@ -1000,7 +1146,39 @@ public abstract class MyAuditLogBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyAuditLog getBasicCopy()
+    {
+        MyAuditLog e;
+        e = new MyAuditLog();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setTransactionUid(getTransactionUid());
+        e.setUserName(getUserName());
+        e.setTypeCode(getTypeCode());
+        e.setDomainType(getDomainType());
+        e.setDomainName(getDomainName());
+        e.setDomainUid(getDomainUid());
+        e.setDomainBundleUid(getDomainBundleUid());
+        e.setFieldName(getFieldName());
+        e.setNewValue(getNewValue());
+        e.setOldValue(getOldValue());
+        e.setStringValue(getStringValue());
+        e.setIntegerValue(getIntegerValue());
+        e.setLongValue(getLongValue());
+        e.setDoubleValue(getDoubleValue());
+        e.setMoneyValue(getMoneyValue());
+        e.setBooleanValue(getBooleanValue());
+        e.setDateValue(getDateValue());
+        e.setTimestampValue(getTimestampValue());
+        e.setUidValue(getUidValue());
+        return e;
     }
 
     //##################################################
@@ -1031,13 +1209,14 @@ public abstract class MyAuditLogBase
 
     public boolean isSameIgnoringKey(MyAuditLog e)
     {
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getTransactionUid(), e.getTransactionUid()) ) return false;
         if ( !Kmu.isEqual(getUserName(), e.getUserName()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getUtcTs(), e.getUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getModelType(), e.getModelType()) ) return false;
-        if ( !Kmu.isEqual(getModelName(), e.getModelName()) ) return false;
-        if ( !Kmu.isEqual(getModelUid(), e.getModelUid()) ) return false;
+        if ( !Kmu.isEqual(getDomainType(), e.getDomainType()) ) return false;
+        if ( !Kmu.isEqual(getDomainName(), e.getDomainName()) ) return false;
+        if ( !Kmu.isEqual(getDomainUid(), e.getDomainUid()) ) return false;
+        if ( !Kmu.isEqual(getDomainBundleUid(), e.getDomainBundleUid()) ) return false;
         if ( !Kmu.isEqual(getFieldName(), e.getFieldName()) ) return false;
         if ( !Kmu.isEqual(getNewValue(), e.getNewValue()) ) return false;
         if ( !Kmu.isEqual(getOldValue(), e.getOldValue()) ) return false;
@@ -1050,7 +1229,14 @@ public abstract class MyAuditLogBase
         if ( !Kmu.isEqual(getDateValue(), e.getDateValue()) ) return false;
         if ( !Kmu.isEqual(getTimestampValue(), e.getTimestampValue()) ) return false;
         if ( !Kmu.isEqual(getUidValue(), e.getUidValue()) ) return false;
+        if ( !Kmu.isEqual(getDomainTypeLabel(), e.getDomainTypeLabel()) ) return false;
+        if ( !Kmu.isEqual(getFieldNameLabel(), e.getFieldNameLabel()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
         return true;
     }
 
@@ -1085,13 +1271,14 @@ public abstract class MyAuditLogBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    TransactionUid = " + transactionUid);
         System.out.println("    UserName = " + userName);
         System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    UtcTs = " + utcTs);
-        System.out.println("    ModelType = " + modelType);
-        System.out.println("    ModelName = " + modelName);
-        System.out.println("    ModelUid = " + modelUid);
+        System.out.println("    DomainType = " + domainType);
+        System.out.println("    DomainName = " + domainName);
+        System.out.println("    DomainUid = " + domainUid);
+        System.out.println("    DomainBundleUid = " + domainBundleUid);
         System.out.println("    FieldName = " + fieldName);
         System.out.println("    NewValue = " + newValue);
         System.out.println("    OldValue = " + oldValue);
@@ -1126,4 +1313,5 @@ public abstract class MyAuditLogBase
     {
         return Meta.getName();
     }
+
 }

@@ -8,7 +8,7 @@ import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateInterval;
 
 import com.app.dao.MyPerformanceLogDetailDao;
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyPerformanceLogSummary;
 import com.app.utility.MyGlobals;
 
@@ -57,18 +57,48 @@ public class MyPerformanceLogConsolidator
 
     public void run()
     {
-        // End at yesterday, since today is likely not finished yet.
-        KmDate end = KmClock.getTodayUtc().getPrevious();
-
-        // Start on the last day with existing daily logs in case it was only partially completed.
-        KmDate start = KmDao.fetch(this::getLastSummaryDate);
-        if ( start == null )
-            start = end;
-
-        KmDateInterval di = KmDateInterval.create(start, end);
+        KmDateInterval di = KmDao.fetch(this::getDateInterval);
         for ( KmDate date : di )
             consolidate(date);
     }
+
+    //##################################################
+    //# date interval
+    //##################################################
+
+    private KmDateInterval getDateInterval()
+    {
+        // If summaries have already been created,  start at the last
+        // known summary date in case it was incomplete.
+        KmDate lastSummaryDate = getAccess().getPerformanceLogSummaryDao().getLastDateUtc();
+        KmDate start = lastSummaryDate;
+
+        // If there are no summaries yet, start from the first known
+        // detail log.
+        if ( start == null )
+        {
+            KmDate firstLogDate = getAccess().getPerformanceLogDetailDao().getFirstDateUtc();
+            start = firstLogDate;
+        }
+
+        // If there are not details, start at yesterday.
+        if ( start == null )
+            start = getYesterdayUtc();
+
+        // Stop at yesterday since today is likely incomplete.
+        KmDate end = getYesterdayUtc();
+
+        return KmDateInterval.create(start, end);
+    }
+
+    private KmDate getYesterdayUtc()
+    {
+        return KmClock.getUtcTimestamp().getDate().getPrevious();
+    }
+
+    //##################################################
+    //# consolidate
+    //##################################################
 
     /**
      * Consolidate all logs for this date.
@@ -105,21 +135,16 @@ public class MyPerformanceLogConsolidator
 
         MyPerformanceLogSummary e;
         e = dao.consolidate(date, name);
-        e.attachDao();
+        e.daoAttach();
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
-    }
-
-    private KmDate getLastSummaryDate()
-    {
-        return getAccess().getPerformanceLogSummaryDao().getLastDay();
     }
 
     private KmList<String> getDetailNamesOn(KmDate date)

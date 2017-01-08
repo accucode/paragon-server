@@ -18,9 +18,14 @@ public interface MyDownloadDaoConstantsIF
     //##################################################
 
     String UID = "uid";
-    String NAME = "name";
     String CREATED_UTC_TS = "createdUtcTs";
+    String NAME = "name";
+    String TYPE_CODE = "typeCode";
+    String FILE_NAME = "fileName";
+    String BYTES = "bytes";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
+    String TYPE_NAME = "typeName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,44 +28,33 @@ public class ScTextField
     extends ScAbstractTextField<String>
 {
     //##################################################
-    //# init
+    //# conversion
     //##################################################
 
     @Override
-    protected void install()
+    protected String textToValue(String text)
     {
-        super.install();
-    }
-
-    //##################################################
-    //# value
-    //##################################################
-
-    @Override
-    public String getValueFor(String s)
-    {
-        if ( Kmu.isEmpty(s) )
-            return null;
-
-        if ( hasValidator() )
-            s = getValidator().convertOnly(s);
-
-        return s;
+        return Kmu.isEmpty(text)
+            ? null
+            : text;
     }
 
     @Override
-    public void setValue(String value)
+    protected String valueToText(String value)
     {
-        setText(value);
+        return Kmu.hasValue(value)
+            ? value
+            : "";
     }
 
-    public boolean hasValue(String e)
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public String getSampleValue()
     {
-        return Kmu.isEqual(getValue(), e);
+        return "Any single line text.";
     }
 
-    public void clearValue()
-    {
-        setValue((String)null);
-    }
 }

@@ -1,0 +1,51 @@
+    // 'Include' this in model definitions to enable the automatic
+    // recording of when each record is created and updated.
+    // This is in addition to the more details audit log.
+    // However, since these attributes are included directly as
+    // part of the model's fields, they are very easy to use for
+    // simple ad hoc reporting.
+
+    field
+    : name      = createdUtcTs
+    : help      = The time this record was originally created.
+    : type      = timestamp
+    : required  = true
+    : default   = nowUtc()
+    : auditLog  = false
+
+
+    association
+    : name          = createdBy
+    : help          = The user that originally created this record, if known.
+    : modelName     = user
+    : relation      = reference
+    : required      = false
+    : default       = MyGlobals.getCurrentUser()
+    : auditLog      = false
+
+        delegate
+        : field     = fullName
+        : label     = Created By
+
+
+    field
+    : name      = updatedUtcTs
+    : help      = The time this record was last updated.
+    : type      = timestamp
+    : required  = true
+    : default   = nowUtc()
+    : auditLog  = false
+
+
+    association
+    : name          = updatedBy
+    : help          = The user that last updated this record, if known.
+    : modelName     = user
+    : relation      = reference
+    : required      = false
+    : default       = MyGlobals.getCurrentUser()
+    : auditLog      = false
+
+        delegate
+        : field     = fullName
+        : label     = Updated By

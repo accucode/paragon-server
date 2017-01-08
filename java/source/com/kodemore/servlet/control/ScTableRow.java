@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -37,18 +34,16 @@ public class ScTableRow
     //##################################################
 
     private KmList<ScTableCell> _cells;
+
     private ScLocalString       _horizontalAlign;
     private ScLocalString       _verticalAlign;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScTableRow()
     {
-        super.install();
-
         _cells = new KmList<>();
         _horizontalAlign = new ScLocalString();
         _verticalAlign = new ScLocalString();
@@ -80,6 +75,22 @@ public class ScTableRow
         e.setStyle(style);
         _cells.add(e);
 
+        return e;
+    }
+
+    public ScTableCell addCellCentered()
+    {
+        ScTableCell e;
+        e = addCell();
+        e.css().textAlignCenter();
+        return e;
+    }
+
+    public ScTableCell addCellRight()
+    {
+        ScTableCell e;
+        e = addCell();
+        e.css().textAlignRight();
         return e;
     }
 
@@ -140,13 +151,9 @@ public class ScTableRow
     //##################################################
 
     @Override
-    public Iterator<ScControlIF> getComponents()
+    public final KmList<ScControl> getChildren()
     {
-        KmCompositeIterator<ScControlIF> i;
-        i = new KmCompositeIterator<>();
-        i.addAll(super.getComponents());
-        i.addAll(getCells());
-        return i;
+        return getCells().collect(e -> e.asControl());
     }
 
     //##################################################

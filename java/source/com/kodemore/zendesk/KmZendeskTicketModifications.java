@@ -6,7 +6,7 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am used get all ticket modifications
- * 
+ *
  * Api documentation
  *      http://developer.zendesk.com/documentation/rest_api/tickets.html
  */
@@ -14,7 +14,7 @@ import com.kodemore.json.KmJsonMap;
 public class KmZendeskTicketModifications
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmZendeskConnection _connection;
@@ -254,8 +254,8 @@ public class KmZendeskTicketModifications
         req = new KmZendeskTicketModifications();
 
         // You need to enter valid keys...
-        req.setZendeskUserid("rwaxler@accucode.com");
-        req.setApiToken("M1Lav6VAFhGKbsZvVjZWeN0sbaSOChERUCXFHtsa");
+        req.setZendeskUserid("jdoe@example.com");
+        req.setApiToken("???");
 
         req.setStartSeconds(0);
 

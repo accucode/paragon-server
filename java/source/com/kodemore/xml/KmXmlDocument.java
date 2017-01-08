@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ package com.kodemore.xml;
 import java.io.PrintWriter;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I represent the xml document and provide convenient access
@@ -86,6 +87,18 @@ public class KmXmlDocument
 
         tags.removeFirst();
         return getRoot().getElementsAt(tags);
+    }
+
+    public KmXmlElement getElementAt(String path)
+    {
+        KmList<KmXmlElement> v = getElementsAt(path);
+        if ( v.isEmpty() )
+            return null;
+
+        if ( v.isSingleton() )
+            return v.getFirst();
+
+        throw Kmu.newError("Multiple elements at: " + path);
     }
 
     //##################################################

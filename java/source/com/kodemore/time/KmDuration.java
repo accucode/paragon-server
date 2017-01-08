@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,16 +28,16 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I encapsulate the idea of a length of time, rather than a specific
- * time.  I am some number of hours, minutes, seconds, and ms.  
- * 
+ * time.  I am some number of hours, minutes, seconds.
+ *
  * I may be either positive or negative.
- * 
- * Durations are accurate to 1 ms and have a maximum range of roughly 
- * plus or minus 290 million years.  Operations outside this range 
+ *
+ * Durations are accurate to 1 second and have a maximum range of roughly
+ * plus or minus 290 billion years.  Operations outside this range
  * are undefined.
- * 
+ *
  * Durations are immutable.  Once created, the value of the duration cannot
- * be changed.  All of the ~math methods return a new instance rather than 
+ * be changed.  All of the ~math methods return a new instance rather than
  * mutating the original instance.
  */
 public class KmDuration
@@ -57,8 +57,8 @@ public class KmDuration
     {
         long total;
         total = ss;
-        total += (long)mm * MS_PER_MINUTE;
-        total += (long)hh * MS_PER_HOUR;
+        total += (long)mm * SECONDS_PER_MINUTE;
+        total += (long)hh * SECONDS_PER_HOUR;
 
         return fromSeconds(total);
     }
@@ -81,6 +81,39 @@ public class KmDuration
     public static KmDuration fromDays(int dd)
     {
         return fromHours(dd * 24);
+    }
+
+    public static KmDuration fromString(String s)
+    {
+        if ( s == null )
+            return null;
+
+        s = s.toLowerCase();
+
+        String sDays;
+        String sTime;
+
+        String daysToken = "days";
+        int i = s.indexOf(daysToken);
+
+        if ( i < 0 )
+        {
+            sDays = "0";
+            sTime = s;
+        }
+        else
+        {
+            sDays = s.substring(0, i);
+            sTime = s.substring(i + daysToken.length());
+        }
+
+        Integer days = Kmu.parseInteger(sDays);
+        KmTime time = KmTimeParser.parseTime(sTime);
+
+        if ( days == null || time == null )
+            return null;
+
+        return ZERO.addDays(days).addTime(time);
     }
 
     //##################################################
@@ -198,6 +231,11 @@ public class KmDuration
     public KmDuration addDays(int dd)
     {
         return addSeconds(dd * SECONDS_PER_DAY);
+    }
+
+    public KmDuration addTime(KmTime t)
+    {
+        return addSeconds(t.getTotalSeconds());
     }
 
     public KmDuration addHours(int hh)
@@ -345,6 +383,11 @@ public class KmDuration
     @Override
     public String toString()
     {
+        return format();
+    }
+
+    public String format()
+    {
         StringBuilder out = new StringBuilder();
 
         if ( isNegative() )
@@ -359,7 +402,7 @@ public class KmDuration
         if ( dd > 0 )
         {
             out.append(dd);
-            out.append(" ");
+            out.append(" days ");
         }
 
         out.append(hh);
@@ -384,4 +427,5 @@ public class KmDuration
     {
         return Kmu.leftPad(i + "", 2, '0');
     }
+
 }

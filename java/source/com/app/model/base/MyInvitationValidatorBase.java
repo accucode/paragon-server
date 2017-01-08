@@ -36,9 +36,10 @@ public class MyInvitationValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
+    private KmTimestampValidator createdUtcTsValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmStringValidator typeCodeValidator;
     private KmStringValidator statusCodeValidator;
-    private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
     private KmStringValidator toEmailValidator;
     private KmStringValidator roleCodeValidator;
@@ -52,9 +53,10 @@ public class MyInvitationValidatorBase
     {
         super();
         uidValidator = newUidValidator();
+        createdUtcTsValidator = newCreatedUtcTsValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         typeCodeValidator = newTypeCodeValidator();
         statusCodeValidator = newStatusCodeValidator();
-        createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
         toEmailValidator = newToEmailValidator();
         roleCodeValidator = newRoleCodeValidator();
@@ -70,6 +72,16 @@ public class MyInvitationValidatorBase
         return uidValidator;
     }
 
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
+    public KmTimestampValidator getUpdatedUtcTsValidator()
+    {
+        return updatedUtcTsValidator;
+    }
+
     public KmStringValidator getTypeCodeValidator()
     {
         return typeCodeValidator;
@@ -78,11 +90,6 @@ public class MyInvitationValidatorBase
     public KmStringValidator getStatusCodeValidator()
     {
         return statusCodeValidator;
-    }
-
-    public KmTimestampValidator getCreatedUtcTsValidator()
-    {
-        return createdUtcTsValidator;
     }
 
     public KmTimestampValidator getClosedUtcTsValidator()
@@ -114,9 +121,10 @@ public class MyInvitationValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setStatusCode(statusCodeValidator.convertOnly(value.getStatusCode()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
         value.setToEmail(toEmailValidator.convertOnly(value.getToEmail()));
         value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
@@ -128,9 +136,10 @@ public class MyInvitationValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
+        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
+        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         statusCodeValidator.validateOnly(value.getStatusCode(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
         toEmailValidator.validateOnly(value.getToEmail(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
@@ -156,13 +165,34 @@ public class MyInvitationValidatorBase
         return e;
     }
 
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("invitation");
+        e.setField("createdUtcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newUpdatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModel("invitation");
+        e.setField("updatedUtcTs");
+        e.setRequired();
+        return e;
+    }
+
     public KmStringValidator newTypeCodeValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
+        e.setMaximumLength(30);
         e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
         e.setModel("invitation");
         e.setField("typeCode");
@@ -174,22 +204,13 @@ public class MyInvitationValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
+        e.setMaximumLength(30);
         e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
         e.setModel("invitation");
         e.setField("statusCode");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimestampValidator newCreatedUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("invitation");
-        e.setField("createdUtcTs");
         e.setRequired();
         return e;
     }

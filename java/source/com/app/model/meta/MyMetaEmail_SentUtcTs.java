@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaEmail_SentUtcTs
     {
         return "The date and time when the email was last sent.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmail_SentUtcTs
         return getAccess().getEmailDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmail_SentUtcTs
     {
         return model.getSentUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyEmail model, KmTimestamp value)
     {
         model.setSentUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmail model, KmTimestamp value)
     {
         return model.hasSentUtcTs(value);
     }
-    
+
 }

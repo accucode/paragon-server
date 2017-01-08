@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -43,15 +44,15 @@ public class MyMetaServerSession_LastTouchedLocalTsMessage
     @Override
     public String getLabel()
     {
-        return "Lasttouched";
+        return "Last Touched";
     }
 
     @Override
     public String getHelp()
     {
-        return "The date and time when the session was last touched. Used to support automatic timeouts.";
+        return "The last touched timestamp converted to the user's local timezone, and formatted as a string that includes the timezone code.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaServerSession_LastTouchedLocalTsMessage
     {
         return model.getLastTouchedLocalTsMessage();
     }
-    
+
     @Override
     public boolean hasValueFor(MyServerSession model, String value)
     {
         return model.hasLastTouchedLocalTsMessage(value);
     }
-    
+
 }

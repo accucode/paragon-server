@@ -96,12 +96,28 @@ public class KmhPropertyCondition<T>
         isNull(!isNotNull);
     }
 
-    public void isIn(Collection<?> v)
+    //##################################################
+    //# is in
+    //##################################################
+
+    @SuppressWarnings("unchecked")
+    public void isIn(T... arr)
+    {
+        context().addIsIn(property(), arr);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void isNotIn(T... arr)
+    {
+        context().addIsNotIn(property(), arr);
+    }
+
+    public void isIn(Collection<T> v)
     {
         context().addIsIn(property(), v);
     }
 
-    public void isNotIn(Collection<?> v)
+    public void isNotIn(Collection<T> v)
     {
         context().addIsNotIn(property(), v);
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.time;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalTime;
 
@@ -79,7 +80,7 @@ public class KmTime
      */
     public static KmTime fromInstant(Instant i)
     {
-        LocalTime e = i.atZone(UTC_ZONE).toLocalTime();
+        LocalTime e = i.atZone(KmTimeZone.UTC.getZoneId()).toLocalTime();
         return new KmTime(e);
     }
 
@@ -88,7 +89,29 @@ public class KmTime
      */
     public Instant toInstant(KmDate e)
     {
-        return _inner.atDate(e.toLocalDate()).atZone(UTC_ZONE).toInstant();
+        return _inner.atDate(e.toLocalDate()).atZone(KmTimeZone.UTC.getZoneId()).toInstant();
+    }
+
+    //==================================================
+    //= conversion :: sql time
+    //==================================================
+
+    /**
+     * Convert a java.util.Date based on the UTC time zone.
+     */
+    public static KmTime fromSqlTime(Time e)
+    {
+        return e == null
+            ? null
+            : KmTime.fromLocalTime(e.toLocalTime());
+    }
+
+    /**
+     * Return a java.util.Date corresponding to the start of my day, in UTC.
+     */
+    public Time toSqlTime()
+    {
+        return Time.valueOf(_inner);
     }
 
     //==================================================
@@ -296,7 +319,7 @@ public class KmTime
 
     /**
      * Return the duration from myself until the specified time.
-     * 
+     *
      * The result will be positive if t is after myself, and
      * negative if t is before myself.
      */
@@ -318,7 +341,26 @@ public class KmTime
     }
 
     //##################################################
-    //# math
+    //# with
+    //##################################################
+
+    public KmTime withHour(int i)
+    {
+        return fromLocalTime(_inner.withHour(i));
+    }
+
+    public KmTime withMinute(int i)
+    {
+        return fromLocalTime(_inner.withMinute(i));
+    }
+
+    public KmTime withSecond(int i)
+    {
+        return fromLocalTime(_inner.withSecond(i));
+    }
+
+    //##################################################
+    //# add
     //##################################################
 
     public KmTime addHour()
@@ -404,6 +446,11 @@ public class KmTime
         return KmTimeUtility.format_h_mm_am(this);
     }
 
+    public String format_h_mm_ss_am()
+    {
+        return KmTimeUtility.format_h_mm_ss_am(this);
+    }
+
     public String format_hh24_mm_ss()
     {
         return KmTimeUtility.format_hh24_mm_ss(this);
@@ -421,7 +468,21 @@ public class KmTime
     @Override
     public String toString()
     {
-        return KmTimeUtility.format_h_mm_ss_am(this);
+        return KmTimeUtility.format_hh_mm_ss_am(this);
+    }
+
+    //##################################################
+    //# main
+    //##################################################
+
+    public static void main(String[] args)
+    {
+        KmTime a = KmTime.fromHourMinuteSecond(1, 2, 3);
+        System.out.println("    a: " + a);
+        System.out.println("    h: " + a.withHour(0));
+        System.out.println("    m: " + a.withMinute(0));
+        System.out.println("    s: " + a.withSecond(0));
+
     }
 
 }

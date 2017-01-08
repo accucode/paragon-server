@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaAuditLog_FieldName
     @Override
     public String getHelp()
     {
-        return "The name of the field that was modified.";
+        return "The name of the field that was modified. This is effectively the java/database name. For example: count, phone, primaryShippingAddress.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaAuditLog_FieldName
         return getAccess().getAuditLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaAuditLog_FieldName
     {
         return model.getFieldName();
     }
-    
+
     @Override
     public void setValueFor(MyAuditLog model, String value)
     {
         model.setFieldName(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyAuditLog model, String value)
     {
         return model.hasFieldName(value);
     }
-    
+
 }

@@ -25,6 +25,7 @@ public interface MyThreadTopicDaoConstantsIF
     String LAST_END_UTC_TS = "lastEndUtcTs";
     String LAST_TOUCH_UTC_TS = "lastTouchUtcTs";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
     String LAST_START_LOCAL_TS = "lastStartLocalTs";
     String LAST_START_LOCAL_TS_MESSAGE = "lastStartLocalTsMessage";
     String LAST_START_LOCAL_DATE = "lastStartLocalDate";

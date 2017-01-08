@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaFieldTest_PinNumber1
     {
         return "Included in the auditLog , but masked.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaFieldTest_PinNumber1
         return getAccess().getFieldTestDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaFieldTest_PinNumber1
     {
         return model.getPinNumber1();
     }
-    
+
     @Override
     public void setValueFor(MyFieldTest model, String value)
     {
         model.setPinNumber1(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyFieldTest model, String value)
     {
         return model.hasPinNumber1(value);
     }
-    
+
 }

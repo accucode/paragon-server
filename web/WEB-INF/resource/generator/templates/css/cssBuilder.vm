@@ -57,7 +57,7 @@ $utility.protocol("chain")
     {
         return (KmCss${bundle.f_Name}Builder) super.remove(e);
     }
-    
+
     @Override
     public KmCss${bundle.f_Name}Builder remove(String prefix, String part, String flavor)
     {
@@ -112,6 +112,6 @@ $utility.protocol("css selectors")
     {
         return apply(KmCss${bundle.f_Name}ConstantsIF.${e.f_constant});
     }
-    
+
 #end
 }

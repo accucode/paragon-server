@@ -1,8 +1,9 @@
 package com.app.ui.page.test;
 
 import com.kodemore.email.KmEmail;
+import com.kodemore.email.KmEmailResult;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -96,15 +97,16 @@ public final class MySmtpTestPage
         _messageField.setLabel("Message");
         _messageField.setRequired();
 
+        root.css().fill().auto();
+
         ScForm form;
         form = root.addForm();
-        form.css().pad();
         form.setSubmitAction(this::handleSend);
 
         ScGroup group;
         group = form.addGroup("Smtp Test");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addGap();
         body.addText("Send an email using SMTP.");
         body.addBreak();
@@ -116,7 +118,7 @@ public final class MySmtpTestPage
         fields.add(_subjectField);
         fields.add(_messageField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton("Send");
         buttons.addResetButton();
@@ -140,6 +142,7 @@ public final class MySmtpTestPage
     {
         ajax().hideAllErrors();
         validate();
+        getRoot().ajaxUpdateFieldValues();
 
         KmEmail e;
         e = new KmEmail();
@@ -150,9 +153,13 @@ public final class MySmtpTestPage
 
         MyEmailSmtpMethod m;
         m = new MyEmailSmtpMethod();
-        m.send(e);
 
-        getRoot().ajaxUpdateValues();
-        ajax().toast("Your email has been sent.");
+        KmEmailResult result = m.send(e);
+        boolean ok = result.isOk();
+
+        if ( ok )
+            ajax().toast("Sent!");
+        else
+            ajax().toast("ERROR, " + result.getErrorMessage()).error().sticky();
     }
 }

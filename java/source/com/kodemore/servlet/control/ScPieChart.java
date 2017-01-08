@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,13 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * This is a simple pie chart displaying several discrete data points. 
+ * This is a simple pie chart displaying several discrete data points.
  */
 public class ScPieChart
     extends ScAbstractChart
 {
     //##################################################
-    //# enum 
+    //# enum
     //##################################################
 
     private enum LabelType
@@ -64,10 +64,10 @@ public class ScPieChart
      * Whether or not the chart should be represented as
      * a "donut", with the center cut out.
      */
-    private boolean _donut;
+    private boolean           _donut;
 
     /**
-     * This is the data to be represented in the chart.  
+     * This is the data to be represented in the chart.
      * Each "slice" must have a "key" (also the label)
      * and a "value".
      */
@@ -76,20 +76,22 @@ public class ScPieChart
     /**
      * The type of label on the slices.
      */
-    private LabelType _labelType;
+    private LabelType         _labelType;
+
+    /**
+     * If set, round the value to the specified number of decimals.
+     */
+    private Integer           _valueDecimals;
 
     //##################################################
     //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScPieChart()
     {
-        super.install();
+        _slices = new KmList<>();
 
         setLabelType(LabelType.KEY);
-
-        _slices = new KmList<>();
     }
 
     //##################################################
@@ -137,12 +139,31 @@ public class ScPieChart
     }
 
     /**
-     * Slices are labeled with the data point's percentage 
+     * Slices are labeled with the data point's percentage
      * of the whole
      */
     public void setLabelTypePercent()
     {
         setLabelType(LabelType.PERCENT);
+    }
+
+    //##################################################
+    //# value decimals
+    //##################################################
+
+    public Integer getValueDecimals()
+    {
+        return _valueDecimals;
+    }
+
+    public void setValueDecimals(Integer e)
+    {
+        _valueDecimals = e;
+    }
+
+    public boolean hasValueDecimals()
+    {
+        return _valueDecimals != null;
     }
 
     //##################################################
@@ -166,11 +187,12 @@ public class ScPieChart
 
     public void addSlice(String key, double value)
     {
-        KmJsonMap slice;
-        slice = new KmJsonMap();
-        slice.setString("key", key);
-        slice.setDouble("value", value);
-        getSlices().add(slice);
+        KmJsonMap e;
+        e = new KmJsonMap();
+        e.setString("key", key);
+        e.setDouble("value", value);
+
+        getSlices().add(e);
     }
 
     @Override
@@ -190,24 +212,31 @@ public class ScPieChart
     //##################################################
 
     @Override
-    protected void initializeChart(KmStringBuilder out)
+    protected void initializeChartOn(KmStringBuilder out)
     {
-        out.print("var chart;");
-        out.print("chart = nv.models.pieChart();");
-        out.print("chart.x(function(d) { return d.key });");
-        out.print("chart.y(function(d) { return d.value });");
+        out.printf("var chart;");
+        out.printf("chart = nv.models.pieChart();");
+        out.printf("chart.x(function(d) { return d.key });");
+        out.printf("chart.y(function(d) { return d.value });");
+
+        if ( hasValueDecimals() )
+            out.printf(
+                "chart.valueFormat(function(d) { return Kmu.roundPrecise(d,%s) });",
+                getValueDecimals());
+
         out.printf("chart.labelType('%s');", getLabelType().getValue());
+        out.printf("chart.noData('No data available for chart.');");
         out.printf("chart.donut(%s);", getDonut());
     }
 
     @Override
-    protected void formatXAxis(KmStringBuilder out)
+    protected void formatXAxisOn(KmStringBuilder out)
     {
         // none
     }
 
     @Override
-    protected void formatYAxis(KmStringBuilder out)
+    protected void formatYAxisOn(KmStringBuilder out)
     {
         // none
     }

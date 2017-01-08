@@ -1,10 +1,10 @@
 package com.app.ui.page.login;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -15,6 +15,8 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
+import com.app.criteria.MyUserCriteria;
+import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.model.MyUserActivation;
 import com.app.ui.page.MyPage;
@@ -48,19 +50,19 @@ public final class MyUserActivationPage
     //# variables
     //##################################################
 
-    private ScLocalString _token;
+    private ScLocalString   _token;
 
-    private ScCardFrame _frame;
+    private ScCardFrame     _frame;
 
     private ScCard          _activationCard;
     private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
-    private ScCard _successCard;
+    private ScCard          _successCard;
 
-    private ScCard _errorCard;
-    private ScText _errorMessage;
+    private ScCard          _errorCard;
+    private ScText          _errorMessage;
 
     //##################################################
     //# settings
@@ -114,7 +116,7 @@ public final class MyUserActivationPage
         _token = new ScLocalString();
         _token.setAutoSave();
 
-        _frame = root.addFrame();
+        _frame = root.addCardFrame();
         _frame.style().width(300).marginTop(100).marginCenter();
 
         _activationCard = createActivationCard(_frame);
@@ -145,11 +147,11 @@ public final class MyUserActivationPage
         _emailText.css().displayBlock().fieldValue();
 
         _password1Field = new ScPasswordField();
-        _password1Field.style().width(width);
+        _password1Field.layoutInline(width);
         _password1Field.setRequired();
 
         _password2Field = new ScPasswordField();
-        _password2Field.style().width(width);
+        _password2Field.layoutInline(width);
     }
 
     private void installForm(ScContainer root)
@@ -162,25 +164,25 @@ public final class MyUserActivationPage
         group = form.addGroup();
         group.setTitle("Activate User");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
 
         body.addLabel("Email");
         body.add(_emailText);
 
-        ScBox label;
+        ScDiv label;
         label = body.addLabel("Choose a Password");
         label.css().padTop();
-        body.addErrorBox().add(_password1Field);
+        body.addErrorWrapperWith(_password1Field);
 
         label = body.addLabel("Re-enter Password");
         label.css().padTop();
-        body.addErrorBox().add(_password2Field);
+        body.addErrorWrapperWith(_password2Field);
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Activate User");
     }
@@ -198,19 +200,18 @@ public final class MyUserActivationPage
         group = card.addGroup();
         group.setTitle("Success");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
-        body.addText(
-            ""
-                + "Success! Your email has been activated. "
-                + "Please click the following link to sign in.");
+        body.addText(""
+            + "Success! Your email has been activated. "
+            + "Please click the following link to sign in.");
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.getInstance());
+        footer.addButton("Sign In", MyLoginPage.getInstance());
 
         return card;
     }
@@ -228,17 +229,17 @@ public final class MyUserActivationPage
         group = card.addGroup();
         group.setTitle("Error");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        ScDiv body;
+        body = group.getBody().addDiv();
         body.css().pad();
 
         _errorMessage = body.addText();
 
         group.addBodyDivider();
 
-        ScBox footer;
+        ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.getInstance());
+        footer.addButton("Sign In", MyLoginPage.getInstance());
 
         return card;
     }
@@ -253,18 +254,18 @@ public final class MyUserActivationPage
         if ( !hasValidUserActivation() )
         {
             _errorMessage.setValue("The requested activation is invalid or has expired.");
-            _errorCard.beDefault();
+            _errorCard.beDefaultCard();
             return;
         }
 
         if ( userExists() )
         {
             _errorMessage.setValue("The requested email is already active.");
-            _errorCard.beDefault();
+            _errorCard.beDefaultCard();
             return;
         }
 
-        _activationCard.beDefault();
+        _activationCard.beDefaultCard();
         _emailText.setValue(getUserActivation().getEmail());
         _password1Field.clearText();
         _password2Field.clearText();
@@ -286,8 +287,8 @@ public final class MyUserActivationPage
 
         ajax().hideAllErrors();
 
-        _password1Field.ajax().clearValue();
-        _password2Field.ajax().clearValue();
+        _password1Field.ajaxClearFieldValue();
+        _password2Field.ajaxClearFieldValue();
 
         _activationCard.validate();
 
@@ -297,11 +298,11 @@ public final class MyUserActivationPage
         if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
-        createUser();
+        upsertUser();
         setEmailCookie();
         deleteUserActivation();
 
-        _successCard.ajaxPrint();
+        _successCard.ajaxPrintCard();
     }
 
     //##################################################
@@ -347,15 +348,17 @@ public final class MyUserActivationPage
         if ( ua == null )
             return false;
 
+        MyTenant tenant = ua.getTenant();
         String email = ua.getEmail();
-        MyUser user = getAccess().getUserDao().findEmail(email);
+        MyUser user = getAccess().getUserDao().findEmail(tenant, email);
 
         return user != null;
     }
 
-    private void createUser()
+    private void upsertUser()
     {
         MyUserActivation ua = getUserActivation();
+        MyTenant tenant = ua.getTenant();
         String email = ua.getEmail();
 
         KmEmailParser p;
@@ -365,9 +368,21 @@ public final class MyUserActivationPage
         String name = p.getName();
         String pwd = _password1Field.getValue();
 
-        MyUser u;
-        u = getAccess().getUserDao().createUser(name, email);
+        MyUserCriteria c;
+        c = getAccess().getUserDao().createCriteria();
+        c.whereTenantIs(tenant);
+        c.whereEmail().is(email);
+
+        MyUser u = c.findFirst();
+        if ( u == null )
+        {
+            u = tenant.addUser();
+            u.setNickname(name);
+            u.setRoleOther();
+        }
+
         u.setPassword(pwd);
+        u.daoAttach();
     }
 
     private void deleteUserActivation()
@@ -375,20 +390,20 @@ public final class MyUserActivationPage
         MyUserActivation ua = getUserActivation();
 
         if ( ua != null )
-            ua.deleteDao();
+            ua.daoDelete();
     }
 
     private void printError(String msg)
     {
         _errorMessage.setValue(msg);
-        _errorCard.ajaxPrint();
+        _errorCard.ajaxPrintCard();
     }
 
     private void setEmailCookie()
     {
         MyUserActivation ua = getUserActivation();
         if ( ua != null )
-            MySignInUtility.setEmailCookie(ua.getEmail());
+            MyLoginUtility.ajaxSetEmailCookie(ua.getEmail());
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,7 @@ package com.kodemore.servlet.renderer;
 
 import java.util.function.Function;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.control.ScControl;
 
 public class ScFunctionRenderer
@@ -48,16 +46,6 @@ public class ScFunctionRenderer
         _function = e;
     }
 
-    public ScFunctionRenderer(KmAdaptorIF<?,?> e)
-    {
-        _function = e.toFunction();
-    }
-
-    public ScFunctionRenderer(KmMetaAttribute<?,?> e)
-    {
-        _function = e.getGetter();
-    }
-
     //##################################################
     //# render
     //##################################################
@@ -67,6 +55,9 @@ public class ScFunctionRenderer
     public void renderOn(KmHtmlBuilder out, ScControl parent, Object model)
     {
         if ( _function == null )
+            return;
+
+        if ( model == null )
             return;
 
         Object e = _function.apply(model);

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -115,7 +115,7 @@ public class KmPhoneticRuleParser
         KmPhoneticRule r = new KmPhoneticRule();
 
         if ( mode == null )
-            error("Mode is required.");
+            throw newError("Mode is required.");
 
         if ( mode.equals("all") )
             r.setMode(KmPhoneticRule.MODE_ALL);
@@ -126,24 +126,24 @@ public class KmPhoneticRuleParser
                 if ( mode.equals("suffix") )
                     r.setMode(KmPhoneticRule.MODE_SUFFIX);
                 else
-                    error("Unknown mode: " + mode);
+                    throw newError("Unknown mode: " + mode);
 
         if ( oldValue == null )
-            error("Old value is required.");
+            throw newError("Old value is required.");
 
         if ( oldValue.equals("") )
-            error("Old value cannot be empty.");
+            throw newError("Old value cannot be empty.");
 
         r.setOldValue(oldValue);
 
         if ( newValue == null )
-            error("New value is required.");
+            throw newError("New value is required.");
 
         r.setNewValue(newValue);
         return r;
     }
 
-    private void error(String msg)
+    private RuntimeException newError(String msg)
     {
         String s = "Phonetic Rule Parser";
 
@@ -152,7 +152,7 @@ public class KmPhoneticRuleParser
 
         s += " " + msg;
 
-        throw new RuntimeException(s);
+        return new RuntimeException(s);
     }
 
 }

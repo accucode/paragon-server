@@ -1,7 +1,6 @@
 package com.kodemore.meta;
 
 import com.kodemore.servlet.field.ScDoubleField;
-import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.validator.KmDoubleValidator;
 
 public abstract class KmMetaDoubleProperty<T>
@@ -26,21 +25,6 @@ public abstract class KmMetaDoubleProperty<T>
         e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
-        return e;
-    }
-
-    public ScDropdown newDropdown(int min, int max)
-    {
-        return newDropdown(getLabel(), min, max);
-    }
-
-    public ScDropdown newDropdown(String label, int min, int max)
-    {
-        ScDropdown e;
-        e = new ScDropdown();
-        e.setLabel(label);
-        e.setValue(getAdaptor());
-        e.addOptionRange(min, max);
         return e;
     }
 

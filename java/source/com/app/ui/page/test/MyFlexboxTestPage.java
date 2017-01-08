@@ -2,7 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTextSpan;
@@ -67,7 +67,7 @@ public final class MyFlexboxTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto().boxGray().gap();
 
         installTest1On(root);
         installTest2On(root);
@@ -75,10 +75,9 @@ public final class MyFlexboxTestPage
 
     private void installTest1On(ScContainer root)
     {
-        ScFlexbox row;
-        row = root.addRow();
-        row.alignSpacedAround();
-        row.crossAlignBaseline();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexAlignSpacedAround().flexCrossAlignBaseline();
         row.css().boxBlue();
 
         ScTextSpan item;
@@ -94,10 +93,10 @@ public final class MyFlexboxTestPage
 
     private void installTest2On(ScContainer root)
     {
-        ScFlexbox row;
-        row = root.addRow();
-        row.css().boxYellow().gap();
-        row.wrap();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexWrap();
+        row.css().boxBrown().gap();
 
         int n = 10;
         for ( int i = 0; i < n; i++ )
@@ -124,13 +123,14 @@ public final class MyFlexboxTestPage
 
         ScGroup group;
         group = root.addGroup(title);
+        group.css().flexChildFiller();
 
-        group.css().flexGrow();
-
-        group.bodyCss().pad();
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad();
 
         for ( int i = 0; i < n; i++ )
-            group.getBody().addTextParagraph("Line-" + i);
+            body.addTextParagraph("Line-" + i);
     }
 
 }

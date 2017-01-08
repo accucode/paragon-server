@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyServerSessionCriteria
@@ -513,6 +514,53 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
+    //# association (Tenant)
+    //##################################################
+
+    public void selectTenantUid()
+    {
+        select(TENANT_UID);
+    }
+
+    public void selectMinimumTenantUid()
+    {
+        selectMinimum(TENANT_UID);
+    }
+
+    public void selectMaximumTenantUid()
+    {
+        selectMaximum(TENANT_UID);
+    }
+
+    public void groupByTenantUid()
+    {
+        groupBy(TENANT_UID);
+    }
+
+    public MyTenantCriteria joinToTenant()
+    {
+        return new MyTenantCriteria(joinTo(TENANT));
+    }
+
+    public MyTenantCriteria leftJoinToTenant()
+    {
+        return new MyTenantCriteria(leftJoinTo(TENANT));
+    }
+
+    public KmhStringCondition whereTenantUid()
+    {
+        return new KmhStringCondition(parent(), fullName(TENANT_UID));
+    }
+
+    public void whereTenantIs(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNull();
+        else
+            whereTenantUid().is(e.getUid());
+    }
+
+    //##################################################
     //# association (User)
     //##################################################
 
@@ -533,7 +581,7 @@ public class MyServerSessionCriteria
 
     public void groupByUserUid()
     {
-        groupBy(USER);
+        groupBy(USER_UID);
     }
 
     public MyUserCriteria joinToUser()
@@ -560,102 +608,84 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
-    //# association (AutoSignIn)
+    //# association (AutoLogin)
     //##################################################
 
-    public void selectAutoSignInUid()
+    public void selectAutoLoginUid()
     {
-        select(AUTO_SIGN_IN_UID);
+        select(AUTO_LOGIN_UID);
     }
 
-    public void selectMinimumAutoSignInUid()
+    public void selectMinimumAutoLoginUid()
     {
-        selectMinimum(AUTO_SIGN_IN_UID);
+        selectMinimum(AUTO_LOGIN_UID);
     }
 
-    public void selectMaximumAutoSignInUid()
+    public void selectMaximumAutoLoginUid()
     {
-        selectMaximum(AUTO_SIGN_IN_UID);
+        selectMaximum(AUTO_LOGIN_UID);
     }
 
-    public void groupByAutoSignInUid()
+    public void groupByAutoLoginUid()
     {
-        groupBy(AUTO_SIGN_IN);
+        groupBy(AUTO_LOGIN_UID);
     }
 
-    public MyAutoSignInCriteria joinToAutoSignIn()
+    public MyAutoLoginCriteria joinToAutoLogin()
     {
-        return new MyAutoSignInCriteria(joinTo(AUTO_SIGN_IN));
+        return new MyAutoLoginCriteria(joinTo(AUTO_LOGIN));
     }
 
-    public MyAutoSignInCriteria leftJoinToAutoSignIn()
+    public MyAutoLoginCriteria leftJoinToAutoLogin()
     {
-        return new MyAutoSignInCriteria(leftJoinTo(AUTO_SIGN_IN));
+        return new MyAutoLoginCriteria(leftJoinTo(AUTO_LOGIN));
     }
 
-    public KmhStringCondition whereAutoSignInUid()
+    public KmhStringCondition whereAutoLoginUid()
     {
-        return new KmhStringCondition(parent(), fullName(AUTO_SIGN_IN_UID));
+        return new KmhStringCondition(parent(), fullName(AUTO_LOGIN_UID));
     }
 
-    public void whereAutoSignInIs(MyAutoSignIn e)
+    public void whereAutoLoginIs(MyAutoLogin e)
     {
         if ( e == null )
-            whereAutoSignInUid().isNull();
+            whereAutoLoginUid().isNull();
         else
-            whereAutoSignInUid().is(e.getUid());
+            whereAutoLoginUid().is(e.getUid());
     }
 
     //##################################################
-    //# association (CurrentProject)
+    //# junction :: alias
     //##################################################
 
-    public void selectCurrentProjectUid()
+    public MyServerSessionJunction all()
     {
-        select(CURRENT_PROJECT_UID);
+        return addAnd();
     }
 
-    public void selectMinimumCurrentProjectUid()
+    public MyServerSessionJunction any()
     {
-        selectMinimum(CURRENT_PROJECT_UID);
+        return addOr();
     }
 
-    public void selectMaximumCurrentProjectUid()
+    public MyServerSessionJunction none()
     {
-        selectMaximum(CURRENT_PROJECT_UID);
-    }
-
-    public void groupByCurrentProjectUid()
-    {
-        groupBy(CURRENT_PROJECT);
-    }
-
-    public MyProjectCriteria joinToCurrentProject()
-    {
-        return new MyProjectCriteria(joinTo(CURRENT_PROJECT));
-    }
-
-    public MyProjectCriteria leftJoinToCurrentProject()
-    {
-        return new MyProjectCriteria(leftJoinTo(CURRENT_PROJECT));
-    }
-
-    public KmhStringCondition whereCurrentProjectUid()
-    {
-        return new KmhStringCondition(parent(), fullName(CURRENT_PROJECT_UID));
-    }
-
-    public void whereCurrentProjectIs(MyProject e)
-    {
-        if ( e == null )
-            whereCurrentProjectUid().isNull();
-        else
-            whereCurrentProjectUid().is(e.getUid());
+        return addNotOr();
     }
 
     //##################################################
-    //# junction
+    //# junction :: basic
     //##################################################
+
+    public MyServerSessionJunction addNotAnd()
+    {
+        return new MyServerSessionJunction(parent().addNotAnd());
+    }
+
+    public MyServerSessionJunction addNotOr()
+    {
+        return new MyServerSessionJunction(parent().addNotOr());
+    }
 
     public MyServerSessionJunction addAnd()
     {

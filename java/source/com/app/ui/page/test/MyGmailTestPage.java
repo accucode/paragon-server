@@ -2,7 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.email.KmEmail;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -96,15 +96,16 @@ public final class MyGmailTestPage
         _messageField.setLabel("Message");
         _messageField.setRequired();
 
+        root.css().fill().auto();
+
         ScForm form;
         form = root.addForm();
-        form.css().pad();
         form.setSubmitAction(this::handleSend);
 
         ScGroup group;
         group = form.addGroup("Gmail Test");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addGap();
         body.addText("Send an email directly via gmail.");
         body.addBreak();
@@ -116,7 +117,7 @@ public final class MyGmailTestPage
         fields.add(_subjectField);
         fields.add(_messageField);
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addSubmitButton("Send");
         buttons.addResetButton();
@@ -152,7 +153,7 @@ public final class MyGmailTestPage
         m = new MyEmailGmailMethod();
         m.send(e);
 
-        getRoot().ajaxUpdateValues();
+        getRoot().ajaxUpdateFieldValues();
         ajax().toast("Your email has been sent.");
     }
 }

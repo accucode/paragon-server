@@ -25,15 +25,15 @@ public class JkRetrieveEmailTest
         new JkRetrieveEmailTest().run();
     }
 
-    private static final boolean DEBUG  = false;
-    private static final boolean UPDATE = false;
+    private static final boolean DEBUG    = false;
+    private static final boolean UPDATE   = false;
 
-    private static final String SCHEME   = "https";
-    private static final String HOST     = "smtp.gmail.com";
-    private static final String USER     = "velocityservice@gmail.com";
-    private static final String PASSWORD = "velocity123";
-    private static final String FILE     = null;                       // not used
-    private static final int    PORT     = 995;
+    private static final String  SCHEME   = "https";
+    private static final String  HOST     = "smtp.gmail.com";
+    private static final String  USER     = "velocityservice@gmail.com";
+    private static final String  PASSWORD = "velocity123";
+    private static final String  FILE     = null;                       // not used
+    private static final int     PORT     = 995;
 
     private void run()
     {

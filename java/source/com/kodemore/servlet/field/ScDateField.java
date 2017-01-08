@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -18,58 +18,62 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.time.KmDate;
 
+/**
+ * http://jqueryui.com/demos/datepicker/
+ */
 public class ScDateField
     extends ScAbstractTextField<KmDate>
 {
     //##################################################
-    //# init
+    //# constructor
+    //##################################################
+
+    public ScDateField()
+    {
+        setPlaceholder("mm/dd/yy");
+    }
+
+    //##################################################
+    //# conversion
     //##################################################
 
     @Override
-    protected void install()
+    protected KmDate textToValue(String text)
     {
-        super.install();
+        return getFormatter().parseDate(text);
+    }
+
+    @Override
+    protected String valueToText(KmDate value)
+    {
+        return getFormatter().formatDate(value);
     }
 
     //##################################################
-    //# value
+    //# layout
     //##################################################
 
     @Override
-    public KmDate getValueFor(String s)
+    protected int getDefaultWidth()
     {
-        return getFormatter().parseDate(s);
+        return 100;
     }
 
-    @Override
-    public void setValue(KmDate value)
-    {
-        String s = getFormatter().formatDate(value);
-        setText(s);
-    }
+    //##################################################
+    //# sample
+    //##################################################
 
     @Override
-    public String getSampleFormat()
+    public KmDate getSampleValue()
     {
-        return getFormatter().getDateSample();
-    }
-
-    @Override
-    public String getInvalidMessage()
-    {
-        String msg = "Invalid Date";
-        String sample = getSampleFormat();
-        if ( sample != null )
-            msg += " - must be " + sample;
-
-        return msg;
+        return KmDate.fromYearMonthDay(2001, 1, 31);
     }
 
     //##################################################
@@ -80,10 +84,6 @@ public class ScDateField
     protected void renderPostDomOn(KmHtmlBuilder out)
     {
         super.renderPostDomOn(out);
-
-        String fn = "Kmu.installDateField('%s');";
-        String sel = getJquerySelector();
-        out.getPostDom().run(fn, sel);
+        out.getPostDom().run("Kmu.installDateField('%s');", getInputSelector());
     }
-
 }

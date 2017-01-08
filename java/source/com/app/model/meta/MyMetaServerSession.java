@@ -51,17 +51,18 @@ public class MyMetaServerSession
         return "serverSession";
     }
 
-    public static MyServerSessionValidator getValidator()
+    public MyServerSessionValidator getValidator()
     {
         return MyServerSessionValidator.instance;
     }
-    
-    public static String getComment()
+
+    public String getComment()
     {
         return "null";
     }
 
-    public static String getHelp()
+    @Override
+    public String getHelp()
     {
         return "Server sessions are used in place of the Virtual Http Session. This allow for a user session to be served by multiple web server machines. The session is created as early as possible, even before the user actually logs in.";
     }
@@ -77,6 +78,7 @@ public class MyMetaServerSession
     public static final MyMetaServerSession_LastTouchedUtcTs LastTouchedUtcTs = new MyMetaServerSession_LastTouchedUtcTs();
     public static final MyMetaServerSession_Version Version = new MyMetaServerSession_Version();
     public static final MyMetaServerSession_LockVersion LockVersion = new MyMetaServerSession_LockVersion();
+    public static final MyMetaServerSession_DisplayString DisplayString = new MyMetaServerSession_DisplayString();
     public static final MyMetaServerSession_CreatedLocalTs CreatedLocalTs = new MyMetaServerSession_CreatedLocalTs();
     public static final MyMetaServerSession_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaServerSession_CreatedLocalTsMessage();
     public static final MyMetaServerSession_CreatedLocalDate CreatedLocalDate = new MyMetaServerSession_CreatedLocalDate();
@@ -94,7 +96,7 @@ public class MyMetaServerSession
     //# associations
     //##################################################
 
+    public static final MyMetaServerSession_Tenant Tenant = new MyMetaServerSession_Tenant();
     public static final MyMetaServerSession_User User = new MyMetaServerSession_User();
-    public static final MyMetaServerSession_AutoSignIn AutoSignIn = new MyMetaServerSession_AutoSignIn();
-    public static final MyMetaServerSession_CurrentProject CurrentProject = new MyMetaServerSession_CurrentProject();
+    public static final MyMetaServerSession_AutoLogin AutoLogin = new MyMetaServerSession_AutoLogin();
 }

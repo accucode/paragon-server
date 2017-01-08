@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.kodemore.adaptor.KmAdaptorIF;
 
 public abstract class KmMetaAttribute<T, V>
+    implements KmAdaptorIF<T,V>
 {
     //##################################################
     //# abstract
@@ -12,38 +13,19 @@ public abstract class KmMetaAttribute<T, V>
 
     public abstract String getName();
 
+    public abstract String getLabel();
+
+    public abstract String getHelp();
+
     //##################################################
     //# tools
     //##################################################
-
-    public KmAdaptorIF<T,V> getAdaptor()
-    {
-        return new KmAdaptorIF<T,V>()
-        {
-            @Override
-            public V getValue(T model)
-            {
-                return getValueFor(model);
-            }
-
-            @Override
-            public void setValue(T model, V value)
-            {
-                setValueFor(model, value);
-            }
-        };
-    }
-
-    public Function<T,V> getGetter()
-    {
-        return this::getValueFor;
-    }
 
     /**
      * This is useful to get around generic typing issues when you really
      * need an untyped Object, but cannot use ? for various reasons.
      */
-    public Function<T,Object> getObjectGetter()
+    public Function<T,Object> toObjectFunction()
     {
         return this::getValueFor;
     }
@@ -63,6 +45,22 @@ public abstract class KmMetaAttribute<T, V>
     public void setValueFor(T model, V value)
     {
         throw new UnsupportedOperationException();
+    }
+
+    //##################################################
+    //# adaptor
+    //##################################################
+
+    @Override
+    public V getValue(T model)
+    {
+        return getValueFor(model);
+    }
+
+    @Override
+    public void setValue(T model, V value)
+    {
+        setValueFor(model, value);
     }
 
 }

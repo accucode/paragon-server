@@ -89,7 +89,7 @@ public class JkDateTimeTest
         t = KmTimer.run("KmClock");
         for ( int i = 0; i < n; i++ )
         {
-            KmClock.getNowUtc();
+            KmClock.getUtcTimestamp();
             t.lap();
         }
         t.print();
@@ -105,7 +105,7 @@ public class JkDateTimeTest
         t = KmTimer.run("KmClock");
         for ( int i = 0; i < n; i++ )
         {
-            KmClock.getNowUtc();
+            KmClock.getUtcTimestamp();
             t.lap();
         }
         t.print();

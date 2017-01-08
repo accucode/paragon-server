@@ -3,9 +3,8 @@ package com.app.ui.page.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -45,9 +44,9 @@ public final class MyDevSharedFileBrowserPage
     //# variables
     //##################################################
 
-    private ScTextField _directoryField;
-    private ScListField _folderList;
-    private ScListField _fileList;
+    private ScTextField         _directoryField;
+    private ScListField<String> _folderList;
+    private ScListField<String> _fileList;
 
     //##################################################
     //# settings
@@ -82,10 +81,11 @@ public final class MyDevSharedFileBrowserPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        root.css().fill().auto().columnSpacer10();
+
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(this::handleFind);
-        form.css().gap();
 
         installPath(form);
         installFolders(form);
@@ -102,11 +102,11 @@ public final class MyDevSharedFileBrowserPage
         ScGroup group;
         group = root.addGroup("Path");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
 
-        ScFlexbox row;
-        row = body.addRow();
+        ScDiv row;
+        row = body.addFlexRow();
         row.add(_directoryField);
         row.addNonBreakingSpace();
         row.addSubmitButton("Open");
@@ -116,13 +116,13 @@ public final class MyDevSharedFileBrowserPage
 
     private void installFolders(ScContainer root)
     {
-        _folderList = new ScListField();
+        _folderList = new ScListField<>();
         _folderList.disableChangeTracking();
 
         ScGroup group;
         group = root.addGroup("Folders");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
         body.add(_folderList);
         body.addLink("Open", this::handleOpenFolder);
@@ -130,13 +130,13 @@ public final class MyDevSharedFileBrowserPage
 
     private void installFiles(ScContainer root)
     {
-        _fileList = new ScListField();
+        _fileList = new ScListField<>();
         _fileList.disableChangeTracking();
 
         ScGroup group;
         group = root.addGroup("Files");
 
-        ScBox body;
+        ScDiv body;
         body = group.getBody().addPad();
         body.add(_fileList);
         body.addLink("Get", this::handleGetFile);
@@ -204,7 +204,7 @@ public final class MyDevSharedFileBrowserPage
 
     private void handleOpenFolder()
     {
-        String path = _folderList.getStringValue();
+        String path = _folderList.getValue();
         if ( Kmu.isEmpty(path) )
             throw Kmu.newError("No folder selected.");
 
@@ -214,7 +214,7 @@ public final class MyDevSharedFileBrowserPage
 
     private void handleGetFile()
     {
-        String path = _fileList.getStringValue();
+        String path = _fileList.getValue();
         if ( Kmu.isEmpty(path) )
             throw Kmu.newError("No file selected.");
 

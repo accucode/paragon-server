@@ -7,6 +7,7 @@ import com.kodemore.log.KmLog;
 
 import com.app.utility.MyEnvironment;
 import com.app.utility.MyInstaller;
+import com.app.utility.MyLog4jManager;
 import com.app.utility.MyShutdownManager;
 
 /**
@@ -22,6 +23,7 @@ public class MyServletContextListener
     {
         try
         {
+            MyLog4jManager.installConsole();
             KmLog.info("Servlet Context Initializing...");
 
             String root = ev.getServletContext().getRealPath("");

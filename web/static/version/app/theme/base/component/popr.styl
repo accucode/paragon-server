@@ -1,0 +1,126 @@
+/*****************************
+ ** popr
+ *****************************/
+
+.popr
+    cursor: pointer
+
+
+/*****************************
+ * box
+ *
+ * The box contains the static menu item included
+ * in the dom.
+ *****************************/
+
+.popr-box
+     display: none
+
+
+/*****************************
+ * container
+ *
+ * Container the dynamically created copy of the menu.
+ * This container is attached to the html 'body'.
+ * It is NOT nested inside the .popr or .popr-box.
+ *****************************/
+
+.popr_container
+    display:        none
+    position:       absolute
+    z-index:        1000
+    box-shadow:     $popr-shadow
+
+.popr_container_bottom
+    margin-top:     10px
+
+.popr_container_top
+    /* noop - prevent compression */
+
+
+/*****************************
+ * point (top)
+ * make the triangle with css
+ *****************************/
+
+.popr_point_top, .popr_point_bottom
+    position:               relative
+    border:                 $popr-borderSize solid $popr-borderColor
+
+.popr_point_top:after, .popr_point_top:before
+    position:               absolute
+    pointer-events:         none
+    border:                 solid transparent
+    top:                    100%
+    content:                ""
+    height:                 0
+    width:                  0
+
+.popr_point_top:after
+    border-top-color:       $popr-backgroundColor
+    border-width:           8px
+    left:                   50%
+    margin-left:            -8px
+
+.popr_point_top:before
+    border-top-color:       $popr-borderColor
+    border-width:           8px + $popr-borderSize
+    left:                   50%
+    margin-left:            -8px - $popr-borderSize
+
+
+/*****************************
+ * point (bottom)
+ * make the triangle with css
+ *****************************/
+
+.popr_point_bottom:after, .popr_point_bottom:before
+    position:               absolute
+    pointer-events:         none
+    border:                 solid transparent
+    bottom:                 100%
+    content:                ""
+    height:                 0
+    width:                  0
+
+.popr_point_bottom:after
+    border-bottom-color:    $popr-backgroundColor
+    border-width:           8px
+    left:                   50%
+    margin-left:            -8px
+
+.popr_point_bottom:before
+    border-bottom-color:    $popr-borderColor
+    border-width:           8px + $popr-borderSize
+    left:                   50%
+    margin-left:            -8px - $popr-borderSize
+
+/*****************************
+ * content
+ *
+ * Used as a wrapper around the dynamically generated
+ * menu items.
+ *****************************/
+
+.popr_content
+    background-color:       $popr-backgroundColor
+    padding:                7px 0
+    margin:                 0
+    white-space:            nowrap;
+
+
+/*****************************
+ * item
+ *
+ * A single dynamically generated menu item.
+ *****************************/
+
+.popr-item
+    display:                block
+    font:                   $popr-font
+    color:                  $popr-color
+    padding:                4px 15px 5px 15px
+    text-decoration:        none
+
+.popr-item:hover
+    background-color:       $popr-backgroundColor-hover

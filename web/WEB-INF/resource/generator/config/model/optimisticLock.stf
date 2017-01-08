@@ -1,0 +1,34 @@
+model
+: name      = optimisticLock
+: help...
+    ---
+    This table is used to coordinate optimistic locks in rare circumstances
+    where the pertinent modifications would otherwise not necessarily
+    touch the same record.
+    ---
+
+database
+: auditLog  = false
+: locking   = true
+
+attributes
+
+
+    //*****************************************************
+    //** name (pk)
+    //*****************************************************
+
+
+    field
+    : name          = name
+    : help...
+        ---
+        The unique 'natural' key.  This can be whatever the client wants.
+        In theory, all clients could use a single record/key to coordinate ALL
+        optimistic locks, but this is a poor design with limited scalability.
+        Instead, clients should try to choose keys that minimize unnecessary
+        collisions.
+        ---
+    : primaryKey    = true
+    : type          = text100
+    : required      = true

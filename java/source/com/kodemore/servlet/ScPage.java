@@ -3,17 +3,18 @@ package com.kodemore.servlet;
 import java.util.function.Consumer;
 
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmSecurityException;
-import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScContextIF;
+import com.kodemore.servlet.action.ScErrorManagerIF;
+import com.kodemore.servlet.action.ScSecurityManagerIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScNonRenderedContainer;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScToastScript;
 import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
+import com.kodemore.utility.KmCompressMemoryIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -23,21 +24,20 @@ import com.kodemore.utility.Kmu;
  * DOES generally add a page to the browser's history.
  */
 public abstract class ScPage
-    implements ScPageIF, ScContextIF
+    implements ScPageIF, ScSecurityManagerIF, ScErrorManagerIF, KmCompressMemoryIF
 {
     //##################################################
     //# variables
     //##################################################
 
-    private String _key;
+    private String                 _key;
 
     /**
      * Each page is assumed to have a single root.
      * The root may be null, which will result in a blank page.
      */
-    private ScPageRoot _root;
+    private ScPageRoot             _root;
 
-    // review_aaron: non rendered container
     /**
      * This is a container for controls that need to be added to
      * the page's heirarch, but not rendered in html.
@@ -68,6 +68,20 @@ public abstract class ScPage
     }
 
     protected abstract void installRoot(ScPageRoot root);
+
+    /**
+     * This is called...
+     * DURING the servlet container setup (MyInstaller),
+     * AFTER all pages have finished their install,
+     * BEFORE the control registry has been locked.
+     *
+     * This provides controls the opportunity to perform some
+     * finalization once the entire hierarchy has been created.
+     */
+    protected void postInstall()
+    {
+        _root.postInstall();
+    }
 
     protected ScPageRoot newPageRoot()
     {
@@ -112,7 +126,6 @@ public abstract class ScPage
         return _root != null;
     }
 
-    // review_aaron: non rendered container
     //##################################################
     //# non rendered container
     //##################################################
@@ -159,7 +172,7 @@ public abstract class ScPage
      * @see #ajaxPrint
      */
     @Override
-    public final void ajaxEnter()
+    public void ajaxEnter()
     {
         ajax().enterPage(this);
     }
@@ -184,18 +197,19 @@ public abstract class ScPage
      * @see ScPageIF#formatQueryString
      */
     @Override
-    public final String formatQueryString()
+    public final String formatQueryString(boolean withState)
     {
-        return composeBookmark().formatUrl();
+        return composeBookmark(withState).formatUrl();
     }
 
-    protected final ScParameterList composeBookmark()
+    protected final ScParameterList composeBookmark(boolean withState)
     {
         ScParameterList v;
         v = new ScParameterList();
         v.setValue(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY, getKey());
 
-        composeBookmarkOn(v);
+        if ( withState )
+            composeBookmarkOn(v);
 
         return v;
     }
@@ -372,22 +386,26 @@ public abstract class ScPage
         String s;
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
-        s = Kmu.removePrefix(s, "Dev");
         s = Kmu.removeSuffix(s, "Page");
         s = Kmu.removeSuffix(s, "Test");
         s = Kmu.formatAsCapitalizedNames(s);
         return s;
     }
 
+    public boolean hasTitle(String e)
+    {
+        return Kmu.isEqual(getTitle(), e);
+    }
+
+    public boolean hasTitleIgnoreCase(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getTitle(), e);
+    }
+
     @Override
     public String toString()
     {
         return getKey();
-    }
-
-    public String getSimpleClassName()
-    {
-        return getClass().getSimpleName();
     }
 
     //##################################################
@@ -419,43 +437,35 @@ public abstract class ScPage
     //##################################################
 
     @Override
-    public abstract void checkSecurity();
-
-    @Override
-    public boolean checkSecuritySilently()
+    public ScSecurityManagerIF getSecurityManager()
     {
-        try
-        {
-            checkSecurity();
-            return true;
-        }
-        catch ( KmSecurityException ex )
-        {
-            return false;
-        }
+        return this;
     }
 
     @Override
+    public ScErrorManagerIF getErrorManager()
+    {
+        return this;
+    }
+
+    //==================================================
+    //= context :: security manager
+    //==================================================
+
+    @Override
+    public abstract void checkSecurity();
+
+    @Override
     public abstract boolean requiresUser();
+
+    //==================================================
+    //= context :: error manager
+    //==================================================
 
     @Override
     public void handleError(KmApplicationException ex)
     {
         ajax().toast(ex.formatMultiLineMessage()).error().sticky();
-    }
-
-    @Override
-    public void handleFatal(RuntimeException ex)
-    {
-        KmLog.fatal(ex);
-
-        ajax().openErrorDialog(ex);
-    }
-
-    @Override
-    public ScContextIF getContext()
-    {
-        return this;
     }
 
     //##################################################
@@ -465,6 +475,11 @@ public abstract class ScPage
     protected ScBlockScript ajax()
     {
         return getData().ajax();
+    }
+
+    protected ScToastScript ajaxToast(String msg, Object... args)
+    {
+        return ajax().toast(msg, args);
     }
 
     protected ScFormatter getFormatter()
@@ -477,7 +492,11 @@ public abstract class ScPage
         return ScBridge.getInstance();
     }
 
-    protected ScAction newAction(Runnable r)
+    //==================================================
+    //= convenience :: actions
+    //==================================================
+
+    protected ScAction newCheckedAction(Runnable r)
     {
         if ( r == null )
             return null;
@@ -485,9 +504,42 @@ public abstract class ScPage
         return new ScAction(this, r);
     }
 
-    protected <T> ScAction newAction(Consumer<T> c, T with)
+    protected <T> ScAction newCheckedAction(Consumer<T> c, T with)
     {
         Runnable r = Kmu.newRunnable(c, with);
-        return newAction(r);
+        return newCheckedAction(r);
+    }
+
+    protected ScAction newUncheckedAction(Runnable r)
+    {
+        if ( r == null )
+            return null;
+
+        ScAction e;
+        e = new ScAction(this, r);
+        e.setChangeTracking(false);
+        return e;
+    }
+
+    protected <T> ScAction newUncheckedAction(Consumer<T> c, T with)
+    {
+        Runnable r = Kmu.newRunnable(c, with);
+        return newUncheckedAction(r);
+    }
+
+    //##################################################
+    //# compress
+    //##################################################
+
+    /**
+     * @see KmCompressMemoryIF#compressMemory()
+     */
+    @Override
+    public void compressMemory()
+    {
+        if ( hasRoot() )
+            getRoot().compressMemory();
+
+        _nonRenderedContainer.compressMemory();
     }
 }

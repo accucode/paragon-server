@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.variable;
 
+import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 
 public class ScLocalCss
@@ -31,13 +32,18 @@ public class ScLocalCss
     //# convenience
     //##################################################
 
+    public KmCssDefaultBuilder toBuilder()
+    {
+        return toDefaultBuilder();
+    }
+
     public KmCssDefaultBuilder toDefaultBuilder()
     {
         return new KmCssDefaultBuilder(this);
     }
 
-    public KmCssDefaultBuilder toBuilder()
+    public KmCssMarginBuilder toMarginBuilder()
     {
-        return toDefaultBuilder();
+        return new KmCssMarginBuilder(this);
     }
 }

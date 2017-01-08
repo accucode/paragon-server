@@ -33,7 +33,7 @@ setup
 setup
 : name              = modelEnum
 : template          = modelEnum.vm
-: targetDirectory   = java/source/${packagePath}/model
+: targetDirectory   = java/source/${packagePath}/model/base
 : fileMode          = oneFilePerEnum
 : fileName          = ${enum.f_Class}.java
 : ifExists          = overwrite
@@ -119,11 +119,11 @@ setup
 : ifExists          = skip
 
 setup
-: name              = daoRegistry
-: template          = daoRegistry.vm
+: name              = daoAccess
+: template          = daoAccess.vm
 : targetDirectory   = java/source/${packagePath}/dao/base
 : fileMode          = oneFile
-: fileName          = ${Prefix}DaoRegistry.java
+: fileName          = ${Prefix}DaoAccess.java
 : ifExists          = overwrite
 
 setup
@@ -182,3 +182,18 @@ setup
 : fileName          = ${model.f_FinderClass}.java
 : ifExists          = overwrite
 
+setup
+: name              = modelType
+: template          = modelType.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}ModelType.java
+: ifExists          = overwrite
+
+setup
+: name              = modelAssociationType
+: template          = ModelAssociationType.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}ModelAssociationType.java
+: ifExists          = overwrite

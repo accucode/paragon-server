@@ -41,7 +41,9 @@ public abstract class MyPerformanceLogSummaryToolsBase
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyPerformanceLogSummaryFilter());
         e.setFinder(new MyPerformanceLogSummaryFinder());
-        e.setOptionKeyAdaptor(Meta.Uid);
+        e.setOptionKeyFunction(Meta.Uid);
+        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setHelp(Meta.getHelp());
         return e;
     }
 }

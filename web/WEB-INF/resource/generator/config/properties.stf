@@ -68,8 +68,20 @@ group
     : default   = 20
     : comment   = The number of lines to include in each context. If set to a value less than or equal to 0 (e.g.: -1), the full context will be stored.
 
+    property
+    : name      = jobPerformanceLogEnabled
+    : type      = boolean
+    : default   = true
+    : comment...
+        ---
+        When enabled each job's performance (ms) is logged.
+        This is enabled by default for production, but it is sometimes useful
+        to temporarily disable this, especially in development. Each java job
+        class can override this to force enablement.
+        ---
+
 group
-: name      = Email
+: name      = EmailJob
 : comment   = This properties are used to send outbound emails.
 
     property
@@ -102,6 +114,10 @@ group
     : default   = 10
     : comment   = The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.
 
+group
+: name      = EmailSupport
+: comment   = This properties are used to send outbound emails.
+
     property
     : name      = sendEmailMethod
     : type      = string
@@ -117,8 +133,12 @@ group
     property
     : name      = sendEmailFromAddress
     : type      = string
-    : default   = DoNotReply@accucode.com
+    : default   = admin@example.com
     : comment   = The address that will be listed as the 'from' address.
+
+group
+: name      = EmailGoogleMail
+: comment   = This properties are used to send outbound emails.
 
     property
     : name      = gmailScheme
@@ -149,6 +169,10 @@ group
     : type      = string
     : default   =
     : comment   = Connecting to gmail.
+
+group
+: name      = EmailSmtp
+: comment   = This properties are used to send outbound emails.
 
     property
     : name      = smtpScheme
@@ -186,33 +210,38 @@ group
     : default   = false
     : comment   = Use SSL when connecting to smtp.
 
+
 group
 : name      = Servlet
 : comment   = General configuration for the servlet framework.
 
     property
-    : name      = servletHost
+    : name      = marketingUrl
     : type      = string
-    : default   =
-    : comment   = This should be set to the appropriate host name. For simple development 'localhost' can typically be used. However, some development and local debugging may need a static IP address.
+    : default   = http://www.4work.expert
+    : comment...
+        ---
+        The url used to redirect people to the marketing website.
+        ---
 
     property
-    : name      = servletScheme
+    : name      = supportUrl
     : type      = string
-    : default   = http
-    : comment   = The scheme used. Typically http, though this may also be set to https.
+    : default   = http://www.4work.expert
+    : comment...
+        ---
+        The url used to redirect people to the general support team and/or help desk.
+        ---
 
     property
-    : name      = servletPort
-    : type      = string
-    : default   =
-    : comment   = The port number used to serve the servlet requests. Normally left blank, so that it defaults based on the scheme.
-
-    property
-    : name      = servletRedirect
+    : name      = servletSslRedirect
     : type      = boolean
     : default   = true
-    : comment   = If true, then attempt to redirect users to the appropriate scheme.
+    : comment...
+        ---
+        If true, requests to the main application servlet will be redirected
+        as an SSL request.
+        ---
 
     property
     : name      = writeLastServletResults
@@ -225,6 +254,18 @@ group
     : type      = boolean
     : default   = false
     : comment   = If true, a counter is appended to the file name so that the results are not overwritten each time.
+
+    property
+    : name      = bootstrapSystemHostname
+    : type      = string
+    : default   = system.4work.expert
+    : comment...
+        ---
+        This is primarily used when bootstraping the initial 'system' tenant.
+        After the initial bootstrap, the application should rely on the hostname
+        configured in the tenant database and identified by the 'system' uid in case
+        the hostname is reconfigured in the live system.
+        ---
 
 group
 : name      = ServerSession
@@ -538,7 +579,7 @@ group
     : name      = dataProcessorJobEnabled
     : type      = boolean
     : default   = true
-    : comment   = Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.
+    : comment   = Indicates if the job should be run.
 
     property
     : name      = dataProcessorJobActiveSeconds
@@ -550,6 +591,60 @@ group
     : name      = dataProcessorJobIdleSeconds
     : type      = integer
     : default   = 60
+    : comment   = The idle frquency of the job.
+
+    property
+    : name      = taskReleaseHoldJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = taskReleaseHoldJobActiveSeconds
+    : type      = integer
+    : default   = 1
+    : comment   = The active frquency of the job.
+
+    property
+    : name      = taskReleaseHoldJobIdleSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = The idle frquency of the job.
+
+    property
+    : name      = clearThemeCacheJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = clearThemeCacheJobActiveSeconds
+    : type      = integer
+    : default   = 300
+    : comment   = The active frquency of the job.
+
+    property
+    : name      = clearThemeCacheJobIdleSeconds
+    : type      = integer
+    : default   = 300
+    : comment   = The idle frquency of the job.
+
+    property
+    : name      = taskSchedulerJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = taskSchedulerJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = The active frquency of the job.
+
+    property
+    : name      = taskSchedulerJobIdleSeconds
+    : type      = integer
+    : default   = 5
     : comment   = The idle frquency of the job.
 
 group
@@ -599,6 +694,12 @@ group
     : comment   = If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.
 
     property
+    : name      = printAjaxTime
+    : type      = boolean
+    : default   = false
+    : comment   = If true, the time spent on each ajax call is logged.
+
+    property
     : name      = ajaxLogDeleteOnStart
     : type      = boolean
     : default   = false
@@ -644,7 +745,29 @@ group
     : name      = autoLoginEmail
     : type      = string
     : default   =
-    : comment   = If not blank, automatically login as this user.  Useful for development.
+    : comment   = Used in development to enable automatic login.
+
+    property
+    : name      = deleteThreadTopicsOnStart
+    : type      = boolean
+    : default   = false
+    : comment...
+        ---
+        If true, all thread topics are deleted upon application start up.
+        This is useful for simpler testing in development when we are
+        GUARANTEED that there will be only a single JVM running at a time.
+        This should NOT be enabled in stage or prod.
+        ---
+
+    property
+    : name      = renderDebugDomComments
+    : type      = boolean
+    : default   = false
+    : comment...
+        ---
+        If true, render an html comment into the dom that identifies
+        the class name of the page and various controls.
+        ---
 
 group
 : name      = GoogleChart
@@ -684,3 +807,71 @@ group
     : default   =
     : comment   = If set, the system will create a default user when bootstrapping the initial database installation.
 
+group
+: name      = OneAll
+: comment   = Used to configure the OneAll social login.
+
+    property
+    : name      = oneAllEnabled
+    : type      = boolean
+    : default   = false
+    : comment...
+        ---
+        Determine if the oneAll login is enabled.
+        This is disabled by default, and can only be enabled in a hosting
+        environment that has a routable domain name.
+        ---
+
+    property
+    : name      = oneAllHost
+    : type      = string
+    : default   =
+    : comment...
+        ---
+        The oneAll uri used to host our authentication service.
+        This is provided by oneAll.
+        E.g.: ourApplication.api.oneall.com
+        ---
+
+    property
+    : name      = oneAllPublicKey
+    : type      = string
+    : default   =
+    : comment...
+        ---
+        The public key provided by OneAll.
+        ---
+
+    property
+    : name      = oneAllPrivateKey
+    : type      = string
+    : default   =
+    : comment...
+        ---
+        The private key provided by OneAll.
+        ---
+
+group
+: name      = Intacct
+: comment   = Intacct Web Services.
+
+    property
+    : name      = intacctSenderId
+    : type      = string
+    : default   = Accu2015
+    : comment...
+        ---
+        The senderId and password are used to establish a connection with
+        Intacct Web Services, but NOT with any specific company/account.
+        Access to company data is controlled through the user authentication
+        details which may be configured for a particular tenant.
+        ---
+
+    property
+    : name      = intacctSenderPassword
+    : type      = string
+    : default   = C78k06P1M5
+    : comment...
+        ---
+        See intacctSenderId.
+        ---

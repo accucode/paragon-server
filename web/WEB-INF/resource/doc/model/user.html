@@ -16,209 +16,715 @@
 <body>
 <h1>user</h1>
 
-${model.f_comment}<br>
+<table class="attributeTable">
+<tr>
+  <th>Summary</th>
+</tr>
+<tr>
+  <td>Users define the people that can log in to a particular tenant. Most users are configured as Other and then given project specific roles. A few users may be configured as Admin users so that they can create new projects.</td>
+</tr>
+</table>
+
+<br>
 <br>
 
-<table cellspacing=0 cellpadding=3 border=1>
+<table class="attributeTable">
 <tr>
-  <th>Attribute</th>
-  <th>Help / Comment</th>
-  <th>Format</th>
+  <th>Fields</th>
+  <th>Type</th>
   <th>Attributes</th>
+  <th>Description</th>
 </tr>
 <tr>
-  <td>uid&nbsp;</td>
-  
+  <td>active&nbsp;</td>
+
+  <td>boolean
+              </td>
+
   <td>
-            <i>Help</i><br>
-        The global unique key.  This is a big ugly number and is usually not displayed.<br>
-            &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-            pk<br>                required<br>           &nbsp;
+    Indicates if this user is allowed to log in&#46; New users are active by default&#44; but can be de&#45;activated to easily restrict access to the entire system&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>name&nbsp;</td>
-  
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
   <td>
-            <i>Help</i><br>
-        The user's full name.  E.g.: \"John Doe\".<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                   required<br>           &nbsp;
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
   </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardLineCount1&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The number of panels to display on the first line&#44; 0&#45;3&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardLineCount2&nbsp;</td>
+
+  <td>integer
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The number of panels to display on the second line&#44; 0&#45;3&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardOrientationTypeCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    Indicates whether the dashboard should be organized for portrait or landscape&#46; The &#39;Auto&#39; mode will attempt to update the layout automatically depending on the orientation of your screen&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeA&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position A&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeB&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position B&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeC&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position B&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeD&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position D&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeE&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position E&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeF&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position F&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>dashboardPanelCodeG&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The panel to display in position G&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>displayString&nbsp;</td>
+
+  <td>abstractText
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>email&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        Used both to sign in, and to send emails to this user.<br>
-                <br><i>Comment</i><br>
-        Note: this must be unique across the entire system, not just the project.
-        &nbsp;
-  </td>
-  
+
   <td>email
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                   required<br>           &nbsp;
+                                <nobr>required</nobr><br>                        &nbsp;
   </td>
+
+  <td>
+    Used both to sign in&#44; and to send emails to this user&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
-  <td>phone&nbsp;</td>
-  
+  <td>firstName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The number that may be used to contact this user.<br>
-            &nbsp;
+                                        &nbsp;
   </td>
-  
-  <td>phone
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    The user&#39;s first name&#59; e&#46;g&#46;&#58; John&#44; Jane&#46; This may be blank&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>verified&nbsp;</td>
-  
+  <td>formalName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>boolean
-              </td>
+
   <td>
-                   required<br>           &nbsp;
+    The first and last name together&#59; e&#46;g&#46;&#58; Smith&#44; John&#46; Use the nickname if the first and last names are both empty&#46; This should never be blank&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>passwordSalt&nbsp;</td>
-  
+  <td>fullName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.<br>
-            &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
-  
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                   required<br>           &nbsp;
+    The first and last name together&#59; e&#46;g&#46;&#58; John Smith&#46; Use the nickname if the first and last names are both empty&#46; This should never be blank&#46;
+    &nbsp;
   </td>
+
 </tr>
 <tr>
-  <td>passwordHash&nbsp;</td>
-  
+  <td>lastName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-            <i>Help</i><br>
-        The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.<br>
-            &nbsp;
+                                        &nbsp;
   </td>
-  
-  <td>shaHash
-        <br><nobr>max length: 40</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+
   <td>
-                         &nbsp;
+    The user&#39;s last name&#59; e&#46;g&#46;&#58; Smith&#44; Jones&#46; This may be blank&#46;
+    &nbsp;
   </td>
-</tr>
-<tr>
-  <td>timeZoneCode&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The user's preferred time zone.<br>
-            &nbsp;
-  </td>
-  
-  <td>timeZoneCode
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>roleCode&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The global access role.  E.g.: Admin, Developer, or Other.<br>
-            &nbsp;
-  </td>
-  
-  <td>letterCode
-        <br><nobr>max length: 1</nobr>           <br>allows(
-                      letters
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
+
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
-            &nbsp;
-  </td>
-  
+
   <td>lockVersion
               </td>
+
   <td>
-                         &nbsp;
+                                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>longName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Return the first name&#44; last name&#44; and nick name&#44; formatted for display on screen&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>nickname&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s short nickname&#44; for informal use&#46; This may be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>passwordHash&nbsp;</td>
+
+  <td>shaHash
+                <br><nobr>max length: 40</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The password sha hash used to authenticate the user&#46; The actual password is not stored&#46; If the user has no password the hash is set to empty string&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>passwordSalt&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The salt used for this user&#46; Each user has a different salt&#46; The salt is set to a random value when the user is created&#46; Once set the salt should never be changed&#44; changing it will invalidate the password&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>phone&nbsp;</td>
+
+  <td>phone
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The number that may be used to contact this user&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>roleCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s global access role&#46;<br><br> Developer&#44; has full access to all data and functions in the app&#46;<br><br> Admin&#44; has access to admin functions e&#46;g&#46; adding&#47;editing users and projects&#46;<br><br> Other&#44; any other user&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>roleName&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        The global access role.  E.g.: Admin, Developer, or Other.<br>
-            &nbsp;
-  </td>
-  
+
   <td>name
-        <br><nobr>max length: 50</nobr>           <br>allows(
-                      printable
-            )
-      </td>
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
   <td>
-                         &nbsp;
+                 <nobr>abstract</nobr><br>                                       &nbsp;
   </td>
+
+  <td>
+    The user&#39;s global access role&#46;<br><br> Developer&#44; has full access to all data and functions in the app&#46;<br><br> Admin&#44; has access to admin functions e&#46;g&#46; adding&#47;editing users and projects&#46;<br><br> Other&#44; any other user&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>shortName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Return a single name&#44; preferably the nickname or first name&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>timeZoneCode&nbsp;</td>
+
+  <td>timeZoneCode
+                <br><nobr>max length: 40</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s preferred time zone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<table class="attributeTable">
+<tr>
+  <th>Collections</th>
+  <th>Type</th>
+  <th>Comment</th>
 </tr>
 </table>
 

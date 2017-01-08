@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,15 @@ package com.kodemore.servlet.control;
 
 import java.util.function.Function;
 
-import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.validator.KmRequiredValidator;
+import com.kodemore.validator.KmValidator;
 
 public class ScUtility
 {
+    //##################################################
+    //# conversion
+    //##################################################
+
     @SuppressWarnings("rawtypes")
     public static Function toFunction(Object val)
     {
@@ -37,12 +41,6 @@ public class ScUtility
 
         if ( val instanceof Function )
             return (Function)val;
-
-        if ( val instanceof KmAdaptorIF )
-            return ((KmAdaptorIF)val).toFunction();
-
-        if ( val instanceof KmMetaAttribute )
-            return ((KmMetaAttribute)val).getGetter();
 
         return new Function()
         {
@@ -53,4 +51,37 @@ public class ScUtility
             }
         };
     }
+
+    //##################################################
+    //# validators
+    //##################################################
+
+    public static <T> KmValidator<T> toRequiredValidator(KmValidator<T> e)
+    {
+        if ( e == null )
+            return new KmRequiredValidator<>();
+
+        if ( e.isRequired() )
+            return e;
+
+        KmValidator<T> copy;
+        copy = e.getCopy();
+        copy.setRequired();
+        return copy;
+    }
+
+    public static <T> KmValidator<T> toOptionalValidator(KmValidator<T> e)
+    {
+        if ( e == null )
+            return null;
+
+        if ( e.isOptional() )
+            return e;
+
+        KmValidator<T> copy;
+        copy = e.getCopy();
+        copy.setOptional();
+        return copy;
+    }
+
 }

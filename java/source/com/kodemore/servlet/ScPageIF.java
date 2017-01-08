@@ -30,7 +30,7 @@ public interface ScPageIF
     /**
      * Apply the state from the page, to the url parameters.  This enables the
      * use of bookmarkable urls that return a page to a particular state.
-     * The only dependency is that the applyQueryParameters method should know
+     * The only dependency is that the applyBookmark method should know
      * how to interpret any parameters that are set here.
      *
      * @see #applyBookmark
@@ -87,6 +87,10 @@ public interface ScPageIF
      * Return a url query string that represents the current bookmarkable state
      * of the page.
      */
-    String formatQueryString();
+    String formatQueryString(boolean withState);
 
+    default String formatQueryString()
+    {
+        return formatQueryString(true);
+    }
 }

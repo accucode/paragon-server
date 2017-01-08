@@ -44,7 +44,7 @@ public class KmgModelValueCollection
         return _element;
     }
 
-    public KmgModelType getType()
+    public KmgModelFieldType getType()
     {
         return getElement().getType();
     }

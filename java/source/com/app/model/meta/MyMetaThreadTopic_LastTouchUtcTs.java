@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaThreadTopic_LastTouchUtcTs
     {
         return "The last time the owner TOUCHED this task. This is used to coordinate ownership. JVM may shutdown, get restarted, or simply hang completely. If the current owner has not touched the record in the last 10 minutes, then it is assumed that the owner has died and that someone else should be assigned as the owner.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaThreadTopic_LastTouchUtcTs
         return getAccess().getThreadTopicDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaThreadTopic_LastTouchUtcTs
     {
         return model.getLastTouchUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyThreadTopic model, KmTimestamp value)
     {
         model.setLastTouchUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyThreadTopic model, KmTimestamp value)
     {
         return model.hasLastTouchUtcTs(value);
     }
-    
+
 }

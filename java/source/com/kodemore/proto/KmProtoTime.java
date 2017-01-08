@@ -1,6 +1,8 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.hibernate.KmhTimeCondition;
+import com.kodemore.hibernate.type.KmhTimeType;
 import com.kodemore.meta.KmMetaTimeProperty;
 import com.kodemore.servlet.field.ScTimeField;
 import com.kodemore.time.KmTime;
@@ -22,15 +24,27 @@ public class KmProtoTime
     }
 
     @Override
-    public String getDatabaseType(KmgModelType e)
+    public String getDatabaseType(KmgModelFieldType e)
     {
         return "time";
     }
 
     @Override
+    public String format_CriteriaClass()
+    {
+        return KmhTimeCondition.class.getSimpleName();
+    }
+
+    @Override
+    public String format_CriteriaClass_NoGeneric()
+    {
+        return format_CriteriaClass();
+    }
+
+    @Override
     public String getHibernateType()
     {
-        return null;
+        return KmhTimeType.class.getName();
     }
 
     @Override

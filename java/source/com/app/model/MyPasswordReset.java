@@ -3,10 +3,12 @@ package com.app.model;
 import com.kodemore.time.KmTimestamp;
 
 import com.app.model.base.MyPasswordResetBase;
+import com.app.model.core.MyTenantDomainIF;
 import com.app.ui.page.login.MyPasswordResetPage;
 
 public class MyPasswordReset
     extends MyPasswordResetBase
+    implements MyTenantDomainIF
 {
     //##################################################
     //# constructor
@@ -34,7 +36,7 @@ public class MyPasswordReset
             return false;
 
         KmTimestamp expiration = getExpirationUtcTs();
-        KmTimestamp now = getNowUtc();
+        KmTimestamp now = nowUtc();
 
         return now.isAfter(expiration);
     }
@@ -46,7 +48,7 @@ public class MyPasswordReset
 
     public MyUser findUser()
     {
-        return getAccess().getUserDao().findEmail(getEmail());
+        return getAccess().getUserDao().findEmail(getTenant(), getEmail());
     }
 
     //##################################################
@@ -58,5 +60,4 @@ public class MyPasswordReset
     {
         return getEmail();
     }
-
 }

@@ -2,6 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDateAgo;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -70,7 +71,7 @@ public final class MyTimeAgoTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill().auto();
 
         installTimeSamples(root);
         installDateSamples(root);
@@ -80,13 +81,17 @@ public final class MyTimeAgoTestPage
     {
         KmTimestamp origin = getNowUtc();
 
+        root.css().fill().flexRow().flexCrossAlignStretch().rowSpacer10();
+
         ScGroup group;
         group = root.addGroup("Time Ago");
-        group.css().floatLeft();
-        group.style().width(200);
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad().auto();
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFieldTable();
+        fields = body.addPad().addFieldTable();
 
         ScText nowText;
         nowText = fields.addText(origin.format_m_d_yyyy_hh_mm_ss());
@@ -139,11 +144,13 @@ public final class MyTimeAgoTestPage
 
         ScGroup group;
         group = root.addGroup("Date Ago");
-        group.css().floatLeft();
-        group.style().width(200);
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad().auto();
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFieldTable();
+        fields = body.addFieldTable();
 
         ScText nowText;
         nowText = fields.addText(origin.format_mm_dd_yyyy());

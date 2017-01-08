@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,45 +23,90 @@
 package com.kodemore.servlet.field;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocal;
-import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalFunction;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmKeyFinderIF;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmRequiredValidator;
-import com.kodemore.validator.KmValidator;
 
+/**
+ * I display a dropdown to select a single domain value.
+ *
+ * Unlike the ScDropdown or ScListField, I am specialized to
+ * coordinate a list of domain objects rather than a list of
+ * simple value such as string, integer, or date.
+ *
+ * Since domain models are not directly renderable or encodable
+ * clients must configure adapters for the key and label.
+ *
+ * Clients cannot set the options directly.  Instead clients
+ * specify a filter (or filter factory) that automatically
+ * fetches the pertinent options when needed.
+ */
 public class ScDomainDropdownField<T, K>
     extends ScField<T>
 {
     //##################################################
+    //# static :: layout enum
+    //##################################################
+
+    /**
+     * The various layout options.
+     */
+    private static enum Layout
+    {
+        /**
+         * Treat the control as an inline element, with a fixed width.
+         * This is similar to the way a standalone input element works.
+         * This is the default.
+         */
+        inline,
+
+        /**
+         * Treat the control as a block element (not inline).
+         * The control will generally span an entire row, much like a div.
+         */
+        block,
+
+        /**
+         * For use inside a flexbox (row), the child will fill the available space.
+         */
+        flexFiller;
+    }
+
+    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalAdaptor _optionKeyAdaptor;
-    private ScLocalAdaptor _optionLabelAdaptor;
+    /**
+     * The key of the currently selected value.
+     * Note that the dropdown's value is typically a domain model, e.g.: Customer.
+     * But the key is typically a string such as the Customer's uid.
+     */
+    private ScLocal<K>                _valueKey;
 
-    private ScLocalString _nullPrefix;
+    private ScLocalFunction<T,K>      _optionKeyFunction;
+    private ScLocalFunction<T,String> _optionLabelFunction;
 
-    private ScLocal<K> _valueKey;
+    private ScLocalString             _nullPrefix;
 
-    private ScLocalBoolean _readOnly;
-    private ScLocalBoolean _disabled;
-
-    private KmValidator<T> _validator;
+    private ScLocalBoolean            _disabled;
 
     /**
      * Used to find the list of options to be displayed.
@@ -70,7 +115,7 @@ public class ScDomainDropdownField<T, K>
      *
      * @see #_filterFactory
      */
-    private KmFilterIF<T> _filter;
+    private KmFilterIF<T>             _filter;
 
     /**
      * Used to specify a dynamic filter.
@@ -80,34 +125,76 @@ public class ScDomainDropdownField<T, K>
      * Clients should set either the filter or filterFactory; NOT both.
      * @see #_filter
      */
-    private KmFilterFactoryIF<T> _filterFactory;
+    private KmFilterFactoryIF<T>      _filterFactory;
 
     /**
      * Find a model by its key.  This lookup is independent of
      * the filter.  In practice, the value returned should be
      * a value from the filter, but this is not guaranteed or validated.
      */
-    private KmKeyFinderIF<T,K> _finder;
+    private KmKeyFinderIF<T,K>        _finder;
+
+    /**
+     * If set, this action will be called each time the user changes the
+     * dropdown selection.
+     */
+    private ScAction                  _onChangeAction;
+
+    private Layout                    _layout;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDomainDropdownField()
     {
-        super.install();
-
         _valueKey = new ScLocal<>();
-        _validator = null;
 
-        _optionKeyAdaptor = new ScLocalAdaptor();
-        _optionLabelAdaptor = new ScLocalAdaptor();
+        _optionKeyFunction = new ScLocalFunction<>();
+        _optionLabelFunction = new ScLocalFunction<>();
 
-        _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
 
         _nullPrefix = new ScLocalString();
+        layoutInline();
+    }
+
+    //##################################################
+    //# html id
+    //##################################################
+
+    @Override
+    public String getHtmlId()
+    {
+        return getKey();
+    }
+
+    private String getSelectHtmlId()
+    {
+        return getKey() + "-select";
+    }
+
+    private String getSelectHtmlName()
+    {
+        return getSelectHtmlId();
+    }
+
+    //##################################################
+    //# encodable value
+    //##################################################
+
+    @Override
+    public Object getEncodableValue()
+    {
+        return getKeyFor(getValue());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void setEncodableValue(Object e)
+    {
+        K key = (K)e;
+        setValue(findValue(key));
     }
 
     //##################################################
@@ -125,6 +212,10 @@ public class ScDomainDropdownField<T, K>
         _filterFactory = null;
     }
 
+    //==================================================
+    //= filter factory
+    //==================================================
+
     public KmFilterFactoryIF<T> getFilterFactory()
     {
         return _filterFactory;
@@ -135,6 +226,23 @@ public class ScDomainDropdownField<T, K>
         _filter = null;
         _filterFactory = e;
     }
+
+    public void setFilterFactoryWith(Supplier<KmFilterIF<T>> sup)
+    {
+        KmFilterFactoryIF<T> ff = new KmFilterFactoryIF<T>()
+        {
+            @Override
+            public KmFilterIF<T> createFilter()
+            {
+                return sup.get();
+            }
+        };
+        setFilterFactory(ff);
+    }
+
+    //==================================================
+    //= filter :: options
+    //==================================================
 
     private KmList<T> getOptions()
     {
@@ -170,126 +278,218 @@ public class ScDomainDropdownField<T, K>
     }
 
     //##################################################
-    //# EncodedValueIF
-    //##################################################
-
-    @Override
-    public Object getEncodedValue()
-    {
-        return getKeyFor(getValue());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void setEncodedValue(Object e)
-    {
-        K key = (K)e;
-        setValue(findValue(key));
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<T> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<T> e)
-    {
-        _validator = e;
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public void setRequired()
-    {
-        if ( hasValidator() )
-            getValidator().setRequired();
-        else
-            setValidator(new KmRequiredValidator<T>());
-    }
-
-    public void setOptional()
-    {
-        if ( hasValidator() )
-            getValidator().setOptional();
-    }
-
-    //##################################################
-    //# session
-    //##################################################
-
-    @Override
-    public void saveFieldValues()
-    {
-        super.saveFieldValues();
-    }
-
-    @Override
-    public void resetFieldValues()
-    {
-        super.resetFieldValues();
-        resetValue();
-    }
-
-    protected String getDefaultFocusKey()
-    {
-        return getKey();
-    }
-
-    //##################################################
     //# prefixes
     //##################################################
-
-    public void setNullPrefix()
-    {
-        setNullPrefix("");
-    }
-
-    public void setNullNonePrefix()
-    {
-        setNullPrefix("<none>");
-    }
-
-    public void setNullDefaultPrefix()
-    {
-        setNullPrefix("<default>");
-    }
-
-    public void setNullAnyPrefix()
-    {
-        setNullPrefix("<any>");
-    }
-
-    public void setNullSelectPrefix()
-    {
-        setNullPrefix("<select>");
-    }
 
     public void setNullPrefix(String label)
     {
         _nullPrefix.setValue(label);
     }
 
+    public void setNullAllPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_ALL);
+    }
+
+    public void setNullAnyPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_ANY);
+    }
+
+    public void setNullDefaultPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_DEFAULT);
+    }
+
+    public void setNullNonePrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_NONE);
+    }
+
+    public void setNullSelectPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_SELECT);
+    }
+
+    public void setNullUnknownPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_UNKNOWN);
+    }
+
     //##################################################
-    //# parameters
+    //# on change
+    //##################################################
+
+    public void onChange(ScAction e)
+    {
+        _onChangeAction = e;
+    }
+
+    public void onChange(Runnable e)
+    {
+        onChange(newCheckedAction(e));
+    }
+
+    private String formatOnChange()
+    {
+        if ( _onChangeAction == null )
+            return null;
+
+        ScForm form = findFormWrapper();
+        ScHtmlIdIF block = findBlockWrapper();
+
+        ScActionScript s;
+        s = new ScActionScript();
+        s.setAction(_onChangeAction);
+        s.setForm(form);
+        s.setModel(getModel());
+        s.setBlockTarget(block);
+
+        return s.formatScript();
+    }
+
+    //##################################################
+    //# options :: keys
+    //##################################################
+
+    public Function<T,K> getOptionKeyFunction()
+    {
+        return _optionKeyFunction.getValue();
+    }
+
+    public void setOptionKeyFunction(Function<T,K> e)
+    {
+        _optionKeyFunction.setValue(e);
+    }
+
+    private K getKeyFor(T value)
+    {
+        return Kmu.applySafe(getOptionKeyFunction(), value);
+    }
+
+    //==================================================
+    //= options :: labels
+    //==================================================
+
+    public Function<T,String> getOptionLabelFunction()
+    {
+        return _optionLabelFunction.getValue();
+    }
+
+    public void setOptionLabelFunction(Function<T,String> e)
+    {
+        _optionLabelFunction.setValue(e);
+    }
+
+    private String getLabelFor(T value)
+    {
+        return Kmu.applySafe(getOptionLabelFunction(), value);
+    }
+
+    //##################################################
+    //# value
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    public T getValue()
     {
-        super.readParameters(data);
-        if ( hasKeyParameter(data) )
-        {
-            K key = decodeKeyParameterSafe(data);
-            _valueKey.setValue(key);
-        }
+        if ( _valueKey.isNull() )
+            return null;
+
+        K key = _valueKey.getValue();
+        return findValue(key);
+    }
+
+    @Override
+    public void setValue(T e)
+    {
+        _valueKey.setValue(getKeyFor(e));
+    }
+
+    /**
+     * Ensure that the value is valid (or null).
+     * Clear the value if it is not included the list of options.
+     * Return true if the value is modified.
+     */
+    public boolean ensureValidValue()
+    {
+        if ( !hasValue() )
+            return false;
+
+        if ( getOptions().contains(getValue()) )
+            return false;
+
+        clearValue();
+        return true;
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _valueKey.saveValue();
+    }
+
+    @Override
+    public void resetValue()
+    {
+        _valueKey.resetValue();
+    }
+
+    //==================================================
+    //= value :: key
+    //==================================================
+
+    private K getValueKey()
+    {
+        return _valueKey.getValue();
+    }
+
+    //##################################################
+    //# enabled
+    //##################################################
+
+    public void enable()
+    {
+        _disabled.setFalse();
+    }
+
+    public void disable()
+    {
+        _disabled.setTrue();
+    }
+
+    public boolean isDisabled()
+    {
+        return _disabled.isTrue();
+    }
+
+    @Override
+    public boolean isEditable()
+    {
+        return !isDisabled();
+    }
+
+    //##################################################
+    //# layout
+    //##################################################
+
+    public void layoutInline()
+    {
+        _layout = Layout.inline;
+    }
+
+    public void layoutBlock()
+    {
+        _layout = Layout.block;
+    }
+
+    public void layoutFlexFiller()
+    {
+        _layout = Layout.flexFiller;
     }
 
     //##################################################
@@ -299,34 +499,68 @@ public class ScDomainDropdownField<T, K>
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        if ( _readOnly.getValue() )
-            renderReadOnlyControl(out);
-        else
-            renderEditableControl(out);
+        out.openDiv();
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute(getCss());
+        out.printAttribute(getStyle());
+        out.close();
+
+        renderHelpOn(out);
+        renderSelectOn(out);
+
+        out.endDiv();
     }
 
-    private void renderReadOnlyControl(KmHtmlBuilder out)
+    private KmCssDefaultBuilder getCss()
     {
-        T e = getValue();
-        if ( e == null )
-            return;
+        KmCssDefaultBuilder css;
+        css = newCssBuilder();
+        css.dropdownField();
 
-        ScText text;
-        text = new ScText();
-        text.setValue(getLabelFor(e));
-        text.renderOn(out);
+        switch ( _layout )
+        {
+            case inline:
+                css.flexInlineRow();
+                break;
+
+            case block:
+                css.flexRow();
+                break;
+
+            case flexFiller:
+                css.flexInlineRow();
+                css.flexChildFiller();
+                break;
+        }
+        return css;
     }
 
-    public void renderEditableControl(KmHtmlBuilder out)
+    private KmStyleBuilder getStyle()
+    {
+        return getVisible()
+            ? null
+            : newStyleBuilder().hide();
+    }
+
+    private void renderHelpOn(KmHtmlBuilder out)
+    {
+        out.printHelpImage(getHelp());
+    }
+
+    public void renderSelectOn(KmHtmlBuilder out)
     {
         out.open("select");
-        out.printAttribute("id", getHtmlId());
-        if ( isDisabled() )
-            out.printAttribute("disabled");
-        else
-            out.printAttribute("name", getHtmlName());
+        out.printAttribute("id", getSelectHtmlId());
+        out.printAttribute("name", getSelectHtmlName());
         out.printAttribute("size", 1);
-        out.printAttribute(formatCss());
+        out.printAttribute("onchange", formatOnChange());
+
+        if ( isDisabled() )
+            out.printAttribute("disabled", "disabled");
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, encode(getValueKey()));
+
         out.close();
 
         renderNullPrefix(out);
@@ -371,176 +605,20 @@ public class ScDomainDropdownField<T, K>
         out.end("option");
     }
 
-    private KmCssDefaultBuilder formatCss()
-    {
-        return newCssBuilder().dropdown();
-    }
-
     //##################################################
-    //# validate
+    //# parameters
     //##################################################
 
     @Override
-    public boolean validateQuietly()
+    protected void readParameters_here(ScServletData data)
     {
-        boolean ok = super.validateQuietly();
+        String htmlName = getSelectHtmlName();
 
-        if ( _validator == null )
-            return ok;
+        if ( !data.hasParameter(htmlName) )
+            return;
 
-        KmList<KmErrorIF> errors = new KmList<>();
-        _validator.validateOnly(getValue(), errors);
-
-        if ( errors.isEmpty() )
-            return ok;
-
-        setErrors(errors);
-        return false;
-    }
-
-    //##################################################
-    //# keys
-    //##################################################
-
-    @SuppressWarnings("unchecked")
-    public KmAdaptorIF<T,K> getOptionKeyAdaptor()
-    {
-        return _optionKeyAdaptor.getValue();
-    }
-
-    public void setOptionKeyAdaptor(KmAdaptorIF<T,K> e)
-    {
-        _optionKeyAdaptor.setValue(e);
-    }
-
-    public void setOptionKeyAdaptor(KmMetaAttribute<T,K> attr)
-    {
-        setOptionKeyAdaptor(attr.getAdaptor());
-    }
-
-    private K getKeyFor(T value)
-    {
-        if ( value == null )
-            return null;
-
-        return getOptionKeyAdaptor().getValue(value);
-    }
-
-    //##################################################
-    //# labels
-    //##################################################
-
-    @SuppressWarnings("unchecked")
-    public KmAdaptorIF<T,String> getOptionLabelAdaptor()
-    {
-        return _optionLabelAdaptor.getValue();
-    }
-
-    public void setOptionLabelAdaptor(KmAdaptorIF<T,String> e)
-    {
-        _optionLabelAdaptor.setValue(e);
-    }
-
-    public void setOptionLabelAdaptor(KmMetaAttribute<T,String> attr)
-    {
-        setOptionLabelAdaptor(attr.getAdaptor());
-    }
-
-    private String getLabelFor(T value)
-    {
-        return getOptionLabelAdaptor().getValue(value);
-    }
-
-    //##################################################
-    //# value
-    //##################################################
-
-    @Override
-    public T getValue()
-    {
-        if ( _valueKey.isNull() )
-            return null;
-
-        K key = _valueKey.getValue();
-        return findValue(key);
-    }
-
-    @Override
-    public void setValue(T e)
-    {
-        _valueKey.setValue(getKeyFor(e));
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _valueKey.resetValue();
-    }
-
-    public boolean hasValue(T e)
-    {
-        return Kmu.isEqual(getValue(), e);
-    }
-
-    private K getValueKey()
-    {
-        return _valueKey.getValue();
-    }
-
-    //##################################################
-    //# read only
-    //##################################################
-
-    public void setReadOnly(boolean b)
-    {
-        if ( b )
-            setReadOnly();
-        else
-            setEditable();
-    }
-
-    public void setReadOnly()
-    {
-        _readOnly.setTrue();
-    }
-
-    public void setEditable()
-    {
-        _readOnly.setFalse();
-    }
-
-    public boolean isReadOnly()
-    {
-        return _readOnly.isTrue();
-    }
-
-    //##################################################
-    //# enabled
-    //##################################################
-
-    public void enable()
-    {
-        _disabled.setFalse();
-    }
-
-    public void disable()
-    {
-        _disabled.setTrue();
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
-    }
-
-    //##################################################
-    //# editable
-    //##################################################
-
-    @Override
-    public boolean isEditable()
-    {
-        return !isReadOnly() && !isDisabled();
+        K key = decodeUnchecked(data.getParameter(htmlName));
+        _valueKey.setValue(key);
     }
 
     //##################################################
@@ -548,11 +626,22 @@ public class ScDomainDropdownField<T, K>
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(T e)
     {
-        String value = encode(getValueKey());
-
-        ajax().setValue(value);
-        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(e, getChangeTracking());
     }
+
+    @Override
+    public void ajaxSetFieldValue(T e, boolean updateOldValue)
+    {
+        String htmlValue = encode(getKeyFor(e));
+
+        ScHtmlIdAjax ajax;
+        ajax = newHtmlIdAjaxOn(getSelectHtmlId());
+        ajax.setValue(htmlValue);
+
+        if ( updateOldValue )
+            ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+    }
+
 }

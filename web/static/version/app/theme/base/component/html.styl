@@ -1,0 +1,37 @@
+/*****************************
+ ** html
+ *****************************/
+
+/*
+ * This is a cross-browser hack that allows us to specify
+ * fonts using the 'rem' unit in a consistent way throughout
+ * the entire page without worrying about the inheritence rules.
+ * Instead of specifying a font size of 16px, we use 1.6rem.
+ */
+html
+    font-size:      62.5%; /* 10px */
+    line-height:    1.2;
+
+body
+    overflow:       hidden
+    font:           $body-font
+    color:          $body-color
+    background:     $body-background
+
+
+/*******************************************************************
+ ** environment
+ **
+ ** These styles are applied to the top level 'body' element and
+ ** are primarily used by the header to indicate when a developer
+ ** is accessing the stage/production environments.
+ *******************************************************************/
+
+.environmentStage
+    /* noop - prevent compression */
+    content: normal
+
+
+.environmentProduction
+    /* noop - prevent compression */
+    content: normal

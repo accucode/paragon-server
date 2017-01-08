@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaPatch_InstalledLocalTime
     @Override
     public String getHelp()
     {
-        return "The date and time when the patch was installed in this database.";
+        return "The installed time of day based on the user's local timezone.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaPatch_InstalledLocalTime
     {
         return model.getInstalledLocalTime();
     }
-    
+
     @Override
     public boolean hasValueFor(MyPatch model, KmTime value)
     {
         return model.hasInstalledLocalTime(value);
     }
-    
+
 }

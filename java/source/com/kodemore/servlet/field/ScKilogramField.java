@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,20 +28,29 @@ public class ScKilogramField
     extends ScAbstractTextField<KmKilogram>
 {
     //##################################################
-    //# value
+    //# conversion
     //##################################################
 
     @Override
-    public KmKilogram getValueFor(String s)
+    protected KmKilogram textToValue(String text)
     {
-        return getFormatter().parseKilogram(s);
+        return getFormatter().parseKilogram(text);
     }
 
     @Override
-    public void setValue(KmKilogram value)
+    protected String valueToText(KmKilogram value)
     {
-        String s = getFormatter().formatKilogram(value);
-        setText(s);
+        return getFormatter().formatKilogram(value);
+    }
+
+    //##################################################
+    //# sample
+    //##################################################
+
+    @Override
+    public KmKilogram getSampleValue()
+    {
+        return new KmKilogram(1.23);
     }
 
 }

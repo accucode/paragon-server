@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaApplicationLog_Trace
     {
         return "The full text of the exception trace.  This can be quite long.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaApplicationLog_Trace
         return getAccess().getApplicationLogDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaApplicationLog_Trace
     {
         return model.getTrace();
     }
-    
+
     @Override
     public void setValueFor(MyApplicationLog model, String value)
     {
         model.setTrace(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyApplicationLog model, String value)
     {
         return model.hasTrace(value);
     }
-    
+
 }

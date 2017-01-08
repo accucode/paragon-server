@@ -1,7 +1,7 @@
 body
 {
   font: 10pt sans-serif;
-  background-color: #EEEEEE;
+  background-color: #fff;
 }
 
 h1
@@ -17,29 +17,42 @@ h2
   background-color: #BBBBBB;
 }
 
-th
+.attributeTable
 {
-  font: bold 10pt sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.attributeTable th
+{
+  font: bold 12pt sans-serif;
   text-align: left;
   vertical-align: top;
   padding: 3px 3px 3px 3px;
-  background-color: #E2E2E2;
+  background-color: yellow;
+  border: 1px solid #666;
 }
 
-td
+.attributeTable tr:nth-child(even)
+{
+  background-color: #eee;
+}
+
+.attributeTable td
 {
   padding: 3px 3px 3px 3px;
   font: 10pt sans-serif;
   text-align: left;
   vertical-align: top;
+  border: 1px solid #666;
 }
 
 a, a:visited
 {
-	color: #00F;
+    color: #00F;
 }
 
 a:hover
 {
-	color: #F0F;
+    color: #F0F;
 }

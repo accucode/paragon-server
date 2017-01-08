@@ -24,6 +24,7 @@ public interface MyServerSessionDaoConstantsIF
     String LAST_TOUCHED_UTC_TS = "lastTouchedUtcTs";
     String VERSION = "version";
     String LOCK_VERSION = "lockVersion";
+    String DISPLAY_STRING = "displayString";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
@@ -41,13 +42,13 @@ public interface MyServerSessionDaoConstantsIF
     //# associations
     //##################################################
 
+    String TENANT = "tenant";
+    String TENANT_UID = "tenant.uid";
+
     String USER = "user";
     String USER_UID = "user.uid";
 
-    String AUTO_SIGN_IN = "autoSignIn";
-    String AUTO_SIGN_IN_UID = "autoSignIn.uid";
-
-    String CURRENT_PROJECT = "currentProject";
-    String CURRENT_PROJECT_UID = "currentProject.uid";
+    String AUTO_LOGIN = "autoLogin";
+    String AUTO_LOGIN_UID = "autoLogin.uid";
 
 }

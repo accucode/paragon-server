@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,8 +32,8 @@ public class KmTimeUtility
 
     public static final String COLON = ":";
     public static final String DOT   = ".";
-    public static final String AM    = "a";
-    public static final String PM    = "p";
+    public static final String AM    = " am";
+    public static final String PM    = " pm";
 
     //##################################################
     //# format
@@ -120,15 +120,40 @@ public class KmTimeUtility
         int hh = t.getHour();
         int mm = t.getMinute();
         int ss = t.getSecond();
+
         String suffix = AM;
         if ( t.isPm() )
         {
             hh -= 12;
             suffix = PM;
         }
+
         if ( hh == 0 )
             hh = 12;
+
         return hh + COLON + pad2(mm) + COLON + pad2(ss) + suffix;
+    }
+
+    public static String format_hh_mm_ss_am(KmTime t)
+    {
+        if ( t == null )
+            return "";
+
+        int hh = t.getHour();
+        int mm = t.getMinute();
+        int ss = t.getSecond();
+
+        String suffix = AM;
+        if ( t.isPm() )
+        {
+            hh -= 12;
+            suffix = PM;
+        }
+
+        if ( hh == 0 )
+            hh = 12;
+
+        return pad2(hh) + COLON + pad2(mm) + COLON + pad2(ss) + suffix;
     }
 
     public static String format_hh24_mm(KmTime t)

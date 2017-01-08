@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -50,9 +51,9 @@ public class MyMetaEmail_CreatedUtcTs
     @Override
     public String getHelp()
     {
-        return "The date and time when this email was created.";
+        return "The time this record was originally created.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaEmail_CreatedUtcTs
         return getAccess().getEmailDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaEmail_CreatedUtcTs
     {
         return model.getCreatedUtcTs();
     }
-    
+
     @Override
     public void setValueFor(MyEmail model, KmTimestamp value)
     {
         model.setCreatedUtcTs(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyEmail model, KmTimestamp value)
     {
         return model.hasCreatedUtcTs(value);
     }
-    
+
 }

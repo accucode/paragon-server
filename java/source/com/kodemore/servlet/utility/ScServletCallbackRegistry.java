@@ -3,6 +3,7 @@ package com.kodemore.servlet.utility;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScGrid;
+import com.kodemore.servlet.control.calendar.ScAjaxCalendar;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.utility.Kmu;
 
@@ -55,9 +56,10 @@ public class ScServletCallbackRegistry
     //# constants
     //##################################################
 
-    private static final String KEY_AUTO_COMPLETE = "autoComplete";
-    private static final String KEY_FLEXIGRID     = "flexigrid";
-    private static final String KEY_DROPZONE      = "dropzone";
+    private static final String       KEY_AUTO_COMPLETE = "autoComplete";
+    private static final String       KEY_FLEXIGRID     = "flexigrid";
+    private static final String       KEY_DROPZONE      = "dropzone";
+    private static final String       KEY_CALENDAR      = "calendar";
 
     //##################################################
     //# variables
@@ -67,7 +69,7 @@ public class ScServletCallbackRegistry
      * The path prefix.  Tools need this in order
      * to correctly compose the url.
      */
-    private String _prefix;
+    private String                    _prefix;
 
     /**
      * The list of registered paths and callbacks.
@@ -94,6 +96,7 @@ public class ScServletCallbackRegistry
         registerAutoComplete();
         registerFlexigrid();
         registerDropzone();
+        registerCalendar();
     }
 
     private void registerAutoComplete()
@@ -132,6 +135,18 @@ public class ScServletCallbackRegistry
         });
     }
 
+    private void registerCalendar()
+    {
+        register(new ScServletCallback(KEY_CALENDAR)
+        {
+            @Override
+            public void handle(String suffix)
+            {
+                ScAjaxCalendar.handleServletCallback(suffix);
+            }
+        });
+    }
+
     private void register(ScServletCallback e)
     {
         String key = e.getKey();
@@ -162,6 +177,11 @@ public class ScServletCallbackRegistry
     public ScServletCallback getDropzoneCallback()
     {
         return getCallbackForKey(KEY_DROPZONE);
+    }
+
+    public ScServletCallback getCalendarCallback()
+    {
+        return getCallbackForKey(KEY_CALENDAR);
     }
 
     //##################################################

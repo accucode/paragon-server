@@ -20,6 +20,7 @@ import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.meta.*;
 
 public class MyThreadTopicCriteria
@@ -580,8 +581,37 @@ public class MyThreadTopicCriteria
     }
 
     //##################################################
-    //# junction
+    //# junction :: alias
     //##################################################
+
+    public MyThreadTopicJunction all()
+    {
+        return addAnd();
+    }
+
+    public MyThreadTopicJunction any()
+    {
+        return addOr();
+    }
+
+    public MyThreadTopicJunction none()
+    {
+        return addNotOr();
+    }
+
+    //##################################################
+    //# junction :: basic
+    //##################################################
+
+    public MyThreadTopicJunction addNotAnd()
+    {
+        return new MyThreadTopicJunction(parent().addNotAnd());
+    }
+
+    public MyThreadTopicJunction addNotOr()
+    {
+        return new MyThreadTopicJunction(parent().addNotOr());
+    }
 
     public MyThreadTopicJunction addAnd()
     {

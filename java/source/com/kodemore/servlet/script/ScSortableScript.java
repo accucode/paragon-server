@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ public class ScSortableScript
     /**
      * The optional update script to be run when the user stopped sorting
      * AND the DOM position has changed.  This should either be the name of a
-     * function, or an inline function declaration in the form:
+     * function, or an inline function declaration like:
      *      "function(ev, ui) {...}"
      *
      * For additional info, see:
@@ -135,15 +135,11 @@ public class ScSortableScript
         setUpdate(e);
     }
 
-    public void setUpdateFunctionBody(String e)
-    {
-        String fn = Kmu.format("function(ev,ui){%s}", json(e));
-        setUpdate(fn);
-    }
-
     public void setUpdateScript(ScScriptIF e)
     {
-        setUpdateFunctionBody(e.formatScript());
+        String js = e.formatScript();
+        String fn = Kmu.format("function(ev,ui){%s}", js);
+        setUpdate(fn);
     }
 
     //##################################################

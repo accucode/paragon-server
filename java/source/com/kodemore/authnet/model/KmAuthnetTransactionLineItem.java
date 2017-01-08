@@ -17,12 +17,12 @@ public class KmAuthnetTransactionLineItem
     //# variables
     //##################################################
 
-    private String     _itemId;
-    private String     _name;
-    private String     _description;
-    private KmQuantity _quantity;
-    private KmMoney    _unitPrice;
-    private String     _taxable;
+    private String              _itemId;
+    private String              _name;
+    private String              _description;
+    private KmQuantity          _quantity;
+    private KmMoney             _unitPrice;
+    private String              _taxable;
 
     //##################################################
     //# item id

@@ -2,7 +2,7 @@ package com.app.bridge;
 
 import com.kodemore.command.KmDaoBridge;
 
-import com.app.property.MyPropertyRegistry;
+import com.app.property.MyProperties;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
 
@@ -87,7 +87,7 @@ public class MyDaoBridge
     //# support
     //##################################################
 
-    private MyPropertyRegistry getProperties()
+    private MyProperties getProperties()
     {
         return MyGlobals.getProperties();
     }

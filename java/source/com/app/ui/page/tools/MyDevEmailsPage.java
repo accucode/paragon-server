@@ -1,10 +1,7 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
-import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScAbsoluteLayout;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
@@ -16,12 +13,12 @@ import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.filter.MyEmailFilter;
 import com.app.model.MyEmail;
-import com.app.model.MyEmailStatus;
+import com.app.model.base.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -54,17 +51,17 @@ public final class MyDevEmailsPage
     //# variables
     //##################################################
 
-    private ScLocalString _emailUid;
+    private ScLocalString           _emailUid;
 
-    private ScFilterBox _filterBox;
-    private ScDateField _createdStartField;
-    private ScDateField _createdEndField;
-    private ScDropdown  _statusField;
+    private ScFilterBox             _filterBox;
+    private ScDateField             _createdStartField;
+    private ScDateField             _createdEndField;
+    private ScDropdownField<String> _statusField;
 
-    private ScGrid<MyEmail> _grid;
+    private ScGrid<MyEmail>         _grid;
 
-    private ScCardFrame _emailFrame;
-    private ScCard      _emailViewCard;
+    private ScCardFrame             _emailFrame;
+    private ScCard                  _emailViewCard;
 
     //##################################################
     //# settings
@@ -102,26 +99,22 @@ public final class MyDevEmailsPage
         _emailUid = new ScLocalString();
         _emailUid.setAutoSave();
 
-        ScAbsoluteLayout layout;
-        layout = root.addAbsoluteLayout();
-        layout.pad();
+        root.css().fill().flexColumn().columnSpacer10();
+        installFilterOn(root);
 
-        ScDiv top = layout.addTop(200);
-        layout.padTop();
+        ScDiv row;
+        row = root.addFlexRow();
+        row.css().flexChildFiller().rowSpacer10();
 
-        ScDiv left = layout.addLeft(500);
-        ScDiv center = layout.addCenter();
-
-        installFilter(top);
-        installGrid(left);
-        installFrame(center);
+        installGridOn(row);
+        installFrameOn(row);
     }
 
-    private void installFilter(ScContainer root)
+    private void installFilterOn(ScContainer root)
     {
         _statusField = MyEmail.Tools.newStatusDropdown();
         _statusField.setLabel("Status");
-        _statusField.addNullAnyPrefix();
+        _statusField.setNullAnyPrefix();
         _statusField.disableChangeTracking();
 
         _createdStartField = new ScDateField();
@@ -133,7 +126,7 @@ public final class MyDevEmailsPage
         _createdEndField.disableChangeTracking();
 
         _filterBox = root.addFilterBox("Search");
-        _filterBox.layoutFill();
+        _filterBox.getFormWrapper().css().flexChildStatic();
 
         ScFieldTable fields;
         fields = _filterBox.addFieldTable();
@@ -142,21 +135,20 @@ public final class MyDevEmailsPage
         fields.add(_createdEndField);
     }
 
-    private void installGrid(ScContainer root)
+    private void installGridOn(ScContainer root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
         ScGroup group;
         group = root.addGroup("Results");
-        group.css().fill();
+        group.css().flexChildFiller0();
 
         ScDiv body;
         body = group.getBody();
-        body.css().relative().noBorder();
 
         _grid = body.addGrid();
         _grid.layoutFill();
-        _grid.setFilterFactory(newFetcher());
+        _grid.setFilterFactory(this::getFilter);
         _grid.trackAll(_filterBox);
 
         ScGridColumn<MyEmail> link;
@@ -172,41 +164,29 @@ public final class MyDevEmailsPage
         footer = group.getFooter();
         footer.show();
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = footer.addButtonBox();
         buttons.addButton("Resend All Pending", this::handleResendAllPending);
         buttons.addButton("Resend All Errors", this::handleResendAllErrors);
-    }
-
-    private KmFilterFactoryIF<MyEmail> newFetcher()
-    {
-        return new KmFilterFactoryIF<MyEmail>()
-        {
-            @Override
-            public KmFilter<MyEmail> createFilter()
-            {
-                return getFilter();
-            }
-        };
     }
 
     //==================================================
     //= install :: frame
     //==================================================
 
-    private void installFrame(ScContainer root)
+    private void installFrameOn(ScContainer root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        _emailFrame = root.addFrame();
-        _emailFrame.css().fill();
+        _emailFrame = root.addCardFrame();
+        _emailFrame.css().flexChildFiller0().relative();
 
         _emailViewCard = _emailFrame.addCard();
         _emailViewCard.css().fill();
 
         ScGroup group;
         group = _emailViewCard.addGroup("Email");
-        group.css().fill().leftOffset();
+        group.css().fill();
         group.bodyCss().pad();
 
         ScDiv body;
@@ -214,17 +194,17 @@ public final class MyDevEmailsPage
 
         ScFieldTable fields;
         fields = body.addFieldTable();
-        fields.addText(x.Subject);
-        fields.addText(x.ToAddressesLabel);
-        fields.addText(x.CcAddressesLabel);
+        fields.addFieldText(x.Subject);
+        fields.addFieldText(x.ToAddressesLabel);
+        fields.addFieldText(x.CcAddressesLabel);
         fields.addSpace();
-        fields.addText(x.Uid);
-        fields.addText(x.CreatedLocalTsMessage);
-        fields.addText(x.FromAddress);
+        fields.addFieldText(x.Uid);
+        fields.addFieldText(x.CreatedLocalTsMessage);
+        fields.addFieldText(x.FromAddress);
         fields.addSpace();
-        fields.addText(x.StatusName);
-        fields.addText(x.SentLocalTsMessage);
-        fields.addText(x.ErrorNotes);
+        fields.addFieldText(x.StatusName);
+        fields.addFieldText(x.SentLocalTsMessage);
+        fields.addFieldText(x.ErrorNotes);
 
         body.addBreak();
         body.addLiteral(x.PartsAsHtml);
@@ -233,7 +213,7 @@ public final class MyDevEmailsPage
         footer = group.getFooter();
         footer.show();
 
-        ScBox buttons;
+        ScDiv buttons;
         buttons = footer.addButtonBox();
         buttons.addButton("Re-Send", this::handleResend, x.Uid);
         buttons.addButton("Ignore", this::handleIgnore, x.Uid);
@@ -321,11 +301,10 @@ public final class MyDevEmailsPage
             f.setCreatedEndDate(_createdEndField.getValue());
 
         if ( _statusField.hasValue() )
-            f.setStatusCode(_statusField.getStringValue());
+            f.setStatusCode(_statusField.getValue());
 
         f.sortOnCreatedUtcTs();
         f.sortDescending();
-
         return f;
     }
 
@@ -341,7 +320,7 @@ public final class MyDevEmailsPage
         }
 
         _emailViewCard.applyFromModel(email);
-        _emailViewCard.ajaxPrint();
+        _emailViewCard.ajaxPrintCard();
     }
 
     private MyEmail getEmail()

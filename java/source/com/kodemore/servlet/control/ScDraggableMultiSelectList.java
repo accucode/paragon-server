@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,15 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.adaptor.KmAdaptorIF;
+import java.util.function.Function;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.script.ScSortableScript;
 import com.kodemore.servlet.variable.ScLocalList;
-
-/**
- * low_wyatt: oldValue
- * Add support for oldValue and/or changeTracking.
- * This is relatively complex so I'm waiting to see if we really need it.
- */
 
 /**
  * I am a composite widget that allows users to easily select multiple values
@@ -56,12 +50,12 @@ public class ScDraggableMultiSelectList<T>
     /**
      * I am used to get the unique key for each value.
      */
-    private KmAdaptorIF<T,String> _keyAdapter;
+    private Function<T,String>   _keyFunction;
 
     /**
      * I am used to get the display text for each value.
      */
-    private KmAdaptorIF<T,String> _titleAdapter;
+    private Function<T,String>   _titleFunction;
 
     /**
      * The currently selected values.
@@ -70,7 +64,7 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T> _selectedValues;
+    private ScLocalList<T>       _selectedValues;
 
     /**
      * The list of available values.  This should generally include the selected values
@@ -80,7 +74,7 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T> _availableValues;
+    private ScLocalList<T>       _availableValues;
 
     //==================================================
     //= variables :: components
@@ -95,14 +89,11 @@ public class ScDraggableMultiSelectList<T>
     private ScTransientContainer _availableItemContainer;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScDraggableMultiSelectList()
     {
-        super.install();
-
         css().dmsContainer();
 
         layoutSize(300, 200);
@@ -218,38 +209,28 @@ public class ScDraggableMultiSelectList<T>
     //# key adapter
     //##################################################
 
-    public KmAdaptorIF<T,String> getKeyAdapter()
+    public Function<T,String> getKeyFunction()
     {
-        return _keyAdapter;
+        return _keyFunction;
     }
 
-    public void setKeyAdapter(KmAdaptorIF<T,String> e)
+    public void setKeyFunction(Function<T,String> e)
     {
-        _keyAdapter = e;
-    }
-
-    public void setKeyAdapter(KmMetaAttribute<T,String> e)
-    {
-        setKeyAdapter(e.getAdaptor());
+        _keyFunction = e;
     }
 
     //##################################################
     //# text adapter
     //##################################################
 
-    public KmAdaptorIF<T,String> getTitleAdapter()
+    public Function<T,String> getTitleFunction()
     {
-        return _titleAdapter;
+        return _titleFunction;
     }
 
-    public void setTitleAdapter(KmAdaptorIF<T,String> e)
+    public void setTitleFunction(Function<T,String> e)
     {
-        _titleAdapter = e;
-    }
-
-    public void setTitleAdapter(KmMetaAttribute<T,String> e)
-    {
-        setTitleAdapter(e.getAdaptor());
+        _titleFunction = e;
     }
 
     //##################################################
@@ -291,8 +272,8 @@ public class ScDraggableMultiSelectList<T>
 
     private void addTransientItemOn(ScContainer list, T value, boolean selected, int index)
     {
-        String key = getKeyAdapter().getValue(value);
-        String title = getTitleAdapter().getValue(value);
+        String key = getKeyFunction().apply(value);
+        String title = getTitleFunction().apply(value);
 
         ScDiv item;
         item = list.addDiv();
@@ -321,7 +302,7 @@ public class ScDraggableMultiSelectList<T>
         field = item.addHiddenField();
         field.setHtmlName(getItemFieldName());
         field.setValue(key);
-        field.css().dmsItemField();
+        field.cssHidden().dmsItemField();
         field.setEnabled(selected);
     }
 

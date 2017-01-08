@@ -1,11 +1,8 @@
 package sandbox.wlove;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoRunnableCommand;
-import com.kodemore.time.KmClock;
-import com.kodemore.time.KmDate;
 
-import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.base.MyDaoAccess;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
@@ -18,6 +15,7 @@ public class JkDaoTest
     public static void main(String[] args)
     {
         new JkDaoTest().run();
+        System.exit(0);
     }
 
     //##################################################
@@ -26,17 +24,28 @@ public class JkDaoTest
 
     private void run()
     {
+        install();
+        runCommand();
+        print("ok.");
+    }
+
+    private void install()
+    {
         MyInstaller.installDatabase();
+        print("installed.");
+        printDivider();
+    }
 
-        System.out.println("installed. --------------------");
-
+    private void runCommand()
+    {
         KmDaoRunnableCommand cmd;
         cmd = new KmDaoRunnableCommand();
-        cmd.setRunnable(this::handle);
         cmd.disableWarningThresholdMs();
+        cmd.setRunnable(this::handle);
         cmd.run();
 
-        System.out.println("done. -------------------------");
+        print("done.");
+        printDivider();
     }
 
     //##################################################
@@ -45,21 +54,30 @@ public class JkDaoTest
 
     private void handle()
     {
-        KmDate date = KmClock.getTodayUtc();
+        getAccess().getUserDao().findAll();
+    }
 
-        KmList<String> names;
-        names = getAccess().getPerformanceLogDetailDao().findNamesOn(date);
-        names.sort();
+    //##################################################
+    //# print
+    //##################################################
 
-        System.out.println(names.joinLines());
+    private void printDivider()
+    {
+        print("----------------------------------------");
+    }
+
+    private void print(String s)
+    {
+        System.out.println(s);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    protected MyDaoRegistry getAccess()
+    protected MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
+
 }

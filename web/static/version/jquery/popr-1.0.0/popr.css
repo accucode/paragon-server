@@ -1,0 +1,184 @@
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * NOT USED
+ *
+ * We still use popr but the css has been moved to popr.styl
+ * for integration with our theming mechanism.
+ *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+/**
+ * Popr 1.0
+ * Copyright (c) 2015 Tipue
+ * Popr is released under the MIT License
+ * http://www.tipue.com/popr
+ *
+ *
+ * Wyatt Love, 9/14/2016
+ * Copyright (c) 2016 Accucode Inc.
+ * MIT License
+ * Modified the javascript and css to work correctly when used
+ * inside nested relative/absolute layout. The popup is now
+ * attached to the outermost html 'body' instead of attaching
+ * to the original menu target. This allows the popup to be
+ * correctly positioned, and also ensures that it is not clipped
+ * by its container. The z-index is still hardcoded to 1000 in
+ * the css but this can be adjusted as needed.
+ */
+
+
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * NOT USED
+ *
+ * see comment above.
+ *!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+
+/*****************************
+ * popr
+ *****************************/
+.popr
+{
+    cursor: pointer;
+}
+
+
+/*****************************
+ * box
+ *
+ * The box contains the static menu item included
+ * in the dom.
+ *****************************/
+.popr-box
+{
+     display: none;
+}
+
+
+/*****************************
+ * container
+ *
+ * Container the dynamically created copy of the menu.
+ * This container is attached to the html 'body'.
+ * It is NOT nested inside the .popr or .popr-box.
+ *****************************/
+.popr_container
+{
+    display:        none;
+    position:       absolute;
+    z-index:        1000;
+    box-shadow:     4px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+.popr_container_bottom
+{
+    margin-top:     10px;
+}
+
+.popr_container_top
+{
+    /* none */
+}
+
+
+/*****************************
+ * point (top)
+ *
+ * The triangle point created without an image.
+ *****************************/
+.popr_point_top, .popr_point_bottom
+{
+    position:           relative;
+    background:         #eee;
+    border:             1px solid #dcdcdc;
+}
+
+.popr_point_top:after, .popr_point_top:before
+{
+    position:           absolute;
+    pointer-events:     none;
+    border:             solid transparent;
+    top:                100%;
+    content:            "";
+    height:             0;
+    width:              0;
+}
+
+.popr_point_top:after
+{
+    border-top-color:   #eee;
+    border-width:       8px;
+    left:               50%;
+    margin-left:        -8px;
+}
+
+.popr_point_top:before
+{
+    border-top-color:   #dcdcdc;
+    border-width:       9px;
+    left:               50%;
+    margin-left:        -9px;
+}
+
+
+/*****************************
+ * point (bottom)
+ *
+ * The triangle point created without an image.
+ *****************************/
+.popr_point_bottom:after, .popr_point_bottom:before
+{
+    position: absolute;
+    pointer-events: none;
+    border: solid transparent;
+    bottom: 100%;
+    content: "";
+    height: 0;
+    width: 0;
+}
+
+.popr_point_bottom:after
+{
+    border-bottom-color: #eee;
+    border-width: 8px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.popr_point_bottom:before
+{
+    border-bottom-color: #dcdcdc;
+    border-width: 9px;
+    left: 50%;
+    margin-left: -9px;
+}
+
+/*****************************
+ * content
+ *
+ * Used as a wrapper around the dynamically generated
+ * menu items.
+ *****************************/
+.popr_content
+{
+    background-color: #eee;
+    padding: 7px 0;
+    margin: 0;
+}
+
+/*****************************
+ * item
+ *
+ * A single dynamically generated menu item.
+ *****************************/
+.popr-item
+{
+    display: block;
+    font: 300 14px/1.7 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    padding: 4px 29px 5px 29px;
+    text-decoration: none;
+}
+
+.popr-item:hover
+{
+    background-color: #dcdcdc;
+}

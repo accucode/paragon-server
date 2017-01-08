@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -52,7 +53,7 @@ public class MyMetaUser_Email
     {
         return "Used both to sign in, and to send emails to this user.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -87,11 +88,11 @@ public class MyMetaUser_Email
         return getAccess().getUserDao();
     }
 
-    private MyDaoRegistry getAccess()
+    private MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }
-    
+
     //##################################################
     //# value
     //##################################################
@@ -101,17 +102,17 @@ public class MyMetaUser_Email
     {
         return model.getEmail();
     }
-    
+
     @Override
     public void setValueFor(MyUser model, String value)
     {
         model.setEmail(value);
     }
-    
+
     @Override
     public boolean hasValueFor(MyUser model, String value)
     {
         return model.hasEmail(value);
     }
-    
+
 }

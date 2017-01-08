@@ -44,7 +44,12 @@ public abstract class KmSqlResultFormatter
         KmSqlResultSet rs,
         KmTimer t);
 
-    protected abstract void formatUpdate(String schema, String sql, int count, KmTimer t);
+    protected abstract void formatUpdate(
+        String schema,
+        String sql,
+        int count,
+        KmTimer t,
+        boolean rollback);
 
     protected abstract void formatException(String schema, String sql, Exception ex);
 
@@ -85,6 +90,7 @@ public abstract class KmSqlResultFormatter
     {
         if ( timer == null )
             return null;
+
         return Kmu.formatDouble(timer.getSeconds(), 3);
     }
 

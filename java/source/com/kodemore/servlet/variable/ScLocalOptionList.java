@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,10 @@
 
 package com.kodemore.servlet.variable;
 
-import java.util.Collection;
-
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.servlet.field.ScOption;
-import com.kodemore.servlet.utility.ScFormatter;
 
-public class ScLocalOptionList
-    extends ScLocalList<ScOption>
+public class ScLocalOptionList<T>
+    extends ScLocalList<ScOption<T>>
 {
     //##################################################
     //# constructor
@@ -44,55 +40,12 @@ public class ScLocalOptionList
     //# convenience
     //##################################################
 
-    public void add(Object value, String label)
+    public void add(T value, String label)
     {
-        ScOption e;
-        e = new ScOption();
+        ScOption<T> e;
+        e = new ScOption<>();
         e.setValue(value);
         e.setText(label);
         add(e);
     }
-
-    /**
-     * Add an option for each value in the list.
-     * The valueAdaptor must be configured.
-     * The labelAdaptor is optional.
-     */
-    @SuppressWarnings(
-    {
-        "unchecked",
-        "rawtypes"
-    })
-    public void addAll(Collection<?> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
-    {
-        ScFormatter c = ScFormatter.getInstance();
-        for ( Object e : v )
-        {
-            Object value;
-            if ( valueAdaptor == null )
-                value = e;
-            else
-                value = valueAdaptor.getValue(e);
-
-            if ( labelAdaptor == null )
-            {
-                String label = c.formatAny(value);
-                add(value, label);
-            }
-            else
-            {
-                Object labelValue = labelAdaptor.getValue(e);
-                String label = c.formatAny(labelValue);
-                add(value, label);
-            }
-        }
-    }
-
-    @SuppressWarnings("rawtypes")
-    public <T> void set(Collection<T> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
-    {
-        clearValue();
-        addAll(v, valueAdaptor, labelAdaptor);
-    }
-
 }

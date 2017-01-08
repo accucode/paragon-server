@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,14 @@ package com.kodemore.servlet.field;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.ScConstantsIF;
+import com.kodemore.html.KmHtmlCleaner;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
 /**
@@ -50,21 +51,66 @@ public class ScRichTextEditor
 
     private ScLocalString       _text;
     private ScLocalBoolean      _readOnly;
-    private ScLocalBoolean      _disabled;
     private KmValidator<String> _validator;
 
+    /**
+     * The default functionality of the ckEditor does not support
+     * a flexible/fill height.  However, if fill is set to true,
+     * a custom script will attempt to manually adjust the html
+     * dom so that the ckeditor fills its parent.
+     *
+     * See Kmu.js > ckEditorFill()
+     *
+     * This relies on the use of absolute positioning, so it should
+     * only be used if the editor is the single child of a container
+     * that has non-static (e.g.: relative) positioning.
+     *
+     * In many cases, we put the editor inside the body of an ScGroup,
+     * so this criteria is usually met without any special handling.
+     *
+     * The fill script will likely stop working correctly if we change
+     * versions of ckEditor. The script uses a fairly conservative
+     * approach, and if the dom doesn't match the expected structure
+     * is simply logs a console message and exits without changing
+     * anything.
+     *
+     * Fill is disabled by default.
+     */
+    private boolean             _fill;
+
     //##################################################
-    //# init
+    //# constructor
+    //##################################################
+
+    public ScRichTextEditor()
+    {
+        _text = new ScLocalString();
+        _readOnly = new ScLocalBoolean(false);
+        _fill = false;
+    }
+
+    //##################################################
+    //# html id
     //##################################################
 
     @Override
-    protected void install()
+    public String getHtmlId()
     {
-        super.install();
+        return getKey();
+    }
 
-        _text = new ScLocalString();
-        _readOnly = new ScLocalBoolean(false);
-        _disabled = new ScLocalBoolean(false);
+    public String getHtmlName()
+    {
+        return getKey();
+    }
+
+    //##################################################
+    //# fill
+    //##################################################
+
+    public void setFill()
+    {
+        _fill = true;
     }
 
     //##################################################
@@ -74,32 +120,18 @@ public class ScRichTextEditor
     @Override
     public String getValue()
     {
-        String s = _text.getValue();
-
-        if ( Kmu.isEmpty(s) )
-            return null;
-
-        return s;
+        return _text.hasValue()
+            ? _text.getValue()
+            : null;
     }
 
     @Override
     public void setValue(String e)
     {
-        if ( Kmu.isEmpty(e) )
-            e = null;
-
-        _text.setValue(e);
-    }
-
-    @Override
-    public void resetValue()
-    {
-        _text.resetValue();
-    }
-
-    public void clearValue()
-    {
-        setValue(null);
+        if ( Kmu.hasValue(e) )
+            _text.setValue(e);
+        else
+            _text.clearValue();
     }
 
     public boolean isEmpty()
@@ -110,6 +142,22 @@ public class ScRichTextEditor
     public boolean isNotEmpty()
     {
         return !isEmpty();
+    }
+
+    //==================================================
+    //= value :: save
+    //==================================================
+
+    @Override
+    public void saveValue()
+    {
+        _text.saveValue();
+    }
+
+    @Override
+    public void resetValue()
+    {
+        _text.resetValue();
     }
 
     //##################################################
@@ -132,93 +180,6 @@ public class ScRichTextEditor
     }
 
     //##################################################
-    //# disabled
-    //##################################################
-
-    public void enable()
-    {
-        _disabled.setFalse();
-    }
-
-    public void disable()
-    {
-        _disabled.setTrue();
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
-    }
-
-    //##################################################
-    //# page session
-    //##################################################
-
-    @Override
-    public void saveFieldValues()
-    {
-        super.saveFieldValues();
-        _text.saveValue();
-    }
-
-    @Override
-    public void resetFieldValues()
-    {
-        super.resetFieldValues();
-        resetValue();
-    }
-
-    //##################################################
-    //# validator
-    //##################################################
-
-    public KmValidator<String> getValidator()
-    {
-        return _validator;
-    }
-
-    public void setValidator(KmValidator<String> e)
-    {
-        _validator = e;
-    }
-
-    public boolean hasValidator()
-    {
-        return _validator != null;
-    }
-
-    @Override
-    public void setRequired()
-    {
-        if ( hasValidator() )
-        {
-            if ( getValidator().isRequired() )
-                return;
-
-            KmValidator<String> e;
-            e = getValidator().getCopy();
-            e.setRequired();
-            setValidator(e);
-        }
-        else
-            setValidator(new KmRequiredValidator<String>());
-    }
-
-    public void setOptional()
-    {
-        if ( !hasValidator() )
-            return;
-
-        if ( getValidator().isOptional() )
-            return;
-
-        KmValidator<String> e;
-        e = getValidator().getCopy();
-        e.setOptional();
-        setValidator(e);
-    }
-
-    //##################################################
     //# render
     //##################################################
 
@@ -228,20 +189,6 @@ public class ScRichTextEditor
         renderTextArea(out);
 
         out.getPostRender().run(getRenderScript());
-    }
-
-    private String getRenderScript()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-
-        out.printf("$('%s').ckeditor(function() {", getJquerySelector());
-        out.print("this.on( 'change', function ( ev ) {");
-        out.print("this.updateElement();");
-        out.print("});");
-        out.print("});");
-
-        return out.toString();
     }
 
     private void renderTextArea(KmHtmlBuilder out)
@@ -256,18 +203,45 @@ public class ScRichTextEditor
         out.end("textarea");
     }
 
-    @Override
     protected void renderAttributesOn(KmHtmlBuilder out)
     {
-        super.renderAttributesOn(out);
+        out.printAttribute("id", getHtmlId());
+        out.printAttribute("name", getHtmlName());
 
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
 
-        if ( isDisabled() )
-            out.printAttribute("disabled", "disabled");
-
         printOldValueAttributeOn(out, getValue());
+    }
+
+    private String getRenderScript()
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("$('%s').ckeditor(function(){", getJquerySelector());
+        out.print("this.on('change',function(ev){this.updateElement();});");
+
+        if ( _fill )
+            out.printf("Kmu.ckEditorFill('%s');", getHtmlId());
+
+        out.print("},");
+        out.printf("{%s}", formatContentsCss());
+        out.print(");");
+        return out.toString();
+    }
+
+    private String formatContentsCss()
+    {
+        ScUrlBridge urls = ScUrlBridge.getInstance();
+
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.print("contentsCss : [ ");
+        out.printf("'%s',", urls.getResetCss());
+        out.printf("'%s',", urls.getThemeCss());
+        out.printf("'%s'", urls.getCkEditorOverridesCss());
+        out.print("]");
+        return out.toString();
     }
 
     //##################################################
@@ -275,13 +249,25 @@ public class ScRichTextEditor
     //##################################################
 
     @Override
-    public void readParameters(ScServletData data)
+    protected void readParameters_here(ScServletData data)
     {
-        super.readParameters(data);
+        super.readParameters_here(data);
 
         String name = getHtmlName();
-        if ( data.hasParameter(name) )
-            _text.setValue(data.getParameter(name));
+        if ( !data.hasParameter(name) )
+            return;
+
+        KmHtmlCleaner c;
+        c = new KmHtmlCleaner();
+        c.setDefaultWhitelist();
+        c.setDefaultBlacklist();
+        c.allowImages();
+        c.allowLinks();
+
+        String raw = data.getParameter(name);
+        String clean = c.clean(raw);
+
+        _text.setValue(clean);
     }
 
     //##################################################
@@ -317,7 +303,7 @@ public class ScRichTextEditor
     @Override
     public boolean isEditable()
     {
-        return !isReadOnly() && !isDisabled();
+        return !isReadOnly();
     }
 
     //##################################################
@@ -325,10 +311,17 @@ public class ScRichTextEditor
     //##################################################
 
     @Override
-    public void ajaxUpdateValue()
+    public void ajaxSetFieldValue(String value)
     {
-        String value = getValue();
-        ajax().setValue(value);
-        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+        ajaxSetFieldValue(value, getChangeTracking());
+    }
+
+    @Override
+    public void ajaxSetFieldValue(String value, boolean updateOldValue)
+    {
+        String jsonValue = json(value);
+        String sel = ScJquery.formatReference(this);
+
+        _htmlIdAjax().run("Kmu.ckEditorSetValue(%s,%s,%s);", sel, jsonValue, updateOldValue);
     }
 }

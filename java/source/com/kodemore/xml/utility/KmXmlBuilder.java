@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,8 @@ public class KmXmlBuilder
     //# constants
     //##################################################
 
-    private static final String NEW_LINE = "\r\n";
-    private static final String XML_DEF  = "<?xml version=\"VERSION\" encoding=\"ENCODING\"?>";
+    private static final String NEW_LINE         = "\r\n";
+    private static final String XML_DEF          = "<?xml version=\"VERSION\" encoding=\"ENCODING\"?>";
 
     private static final String DEFAULT_VERSION  = "1.0";
     private static final String DEFAULT_ENCODING = "utf-8";
@@ -45,15 +45,15 @@ public class KmXmlBuilder
     //# variables
     //##################################################
 
-    private StringBuilder  _buffer;
-    private KmList<String> _tags;
+    private StringBuilder       _buffer;
+    private KmList<String>      _tags;
 
-    private boolean _autoFormat;
-    private String  _indent;
+    private boolean             _autoFormat;
+    private String              _indent;
 
-    private String  _version;
-    private String  _encoding;
-    private boolean _hasXmlDefinition;
+    private String              _version;
+    private String              _encoding;
+    private boolean             _hasXmlDefinition;
 
     //##################################################
     //# constructor
@@ -160,6 +160,7 @@ public class KmXmlBuilder
     {
         if ( _autoFormat )
             indent();
+
         _tags.add(tag);
         _buffer.append("<");
         _buffer.append(tag);
@@ -197,8 +198,7 @@ public class KmXmlBuilder
     public void value(String tag, Object e)
     {
         _begin(tag);
-        if ( e != null )
-            _buffer.append(escape(e));
+        text(e);
         _end(false);
     }
 
@@ -229,6 +229,12 @@ public class KmXmlBuilder
     public void emptyValue(String tag)
     {
         value(tag, "");
+    }
+
+    public void text(Object e)
+    {
+        if ( e != null )
+            _buffer.append(escape(e));
     }
 
     //##################################################

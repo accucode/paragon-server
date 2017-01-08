@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.servlet.utility;
 
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScTransitionType;
 
 public abstract class ScBridge
 {
@@ -49,18 +50,37 @@ public abstract class ScBridge
     }
 
     //##################################################
+    //# page transition
+    //##################################################
+
+    public abstract int getPageTransitionSlideMs();
+
+    public abstract int getPageTransitionFadeMs();
+
+    //##################################################
+    //# card frame
+    //##################################################
+
+    public abstract ScTransitionType getCardFrameTransitionType();
+
+    public abstract int getCardFrameTransitionSpeedMs();
+
+    //##################################################
     //# misc
     //##################################################
 
     public abstract void displayError(Throwable ex);
-
-    public abstract int getTransitionSlideMs();
-
-    public abstract int getTransitionFadeMs();
 
     public abstract void printMain(ScPageRoot root, boolean focus);
 
     public abstract void clearMain();
 
     public abstract void warnIfInstalled();
+
+    /**
+     * Determine if the debug comments should be included in the dom
+     * to identify the class names of the page and other controls.
+     */
+    public abstract boolean getRenderDebugDomComments();
+
 }

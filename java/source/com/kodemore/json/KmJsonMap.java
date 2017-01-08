@@ -80,7 +80,7 @@ public class KmJsonMap
         setObject(key, value);
     }
 
-    public void setLiteral(String key, String value)
+    public void setLiteral(String key, CharSequence value)
     {
         setObject(key, new KmJsonLiteral(value));
     }
@@ -306,6 +306,66 @@ public class KmJsonMap
     public CharSequence subSequence(int start, int end)
     {
         return toString().subSequence(start, end);
+    }
+
+    //##################################################
+    //# path
+    //##################################################
+
+    /**
+     * Return the map based on the slash (/) delimited path.
+     * E.g.: getMapAt("one/two/three");
+     */
+    public KmJsonMap getMapAtPath(String path)
+    {
+        KmList<String> keys = getPathKeys(path);
+        return getMapAtPath(keys);
+    }
+
+    /**
+     * Return the map based on the slash (/) delimited path.
+     * E.g.: getMapAt("one/two/three");
+     */
+    public String getStringAtPath(String path)
+    {
+        KmList<String> keys = getPathKeys(path);
+        String lastKey = keys.removeLast();
+        return getMapAtPath(keys).getString(lastKey);
+    }
+
+    public Integer getIntegerAtPath(String path)
+    {
+        KmList<String> keys = getPathKeys(path);
+        String lastKey = keys.removeLast();
+        return getMapAtPath(keys).getInteger(lastKey);
+    }
+
+    public KmJsonArray getArrayAtPath(String path)
+    {
+        KmList<String> keys = getPathKeys(path);
+        String lastKey = keys.removeLast();
+        return getMapAtPath(keys).getArray(lastKey);
+    }
+
+    //##################################################
+    //# path :: private
+    //##################################################
+
+    private KmList<String> getPathKeys(String path)
+    {
+        return Kmu.tokenize(path, '/');
+    }
+
+    private KmJsonMap getMapAtPath(KmList<String> keys)
+    {
+        KmJsonMap e = this;
+        for ( String key : keys )
+        {
+            e = e.getMap(key);
+            if ( e == null )
+                return null;
+        }
+        return e;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,17 @@ package com.kodemore.servlet.variable;
 
 import java.util.function.Function;
 
+/**
+ * I wrap a "raw" function, without generics specifiers for the
+ * parameter or return type.
+ */
 @SuppressWarnings(
 {
     "rawtypes",
     "unchecked"
 })
 public class ScLocalRawFunction
-    extends ScSimpleLocal<Function>
+    extends ScAbstractLocal<Function>
 {
     //##################################################
     //# constructor

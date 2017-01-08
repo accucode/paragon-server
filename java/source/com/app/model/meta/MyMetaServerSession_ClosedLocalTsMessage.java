@@ -24,6 +24,7 @@ import com.kodemore.validator.*;
 import com.app.dao.*;
 import com.app.dao.base.*;
 import com.app.model.*;
+import com.app.model.base.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
@@ -49,9 +50,9 @@ public class MyMetaServerSession_ClosedLocalTsMessage
     @Override
     public String getHelp()
     {
-        return "The date and time when the session was closed.";
+        return "The closed timestamp converted to the user's local timezone, and formatted as a string that includes the timezone code.";
     }
-    
+
     @Override
     public int getColumnWidth()
     {
@@ -73,11 +74,11 @@ public class MyMetaServerSession_ClosedLocalTsMessage
     {
         return model.getClosedLocalTsMessage();
     }
-    
+
     @Override
     public boolean hasValueFor(MyServerSession model, String value)
     {
         return model.hasClosedLocalTsMessage(value);
     }
-    
+
 }

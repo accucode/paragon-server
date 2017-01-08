@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.function.Function;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.csv.KmCsvBuilder;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
@@ -39,8 +38,7 @@ import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
@@ -64,113 +62,120 @@ import com.kodemore.utility.Kmu;
  */
 public class ScGrid<T>
     extends ScControl
-    implements ScHtmlIdIF
 {
     //##################################################
-    //# constants
+    //# constants (standard)
     //##################################################
 
     // standard flexigrid parameters that are passed to the server
     // as part of each request.
 
-    private static final String REQUEST_PAGE = "page";
-    private static final String REQUEST_ROWS = "rp";
+    private static final String      REQUEST_PAGE             = "page";
+    private static final String      REQUEST_ROWS             = "rp";
 
-    // my custom callback parameters.
+    //==================================================
+    //= constants (custom)
+    //==================================================
+
+    // custom callback parameters.
     // these are set grid with it is created so that they can be
     // passed back to the server with every request.
 
-    private static final String PARAMETER_TOTAL_COUNT    = "myTotalCount";
-    private static final String PARAMETER_TRACKED_VALUES = "myTrackedValues";
-
-    /**
-     * The name of the file used when exported csv data as an attachment.
-     */
-    private static final String CSV_DATA_FILE = "data.csv";
+    private static final String      PARAMETER_TOTAL_COUNT    = "myTotalCount";
+    private static final String      PARAMETER_TRACKED_VALUES = "myTrackedValues";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString _header;
+    private ScLocalString            _header;
 
     /**
      * Defines a factory capable of creating the filter used to
      * fetch data.
      */
-    private KmFilterFactoryIF<T> _filterFactory;
+    private KmFilterFactoryIF<T>     _filterFactory;
 
     /**
      * The list of columns to display.
      */
-    private KmList<ScGridColumn<T>> _columns;
+    private KmList<ScGridColumn<T>>  _columns;
 
     /**
      * If true, the contents will be fetched a page at a time.
      * True by default.
      */
-    private ScLocalBoolean _usesPager;
+    private ScLocalBoolean           _usesPager;
 
     /**
      * The number of rows displayed per page.
      * This can be set to any positive value.
      */
-    private ScLocalInteger _rowsPerPage;
+    private ScLocalInteger           _rowsPerPage;
 
     /**
      * Allow the user to select the number of rows per page.
      */
-    private ScLocalBoolean _selectRowsPerPage;
+    private ScLocalBoolean           _selectRowsPerPage;
 
     /**
      * If true, allows the user to hide the table.
      * Change is not persistent.
      * False by default.
      */
-    private ScLocalBoolean _allowsToggleGrid;
+    private ScLocalBoolean           _allowsToggleGrid;
 
     /**
      * If true, allow the user to toggle columns on and off.
      * Defaults to true.
      * Changes are not persistent.
      */
-    private ScLocalBoolean _allowsToggleColumns;
+    private ScLocalBoolean           _allowsToggleColumns;
 
     /**
      * If true, the table will only select one row at a time.
      */
-    private ScLocalBoolean _singleSelect;
+    private ScLocalBoolean           _singleSelect;
 
     /**
      * The width of the table, in pixels.
      * Null by default, which fills the available width.
      */
-    private ScLocalInteger _width;
+    private ScLocalInteger           _width;
 
     /**
      * The height of the table, in pixels.
      * Null by default.
      */
-    private ScLocalInteger _height;
+    private ScLocalInteger           _height;
 
     /**
      * If true, the user can resize the vertical and horizontal sizes.
      */
-    private ScLocalBoolean _resizable;
+    private ScLocalBoolean           _resizable;
 
     /**
      * If false, then allow values to word wrap.  Wrapper is disabled
      * by default.
      */
-    private ScLocalBoolean _noWrap;
+    private ScLocalBoolean           _noWrap;
 
     /**
      * If true, attempt to adjust the layout such that the grid will fill its parent.
-     * This relies on several assumptions, and is a work in progress.
+     * This relies on several assumptions and will likely break is we upgrade
+     * to a different version of flexigrid.
      * My parent must have a non-static layout.
      * Additionally, the layout currently assumes that the header and pager are both visible.
      */
-    private ScLocalBoolean _fill;
+    private ScLocalBoolean           _fill;
+
+    /**
+     * An optional function that determines the unique row id
+     * of each element. If non-null, unique ids are included when
+     * composing the html/xml content. This allows additional ajax
+     * functionality; e.g.: programattically selecting a particular row.
+     */
+    private Function<T,String>       _rowIdFunction;
 
     //##################################################
     //# variables: state management
@@ -185,13 +190,13 @@ public class ScGrid<T>
      * If false, the totalCount is recomputed every time the
      * client requests additional data.
      */
-    private ScLocalBoolean _cacheTotalCount;
+    private ScLocalBoolean           _cacheTotalCount;
 
     /**
      * The cached totalCount.  This is only used if _cacheTotalCount
      * is true.
      */
-    private ScLocalInteger _totalCount;
+    private ScLocalInteger           _totalCount;
 
     /**
      * Used to bind extra data for filtering and sorting.
@@ -202,14 +207,11 @@ public class ScGrid<T>
     private KmList<ScEncodedValueIF> _trackedValues;
 
     //##################################################
-    //# init
+    //# constructor
     //##################################################
 
-    @Override
-    protected void install()
+    public ScGrid()
     {
-        super.install();
-
         _header = new ScLocalString();
         _columns = new KmList<>();
         _trackedValues = new KmList<>();
@@ -237,22 +239,20 @@ public class ScGrid<T>
     //# html id
     //##################################################
 
-    @Override
-    public String getHtmlId()
+    /**
+     * Note that these are private.
+     * I currently do NOT implement HtmlIdIF.
+     * Additional review would be needed to determine if
+     * I can be safely shown/hidden.
+     */
+    private String getHtmlId()
     {
         return getKey();
     }
 
-    @Override
-    public String getJquerySelector()
+    private String getJquerySelector()
     {
-        return ScJquery.formatSelector(this);
-    }
-
-    @Override
-    public ScHtmlIdAjax ajax()
-    {
-        return new ScHtmlIdAjax(this, getRootScript());
+        return ScJquery.formatIdSelector(getHtmlId());
     }
 
     //##################################################
@@ -408,7 +408,26 @@ public class ScGrid<T>
     }
 
     //##################################################
-    //# print
+    //# row id
+    //##################################################
+
+    public Function<T,String> getRowIdFunction()
+    {
+        return _rowIdFunction;
+    }
+
+    public void setRowIdFunction(Function<T,String> e)
+    {
+        _rowIdFunction = e;
+    }
+
+    public boolean hasRowIdFunction()
+    {
+        return getRowIdFunction() != null;
+    }
+
+    //##################################################
+    //# render
     //##################################################
 
     @Override
@@ -721,12 +740,13 @@ public class ScGrid<T>
         col = addColumn(link);
         col.setHeader(text.getLabel());
         col.setCharacterWidth(text.getColumnWidth());
+        col.setExportFunction(text.toObjectFunction());
         return col;
     }
 
     public ScGridColumn<T> addLinkColumn(KmMetaProperty<T,?> text, Runnable r, Object arg)
     {
-        ScAction action = newAction(r);
+        ScAction action = newCheckedAction(r);
 
         return addLinkColumn(text, action, arg);
     }
@@ -746,7 +766,7 @@ public class ScGrid<T>
         ScLink link;
         link = new ScLink();
         link.setText(text);
-        link.setAction(action, text.getGetter());
+        link.setAction(action, text);
 
         return addColumn(link);
     }
@@ -818,21 +838,9 @@ public class ScGrid<T>
         _trackedValues.add(e);
     }
 
-    public void trackAll(ScControlIF c)
+    public void trackAll(ScControl c)
     {
-        if ( c instanceof ScEncodedValueIF )
-            track((ScEncodedValueIF)c);
-
-        Iterator<ScControlIF> i = c.getComponents();
-        while ( i.hasNext() )
-        {
-            ScControlIF e = i.next();
-
-            if ( e instanceof ScEncodedValueIF )
-                track((ScEncodedValueIF)e);
-
-            trackAll(e);
-        }
+        c.visitAllEncodedValues(e -> track(e));
     }
 
     private KmList<?> getTrackedValues()
@@ -840,112 +848,28 @@ public class ScGrid<T>
         KmList<Object> v = new KmList<>();
 
         for ( ScEncodedValueIF value : _trackedValues )
-            v.add(value.getEncodedValue());
+            v.add(value.getEncodableValue());
 
         return v;
     }
 
     //##################################################
-    //# print csv
+    //# export
     //##################################################
 
-    public void printCsvAttachment()
+    public String exportCsv()
     {
-        KmCsvBuilder out = new KmCsvBuilder();
-        String fileName = CSV_DATA_FILE;
-        printCsvAttachmentOn(out, fileName);
+        return new ScGridCsvExporter<>(this).exportString();
     }
 
-    private void printCsvAttachmentOn(KmCsvBuilder out, String fileName)
+    public String exportHtml()
     {
-        KmFilterIF<T> filter = getFilterFactory().createFilter();
-        if ( filter == null )
-            return;
-
-        Iterable<T> cursor = filter.getCursor();
-        printCsvAttachment(out, cursor, fileName);
+        return new ScGridHtmlExporter<>(this).exportString();
     }
 
-    private void printCsvAttachment(KmCsvBuilder out, Iterable<T> cursor, String fileName)
+    public byte[] exportExcel()
     {
-        renderCsvOn(out, cursor);
-        String csv = out.toString();
-        getData().setAttachmentResult(fileName, csv);
-    }
-
-    //##################################################
-    //# render csv
-    //##################################################
-
-    public String renderCsv()
-    {
-        KmFilterIF<T> filter = getFilterFactory().createFilter();
-        if ( filter == null )
-            return null;
-
-        KmCsvBuilder out = new KmCsvBuilder();
-
-        Iterable<T> cursor = filter.getCursor();
-        renderCsvOn(out, cursor);
-
-        return out.toString();
-    }
-
-    private void renderCsvOn(KmCsvBuilder out, Iterable<T> cursor)
-    {
-        renderCsvHeaders(out);
-        renderCsvData(out, cursor);
-    }
-
-    private void renderCsvHeaders(KmCsvBuilder out)
-    {
-        for ( ScGridColumn<T> col : getCsvColumns() )
-            out.printField(col.getHeader());
-
-        out.endRecord();
-    }
-
-    private void renderCsvData(KmCsvBuilder out, Iterable<T> cursor)
-    {
-        KmList<ScGridColumn<T>> columns = getCsvColumns();
-        for ( T model : cursor )
-        {
-            for ( ScGridColumn<T> col : columns )
-                renderCsvField(out, col, model);
-
-            out.endRecord();
-        }
-    }
-
-    private void renderCsvField(KmCsvBuilder out, ScGridColumn<T> column, T model)
-    {
-        if ( !column.getVisible() )
-            return;
-
-        if ( !column.hasCsvFunction() )
-            return;
-
-        renderCsvField(out, column.getCsvFunction(), model);
-    }
-
-    private void renderCsvField(KmCsvBuilder out, Function<T,?> fn, T model)
-    {
-        Object value = model == null
-            ? null
-            : fn.apply(model);
-
-        out.printField(value);
-    }
-
-    private KmList<ScGridColumn<T>> getCsvColumns()
-    {
-        KmList<ScGridColumn<T>> v = new KmList<>();
-
-        for ( ScGridColumn<T> e : getColumns() )
-            if ( e.hasCsvFunction() && e.isVisible() )
-                v.add(e);
-
-        return v;
+        return new ScGridExcelExporter<>(this).exportBytes();
     }
 
     //##################################################
@@ -958,9 +882,9 @@ public class ScGrid<T>
      */
     public static void handleServletCallback(String pathSuffix)
     {
-        ScGrid<?> g = getGridForPath(pathSuffix);
-        if ( g != null )
-            g.composeResults();
+        ScGrid<?> e = getGridForPath(pathSuffix);
+        if ( e != null )
+            e.composeResults();
     }
 
     private static ScGrid<?> getGridForPath(String suffix)
@@ -973,11 +897,10 @@ public class ScGrid<T>
         if ( Kmu.isEmpty(key) )
             return null;
 
-        ScControl c = getRegistry().getControl(key);
-        if ( !(c instanceof ScGrid) )
-            return null;
-
-        return (ScGrid<?>)c;
+        ScControl e = getRegistry().getControl(key);
+        return e instanceof ScGrid
+            ? (ScGrid<?>)e
+            : null;
     }
 
     //##################################################
@@ -1026,6 +949,10 @@ public class ScGrid<T>
         {
             KmJsonMap row;
             row = rows.addMap();
+
+            String suffix = getRowIdSuffixFor(model);
+            if ( suffix != null )
+                row.setString("id", suffix);
 
             KmJsonArray cells;
             cells = row.setArray("cell");
@@ -1084,8 +1011,56 @@ public class ScGrid<T>
 
             ScEncodedValueIF nextValue;
             nextValue = trackedIterator.next();
-            nextValue.setEncodedValue(nextDecode);
+            nextValue.setEncodableValue(nextDecode);
         }
+    }
+
+    //==================================================
+    //= row id
+    //==================================================
+
+    /**
+     * Select (highlight) a row via ajax.
+     *
+     * This works, however...
+     *      You must configure the rowIdFunction to return a unique id
+     *      for each possible grid row.
+     *
+     *      The row you are selecting must have already been populated
+     *      into the grid.
+     *
+     *      If you try to select a row while refreshing/populating
+     *      the grid, then it does not work because the contents
+     *      are populated dynamically.
+     */
+    public void ajaxSelectRowFor(T e)
+    {
+        String htmlId = getHtmlId();
+        String rowId = getRowIdFor(e);
+
+        if ( rowId == null )
+            return;
+
+        ScBlockScript ajax;
+        ajax = getRootScript();
+        ajax.run("$('#%s tr').removeClass('trSelected');", htmlId);
+        ajax.run("$('#%s tr#%s').addClass('trSelected');", htmlId, rowId);
+    }
+
+    private String getRowIdFor(T e)
+    {
+        String suffix = getRowIdSuffixFor(e);
+        if ( suffix == null )
+            return null;
+
+        return "row" + suffix;
+    }
+
+    private String getRowIdSuffixFor(T e)
+    {
+        return hasRowIdFunction()
+            ? "_" + getRowIdFunction().apply(e)
+            : null;
     }
 
     //##################################################
@@ -1109,17 +1084,9 @@ public class ScGrid<T>
 
         String options = map.formatJson();
 
-        ajax().run("$(%s).flexOptions(%s);", json(sel), options);
-        ajax().run("$(%s).flexReload();", json(sel));
-    }
-
-    public void ajaxDownloadCsv()
-    {
-        ajaxDownloadCsv("export.csv");
-    }
-
-    public void ajaxDownloadCsv(String name)
-    {
-        getRootScript().download(name, renderCsv());
+        ScBlockScript ajax;
+        ajax = getRootScript();
+        ajax.run("$(%s).flexOptions(%s);", json(sel), options);
+        ajax.run("$(%s).flexReload();", json(sel));
     }
 }

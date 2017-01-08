@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,78 @@
 
 package com.kodemore.servlet.field;
 
+import com.kodemore.servlet.control.ScVisibleIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScToggleScript;
+import com.kodemore.servlet.script.ScVisibilityScript;
+import com.kodemore.servlet.utility.ScJquery;
 
 public interface ScHtmlIdIF
+    extends ScVisibleIF
 {
+    //##################################################
+    //# basics
+    //##################################################
+
     String getHtmlId();
 
-    String getJquerySelector();
-
-    ScHtmlIdAjax ajax();
-
     ScHtmlIdIF getFocusTarget();
+
+    //##################################################
+    //# defaults
+    //##################################################
+
+    default String getJquerySelector()
+    {
+        return ScJquery.formatSelector(this);
+    }
+
+    default String getJqueryReference()
+    {
+        return ScJquery.formatReference(this);
+    }
+
+    //##################################################
+    //# ajax
+    //#
+    //# A number of default methods are included.
+    //# This should only include methods that are
+    //# intended to be PUBLIC for ALL classes that
+    //# implement ScHtmlIdIF.  Additional ajax methods
+    //# may be implemented on specific classes.
+    //##################################################
+
+    ScHtmlIdAjax _htmlIdAjax();
+
+    @Override
+    default ScVisibilityScript ajaxShow(boolean visible)
+    {
+        return _htmlIdAjax().show(visible);
+    }
+
+    default ScToggleScript ajaxToggle()
+    {
+        return _htmlIdAjax().toggle();
+    }
+
+    default void ajaxFocus()
+    {
+        _htmlIdAjax().focus();
+    }
+
+    default void ajaxReplace()
+    {
+        _htmlIdAjax().replace();
+    }
+
+    default void ajaxReplaceFade()
+    {
+        _htmlIdAjax().replaceFade();
+    }
+
+    default void ajaxHideAllErrors()
+    {
+        _htmlIdAjax().hideAllErrors();
+    }
+
 }

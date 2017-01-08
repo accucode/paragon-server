@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 www.kodemore.com
+  Copyright (c) 2005-2016 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,60 +24,51 @@ package com.kodemore.time;
 
 /**
  * I am used to get the current time.  I should generally be used instead
- * of methods like KmTimestamp.createNow().
+ * of methods like KmTimestamp.createNow().  My methods may be optimized
+ * for performance, and may only be accurate to the second.  Do not use
+ * the clock if you need accuracy of milliseconds or nanoseconds.
  */
 public class KmClock
 {
     //##################################################
-    //# instance
+    //# timestamp
     //##################################################
 
-    protected static KmClock _instance = new KmClock();
-
-    protected static void install(KmClock e)
+    public static KmTimestamp getUtcTimestamp()
     {
-        _instance = e;
+        return KmTimestamp.fromInstant(KmTimeConstantsIF.UTC_WALL_CLOCK.instant());
+    }
+
+    public static KmTimestamp getLocalTimestamp()
+    {
+        return getUtcTimestamp().toLocal();
     }
 
     //##################################################
-    //# access
+    //# date
     //##################################################
 
-    public static KmTimestamp getNowUtc()
+    public static KmDate getUtcDate()
     {
-        return _instance._getNowUtc();
+        return getUtcTimestamp().getDate();
     }
 
-    public static KmDate getTodayUtc()
+    public static KmDate getLocalDate()
     {
-        return getNowUtc().getDate();
-    }
-
-    public static KmTimestamp getNowLocal()
-    {
-        return getNowUtc().toLocal();
-    }
-
-    public static KmDate getTodayLocal()
-    {
-        return getNowLocal().getDate();
+        return getLocalTimestamp().getDate();
     }
 
     //##################################################
-    //# constructor
+    //# time
     //##################################################
 
-    protected KmClock()
+    public static KmTime getUtcTime()
     {
-        // protected
+        return getUtcTimestamp().getTime();
     }
 
-    //##################################################
-    //# clock
-    //##################################################
-
-    protected KmTimestamp _getNowUtc()
+    public static KmTime getLocalTime()
     {
-        return KmTimestamp.nowUtc();
+        return getLocalTimestamp().getTime();
     }
 }

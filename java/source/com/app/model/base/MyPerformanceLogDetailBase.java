@@ -21,11 +21,14 @@ import com.kodemore.utility.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
 import com.app.utility.*;
 
+@SuppressWarnings("all")
 public abstract class MyPerformanceLogDetailBase
     extends MyAbstractDomain
-    implements MyDomainIF
+    implements MyUidDomainIF
 {
     //##################################################
     //# static
@@ -40,8 +43,8 @@ public abstract class MyPerformanceLogDetailBase
     //##################################################
 
     private String uid;
-    private String name;
     private KmTimestamp createdUtcTs;
+    private String name;
     private Integer durationMs;
 
     //##################################################
@@ -52,7 +55,7 @@ public abstract class MyPerformanceLogDetailBase
     {
         super();
         setUid(newUid());
-        setCreatedUtcTs(getNowUtc());
+        setCreatedUtcTs(nowUtc());
     }
 
     //##################################################
@@ -66,7 +69,6 @@ public abstract class MyPerformanceLogDetailBase
 
     public void setUid(String e)
     {
-        checkReadOnly();
         e = Validator.getUidValidator().convertOnly(e);
         uid = e;
     }
@@ -97,6 +99,36 @@ public abstract class MyPerformanceLogDetailBase
     }
 
     //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -107,7 +139,6 @@ public abstract class MyPerformanceLogDetailBase
 
     public void setName(String e)
     {
-        checkReadOnly();
         e = Validator.getNameValidator().convertOnly(e);
         name = e;
     }
@@ -138,37 +169,6 @@ public abstract class MyPerformanceLogDetailBase
     }
 
     //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        checkReadOnly();
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
     //# field (durationMs)
     //##################################################
 
@@ -179,7 +179,6 @@ public abstract class MyPerformanceLogDetailBase
 
     public void setDurationMs(Integer e)
     {
-        checkReadOnly();
         e = Validator.getDurationMsValidator().convertOnly(e);
         durationMs = e;
     }
@@ -197,6 +196,22 @@ public abstract class MyPerformanceLogDetailBase
     public boolean hasDurationMs(Integer e)
     {
         return Kmu.isEqual(getDurationMs(), e);
+    }
+
+    //##################################################
+    //# field (displayString)
+    //##################################################
+
+    public abstract String getDisplayString();
+
+    public boolean hasDisplayString()
+    {
+        return Kmu.hasValue(getDisplayString());
+    }
+
+    public boolean hasDisplayString(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -311,7 +326,22 @@ public abstract class MyPerformanceLogDetailBase
     public void postCopy()
     {
         super.postCopy();
-        uid = null;
+        uid = newUid();
+    }
+
+    /**
+     * Get a copy of this model without any associations or collections.
+     * The primary key and lock version are not copied.
+     * The basic timestamps are reset.
+     */
+    public final MyPerformanceLogDetail getBasicCopy()
+    {
+        MyPerformanceLogDetail e;
+        e = new MyPerformanceLogDetail();
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setName(getName());
+        e.setDurationMs(getDurationMs());
+        return e;
     }
 
     //##################################################
@@ -342,9 +372,10 @@ public abstract class MyPerformanceLogDetailBase
 
     public boolean isSameIgnoringKey(MyPerformanceLogDetail e)
     {
-        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getDurationMs(), e.getDurationMs()) ) return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -383,8 +414,8 @@ public abstract class MyPerformanceLogDetailBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
-        System.out.println("    Name = " + name);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    Name = " + name);
         System.out.println("    DurationMs = " + durationMs);
     }
 
@@ -408,4 +439,5 @@ public abstract class MyPerformanceLogDetailBase
     {
         return Meta.getName();
     }
+
 }
