@@ -1,6 +1,7 @@
 package com.app.ui.page.manage.user;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaModel;
@@ -53,6 +54,12 @@ public class MyUserBuilder
     public MyUser findChild(String uid)
     {
         return getAccess().findUserUid(uid);
+    }
+
+    @Override
+    public Predicate<MyUser> getChildStrikeout()
+    {
+        return (e) -> !e.isActive();
     }
 
     //##################################################
