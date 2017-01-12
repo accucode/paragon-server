@@ -51,9 +51,11 @@ public class MyProjectBuilder
     }
 
     @Override
-    public Predicate<MyProject> getChildStrikeout()
+    public Predicate<MyProject> getChildActive()
     {
-        return e -> e.isNotActive();
+        // fixme_wyatt:
+        // return MyProject.Meta.Active;
+        return e -> e.isActive();
     }
 
     @Override

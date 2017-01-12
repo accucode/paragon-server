@@ -98,7 +98,7 @@ public abstract class MyCrudBuilder<P extends MyUidDomainIF, C extends MyUidDoma
      * include a strikeout style. If null, the default, strikeout
      * is not applied.
      */
-    public Predicate<C> getChildStrikeout()
+    public Predicate<C> getChildActive()
     {
         return null;
     }

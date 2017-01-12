@@ -102,7 +102,7 @@ public class ScSimpleModelList<T>
      * I am applied to each model to determine whether the strikeout
      * style should be applied. If null (the default), strikeout is NOT applied.
      */
-    private Predicate<T>                  _titleStrikeout;
+    private Predicate<T>                  _childActive;
 
     /**
      * I am applied to each model to create a subtitle.
@@ -208,24 +208,25 @@ public class ScSimpleModelList<T>
     //# title :: strikeout
     //##################################################
 
-    public Predicate<T> getTitleStrikeout()
+    public Predicate<T> getChildActive()
     {
-        return _titleStrikeout;
+        return _childActive;
     }
 
-    public void setTitleStrikeout(Predicate<T> e)
+    // fixme_wyatt:
+    public void setChildActive(Predicate<T> e)
     {
-        _titleStrikeout = e;
+        _childActive = e;
     }
 
-    public boolean getTitleStrikeoutFor(T e)
+    public boolean getChildActiveFor(T e)
     {
         if ( e == null )
             return false;
 
-        return _titleStrikeout == null
-            ? false
-            : _titleStrikeout.test(e);
+        return _childActive == null
+            ? true
+            : _childActive.test(e);
     }
 
     //##################################################
@@ -499,8 +500,8 @@ public class ScSimpleModelList<T>
 
         root.css().modelList_item();
 
-        if ( getTitleStrikeoutFor(value) )
-            root.css().modelList_itemStrikeout();
+        if ( !getChildActiveFor(value) )
+            root.css().modelList_itemInactive();
 
         if ( getInitialSelection() == value )
             root.css().modelList_itemSelected();

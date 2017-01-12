@@ -2481,6 +2481,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.modelList_itemErrorBox);
     }
 
+    public KmCssDefaultBuilder modelList_itemInactive()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_itemInactive);
+    }
+
     public KmCssDefaultBuilder modelList_itemMenuBoxColumn()
     {
         return apply(KmCssDefaultConstantsIF.modelList_itemMenuBoxColumn);
@@ -2499,11 +2504,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder modelList_itemSelected()
     {
         return apply(KmCssDefaultConstantsIF.modelList_itemSelected);
-    }
-
-    public KmCssDefaultBuilder modelList_itemStrikeout()
-    {
-        return apply(KmCssDefaultConstantsIF.modelList_itemStrikeout);
     }
 
     public KmCssDefaultBuilder modelList_itemSubtitle()

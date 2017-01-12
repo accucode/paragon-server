@@ -1491,7 +1491,7 @@ body {
 .modelList-item:hover {
   background: #ddd;
 }
-.modelList-itemStrikeout {
+.modelList-itemInactive {
   color: #888;
   background: #eee;
   border-width: 0px 1px 1px 1px;

@@ -169,7 +169,7 @@ public class MyCrudSimpleSearchView<P extends MyUidDomainIF, C extends MyUidDoma
 
         MyCrudBuilder<P,C> b = getCrudBuilder();
         Function<C,String> title = b.getChildTitleFunction();
-        Predicate<C> titleStrikeout = b.getChildStrikeout();
+        Predicate<C> active = b.getChildActive();
         Function<C,String> subtitle = b.getChildSubtitleFunction();
         Function<C,String> errorFn = b.getChildErrorFunction();
 
@@ -178,7 +178,7 @@ public class MyCrudSimpleSearchView<P extends MyUidDomainIF, C extends MyUidDoma
         list.css().fill();
         list.setKeyFunction(MyUidDomainIF.getUidAdaptor());
         list.setTitleFunction(title);
-        list.setTitleStrikeout(titleStrikeout);
+        list.setChildActive(active);
         list.setSubtitleFunction(subtitle);
         list.setErrorFunction(errorFn);
         list.setItemAction(selectAction);
@@ -369,17 +369,19 @@ public class MyCrudSimpleSearchView<P extends MyUidDomainIF, C extends MyUidDoma
      */
     private KmList<C> getDomainChildren()
     {
+        MyCrudBuilder<P,C> builder = getCrudBuilder();
+        Predicate<C> strikeout = builder.getChildActive();
+
         KmList<C> unsorted;
         unsorted = getCrudBuilder().getChildrenFor(getDomainParent());
 
-        MyCrudBuilder<P,C> b = getCrudBuilder();
-        if ( b.getChildStrikeout() == null )
+        if ( strikeout == null )
             return unsorted;
 
         KmList<C> sorted;
         sorted = new KmList<>();
-        sorted.addAll(unsorted.select(b.getChildStrikeout().negate()));
-        sorted.addAll(unsorted.select(b.getChildStrikeout()));
+        sorted.addAll(unsorted.select(strikeout.negate()));
+        sorted.addAll(unsorted.select(strikeout));
         return sorted;
     }
 

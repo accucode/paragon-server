@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDiv;
 
-// fixme_wyatt: remove?
 public abstract class MyRemoveDialog<T>
     extends MyDialog
 {

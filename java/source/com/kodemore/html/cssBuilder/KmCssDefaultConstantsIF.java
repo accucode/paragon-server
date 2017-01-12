@@ -500,11 +500,11 @@ public interface KmCssDefaultConstantsIF
     String modelList = "modelList";
     String modelList_item = "modelList-item";
     String modelList_itemErrorBox = "modelList-itemErrorBox";
+    String modelList_itemInactive = "modelList-itemInactive";
     String modelList_itemMenuBoxColumn = "modelList-itemMenuBoxColumn";
     String modelList_itemMenuBoxRow = "modelList-itemMenuBoxRow";
     String modelList_itemMessageBox = "modelList-itemMessageBox";
     String modelList_itemSelected = "modelList-itemSelected";
-    String modelList_itemStrikeout = "modelList-itemStrikeout";
     String modelList_itemSubtitle = "modelList-itemSubtitle";
     String modelList_itemTitle = "modelList-itemTitle";
     String modelList_taskDesignerItem = "modelList-taskDesignerItem";

@@ -57,9 +57,9 @@ public class MyUserBuilder
     }
 
     @Override
-    public Predicate<MyUser> getChildStrikeout()
+    public Predicate<MyUser> getChildActive()
     {
-        return (e) -> !e.isActive();
+        return (e) -> e.isActive();
     }
 
     //##################################################

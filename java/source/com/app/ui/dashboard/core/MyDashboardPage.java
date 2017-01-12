@@ -9,6 +9,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTransientDiv;
 
 import com.app.model.MyProject;
+import com.app.model.MyUser;
 import com.app.ui.dashboard.MyEmptyPanel;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -170,26 +171,38 @@ public final class MyDashboardPage
 
     private KmList<MyDashboardPanel> getPanels()
     {
-        // todo_wyatt Auto-generated method stub
-        return null;
+        MyUser user = getCurrentUser();
+
+        KmList<MyDashboardPanel> v;
+        v = new KmList<>();
+        v.add(getPanel(user.getDashboardPanelTypeA()));
+        v.add(getPanel(user.getDashboardPanelTypeB()));
+        v.add(getPanel(user.getDashboardPanelTypeC()));
+        v.add(getPanel(user.getDashboardPanelTypeD()));
+        v.add(getPanel(user.getDashboardPanelTypeE()));
+        v.add(getPanel(user.getDashboardPanelTypeF()));
+        v.replaceDuplicatesWithNull();
+        return v;
+    }
+
+    private MyDashboardPanel getPanel(MyDashboardPanelType e)
+    {
+        return MyDashboardPanelRegistry.getPanel(e);
     }
 
     private MyDashboardOrientationType getOrientationType()
     {
-        // todo_wyatt Auto-generated method stub
-        return null;
+        return getCurrentUser().getDashboardOrientationType();
     }
 
     private int getLineCount1()
     {
-        // todo_wyatt Auto-generated method stub
-        return 0;
+        return getCurrentUser().getDashboardLineCount1();
     }
 
     private int getLineCount2()
     {
-        // todo_wyatt Auto-generated method stub
-        return 0;
+        return getCurrentUser().getDashboardLineCount2();
     }
 
     //##################################################
