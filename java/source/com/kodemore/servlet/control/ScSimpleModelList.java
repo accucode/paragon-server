@@ -218,7 +218,7 @@ public class ScSimpleModelList<T>
         _childActive = e;
     }
 
-    public boolean getChildActiveFor(T e)
+    private boolean isChildActive(T e)
     {
         if ( e == null )
             return false;
@@ -499,7 +499,7 @@ public class ScSimpleModelList<T>
 
         root.css().modelList_item();
 
-        if ( !getChildActiveFor(value) )
+        if ( !isChildActive(value) )
             root.css().modelList_itemInactive();
 
         if ( getInitialSelection() == value )
@@ -509,6 +509,7 @@ public class ScSimpleModelList<T>
             root.setOnClick(findFormWrapper(), getItemAction(), key);
 
         setItemVisibilityOn(root, value);
+
         composeItemHiddenFieldOn(root, value);
         composeItemDragHandleOn(root, value);
         composeItemErrorOn(root, value);

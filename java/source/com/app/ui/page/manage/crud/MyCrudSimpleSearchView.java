@@ -370,18 +370,18 @@ public class MyCrudSimpleSearchView<P extends MyUidDomainIF, C extends MyUidDoma
     private KmList<C> getDomainChildren()
     {
         MyCrudBuilder<P,C> builder = getCrudBuilder();
-        Predicate<C> strikeout = builder.getChildActive();
+        Predicate<C> active = builder.getChildActive();
 
         KmList<C> unsorted;
         unsorted = getCrudBuilder().getChildrenFor(getDomainParent());
 
-        if ( strikeout == null )
+        if ( active == null )
             return unsorted;
 
         KmList<C> sorted;
         sorted = new KmList<>();
-        sorted.addAll(unsorted.select(strikeout.negate()));
-        sorted.addAll(unsorted.select(strikeout));
+        sorted.addAll(unsorted.select(active));
+        sorted.addAll(unsorted.select(active.negate()));
         return sorted;
     }
 
