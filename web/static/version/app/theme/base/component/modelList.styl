@@ -33,12 +33,6 @@
 .modelList-item:hover
     background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
 
-.modelList-itemSelected
-    background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
-    border-width:       $modelList-itemBorderWidth-select   if $modelList-itemBorderWidth-select
-    border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
-    border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
-
 .modelList-itemStrikeout
     color:              $modelList-itemColor-strikeout
     background:         $modelList-itemBackground-strikeout
@@ -46,6 +40,19 @@
     border-style:       $modelList-itemBorderStyle-strikeout    if $modelList-itemBorderStyle-strikeout
     border-color:       $modelList-itemBorderColor-strikeout    if $modelList-itemBorderColor-strikeout
     text-decoration:    line-through
+
+.modelList-itemSelected
+    background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
+    border-width:       $modelList-itemBorderWidth-select   if $modelList-itemBorderWidth-select
+    border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
+    border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
+
+.modelList-itemSelected:hover
+    background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
+    border-width:       $modelList-itemBorderWidth-select   if $modelList-itemBorderWidth-select
+    border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
+    border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
+
 
 /*****************************
  ** task designer
@@ -71,9 +78,9 @@
 
 .modelList-taskDesignerItem:hover
     background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
-    
+
 .modelList-taskDesignerItem > div > button
-    min-width:          200px;       
+    min-width:          200px;
 
 
 /*****************************

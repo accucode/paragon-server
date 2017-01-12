@@ -1486,24 +1486,30 @@ body {
   cursor: pointer;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
-  border-color: #ccc;
+  border-color: #ddd;
 }
 .modelList-item:hover {
   background: #ddd;
 }
-.modelList-itemSelected {
+.modelList-itemStrikeout {
+  color: #888;
   background: #eee;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
-  border-color: #ccc;
+  border-color: #ddd;
+  text-decoration: line-through;
 }
-.modelList-itemStrikeout {
-  color: #888;
-  background: #fff;
+.modelList-itemSelected {
+  background: #ee8;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
-  border-color: #ccc;
-  text-decoration: line-through;
+  border-color: #ddd;
+}
+.modelList-itemSelected:hover {
+  background: #ee8;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: #ddd;
 }
 .modelList-taskDesignerItem {
   position: relative;
@@ -1516,7 +1522,7 @@ body {
   cursor: pointer;
   border-width: 0px 1px 1px 1px;
   border-style: solid;
-  border-color: #ccc;
+  border-color: #ddd;
 }
 .modelList-taskDesignerItem:hover {
   background: #ddd;
