@@ -27,7 +27,7 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyAuditLogBundleVoBase
-    extends MyAbstractDomain
+    extends MyAbstractValueDomain
     implements MyDomainIF
 {
     //##################################################

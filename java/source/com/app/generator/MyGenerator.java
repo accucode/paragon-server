@@ -201,7 +201,8 @@ public class MyGenerator
             _root.setApplicationName(MyConstantsIF.APPLICATION_NAME);
             _root.setApplicationPrefix(APPLICATION_PREFIX);
             _root.setApplicationPackage(APPLICATION_PACKAGE);
-            _root.setDefaultModelSuperClass("MyAbstractDomain");
+            _root.setDefaultDaoModelSuperClass("MyAbstractDaoDomain");
+            _root.setDefaultValueModelSuperClass("MyAbstractValueDomain");
         }
         return _root;
     }

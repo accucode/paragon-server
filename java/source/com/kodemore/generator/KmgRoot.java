@@ -42,7 +42,8 @@ public class KmgRoot
     private String                    _applicationPackage;
     private String                    _applicationPrefix;
 
-    private String                    _defaultModelSuperClass;
+    private String                    _defaultDaoModelSuperClass;
+    private String                    _defaultValueModelSuperClass;
 
     private KmList<KmgFieldExtender>  _extenders;
 
@@ -212,14 +213,24 @@ public class KmgRoot
         return _propertyFile;
     }
 
-    public String getDefaultModelSuperClass()
+    public String getDefaultDaoModelSuperClass()
     {
-        return _defaultModelSuperClass;
+        return _defaultDaoModelSuperClass;
     }
 
-    public void setDefaultModelSuperClass(String e)
+    public void setDefaultDaoModelSuperClass(String e)
     {
-        _defaultModelSuperClass = e;
+        _defaultDaoModelSuperClass = e;
+    }
+
+    public String getDefaultValueModelSuperClass()
+    {
+        return _defaultValueModelSuperClass;
+    }
+
+    public void setDefaultValueModelSuperClass(String e)
+    {
+        _defaultValueModelSuperClass = e;
     }
 
     public KmList<String> getPageClassNames()

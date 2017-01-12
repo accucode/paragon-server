@@ -20,7 +20,7 @@ import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.base.MyAuditLogInfo;
 import com.app.model.base.MyAuditLogType;
-import com.app.model.core.MyAbstractDomain;
+import com.app.model.core.MyAbstractDaoDomain;
 import com.app.utility.MyBasicTimestampsIF;
 import com.app.utility.MyGlobals;
 
@@ -46,7 +46,7 @@ public class MyHibernateInterceptor
 
     private void auditAdd(Object entity, Object[] state, String[] propertyNames, Type[] types)
     {
-        MyAbstractDomain domain = toAuditableDomain(entity);
+        MyAbstractDaoDomain domain = toAuditableDomain(entity);
         if ( domain == null )
             return;
 
@@ -71,7 +71,7 @@ public class MyHibernateInterceptor
     }
 
     private void auditAdd(
-        MyAbstractDomain domain,
+        MyAbstractDaoDomain domain,
         String bundleUid,
         String field,
         Type type,
@@ -109,7 +109,7 @@ public class MyHibernateInterceptor
         String[] propertyNames,
         Type[] types)
     {
-        MyAbstractDomain domain = toAuditableDomain(entity);
+        MyAbstractDaoDomain domain = toAuditableDomain(entity);
         if ( domain == null )
             return;
 
@@ -137,7 +137,7 @@ public class MyHibernateInterceptor
     }
 
     private void auditUpdate(
-        MyAbstractDomain domain,
+        MyAbstractDaoDomain domain,
         String bundleUid,
         String field,
         Type type,
@@ -172,7 +172,7 @@ public class MyHibernateInterceptor
 
     private void auditDelete(Object entity, Object[] state, String[] propertyNames, Type[] types)
     {
-        MyAbstractDomain domain = toAuditableDomain(entity);
+        MyAbstractDaoDomain domain = toAuditableDomain(entity);
         if ( domain == null )
             return;
 
@@ -197,7 +197,7 @@ public class MyHibernateInterceptor
     }
 
     private void auditDelete(
-        MyAbstractDomain model,
+        MyAbstractDaoDomain domain,
         String bundleUid,
         String field,
         Type type,
@@ -213,7 +213,7 @@ public class MyHibernateInterceptor
         if ( matches )
             return;
 
-        createAuditLog(MyAuditLogType.Delete, model, bundleUid, field, oldValue, newValue);
+        createAuditLog(MyAuditLogType.Delete, domain, bundleUid, field, oldValue, newValue);
     }
 
     //##################################################
@@ -222,7 +222,7 @@ public class MyHibernateInterceptor
 
     private void createAuditLog(
         MyAuditLogType changeType,
-        MyAbstractDomain domain,
+        MyAbstractDaoDomain domain,
         String bundleUid,
         String fieldName,
         Object oldValue,
@@ -363,9 +363,9 @@ public class MyHibernateInterceptor
             return;
         }
 
-        if ( value instanceof MyAbstractDomain )
+        if ( value instanceof MyAbstractDaoDomain )
         {
-            log.setUidValue(((MyAbstractDomain)value).formatPrimaryKey());
+            log.setUidValue(((MyAbstractDaoDomain)value).formatPrimaryKey());
             return;
         }
     }
@@ -399,20 +399,20 @@ public class MyHibernateInterceptor
 
     private void validate(Object entity)
     {
-        if ( entity instanceof MyAbstractDomain )
+        if ( entity instanceof MyAbstractDaoDomain )
         {
-            MyAbstractDomain e;
-            e = (MyAbstractDomain)entity;
+            MyAbstractDaoDomain e;
+            e = (MyAbstractDaoDomain)entity;
             e.validate();
         }
     }
 
-    private MyAbstractDomain toAuditableDomain(Object obj)
+    private MyAbstractDaoDomain toAuditableDomain(Object obj)
     {
-        if ( !(obj instanceof MyAbstractDomain) )
+        if ( !(obj instanceof MyAbstractDaoDomain) )
             return null;
 
-        MyAbstractDomain e = (MyAbstractDomain)obj;
+        MyAbstractDaoDomain e = (MyAbstractDaoDomain)obj;
 
         if ( MyAuditLogInfo.isModelDisabled(e.getMetaName()) )
             return null;

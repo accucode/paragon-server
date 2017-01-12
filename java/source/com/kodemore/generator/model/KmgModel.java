@@ -3,6 +3,7 @@ package com.kodemore.generator.model;
 import com.kodemore.collection.KmList;
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.generator.KmgElement;
+import com.kodemore.generator.KmgRoot;
 import com.kodemore.stf.KmStfElement;
 import com.kodemore.utility.Kmu;
 
@@ -723,9 +724,12 @@ public class KmgModel
 
     public String getf_Superclass()
     {
-        return _superclass == null
-            ? getRoot().getDefaultModelSuperClass()
-            : _superclass;
+        if ( _superclass != null )
+            return _superclass;
+
+        return hasDatabase()
+            ? getRoot().getDefaultDaoModelSuperClass()
+            : getRoot().getDefaultValueModelSuperClass();
     }
 
     public String getf_sqlTable()

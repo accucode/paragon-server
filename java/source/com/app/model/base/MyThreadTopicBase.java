@@ -27,7 +27,7 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyThreadTopicBase
-    extends MyAbstractDomain
+    extends MyAbstractDaoDomain
     implements MyDomainIF
 {
     //##################################################

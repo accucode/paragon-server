@@ -29,18 +29,11 @@ public class MyAuditLogBundleVo
     }
 
     @Override
-    public String formatPrimaryKey()
-    {
-        return null;
-    }
-
-    @Override
     public String getDisplayUserName()
     {
-        if ( hasUser() )
-            return getUser().getFullName();
-
-        return "System";
+        return hasUser()
+            ? getUser().getFullName()
+            : "System";
     }
 
     @Override

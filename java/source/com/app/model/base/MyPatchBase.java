@@ -27,7 +27,7 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyPatchBase
-    extends MyAbstractDomain
+    extends MyAbstractDaoDomain
     implements MyDomainIF
 {
     //##################################################

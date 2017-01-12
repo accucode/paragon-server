@@ -27,7 +27,7 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MySettingsBase
-    extends MyAbstractDomain
+    extends MyAbstractDaoDomain
     implements MyDomainIF
 {
     //##################################################

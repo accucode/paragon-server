@@ -8,42 +8,35 @@
 
 package com.app.model.base;
 
-import java.util.*;
+import com.kodemore.time.KmDate;
+import com.kodemore.utility.Kmu;
 
-import com.kodemore.collection.*;
-import com.kodemore.exception.*;
-import com.kodemore.servlet.encoder.*;
-import com.kodemore.servlet.utility.*;
-import com.kodemore.time.*;
-import com.kodemore.types.*;
-import com.kodemore.utility.*;
-
-import com.app.model.*;
-import com.app.model.core.*;
-import com.app.model.meta.*;
-import com.app.model.support.*;
-import com.app.ui.dashboard.core.*;
-import com.app.utility.*;
+import com.app.model.MyDatedCountVo;
+import com.app.model.MyDatedCountVoTools;
+import com.app.model.MyDatedCountVoValidator;
+import com.app.model.core.MyAbstractValueDomain;
+import com.app.model.core.MyDomainIF;
+import com.app.model.meta.MyMetaDatedCountVo;
 
 @SuppressWarnings("all")
 public abstract class MyDatedCountVoBase
-    extends MyAbstractDomain
+    extends MyAbstractValueDomain
     implements MyDomainIF
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaDatedCountVo Meta = MyMetaDatedCountVo.instance;
-    public static final MyDatedCountVoTools Tools = MyDatedCountVoTools.instance;
+    public static final MyMetaDatedCountVo      Meta      = MyMetaDatedCountVo.instance;
+    public static final MyDatedCountVoTools     Tools     = MyDatedCountVoTools.instance;
     public static final MyDatedCountVoValidator Validator = MyDatedCountVoValidator.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private KmDate date;
-    private Integer count;
+    private KmDate                              date;
+    private Integer                             count;
 
     //##################################################
     //# constructor
@@ -130,7 +123,6 @@ public abstract class MyDatedCountVoBase
         return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
-
     //##################################################
     //# validate
     //##################################################
@@ -204,14 +196,17 @@ public abstract class MyDatedCountVoBase
 
     public boolean isSame(MyDatedCountVo e)
     {
-        if ( !Kmu.isEqual(getDate(), e.getDate()) ) return false;
+        if ( !Kmu.isEqual(getDate(), e.getDate()) )
+            return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyDatedCountVo e)
     {
-        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getCount(), e.getCount()) )
+            return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) )
+            return false;
         return true;
     }
 
@@ -248,22 +243,6 @@ public abstract class MyDatedCountVoBase
         System.out.println("    Date = " + date);
         System.out.println("    Count = " + count);
     }
-
-    /**
-     * Format the primary key fields in a comma separated list.  The format
-     * is intended to be suitable for display to users.
-     */
-    @Override
-    public String formatPrimaryKey()
-    {
-        ScFormatter f = getFormatter();
-
-        StringBuilder out;
-        out = new StringBuilder();
-        out.append(f.formatAny(date));
-        return out.toString();
-    }
-
 
     //##################################################
     //# convenience

@@ -51,7 +51,7 @@ public class MyMetaInvitation_TypeCode
     @Override
     public String getHelp()
     {
-        return "The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.";
+        return "The type of invitation. Currently the only type is a JoinAccount, but other types can be added.";
     }
 
     @Override

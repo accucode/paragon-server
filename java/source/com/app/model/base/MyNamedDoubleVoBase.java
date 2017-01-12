@@ -8,42 +8,34 @@
 
 package com.app.model.base;
 
-import java.util.*;
+import com.kodemore.utility.Kmu;
 
-import com.kodemore.collection.*;
-import com.kodemore.exception.*;
-import com.kodemore.servlet.encoder.*;
-import com.kodemore.servlet.utility.*;
-import com.kodemore.time.*;
-import com.kodemore.types.*;
-import com.kodemore.utility.*;
-
-import com.app.model.*;
-import com.app.model.core.*;
-import com.app.model.meta.*;
-import com.app.model.support.*;
-import com.app.ui.dashboard.core.*;
-import com.app.utility.*;
+import com.app.model.MyNamedDoubleVo;
+import com.app.model.MyNamedDoubleVoTools;
+import com.app.model.MyNamedDoubleVoValidator;
+import com.app.model.core.MyAbstractValueDomain;
+import com.app.model.core.MyDomainIF;
+import com.app.model.meta.MyMetaNamedDoubleVo;
 
 @SuppressWarnings("all")
 public abstract class MyNamedDoubleVoBase
-    extends MyAbstractDomain
+    extends MyAbstractValueDomain
     implements MyDomainIF
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaNamedDoubleVo Meta = MyMetaNamedDoubleVo.instance;
-    public static final MyNamedDoubleVoTools Tools = MyNamedDoubleVoTools.instance;
+    public static final MyMetaNamedDoubleVo      Meta      = MyMetaNamedDoubleVo.instance;
+    public static final MyNamedDoubleVoTools     Tools     = MyNamedDoubleVoTools.instance;
     public static final MyNamedDoubleVoValidator Validator = MyNamedDoubleVoValidator.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String name;
-    private Double value;
+    private String                               name;
+    private Double                               value;
 
     //##################################################
     //# constructor
@@ -140,7 +132,6 @@ public abstract class MyNamedDoubleVoBase
         return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
-
     //##################################################
     //# validate
     //##################################################
@@ -214,14 +205,17 @@ public abstract class MyNamedDoubleVoBase
 
     public boolean isSame(MyNamedDoubleVo e)
     {
-        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) )
+            return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyNamedDoubleVo e)
     {
-        if ( !Kmu.isEqual(getValue(), e.getValue()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getValue(), e.getValue()) )
+            return false;
+        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) )
+            return false;
         return true;
     }
 
@@ -258,17 +252,6 @@ public abstract class MyNamedDoubleVoBase
         System.out.println("    Name = " + name);
         System.out.println("    Value = " + value);
     }
-
-    /**
-     * Format the primary key fields in a comma separated list.  The format
-     * is intended to be suitable for display to users.
-     */
-    @Override
-    public String formatPrimaryKey()
-    {
-        return name;
-    }
-
 
     //##################################################
     //# convenience
