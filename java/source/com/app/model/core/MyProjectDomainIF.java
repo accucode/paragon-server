@@ -20,7 +20,6 @@ import com.app.model.MyProject;
  * @see MyTenantDomainIF
  * @see MySystemDomainIF
  */
-// fixme_wyatt: remove
 public interface MyProjectDomainIF
 {
     MyProject getProject();

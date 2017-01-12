@@ -53,9 +53,7 @@ public class MyProjectBuilder
     @Override
     public Predicate<MyProject> getChildActive()
     {
-        // fixme_wyatt:
-        // return MyProject.Meta.Active;
-        return e -> e.isActive();
+        return MyProject.Meta.Active;
     }
 
     @Override

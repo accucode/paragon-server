@@ -4,12 +4,12 @@ import com.kodemore.utility.Kmu;
 
 import com.app.ui.dashboard.core.MyDashboardPage;
 import com.app.ui.layout.MyMenuItem;
+import com.app.ui.page.general.MyProjectDataMenuPage;
 import com.app.ui.page.general.MyProjectPage;
 import com.app.ui.page.manage.project.MyProjectManagePage;
 import com.app.ui.page.manage.tenant.MyTenantManagePage;
 import com.app.ui.page.manage.user.MyUserManagePage;
 import com.app.ui.page.report.MyAuditLogReportPage;
-import com.app.ui.page.test.MyProjectDataMenuPage;
 import com.app.ui.page.test.MyTestMenuPage;
 import com.app.ui.page.test.MyWyattTestPage;
 import com.app.ui.page.tools.MyDevApplicationLogsPage;

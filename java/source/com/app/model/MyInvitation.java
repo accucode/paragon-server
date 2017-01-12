@@ -8,7 +8,6 @@ import com.app.model.base.MyInvitationType;
 import com.app.model.core.MySystemDomainIF;
 import com.app.utility.MyUrls;
 
-// todo_wyatt: review, move to tenant or project?
 public class MyInvitation
     extends MyInvitationBase
     implements MySystemDomainIF

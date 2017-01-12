@@ -256,43 +256,6 @@ public class MyCrudManageView<P extends MyUidDomainIF, C extends MyUidDomainIF>
     }
 
     //##################################################
-    //# navigator state
-    //##################################################
-
-    // fixme_wyatt: remove
-    //    @Override
-    //    public void saveNavigatorState()
-    //    {
-    //        MyNavigatorView nav = findNavigator();
-    //        if ( nav == null )
-    //            return;
-    //
-    //        nav.setState(this, "childUid", getDomainChildUid());
-    //    }
-    //
-    //    @Override
-    //    public void restoreNavigatorState()
-    //    {
-    //        MyNavigatorView nav = findNavigator();
-    //        if ( nav == null )
-    //            return;
-    //
-    //        String childUid = nav.getStateString(this, "childUid");
-    //        C child = getCrudBuilder().findChild(childUid);
-    //        if ( child != null )
-    //            setDomainChild(child);
-    //
-    //        Boolean showSearch = nav.getStateBoolean(this, "showSearch");
-    //        if ( showSearch == null )
-    //            showSearch = true;
-    //
-    //        if ( showSearch )
-    //            handleExpand();
-    //        else
-    //            handleShrink();
-    //    }
-
-    //##################################################
     //# handle :: select
     //##################################################
 

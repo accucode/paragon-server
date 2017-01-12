@@ -1,4 +1,4 @@
-package com.app.ui.page.test;
+package com.app.ui.page.general;
 
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScParameterList;

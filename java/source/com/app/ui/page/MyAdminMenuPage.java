@@ -2,10 +2,10 @@ package com.app.ui.page;
 
 import com.kodemore.servlet.control.ScContainer;
 
+import com.app.ui.page.general.MyMenuPage;
 import com.app.ui.page.manage.project.MyProjectManagePage;
 import com.app.ui.page.manage.tenant.MyTenantManagePage;
 import com.app.ui.page.manage.user.MyUserManagePage;
-import com.app.ui.page.test.MyMenuPage;
 
 /**
  * I act as a full page menu for various admin pages.

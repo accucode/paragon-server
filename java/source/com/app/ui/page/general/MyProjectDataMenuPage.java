@@ -1,14 +1,12 @@
-package com.app.ui.page.test;
+package com.app.ui.page.general;
 
 import com.kodemore.servlet.control.ScContainer;
 
 import com.app.ui.page.MySecurityLevel;
-import com.app.ui.page.general.MyProjectPage;
 
 /**
  * I act as a full page menu for various data pages under a project.
  */
-// todo_wyatt:  move class
 public final class MyProjectDataMenuPage
     extends MyMenuPage
 {

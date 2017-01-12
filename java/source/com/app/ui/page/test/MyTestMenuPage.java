@@ -3,6 +3,7 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.control.ScContainer;
 
 import com.app.ui.page.MySecurityLevel;
+import com.app.ui.page.general.MyMenuPage;
 import com.app.ui.page.tools.MyHibernateCacheTestPage;
 
 /**

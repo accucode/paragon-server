@@ -1,12 +1,25 @@
 package com.kodemore.meta;
 
+import java.util.function.Predicate;
+
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.validator.KmBooleanValidator;
 
 public abstract class KmMetaBooleanProperty<T>
     extends KmMetaProperty<T,Boolean>
+    implements Predicate<T>
 {
+    //##################################################
+    //# predicate
+    //##################################################
+
+    @Override
+    public boolean test(T t)
+    {
+        return getValueFor(t);
+    }
+
     //##################################################
     //# field
     //##################################################

@@ -213,7 +213,6 @@ public class ScSimpleModelList<T>
         return _childActive;
     }
 
-    // fixme_wyatt:
     public void setChildActive(Predicate<T> e)
     {
         _childActive = e;
