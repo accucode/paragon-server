@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -56,10 +57,7 @@ public final class MyNavigation1TestPage
 
     public void ajaxEnter(String value)
     {
-        // low_wyatt: test this
         _textField.setValue(value);
-        _textField.disableChangeTracking();
-
         ajaxEnter();
     }
 
@@ -86,9 +84,6 @@ public final class MyNavigation1TestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _textField = new ScTextField();
-        _textField.setLabel("Test");
-
         root.css().fill().auto();
 
         ScForm form;
@@ -100,12 +95,22 @@ public final class MyNavigation1TestPage
 
         ScDiv body;
         body = group.getBody().addPad();
-        body.addFieldTable().add(_textField);
+        body.addFieldTable().add(createTextField());
 
         ScDiv buttons;
         buttons = group.showFooter().addButtonBox();
         buttons.addButton("Update", this::handleUpdateHistory);
         buttons.addButton("Navigate", this::handleNavigate);
+    }
+
+    private ScControl createTextField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Test");
+        e.disableChangeTracking();
+        _textField = e;
+        return e;
     }
 
     //##################################################

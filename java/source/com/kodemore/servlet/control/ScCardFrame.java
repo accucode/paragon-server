@@ -249,11 +249,6 @@ public class ScCardFrame
         r.setTransition(getTransitionType());
         r.setSpeed(getTransitionSpeedMs());
 
-        /**
-         * low_wyatt: review focus.
-         * Causes ViewProject card to scroll to bottom
-         * because of the "Copy Project" button.
-         */
         ajax.whenDone().focus(card);
     }
 

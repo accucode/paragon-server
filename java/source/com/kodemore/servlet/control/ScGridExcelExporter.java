@@ -44,8 +44,6 @@ import com.kodemore.servlet.utility.ScFormatter;
 public class ScGridExcelExporter<T>
     extends ScGridExporter<T>
 {
-    // low_wyatt: refactor to KmExcelBuilder
-
     //##################################################
     //# variables
     //##################################################

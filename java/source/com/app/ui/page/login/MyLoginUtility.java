@@ -41,10 +41,6 @@ public class MyLoginUtility
 
         auto.touch();
 
-        /**
-         * low_wyatt: This is getting called from MyMainServlet where
-         * ajax is not valid.
-         */
         ajaxSetAutoLoginCookie(auto);
     }
 

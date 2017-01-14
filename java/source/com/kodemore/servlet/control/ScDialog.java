@@ -97,7 +97,6 @@ public class ScDialog
     //# flavor
     //##################################################
 
-    // low_wyatt: dialog flavor
     public void setFlavorCaution()
     {
         ScDiv body;
@@ -106,7 +105,6 @@ public class ScDialog
         body.css().formBodyCaution();
     }
 
-    // low_wyatt: dialog flavor
     public void setFlavorAlert()
     {
         ScDiv body;

@@ -136,23 +136,6 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      */
     private T getImmediate(K key, LockOptions lock)
     {
-        /**
-         * low_wyatt: ObjectNotFoundException
-         *
-         * When a user enters the application, we check to see if there
-         * is a cookie, and use it to automatically log them back in.
-         * This autoLogin process sometimes throws an ObjectNotFoundException.
-         *
-         * It is unclear why this exception is being thrown since get() is
-         * supposed to return null if the object is not found. Perhaps there
-         * is a background script that is deleting the pertinent record at
-         * roughly the same time that the user is trying to log in?
-         *
-         * Additional research is warranted, and this try-catch should really
-         * be removed once we determine the underlying problem. Per hibernate
-         * documentation ALL hibernate exceptions are considered unrecoverable
-         * so it may not be technically safe to continue after catching it.
-         */
         try
         {
             if ( key == null )
