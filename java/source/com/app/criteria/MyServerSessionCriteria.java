@@ -37,65 +37,61 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyServerSession e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyServerSession e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
-    {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
     public KmhBooleanCondition whereActive()
     {
-        return new KmhBooleanCondition(context(), fullName(ACTIVE));
-    }
-
-    public KmhTimestampCondition whereCreatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhBooleanCondition(context(), alias(), ACTIVE);
     }
 
     public KmhTimestampCondition whereClosedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CLOSED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CLOSED_UTC_TS);
+    }
+
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhTimestampCondition whereLastTouchedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_TOUCHED_UTC_TS);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     public KmhStringCondition whereVersion()
     {
-        return new KmhStringCondition(context(), fullName(VERSION));
+        return new KmhStringCondition(context(), alias(), VERSION);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
-
-    public void sortOnUid()
-    {
-        parent().sortAscending(UID);
-    }
-
-    public void sortOnUidDescending()
-    {
-        parent().sortDescending(UID);
-    }
-
-    public void sortOnUid(boolean asc)
-    {
-        if ( asc )
-            sortOnUid();
-        else
-            sortOnUidDescending();
-    }
 
     public void sortOnActive()
     {
@@ -113,24 +109,6 @@ public class MyServerSessionCriteria
             sortOnActive();
         else
             sortOnActiveDescending();
-    }
-
-    public void sortOnCreatedUtcTs()
-    {
-        parent().sortAscending(CREATED_UTC_TS);
-    }
-
-    public void sortOnCreatedUtcTsDescending()
-    {
-        parent().sortDescending(CREATED_UTC_TS);
-    }
-
-    public void sortOnCreatedUtcTs(boolean asc)
-    {
-        if ( asc )
-            sortOnCreatedUtcTs();
-        else
-            sortOnCreatedUtcTsDescending();
     }
 
     public void sortOnClosedUtcTs()
@@ -151,6 +129,24 @@ public class MyServerSessionCriteria
             sortOnClosedUtcTsDescending();
     }
 
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
     public void sortOnLastTouchedUtcTs()
     {
         parent().sortAscending(LAST_TOUCHED_UTC_TS);
@@ -167,6 +163,24 @@ public class MyServerSessionCriteria
             sortOnLastTouchedUtcTs();
         else
             sortOnLastTouchedUtcTsDescending();
+    }
+
+    public void sortOnUid()
+    {
+        parent().sortAscending(UID);
+    }
+
+    public void sortOnUidDescending()
+    {
+        parent().sortDescending(UID);
+    }
+
+    public void sortOnUid(boolean asc)
+    {
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
     }
 
     public void sortOnVersion()
@@ -203,50 +217,6 @@ public class MyServerSessionCriteria
             sortOnLockVersion();
         else
             sortOnLockVersionDescending();
-    }
-
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
-    {
-        select(UID);
-    }
-
-    public void selectDistinctUid()
-    {
-        selectDistinct(UID);
-    }
-
-    public void selectCountDistinctUid()
-    {
-        selectCountDistinct(UID);
-    }
-
-    public void selectMinimumUid()
-    {
-        selectMinimum(UID);
-    }
-
-    public void selectMaximumUid()
-    {
-        selectMaximum(UID);
-    }
-
-    public void selectAverageUid()
-    {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
     }
 
     //##################################################
@@ -294,50 +264,6 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
-    //# projections (createdUtcTs)
-    //##################################################
-
-    public void selectCreatedUtcTs()
-    {
-        select(CREATED_UTC_TS);
-    }
-
-    public void selectDistinctCreatedUtcTs()
-    {
-        selectDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectCountDistinctCreatedUtcTs()
-    {
-        selectCountDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectMinimumCreatedUtcTs()
-    {
-        selectMinimum(CREATED_UTC_TS);
-    }
-
-    public void selectMaximumCreatedUtcTs()
-    {
-        selectMaximum(CREATED_UTC_TS);
-    }
-
-    public void selectAverageCreatedUtcTs()
-    {
-        selectAverage(CREATED_UTC_TS);
-    }
-
-    public void selectSumCreatedUtcTs()
-    {
-        selectSum(CREATED_UTC_TS);
-    }
-
-    public void groupByCreatedUtcTs()
-    {
-        groupBy(CREATED_UTC_TS);
-    }
-
-    //##################################################
     //# projections (closedUtcTs)
     //##################################################
 
@@ -382,6 +308,50 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
     //# projections (lastTouchedUtcTs)
     //##################################################
 
@@ -423,6 +393,50 @@ public class MyServerSessionCriteria
     public void groupByLastTouchedUtcTs()
     {
         groupBy(LAST_TOUCHED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (uid)
+    //##################################################
+
+    public void selectUid()
+    {
+        select(UID);
+    }
+
+    public void selectDistinctUid()
+    {
+        selectDistinct(UID);
+    }
+
+    public void selectCountDistinctUid()
+    {
+        selectCountDistinct(UID);
+    }
+
+    public void selectMinimumUid()
+    {
+        selectMinimum(UID);
+    }
+
+    public void selectMaximumUid()
+    {
+        selectMaximum(UID);
+    }
+
+    public void selectAverageUid()
+    {
+        selectAverage(UID);
+    }
+
+    public void selectSumUid()
+    {
+        selectSum(UID);
+    }
+
+    public void groupByUid()
+    {
+        groupBy(UID);
     }
 
     //##################################################
@@ -514,106 +528,22 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
-    //# association (Tenant)
-    //##################################################
-
-    public void selectTenantUid()
-    {
-        select(TENANT_UID);
-    }
-
-    public void selectMinimumTenantUid()
-    {
-        selectMinimum(TENANT_UID);
-    }
-
-    public void selectMaximumTenantUid()
-    {
-        selectMaximum(TENANT_UID);
-    }
-
-    public void groupByTenantUid()
-    {
-        groupBy(TENANT_UID);
-    }
-
-    public MyTenantCriteria joinToTenant()
-    {
-        return new MyTenantCriteria(joinTo(TENANT));
-    }
-
-    public MyTenantCriteria leftJoinToTenant()
-    {
-        return new MyTenantCriteria(leftJoinTo(TENANT));
-    }
-
-    public KmhStringCondition whereTenantUid()
-    {
-        return new KmhStringCondition(parent(), fullName(TENANT_UID));
-    }
-
-    public void whereTenantIs(MyTenant e)
-    {
-        if ( e == null )
-            whereTenantUid().isNull();
-        else
-            whereTenantUid().is(e.getUid());
-    }
-
-    //##################################################
-    //# association (User)
-    //##################################################
-
-    public void selectUserUid()
-    {
-        select(USER_UID);
-    }
-
-    public void selectMinimumUserUid()
-    {
-        selectMinimum(USER_UID);
-    }
-
-    public void selectMaximumUserUid()
-    {
-        selectMaximum(USER_UID);
-    }
-
-    public void groupByUserUid()
-    {
-        groupBy(USER_UID);
-    }
-
-    public MyUserCriteria joinToUser()
-    {
-        return new MyUserCriteria(joinTo(USER));
-    }
-
-    public MyUserCriteria leftJoinToUser()
-    {
-        return new MyUserCriteria(leftJoinTo(USER));
-    }
-
-    public KmhStringCondition whereUserUid()
-    {
-        return new KmhStringCondition(parent(), fullName(USER_UID));
-    }
-
-    public void whereUserIs(MyUser e)
-    {
-        if ( e == null )
-            whereUserUid().isNull();
-        else
-            whereUserUid().is(e.getUid());
-    }
-
-    //##################################################
     //# association (AutoLogin)
     //##################################################
 
     public void selectAutoLoginUid()
     {
         select(AUTO_LOGIN_UID);
+    }
+
+    public void selectCountDistinctAutoLoginUid()
+    {
+        selectCountDistinct(AUTO_LOGIN_UID);
+    }
+    
+    public void selectDistinctAutoLoginUid()
+    {
+        selectDistinct(AUTO_LOGIN_UID);
     }
 
     public void selectMinimumAutoLoginUid()
@@ -643,7 +573,7 @@ public class MyServerSessionCriteria
 
     public KmhStringCondition whereAutoLoginUid()
     {
-        return new KmhStringCondition(parent(), fullName(AUTO_LOGIN_UID));
+        return new KmhStringCondition(parent(), alias(), AUTO_LOGIN_UID);
     }
 
     public void whereAutoLoginIs(MyAutoLogin e)
@@ -652,6 +582,144 @@ public class MyServerSessionCriteria
             whereAutoLoginUid().isNull();
         else
             whereAutoLoginUid().is(e.getUid());
+    }
+
+    public void whereAutoLoginIsNot(MyAutoLogin e)
+    {
+        if ( e == null )
+            whereAutoLoginUid().isNotNull();
+        else
+            whereAutoLoginUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (Tenant)
+    //##################################################
+
+    public void selectTenantUid()
+    {
+        select(TENANT_UID);
+    }
+
+    public void selectCountDistinctTenantUid()
+    {
+        selectCountDistinct(TENANT_UID);
+    }
+    
+    public void selectDistinctTenantUid()
+    {
+        selectDistinct(TENANT_UID);
+    }
+
+    public void selectMinimumTenantUid()
+    {
+        selectMinimum(TENANT_UID);
+    }
+
+    public void selectMaximumTenantUid()
+    {
+        selectMaximum(TENANT_UID);
+    }
+
+    public void groupByTenantUid()
+    {
+        groupBy(TENANT_UID);
+    }
+
+    public MyTenantCriteria joinToTenant()
+    {
+        return new MyTenantCriteria(joinTo(TENANT));
+    }
+
+    public MyTenantCriteria leftJoinToTenant()
+    {
+        return new MyTenantCriteria(leftJoinTo(TENANT));
+    }
+
+    public KmhStringCondition whereTenantUid()
+    {
+        return new KmhStringCondition(parent(), alias(), TENANT_UID);
+    }
+
+    public void whereTenantIs(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNull();
+        else
+            whereTenantUid().is(e.getUid());
+    }
+
+    public void whereTenantIsNot(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNotNull();
+        else
+            whereTenantUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (User)
+    //##################################################
+
+    public void selectUserUid()
+    {
+        select(USER_UID);
+    }
+
+    public void selectCountDistinctUserUid()
+    {
+        selectCountDistinct(USER_UID);
+    }
+    
+    public void selectDistinctUserUid()
+    {
+        selectDistinct(USER_UID);
+    }
+
+    public void selectMinimumUserUid()
+    {
+        selectMinimum(USER_UID);
+    }
+
+    public void selectMaximumUserUid()
+    {
+        selectMaximum(USER_UID);
+    }
+
+    public void groupByUserUid()
+    {
+        groupBy(USER_UID);
+    }
+
+    public MyUserCriteria joinToUser()
+    {
+        return new MyUserCriteria(joinTo(USER));
+    }
+
+    public MyUserCriteria leftJoinToUser()
+    {
+        return new MyUserCriteria(leftJoinTo(USER));
+    }
+
+    public KmhStringCondition whereUserUid()
+    {
+        return new KmhStringCondition(parent(), alias(), USER_UID);
+    }
+
+    public void whereUserIs(MyUser e)
+    {
+        if ( e == null )
+            whereUserUid().isNull();
+        else
+            whereUserUid().is(e.getUid());
+    }
+
+    public void whereUserIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUserUid().isNotNull();
+        else
+            whereUserUid().isNot(e.getUid());
     }
 
     //##################################################

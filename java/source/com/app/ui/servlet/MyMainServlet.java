@@ -4,7 +4,6 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.MyTenantDao;
@@ -19,7 +18,7 @@ import com.app.utility.MyAppNavigator;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrlBridge;
-import com.app.utility.MyUrls;
+import com.app.utility.MyUrlInfo;
 
 /**
  * Handle entry into the application, typically initiated
@@ -115,7 +114,7 @@ public class MyMainServlet
         out.beginHtml();
 
         out.beginHead();
-        out.printMetaCharsetUtf8();
+        out.printMetaContentTypeHtml();
         out.printTitle(appName);
         out.endHead();
 
@@ -153,16 +152,15 @@ public class MyMainServlet
         if ( data.hasSecureRequest() )
             return false;
 
-        String requestHost = data.getRequestServerHostName();
-        String requestPath = data.getRequestUri();
-        ScParameterList requestParams = data.getParameterList();
+        MyUrlInfo e;
+        e = new MyUrlInfo();
+        e.setSslScheme();
+        e.setRequestHost();
+        e.setSslPort();
+        e.setRequestPath();
+        e.setRequestParameters();
 
-        String sslScheme = "https";
-        int sslPort = 443;
-
-        String url;
-        url = MyUrls.formatUrl(sslScheme, requestHost, sslPort, requestPath, requestParams);
-
+        String url = e.formatUrl();
         data.redirectTo(url);
         return true;
     }
@@ -196,6 +194,7 @@ public class MyMainServlet
 
     private KmMap<String,String> getAppMacros(MyServerSession ss)
     {
+
         KmMap<String,String> map;
         map = new KmMap<>();
         map.put("${applicationName}", MyConstantsIF.APPLICATION_NAME);
@@ -207,8 +206,9 @@ public class MyMainServlet
         map.put("${oneAllHead}", formatAppOneAllHead());
         map.put("${themeToken}", MyServletConstantsIF.THEME_TOKEN);
         map.put("${pageMenuFieldId}", MyPageLayout.getInstance().getMenu().getPageMenuFieldId());
-        map.put("${initialGlobalSession}", getData().getPageSession().formatGlobalValues());
         map.put("${initialPageSession}", getData().getPageSession().formatSessionValues());
+        map.put("${title}", MyAppNavigator.getEntryPage().getBrowserTabTitle());
+        map.put("${loadingTabTitle}", MyConstantsIF.APPLICATION_ABBREVIATION);
         return map;
     }
 

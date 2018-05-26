@@ -6,43 +6,43 @@
     field
     : name      = billingStreet1
     : help      = The first line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = billingStreet2
     : help      = The second line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = billingCity
     : help      = The name of the city.
-    : type      = name
+    : type      = addressCity
 
 
     field
     : name      = billingRegion
     : help      = The name or abbreviation of the of the region (or state).
-    : type      = name
+    : type      = addressRegion
 
 
     field
     : name      = billingPostalCode
     : help      = The zip/postal code.
-    : type      = postalCode
+    : type      = addressPostalCode
 
 
     field
     : name      = billingCountry
     : help      = The name or abbreviation of the country.
-    : type      = name
+    : type      = addressCountry
 
 
     field
     : name      = billingAttention
     : help      = The attention line of the address.
-    : type      = name
+    : type      = addressAttention
 
 
     field
@@ -72,7 +72,7 @@
     : name      = billingAddressMultiLine
     : help      = The multi-line format of the address.
     : type      = calculated
-    
+
 
     abstractField
     : name      = billingAddressMultiLineHtml

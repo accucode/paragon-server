@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,12 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.time.KmDate;
+import com.kodemore.utility.Kmu;
+
+import com.app.utility.MyButtonUrls;
 
 /**
  * http://jqueryui.com/demos/datepicker/
@@ -41,6 +46,16 @@ public class ScDateField
     }
 
     //##################################################
+    //# layout
+    //##################################################
+
+    @Override
+    protected int getDefaultWidth()
+    {
+        return 130;
+    }
+
+    //##################################################
     //# conversion
     //##################################################
 
@@ -54,16 +69,6 @@ public class ScDateField
     protected String valueToText(KmDate value)
     {
         return getFormatter().formatDate(value);
-    }
-
-    //##################################################
-    //# layout
-    //##################################################
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 100;
     }
 
     //##################################################
@@ -84,6 +89,33 @@ public class ScDateField
     protected void renderPostDomOn(KmHtmlBuilder out)
     {
         super.renderPostDomOn(out);
-        out.getPostDom().run("Kmu.installDateField('%s');", getInputSelector());
+        out.getPostDom().run("%s.datepicker(%s);", getInputReference(), formatJqueryOptions());
+    }
+
+    private KmJsonMap formatJqueryOptions()
+    {
+        KmJsonMap e;
+        e = new KmJsonMap();
+        e.setString("showOn", "button");
+        e.setString("showAnim", "slideDown");
+        e.setString("buttonImage", MyButtonUrls.calendar());
+        e.setBoolean("constrainInput", true);
+
+        if ( hasTypeWatchAction() )
+        {
+            ScActionScript script;
+            script = new ScActionScript();
+            script.setAction(getTypeWatchAction());
+            script.setBlockTarget(findBlockWrapper());
+            script.setForm(findFormWrapper());
+            script.formatScript();
+
+            String fn;
+            fn = Kmu.format("function(text,obj){%s}", script);
+
+            e.setLiteral("onSelect", fn);
+        }
+
+        return e;
     }
 }

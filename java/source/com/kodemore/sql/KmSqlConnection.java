@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -175,7 +175,8 @@ public class KmSqlConnection
      */
     public void close()
     {
-        _autoCloseStatements();
+        autoCloseStatements();
+
         if ( hasPool() )
             getPool().close(this);
         else
@@ -189,11 +190,11 @@ public class KmSqlConnection
      * closes them.  A warning is issued for any statement that requires
      * automatic closing.
      */
-    public void _autoCloseStatements()
+    private void autoCloseStatements()
     {
         for ( KmSqlStatementWrapper e : _openStatements.getShallowCopy() )
         {
-            KmLog.warnTrace("Open statement; automatic close on connection.close.");
+            KmLog.warnTrace("Automatic closing statement.");
             e.close();
         }
     }
@@ -208,7 +209,7 @@ public class KmSqlConnection
     {
         try
         {
-            quietRollback();
+            _connection.rollback();
             _connection.close();
         }
         catch ( SQLException ex )
@@ -312,6 +313,7 @@ public class KmSqlConnection
     //# statements
     //##################################################
 
+    @SuppressWarnings("resource")
     public KmSqlStatementWrapper createSqlStatement()
     {
         Statement st = null;
@@ -320,9 +322,10 @@ public class KmSqlConnection
             st = _connection.createStatement();
             st.setEscapeProcessing(false);
 
-            KmSqlStatementWrapper kmSt = new KmSqlStatementWrapper(this, st);
-            _openStatements.add(kmSt);
-            return kmSt;
+            KmSqlStatementWrapper wrapper;
+            wrapper = new KmSqlStatementWrapper(this, st);
+            _openStatements.add(wrapper);
+            return wrapper;
         }
         catch ( SQLException ex )
         {

@@ -3,7 +3,6 @@ package com.kodemore.generator.model;
 import com.kodemore.collection.KmList;
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.generator.KmgElement;
-import com.kodemore.generator.KmgRoot;
 import com.kodemore.stf.KmStfElement;
 import com.kodemore.utility.Kmu;
 
@@ -19,6 +18,7 @@ public class KmgModel
     private String                          _comment;
     private boolean                         _skipModelBase;
     private String                          _superclass;
+    private String                          _filterSuperclass;
     private KmList<KmgModelField>           _fields;
     private KmList<KmgModelCollection>      _collections;
     private KmList<KmgModelValueCollection> _valueCollections;
@@ -101,6 +101,21 @@ public class KmgModel
     public void setSuperclass(String e)
     {
         _superclass = e;
+    }
+
+    public String getFilterSuperclass()
+    {
+        return _filterSuperclass;
+    }
+
+    public void setFilterSuperclass(String e)
+    {
+        _filterSuperclass = e;
+    }
+
+    public boolean hasFilterSuperclass()
+    {
+        return _filterSuperclass != null;
     }
 
     public KmList<KmgModelAttribute> getAttributes()
@@ -372,7 +387,8 @@ public class KmgModel
 
     public KmgModelAssociation addAbstractAssociation()
     {
-        KmgModelAssociation e = addAssociation();
+        KmgModelAssociation e;
+        e = addAssociation();
         e.setAbstract(true);
         return e;
     }
@@ -448,7 +464,12 @@ public class KmgModel
 
     public boolean isSimplePrimaryKey()
     {
-        return getPrimaryKeyFields().isSingleton() && getPrimaryKeyField().isString();
+        return isSinglePrimaryKey() && getPrimaryKeyField().isString();
+    }
+
+    public boolean isSinglePrimaryKey()
+    {
+        return getPrimaryKeyFields().isSingleton();
     }
 
     public KmList<KmgModelField> getNonPrimaryKeyFields()
@@ -464,7 +485,19 @@ public class KmgModel
     public KmList<KmgModelField> getGeneralFields()
     {
         return getFields().select(
-            e -> e.isEditable() && e.isNotPrimaryKey() && e.isNotLockVersion());
+            e -> e.isEditable()
+                && e.isNotPrimaryKey()
+                && e.isNotLockVersion()
+                && e.isSingleColumn());
+    }
+
+    public KmList<KmgModelField> getMultiColumnFields()
+    {
+        return getFields().select(
+            e -> e.isEditable()
+                && e.isNotPrimaryKey()
+                && e.isNotLockVersion()
+                && e.isMultiColumn());
     }
 
     public KmgModelField getIdentityField()
@@ -548,34 +581,19 @@ public class KmgModel
 
         if ( hasDatabase() && getDatabase().getLockVersion() )
             addLockVersionField();
-
-        addDisplayStringField();
-    }
-
-    private void addDisplayStringField()
-    {
-        KmgModelField field;
-        field = addField();
-        field.setAbstract(true);
-        field.setName("displayString");
-        field.setType("abstractText");
-        field.setHelp(
-            "A human readable semi-unique value used to identify each model."
-                + " This typically uses something like the model's name or code which is"
-                + " expected to be unique enough to distinish between the different values"
-                + " within a particular project.");
     }
 
     private void parseModel(KmStfElement root)
     {
         KmStfElement x = root.getChild("model");
-        checkAttributeKeys(x, "name", "help", "comment", "skipModelBase", "superclass");
+        checkAttributeKeys(x, "name", "help", "comment", "skipModelBase", "superclass", "filter");
 
         _name = parseRequiredNameAttribute(x);
         _help = parseString(x, "help", null);
         _comment = parseString(x, "comment", null);
         _skipModelBase = parseBoolean(x, "skipModelBase");
         _superclass = parseString(x, "superclass", null);
+        _filterSuperclass = parseString(x, "filter", null);
     }
 
     private void parseDatabase(KmStfElement root)
@@ -590,35 +608,62 @@ public class KmgModel
 
     private void parseAttributes(KmStfElement root)
     {
-        KmStfElement x = root.getChild("attributes");
-        if ( x == null )
+        KmStfElement attrs = root.getChild("attributes");
+        if ( attrs == null )
             return;
 
+        parseFields(attrs);
+        parseAssociations(attrs);
+        parseCollections(attrs);
+        parseValueCollections(attrs);
+    }
+
+    private void parseFields(KmStfElement attrs)
+    {
         KmList<KmStfElement> v;
 
-        v = x.getChildren("field");
+        v = attrs.getChildren("field");
         for ( KmStfElement e : v )
             addField().parse(e);
 
-        v = x.getChildren("abstractField");
+        v = attrs.getChildren("abstractField");
         for ( KmStfElement e : v )
             addAbstractField().parse(e);
 
-        v = x.getChildren("association");
+        _fields.sortOn(e -> e.getName());
+    }
+
+    private void parseAssociations(KmStfElement attrs)
+    {
+        KmList<KmStfElement> v;
+
+        v = attrs.getChildren("association");
         for ( KmStfElement e : v )
             addAssociation().parse(e);
 
-        v = x.getChildren("abstractAssociation");
+        v = attrs.getChildren("abstractAssociation");
         for ( KmStfElement e : v )
             addAbstractAssociation().parse(e);
 
-        v = x.getChildren("collection");
+        _associations.sortOn(e -> e.getName());
+    }
+
+    private void parseCollections(KmStfElement attrs)
+    {
+        KmList<KmStfElement> v = attrs.getChildren("collection");
         for ( KmStfElement e : v )
             addModelCollection().parse(e);
 
-        v = x.getChildren("valueCollection");
+        _collections.sortOn(e -> e.getName());
+    }
+
+    private void parseValueCollections(KmStfElement attrs)
+    {
+        KmList<KmStfElement> v = attrs.getChildren("valueCollection");
         for ( KmStfElement e : v )
             addValueCollection().parse(e);
+
+        _valueCollections.sortOn(e -> e.getName());
     }
 
     @Override
@@ -673,9 +718,11 @@ public class KmgModel
         e.setType("lockVersion");
         e.setAuditLogMode("false");
         e.setDefaultValue("0");
-        e.setHelp(""
-            + "This is used to coordinate optimistic locking in the database. "
-            + "This is usually not displayed.");
+        e.setRequired(true);
+        e.setHelp(
+            ""
+                + "This is used to coordinate optimistic locking in the database. "
+                + "This is usually not displayed.");
     }
 
     //##################################################
@@ -790,6 +837,15 @@ public class KmgModel
     public String getf_FilterClass()
     {
         return formatClass("Filter");
+    }
+
+    public String getf_FilterSuperclass()
+    {
+        String generic = getf_GenericClass();
+
+        return hasFilterSuperclass()
+            ? getFilterSuperclass() + generic
+            : getf_Prefix() + "BasicFilter" + generic;
     }
 
     public String getf_FilterBaseClass()

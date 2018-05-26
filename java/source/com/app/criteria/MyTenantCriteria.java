@@ -37,74 +37,139 @@ public class MyTenantCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyTenant e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyTenant e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhPropertyCondition<KmDayFrequency> whereBusinessDays()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhPropertyCondition<>(context(), alias(), BUSINESS_DAYS);
+    }
+
+    public KmhTimeCondition whereBusinessEndTime()
+    {
+        return new KmhTimeCondition(context(), alias(), BUSINESS_END_TIME);
+    }
+
+    public KmhTimeCondition whereBusinessStartTime()
+    {
+        return new KmhTimeCondition(context(), alias(), BUSINESS_START_TIME);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhStringCondition whereHostname()
     {
-        return new KmhStringCondition(context(), fullName(HOSTNAME));
+        return new KmhStringCondition(context(), alias(), HOSTNAME);
+    }
+
+    public KmhStringCondition whereMemo()
+    {
+        return new KmhStringCondition(context(), alias(), MEMO);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhStringCondition whereThemeCode()
     {
-        return new KmhStringCondition(context(), fullName(THEME_CODE));
+        return new KmhStringCondition(context(), alias(), THEME_CODE);
     }
 
-    public KmhStringCondition whereIntacctCompanyId()
+    public KmhStringCondition whereTimeZoneCode()
     {
-        return new KmhStringCondition(context(), fullName(INTACCT_COMPANY_ID));
+        return new KmhStringCondition(context(), alias(), TIME_ZONE_CODE);
     }
 
-    public KmhStringCondition whereIntacctUserId()
+    public KmhStringCondition whereUid()
     {
-        return new KmhStringCondition(context(), fullName(INTACCT_USER_ID));
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
-    public KmhStringCondition whereIntacctUserPassword()
+    public KmhTimestampCondition whereUpdatedUtcTs()
     {
-        return new KmhStringCondition(context(), fullName(INTACCT_USER_PASSWORD));
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnBusinessDays()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(BUSINESS_DAYS);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnBusinessDaysDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(BUSINESS_DAYS);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnBusinessDays(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnBusinessDays();
         else
-            sortOnUidDescending();
+            sortOnBusinessDaysDescending();
+    }
+
+    public void sortOnBusinessEndTime()
+    {
+        parent().sortAscending(BUSINESS_END_TIME);
+    }
+
+    public void sortOnBusinessEndTimeDescending()
+    {
+        parent().sortDescending(BUSINESS_END_TIME);
+    }
+
+    public void sortOnBusinessEndTime(boolean asc)
+    {
+        if ( asc )
+            sortOnBusinessEndTime();
+        else
+            sortOnBusinessEndTimeDescending();
+    }
+
+    public void sortOnBusinessStartTime()
+    {
+        parent().sortAscending(BUSINESS_START_TIME);
+    }
+
+    public void sortOnBusinessStartTimeDescending()
+    {
+        parent().sortDescending(BUSINESS_START_TIME);
+    }
+
+    public void sortOnBusinessStartTime(boolean asc)
+    {
+        if ( asc )
+            sortOnBusinessStartTime();
+        else
+            sortOnBusinessStartTimeDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -125,24 +190,6 @@ public class MyTenantCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnName()
-    {
-        parent().sortAscending(NAME);
-    }
-
-    public void sortOnNameDescending()
-    {
-        parent().sortDescending(NAME);
-    }
-
-    public void sortOnName(boolean asc)
-    {
-        if ( asc )
-            sortOnName();
-        else
-            sortOnNameDescending();
-    }
-
     public void sortOnHostname()
     {
         parent().sortAscending(HOSTNAME);
@@ -159,6 +206,42 @@ public class MyTenantCriteria
             sortOnHostname();
         else
             sortOnHostnameDescending();
+    }
+
+    public void sortOnMemo()
+    {
+        parent().sortAscending(MEMO);
+    }
+
+    public void sortOnMemoDescending()
+    {
+        parent().sortDescending(MEMO);
+    }
+
+    public void sortOnMemo(boolean asc)
+    {
+        if ( asc )
+            sortOnMemo();
+        else
+            sortOnMemoDescending();
+    }
+
+    public void sortOnName()
+    {
+        parent().sortAscending(NAME);
+    }
+
+    public void sortOnNameDescending()
+    {
+        parent().sortDescending(NAME);
+    }
+
+    public void sortOnName(boolean asc)
+    {
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
     }
 
     public void sortOnThemeCode()
@@ -179,58 +262,58 @@ public class MyTenantCriteria
             sortOnThemeCodeDescending();
     }
 
-    public void sortOnIntacctCompanyId()
+    public void sortOnTimeZoneCode()
     {
-        parent().sortAscending(INTACCT_COMPANY_ID);
+        parent().sortAscending(TIME_ZONE_CODE);
     }
 
-    public void sortOnIntacctCompanyIdDescending()
+    public void sortOnTimeZoneCodeDescending()
     {
-        parent().sortDescending(INTACCT_COMPANY_ID);
+        parent().sortDescending(TIME_ZONE_CODE);
     }
 
-    public void sortOnIntacctCompanyId(boolean asc)
+    public void sortOnTimeZoneCode(boolean asc)
     {
         if ( asc )
-            sortOnIntacctCompanyId();
+            sortOnTimeZoneCode();
         else
-            sortOnIntacctCompanyIdDescending();
+            sortOnTimeZoneCodeDescending();
     }
 
-    public void sortOnIntacctUserId()
+    public void sortOnUid()
     {
-        parent().sortAscending(INTACCT_USER_ID);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnIntacctUserIdDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(INTACCT_USER_ID);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnIntacctUserId(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnIntacctUserId();
+            sortOnUid();
         else
-            sortOnIntacctUserIdDescending();
+            sortOnUidDescending();
     }
 
-    public void sortOnIntacctUserPassword()
+    public void sortOnUpdatedUtcTs()
     {
-        parent().sortAscending(INTACCT_USER_PASSWORD);
+        parent().sortAscending(UPDATED_UTC_TS);
     }
 
-    public void sortOnIntacctUserPasswordDescending()
+    public void sortOnUpdatedUtcTsDescending()
     {
-        parent().sortDescending(INTACCT_USER_PASSWORD);
+        parent().sortDescending(UPDATED_UTC_TS);
     }
 
-    public void sortOnIntacctUserPassword(boolean asc)
+    public void sortOnUpdatedUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnIntacctUserPassword();
+            sortOnUpdatedUtcTs();
         else
-            sortOnIntacctUserPasswordDescending();
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -252,47 +335,135 @@ public class MyTenantCriteria
     }
 
     //##################################################
-    //# projections (uid)
+    //# projections (businessDays)
     //##################################################
 
-    public void selectUid()
+    public void selectBusinessDays()
     {
-        select(UID);
+        select(BUSINESS_DAYS);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctBusinessDays()
     {
-        selectDistinct(UID);
+        selectDistinct(BUSINESS_DAYS);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctBusinessDays()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(BUSINESS_DAYS);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumBusinessDays()
     {
-        selectMinimum(UID);
+        selectMinimum(BUSINESS_DAYS);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumBusinessDays()
     {
-        selectMaximum(UID);
+        selectMaximum(BUSINESS_DAYS);
     }
 
-    public void selectAverageUid()
+    public void selectAverageBusinessDays()
     {
-        selectAverage(UID);
+        selectAverage(BUSINESS_DAYS);
     }
 
-    public void selectSumUid()
+    public void selectSumBusinessDays()
     {
-        selectSum(UID);
+        selectSum(BUSINESS_DAYS);
     }
 
-    public void groupByUid()
+    public void groupByBusinessDays()
     {
-        groupBy(UID);
+        groupBy(BUSINESS_DAYS);
+    }
+
+    //##################################################
+    //# projections (businessEndTime)
+    //##################################################
+
+    public void selectBusinessEndTime()
+    {
+        select(BUSINESS_END_TIME);
+    }
+
+    public void selectDistinctBusinessEndTime()
+    {
+        selectDistinct(BUSINESS_END_TIME);
+    }
+
+    public void selectCountDistinctBusinessEndTime()
+    {
+        selectCountDistinct(BUSINESS_END_TIME);
+    }
+
+    public void selectMinimumBusinessEndTime()
+    {
+        selectMinimum(BUSINESS_END_TIME);
+    }
+
+    public void selectMaximumBusinessEndTime()
+    {
+        selectMaximum(BUSINESS_END_TIME);
+    }
+
+    public void selectAverageBusinessEndTime()
+    {
+        selectAverage(BUSINESS_END_TIME);
+    }
+
+    public void selectSumBusinessEndTime()
+    {
+        selectSum(BUSINESS_END_TIME);
+    }
+
+    public void groupByBusinessEndTime()
+    {
+        groupBy(BUSINESS_END_TIME);
+    }
+
+    //##################################################
+    //# projections (businessStartTime)
+    //##################################################
+
+    public void selectBusinessStartTime()
+    {
+        select(BUSINESS_START_TIME);
+    }
+
+    public void selectDistinctBusinessStartTime()
+    {
+        selectDistinct(BUSINESS_START_TIME);
+    }
+
+    public void selectCountDistinctBusinessStartTime()
+    {
+        selectCountDistinct(BUSINESS_START_TIME);
+    }
+
+    public void selectMinimumBusinessStartTime()
+    {
+        selectMinimum(BUSINESS_START_TIME);
+    }
+
+    public void selectMaximumBusinessStartTime()
+    {
+        selectMaximum(BUSINESS_START_TIME);
+    }
+
+    public void selectAverageBusinessStartTime()
+    {
+        selectAverage(BUSINESS_START_TIME);
+    }
+
+    public void selectSumBusinessStartTime()
+    {
+        selectSum(BUSINESS_START_TIME);
+    }
+
+    public void groupByBusinessStartTime()
+    {
+        groupBy(BUSINESS_START_TIME);
     }
 
     //##################################################
@@ -340,50 +511,6 @@ public class MyTenantCriteria
     }
 
     //##################################################
-    //# projections (name)
-    //##################################################
-
-    public void selectName()
-    {
-        select(NAME);
-    }
-
-    public void selectDistinctName()
-    {
-        selectDistinct(NAME);
-    }
-
-    public void selectCountDistinctName()
-    {
-        selectCountDistinct(NAME);
-    }
-
-    public void selectMinimumName()
-    {
-        selectMinimum(NAME);
-    }
-
-    public void selectMaximumName()
-    {
-        selectMaximum(NAME);
-    }
-
-    public void selectAverageName()
-    {
-        selectAverage(NAME);
-    }
-
-    public void selectSumName()
-    {
-        selectSum(NAME);
-    }
-
-    public void groupByName()
-    {
-        groupBy(NAME);
-    }
-
-    //##################################################
     //# projections (hostname)
     //##################################################
 
@@ -425,6 +552,94 @@ public class MyTenantCriteria
     public void groupByHostname()
     {
         groupBy(HOSTNAME);
+    }
+
+    //##################################################
+    //# projections (memo)
+    //##################################################
+
+    public void selectMemo()
+    {
+        select(MEMO);
+    }
+
+    public void selectDistinctMemo()
+    {
+        selectDistinct(MEMO);
+    }
+
+    public void selectCountDistinctMemo()
+    {
+        selectCountDistinct(MEMO);
+    }
+
+    public void selectMinimumMemo()
+    {
+        selectMinimum(MEMO);
+    }
+
+    public void selectMaximumMemo()
+    {
+        selectMaximum(MEMO);
+    }
+
+    public void selectAverageMemo()
+    {
+        selectAverage(MEMO);
+    }
+
+    public void selectSumMemo()
+    {
+        selectSum(MEMO);
+    }
+
+    public void groupByMemo()
+    {
+        groupBy(MEMO);
+    }
+
+    //##################################################
+    //# projections (name)
+    //##################################################
+
+    public void selectName()
+    {
+        select(NAME);
+    }
+
+    public void selectDistinctName()
+    {
+        selectDistinct(NAME);
+    }
+
+    public void selectCountDistinctName()
+    {
+        selectCountDistinct(NAME);
+    }
+
+    public void selectMinimumName()
+    {
+        selectMinimum(NAME);
+    }
+
+    public void selectMaximumName()
+    {
+        selectMaximum(NAME);
+    }
+
+    public void selectAverageName()
+    {
+        selectAverage(NAME);
+    }
+
+    public void selectSumName()
+    {
+        selectSum(NAME);
+    }
+
+    public void groupByName()
+    {
+        groupBy(NAME);
     }
 
     //##################################################
@@ -472,135 +687,135 @@ public class MyTenantCriteria
     }
 
     //##################################################
-    //# projections (intacctCompanyId)
+    //# projections (timeZoneCode)
     //##################################################
 
-    public void selectIntacctCompanyId()
+    public void selectTimeZoneCode()
     {
-        select(INTACCT_COMPANY_ID);
+        select(TIME_ZONE_CODE);
     }
 
-    public void selectDistinctIntacctCompanyId()
+    public void selectDistinctTimeZoneCode()
     {
-        selectDistinct(INTACCT_COMPANY_ID);
+        selectDistinct(TIME_ZONE_CODE);
     }
 
-    public void selectCountDistinctIntacctCompanyId()
+    public void selectCountDistinctTimeZoneCode()
     {
-        selectCountDistinct(INTACCT_COMPANY_ID);
+        selectCountDistinct(TIME_ZONE_CODE);
     }
 
-    public void selectMinimumIntacctCompanyId()
+    public void selectMinimumTimeZoneCode()
     {
-        selectMinimum(INTACCT_COMPANY_ID);
+        selectMinimum(TIME_ZONE_CODE);
     }
 
-    public void selectMaximumIntacctCompanyId()
+    public void selectMaximumTimeZoneCode()
     {
-        selectMaximum(INTACCT_COMPANY_ID);
+        selectMaximum(TIME_ZONE_CODE);
     }
 
-    public void selectAverageIntacctCompanyId()
+    public void selectAverageTimeZoneCode()
     {
-        selectAverage(INTACCT_COMPANY_ID);
+        selectAverage(TIME_ZONE_CODE);
     }
 
-    public void selectSumIntacctCompanyId()
+    public void selectSumTimeZoneCode()
     {
-        selectSum(INTACCT_COMPANY_ID);
+        selectSum(TIME_ZONE_CODE);
     }
 
-    public void groupByIntacctCompanyId()
+    public void groupByTimeZoneCode()
     {
-        groupBy(INTACCT_COMPANY_ID);
-    }
-
-    //##################################################
-    //# projections (intacctUserId)
-    //##################################################
-
-    public void selectIntacctUserId()
-    {
-        select(INTACCT_USER_ID);
-    }
-
-    public void selectDistinctIntacctUserId()
-    {
-        selectDistinct(INTACCT_USER_ID);
-    }
-
-    public void selectCountDistinctIntacctUserId()
-    {
-        selectCountDistinct(INTACCT_USER_ID);
-    }
-
-    public void selectMinimumIntacctUserId()
-    {
-        selectMinimum(INTACCT_USER_ID);
-    }
-
-    public void selectMaximumIntacctUserId()
-    {
-        selectMaximum(INTACCT_USER_ID);
-    }
-
-    public void selectAverageIntacctUserId()
-    {
-        selectAverage(INTACCT_USER_ID);
-    }
-
-    public void selectSumIntacctUserId()
-    {
-        selectSum(INTACCT_USER_ID);
-    }
-
-    public void groupByIntacctUserId()
-    {
-        groupBy(INTACCT_USER_ID);
+        groupBy(TIME_ZONE_CODE);
     }
 
     //##################################################
-    //# projections (intacctUserPassword)
+    //# projections (uid)
     //##################################################
 
-    public void selectIntacctUserPassword()
+    public void selectUid()
     {
-        select(INTACCT_USER_PASSWORD);
+        select(UID);
     }
 
-    public void selectDistinctIntacctUserPassword()
+    public void selectDistinctUid()
     {
-        selectDistinct(INTACCT_USER_PASSWORD);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctIntacctUserPassword()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(INTACCT_USER_PASSWORD);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumIntacctUserPassword()
+    public void selectMinimumUid()
     {
-        selectMinimum(INTACCT_USER_PASSWORD);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumIntacctUserPassword()
+    public void selectMaximumUid()
     {
-        selectMaximum(INTACCT_USER_PASSWORD);
+        selectMaximum(UID);
     }
 
-    public void selectAverageIntacctUserPassword()
+    public void selectAverageUid()
     {
-        selectAverage(INTACCT_USER_PASSWORD);
+        selectAverage(UID);
     }
 
-    public void selectSumIntacctUserPassword()
+    public void selectSumUid()
     {
-        selectSum(INTACCT_USER_PASSWORD);
+        selectSum(UID);
     }
 
-    public void groupByIntacctUserPassword()
+    public void groupByUid()
     {
-        groupBy(INTACCT_USER_PASSWORD);
+        groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -645,6 +860,136 @@ public class MyTenantCriteria
     public void groupByLockVersion()
     {
         groupBy(LOCK_VERSION);
+    }
+
+    //##################################################
+    //# association (CreatedBy)
+    //##################################################
+
+    public void selectCreatedByUid()
+    {
+        select(CREATED_BY_UID);
+    }
+
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
+    public void selectMinimumCreatedByUid()
+    {
+        selectMinimum(CREATED_BY_UID);
+    }
+
+    public void selectMaximumCreatedByUid()
+    {
+        selectMaximum(CREATED_BY_UID);
+    }
+
+    public void groupByCreatedByUid()
+    {
+        groupBy(CREATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToCreatedBy()
+    {
+        return new MyUserCriteria(joinTo(CREATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToCreatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(CREATED_BY));
+    }
+
+    public KmhStringCondition whereCreatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
+    }
+
+    public void whereCreatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNull();
+        else
+            whereCreatedByUid().is(e.getUid());
+    }
+
+    public void whereCreatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNotNull();
+        else
+            whereCreatedByUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
     }
 
     //##################################################

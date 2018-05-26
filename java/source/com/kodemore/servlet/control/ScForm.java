@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,17 @@ import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.script.ScSimpleBlockScript;
+import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 import com.kodemore.servlet.variable.ScLocalRawFunction;
 
+// low_wyatt: z, form layout
+// nest an extra div inside the form to simplify layouts.
+// The form includes some hidden fields that need to be BEFORE
+// the rest of the contents, but these cause problems with layouts.
+// Keep the hidden fields at the top, but then add an extra div
+// and put the real contents of the form inside the div.
 public class ScForm
     extends ScChildContainerElement
 {
@@ -47,7 +54,7 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    private ScAction           _submitAction;
+    private ScLocalAction _submitAction;
 
     /**
      * The argument passed with the submit action.
@@ -57,19 +64,19 @@ public class ScForm
     /**
      * An optional target to use as the block root.
      */
-    private ScLocalHtmlId      _blockTarget;
+    private ScLocalHtmlId _blockTarget;
 
     /**
      * If true (the default), then act as a block wrapper.
      * See ScControl.findBlockWrapper().
      */
-    private ScLocalBoolean     _blockWrapper;
+    private ScLocalBoolean _blockWrapper;
 
     /**
      * If false (the default) client-side autocompletion is disabled.
      * @see ScConstantsIF#DEFAULT_AUTO_COMPLETE
      */
-    private ScLocalBoolean     _autoComplete;
+    private ScLocalBoolean _autoComplete;
 
     //##################################################
     //# constructor
@@ -77,6 +84,7 @@ public class ScForm
 
     public ScForm()
     {
+        _submitAction = new ScLocalAction();
         _submitArgument = new ScLocalRawFunction();
         _blockTarget = new ScLocalHtmlId();
         _blockWrapper = new ScLocalBoolean(true);
@@ -96,27 +104,22 @@ public class ScForm
 
     public ScAction getSubmitAction()
     {
-        return _submitAction;
+        return _submitAction.getValue();
     }
 
-    public void setSubmitAction(ScAction e)
+    public void onSubmit(ScAction e)
     {
-        _submitAction = e;
-    }
-
-    public void setSubmitAction(Runnable r)
-    {
-        setSubmitAction(newUncheckedAction(r));
+        _submitAction.setValue(e);
     }
 
     public void clearSubmitAction()
     {
-        _submitAction = null;
+        _submitAction.clearValue();
     }
 
     public boolean hasSubmitAction()
     {
-        return _submitAction != null;
+        return _submitAction.hasValue();
     }
 
     //##################################################
@@ -211,7 +214,7 @@ public class ScForm
         out.close();
 
         renderAutoCompleteHack(out);
-        renderFormKeyOn(out);
+        renderFormTokenOn(out);
 
         KmList<ScControl> v = getChildren();
         for ( ScControl e : v )
@@ -284,17 +287,12 @@ public class ScForm
     }
 
     /**
-     * The form key is rendered into a hidden field so that the server
+     * The form token is rendered into a hidden field so that the server
      * can easily determine exactly which form is being submitted.
-     *
-     * Also, this hidden field should be rendered AFTER the normal/visible
-     * contents. The reason is that we often use styles like .gap or .columnSpacer
-     * to add spacing between the form's children. These styles don't work well
-     * when the first child is hidden.
      */
-    private void renderFormKeyOn(KmHtmlBuilder out)
+    private void renderFormTokenOn(KmHtmlBuilder out)
     {
-        out.printHiddenField(ScConstantsIF.PARAMETER_FORM_KEY, getKey());
+        out.printHiddenField(ScConstantsIF.PARAMETER_FORM_TOKEN, getKeyToken());
     }
 
     //##################################################
@@ -332,10 +330,4 @@ public class ScForm
 
         ajaxOnSubmit(e);
     }
-
-    public void ajaxOnSubmit(Runnable runnable)
-    {
-        ajaxOnSubmit(newUncheckedAction(runnable));
-    }
-
 }

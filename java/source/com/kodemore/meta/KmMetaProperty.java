@@ -6,8 +6,6 @@ import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScTextParagraph;
 import com.kodemore.servlet.control.ScTextSpan;
-import com.kodemore.servlet.field.ScCheckboxField;
-import com.kodemore.validator.KmBooleanValidator;
 import com.kodemore.validator.KmValidator;
 
 public abstract class KmMetaProperty<T, V>
@@ -30,6 +28,14 @@ public abstract class KmMetaProperty<T, V>
     public boolean hasValidator()
     {
         return getValidator() != null;
+    }
+
+    @Override
+    public boolean isRequired()
+    {
+        return hasValidator()
+            ? getValidator().isRequired()
+            : false;
     }
 
     //##################################################
@@ -132,29 +138,5 @@ public abstract class KmMetaProperty<T, V>
     public ScFieldIF<V> newField(String label)
     {
         throw new UnsupportedOperationException();
-    }
-
-    //##################################################
-    //# controls: support
-    //##################################################
-
-    protected ScCheckboxField newCheckboxField(KmBooleanValidator validator)
-    {
-        ScCheckboxField e;
-        e = new ScCheckboxField();
-        e.setValidator(validator);
-        e.setValueAdaptor(this);
-        e.setLabel(getLabel());
-        e.setHelp(getHelp());
-        return e;
-    }
-
-    protected ScCheckboxField newCheckboxField(String label, KmBooleanValidator validator)
-    {
-        ScCheckboxField e;
-        e = newCheckboxField(validator);
-        e.setLabel(label);
-        e.setHelp(getHelp());
-        return e;
     }
 }

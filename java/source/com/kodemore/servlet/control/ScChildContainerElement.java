@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ public abstract class ScChildContainerElement
 
     public ScChildContainerElement()
     {
-        _children = new KmList<>();
+        _children = null;
     }
 
     //##################################################
@@ -51,8 +51,33 @@ public abstract class ScChildContainerElement
     @Override
     public KmList<ScControl> getChildren()
     {
+        return _children == null
+            ? EMPTY_CHILDREN
+            : _children;
+    }
+
+    private KmList<ScControl> getMutableChildren()
+    {
+        if ( _children == null )
+            _children = KmList.createEmpty();
+
         return _children;
     }
+
+    public final boolean hasChildren()
+    {
+        return !isEmpty();
+    }
+
+    @Override
+    public final boolean isEmpty()
+    {
+        return _children == null || _children.isEmpty();
+    }
+
+    //==================================================
+    //= children :: index
+    //==================================================
 
     public final ScControl getChildAt(int i)
     {
@@ -72,36 +97,45 @@ public abstract class ScChildContainerElement
         return -1;
     }
 
-    public final boolean hasChildren()
+    //==================================================
+    //= children :: add/remove
+    //==================================================
+
+    public void addAll(KmList<? extends ScControl> v)
     {
-        return getChildren().isNotEmpty();
+        for ( ScControl e : v )
+            add(e);
     }
 
     @Override
     public <T extends ScControl> T add(T e)
     {
         e.setParent(this);
-        _children.add(e);
+        getMutableChildren().add(e);
         return e;
+    }
+
+    public <T extends ScControl> T addSafe(T e)
+    {
+        return e == null
+            ? null
+            : add(e);
     }
 
     public <T extends ScControl> T prepend(T e)
     {
         e.setParent(this);
-        _children.add(0, e);
+        getMutableChildren().add(0, e);
         return e;
     }
 
     @Override
     public final void clear()
     {
-        _children.clear();
-    }
+        if ( _children != null )
+            _children.purge();
 
-    @Override
-    public final boolean isEmpty()
-    {
-        return getChildren().isEmpty();
+        _children = null;
     }
 
     //##################################################
@@ -142,6 +176,6 @@ public abstract class ScChildContainerElement
     {
         super.compressMemory();
 
-        _children.compressMemory();
+        getChildren().compressMemory();
     }
 }

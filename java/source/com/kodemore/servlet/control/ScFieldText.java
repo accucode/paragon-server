@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,11 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.adaptor.KmAdaptorIF;
+import com.kodemore.collection.KmList;
+import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.variable.ScLocalStringList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I represent read only text for views that display 'field' oriented
@@ -39,8 +43,13 @@ public class ScFieldText
     //# variables
     //##################################################
 
-    private ScImage _helpImage;
-    private ScText  _text;
+    private ScImage    _helpImage;
+    private ScTextSpan _text;
+
+    /**
+     * The list of errors currently associated with this field.
+     */
+    private ScLocalStringList _errors;
 
     //##################################################
     //# constructor
@@ -50,12 +59,54 @@ public class ScFieldText
     {
         css().fieldText();
 
-        _helpImage = getInner().addImage();
-        _helpImage.css().helpTriangle().helpTooltip();
-        _helpImage.setSource(getUrls().getHelpIndicatorUrl());
-        _helpImage.hide();
+        ScDiv root;
+        root = getInner();
+        root.add(createHelpImage());
+        root.add(createText());
 
-        _text = getInner().addText();
+        _errors = new ScLocalStringList();
+    }
+
+    //==================================================
+    //= constructor :: support
+    //==================================================
+
+    private ScControl createHelpImage()
+    {
+        ScImage e;
+        e = new ScImage();
+        e.css().helpTriangle().helpTooltip();
+        e.setSource(getUrls().getHelpTriangleUrl());
+        e.hide();
+        _helpImage = e;
+        return e;
+    }
+
+    private ScControl createText()
+    {
+        ScTextSpan e;
+        e = new ScTextSpan();
+        _text = e;
+        return e;
+    }
+
+    //##################################################
+    //# empty text
+    //##################################################
+
+    public void setEmptyText(String e)
+    {
+        _text.setEmptyText(e);
+    }
+
+    public void setEmptyTextNone()
+    {
+        _text.setEmptyTextNone();
+    }
+
+    public void setEmptyTextAny()
+    {
+        _text.setEmptyTextAny();
     }
 
     //##################################################
@@ -88,6 +139,71 @@ public class ScFieldText
     }
 
     //##################################################
+    //# errors
+    //##################################################
+
+    public final KmList<String> getErrors()
+    {
+        return _errors.getValue();
+    }
+
+    @Override
+    public final boolean hasErrors()
+    {
+        return _errors.isNotEmpty() || super.hasErrors();
+    }
+
+    /**
+     * Add an error message to this field, but do NOT throw an exception.
+     * The client can later check for, and display the error messages with checkErrors.
+     *
+     * @see #checkErrors
+     */
+    public final void addError(String format, Object... args)
+    {
+        String s = Kmu.format(format, args);
+        _errors.add(s);
+    }
+
+    public final void clearErrors()
+    {
+        _errors.resetValue();
+    }
+
+    public final void setError(String msg, Object... args)
+    {
+        clearErrors();
+        addError(msg, args);
+    }
+
+    public final void addError(KmErrorIF e)
+    {
+        addError(e.formatProblem());
+    }
+
+    @Override
+    public final void collectErrorsOn(KmList<String> v)
+    {
+        super.collectErrorsOn(v);
+
+        v.addAll(_errors.getValue());
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    public void ajaxClearValue()
+    {
+        _text.ajaxClearText();
+    }
+
+    public void ajaxSetValue(String e)
+    {
+        _text.ajaxSetText(e);
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -96,11 +212,16 @@ public class ScFieldText
     {
         super.preRender();
 
-        if ( hasHelp() )
-        {
-            _helpImage.setHoverText(getHelp());
-            _helpImage.show();
-        }
+        preRenderHelp();
+    }
+
+    private void preRenderHelp()
+    {
+        if ( !hasHelp() )
+            return;
+
+        _helpImage.setHoverText(getHelp());
+        _helpImage.show();
     }
 
 }

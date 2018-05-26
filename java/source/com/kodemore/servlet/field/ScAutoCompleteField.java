@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,11 +37,12 @@ import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.script.ScTypeWatchScript;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
@@ -51,6 +52,8 @@ import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStringList;
 import com.kodemore.utility.Kmu;
+
+import com.app.utility.MyConstantsIF;
 
 /**
  * I am based on...
@@ -100,25 +103,25 @@ public class ScAutoCompleteField
     /**
      * The html name for the input element.
      */
-    private ScLocalString            _htmlName;
+    private ScLocalString _htmlName;
 
     /**
      * The value of the text field.  This value is read
      * from the form post, and displayed in the text field.
      */
-    private ScLocalString            _text;
+    private ScLocalString _text;
 
     /**
      * The number of characters that must be entered in
      * order to trigger autocompletion.  Valid values
      * are 1..n.  The default is 1.
      */
-    private ScLocalInteger           _triggerLength;
+    private ScLocalInteger _triggerLength;
 
     /**
      * The list of options to display in the list.
      */
-    private ScLocalStringList        _options;
+    private ScLocalStringList _options;
 
     /**
      * Used to dynamically fill the options as the
@@ -131,12 +134,15 @@ public class ScAutoCompleteField
      * Used to bind extra data for filtering and sorting.
      * The values in this list will be encoded into the Auto
      * complete field's callback request url.  The values will
-     * be rebound to their respective ScValue's prior to execute
+     * be rebound to their respective ScValue's before running
      * the filter.
+     *
+     * PAGE SESSION: any values tracked in the client-side page session
+     * are automatically submitted and should not be tracked directly.
      */
     private KmList<ScEncodedValueIF> _trackedValues;
 
-    private ScLocalBoolean           _readOnly;
+    private ScLocalBoolean _readOnly;
 
     /**
      * The type of layout to apply. Because this is a composite with multiple
@@ -144,31 +150,39 @@ public class ScAutoCompleteField
      * set the layout via css.  Instead, clients use one of the layout*() methods
      * that ensure the different elements are coordinated correctly.
      */
-    private Layout                   _layout;
+    private Layout _layout;
 
     /**
      * Used in conjuction with the layoutFixed.
      */
-    private int                      _layoutWidth;
+    private int _layoutWidth;
 
     /**
      * Clients are not allowed directly access to the css since that will likely
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss               _cssMargin;
+    private ScLocalCss _cssMargin;
 
     /**
      * If set, this action is run when a user selects a value from the list,
      * and BEFORE that value is copied into the text field.
      * data.getExtra is populated with the selected value.
      */
-    private ScAction                 _selectAction;
+    private ScAction _selectAction;
 
     /**
      * The prompt to display INSIDE the text field when no value is entered.
      */
-    private ScLocalString            _placeholder;
+    private ScLocalString _placeholder;
+
+    /**
+     * If set, install the typeWatch script to notify the server when
+     * the user stops typing.
+     */
+    private ScAction _typeWatchAction;
+
+    private int _typeWatchDelay;
 
     //##################################################
     //# constructor
@@ -176,7 +190,7 @@ public class ScAutoCompleteField
 
     public ScAutoCompleteField()
     {
-        _htmlName = new ScLocalString(getKey());
+        _htmlName = new ScLocalString(getKeyToken());
         _text = new ScLocalString();
         _triggerLength = new ScLocalInteger(1);
         _options = new ScLocalStringList();
@@ -195,7 +209,7 @@ public class ScAutoCompleteField
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     public String getInputHtmlId()
@@ -402,24 +416,49 @@ public class ScAutoCompleteField
     //# on select
     //##################################################
 
+    public void onSelect(ScAction e)
+    {
+        _selectAction = e;
+    }
+
     public ScAction getSelectAction()
     {
         return _selectAction;
     }
 
-    public void setSelectAction(Runnable r)
-    {
-        setSelectAction(newUncheckedAction(r));
-    }
-
-    public void setSelectAction(ScAction e)
-    {
-        _selectAction = e;
-    }
-
     public boolean hasSelectAction()
     {
         return _selectAction != null;
+    }
+
+    //##################################################
+    //# on type watch
+    //##################################################
+
+    public void onTypeWatch(ScAction e)
+    {
+        onTypeWatch(e, 500);
+    }
+
+    public void onTypeWatch(ScAction action, int delayMs)
+    {
+        _typeWatchAction = action;
+        _typeWatchDelay = delayMs;
+    }
+
+    public ScAction getTypeWatchAction()
+    {
+        return _typeWatchAction;
+    }
+
+    public boolean hasTypeWatchAction()
+    {
+        return _typeWatchAction != null;
+    }
+
+    public int getTypeWatchDelayMs()
+    {
+        return _typeWatchDelay;
     }
 
     //##################################################
@@ -503,8 +542,25 @@ public class ScAutoCompleteField
         out.close();
 
         String ref = ScJquery.formatIdReference(getInputHtmlId());
-        KmJsonMap settings = formatOptions();
-        out.getPostDom().run("%s.autocomplete(%s);", ref, settings);
+        KmJsonMap options = formatOptions();
+        out.getPostDom().run("%s.autocomplete(%s);", ref, options);
+
+        if ( hasTypeWatchAction() )
+        {
+            ScActionScript action;
+            action = new ScActionScript();
+            action.setAction(getTypeWatchAction());
+            action.setForm(findFormWrapper());
+            action.setBlockTarget(findBlockWrapper());
+
+            ScTypeWatchScript watch;
+            watch = new ScTypeWatchScript();
+            watch.setSelector(ScJquery.formatIdSelector(getInputHtmlId()));
+            watch.setCallback(action.formatScript());
+            watch.setDelayMs(getTypeWatchDelayMs());
+
+            out.getPostDom().run(watch);
+        }
 
         // no end tag
     }
@@ -524,6 +580,7 @@ public class ScAutoCompleteField
             css.autoCompleteField_editable();
         else
             css.autoCompleteField_readonly();
+
         return css;
     }
 
@@ -553,49 +610,69 @@ public class ScAutoCompleteField
         map.setInteger("minLength", getTriggerLength());
 
         if ( hasCallback() )
-            map.setString("source", getSourceCallback());
+            map.setLiteral("source", getSourceCallback());
         else
             map.setArray("source", getSourceOptions());
 
         if ( hasSelectAction() )
-        {
-            ScActionScript script;
-            script = new ScActionScript();
-            script.setAction(getSelectAction());
-            script.setForm(findFormWrapper());
-            script.setExtraLiteral("ui.item.label");
+            map.setLiteral("select", formatSelectFunction());
 
-            String fn;
-            fn = Kmu.format("function(ev,ui){%s}", script);
-
-            map.setLiteral("select", fn);
-        }
+        addAppendOption(map);
 
         return map;
     }
 
+    /**
+     * According to the jquery-ui documentation, c. Oct 2017:
+     * https://api.jqueryui.com/autocomplete/#option-appendTo
+     *      when the [appendTo] value is null, the parents of the input field will be
+     *      checked for a class of ui-front
+     *
+     * This approach DOES work for other widgets such as jquery-ui datePicker.
+     * But it does NOT work for the auto-complete field.
+     * The common workaround on the web appears to be manually setting the appendTo
+     * rather than relying on jquery to handle it automatically.
+     *
+     * We tested this in both jquery 1.11 and 1.12 (the current version).
+     * Both have the same issue, so we're manually setting the append to as a workaround.
+     */
+    private void addAppendOption(KmJsonMap map)
+    {
+        ScForm form = findFormWrapper();
+        if ( form != null )
+            map.setString("appendTo", form.getJquerySelector());
+    }
+
+    private String formatSelectFunction()
+    {
+        ScActionScript script;
+        script = new ScActionScript();
+        script.setAction(getSelectAction());
+        script.setForm(findFormWrapper());
+        script.setExtraLiteral("ui.item.label");
+
+        return Kmu.format("function(ev,ui){%s}", script);
+    }
+
+    /**
+     * The path suffix defined here is subsequently parsed in handleServletCallback.
+     *
+     * @see #handleServletCallback
+     */
     private String getSourceCallback()
     {
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
 
-        String path = c.getPath(getKey());
-        String addedValues = getFormattedTrackedValues();
+        String path = c.getPath(getKeyToken());
+        String trackedValues = ScEncoder.staticEncode(getTrackedValues());
 
-        return path + addedValues;
-    }
+        KmJsonMap options;
+        options = new KmJsonMap();
+        options.setString("path", path);
+        options.setString("trackedValues", trackedValues);
 
-    private String getFormattedTrackedValues()
-    {
-        KmList<?> trackedValues = getTrackedValues();
-
-        String encodedValues;
-        encodedValues = ScEncoder.staticEncode(trackedValues);
-
-        String result;
-        result = "?" + PARAMETER_TRACKED_VALUES + "=" + encodedValues;
-
-        return result;
+        return Kmu.format("Kmu.createAutoCompleteCallback(%s)", options);
     }
 
     private KmJsonArray getSourceOptions()
@@ -627,17 +704,14 @@ public class ScAutoCompleteField
     /**
      * Handle servlet callback requests to fill the dropdown dynamically.
      * Callback handlers are registered in the ScServletCallbackRegistry.
+     *
+     * The path suffix here is defined in getSourceCallback.
+     * @see #getSourceCallback
      */
     public static void handleServletCallback(String pathSuffix)
     {
-        /*
-         * We assume the pathSuffix is the control's key since that is
-         * what we provided when composing the url.  See getSourceCallback().
-         */
-        String key = pathSuffix;
-
-        ScControlRegistry r = ScControlRegistry.getInstance();
-        ScControl c = r.getControl(key);
+        String token = pathSuffix;
+        ScControl c = getRegistry().findToken(token);
 
         ScAutoCompleteField f;
         f = (ScAutoCompleteField)c;
@@ -647,6 +721,15 @@ public class ScAutoCompleteField
     private void _handleServletCallback()
     {
         ScServletData data = getData();
+
+        String requestVersion = data.getApplicationVersion();
+        String currentVersion = MyConstantsIF.APPLICATION_VERSION;
+        if ( !Kmu.isEqual(currentVersion, requestVersion) )
+        {
+            data.setJsonResult(new KmJsonArray());
+            return;
+        }
+
         String term = data.getParameter("term");
         applyTrackedValuesFor(data);
 

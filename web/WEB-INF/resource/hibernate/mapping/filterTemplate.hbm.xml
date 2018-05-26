@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyFilterTemplate"
+        table="filterTemplate"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="contextTypeCode"
+            column="contextTypeCode"
+            type="string"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="deleted"
+            column="deleted"
+            type="yes_no"
+            />
+
+        <property
+            name="modified"
+            column="modified"
+            type="yes_no"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="preferred"
+            column="preferred"
+            type="yes_no"
+            />
+
+        <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="items"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="templateUid"/>
+                <one-to-many class="com.app.model.MyFilterTemplateItem"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

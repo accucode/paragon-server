@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ public class ScCheckboxField
      * However, it may be overridden if the client is manually
      * organizing multiple checkboxes into a group.
      */
-    private ScLocalString  _htmlName;
+    private ScLocalString _htmlName;
 
     /**
      * The radio field's boolean value.
@@ -71,7 +71,7 @@ public class ScCheckboxField
      * (ScEncoder) if the client is manually organizing
      * multiple checkboxes into a group with the same htmlName.
      */
-    private ScLocalObject  _optionValue;
+    private ScLocalObject _optionValue;
 
     /**
      * If true, the checkbox button is disabled.
@@ -85,9 +85,9 @@ public class ScCheckboxField
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss     _cssMargin;
+    private ScLocalCss _cssMargin;
 
-    private ScAction       _onChangeAction;
+    private ScAction _onChangeAction;
 
     //##################################################
     //# constructor
@@ -95,7 +95,7 @@ public class ScCheckboxField
 
     public ScCheckboxField()
     {
-        _htmlName = new ScLocalString(getKey());
+        _htmlName = new ScLocalString(getKeyToken());
         _checked = new ScLocalBoolean(false);
         _optionValue = new ScLocalObject();
         _disabled = new ScLocalBoolean(false);
@@ -109,7 +109,7 @@ public class ScCheckboxField
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     private String getInputHtmlId()
@@ -234,11 +234,6 @@ public class ScCheckboxField
         _onChangeAction = e;
     }
 
-    public void onChange(Runnable e)
-    {
-        onChange(newCheckedAction(e));
-    }
-
     private String formatOnChange()
     {
         if ( _onChangeAction == null )
@@ -265,7 +260,7 @@ public class ScCheckboxField
     protected void renderControlOn(KmHtmlBuilder out)
     {
         KmStyleBuilder style = newStyleBuilder();
-        if ( !getVisible() )
+        if ( !isVisible() )
             style.hide();
 
         out.openDiv();

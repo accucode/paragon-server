@@ -1,6 +1,7 @@
 package com.app.ui.page.login;
 
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.collection.KmList;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
@@ -12,7 +13,8 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
+import com.kodemore.utility.KmEmailAddress;
+import com.kodemore.utility.KmEmailAddressParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.criteria.MyUserCriteria;
@@ -50,19 +52,19 @@ public final class MyUserActivationPage
     //# variables
     //##################################################
 
-    private ScLocalString   _token;
+    private ScLocalString _token;
 
-    private ScCardFrame     _frame;
+    private ScCardFrame _frame;
 
     private ScCard          _activationCard;
     private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
-    private ScCard          _successCard;
+    private ScCard _successCard;
 
-    private ScCard          _errorCard;
-    private ScText          _errorMessage;
+    private ScCard _errorCard;
+    private ScText _errorMessage;
 
     //##################################################
     //# settings
@@ -72,6 +74,12 @@ public final class MyUserActivationPage
     public MySecurityLevel getSecurityLevel()
     {
         return MySecurityLevel.none;
+    }
+
+    @Override
+    public boolean allowsJumpTo()
+    {
+        return false;
     }
 
     //##################################################
@@ -84,26 +92,39 @@ public final class MyUserActivationPage
         ajaxEnter();
     }
 
-    public String formatEntryUrl(MyUserActivation e)
-    {
-        setToken(e.getToken());
-        return formatEntryUrl();
-    }
-
     //##################################################
     //# bookmark
     //##################################################
 
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    public MyUserActivationBookmark newBookmark()
     {
-        v.setValue("token", getToken());
+        return new MyUserActivationBookmark(this);
+    }
+
+    private MyUserActivationBookmark castBookmark(ScBookmark e)
+    {
+        return (MyUserActivationBookmark)e;
     }
 
     @Override
-    public void applyBookmark(ScParameterList v)
+    protected void readStateFrom(ScBookmark o)
     {
-        setToken(v.getValue("token"));
+        super.readStateFrom(o);
+
+        MyUserActivationBookmark e;
+        e = castBookmark(o);
+        setToken(e.getToken());
+    }
+
+    @Override
+    protected void writeStateTo(ScBookmark o)
+    {
+        super.writeStateTo(o);
+
+        MyUserActivationBookmark e;
+        e = castBookmark(o);
+        e.setToken(getToken());
     }
 
     //##################################################
@@ -158,7 +179,7 @@ public final class MyUserActivationPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleActivate);
+        form.onSubmit(newUncheckedAction(this::handleActivate));
 
         ScGroup group;
         group = form.addGroup();
@@ -203,9 +224,10 @@ public final class MyUserActivationPage
         ScDiv body;
         body = group.getBody().addDiv();
         body.css().pad();
-        body.addText(""
-            + "Success! Your email has been activated. "
-            + "Please click the following link to sign in.");
+        body.addText(
+            ""
+                + "Success! Your email has been activated. "
+                + "Please click the following link to sign in.");
 
         group.addBodyDivider();
 
@@ -245,7 +267,7 @@ public final class MyUserActivationPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -279,24 +301,25 @@ public final class MyUserActivationPage
     {
         if ( !hasValidUserActivation() )
         {
-            printError(""
-                + "The requested activation is invalid or has expired. "
-                + "Please return to the sign in page to try again.");
+            printError(
+                ""
+                    + "The requested activation is invalid or has expired. "
+                    + "Please return to the sign in page to try again.");
             return;
         }
 
-        ajax().hideAllErrors();
+        ajaxHideAllErrors();
 
         _password1Field.ajaxClearFieldValue();
         _password2Field.ajaxClearFieldValue();
 
-        _activationCard.validate();
+        _activationCard.validateAndCheck();
 
         String pw1 = _password1Field.getValue();
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-            _password1Field.error("Passwords did not match.");
+            _password1Field.addErrorAndCheck("Passwords did not match.");
 
         upsertUser();
         setEmailCookie();
@@ -361,11 +384,22 @@ public final class MyUserActivationPage
         MyTenant tenant = ua.getTenant();
         String email = ua.getEmail();
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
+        KmEmailAddressParser p;
+        p = new KmEmailAddressParser();
+        p.parse(email);
 
-        String name = p.getName();
+        if ( p.hasErrors() )
+            throw Kmu.newError("Cannot parse email address.");
+
+        KmList<KmEmailAddress> v = p.getValidEmails();
+        if ( v.isEmpty() )
+            throw Kmu.newError("Cannot determine email address.");
+
+        if ( v.isMultiple() )
+            throw Kmu.newError("Cannot determine single email address.");
+
+        KmEmailAddress addr = v.getFirst();
+        String name = addr.getName();
         String pwd = _password1Field.getValue();
 
         MyUserCriteria c;
@@ -378,7 +412,7 @@ public final class MyUserActivationPage
         {
             u = tenant.addUser();
             u.setNickname(name);
-            u.setRoleOther();
+            u.setRoleProjectMember();
         }
 
         u.setPassword(pwd);

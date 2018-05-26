@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,10 +50,10 @@ public class KmaGraphics
 
     private Graphics2D _graphics;
 
-    private double     _scaleX;
-    private double     _scaleY;
-    private double     _translationX;
-    private double     _translationY;
+    private double _scaleX;
+    private double _scaleY;
+    private double _translationX;
+    private double _translationY;
 
     //##################################################
     //# constructor

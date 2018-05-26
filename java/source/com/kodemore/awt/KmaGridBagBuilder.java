@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,12 +50,12 @@ public class KmaGridBagBuilder
     private GridBagConstraints _defaults;
     private GridBagConstraints _current;
 
-    private int                _nextColumn  = 0;
-    private int                _nextRow     = 0;
-    private int                _columnCount = 2;
-    private int                _rowCount    = 0;
-    private boolean            _fillArray[][];
-    private boolean            _autoWrap;
+    private int     _nextColumn  = 0;
+    private int     _nextRow     = 0;
+    private int     _columnCount = 2;
+    private int     _rowCount    = 0;
+    private boolean _fillArray[][];
+    private boolean _autoWrap;
 
     //##################################################
     //# constructors

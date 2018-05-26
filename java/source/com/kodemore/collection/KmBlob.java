@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,8 @@ public class KmBlob
 
     public KmBlob(String s)
     {
-        this(s.getBytes());
+        this();
+        setUtfValue(s);
     }
 
     //##################################################
@@ -70,22 +71,33 @@ public class KmBlob
         return _bytes;
     }
 
-    public String getStringValue()
-    {
-        return new String(getValue());
-    }
-
     public void setValue(byte[] data)
     {
         _bytes = data;
     }
 
-    public void setValue(String s)
+    public boolean hasValue()
+    {
+        return _bytes != null && _bytes.length > 0;
+    }
+
+    //==================================================
+    //= string value
+    //==================================================
+
+    public String getUtfValue()
+    {
+        return hasValue()
+            ? Kmu.bytesToUtf(getValue())
+            : null;
+    }
+
+    public void setUtfValue(String s)
     {
         if ( s == null )
-            setValue((byte[])null);
+            setValue(null);
         else
-            setValue(s.getBytes());
+            setValue(Kmu.utfToBytes(s));
     }
 
     //##################################################
@@ -147,21 +159,21 @@ public class KmBlob
         String s;
 
         if ( _bytes.length > max )
-            s = formatHexString(max) + "...";
+            s = formatHexDisplayString(max) + "...";
         else
-            s = formatHexString();
+            s = formatHexDisplayString();
 
         return Kmu.format("%s(%s)", Kmu.getSimpleClassName(this), s);
     }
 
-    public String formatHexString(int maxBytes)
+    public String formatHexDisplayString(int maxBytes)
     {
-        return Kmu.formatHexString(_bytes, maxBytes, " ");
+        return Kmu.formatHexDisplayString(_bytes, maxBytes);
     }
 
-    public String formatHexString()
+    public String formatHexDisplayString()
     {
-        return Kmu.formatHexString(_bytes, " ");
+        return Kmu.formatHexDisplayString(_bytes);
     }
 
     public String formatString()

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.types.KmQuantity;
 
 public class KmQuantityValidator
@@ -33,26 +32,60 @@ public class KmQuantityValidator
     //# variables
     //##################################################
 
-    private boolean _allowNegative;
+    private KmQuantity _minimumValue;
+    private KmQuantity _maximumValue;
+
+    //##################################################
+    //# minimum value
+    //##################################################
+
+    public KmQuantity getMinimumValue()
+    {
+        return _minimumValue;
+    }
+
+    public void setMinimumValue(KmQuantity e)
+    {
+        _minimumValue = e;
+    }
+
+    //##################################################
+    //# maximum value
+    //##################################################
+
+    public KmQuantity getMaximumValue()
+    {
+        return _maximumValue;
+    }
+
+    public void setMaximumValue(KmQuantity e)
+    {
+        _maximumValue = e;
+    }
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validateModel(KmQuantity value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmQuantity value, KmErrorList errors)
     {
-        //
+        validateMinimumValue(value, errors);
+        validateMaximumValue(value, errors);
     }
 
-    public boolean allowsNegative()
+    private void validateMinimumValue(KmQuantity value, KmErrorList errors)
     {
-        return _allowNegative;
+        KmQuantity min = getMinimumValue();
+        if ( min != null && value.isLessThan(min) )
+            errors.addMinimumValue(this, min.format());
     }
 
-    public void setAllowNegative(boolean e)
+    private void validateMaximumValue(KmQuantity value, KmErrorList errors)
     {
-        _allowNegative = e;
+        KmQuantity max = getMaximumValue();
+        if ( max != null && value.isGreaterThan(max) )
+            errors.addMaximumValue(this, max.format());
     }
 
     //##################################################

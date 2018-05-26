@@ -1,0 +1,168 @@
+model
+: name      = attachment
+: help...
+    ---
+    I represent a binary file attached to a project, site, etc.
+    I currently store the content in the database, though this may be
+    changed to an external datastore such as S3 at a later time.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = project
+    : on        = createdUtcTs
+
+    index
+    : name      = customer
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = customer
+    : on        = createdUtcTs
+
+    index
+    : name      = site
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = site
+    : on        = createdUtcTs
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** project
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant that contains this decoration.
+    : modelName = tenant
+    : relation  = reference
+    : required  = true
+
+
+    association
+    : name      = project
+    : help      = The project that contains this decoration.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+
+
+    //*****************************************************
+    //** owner
+    //*****************************************************
+
+
+    field
+    : name      = ownerTypeCode
+    : help      = The type of element that owns this note.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Project)
+            value(#Customer)
+            value(#Site)
+
+
+    association
+    : name      = customer
+    : help      = The customer that owns this note.
+    : modelName = customer 
+    : relation  = reference
+    : required  = false
+
+
+    association
+    : name      = site
+    : help      = The site that owns this note.
+    : modelName = site
+    : relation  = reference
+    : required  = false
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help...
+        ---
+        The human-readable name that identifies this attachment.
+        This is also the name used when the file is downloaded to a remote client.
+        ---
+    : type      = fileName
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+    
+    
+    
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : help...
+        ---
+        This indicates the general type of data being stored.
+        Depending on the data type, we try to display the attachment
+        directly within the application rather than requiring the user
+        to download it.
+        ---
+    : type      = longEnumCode
+    : default   = MyAttachmentType.Other.getCode()
+    : required  = true
+
+        enum
+            value(#Other)
+            value(#Text)
+            value(#Pdf)
+            value(#Image)
+
+
+    //*****************************************************
+    //** content
+    //*****************************************************
+
+
+    field
+    : name      = content
+    : help...
+        ---
+        The binary content of the file.
+        ---
+    : type      = blob
+    : required  = true
+    : auditLog  = false
+
+

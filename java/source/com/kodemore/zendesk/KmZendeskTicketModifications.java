@@ -254,8 +254,8 @@ public class KmZendeskTicketModifications
         req = new KmZendeskTicketModifications();
 
         // You need to enter valid keys...
-        req.setZendeskUserid("jdoe@example.com");
-        req.setApiToken("???");
+        req.setZendeskUserid("jsmith@example.net");
+        req.setApiToken("xxx");
 
         req.setStartSeconds(0);
 

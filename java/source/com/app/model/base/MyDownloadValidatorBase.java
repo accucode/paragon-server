@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,12 +36,12 @@ public class MyDownloadValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
+    private KmBlobValidator bytesValidator;
     private KmTimestampValidator createdUtcTsValidator;
+    private KmStringValidator fileNameValidator;
     private KmStringValidator nameValidator;
     private KmStringValidator typeCodeValidator;
-    private KmStringValidator fileNameValidator;
-    private KmBlobValidator bytesValidator;
+    private KmStringValidator uidValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -50,12 +51,12 @@ public class MyDownloadValidatorBase
     protected MyDownloadValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
+        bytesValidator = newBytesValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
+        fileNameValidator = newFileNameValidator();
         nameValidator = newNameValidator();
         typeCodeValidator = newTypeCodeValidator();
-        fileNameValidator = newFileNameValidator();
-        bytesValidator = newBytesValidator();
+        uidValidator = newUidValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -63,14 +64,19 @@ public class MyDownloadValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmBlobValidator getBytesValidator()
     {
-        return uidValidator;
+        return bytesValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
     {
         return createdUtcTsValidator;
+    }
+
+    public KmStringValidator getFileNameValidator()
+    {
+        return fileNameValidator;
     }
 
     public KmStringValidator getNameValidator()
@@ -83,14 +89,9 @@ public class MyDownloadValidatorBase
         return typeCodeValidator;
     }
 
-    public KmStringValidator getFileNameValidator()
+    public KmStringValidator getUidValidator()
     {
-        return fileNameValidator;
-    }
-
-    public KmBlobValidator getBytesValidator()
-    {
-        return bytesValidator;
+        return uidValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -106,44 +107,41 @@ public class MyDownloadValidatorBase
     public void convertOnly(MyDownload value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
-        value.setFileName(fileNameValidator.convertOnly(value.getFileName()));
-        value.setBytes(bytesValidator.convertOnly(value.getBytes()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setBytes(bytesValidator.convert(value.getBytes()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setFileName(fileNameValidator.convert(value.getFileName()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setTypeCode(typeCodeValidator.convert(value.getTypeCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyDownload value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyDownload value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
-        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
-        fileNameValidator.validateOnly(value.getFileName(), errors);
-        bytesValidator.validateOnly(value.getBytes(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        bytesValidator.validateOn(value.getBytes(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        fileNameValidator.validateOn(value.getFileName(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        typeCodeValidator.validateOn(value.getTypeCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasUser() )
-            errors.add(new KmRequiredValidationError("download", "user"));
+            errors.addRequiredField("download", "user");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmBlobValidator newBytesValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("download");
-        e.setField("uid");
-        e.setRequired();
+        KmBlobValidator e;
+        e = new KmBlobValidator();
+        e.setModelName("download");
+        e.setFieldName("bytes");
         return e;
     }
 
@@ -151,9 +149,20 @@ public class MyDownloadValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("download");
-        e.setField("createdUtcTs");
+        e.setModelName("download");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newFileNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("download");
+        e.setFieldName("fileName");
         return e;
     }
 
@@ -161,10 +170,10 @@ public class MyDownloadValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(200);
+        e.setMaximumLength(255);
         e.setAllowsPrintable(true);
-        e.setModel("download");
-        e.setField("name");
+        e.setModelName("download");
+        e.setFieldName("name");
         e.setRequired();
         return e;
     }
@@ -178,29 +187,21 @@ public class MyDownloadValidatorBase
         e.setAllowsDigits(true);
         e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
-        e.setModel("download");
-        e.setField("typeCode");
+        e.setModelName("download");
+        e.setFieldName("typeCode");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newFileNameValidator()
+    public KmStringValidator newUidValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(50);
+        e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("download");
-        e.setField("fileName");
-        return e;
-    }
-
-    public KmBlobValidator newBytesValidator()
-    {
-        KmBlobValidator e;
-        e = new KmBlobValidator();
-        e.setModel("download");
-        e.setField("bytes");
+        e.setModelName("download");
+        e.setFieldName("uid");
+        e.setRequired();
         return e;
     }
 
@@ -208,8 +209,9 @@ public class MyDownloadValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("download");
-        e.setField("lockVersion");
+        e.setModelName("download");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

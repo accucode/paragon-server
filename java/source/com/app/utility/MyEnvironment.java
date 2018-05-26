@@ -1,5 +1,6 @@
 package com.app.utility;
 
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 public class MyEnvironment
@@ -28,7 +29,8 @@ public class MyEnvironment
     {
         String path = Kmu.getCanonicalPath(webRoot);
         String webInf = Kmu.joinFilePath(path, "WEB-INF");
-        if ( !Kmu.fileExists(webInf) )
+
+        if ( !KmFiles.exists(webInf) )
             throw Kmu.newFatal(
                 "Attempt to install web path failed (%s).  Cannot find (%s).",
                 webRoot,

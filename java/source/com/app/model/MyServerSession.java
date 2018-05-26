@@ -43,7 +43,7 @@ public class MyServerSession
 
     public boolean isStale()
     {
-        if ( isNotActive() )
+        if ( !isActive() )
             return true;
 
         if ( hasWrongVersion() )
@@ -85,8 +85,22 @@ public class MyServerSession
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getUser().getFullName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getUser().getFullName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return hasLastTouchedUtcTs()
+            ? "last touched at " + getLastTouchedLocalTsMessage()
+            : "not touched";
     }
 }

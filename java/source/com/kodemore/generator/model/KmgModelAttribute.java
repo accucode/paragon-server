@@ -63,9 +63,19 @@ public abstract class KmgModelAttribute
      */
     public abstract String getf_name();
 
+    public String getf_names()
+    {
+        return pluralize(getf_name());
+    }
+
     public String getf_Name()
     {
         return Kmu.capitalizeFirstLetter(getf_name());
+    }
+
+    public String getf_Names()
+    {
+        return pluralize(getf_Name());
     }
 
     public String getf_NAME()

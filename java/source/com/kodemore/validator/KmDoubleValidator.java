@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmDecimalCharacteristicValidationError;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 
 public class KmDoubleValidator
     extends KmValidator<Double>
@@ -36,8 +34,11 @@ public class KmDoubleValidator
     private int _allDigits;
     private int _rightDigits;
 
+    private Double _minimumValue;
+    private Double _maximumValue;
+
     //##################################################
-    //# accessing
+    //# digits
     //##################################################
 
     public int getAllDigits()
@@ -61,35 +62,68 @@ public class KmDoubleValidator
     }
 
     //##################################################
-    //# public
+    //# minimum value
     //##################################################
 
-    @Override
-    public void validateModel(Double value, KmList<KmErrorIF> errors)
+    public Double getMinimumValue()
     {
-        validateLength(value, errors);
+        return _minimumValue;
+    }
+
+    public void setMinimumValue(Double e)
+    {
+        _minimumValue = e;
     }
 
     //##################################################
-    //# private
+    //# maximum value
     //##################################################
 
-    public void validateLength(Double value, KmList<KmErrorIF> errors)
+    public Double getMaximumValue()
+    {
+        return _maximumValue;
+    }
+
+    public void setMaximumValue(Double e)
+    {
+        _maximumValue = e;
+    }
+
+    //##################################################
+    //# validate
+    //##################################################
+
+    @Override
+    public void validateValueOn(Double value, KmErrorList errors)
+    {
+        validateLength(value, errors);
+        validateMinimumValue(value, errors);
+        validateMaximumValue(value, errors);
+    }
+
+    public void validateLength(Double value, KmErrorList errors)
     {
         double d = value.doubleValue();
         int i = (int)d;
         String s = i + "";
         int wholeNumberLength = _allDigits - _rightDigits;
+
         if ( s.length() > wholeNumberLength )
-        {
-            KmErrorIF err;
-            err = new KmDecimalCharacteristicValidationError(
-                getModel(),
-                getField(),
-                d,
-                wholeNumberLength);
-            errors.add(err);
-        }
+            errors.addFieldError(this, "maximum left digits is " + wholeNumberLength);
+    }
+
+    private void validateMinimumValue(Double value, KmErrorList errors)
+    {
+        Double min = getMinimumValue();
+        if ( min != null && value < min )
+            errors.addMinimumValue(this, min + "");
+    }
+
+    private void validateMaximumValue(Double value, KmErrorList errors)
+    {
+        Double max = getMaximumValue();
+        if ( max != null && value > max )
+            errors.addMaximumValue(this, max + "");
     }
 
     //##################################################

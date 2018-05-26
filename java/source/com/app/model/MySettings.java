@@ -21,9 +21,21 @@ public class MySettings
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return "settings";
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return "settings";
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 
 }

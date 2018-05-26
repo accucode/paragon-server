@@ -10,6 +10,7 @@ import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScNonRenderedContainer;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScEnterPageScript;
 import com.kodemore.servlet.script.ScToastScript;
 import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScFormatter;
@@ -30,13 +31,13 @@ public abstract class ScPage
     //# variables
     //##################################################
 
-    private String                 _key;
+    private String _key;
 
     /**
      * Each page is assumed to have a single root.
      * The root may be null, which will result in a blank page.
      */
-    private ScPageRoot             _root;
+    private ScPageRoot _root;
 
     /**
      * This is a container for controls that need to be added to
@@ -121,11 +122,6 @@ public abstract class ScPage
         return _root;
     }
 
-    public boolean hasRoot()
-    {
-        return _root != null;
-    }
-
     //##################################################
     //# non rendered container
     //##################################################
@@ -157,6 +153,78 @@ public abstract class ScPage
     //# bookmark
     //##################################################
 
+    public abstract ScBookmark newBookmark();
+
+    //==================================================
+    //= bookmark :: protected
+    //==================================================
+
+    /**
+     * Read my state from the bookmark.
+     * This should be symmetric with writeStateTo.
+     * Subclasses should call super in case additional state is added here.
+     *
+     * @param e
+     */
+    protected void readStateFrom(ScBookmark e)
+    {
+        // subclass override
+    }
+
+    /**
+     * Write my state to the bookmark.
+     * This should be symmetric with readStateFrom.
+     * Subclasses should call super in case additional state is added here.
+     *
+     * @param e
+     */
+    protected void writeStateTo(ScBookmark e)
+    {
+        // subclass override
+    }
+
+    //==================================================
+    //= bookmark :: public final
+    //==================================================
+
+    public final ScBookmark getBookmark(boolean withState)
+    {
+        ScBookmark e = newBookmark();
+
+        if ( withState )
+            writeStateTo(e);
+
+        return e;
+    }
+
+    public final ScBookmark getBookmark()
+    {
+        return getBookmark(true);
+    }
+
+    public final void setBookmark(ScBookmark e)
+    {
+        readStateFrom(e);
+    }
+
+    //==================================================
+    //= bookmark :: format
+    //==================================================
+
+    public final String formatQueryString()
+    {
+        return getBookmark().formatQueryString();
+    }
+
+    public String formatQueryString(boolean withState)
+    {
+        return getBookmark(withState).formatQueryString();
+    }
+
+    //##################################################
+    //# enter
+    //##################################################
+
     /**
      * Run ajax that adds this page onto the navigation stack.
      * The client-side push will subsequently trigger the client
@@ -174,44 +242,31 @@ public abstract class ScPage
     @Override
     public void ajaxEnter()
     {
-        ajax().enterPage(this);
+        _ajaxEnter(false);
     }
 
-    /**
-     * @see ScPageIF#composeBookmarkOn
-     */
-    @Override
-    public abstract void composeBookmarkOn(ScParameterList v);
-
-    /**
-     * @see ScPageIF#applyBookmark
-     */
-    @Override
-    public abstract void applyBookmark(ScParameterList v);
-
-    //==================================================
-    //= navigation :: urls
-    //==================================================
-
-    /**
-     * @see ScPageIF#formatQueryString
-     */
-    @Override
-    public final String formatQueryString(boolean withState)
+    public void ajaxEnterFresh()
     {
-        return composeBookmark(withState).formatUrl();
+        _ajaxEnter(true);
     }
 
-    protected final ScParameterList composeBookmark(boolean withState)
+    private void _ajaxEnter(boolean clearSession)
     {
-        ScParameterList v;
-        v = new ScParameterList();
-        v.setValue(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY, getKey());
+        ScServletData data;
+        data = getData();
+        data.getAjaxResult().disablePageSessionUpdate();
 
-        if ( withState )
-            composeBookmarkOn(v);
+        ScBlockScript ajax;
+        ajax = ajax();
+        ajax.updatePageSession();
 
-        return v;
+        ScEnterPageScript enterScript = ajax.enterPage(this);
+
+        if ( clearSession )
+        {
+            data.getPageSession().reset();
+            enterScript.setPageSessionOverride();
+        }
     }
 
     //##################################################
@@ -228,12 +283,7 @@ public abstract class ScPage
         checkLayout();
 
         ajax().updateCurrentPageKey(this);
-
-        if ( !hasRoot() )
-        {
-            getBridge().clearMain();
-            return;
-        }
+        ajax().unregisterCharts();
 
         ScPageRoot root = getRoot();
         boolean focus = getAutoFocus();
@@ -271,24 +321,16 @@ public abstract class ScPage
     //# model
     //##################################################
 
-    protected void applyFromModel(Object model)
-    {
-        if ( hasRoot() )
-            getRoot().applyFromModel(model);
-    }
-
     @Override
-    public void applyFromModel(Object model, boolean skipFields)
+    public void applyFromModel(Object model)
     {
-        if ( hasRoot() )
-            getRoot().applyFromModel(model, skipFields);
+        getRoot().applyFromModel(model);
     }
 
     @Override
     public void applyToModel(Object model)
     {
-        if ( hasRoot() )
-            getRoot().applyToModel(model);
+        getRoot().applyToModel(model);
     }
 
     //##################################################
@@ -319,60 +361,6 @@ public abstract class ScPage
         return ScServletData.getLocal();
     }
 
-    protected boolean isOk()
-    {
-        return getData().isOk();
-    }
-
-    protected boolean isNotOk()
-    {
-        return !isOk();
-    }
-
-    protected boolean hasErrors()
-    {
-        return getData().hasErrors();
-    }
-
-    //##################################################
-    //# servlet data (argument)
-    //##################################################
-
-    protected Object getArgument()
-    {
-        return getData().getArgument();
-    }
-
-    protected boolean hasArgument()
-    {
-        return getData().hasArgument();
-    }
-
-    protected String getStringArgument()
-    {
-        return getData().getStringArgument();
-    }
-
-    protected Integer getIntegerArgument()
-    {
-        return getData().getIntegerArgument();
-    }
-
-    protected Integer getIntegerArgument(Integer def)
-    {
-        return getData().getIntegerArgument(def);
-    }
-
-    protected Boolean getBooleanArgument()
-    {
-        return getData().getBooleanArgument();
-    }
-
-    protected Boolean getBooleanArgument(Boolean def)
-    {
-        return getData().getBooleanArgument(def);
-    }
-
     //##################################################
     //# display
     //##################################################
@@ -386,10 +374,16 @@ public abstract class ScPage
         String s;
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
+        s = Kmu.removePrefix(s, "Dev");
         s = Kmu.removeSuffix(s, "Page");
-        s = Kmu.removeSuffix(s, "Test");
         s = Kmu.formatAsCapitalizedNames(s);
         return s;
+    }
+
+    @Override
+    public String getBrowserTabTitle()
+    {
+        return getBridge().getBrowserTabPrefix() + getTitle();
     }
 
     public boolean hasTitle(String e)
@@ -406,6 +400,18 @@ public abstract class ScPage
     public String toString()
     {
         return getKey();
+    }
+
+    //##################################################
+    //# jump to
+    //##################################################
+
+    /**
+     * Return true if this page can be used in the Jump To menu.
+     */
+    public boolean allowsJumpTo()
+    {
+        return true;
     }
 
     //##################################################
@@ -426,10 +432,25 @@ public abstract class ScPage
     //# validate
     //##################################################
 
+    protected final void validateAndCheck()
+    {
+        validate();
+        checkErrors();
+    }
+
     protected void validate()
     {
-        if ( hasRoot() )
-            getRoot().validate();
+        getRoot().validate();
+    }
+
+    protected final void checkErrors()
+    {
+        getRoot().checkErrors();
+    }
+
+    protected boolean hasErrors()
+    {
+        return getRoot().hasErrors();
     }
 
     //##################################################
@@ -465,7 +486,8 @@ public abstract class ScPage
     @Override
     public void handleError(KmApplicationException ex)
     {
-        ajax().toast(ex.formatMultiLineMessage()).error().sticky();
+        ajax().toast(ex.formatMultiLineMessage()).error();
+        throw Kmu.newRollbackException();
     }
 
     //##################################################
@@ -480,6 +502,11 @@ public abstract class ScPage
     protected ScToastScript ajaxToast(String msg, Object... args)
     {
         return ajax().toast(msg, args);
+    }
+
+    protected void ajaxHideAllErrors()
+    {
+        ajax().hideAllErrors();
     }
 
     protected ScFormatter getFormatter()
@@ -537,9 +564,9 @@ public abstract class ScPage
     @Override
     public void compressMemory()
     {
-        if ( hasRoot() )
-            getRoot().compressMemory();
+        getRoot().compressMemory();
 
         _nonRenderedContainer.compressMemory();
     }
+
 }

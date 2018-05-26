@@ -16,15 +16,15 @@ public class KmFacebookWork
     //# constants
     //##################################################
 
-    private static final String       EMPLOYER_KEY    = "employer";
-    private static final String       LOCATION_KEY    = "location";
-    private static final String       POSITION_KEY    = "position";
-    private static final String       FROM_KEY        = "from";
-    private static final String       WITH_KEY        = "with";
-    private static final String       DESCRIPTION_KEY = "description";
-    private static final String       START_DATE_KEY  = "start_date";
-    private static final String       END_DATE_KEY    = "end_date";
-    private static final String       PROJECTS_KEY    = "projects";
+    private static final String EMPLOYER_KEY    = "employer";
+    private static final String LOCATION_KEY    = "location";
+    private static final String POSITION_KEY    = "position";
+    private static final String FROM_KEY        = "from";
+    private static final String WITH_KEY        = "with";
+    private static final String DESCRIPTION_KEY = "description";
+    private static final String START_DATE_KEY  = "start_date";
+    private static final String END_DATE_KEY    = "end_date";
+    private static final String PROJECTS_KEY    = "projects";
 
     //##################################################
     //# variables

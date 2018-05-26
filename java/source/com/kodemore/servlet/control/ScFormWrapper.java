@@ -45,13 +45,13 @@ public class ScFormWrapper
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        out.render(_inner);
+        out.render(getInner());
     }
 
     @Override
     public final KmList<ScControl> getChildren()
     {
-        return KmList.createWith(_inner);
+        return KmList.createWith(getInner());
     }
 
     //##################################################
@@ -61,13 +61,13 @@ public class ScFormWrapper
     @Override
     public KmCssDefaultBuilder css()
     {
-        return _inner.css();
+        return getInner().css();
     }
 
     @Override
     public KmStyleBuilder style()
     {
-        return _inner.style();
+        return getInner().style();
     }
 
     //##################################################
@@ -77,7 +77,7 @@ public class ScFormWrapper
     @Override
     public String getHtmlId()
     {
-        return _inner.getHtmlId();
+        return getInner().getHtmlId();
     }
 
     @Override
@@ -87,20 +87,20 @@ public class ScFormWrapper
     }
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
-        return _inner.getVisible();
+        return getInner().isVisible();
     }
 
     @Override
     public void setVisible(boolean e)
     {
-        _inner.setVisible(e);
+        getInner().setVisible(e);
     }
 
     @Override
     public ScVisibilityScript ajaxShow(boolean e)
     {
-        return _inner.ajaxShow(e);
+        return getInner().ajaxShow(e);
     }
 }

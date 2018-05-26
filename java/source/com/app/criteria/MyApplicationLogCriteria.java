@@ -37,74 +37,88 @@ public class MyApplicationLogCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyApplicationLog e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyApplicationLog e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhStringCondition whereContext()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhStringCondition(context(), alias(), CONTEXT);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereLoggerName()
-    {
-        return new KmhStringCondition(context(), fullName(LOGGER_NAME));
-    }
-
-    public KmhStringCondition whereContext()
-    {
-        return new KmhStringCondition(context(), fullName(CONTEXT));
-    }
-
-    public KmhStringCondition whereMessage()
-    {
-        return new KmhStringCondition(context(), fullName(MESSAGE));
-    }
-
-    public KmhStringCondition whereLevelName()
-    {
-        return new KmhStringCondition(context(), fullName(LEVEL_NAME));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLevelCode()
     {
-        return new KmhIntegerCondition(context(), fullName(LEVEL_CODE));
+        return new KmhIntegerCondition(context(), alias(), LEVEL_CODE);
+    }
+
+    public KmhStringCondition whereLevelName()
+    {
+        return new KmhStringCondition(context(), alias(), LEVEL_NAME);
+    }
+
+    public KmhStringCondition whereLoggerName()
+    {
+        return new KmhStringCondition(context(), alias(), LOGGER_NAME);
+    }
+
+    public KmhStringCondition whereMessage()
+    {
+        return new KmhStringCondition(context(), alias(), MESSAGE);
     }
 
     public KmhStringCondition whereThreadName()
     {
-        return new KmhStringCondition(context(), fullName(THREAD_NAME));
+        return new KmhStringCondition(context(), alias(), THREAD_NAME);
     }
 
     public KmhStringCondition whereTrace()
     {
-        return new KmhStringCondition(context(), fullName(TRACE));
+        return new KmhStringCondition(context(), alias(), TRACE);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnContext()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(CONTEXT);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnContextDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(CONTEXT);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnContext(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnContext();
         else
-            sortOnUidDescending();
+            sortOnContextDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -125,58 +139,22 @@ public class MyApplicationLogCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnLoggerName()
+    public void sortOnLevelCode()
     {
-        parent().sortAscending(LOGGER_NAME);
+        parent().sortAscending(LEVEL_CODE);
     }
 
-    public void sortOnLoggerNameDescending()
+    public void sortOnLevelCodeDescending()
     {
-        parent().sortDescending(LOGGER_NAME);
+        parent().sortDescending(LEVEL_CODE);
     }
 
-    public void sortOnLoggerName(boolean asc)
+    public void sortOnLevelCode(boolean asc)
     {
         if ( asc )
-            sortOnLoggerName();
+            sortOnLevelCode();
         else
-            sortOnLoggerNameDescending();
-    }
-
-    public void sortOnContext()
-    {
-        parent().sortAscending(CONTEXT);
-    }
-
-    public void sortOnContextDescending()
-    {
-        parent().sortDescending(CONTEXT);
-    }
-
-    public void sortOnContext(boolean asc)
-    {
-        if ( asc )
-            sortOnContext();
-        else
-            sortOnContextDescending();
-    }
-
-    public void sortOnMessage()
-    {
-        parent().sortAscending(MESSAGE);
-    }
-
-    public void sortOnMessageDescending()
-    {
-        parent().sortDescending(MESSAGE);
-    }
-
-    public void sortOnMessage(boolean asc)
-    {
-        if ( asc )
-            sortOnMessage();
-        else
-            sortOnMessageDescending();
+            sortOnLevelCodeDescending();
     }
 
     public void sortOnLevelName()
@@ -197,22 +175,40 @@ public class MyApplicationLogCriteria
             sortOnLevelNameDescending();
     }
 
-    public void sortOnLevelCode()
+    public void sortOnLoggerName()
     {
-        parent().sortAscending(LEVEL_CODE);
+        parent().sortAscending(LOGGER_NAME);
     }
 
-    public void sortOnLevelCodeDescending()
+    public void sortOnLoggerNameDescending()
     {
-        parent().sortDescending(LEVEL_CODE);
+        parent().sortDescending(LOGGER_NAME);
     }
 
-    public void sortOnLevelCode(boolean asc)
+    public void sortOnLoggerName(boolean asc)
     {
         if ( asc )
-            sortOnLevelCode();
+            sortOnLoggerName();
         else
-            sortOnLevelCodeDescending();
+            sortOnLoggerNameDescending();
+    }
+
+    public void sortOnMessage()
+    {
+        parent().sortAscending(MESSAGE);
+    }
+
+    public void sortOnMessageDescending()
+    {
+        parent().sortDescending(MESSAGE);
+    }
+
+    public void sortOnMessage(boolean asc)
+    {
+        if ( asc )
+            sortOnMessage();
+        else
+            sortOnMessageDescending();
     }
 
     public void sortOnThreadName()
@@ -251,136 +247,22 @@ public class MyApplicationLogCriteria
             sortOnTraceDescending();
     }
 
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
+    public void sortOnUid()
     {
-        select(UID);
+        parent().sortAscending(UID);
     }
 
-    public void selectDistinctUid()
+    public void sortOnUidDescending()
     {
-        selectDistinct(UID);
+        parent().sortDescending(UID);
     }
 
-    public void selectCountDistinctUid()
+    public void sortOnUid(boolean asc)
     {
-        selectCountDistinct(UID);
-    }
-
-    public void selectMinimumUid()
-    {
-        selectMinimum(UID);
-    }
-
-    public void selectMaximumUid()
-    {
-        selectMaximum(UID);
-    }
-
-    public void selectAverageUid()
-    {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
-    }
-
-    //##################################################
-    //# projections (createdUtcTs)
-    //##################################################
-
-    public void selectCreatedUtcTs()
-    {
-        select(CREATED_UTC_TS);
-    }
-
-    public void selectDistinctCreatedUtcTs()
-    {
-        selectDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectCountDistinctCreatedUtcTs()
-    {
-        selectCountDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectMinimumCreatedUtcTs()
-    {
-        selectMinimum(CREATED_UTC_TS);
-    }
-
-    public void selectMaximumCreatedUtcTs()
-    {
-        selectMaximum(CREATED_UTC_TS);
-    }
-
-    public void selectAverageCreatedUtcTs()
-    {
-        selectAverage(CREATED_UTC_TS);
-    }
-
-    public void selectSumCreatedUtcTs()
-    {
-        selectSum(CREATED_UTC_TS);
-    }
-
-    public void groupByCreatedUtcTs()
-    {
-        groupBy(CREATED_UTC_TS);
-    }
-
-    //##################################################
-    //# projections (loggerName)
-    //##################################################
-
-    public void selectLoggerName()
-    {
-        select(LOGGER_NAME);
-    }
-
-    public void selectDistinctLoggerName()
-    {
-        selectDistinct(LOGGER_NAME);
-    }
-
-    public void selectCountDistinctLoggerName()
-    {
-        selectCountDistinct(LOGGER_NAME);
-    }
-
-    public void selectMinimumLoggerName()
-    {
-        selectMinimum(LOGGER_NAME);
-    }
-
-    public void selectMaximumLoggerName()
-    {
-        selectMaximum(LOGGER_NAME);
-    }
-
-    public void selectAverageLoggerName()
-    {
-        selectAverage(LOGGER_NAME);
-    }
-
-    public void selectSumLoggerName()
-    {
-        selectSum(LOGGER_NAME);
-    }
-
-    public void groupByLoggerName()
-    {
-        groupBy(LOGGER_NAME);
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
     }
 
     //##################################################
@@ -428,47 +310,91 @@ public class MyApplicationLogCriteria
     }
 
     //##################################################
-    //# projections (message)
+    //# projections (createdUtcTs)
     //##################################################
 
-    public void selectMessage()
+    public void selectCreatedUtcTs()
     {
-        select(MESSAGE);
+        select(CREATED_UTC_TS);
     }
 
-    public void selectDistinctMessage()
+    public void selectDistinctCreatedUtcTs()
     {
-        selectDistinct(MESSAGE);
+        selectDistinct(CREATED_UTC_TS);
     }
 
-    public void selectCountDistinctMessage()
+    public void selectCountDistinctCreatedUtcTs()
     {
-        selectCountDistinct(MESSAGE);
+        selectCountDistinct(CREATED_UTC_TS);
     }
 
-    public void selectMinimumMessage()
+    public void selectMinimumCreatedUtcTs()
     {
-        selectMinimum(MESSAGE);
+        selectMinimum(CREATED_UTC_TS);
     }
 
-    public void selectMaximumMessage()
+    public void selectMaximumCreatedUtcTs()
     {
-        selectMaximum(MESSAGE);
+        selectMaximum(CREATED_UTC_TS);
     }
 
-    public void selectAverageMessage()
+    public void selectAverageCreatedUtcTs()
     {
-        selectAverage(MESSAGE);
+        selectAverage(CREATED_UTC_TS);
     }
 
-    public void selectSumMessage()
+    public void selectSumCreatedUtcTs()
     {
-        selectSum(MESSAGE);
+        selectSum(CREATED_UTC_TS);
     }
 
-    public void groupByMessage()
+    public void groupByCreatedUtcTs()
     {
-        groupBy(MESSAGE);
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (levelCode)
+    //##################################################
+
+    public void selectLevelCode()
+    {
+        select(LEVEL_CODE);
+    }
+
+    public void selectDistinctLevelCode()
+    {
+        selectDistinct(LEVEL_CODE);
+    }
+
+    public void selectCountDistinctLevelCode()
+    {
+        selectCountDistinct(LEVEL_CODE);
+    }
+
+    public void selectMinimumLevelCode()
+    {
+        selectMinimum(LEVEL_CODE);
+    }
+
+    public void selectMaximumLevelCode()
+    {
+        selectMaximum(LEVEL_CODE);
+    }
+
+    public void selectAverageLevelCode()
+    {
+        selectAverage(LEVEL_CODE);
+    }
+
+    public void selectSumLevelCode()
+    {
+        selectSum(LEVEL_CODE);
+    }
+
+    public void groupByLevelCode()
+    {
+        groupBy(LEVEL_CODE);
     }
 
     //##################################################
@@ -516,47 +442,91 @@ public class MyApplicationLogCriteria
     }
 
     //##################################################
-    //# projections (levelCode)
+    //# projections (loggerName)
     //##################################################
 
-    public void selectLevelCode()
+    public void selectLoggerName()
     {
-        select(LEVEL_CODE);
+        select(LOGGER_NAME);
     }
 
-    public void selectDistinctLevelCode()
+    public void selectDistinctLoggerName()
     {
-        selectDistinct(LEVEL_CODE);
+        selectDistinct(LOGGER_NAME);
     }
 
-    public void selectCountDistinctLevelCode()
+    public void selectCountDistinctLoggerName()
     {
-        selectCountDistinct(LEVEL_CODE);
+        selectCountDistinct(LOGGER_NAME);
     }
 
-    public void selectMinimumLevelCode()
+    public void selectMinimumLoggerName()
     {
-        selectMinimum(LEVEL_CODE);
+        selectMinimum(LOGGER_NAME);
     }
 
-    public void selectMaximumLevelCode()
+    public void selectMaximumLoggerName()
     {
-        selectMaximum(LEVEL_CODE);
+        selectMaximum(LOGGER_NAME);
     }
 
-    public void selectAverageLevelCode()
+    public void selectAverageLoggerName()
     {
-        selectAverage(LEVEL_CODE);
+        selectAverage(LOGGER_NAME);
     }
 
-    public void selectSumLevelCode()
+    public void selectSumLoggerName()
     {
-        selectSum(LEVEL_CODE);
+        selectSum(LOGGER_NAME);
     }
 
-    public void groupByLevelCode()
+    public void groupByLoggerName()
     {
-        groupBy(LEVEL_CODE);
+        groupBy(LOGGER_NAME);
+    }
+
+    //##################################################
+    //# projections (message)
+    //##################################################
+
+    public void selectMessage()
+    {
+        select(MESSAGE);
+    }
+
+    public void selectDistinctMessage()
+    {
+        selectDistinct(MESSAGE);
+    }
+
+    public void selectCountDistinctMessage()
+    {
+        selectCountDistinct(MESSAGE);
+    }
+
+    public void selectMinimumMessage()
+    {
+        selectMinimum(MESSAGE);
+    }
+
+    public void selectMaximumMessage()
+    {
+        selectMaximum(MESSAGE);
+    }
+
+    public void selectAverageMessage()
+    {
+        selectAverage(MESSAGE);
+    }
+
+    public void selectSumMessage()
+    {
+        selectSum(MESSAGE);
+    }
+
+    public void groupByMessage()
+    {
+        groupBy(MESSAGE);
     }
 
     //##################################################
@@ -645,6 +615,50 @@ public class MyApplicationLogCriteria
     public void groupByTrace()
     {
         groupBy(TRACE);
+    }
+
+    //##################################################
+    //# projections (uid)
+    //##################################################
+
+    public void selectUid()
+    {
+        select(UID);
+    }
+
+    public void selectDistinctUid()
+    {
+        selectDistinct(UID);
+    }
+
+    public void selectCountDistinctUid()
+    {
+        selectCountDistinct(UID);
+    }
+
+    public void selectMinimumUid()
+    {
+        selectMinimum(UID);
+    }
+
+    public void selectMaximumUid()
+    {
+        selectMaximum(UID);
+    }
+
+    public void selectAverageUid()
+    {
+        selectAverage(UID);
+    }
+
+    public void selectSumUid()
+    {
+        selectSum(UID);
+    }
+
+    public void groupByUid()
+    {
+        groupBy(UID);
     }
 
     //##################################################

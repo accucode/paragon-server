@@ -1,0 +1,487 @@
+model
+: name      = site
+: help...
+    ---
+    The sites associated with each customer. Each site typically identifes
+    a physical building with a distinct mailing address.
+    ---
+:filter     = MyLoadableFilter
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = customer
+    : unique    = false
+    : on        = customer
+
+    index
+    : name      = number
+    : unique    = true
+    : on        = customer
+    : on        = number
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    association
+    : name      = customer
+    : help      = The customer that owns this site.
+    : modelName = customer
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = number
+    : help      = The site's number.  E.g.: 0001.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = name
+    : help      = The site's name.  E.g.: Denver North.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = fullName
+    : help      = The site number and name.
+    : type      = text100
+    : label     = Name
+
+        dependsOn
+        : value = name
+        : value = number
+
+
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
+    association
+    : name      = type
+    : help      = The site's type.
+    : modelName = choice
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : field = name
+        : label = Type
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** address
+    //*****************************************************
+
+
+    #include address.stf
+
+
+    //*****************************************************
+    //** time zone
+    //*****************************************************
+
+
+    field
+    : name      = timeZoneCode
+    : label     = Time Zone
+    : help      = The time zone for this site.
+    : type      = timeZoneCode
+    : required  = true
+
+
+    abstractField
+    : name      = timeZoneName
+    : label     = Time Zone
+    : help      = The time zone for this site.
+    : type      = calculated
+
+
+    //*****************************************************
+    //** priority
+    //*****************************************************
+
+
+    association
+    : name      = priority
+    : help...
+        ---
+        This is used to prioritize important tasks.
+        ---
+    : modelName = priority
+    : relation  = reference
+    : required  = true
+
+
+    abstractField
+    : name      = priorityName
+    : label     = Priority
+    : help...
+        ---
+        This is used to prioritize important tasks.
+        ---
+    : type      = calculated
+
+
+    //*****************************************************
+    //** contacts
+    //*****************************************************
+
+
+    collection
+    : name          = contact
+    : comment       = These contacts are primarily used for notifications.
+    : relation      = children
+    : elementModel  = siteContact
+    : elementField  = site
+
+
+    association
+    : name      = mainContact
+    : help...
+        ---
+        The primary contact for this site.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Main Contact
+
+        delegate
+        : field = shortName
+        : label = Main Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Main Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = installContact
+    : help...
+        ---
+        The primary contact for installations.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Install Contact
+
+        delegate
+        : field = shortName
+        : label = Install Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Install Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    abstractAssociation
+    : name      = effectiveInstallContact
+    : help...
+        ---
+        The primary contact for installations.
+        This defaults to the main contact if not set.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Install Contact
+
+        delegate
+        : field = shortName
+        : label = Install Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Install  Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = technicalContact
+    : help...
+        ---
+        The primary contact for IT support and technical questions.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Technical Contact
+
+        delegate
+        : field = shortName
+        : label = Technical Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Technical Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    abstractAssociation
+    : name      = effectiveTechnicalContact
+    : help...
+        ---
+        The primary contact for IT support and technical questions.
+        This defaults to the main contact if not set.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Technical Contact
+
+        delegate
+        : field = shortName
+        : label = Technical Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Main Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = schedulingContact
+    : help...
+        ---
+        The primary contact for scheduling on-site visits.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Scheduling Contact
+
+        delegate
+        : field = shortName
+        : label = Scheduling Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Scheduling Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    abstractAssociation
+    : name      = effectiveSchedulingContact
+    : help...
+        ---
+        The primary contact for scheduling on-site visits.
+        This defaults to the main contact if not set.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Scheduling Contact
+
+        delegate
+        : field = shortName
+        : label = Scheduling Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Main Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = salesContact
+    : help...
+        ---
+        The primary contact for sales or distributor support.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Sales Contact
+
+        delegate
+        : field = shortName
+        : label = Sales Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Sales Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    abstractAssociation
+    : name      = effectiveSalesContact
+    : help...
+        ---
+        The primary contact for sales or distributor support.
+        This defaults to the main contact if not set.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Sales Contact
+
+        delegate
+        : field = shortName
+        : label = Sales Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Sales Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = requesterContact
+    : help...
+        ---
+        The contact that originally requested the job.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Sales Contact
+
+        delegate
+        : field = shortName
+        : label = Sales Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Sales Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    abstractAssociation
+    : name      = effectiveRequesterContact
+    : help...
+        ---
+        The contact that originally requested the job.
+        This defaults to the main contact if not set.
+        ---
+    : modelName = siteContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Requester Contact
+
+        delegate
+        : field = shortName
+        : label = Requester Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Requester Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone

@@ -1,301 +1,222 @@
-/*****************************
- ** text line
- *****************************/
+//******************************
+//* fields
+//******************************
+
 
 .textField
-{
-    position: relative;
-}
+    position:       relative
+
 
 .textField input
-{
-    box-sizing: border-box;
-    width:      100%;
-    margin:     0;
-    padding:    5px;
+    box-sizing:     border-box
+    width:          100%
+    margin:         0
+    padding:        5px
+    font:           normal 1.5rem $fontFamily
+    border:         1px solid #aaa
 
-    font:       normal 1.5rem $fontFamily;
-    border:     1px solid #aaa;
-}
 
 .textField:hover input
-{
-    box-shadow:     inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    box-shadow:     inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
 
 .textField:focus input
-{
-    background:     $fieldBackgroundColor;
-    border:         1px solid #48f;
-    box-shadow:     inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    background:     $fieldBackgroundColor
+    border:         1px solid #48f
+    box-shadow:     inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
 
 .textField-editable input
-{
-    background:     $fieldBackgroundColor;
-}
+    background:     $fieldBackgroundColor
+
 
 .textField-readonly input
-{
-    background:     #ccc;
-}
+    background:     #ccc
 
 
-/*******************************************************************
- ** text area
- *******************************************************************/
+//******************************
+//* text area
+//******************************
+
 
 .textArea
-{
-    position: relative;
-}
+    position:           relative
+
 
 .textArea textarea
-{
-    box-sizing:     border-box;
-    flex-grow:      1;
-    flex-shrink:    1;
-    margin:         0;
-    padding:        5px;
+    box-sizing:         border-box
+    flex-grow:          1
+    flex-shrink:        1
+    margin:             0
+    padding:            5px
+    font:               normal 1.5rem $fontFamily
 
-    font: normal 1.5rem $fontFamily;
+    border-top:         1px solid #999
+    border-left:        1px solid #999
+    border-bottom:      1px solid #bbb
+    border-right:       1px solid #bbb
 
-    border-top:     1px solid #999;
-    border-left:    1px solid #999;
-    border-bottom:  1px solid #bbb;
-    border-right:   1px solid #bbb;
+    transition:         border 100ms
 
-    transition:     border 100ms;
-}
 
 .textArea:hover textarea
-{
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
 
 .textArea:focus textarea
-{
-    background-color: $fieldBackgroundColor;
-    border: 1px solid #48f;
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    background-color:   $fieldBackgroundColor
+    border:             1px solid #48f
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
 
 .textArea-editable textarea
-{
-    background-color: $fieldBackgroundColor;
-}
+    background-color:   $fieldBackgroundColor
+
 
 .textArea-readonly textarea
-{
-    background-color: #ccc;
-}
+    background-color:   #ccc
 
-/*****************************
- ** auto-complete
- *****************************/
 
-.autoCompleteField
-{
-    position:       relative;
-}
+//******************************
+//* checkbox
+//******************************
 
-.autoCompleteField input
-{
-    box-sizing:     border-box;
-    width:          100%;
-    margin:         0;
-    padding:        5px;
-
-    font:           normal 1.5rem $fontFamily;
-
-    border:         1px solid #aaa;
-}
-
-.autoCompleteField:hover input
-{
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
-
-.autoCompleteField:focus input
-{
-    background-color: $fieldBackgroundColor;
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
-
-.autoCompleteField-editable input
-{
-    background-color: $fieldBackgroundColor;
-}
-
-.autoCompleteField-readonly input
-{
-    background-color: #ccc;
-}
-
-ul.ui-autocomplete
-{
-    background-color: $fieldBackgroundColor;
-
-    border-top:    none;
-    border-left:   1px solid #999;
-    border-bottom: 1px solid #bbb;
-    border-right:  1px solid #bbb;
-}
-
-/*****************************
- ** checkbox field
- *****************************/
 
 .checkboxField
-{
-    position: relative;
-    padding-right: 5px;
-    display: inline-block;
-}
+    position:           relative
+    padding-right:      5px
+    display:            inline-block
+
 
 .checkboxField input
-{
-    padding: 0;
-    margin:  0;
-}
+    padding:            0
+    margin:             0
+
 
 .checkboxField-enabled input
-{
-    background-color: $fieldBackgroundColor;
-}
+    background-color:   $fieldBackgroundColor
+
 
 .checkboxField-disabled input
-{
-    background-color: #444;
-}
+    background-color:   #444
 
 
-/*****************************
- ** checkbox list
- *****************************/
+//******************************
+//* checkbox list
+//******************************
+
 
 /* the box around the entire list */
 .checkboxList
-{
-    content: normal; /* Stylus Compression Hack, see comment above. */
-}
+    content: normal // prevent stylus compression
+
 
 /* the box around a single checkbox/label */
 .checkboxList div
-{
-    margin-right: 20px;
-}
+    margin-right:       20px
+
 
 /* a single checkbox within the list */
 .checkboxList input
-{
-}
+    content: normal // prevent stylus compression
+
 
 /* a single text (label) next to each checkbox. */
 .checkboxList span
-{
-}
+    content: normal // prevent stylus compression
 
-/*******************************************************************
- ** radio field
- *******************************************************************/
+
+//******************************
+//* radio field
+//******************************
+
 
 .radioField
-{
-    display: inline-block;
-    position: relative;
-    padding-right: 5px;
-}
+    display:            inline-block
+    position:           relative
+    padding-right:      5px
+
 
 .radioField input
-{
-    padding: 0;
-    margin:  0;
-}
+    padding:            0
+    margin:             0
+
 
 .radioField-enabled input
-{
-    background-color: $fieldBackgroundColor;
-}
+    background-color:   $fieldBackgroundColor
+
 
 .radioField-disabled input
-{
-    background-color: gray;
-}
+    background-color:   gray
 
 
-/*****************************
- ** radio list
- *****************************/
+//******************************
+//* radio list
+//******************************
 
 
 /* the box around the entire list */
 .radioList
-{
-    content: normal; /* Stylus Compression Hack, see comment above. */
-}
+    content: normal // prevent stylus compression
+
 
 /* the box around a single radio/label */
 .radioList div
-{
-    margin-right: 20px;
-}
+    margin-right: 20px
+
 
 /* a single radio within the list */
 .radioList input
-{
-}
+    content: normal // prevent stylus compression
+
 
 /* a single text (label) next to each radio. */
 .radioList span
-{
-}
+    content: normal // prevent stylus compression
 
-/*******************************************************************
- ** choice field
- *******************************************************************/
+
+//******************************
+//* choice field
+//******************************
+
 
 .choiceField
-{
-    display: inline-flex;
-    flex-direction: row;
-    position: relative;
-    padding-right: 4px;
-}
+    display:            inline-flex
+    flex-direction:     row
+    position:           relative
+    padding-right:      4px
+
 
 .choiceFieldFocus
-{
-    box-shadow: 0 0 1px 1px #7294CB;
-    border-radius: 4px;
-}
+    box-shadow:         0 0 1px 1px #7294CB
+    border-radius:      4px
 
-/*******************************************************************
- ** list field
- *******************************************************************/
+
+//******************************
+//* list field
+//******************************
+
 
 /**
  * A list box field.
  * More specifically, this is the wrapper around the pertinent <select></select>
  * and also contains the help icon.
  */
-
 .listField
-{
-    position: relative;
-}
+    position:           relative
+
 
 .listField select
-{
-    flex-grow:   1;
-    flex-shrink: 1;
+    flex-grow:          1
+    flex-shrink:        1
+    font: normal        1.5rem $fontFamily
+    background-color:   $fieldBackgroundColor
 
-    font: normal 1.5rem $fontFamily;
-    background-color: $fieldBackgroundColor;
-}
 
-/*******************************************************************
- ** dropdown field
- *******************************************************************/
+//******************************
+//* dropdown field
+//******************************
+
 
 /**
  * I style the dropdown field.
@@ -303,37 +224,65 @@ ul.ui-autocomplete
  * the SELECT and help IMG elements.
  */
 .dropdownField
-{
-    position: relative;
-}
+    position:           relative
+
 
 .dropdownField select
-{
-    flex-grow:   1;
-    flex-shrink: 1;
+    margin:             0
+    padding:            4px
+    font:               normal 1.5rem $fontFamily
+    background-color:   $fieldBackgroundColor
+    border-top:         1px solid #999
+    border-left:        1px solid #999
+    border-bottom:      1px solid #bbb
+    border-right:       1px solid #bbb
+    transition:         border 200ms
+    min-width:          10rem
 
-    margin: 0;
-    padding: 4px;
-    font: normal 1.5rem $fontFamily;
-    background-color: $fieldBackgroundColor;
 
-    border-top:    1px solid #999;
-    border-left:   1px solid #999;
-    border-bottom: 1px solid #bbb;
-    border-right:  1px solid #bbb;
+.dropdownFieldInline
+    display:            inline-flex
+    flex-direction:     row
 
-    transition:    border 200ms;
-}
+
+.dropdownFieldInline select
+    flex-grow:          0
+    flex-shrink:        0
+
+
+.dropdownFieldBlock
+    display:            flex
+    flex-direction:     row
+
+
+.dropdownFieldBlock select
+    flex-grow:          1
+    flex-shrink:        1
+
+
+.dropdownFieldFlexFiller
+    display:            inline-flex
+    flex-direction:     row
+    flex-grow:          1
+    flex-shrink:        1
+
+
+.dropdownFieldFlexFiller select
+    flex-grow:          1
+    flex-shrink:        1
+
 
 .dropdownField select:hover
-{
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
 
 .dropdownField select:focus
-{
-    border: 1px solid #48f;
-    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
+    border:             1px solid #48f
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
 
 
+.dropdownField select option
+    border:             3px solid red
+
+.dropdownField select ul.chosenResults li.active-result
+    background-color: yellow

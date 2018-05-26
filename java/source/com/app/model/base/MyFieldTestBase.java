@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyFieldTestBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyFieldTest>
+    implements KmUidDomainIF
     ,MyBasicTimestampsIF
 {
     //##################################################
@@ -38,26 +40,27 @@ public abstract class MyFieldTestBase
     public static final MyMetaFieldTest Meta = MyMetaFieldTest.instance;
     public static final MyFieldTestTools Tools = MyFieldTestTools.instance;
     public static final MyFieldTestValidator Validator = MyFieldTestValidator.instance;
+    public static final MyFieldTestFinder Finder = MyFieldTestFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
+    private Boolean booleanTest;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp updatedUtcTs;
-    private String nameValue;
+    private KmDate dateTest;
+    private KmDayFrequency dayFrequency;
+    private Double doubleTest;
+    private KmDuration duration;
     private Integer integerValue;
     private Long longTest;
-    private Double doubleTest;
     private KmMoney moneyTest;
-    private Boolean booleanTest;
-    private KmDate dateTest;
-    private KmTimestamp timestampTest;
+    private String nameValue;
     private String pinNumber1;
     private String pinNumber2;
-    private KmDuration duration;
-    private KmDayFrequency dayFrequency;
+    private KmTimestamp timestampTest;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
     private MyUser createdBy;
     private MyUser updatedBy;
@@ -70,8 +73,8 @@ public abstract class MyFieldTestBase
     public MyFieldTestBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
         setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
         setCreatedBy(MyGlobals.getCurrentUser());
@@ -79,43 +82,66 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
-    public void clearUid()
+    //##################################################
+    //# field (booleanTest)
+    //##################################################
+
+    public Boolean getBooleanTest()
     {
-        setUid(null);
+        return booleanTest;
     }
 
-    public boolean hasUid()
+    public void setBooleanTest(Boolean e)
     {
-        return Kmu.hasValue(getUid());
+        e = Validator.getBooleanTestValidator().convert(e);
+        booleanTest = e;
     }
 
-    public boolean hasUid(String e)
+    public void clearBooleanTest()
     {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
+        setBooleanTest(null);
     }
 
-    public void truncateUid()
+    public boolean hasBooleanTest()
     {
-        truncateUid(false);
+        return getBooleanTest() != null;
     }
 
-    public void truncateUid(boolean ellipses)
+    public boolean hasBooleanTest(Boolean e)
     {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqual(getBooleanTest(), e);
+    }
+
+    public boolean isBooleanTest()
+    {
+        if ( getBooleanTest() == null )
+            return false;
+        return getBooleanTest();
+    }
+
+    public boolean isBooleanTest(Boolean b)
+    {
+        return Kmu.isEqual(getBooleanTest(), b);
+    }
+
+    public void toggleBooleanTest()
+    {
+        setBooleanTest(!getBooleanTest());
     }
 
     //##################################################
@@ -129,7 +155,7 @@ public abstract class MyFieldTestBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -149,73 +175,155 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
-    //# field (updatedUtcTs)
+    //# field (dateTest)
     //##################################################
 
-    public KmTimestamp getUpdatedUtcTs()
+    public KmDate getDateTest()
     {
-        return updatedUtcTs;
+        return dateTest;
     }
 
-    public void setUpdatedUtcTs(KmTimestamp e)
+    public void setDateTest(KmDate e)
     {
-        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
-        updatedUtcTs = e;
+        e = Validator.getDateTestValidator().convert(e);
+        dateTest = e;
     }
 
-    public void clearUpdatedUtcTs()
+    public void clearDateTest()
     {
-        setUpdatedUtcTs(null);
+        setDateTest(null);
     }
 
-    public boolean hasUpdatedUtcTs()
+    public boolean hasDateTest()
     {
-        return getUpdatedUtcTs() != null;
+        return getDateTest() != null;
     }
 
-    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    public boolean hasDateTest(KmDate e)
     {
-        return Kmu.isEqual(getUpdatedUtcTs(), e);
+        return Kmu.isEqual(getDateTest(), e);
     }
 
     //##################################################
-    //# field (nameValue)
+    //# field (dayFrequency)
     //##################################################
 
-    public String getNameValue()
+    public KmDayFrequency getDayFrequency()
     {
-        return nameValue;
+        return dayFrequency;
     }
 
-    public void setNameValue(String e)
+    public void setDayFrequency(KmDayFrequency e)
     {
-        e = Validator.getNameValueValidator().convertOnly(e);
-        nameValue = e;
+        e = Validator.getDayFrequencyValidator().convert(e);
+        dayFrequency = e;
     }
 
-    public void clearNameValue()
+    public void clearDayFrequency()
     {
-        setNameValue(null);
+        setDayFrequency(null);
     }
 
-    public boolean hasNameValue()
+    public boolean hasDayFrequency()
     {
-        return Kmu.hasValue(getNameValue());
+        return getDayFrequency() != null;
     }
 
-    public boolean hasNameValue(String e)
+    public boolean hasDayFrequency(KmDayFrequency e)
     {
-        return Kmu.isEqualIgnoreCase(getNameValue(), e);
+        return Kmu.isEqual(getDayFrequency(), e);
     }
 
-    public void truncateNameValue()
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        truncateNameValue(false);
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void truncateNameValue(boolean ellipses)
+    public boolean hasDomainSubtitle(String e)
     {
-        nameValue = Kmu.truncate(nameValue, 50, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (doubleTest)
+    //##################################################
+
+    public Double getDoubleTest()
+    {
+        return doubleTest;
+    }
+
+    public void setDoubleTest(Double e)
+    {
+        e = Validator.getDoubleTestValidator().convert(e);
+        doubleTest = e;
+    }
+
+    public void clearDoubleTest()
+    {
+        setDoubleTest(null);
+    }
+
+    public boolean hasDoubleTest()
+    {
+        return getDoubleTest() != null;
+    }
+
+    public boolean hasDoubleTest(Double e)
+    {
+        return Kmu.isEqual(getDoubleTest(), e);
+    }
+
+    //##################################################
+    //# field (duration)
+    //##################################################
+
+    public KmDuration getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(KmDuration e)
+    {
+        e = Validator.getDurationValidator().convert(e);
+        duration = e;
+    }
+
+    public void clearDuration()
+    {
+        setDuration(null);
+    }
+
+    public boolean hasDuration()
+    {
+        return getDuration() != null;
+    }
+
+    public boolean hasDuration(KmDuration e)
+    {
+        return Kmu.isEqual(getDuration(), e);
     }
 
     //##################################################
@@ -229,7 +337,7 @@ public abstract class MyFieldTestBase
 
     public void setIntegerValue(Integer e)
     {
-        e = Validator.getIntegerValueValidator().convertOnly(e);
+        e = Validator.getIntegerValueValidator().convert(e);
         integerValue = e;
     }
 
@@ -259,7 +367,7 @@ public abstract class MyFieldTestBase
 
     public void setLongTest(Long e)
     {
-        e = Validator.getLongTestValidator().convertOnly(e);
+        e = Validator.getLongTestValidator().convert(e);
         longTest = e;
     }
 
@@ -279,36 +387,6 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
-    //# field (doubleTest)
-    //##################################################
-
-    public Double getDoubleTest()
-    {
-        return doubleTest;
-    }
-
-    public void setDoubleTest(Double e)
-    {
-        e = Validator.getDoubleTestValidator().convertOnly(e);
-        doubleTest = e;
-    }
-
-    public void clearDoubleTest()
-    {
-        setDoubleTest(null);
-    }
-
-    public boolean hasDoubleTest()
-    {
-        return getDoubleTest() != null;
-    }
-
-    public boolean hasDoubleTest(Double e)
-    {
-        return Kmu.isEqual(getDoubleTest(), e);
-    }
-
-    //##################################################
     //# field (moneyTest)
     //##################################################
 
@@ -319,7 +397,7 @@ public abstract class MyFieldTestBase
 
     public void setMoneyTest(KmMoney e)
     {
-        e = Validator.getMoneyTestValidator().convertOnly(e);
+        e = Validator.getMoneyTestValidator().convert(e);
         moneyTest = e;
     }
 
@@ -339,115 +417,43 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
-    //# field (booleanTest)
+    //# field (nameValue)
     //##################################################
 
-    public Boolean getBooleanTest()
+    public String getNameValue()
     {
-        return booleanTest;
+        return nameValue;
     }
 
-    public void setBooleanTest(Boolean e)
+    public void setNameValue(String e)
     {
-        e = Validator.getBooleanTestValidator().convertOnly(e);
-        booleanTest = e;
+        e = Validator.getNameValueValidator().convert(e);
+        nameValue = e;
     }
 
-    public void clearBooleanTest()
+    public void clearNameValue()
     {
-        setBooleanTest(null);
+        setNameValue(null);
     }
 
-    public boolean hasBooleanTest()
+    public boolean hasNameValue()
     {
-        return getBooleanTest() != null;
+        return Kmu.hasValue(getNameValue());
     }
 
-    public boolean hasBooleanTest(Boolean e)
+    public boolean hasNameValue(String e)
     {
-        return Kmu.isEqual(getBooleanTest(), e);
+        return Kmu.isEqualIgnoreCase(getNameValue(), e);
     }
 
-    public boolean isBooleanTest()
+    public void truncateNameValue()
     {
-        if ( getBooleanTest() == null )
-            return false;
-        return getBooleanTest();
+        truncateNameValue(false);
     }
 
-    public boolean isNotBooleanTest()
+    public void truncateNameValue(boolean ellipses)
     {
-        return !isBooleanTest();
-    }
-
-    public boolean isBooleanTest(Boolean b)
-    {
-        return Kmu.isEqual(getBooleanTest(), b);
-    }
-
-    public void toggleBooleanTest()
-    {
-        setBooleanTest(!getBooleanTest());
-    }
-
-    //##################################################
-    //# field (dateTest)
-    //##################################################
-
-    public KmDate getDateTest()
-    {
-        return dateTest;
-    }
-
-    public void setDateTest(KmDate e)
-    {
-        e = Validator.getDateTestValidator().convertOnly(e);
-        dateTest = e;
-    }
-
-    public void clearDateTest()
-    {
-        setDateTest(null);
-    }
-
-    public boolean hasDateTest()
-    {
-        return getDateTest() != null;
-    }
-
-    public boolean hasDateTest(KmDate e)
-    {
-        return Kmu.isEqual(getDateTest(), e);
-    }
-
-    //##################################################
-    //# field (timestampTest)
-    //##################################################
-
-    public KmTimestamp getTimestampTest()
-    {
-        return timestampTest;
-    }
-
-    public void setTimestampTest(KmTimestamp e)
-    {
-        e = Validator.getTimestampTestValidator().convertOnly(e);
-        timestampTest = e;
-    }
-
-    public void clearTimestampTest()
-    {
-        setTimestampTest(null);
-    }
-
-    public boolean hasTimestampTest()
-    {
-        return getTimestampTest() != null;
-    }
-
-    public boolean hasTimestampTest(KmTimestamp e)
-    {
-        return Kmu.isEqual(getTimestampTest(), e);
+        nameValue = Kmu.truncate(nameValue, 50, ellipses);
     }
 
     //##################################################
@@ -461,7 +467,7 @@ public abstract class MyFieldTestBase
 
     public void setPinNumber1(String e)
     {
-        e = Validator.getPinNumber1Validator().convertOnly(e);
+        e = Validator.getPinNumber1Validator().convert(e);
         pinNumber1 = e;
     }
 
@@ -501,7 +507,7 @@ public abstract class MyFieldTestBase
 
     public void setPinNumber2(String e)
     {
-        e = Validator.getPinNumber2Validator().convertOnly(e);
+        e = Validator.getPinNumber2Validator().convert(e);
         pinNumber2 = e;
     }
 
@@ -531,63 +537,103 @@ public abstract class MyFieldTestBase
     }
 
     //##################################################
-    //# field (duration)
+    //# field (timestampTest)
     //##################################################
 
-    public KmDuration getDuration()
+    public KmTimestamp getTimestampTest()
     {
-        return duration;
+        return timestampTest;
     }
 
-    public void setDuration(KmDuration e)
+    public void setTimestampTest(KmTimestamp e)
     {
-        e = Validator.getDurationValidator().convertOnly(e);
-        duration = e;
+        e = Validator.getTimestampTestValidator().convert(e);
+        timestampTest = e;
     }
 
-    public void clearDuration()
+    public void clearTimestampTest()
     {
-        setDuration(null);
+        setTimestampTest(null);
     }
 
-    public boolean hasDuration()
+    public boolean hasTimestampTest()
     {
-        return getDuration() != null;
+        return getTimestampTest() != null;
     }
 
-    public boolean hasDuration(KmDuration e)
+    public boolean hasTimestampTest(KmTimestamp e)
     {
-        return Kmu.isEqual(getDuration(), e);
+        return Kmu.isEqual(getTimestampTest(), e);
     }
 
     //##################################################
-    //# field (dayFrequency)
+    //# field (uid)
     //##################################################
 
-    public KmDayFrequency getDayFrequency()
+    public String getUid()
     {
-        return dayFrequency;
+        return uid;
     }
 
-    public void setDayFrequency(KmDayFrequency e)
+    public void setUid(String e)
     {
-        e = Validator.getDayFrequencyValidator().convertOnly(e);
-        dayFrequency = e;
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    public void clearDayFrequency()
+    public void clearUid()
     {
-        setDayFrequency(null);
+        setUid(null);
     }
 
-    public boolean hasDayFrequency()
+    public boolean hasUid()
     {
-        return getDayFrequency() != null;
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasDayFrequency(KmDayFrequency e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getDayFrequency(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
     }
 
     //##################################################
@@ -601,7 +647,7 @@ public abstract class MyFieldTestBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -618,22 +664,6 @@ public abstract class MyFieldTestBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -829,6 +859,11 @@ public abstract class MyFieldTestBase
         return null;
     }
 
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
+    }
+
     public boolean hasCreatedByFullName()
     {
         return hasCreatedBy() && getCreatedBy().hasFullName();
@@ -878,6 +913,11 @@ public abstract class MyFieldTestBase
         if ( hasUpdatedBy() )
             return getUpdatedBy().getFullName();
         return null;
+    }
+
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
     }
 
     public boolean hasUpdatedByFullName()
@@ -930,20 +970,15 @@ public abstract class MyFieldTestBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyFieldTestValidator getValidator()
     {
-        Validator.validate((MyFieldTest)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyFieldTest asSubclass()
     {
-        Validator.validateWarn((MyFieldTest)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyFieldTest)this);
+        return (MyFieldTest)this;
     }
 
     //##################################################
@@ -972,22 +1007,55 @@ public abstract class MyFieldTestBase
     {
         MyFieldTest e;
         e = new MyFieldTest();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setUpdatedUtcTs(getUpdatedUtcTs());
-        e.setNameValue(getNameValue());
-        e.setIntegerValue(getIntegerValue());
-        e.setLongTest(getLongTest());
-        e.setDoubleTest(getDoubleTest());
-        e.setMoneyTest(getMoneyTest());
-        e.setBooleanTest(getBooleanTest());
-        e.setDateTest(getDateTest());
-        e.setTimestampTest(getTimestampTest());
-        e.setPinNumber1(getPinNumber1());
-        e.setPinNumber2(getPinNumber2());
-        e.setDuration(getDuration());
-        e.setDayFrequency(getDayFrequency());
+        applyEditableFieldsTo(e);
         resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyFieldTest e)
+    {
+        e.setBooleanTest(getBooleanTest());
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setDateTest(getDateTest());
+        e.setDayFrequency(getDayFrequency());
+        e.setDoubleTest(getDoubleTest());
+        e.setDuration(getDuration());
+        e.setIntegerValue(getIntegerValue());
+        e.setLongTest(getLongTest());
+        e.setMoneyTest(getMoneyTest());
+        e.setNameValue(getNameValue());
+        e.setPinNumber1(getPinNumber1());
+        e.setPinNumber2(getPinNumber2());
+        e.setTimestampTest(getTimestampTest());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyFieldTest e)
+    {
+        setBooleanTest(e.getBooleanTest());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setDateTest(e.getDateTest());
+        setDayFrequency(e.getDayFrequency());
+        setDoubleTest(e.getDoubleTest());
+        setDuration(e.getDuration());
+        setIntegerValue(e.getIntegerValue());
+        setLongTest(e.getLongTest());
+        setMoneyTest(e.getMoneyTest());
+        setNameValue(e.getNameValue());
+        setPinNumber1(e.getPinNumber1());
+        setPinNumber2(e.getPinNumber2());
+        setTimestampTest(e.getTimestampTest());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -1018,22 +1086,24 @@ public abstract class MyFieldTestBase
 
     public boolean isSameIgnoringKey(MyFieldTest e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getBooleanTest(), e.getBooleanTest()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getNameValue(), e.getNameValue()) ) return false;
+        if ( !Kmu.isEqual(getDateTest(), e.getDateTest()) ) return false;
+        if ( !Kmu.isEqual(getDayFrequency(), e.getDayFrequency()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getDoubleTest(), e.getDoubleTest()) ) return false;
+        if ( !Kmu.isEqual(getDuration(), e.getDuration()) ) return false;
         if ( !Kmu.isEqual(getIntegerValue(), e.getIntegerValue()) ) return false;
         if ( !Kmu.isEqual(getLongTest(), e.getLongTest()) ) return false;
-        if ( !Kmu.isEqual(getDoubleTest(), e.getDoubleTest()) ) return false;
         if ( !Kmu.isEqual(getMoneyTest(), e.getMoneyTest()) ) return false;
-        if ( !Kmu.isEqual(getBooleanTest(), e.getBooleanTest()) ) return false;
-        if ( !Kmu.isEqual(getDateTest(), e.getDateTest()) ) return false;
-        if ( !Kmu.isEqual(getTimestampTest(), e.getTimestampTest()) ) return false;
+        if ( !Kmu.isEqual(getNameValue(), e.getNameValue()) ) return false;
         if ( !Kmu.isEqual(getPinNumber1(), e.getPinNumber1()) ) return false;
         if ( !Kmu.isEqual(getPinNumber2(), e.getPinNumber2()) ) return false;
-        if ( !Kmu.isEqual(getDuration(), e.getDuration()) ) return false;
-        if ( !Kmu.isEqual(getDayFrequency(), e.getDayFrequency()) ) return false;
+        if ( !Kmu.isEqual(getTimestampTest(), e.getTimestampTest()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -1075,21 +1145,21 @@ public abstract class MyFieldTestBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
+        System.out.println("    BooleanTest = " + booleanTest);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
-        System.out.println("    NameValue = " + nameValue);
+        System.out.println("    DateTest = " + dateTest);
+        System.out.println("    DayFrequency = " + dayFrequency);
+        System.out.println("    DoubleTest = " + doubleTest);
+        System.out.println("    Duration = " + duration);
         System.out.println("    IntegerValue = " + integerValue);
         System.out.println("    LongTest = " + longTest);
-        System.out.println("    DoubleTest = " + doubleTest);
         System.out.println("    MoneyTest = " + moneyTest);
-        System.out.println("    BooleanTest = " + booleanTest);
-        System.out.println("    DateTest = " + dateTest);
-        System.out.println("    TimestampTest = " + timestampTest);
+        System.out.println("    NameValue = " + nameValue);
         System.out.println("    PinNumber1 = " + pinNumber1);
         System.out.println("    PinNumber2 = " + pinNumber2);
-        System.out.println("    Duration = " + duration);
-        System.out.println("    DayFrequency = " + dayFrequency);
+        System.out.println("    TimestampTest = " + timestampTest);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

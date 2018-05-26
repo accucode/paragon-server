@@ -1,15 +1,19 @@
 package com.app.ui.page;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.MyGlobalSession;
+import com.kodemore.exception.KmEnumException;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmSimpleResult;
+import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
+import com.app.model.MyMember;
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
-import com.app.model.MySettings;
 import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.property.MyProperties;
@@ -17,11 +21,20 @@ import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutType;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
 
 public abstract class MyPage
     extends ScPage
 {
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public MyBookmark newBookmark()
+    {
+        return new MyBookmark(this);
+    }
+
     //##################################################
     //# layout
     //##################################################
@@ -31,9 +44,8 @@ public abstract class MyPage
     {
         super.checkLayout();
 
-        getLayout().checkLayoutFor(this);
-
         checkProject();
+        getLayout().checkLayoutFor(this);
     }
 
     //==================================================
@@ -51,22 +63,6 @@ public abstract class MyPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    /**
-     * Return a complete url that navigates to this page.
-     * If this page supports bookmarkable context, the current context is
-     * encoded into the url.  The url returned is suitable for use in
-     * external content (or browser bookmarks) that navigate back to
-     * this page via an HTTP GET.
-     */
-    public final String formatEntryUrl()
-    {
-        return MyUrls.getEntryUrl(composeBookmark(true));
-    }
-
-    //##################################################
     //# tenant
     //##################################################
 
@@ -78,6 +74,16 @@ public abstract class MyPage
     //##################################################
     //# user
     //##################################################
+
+    public MyMember getCurrentMember()
+    {
+        MyProject project = getCurrentProject();
+        if ( project == null )
+            return null;
+
+        MyUser user = getCurrentUser();
+        return project.getMemberFor(user);
+    }
 
     public MyUser getCurrentUser()
     {
@@ -108,7 +114,7 @@ public abstract class MyPage
 
     public MyProject getCurrentProject()
     {
-        return getPageSession().getCurrentProject();
+        return MyGlobals.getGlobalSession().getCurrentProject();
     }
 
     public String getCurrentProjectUid()
@@ -141,7 +147,17 @@ public abstract class MyPage
         MyProject currentProject = getCurrentProject();
 
         if ( !user.hasLastProject(currentProject) )
-            user.setLastProject(currentProject);
+            if ( user.isMemberOf(currentProject) )
+                user.selectProject(currentProject);
+    }
+
+    //##################################################
+    //# time zone
+    //##################################################
+
+    public KmTimeZone getCurrentTimeZone()
+    {
+        return MyGlobals.getCurrentTimeZone();
     }
 
     //##################################################
@@ -154,15 +170,91 @@ public abstract class MyPage
         MyUser u = getCurrentUser();
         MyProject p = getCurrentProject();
 
-        getSecurityLevel().check(u, p);
+        checkSecurityFor(u, p);
     }
 
+    public void checkSecurityFor(MyUser u, MyProject p)
+    {
+        KmList<MySecurityLevel> levels = getSecurityLevels();
+        KmList<KmSimpleResult> results = levels.collect(e -> e.allows(u, p));
+
+        boolean ok = results.containsIf(e -> e.isOk());
+        if ( ok )
+            return;
+
+        KmList<String> errors;
+        errors = results.collect(e -> e.getError());
+        errors.removeNulls();
+
+        String msg = errors.join(", or ");
+        throw Kmu.newSecurityError(msg);
+    }
+
+    /**
+     * KLUDGE. This is a workaround for special pages that allow
+     * any of several security levels. For example a page may allow
+     * either the ProjectManager OR a TenantAdmin. Long-term we should
+     * refactor this to a more robust and elegant pattern but for now
+     * this provides a solution without updating every page in the system.
+     */
+    protected KmList<MySecurityLevel> getSecurityLevels()
+    {
+        return KmList.createWith(getSecurityLevel());
+    }
+
+    /**
+     * Most pages allow only a single security level.
+     */
     public abstract MySecurityLevel getSecurityLevel();
 
     @Override
     public final boolean requiresUser()
     {
-        return getSecurityLevel().requiresUser();
+        KmList<MySecurityLevel> levels = getSecurityLevels();
+        return levels.isEmpty()
+            ? true
+            : levels.containsOnlyIf(e -> e.requiresUser());
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    public String getModuleName()
+    {
+        return getModule().getDisplayName();
+    }
+
+    public boolean hasModuleName()
+    {
+        return Kmu.hasValue(getModuleName());
+    }
+
+    public String getModuleHelp()
+    {
+        return getModule().getHelp();
+    }
+
+    protected MyPageModule getModule()
+    {
+        MySecurityLevel level = getSecurityLevel();
+
+        switch ( level )
+        {
+            case developer:
+                return MyPageModule.Developer;
+
+            case tenantAdmin:
+                return MyPageModule.Global;
+
+            case none:
+            case projectManager:
+            case projectMember:
+            case projectWorker:
+            case user:
+                return MyPageModule.None;
+        }
+        throw new KmEnumException(level);
     }
 
     //##################################################
@@ -180,11 +272,6 @@ public abstract class MyPage
         return MyGlobals.getServerSession();
     }
 
-    protected MyGlobalSession getPageSession()
-    {
-        return MyGlobals.getGlobalSession();
-    }
-
     protected KmDate getTodayUtc()
     {
         return getNowUtc().getDate();
@@ -200,11 +287,6 @@ public abstract class MyPage
         return MyGlobals.getProperties();
     }
 
-    protected MySettings getSettings()
-    {
-        return getAccess().getSettingsDao().getSettings();
-    }
-
     protected KmDaoSession getDaoSession()
     {
         return MyGlobals.getDaoSession();
@@ -215,7 +297,7 @@ public abstract class MyPage
         getDaoSession().flush();
     }
 
-    protected MyDaoAccess getAccess()
+    protected static MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();
     }

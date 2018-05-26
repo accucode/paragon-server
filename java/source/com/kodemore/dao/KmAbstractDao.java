@@ -70,7 +70,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
 
     public void save(T e)
     {
-        getSession().saveOrUpdate(e);
+        getHibernateSession().saveOrUpdate(e);
     }
 
     //##################################################
@@ -79,7 +79,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
 
     public void delete(T e)
     {
-        getSession().delete(e);
+        getHibernateSession().delete(e);
     }
 
     public void deleteAll(List<T> v)
@@ -97,14 +97,13 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      * Delete all objects.   This method respects the normal hibernate
      * modelling rules.  Thus is you delete an object that is on the "one"
      * side of a one-to-many relationship the "many" may also be deleted.
-     * For example: deleting an order will likely also delete the associated
-     * order lines.
+     * For example: deleting a job will likely also delete the job's lines."
      */
     public int deleteAll()
     {
         String template = "delete from %s";
         String hql = Kmu.format(template, getModelName());
-        Query q = getSession().createQuery(hql);
+        Query q = getHibernateSession().createQuery(hql);
         return q.executeUpdate();
     }
 
@@ -119,7 +118,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     public void _truncate()
     {
         String sql = "truncate " + getTableName();
-        getSession().createSQLQuery(sql).executeUpdate();
+        getHibernateSession().createSQLQuery(sql).executeUpdate();
     }
 
     //##################################################
@@ -141,7 +140,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
             if ( key == null )
                 return null;
 
-            Object o = getSession().get(getPersistentClass(), key, lock);
+            Object o = getHibernateSession().get(getPersistentClass(), key, lock);
             return cast(o);
         }
         catch ( ObjectNotFoundException ex )
@@ -162,7 +161,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
         if ( key == null )
             return null;
 
-        Object o = getSession().load(getPersistentClass(), key, lock);
+        Object o = getHibernateSession().load(getPersistentClass(), key, lock);
         return cast(o);
     }
 
@@ -188,9 +187,9 @@ public abstract class KmAbstractDao<T, K extends Serializable>
         return getDaoSessionManager().getDaoSession();
     }
 
-    public Session getSession()
+    public Session getHibernateSession()
     {
-        return getDaoSession().getSession();
+        return getDaoSession().getHibernateSession();
     }
 
     protected String getModelName()
@@ -204,7 +203,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
 
     public KmhRootCriteria _createCriteria()
     {
-        Criteria e = getSession().createCriteria(getPersistentClass());
+        Criteria e = getHibernateSession().createCriteria(getPersistentClass());
         return new KmhRootCriteria(e);
     }
 
@@ -244,7 +243,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     })
     public KmList<Object> runHql(String s)
     {
-        Query query = getSession().createQuery(s);
+        Query query = getHibernateSession().createQuery(s);
         List v = query.list();
         if ( v == null )
             return null;
@@ -255,7 +254,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     private Long findUniqueLong(String hql, Object... args)
     {
         String s = Kmu.format(hql, args);
-        Query query = getSession().createQuery(s);
+        Query query = getHibernateSession().createQuery(s);
         return findUniqueLong(query);
     }
 

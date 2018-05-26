@@ -8,6 +8,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I wrap log4j, to provide convenience methods and insulation from
@@ -74,7 +75,7 @@ public class KmLogger
 
     public static KmLogger create(Class<?> c)
     {
-        String name = c.getClass().getName();
+        String name = c.getName();
         return _create(name);
     }
 
@@ -352,7 +353,7 @@ public class KmLogger
 
     public void fatal(Throwable ex)
     {
-        fatal(ex, "");
+        fatal(ex, Kmu.getRootMessage(ex));
     }
 
     public void fatal(Throwable ex, String msg)

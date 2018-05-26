@@ -20,7 +20,7 @@ public class KmPropertyDefinition
      * The property key, or name.  This is the value used to look up the
      * properties value in a given file or database table.
      */
-    private String           _key;
+    private String _key;
 
     /**
      * The type specifies the value's format; e.g.: integer, string, date.
@@ -33,19 +33,19 @@ public class KmPropertyDefinition
      * is specified in the pertinent property registries.  Although stored
      * as a string, the default value must be compatible with the type.
      */
-    private String           _defaultValue;
+    private String _defaultValue;
 
     /**
      * The group is used solely for organization of documentation and source
      * code.  Multiple properties that related to the same logical part of the
      * application should be given the same group.
      */
-    private String           _group;
+    private String _group;
 
     /**
      * A freeform comment that describes the purpose and usage of the property.
      */
-    private String           _comment;
+    private String _comment;
 
     /**
      * A list of arbitrary flags.  The valid flags are defined on an application
@@ -53,7 +53,7 @@ public class KmPropertyDefinition
      * generation is responsible for definining the list of valid flags that
      * may appear in the property definition xml file.
      */
-    private KmList<String>   _flags;
+    private KmList<String> _flags;
 
     //##################################################
     //# constructor

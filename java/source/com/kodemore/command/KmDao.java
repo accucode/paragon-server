@@ -36,6 +36,11 @@ public abstract class KmDao
         _run(r, 0);
     }
 
+    public static void runTool(Runnable r)
+    {
+        _run(r, getDefaultRetries(), true);
+    }
+
     //==================================================
     //= run(a)
     //==================================================
@@ -50,6 +55,11 @@ public abstract class KmDao
         runNoRetry(Kmu.toRunnable(con, a));
     }
 
+    public static <A> void runTool(Consumer<A> con, A a)
+    {
+        runTool(Kmu.toRunnable(con, a));
+    }
+
     //==================================================
     //= run(a, b)
     //==================================================
@@ -62,6 +72,11 @@ public abstract class KmDao
     public static <A, B> void runNoRetry(BiConsumer<A,B> con, A a, B b)
     {
         runNoRetry(Kmu.toRunnable(con, a, b));
+    }
+
+    public static <A, B> void runTool(BiConsumer<A,B> con, A a, B b)
+    {
+        runTool(Kmu.toRunnable(con, a, b));
     }
 
     //##################################################
@@ -115,9 +130,18 @@ public abstract class KmDao
 
     private static void _run(Runnable r, int retryCount)
     {
+        _run(r, retryCount, false);
+    }
+
+    private static void _run(Runnable r, int retryCount, boolean disableWarning)
+    {
         KmDaoRunnableCommand cmd;
         cmd = new KmDaoRunnableCommand(r);
         cmd.setStaleObjectRetryCount(retryCount);
+
+        if ( disableWarning )
+            cmd.disableWarningThresholdMs();
+
         cmd.run();
     }
 

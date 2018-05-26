@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,13 +36,13 @@ public class MyEmailPartValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
+    private KmStringValidator attachmentNameValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator updatedUtcTsValidator;
+    private KmBlobValidator dataValidator;
     private KmIntegerValidator sequenceValidator;
     private KmStringValidator typeCodeValidator;
-    private KmStringValidator attachmentNameValidator;
-    private KmBlobValidator dataValidator;
+    private KmStringValidator uidValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -51,13 +52,13 @@ public class MyEmailPartValidatorBase
     protected MyEmailPartValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
+        attachmentNameValidator = newAttachmentNameValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        updatedUtcTsValidator = newUpdatedUtcTsValidator();
+        dataValidator = newDataValidator();
         sequenceValidator = newSequenceValidator();
         typeCodeValidator = newTypeCodeValidator();
-        attachmentNameValidator = newAttachmentNameValidator();
-        dataValidator = newDataValidator();
+        uidValidator = newUidValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -65,9 +66,9 @@ public class MyEmailPartValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmStringValidator getAttachmentNameValidator()
     {
-        return uidValidator;
+        return attachmentNameValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -75,9 +76,9 @@ public class MyEmailPartValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmTimestampValidator getUpdatedUtcTsValidator()
+    public KmBlobValidator getDataValidator()
     {
-        return updatedUtcTsValidator;
+        return dataValidator;
     }
 
     public KmIntegerValidator getSequenceValidator()
@@ -90,14 +91,14 @@ public class MyEmailPartValidatorBase
         return typeCodeValidator;
     }
 
-    public KmStringValidator getAttachmentNameValidator()
+    public KmStringValidator getUidValidator()
     {
-        return attachmentNameValidator;
+        return uidValidator;
     }
 
-    public KmBlobValidator getDataValidator()
+    public KmTimestampValidator getUpdatedUtcTsValidator()
     {
-        return dataValidator;
+        return updatedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -113,46 +114,45 @@ public class MyEmailPartValidatorBase
     public void convertOnly(MyEmailPart value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
-        value.setSequence(sequenceValidator.convertOnly(value.getSequence()));
-        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
-        value.setAttachmentName(attachmentNameValidator.convertOnly(value.getAttachmentName()));
-        value.setData(dataValidator.convertOnly(value.getData()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setAttachmentName(attachmentNameValidator.convert(value.getAttachmentName()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setData(dataValidator.convert(value.getData()));
+        value.setSequence(sequenceValidator.convert(value.getSequence()));
+        value.setTypeCode(typeCodeValidator.convert(value.getTypeCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convert(value.getUpdatedUtcTs()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyEmailPart value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyEmailPart value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
-        sequenceValidator.validateOnly(value.getSequence(), errors);
-        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
-        attachmentNameValidator.validateOnly(value.getAttachmentName(), errors);
-        dataValidator.validateOnly(value.getData(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        attachmentNameValidator.validateOn(value.getAttachmentName(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        dataValidator.validateOn(value.getData(), errors);
+        sequenceValidator.validateOn(value.getSequence(), errors);
+        typeCodeValidator.validateOn(value.getTypeCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        updatedUtcTsValidator.validateOn(value.getUpdatedUtcTs(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasEmail() )
-            errors.add(new KmRequiredValidationError("emailPart", "email"));
+            errors.addRequiredField("emailPart", "email");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmStringValidator newAttachmentNameValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(255);
         e.setAllowsPrintable(true);
-        e.setModel("emailPart");
-        e.setField("uid");
-        e.setRequired();
+        e.setModelName("emailPart");
+        e.setFieldName("attachmentName");
         return e;
     }
 
@@ -160,19 +160,18 @@ public class MyEmailPartValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("emailPart");
-        e.setField("createdUtcTs");
+        e.setModelName("emailPart");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
         return e;
     }
 
-    public KmTimestampValidator newUpdatedUtcTsValidator()
+    public KmBlobValidator newDataValidator()
     {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("emailPart");
-        e.setField("updatedUtcTs");
-        e.setRequired();
+        KmBlobValidator e;
+        e = new KmBlobValidator();
+        e.setModelName("emailPart");
+        e.setFieldName("data");
         return e;
     }
 
@@ -180,8 +179,8 @@ public class MyEmailPartValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("emailPart");
-        e.setField("sequence");
+        e.setModelName("emailPart");
+        e.setFieldName("sequence");
         e.setRequired();
         return e;
     }
@@ -195,29 +194,31 @@ public class MyEmailPartValidatorBase
         e.setAllowsDigits(true);
         e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
-        e.setModel("emailPart");
-        e.setField("typeCode");
+        e.setModelName("emailPart");
+        e.setFieldName("typeCode");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newAttachmentNameValidator()
+    public KmStringValidator newUidValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(50);
+        e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("emailPart");
-        e.setField("attachmentName");
+        e.setModelName("emailPart");
+        e.setFieldName("uid");
+        e.setRequired();
         return e;
     }
 
-    public KmBlobValidator newDataValidator()
+    public KmTimestampValidator newUpdatedUtcTsValidator()
     {
-        KmBlobValidator e;
-        e = new KmBlobValidator();
-        e.setModel("emailPart");
-        e.setField("data");
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("emailPart");
+        e.setFieldName("updatedUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -225,8 +226,9 @@ public class MyEmailPartValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("emailPart");
-        e.setField("lockVersion");
+        e.setModelName("emailPart");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

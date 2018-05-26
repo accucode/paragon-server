@@ -3,12 +3,12 @@
     <property name='dummy' value=''/>
     <import file="antCore.xml"/>
 
-    <property name='awsApplicationName' value='app'/>
-    <property name='awsEnvironmentName' value='1-app-prod'/>
-    <property name='awsBuildPrefix'     value='app-prod'/>
-    <property name='awsCliProfile'      value='app'/>
-    <property name='warFileName'        value='app.war'/>
-    <property name='s3bucket'           value='examplebuilds-app'/>
+    <property name='awsApplicationName' value='paragon'/>
+    <property name='awsEnvironmentName' value='1-paragon-prod'/>
+    <property name='awsBuildPrefix'     value='paragon-prod'/>
+    <property name='awsCliProfile'      value='paragon'/>
+    <property name='warFileName'        value='paragon.war'/>
+    <property name='s3bucket'           value='paragonBuilds-app'/>
 
     <!--
     ****************************************
@@ -24,21 +24,21 @@
         <echo>Setup for deployment...</echo>
         <echo>
         &#xa;
-        4work Production Updates should generally be done
-            after 6:00pm Denver time.
+        Production Updates should generally be done
+            between 6:00pm and 6:30pm Denver time.
             &#xa;
         Update version number in:
             MyConstantsIF.java
             &#xa;
         Commit changes, with build number as the comment; e.g.:
-            Build-160414-1
+            Build-180131-1
             &#xa;
         Tag build, the name should match the build number; e.g.:
-            Build-160414-1
+            Build-180131-1
             &#xa;
         Update release notes in:
             Google Doc, Build-Ready
-            https://goo.gl/YhjgOS
+            --URL HERE--
             &#xa;
         </echo>
     </target>
@@ -66,7 +66,7 @@
 
     <target
         name="uploadWar"
-        depends="init" >
+        depends="init,getBuildNumber" >
         <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
            <arg value="s3" />
            <arg value="cp" />
@@ -186,6 +186,28 @@
         &#xa;
         </echo>
     </target>
+
+
+    <!--
+    ****************************************
+    ** check aws credentials
+    ****************************************
+    -->
+
+
+    <target
+        name="checkAwsCredentials"
+        description="x"
+        depends="init"
+        >
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="describe-environments" />
+           <arg value="--profile" />
+           <arg value="paragon" />
+        </exec>
+    </target>
+
 
 
 </project>

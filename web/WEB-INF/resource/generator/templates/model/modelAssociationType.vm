@@ -15,11 +15,11 @@ $utility.protocol("values")
 #foreach ( $model in $root.databaseModels )
 #foreach ( $association in $model.associations )
 #if ( !$association.isRelationParent() )
-    ${model.f_NAME}_${association.f_NAME}("${model.f_Name}${association.f_Name}","${model.f_Name}_${association.f_Name}"),
+    ${model.f_Name}_${association.f_Name}("${model.f_Name}_${association.f_Name}","${model.f_Name}_${association.f_Name}"),
 #end
 #end
 #foreach ( $collection in $model.collections )
-    ${model.f_NAME}_${collection.f_NAME}("${model.f_Name}${collection.f_Name}","${model.f_Name}_${collection.f_Name}"),
+    ${model.f_Name}_${collection.f_Name}("${model.f_Name}_${collection.f_Name}","${model.f_Name}_${collection.f_Name}"),
 #end
 #end
     ;

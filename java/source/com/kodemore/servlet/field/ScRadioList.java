@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ public class ScRadioList<T>
     /**
      * The currently selected value.
      */
-    private ScLocal<T>           _value;
+    private ScLocal<T> _value;
 
     /**
      * The options define the display labels and values the list
@@ -62,21 +62,21 @@ public class ScRadioList<T>
      * The height determines how many options can be listed in each column.
      * If null, the height is not constrained.
      */
-    private Integer              _height;
+    private Integer _height;
 
     /**
      * If true, the radio buttons are disabled.
      * Bear in mind that disabled fields are NOT submitted with the form.
      * False by default.
      */
-    private ScLocalBoolean       _disabled;
+    private ScLocalBoolean _disabled;
 
     /**
      * Clients are not allowed directly access to the css since that will likely
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss           _cssMargin;
+    private ScLocalCss _cssMargin;
 
     //##################################################
     //# constructor
@@ -97,7 +97,7 @@ public class ScRadioList<T>
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     //##################################################
@@ -359,6 +359,6 @@ public class ScRadioList<T>
 
     private String getInputName()
     {
-        return getKey();
+        return getKeyToken();
     }
 }

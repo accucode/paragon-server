@@ -22,52 +22,52 @@ public class KmFacebookUser
     //= constants :: user info
     //==================================================
 
-    private static final String         ID_KEY                  = "id";
-    private static final String         USERNAME_KEY            = "username";
-    private static final String         LINK_KEY                = "link";
-    private static final String         VERIFIED_KEY            = "verified";
-    private static final String         UPDATED_TIME_KEY        = "updated_time";
-    private static final String         LOCALE_KEY              = "locale";
-    private static final String         TIMEZONE_KEY            = "timezone";
-    private static final String         DEVICES_KEY             = "devices";
+    private static final String ID_KEY           = "id";
+    private static final String USERNAME_KEY     = "username";
+    private static final String LINK_KEY         = "link";
+    private static final String VERIFIED_KEY     = "verified";
+    private static final String UPDATED_TIME_KEY = "updated_time";
+    private static final String LOCALE_KEY       = "locale";
+    private static final String TIMEZONE_KEY     = "timezone";
+    private static final String DEVICES_KEY      = "devices";
 
     //==================================================
     //= constants :: personal info
     //==================================================
 
-    private static final String         NAME_KEY                = "name";
-    private static final String         FIRST_NAME_KEY          = "first_name";
-    private static final String         MIDDLE_NAME_KEY         = "middle_name";
-    private static final String         LAST_NAME_KEY           = "last_name";
+    private static final String NAME_KEY        = "name";
+    private static final String FIRST_NAME_KEY  = "first_name";
+    private static final String MIDDLE_NAME_KEY = "middle_name";
+    private static final String LAST_NAME_KEY   = "last_name";
 
-    private static final String         GENDER_KEY              = "gender";
-    private static final String         BIRTHDAY_KEY            = "birthday";
-    private static final String         EMAIL_KEY               = "email";
-    private static final String         WEBSITE_KEY             = "website";
-    private static final String         LOCATION_KEY            = "location";
-    private static final String         HOMETOWN_KEY            = "hometown";
-    private static final String         POLITICAL_KEY           = "political";
-    private static final String         RELIGION_KEY            = "religion";
-    private static final String         LANGUAGES_KEY           = "languages";
+    private static final String GENDER_KEY    = "gender";
+    private static final String BIRTHDAY_KEY  = "birthday";
+    private static final String EMAIL_KEY     = "email";
+    private static final String WEBSITE_KEY   = "website";
+    private static final String LOCATION_KEY  = "location";
+    private static final String HOMETOWN_KEY  = "hometown";
+    private static final String POLITICAL_KEY = "political";
+    private static final String RELIGION_KEY  = "religion";
+    private static final String LANGUAGES_KEY = "languages";
 
-    private static final String         RELATIONSHIP_STATUS_KEY = "relationship_status";
-    private static final String         SIGNIFICANT_OTHER_KEY   = "significant_other";
+    private static final String RELATIONSHIP_STATUS_KEY = "relationship_status";
+    private static final String SIGNIFICANT_OTHER_KEY   = "significant_other";
 
-    private static final String         BIO_KEY                 = "bio";
-    private static final String         QUOTES_KEY              = "quotes";
+    private static final String BIO_KEY    = "bio";
+    private static final String QUOTES_KEY = "quotes";
 
-    private static final String         PICTURE_KEY             = "picture";
+    private static final String PICTURE_KEY = "picture";
 
-    private static final String         EDUCATION_KEY           = "education";
-    private static final String         WORK_KEY                = "work";
+    private static final String EDUCATION_KEY = "education";
+    private static final String WORK_KEY      = "work";
 
     //==================================================
     //= constants :: Interests
     //==================================================
 
-    private static final String         INTERESTED_IN_KEY       = "interested_in";
-    private static final String         FAVORITE_ATHLETES_KEY   = "favorite_athletes";
-    private static final String         FAVORITE_TEAMS_KEY      = "favorite_teams";
+    private static final String INTERESTED_IN_KEY     = "interested_in";
+    private static final String FAVORITE_ATHLETES_KEY = "favorite_athletes";
+    private static final String FAVORITE_TEAMS_KEY    = "favorite_teams";
 
     //==================================================
     //= constants ::  Connections
@@ -81,41 +81,41 @@ public class KmFacebookUser
     //= variables :: user info
     //==================================================
 
-    private String                      _id;
-    private String                      _username;
-    private String                      _link;
-    private Boolean                     _verified;
-    private KmTimestamp                 _updatedTimestamp;
-    private String                      _locale;
-    private Integer                     _timezone;
-    private KmList<KmFacebookDevice>    _devices;
+    private String                   _id;
+    private String                   _username;
+    private String                   _link;
+    private Boolean                  _verified;
+    private KmTimestamp              _updatedTimestamp;
+    private String                   _locale;
+    private Integer                  _timezone;
+    private KmList<KmFacebookDevice> _devices;
 
     //==================================================
     //= variables :: personal info
     //==================================================
 
-    private String                      _name;
-    private String                      _firstName;
-    private String                      _middleName;
-    private String                      _lastName;
+    private String _name;
+    private String _firstName;
+    private String _middleName;
+    private String _lastName;
 
-    private String                      _gender;
-    private KmDate                      _birthday;
-    private String                      _email;
-    private String                      _website;
-    private KmFacebookIdName            _location;
-    private KmFacebookIdName            _hometown;
-    private String                      _political;
-    private String                      _religion;
-    private KmList<KmFacebookIdName>    _languages;
+    private String                   _gender;
+    private KmDate                   _birthday;
+    private String                   _email;
+    private String                   _website;
+    private KmFacebookIdName         _location;
+    private KmFacebookIdName         _hometown;
+    private String                   _political;
+    private String                   _religion;
+    private KmList<KmFacebookIdName> _languages;
 
-    private String                      _relationshipSatus;
-    private KmFacebookIdName            _significantOther;
+    private String           _relationshipSatus;
+    private KmFacebookIdName _significantOther;
 
-    private String                      _bio;
-    private String                      _quotes;
+    private String _bio;
+    private String _quotes;
 
-    private KmFacebookPicture           _picture;
+    private KmFacebookPicture _picture;
 
     private KmList<KmFacebookEducation> _education;
     private KmList<KmFacebookWork>      _work;
@@ -124,9 +124,9 @@ public class KmFacebookUser
     //= variables :: interests
     //==================================================
 
-    private KmList<String>              _interestedIn;
-    private KmList<KmFacebookIdName>    _favoriteAthletes;
-    private KmList<KmFacebookIdName>    _favoriteTeams;
+    private KmList<String>           _interestedIn;
+    private KmList<KmFacebookIdName> _favoriteAthletes;
+    private KmList<KmFacebookIdName> _favoriteTeams;
 
     //==================================================
     //= variables :: connections

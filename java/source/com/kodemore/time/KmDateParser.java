@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -61,8 +61,8 @@ public class KmDateParser
     //##################################################
 
     // kludge: change to enum
-    public static final int ONE_NUMBER_MODE_NONE                   = 0;
-    public static final int ONE_NUMBER_MODE_DAY_OFFSET             = 1;
+    public static final int ONE_NUMBER_MODE_NONE       = 0;
+    public static final int ONE_NUMBER_MODE_DAY_OFFSET = 1;
 
     public static final int TWO_NUMBER_MODE_NONE                   = 0;
     public static final int TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR = 1;
@@ -70,22 +70,22 @@ public class KmDateParser
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_FIRST_DAY   = 3;
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_LAST_DAY    = 4;
 
-    public static final int THREE_NUMBER_MODE_NONE                 = 0;
-    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR       = 1;
-    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY       = 2;
+    public static final int THREE_NUMBER_MODE_NONE           = 0;
+    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR = 1;
+    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY = 2;
 
     //##################################################
     //# variables
     //##################################################
 
-    private char            _separator;
-    private int             _centurySplitYear;
-    private int             _minimumYear;
-    private int             _maximumYear;
+    private char _separator;
+    private int  _centurySplitYear;
+    private int  _minimumYear;
+    private int  _maximumYear;
 
-    private int             _oneNumberMode;
-    private int             _twoNumberMode;
-    private int             _threeNumberMode;
+    private int _oneNumberMode;
+    private int _twoNumberMode;
+    private int _threeNumberMode;
 
     //##################################################
     //# constructor
@@ -95,8 +95,8 @@ public class KmDateParser
     {
         _separator = '/';
         _centurySplitYear = 30;
-        _minimumYear = 1800;
-        _maximumYear = 9999;
+        _minimumYear = KmTimeConstantsIF.MINIMUM_DATE.getYear();
+        _maximumYear = KmTimeConstantsIF.MAXIMUM_DATE.getYear();
         _oneNumberMode = ONE_NUMBER_MODE_DAY_OFFSET;
         _twoNumberMode = TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR;
         _threeNumberMode = THREE_NUMBER_MODE_MONTH_DAY_YEAR;
@@ -305,6 +305,9 @@ public class KmDateParser
         KmDate d1 = KmDate.fromYearMonthDay(yy - 1, mm, dd);
         KmDate d2 = KmDate.fromYearMonthDay(yy, mm, dd);
         KmDate d3 = KmDate.fromYearMonthDay(yy + 1, mm, dd);
+
+        if ( Kmu.hasAnyNulls(d1, d2, d3) )
+            return null;
 
         int n1 = Math.abs(d1.getDaysUntil(today));
         int n2 = Math.abs(d2.getDaysUntil(today));

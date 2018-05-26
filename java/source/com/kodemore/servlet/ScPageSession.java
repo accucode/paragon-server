@@ -1,8 +1,10 @@
 package com.kodemore.servlet;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
+import com.kodemore.servlet.utility.ScControlKeys;
 import com.kodemore.utility.Kmu;
 
 public class ScPageSession
@@ -11,9 +13,8 @@ public class ScPageSession
     //# variables
     //##################################################
 
-    private KmMap<String,Object> _globalValues;
-    private KmMap<String,Object> _sessionValues;
-    private KmMap<String,Object> _localValues;
+    private KmMap<Integer,Object> _sessionValues;
+    private KmMap<Integer,Object> _localValues;
 
     //##################################################
     //# constructor
@@ -21,16 +22,14 @@ public class ScPageSession
 
     public ScPageSession()
     {
-        this(null, null);
+        this(null);
     }
 
-    public ScPageSession(String globalValues, String sessionValues)
+    public ScPageSession(String sessionValues)
     {
-        _globalValues = new KmMap<>();
         _sessionValues = new KmMap<>();
         _localValues = new KmMap<>();
 
-        installGlobalValues(globalValues);
         installSessionValues(sessionValues);
     }
 
@@ -38,53 +37,19 @@ public class ScPageSession
     //# session values
     //##################################################
 
-    public KmMap<String,Object> getGlobalValues()
-    {
-        return _globalValues;
-    }
-
-    public void setGlobalValues(KmMap<String,Object> e)
-    {
-        _globalValues = e;
-    }
-
-    //==================================================
-    //= global values :: string
-    //==================================================
-
-    public String formatGlobalValues()
-    {
-        return ScEncoder.staticEncode(_globalValues);
-    }
-
-    public void installGlobalValues(String s)
-    {
-        _globalValues = parseGlobalValues(s);
-    }
-
-    private KmMap<String,Object> parseGlobalValues(String s)
-    {
-        if ( Kmu.isEmpty(s) )
-            return new KmMap<>();
-
-        @SuppressWarnings("unchecked")
-        KmMap<String,Object> map = (KmMap<String,Object>)ScDecoder.staticDecode(s);
-
-        return map;
-    }
-
-    //##################################################
-    //# session values
-    //##################################################
-
-    public KmMap<String,Object> getSessionValues()
+    public KmMap<Integer,Object> getSessionValues()
     {
         return _sessionValues;
     }
 
-    public void setSessionValue(KmMap<String,Object> e)
+    public void setSessionValue(KmMap<Integer,Object> e)
     {
         _sessionValues = e;
+    }
+
+    void resetSessionValues()
+    {
+        _sessionValues.clear();
     }
 
     //==================================================
@@ -102,42 +67,19 @@ public class ScPageSession
         _localValues = _sessionValues.getShallowCopy();
     }
 
-    private KmMap<String,Object> parseSessionValues(String s)
+    private KmMap<Integer,Object> parseSessionValues(String source)
     {
-        if ( Kmu.isEmpty(s) )
+        if ( Kmu.isEmpty(source) )
             return new KmMap<>();
 
         @SuppressWarnings("unchecked")
-        KmMap<String,Object> map = (KmMap<String,Object>)ScDecoder.staticDecode(s);
+        KmMap<Integer,Object> map = (KmMap<Integer,Object>)ScDecoder.staticDecode(source);
 
-        for ( String key : map.keySet() )
-            if ( key.startsWith(ScConstantsIF.TRANSIENT_KEY_PREFIX) )
+        for ( Integer key : map.keySet() )
+            if ( ScControlKeys.isTransientKey(key) )
                 map.remove(key);
 
         return map;
-    }
-
-    //##################################################
-    //# values :: global
-    //##################################################
-
-    @SuppressWarnings("unchecked")
-    public <T> T getGlobalValueFor(String key, T defaultValue)
-    {
-        if ( _globalValues.containsKey(key) )
-            return (T)_globalValues.get(key);
-
-        return defaultValue;
-    }
-
-    public <T> void setGlobalValueFor(String key, T value)
-    {
-        _globalValues.put(key, value);
-    }
-
-    public void removeGlobalKey(String key)
-    {
-        _globalValues.remove(key);
     }
 
     //==================================================
@@ -145,25 +87,22 @@ public class ScPageSession
     //==================================================
 
     @SuppressWarnings("unchecked")
-    public <T> T getValueFor(String key, T defaultValue)
+    public <T> T getValueFor(Integer key, T defaultValue)
     {
-        if ( _localValues.containsKey(key) )
-            return (T)_localValues.get(key);
-
-        return defaultValue;
+        return (T)_localValues.getOrDefault(key, defaultValue);
     }
 
-    public <T> void setValueFor(String key, T value)
+    public <T> void setValueFor(Integer key, T value)
     {
         _localValues.put(key, value);
     }
 
-    public void removeKey(String key)
+    public void removeKey(Integer key)
     {
         _localValues.remove(key);
     }
 
-    public void clearAll()
+    private void resetLocalValues()
     {
         _localValues.clear();
     }
@@ -172,7 +111,7 @@ public class ScPageSession
     //= values :: session
     //==================================================
 
-    public void saveKey(String key)
+    public void saveKey(Integer key)
     {
         if ( _localValues.containsKey(key) )
             _sessionValues.put(key, _localValues.get(key));
@@ -181,21 +120,57 @@ public class ScPageSession
     }
 
     //##################################################
-    //# debug
+    //# global keys
+    //##################################################
+
+    private static final KmList<Integer> _globalKeys = new KmList<>();
+
+    public static void addGlobalKey(int key)
+    {
+        _globalKeys.add(key);
+    }
+
+    public static boolean hasGlobalKey(int key)
+    {
+        return _globalKeys.contains(key);
+    }
+
+    //##################################################
+    //# clear
     //##################################################
 
     /**
-     * Just a hack for debugging.
+     * Resets the transient values as well as the normal page session.
+     * Does NOT reset the global session values.
      */
-    public void printDebug(String key)
+    public void reset()
     {
-        Object local = _localValues.get(key);
-        Object session = _sessionValues.get(key);
+        KmMap<Integer,Object> globalSessionValues = new KmMap<>();
+        KmMap<Integer,Object> globalLocalValues = new KmMap<>();
 
-        System.out.println("ScPageSession.debugKey");
-        System.out.println("    key:     " + key);
-        System.out.println("    local:   " + local);
-        System.out.println("    session: " + session);
+        for ( Integer key : _globalKeys )
+        {
+            globalSessionValues.put(key, _sessionValues.get(key));
+            globalLocalValues.put(key, _localValues.get(key));
+        }
+
+        _reset();
+
+        _sessionValues.putAll(globalSessionValues);
+        _localValues.putAll(globalLocalValues);
     }
 
+    /**
+     * Reset everything, including the global values.
+     */
+    public void resetAll()
+    {
+        _reset();
+    }
+
+    private void _reset()
+    {
+        resetLocalValues();
+        resetSessionValues();
+    }
 }

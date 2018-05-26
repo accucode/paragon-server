@@ -1,0 +1,1 @@
+Files we use to configure eclipse.

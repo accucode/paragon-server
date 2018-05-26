@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import com.kodemore.servlet.script.ScVisibilityScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalStyle;
+import com.kodemore.utility.Kmu;
 
 public class ScFieldTable
     extends ScChildContainer
@@ -42,11 +43,11 @@ public class ScFieldTable
     //# variables
     //##################################################
 
-    private ScSpan         _labelSpan;
-    private ScText         _labelText;
+    private ScSpan _labelSpan;
+    private ScText _labelText;
 
-    private ScLocalCss     _css;
-    private ScLocalStyle   _style;
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
 
     private ScLocalCss     _rightCss;
     private ScLocalBoolean _fullWidth;
@@ -67,7 +68,7 @@ public class ScFieldTable
         _style = new ScLocalStyle();
 
         _rightCss = new ScLocalCss();
-        _fullWidth = new ScLocalBoolean(true);
+        _fullWidth = new ScLocalBoolean(getFullWidthDefault());
     }
 
     //##################################################
@@ -77,7 +78,10 @@ public class ScFieldTable
     @Override
     public final <T extends ScControl> T add(T e)
     {
-        addWrapper(e);
+        if ( e == null )
+            throw Kmu.newFatal("Cannot add NULL child.");
+
+        addErrorWrapper(e);
         return e;
     }
 
@@ -86,7 +90,7 @@ public class ScFieldTable
      * to myself. This is the same behavior as the more standard
      * add() method, but this returns the errorWrapper.
      */
-    public final <T extends ScControl> ScErrorWrapper addWrapper(T e)
+    private <T extends ScControl> ScErrorWrapper addErrorWrapper(T e)
     {
         ScErrorWrapper w = e instanceof ScErrorWrapper
             ? (ScErrorWrapper)e
@@ -166,19 +170,19 @@ public class ScFieldTable
     //# full width
     //##################################################
 
+    public void setFullWidth()
+    {
+        _fullWidth.setTrue();
+    }
+
     public boolean getFullWidth()
     {
         return _fullWidth.getValue();
     }
 
-    public void setFullWidth(boolean e)
+    protected boolean getFullWidthDefault()
     {
-        _fullWidth.setValue(e);
-    }
-
-    public void disableFullWidth()
-    {
-        setFullWidth(false);
+        return false;
     }
 
     //##################################################
@@ -268,7 +272,7 @@ public class ScFieldTable
     private boolean isVisible(ScControl e)
     {
         if ( e instanceof ScVisibleIF )
-            return ((ScVisibleIF)e).getVisible();
+            return ((ScVisibleIF)e).isVisible();
 
         return true;
     }
@@ -279,28 +283,44 @@ public class ScFieldTable
         css = new KmCssDefaultBuilder();
         css.add("fields");
 
-        // row style
+        applyRowCssTo(css, row);
+        applyColumnCssTo(css, col);
+
+        return css.getValue();
+    }
+
+    private void applyRowCssTo(KmCssDefaultBuilder css, int row)
+    {
         if ( row == 0 )
             css.fieldsTop();
         else
             css.fieldsMore();
+    }
 
-        // col style
+    private void applyColumnCssTo(KmCssDefaultBuilder css, int col)
+    {
         if ( col == 0 )
+        {
             css.fieldsLeft();
+            return;
+        }
 
         if ( col == 1 )
+        {
             css.fieldsStar();
+            return;
+        }
 
         if ( col == 2 )
         {
             css.fieldsRight();
+
             if ( _fullWidth.isTrue() )
                 css.widthFull();
-            css.add(rightCss().getValue());
-        }
 
-        return css.getValue();
+            css.add(rightCss().getValue());
+            return;
+        }
     }
 
     //##################################################
@@ -310,11 +330,11 @@ public class ScFieldTable
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
         return !style().hasHide();
     }

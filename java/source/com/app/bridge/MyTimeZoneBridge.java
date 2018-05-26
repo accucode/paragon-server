@@ -53,6 +53,9 @@ public class MyTimeZoneBridge
 
     private boolean hasDaoSession()
     {
-        return MyDaoSessionManager.isInstalled() && MyDaoSessionManager.getInstance().isActive();
+        boolean isInstalled = MyDaoSessionManager.isInstalled();
+        boolean hasSession = MyDaoSessionManager.getInstance().isActive();
+
+        return isInstalled && hasSession;
     }
 }

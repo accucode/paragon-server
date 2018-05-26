@@ -38,8 +38,8 @@
             />
 
         <property
-            name="ownerUid"
-            column="ownerUid"
+            name="hostAddress"
+            column="hostAddress"
             type="string"
             />
 
@@ -50,9 +50,9 @@
             />
 
         <property
-            name="hostAddress"
-            column="hostAddress"
-            type="string"
+            name="lastEndUtcTs"
+            column="lastEndUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
@@ -62,15 +62,15 @@
             />
 
         <property
-            name="lastEndUtcTs"
-            column="lastEndUtcTs"
+            name="lastTouchUtcTs"
+            column="lastTouchUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="lastTouchUtcTs"
-            column="lastTouchUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="ownerUid"
+            column="ownerUid"
+            type="string"
             />
 
     </class>

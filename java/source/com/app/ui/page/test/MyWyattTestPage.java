@@ -1,6 +1,8 @@
 package com.app.ui.page.test;
 
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScFieldText;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.MyPage;
@@ -41,47 +43,34 @@ public final class MyWyattTestPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.addButton("Test", this::handleTest);
+        ScFieldTable e;
+        e = root.addFieldTable();
+        e.add(createField());
+    }
+
+    private ScControl createField()
+    {
+        ScFieldText e;
+        e = new ScFieldText();
+        e.setLabel("Name");
+        e.setValue("Wyatt");
+        e.setHelp("This is a two\r\nline message.");
+        return e;
     }
 
     //##################################################
-    //# render
+    //# print
     //##################################################
 
     @Override
     protected void preRender()
     {
         // none
-    }
-
-    //##################################################
-    //# handle
-    //##################################################
-
-    private void handleTest()
-    {
-        ajaxToast("hello");
     }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,43 @@
 
 package com.kodemore.servlet;
 
+import java.nio.charset.Charset;
+
 import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.utility.ScEasing;
-import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.Kmu;
 
 /**
  * I provide a common location for constants used by this package.
  */
 public interface ScConstantsIF
-    extends KmConstantsIF
 {
     //##################################################
     //# loggers
     //##################################################
 
-    KmLogger ScPerformanceLogger               = KmLogger.create(
-        "com.kodemore.servlet.performance");
+    KmLogger ScPerformanceLogger = KmLogger.create("com.kodemore.servlet.performance");
+
+    //##################################################
+    //# charsets
+    //##################################################
+
+    /**
+     * The charset we use for the web pages.
+     *
+     * This must match...
+     * web.xml; the charsetFilter.
+     * pageLayout.html; the head/meta tag.
+     * index.html; the head/meta tag.
+     */
+    Charset WEB_CHARSET = Charset.forName("UTF-8");
+
+    /**
+     * The charset we use in the database.
+     * This is primarily here for reference - we don't use it directly.
+     * ISO-8859-1 == Latin1
+     */
+    Charset DATABASE_CHARSET = Charset.forName("ISO-8859-1");
 
     //##################################################
     //# path
@@ -51,7 +72,7 @@ public interface ScConstantsIF
      * hook for url rewriting in production, to better manage
      * client side caching.
      */
-    String   WEB_STATIC_PATH                   = "static/version";
+    String WEB_STATIC_PATH = "static/version";
 
     //##################################################
     //# parameters
@@ -63,20 +84,19 @@ public interface ScConstantsIF
      * set the cookie value to well known value that we later
      * check for in getCookies().
      */
-    String   REMOVED_COOKIE_VALUE              = "[[#REMOVED#]]";
+    String REMOVED_COOKIE_VALUE = "[[#REMOVED#]]";
 
-    String   PARAMETER_GLOBAL_SESSION          = "_globalSession";
-    String   PARAMETER_PAGE_SESSION            = "_session";
+    String PARAMETER_PAGE_SESSION = "_session";
 
     /**
      * The action key.
      */
-    String   PARAMETER_ACTION                  = "_action";
+    String PARAMETER_ACTION = "_action";
 
     /**
      * The argument, encoded using ScEncoder.
      */
-    String   PARAMETER_ARGUMENT                = "_argument";
+    String PARAMETER_ARGUMENT = "_argument";
 
     /**
      * An alternate value that is not encoded.  We use
@@ -84,128 +104,119 @@ public interface ScConstantsIF
      * the this extra unencoded value for special cases
      * where encoding is not appropriate.
      */
-    String   PARAMETER_EXTRA_VALUE             = "_extraValue";
+    String PARAMETER_EXTRA_VALUE = "_extraValue";
+
+    /**
+     * The application version associated with the client side
+     * javascript/html that sent the HTTP request.
+     */
+    String PARAMETER_APPLICATION_VERSION = "_applicationVersion";
 
     /**
      * The browser window's current url is commonly included
      * in ajax submits since it may contain pertinent information
      * such as the 'hash' suffix.
      */
-    String   PARAMETER_WINDOW_LOCATION         = "_windowLocation";
+    String PARAMETER_WINDOW_LOCATION = "_windowLocation";
 
     /**
      * Indicates if the page header side is visible.
      */
-    String   PARAMETER_IS_PAGE_HEADER_VISIBLE  = "_isPageHeaderVisible";
+    String PARAMETER_IS_PAGE_HEADER_VISIBLE = "_isPageHeaderVisible";
 
     /**
      * Indicates if the page footer is visible.
      */
-    String   PARAMETER_IS_PAGE_FOOTER_VISIBLE  = "_isPageFooterVisible";
+    String PARAMETER_IS_PAGE_FOOTER_VISIBLE = "_isPageFooterVisible";
 
     /**
      * Indicates if the top menu is visible.
      */
-    String   PARAMETER_IS_PAGE_MENU_VISIBLE    = "_isPageMenuVisible";
+    String PARAMETER_IS_PAGE_MENU_VISIBLE = "_isPageMenuVisible";
 
     /**
      * Indicates if the page title is visible.
      */
-    String   PARAMETER_IS_PAGE_TITLE_VISIBLE   = "_isPageTitleVisible";
+    String PARAMETER_IS_PAGE_TITLE_VISIBLE = "_isPageTitleVisible";
 
     /**
      * Indicates if the page title is visible.
      */
-    String   PARAMETER_IS_PAGE_CONTENT_VISIBLE = "_isPageContentVisible";
+    String PARAMETER_IS_PAGE_CONTENT_VISIBLE = "_isPageContentVisible";
 
     /**
-     * The key of the form that was submitted.
+     * The token of the form that was submitted.
      */
-    String   PARAMETER_FORM_KEY                = "_form";
+    String PARAMETER_FORM_TOKEN = "_formToken";
 
     /**
      * The key used to identify the requested page.
      */
-    String   PARAMETER_REQUESTED_PAGE_KEY      = "page";
+    String PARAMETER_REQUESTED_PAGE_KEY = "page";
 
     /**
      * The key used to identify the current page.
      * This is the page currently rendered in the browser.
      */
-    String   PARAMETER_CURRENT_PAGE_KEY        = "_currentPageKey";
+    String PARAMETER_CURRENT_PAGE_KEY = "_currentPageKey";
 
     /**
      * The navigation direction, if known.
      * Values: forward, back, refresh, unknown.
      */
-    String   PARAMETER_DIRECTION               = "_direction";
+    String PARAMETER_DIRECTION = "_direction";
 
     //##################################################
     //# session keys
     //##################################################
 
-    String   TRANSIENT_KEY_PREFIX              = "T";
-    String   PERSISTENT_KEY_PREFIX             = "P";
+    String TRANSIENT_KEY_PREFIX  = "T";
+    String PERSISTENT_KEY_PREFIX = "P";
 
     //##################################################
     //# misc
     //##################################################
 
-    String   SUBMIT_IMAGE_NAME                 = "_submitImage";
+    String SUBMIT_IMAGE_NAME = "_submitImage";
 
-    String   GENERAL_ERROR_MESSAGE             = "Please correct the errors below.";
-
-    //##################################################
-    //# content types
-    //##################################################
-
-    String   CONTENT_TYPE_BINARY               = "application/octet-stream";
-    String   CONTENT_TYPE_HTML                 = "text/html";
-    String   CONTENT_TYPE_JPEG                 = "image/jpeg";
-    String   CONTENT_TYPE_JSON                 = "application/json";
-    String   CONTENT_TYPE_OCTET                = "application/octet-stream";
-    String   CONTENT_TYPE_PDF                  = "application/pdf";
-    String   CONTENT_TYPE_SERIALIZED           = "application/x-java-serialized-object";
-    String   CONTENT_TYPE_TEXT                 = "text/plain";
-    String   CONTENT_TYPE_CSS                  = "text/css";
-    String   CONTENT_TYPE_XML                  = "text/xml";
+    String GENERAL_ERROR_MESSAGE = "Please correct the errors below.";
 
     //##################################################
     //# events
     //##################################################
 
-    String   EVENT_KEY_DOWN                    = "keydown";
-    String   EVENT_KEY_UP                      = "keyup";
-    String   EVENT_KEY_PRESS                   = "keypress";
+    String EVENT_KEY_DOWN  = "keydown";
+    String EVENT_KEY_UP    = "keyup";
+    String EVENT_KEY_PRESS = "keypress";
 
-    String   EVENT_CLICK                       = "click";
-    String   EVENT_MOUSE_DOWN                  = "mousedown";
-    String   EVENT_MOUSE_UP                    = "mouseup";
+    String EVENT_CLICK      = "click";
+    String EVENT_MOUSE_DOWN = "mousedown";
+    String EVENT_MOUSE_UP   = "mouseup";
 
-    String   EVENT_MOUSE_MOVE                  = "mousemove";
-    String   EVENT_MOUSE_OVER                  = "mouseover";
-    String   EVENT_MOUSE_OUT                   = "mouseout";
+    String EVENT_MOUSE_MOVE = "mousemove";
+    String EVENT_MOUSE_OVER = "mouseover";
+    String EVENT_MOUSE_OUT  = "mouseout";
 
-    String   EVENT_CHANGE                      = "change";
-    String   EVENT_SELECT                      = "select";
+    String EVENT_CHANGE = "change";
+    String EVENT_SELECT = "select";
 
-    String   EVENT_FOCUS                       = "focus";
-    String   EVENT_BLUR                        = "blur";
+    String EVENT_FOCUS = "focus";
+    String EVENT_BLUR  = "blur";
 
     //##################################################
     //# layout
     //##################################################
 
-    Integer  DEFAULT_PADDING                   = 10;
+    Integer DEFAULT_PADDING = 10;
 
     //##################################################
     //# animations
     //##################################################
 
-    ScEasing DEFAULT_EASING                    = ScEasing.easeInOutCirc;
-    ScEasing DEFAULT_HIDE_EASING               = ScEasing.easeInCirc;
-    ScEasing DEFAULT_SHOW_EASING               = ScEasing.easeOutCirc;
-    Integer  DEFAULT_SPEED_MS                  = 150;
+    ScEasing DEFAULT_EASING      = ScEasing.easeInOutCirc;
+    ScEasing DEFAULT_HIDE_EASING = ScEasing.easeInCirc;
+    ScEasing DEFAULT_SHOW_EASING = ScEasing.easeOutCirc;
+    Integer  DEFAULT_SPEED_MS    = 150;
 
     //##################################################
     //# actions
@@ -216,7 +227,7 @@ public interface ScConstantsIF
      * page identified by the text in the window location.  That is, the location
      * identified by the url bar at the top of the browser window.
      */
-    String   PRINT_WINDOW_LOCATION             = "_printWindowLocation";
+    String ACTION_PRINT_WINDOW_LOCATION = "_printWindowLocation";
 
     //##################################################
     //# data attributes
@@ -229,7 +240,7 @@ public interface ScConstantsIF
      *      $('#field').val();
      *      $('#field').val(oldValue);
      */
-    String   DATA_ATTRIBUTE_OLD_VALUE          = "km-old-value";
+    String DATA_ATTRIBUTE_OLD_VALUE = "km-old-value";
 
     /**
      * The attribute key used to identify editable/revertable field values.
@@ -239,18 +250,19 @@ public interface ScConstantsIF
      *      $('#field')[0].checked = (oldValue == 'true');
      *
      */
-    String   DATA_ATTRIBUTE_OLD_CHECKED        = "km-old-checked";
+    String DATA_ATTRIBUTE_OLD_CHECKED = "km-old-checked";
 
     //##################################################
     //# null prefix
     //##################################################
 
-    String   NULL_PREFIX_ALL                   = "<all>";
-    String   NULL_PREFIX_ANY                   = "<any>";
-    String   NULL_PREFIX_DEFAULT               = "<default>";
-    String   NULL_PREFIX_NONE                  = "<none>";
-    String   NULL_PREFIX_UNKNOWN               = "<unknown>";
-    String   NULL_PREFIX_SELECT                = "<select>";
+    String NULL_PREFIX_BLANK   = "";
+    String NULL_PREFIX_ALL     = Kmu.formatMetaValue("all");
+    String NULL_PREFIX_ANY     = Kmu.formatMetaValue("any");
+    String NULL_PREFIX_DEFAULT = Kmu.formatMetaValue("default");
+    String NULL_PREFIX_NONE    = Kmu.formatMetaValue("none");
+    String NULL_PREFIX_UNKNOWN = Kmu.formatMetaValue("unknown");
+    String NULL_PREFIX_SELECT  = Kmu.formatMetaValue("select");
 
     //##################################################
     //# auto complete
@@ -275,6 +287,6 @@ public interface ScConstantsIF
      * but should be carefully considered as it has historically caused
      * a variety of problems for our applications.
      */
-    boolean  DEFAULT_AUTO_COMPLETE             = false;
+    boolean DEFAULT_AUTO_COMPLETE = false;
 
 }

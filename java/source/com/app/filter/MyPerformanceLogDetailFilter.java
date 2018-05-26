@@ -26,11 +26,11 @@ public class MyPerformanceLogDetailFilter
     //# variables
     //##################################################
 
-    private Sort        _sort;
-    private boolean     _ascending;
+    private Sort    _sort;
+    private boolean _ascending;
 
-    private String      _name;
-    private boolean     _usesName;
+    private String  _name;
+    private boolean _usesName;
 
     private KmTimestamp _minimumCreatedUtcTs;
     private boolean     _usesMinimumCreatedUtcTs;

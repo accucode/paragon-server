@@ -55,12 +55,24 @@ public class MyAutoLogin
     }
 
     //##################################################
-    //# convenience
+    //# display
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
-        return getCreatedUtcTs().format_m_d_yyyy_hh_mm_ss();
+        return getUserFullName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getUserFullName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return getLastTouchedUtcTs().formatLocal();
     }
 }

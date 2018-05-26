@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,15 +30,15 @@ public class KmaGraphAutoScaler
     //# variables
     //##################################################
 
-    private double   _minimum;
-    private double   _maximum;
-    private int      _maximumDivisions;
-    private double   _minimumLower;
+    private double _minimum;
+    private double _maximum;
+    private int    _maximumDivisions;
+    private double _minimumLower;
 
-    private double   _lower;
-    private double   _upper;
-    private double   _majorUnit;
-    private double   _minorUnit;
+    private double _lower;
+    private double _upper;
+    private double _majorUnit;
+    private double _minorUnit;
 
     private double[] _majorUnitOptions;
     private double[] _minorUnitOptions;

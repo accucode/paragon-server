@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyTenantFinder
+public final class MyTenantFinder
     implements KmKeyFinderIF<MyTenant,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyTenant staticFind(String key)
-    {
-        return new MyTenantFinder().find(key);
-    }
+    public static final MyTenantFinder instance = new MyTenantFinder();
 
-    public static MyTenant staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyTenantFinder()
     {
-        return new MyTenantFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyTenantFinder
 
     public MyTenant findDao(String key)
     {
-        MyDaoKeyFinder<MyTenant,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

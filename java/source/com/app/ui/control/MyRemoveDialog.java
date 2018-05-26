@@ -6,7 +6,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDiv;
 
 public abstract class MyRemoveDialog<T>
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
@@ -31,8 +31,8 @@ public abstract class MyRemoveDialog<T>
         footer = showFooter();
         footer.css().flexRow().flexAlignEnd();
         footer.css().buttonBox();
-        footer.addButton("Remove", this::handleRemove);
-        footer.addCancelButton(this::ajaxClose);
+        footer.addButton("Remove", newCheckedAction(this::handleRemove));
+        footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //##################################################

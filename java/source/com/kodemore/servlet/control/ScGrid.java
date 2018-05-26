@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package com.kodemore.servlet.control;
 
 import java.util.Iterator;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -44,6 +45,7 @@ import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalInteger;
+import com.kodemore.servlet.variable.ScLocalList;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
@@ -53,7 +55,6 @@ import com.kodemore.utility.Kmu;
  * http://github.com/paulopmx/Flexigrid
  *
  * additional options?
- *      rpOptions           => [10,15,20,25,40]
  *      blockOpacity        => 0.5,
  *
  *      The auto-width was not working correctly.
@@ -64,101 +65,120 @@ public class ScGrid<T>
     extends ScControl
 {
     //##################################################
-    //# constants (standard)
+    //# constants :: defaults
     //##################################################
+
+    private static final int[] DEFAULT_ROWS_PER_PAGE_OPTIONS =
+    {
+        20,
+        50,
+        100
+    };
+
+    private static final int DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE_OPTIONS[1];
+
+    //==================================================
+    //= constants :: flexigrid
+    //==================================================
 
     // standard flexigrid parameters that are passed to the server
     // as part of each request.
 
-    private static final String      REQUEST_PAGE             = "page";
-    private static final String      REQUEST_ROWS             = "rp";
+    private static final String REQUEST_PAGE = "page";
+    private static final String REQUEST_ROWS = "rp";
 
     //==================================================
-    //= constants (custom)
+    //= constants :: custom parameters
     //==================================================
 
     // custom callback parameters.
     // these are set grid with it is created so that they can be
     // passed back to the server with every request.
 
-    private static final String      PARAMETER_TOTAL_COUNT    = "myTotalCount";
-    private static final String      PARAMETER_TRACKED_VALUES = "myTrackedValues";
+    private static final String PARAMETER_TOTAL_COUNT    = "myTotalCount";
+    private static final String PARAMETER_TRACKED_VALUES = "myTrackedValues";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString            _header;
+    private ScLocalString _header;
 
     /**
      * Defines a factory capable of creating the filter used to
      * fetch data.
      */
-    private KmFilterFactoryIF<T>     _filterFactory;
+    private KmFilterFactoryIF<T> _filterFactory;
 
     /**
      * The list of columns to display.
      */
-    private KmList<ScGridColumn<T>>  _columns;
+    private KmList<ScGridColumn<T>> _columns;
 
     /**
      * If true, the contents will be fetched a page at a time.
      * True by default.
      */
-    private ScLocalBoolean           _usesPager;
+    private ScLocalBoolean _usesPager;
 
     /**
      * The number of rows displayed per page.
      * This can be set to any positive value.
      */
-    private ScLocalInteger           _rowsPerPage;
+    private ScLocalInteger _rowsPerPage;
 
     /**
      * Allow the user to select the number of rows per page.
      */
-    private ScLocalBoolean           _selectRowsPerPage;
+    private ScLocalBoolean _selectRowsPerPage;
+
+    /**
+     * The available options for rows per page.
+     * For example, the default is [10,15,20,30,50].
+     */
+    private ScLocalList<Integer> _rowsPerPageOptions;
 
     /**
      * If true, allows the user to hide the table.
      * Change is not persistent.
      * False by default.
      */
-    private ScLocalBoolean           _allowsToggleGrid;
+    private ScLocalBoolean _allowsToggleGrid;
 
     /**
      * If true, allow the user to toggle columns on and off.
      * Defaults to true.
      * Changes are not persistent.
      */
-    private ScLocalBoolean           _allowsToggleColumns;
+    private ScLocalBoolean _allowsToggleColumns;
 
     /**
      * If true, the table will only select one row at a time.
      */
-    private ScLocalBoolean           _singleSelect;
+    private ScLocalBoolean _singleSelect;
 
     /**
      * The width of the table, in pixels.
      * Null by default, which fills the available width.
      */
-    private ScLocalInteger           _width;
+    private ScLocalInteger _width;
 
     /**
      * The height of the table, in pixels.
      * Null by default.
      */
-    private ScLocalInteger           _height;
+    private ScLocalInteger _height;
 
     /**
      * If true, the user can resize the vertical and horizontal sizes.
      */
-    private ScLocalBoolean           _resizable;
+    private ScLocalBoolean _resizable;
 
     /**
-     * If false, then allow values to word wrap.  Wrapper is disabled
-     * by default.
+     * If true, allow values to word wrap.
+     * Default to false.
      */
-    private ScLocalBoolean           _noWrap;
+    private ScLocalBoolean _wrap;
 
     /**
      * If true, attempt to adjust the layout such that the grid will fill its parent.
@@ -167,7 +187,7 @@ public class ScGrid<T>
      * My parent must have a non-static layout.
      * Additionally, the layout currently assumes that the header and pager are both visible.
      */
-    private ScLocalBoolean           _fill;
+    private ScLocalBoolean _fill;
 
     /**
      * An optional function that determines the unique row id
@@ -175,7 +195,7 @@ public class ScGrid<T>
      * composing the html/xml content. This allows additional ajax
      * functionality; e.g.: programattically selecting a particular row.
      */
-    private Function<T,String>       _rowIdFunction;
+    private Function<T,String> _rowIdFunction;
 
     //##################################################
     //# variables: state management
@@ -190,19 +210,19 @@ public class ScGrid<T>
      * If false, the totalCount is recomputed every time the
      * client requests additional data.
      */
-    private ScLocalBoolean           _cacheTotalCount;
+    private ScLocalBoolean _cacheTotalCount;
 
     /**
      * The cached totalCount.  This is only used if _cacheTotalCount
      * is true.
      */
-    private ScLocalInteger           _totalCount;
+    private ScLocalInteger _totalCount;
 
     /**
      * Used to bind extra data for filtering and sorting.
      * The values in this list will be encoded into the grid's
      * callback request url.  The values will be rebound to
-     * their respective ScValue's prior to execute the filter.
+     * their respective ScValue's before the filter is run.
      */
     private KmList<ScEncodedValueIF> _trackedValues;
 
@@ -217,8 +237,10 @@ public class ScGrid<T>
         _trackedValues = new KmList<>();
 
         _usesPager = new ScLocalBoolean(true);
-        _rowsPerPage = new ScLocalInteger(30);
         _selectRowsPerPage = new ScLocalBoolean(true);
+        _rowsPerPage = new ScLocalInteger(DEFAULT_ROWS_PER_PAGE);
+        _rowsPerPageOptions = new ScLocalList<>();
+        setRowsPerPageOptions(DEFAULT_ROWS_PER_PAGE_OPTIONS);
 
         _allowsToggleGrid = new ScLocalBoolean(false);
         _allowsToggleColumns = new ScLocalBoolean(true);
@@ -231,7 +253,7 @@ public class ScGrid<T>
         _height = new ScLocalInteger();
 
         _resizable = new ScLocalBoolean(false);
-        _noWrap = new ScLocalBoolean(true);
+        _wrap = new ScLocalBoolean(false);
         _fill = new ScLocalBoolean(false);
     }
 
@@ -247,7 +269,7 @@ public class ScGrid<T>
      */
     private String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     private String getJquerySelector()
@@ -288,6 +310,10 @@ public class ScGrid<T>
         _usesPager.setValue(e);
     }
 
+    //==================================================
+    //= pager :: rows per page
+    //==================================================
+
     public Integer getRowsPerPage()
     {
         return _rowsPerPage.getValue();
@@ -297,6 +323,37 @@ public class ScGrid<T>
     {
         _rowsPerPage.setValue(e);
     }
+
+    //==================================================
+    //= pager :: rows per page options
+    //==================================================
+
+    public KmList<Integer> getRowsPerPageOptions()
+    {
+        return _rowsPerPageOptions.getValue();
+    }
+
+    public void setRowsPerPageOptions(KmList<Integer> v)
+    {
+        _rowsPerPageOptions.setValue(v);
+    }
+
+    public void setRowsPerPageOptions(int... arr)
+    {
+        _rowsPerPageOptions.clear();
+
+        for ( int i : arr )
+            _rowsPerPageOptions.add(i);
+    }
+
+    public boolean hasRowsPerPageOptions()
+    {
+        return _rowsPerPageOptions.isNotEmpty();
+    }
+
+    //==================================================
+    //= pager :: select rows per page
+    //==================================================
 
     public boolean getSelectRowsPerPage()
     {
@@ -354,24 +411,24 @@ public class ScGrid<T>
     //# wrap
     //##################################################
 
-    public boolean getNoWrap()
+    public boolean getWrap()
     {
-        return _noWrap.getValue();
+        return _wrap.getValue();
     }
 
-    public void setNoWrap(boolean e)
+    public void setWrap(boolean e)
     {
-        _noWrap.setValue(e);
+        _wrap.setValue(e);
     }
 
     public void setWrap()
     {
-        setNoWrap(false);
+        setWrap(true);
     }
 
     public void setNoWrap()
     {
-        setNoWrap(true);
+        setWrap(false);
     }
 
     //##################################################
@@ -469,7 +526,6 @@ public class ScGrid<T>
         setupGeneral(map);
         setupRequestUrl(map);
         setupPager(map);
-        setupSorting(map);
         setupColumns(map);
 
         setupInitialParameters(map);
@@ -485,16 +541,6 @@ public class ScGrid<T>
             col.addCellDefinitionTo(cells);
     }
 
-    private void setupSorting(KmJsonMap map)
-    {
-        ScGridColumn<T> sortedCol = getSortedColumn();
-        if ( sortedCol != null )
-        {
-            map.setString("sortname", sortedCol.getKey());
-            map.setString("sortorder", sortedCol.formatDefaultSort());
-        }
-    }
-
     private void setupGeneral(KmJsonMap map)
     {
         map.setString("title", getHeader());
@@ -502,7 +548,7 @@ public class ScGrid<T>
         map.setBoolean("showToggleBtn", getAllowsToggleColumns());
         map.setBoolean("singleSelect", getSingleSelect());
         map.setBoolean("resizable", getResizable());
-        map.setBoolean("nowrap", getNoWrap());
+        map.setBoolean("nowrap", !getWrap());
 
         if ( hasWidth() )
             map.setInteger("width", getWidth());
@@ -515,11 +561,22 @@ public class ScGrid<T>
 
     private void setupPager(KmJsonMap map)
     {
-        if ( getUsesPager() )
+        if ( !getUsesPager() )
         {
-            map.setBoolean("usepager", true);
-            map.setInteger("rp", getRowsPerPage());
-            map.setBoolean("useRp", getSelectRowsPerPage());
+            map.setBoolean("usepager", false);
+            return;
+        }
+
+        map.setBoolean("usepager", true);
+        map.setInteger("rp", getRowsPerPage());
+        map.setBoolean("useRp", getSelectRowsPerPage());
+
+        if ( hasRowsPerPageOptions() )
+        {
+            KmJsonArray arr = map.setArray("rpOptions");
+            KmList<Integer> v = getRowsPerPageOptions();
+            for ( Integer i : v )
+                arr.addInteger(i);
         }
     }
 
@@ -530,11 +587,17 @@ public class ScGrid<T>
         map.setString("dataType", "json");
     }
 
+    /**
+     * The path suffix defined here must match getGridForPath.
+     *
+     * @see #getGridForPath
+     */
     private String formatRequestUrl()
     {
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getFlexigridCallback();
-        return c.getPath(getKey());
+        String suffix = getKeyToken();
+        return c.getPath(suffix);
     }
 
     private void setupInitialParameters(KmJsonMap map)
@@ -627,6 +690,18 @@ public class ScGrid<T>
     public void setFilterFactory(KmFilterFactoryIF<T> e)
     {
         _filterFactory = e;
+    }
+
+    public void setFilterFactory(Supplier<KmList<T>> e)
+    {
+        setFilterFactory(new KmFilterFactoryIF<T>()
+        {
+            @Override
+            public KmFilterIF<T> createFilter()
+            {
+                return e.get().toFilter();
+            }
+        });
     }
 
     //##################################################
@@ -744,23 +819,6 @@ public class ScGrid<T>
         return col;
     }
 
-    public ScGridColumn<T> addLinkColumn(KmMetaProperty<T,?> text, Runnable r, Object arg)
-    {
-        ScAction action = newCheckedAction(r);
-
-        return addLinkColumn(text, action, arg);
-    }
-
-    public ScGridColumn<T> addLinkColumn(Function<T,?> text, Runnable action, Object arg)
-    {
-        ScLink link;
-        link = new ScLink();
-        link.setText(text);
-        link.setAction(action, arg);
-
-        return addColumn(link);
-    }
-
     public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScAction action)
     {
         ScLink link;
@@ -771,17 +829,7 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
-    public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, Runnable action)
-    {
-        ScLink link;
-        link = new ScLink();
-        link.setText(text);
-        link.setAction(action, text);
-
-        return addColumn(link);
-    }
-
-    public ScGridColumn<T> addLinkColumn(String text, Runnable action, Object arg)
+    public ScGridColumn<T> addLinkColumn(String text, ScAction action, Object arg)
     {
         ScLink link;
         link = new ScLink();
@@ -791,9 +839,14 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
-    public ScGridColumn<T> addLinkColumn(String text, Runnable action, Function<T,?> arg)
+    public ScGridColumn<T> addLinkColumn(String text, ScAction action, Function<T,?> arg)
     {
-        return addLinkColumn(text, action, (Object)arg);
+        ScLink link;
+        link = new ScLink();
+        link.setText(text);
+        link.setAction(action, arg);
+
+        return addColumn(link);
     }
 
     private ScGridColumn<T> addColumn(ScControl e)
@@ -808,25 +861,6 @@ public class ScGrid<T>
     public KmList<ScGridColumn<T>> getColumns()
     {
         return _columns;
-    }
-
-    //##################################################
-    //# sort
-    //##################################################
-
-    public void clearDefaultSort()
-    {
-        for ( ScGridColumn<T> e : getColumns() )
-            e.clearDefaultSort();
-    }
-
-    public ScGridColumn<T> getSortedColumn()
-    {
-        for ( ScGridColumn<T> e : getColumns() )
-            if ( e.hasDefaultSort() )
-                return e;
-
-        return null;
     }
 
     //##################################################
@@ -887,17 +921,19 @@ public class ScGrid<T>
             e.composeResults();
     }
 
+    /*
+     * Find the grid based on the url. The suffix is defined
+     * in formatRequestUrl.
+     *
+     * @see ScGrid#formatRequestUrl
+     */
     private static ScGrid<?> getGridForPath(String suffix)
     {
-        /*
-         * We assume the pathSuffix is the control's key since that is
-         * what we provided when composing the url.  See formatRequestUrl().
-         */
-        String key = suffix;
-        if ( Kmu.isEmpty(key) )
+        String token = suffix;
+        if ( Kmu.isEmpty(token) )
             return null;
 
-        ScControl e = getRegistry().getControl(key);
+        ScControl e = getRegistry().findToken(token);
         return e instanceof ScGrid
             ? (ScGrid<?>)e
             : null;
@@ -912,14 +948,11 @@ public class ScGrid<T>
         ScServletData data = getData();
         applyTrackedValuesFor(data);
 
-        KmFilterIF<T> filter = getFilter();
-        if ( filter == null )
-            return;
-
         String sPage = data.getParameter(REQUEST_PAGE);
         String sRows = data.getParameter(REQUEST_ROWS);
 
-        int total = getTotalFor(data, filter);
+        getTotalCount();
+        int total = composeResultTotal();
 
         Integer page = Kmu.parseInteger(sPage);
         if ( page > total )
@@ -929,10 +962,37 @@ public class ScGrid<T>
 
         int index = (page - 1) * reqRows;
         int count = reqRows;
-        KmList<T> results = filter.findBatch(index, count);
+        KmList<T> results = composeResultBatch(index, count);
 
         KmJsonMap json = composeJsonFor(results, page, total);
         data.setJsonResult(json);
+    }
+
+    private int composeResultTotal()
+    {
+        Integer total = null;
+
+        String s = getData().getParameter(PARAMETER_TOTAL_COUNT);
+        if ( s != null )
+            total = Kmu.parseInteger(s);
+
+        if ( total != null )
+            return total;
+
+        KmFilterIF<T> filter = createFilter();
+        if ( filter == null )
+            return 0;
+
+        return filter.getCount();
+    }
+
+    private KmList<T> composeResultBatch(int index, int count)
+    {
+        KmFilterIF<T> filter = createFilter();
+        if ( filter == null )
+            return KmList.createEmpty();
+
+        return filter.findBatch(index, count);
     }
 
     private KmJsonMap composeJsonFor(KmList<T> results, Integer page, int total)
@@ -946,46 +1006,36 @@ public class ScGrid<T>
         rows = json.setArray("rows");
 
         for ( T model : results )
-        {
-            KmJsonMap row;
-            row = rows.addMap();
-
-            String suffix = getRowIdSuffixFor(model);
-            if ( suffix != null )
-                row.setString("id", suffix);
-
-            KmJsonArray cells;
-            cells = row.setArray("cell");
-
-            KmList<ScGridColumn<T>> cols = getColumns();
-            for ( ScGridColumn<T> col : cols )
-                col.addCellDataTo(cells, model);
-        }
+            rows.addMap(composeJsonRowFor(model));
 
         return json;
     }
 
-    private KmFilterIF<T> getFilter()
+    private KmJsonMap composeJsonRowFor(T model)
+    {
+        KmJsonMap row = new KmJsonMap();
+
+        String suffix = getRowIdSuffixFor(model);
+        if ( suffix != null )
+            row.setString("id", suffix);
+
+        KmJsonArray cells;
+        cells = row.setArray("cell");
+
+        KmList<ScGridColumn<T>> cols = getColumns();
+        for ( ScGridColumn<T> col : cols )
+            col.addCellDataTo(cells, model);
+
+        return row;
+    }
+
+    private KmFilterIF<T> createFilter()
     {
         KmFilterFactoryIF<T> ff = getFilterFactory();
 
         return ff == null
             ? null
             : ff.createFilter();
-    }
-
-    private int getTotalFor(ScServletData data, KmFilterIF<T> filter)
-    {
-        Integer total = null;
-
-        String s = data.getParameter(PARAMETER_TOTAL_COUNT);
-        if ( s != null )
-            total = Kmu.parseInteger(s);
-
-        if ( total != null )
-            return total;
-
-        return filter.getCount();
     }
 
     /**

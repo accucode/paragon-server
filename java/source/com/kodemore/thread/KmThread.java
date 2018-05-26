@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -45,9 +45,9 @@ public class KmThread
      * Used to indicate that someone has requested that I stop.
      *
      * This is used to politely stop a thread, allowing the thread
-     * to decide when to exit.  The problem with using interrupt() is that
-     * we may not really want to interrupt/stop the thread in the middle of
-     * wait or io operation.
+     * to decide when to exit. The problem with using interrupt() is that
+     * we may not really want to interrupt/stop the thread in the middle
+     * of an io operation.
      */
     private boolean _stopRequest;
 
@@ -104,6 +104,23 @@ public class KmThread
     public void startLater()
     {
         startLater(1);
+    }
+
+    /**
+     * Start this thread after an initial yield.
+     */
+    public void startYield()
+    {
+        final Thread me = this;
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                Thread.yield();
+                me.start();
+            }
+        }.start();
     }
 
     //##################################################

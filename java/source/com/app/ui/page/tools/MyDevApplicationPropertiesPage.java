@@ -8,8 +8,8 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScTransientContainer;
 
-import com.app.property.MyPropertyDefinition;
 import com.app.property.MyProperties;
+import com.app.property.MyPropertyDefinition;
 import com.app.property.base.MyPropertyDefinitions;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -55,22 +55,6 @@ public final class MyDevApplicationPropertiesPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -83,7 +67,7 @@ public final class MyDevApplicationPropertiesPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -101,7 +85,7 @@ public final class MyDevApplicationPropertiesPage
             group = _container.addGroup(groupName);
 
             ScFieldTable fields;
-            fields = group.getBody().addPad().addFieldTable();
+            fields = group.getBody().addPad().addFullWidthFieldTable();
 
             KmList<MyPropertyDefinition> defs = getDefs(groupName);
             for ( MyPropertyDefinition def : defs )

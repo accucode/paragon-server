@@ -46,6 +46,24 @@ public abstract class MyAddressFormatter
     }
 
     /**
+     * Format the address for geocoding.
+     * This returns a single line, with only the pertinent fields on it.
+     */
+    public static final String formatGeocodeLine(MyAddressIF e)
+    {
+        if ( e == null || e.isEmpty() )
+            return "";
+
+        return joinWith(
+            ", ",
+            e.getStreet1(),
+            e.getCity(),
+            e.getRegion(),
+            e.getPostalCode(),
+            e.getCountry());
+    }
+
+    /**
      * Format the address using multiple lines of text.
      * ALL non-empty fields are included.
      */
@@ -94,6 +112,7 @@ public abstract class MyAddressFormatter
 
         lines.addNonNull(e.getCountry());
         lines.addNonNull(e.getPhone());
+
         return lines.join("<br>");
     }
 
@@ -114,12 +133,6 @@ public abstract class MyAddressFormatter
 
     private static final String joinWith(String delimiter, String... values)
     {
-        KmList<String> v = new KmList<>();
-
-        for ( String e : values )
-            if ( Kmu.hasValue(e) )
-                v.add(e);
-
-        return v.join(delimiter);
+        return KmList.createWith(values).select(e -> Kmu.hasValue(e)).join(delimiter);
     }
 }

@@ -1,6 +1,7 @@
 package com.kodemore.sql.formatter;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.sql.KmSqlResultSet;
 import com.kodemore.utility.KmTimer;
 
@@ -37,7 +38,10 @@ public class KmSqlResultFormatterHtmlNormal
     public void formatResultSet(String schema, String sql, KmSqlResultSet rs, KmTimer t)
     {
         beginBlockSelect();
-        resultSetSql(schema, sql, t);
+
+        if ( showsSqlData() )
+            resultSetSql(schema, sql, t);
+
         resultSetData(rs);
         endBlock();
     }
@@ -50,7 +54,7 @@ public class KmSqlResultFormatterHtmlNormal
     private void resultSetData(KmSqlResultSet rs)
     {
         _out.open("table");
-        _out.printAttribute("class", "sqlResultTable");
+        _out.printAttribute("class", KmCssDefaultConstantsIF.sqlResultTable);
         _out.close();
 
         resultSetHeaders(rs);
@@ -66,7 +70,7 @@ public class KmSqlResultFormatterHtmlNormal
         for ( String s : getColumnNames(rs) )
         {
             _out.open("td");
-            _out.printAttribute("class", "sqlResultHeader");
+            _out.printAttribute("class", KmCssDefaultConstantsIF.sqlResultHeader);
             _out.close();
             _out.print(s);
             _out.end("td");
@@ -84,7 +88,7 @@ public class KmSqlResultFormatterHtmlNormal
     private void resultSetRow(KmSqlResultSet rs)
     {
         _out.open("tr");
-        _out.printAttribute("class", "sqlResultValue");
+        _out.printAttribute("class", KmCssDefaultConstantsIF.sqlResultValue);
         _out.close();
 
         int n = getColumnCount(rs);
@@ -97,12 +101,12 @@ public class KmSqlResultFormatterHtmlNormal
     private void resultSetValue(KmSqlResultSet rs)
     {
         _out.open("td");
-        _out.printAttribute("class", "sqlResultValue");
+        _out.printAttribute("class", KmCssDefaultConstantsIF.sqlResultValue);
         _out.close();
 
         String value = rs.getString();
         if ( value == null )
-            _out.print("-null-");
+            _out.print(formatNull());
         else
         {
             _out.print(value);
@@ -125,13 +129,22 @@ public class KmSqlResultFormatterHtmlNormal
         boolean rollback)
     {
         beginBlockUpdate();
-        addData(schema, sql, timer);
+
+        if ( showsSqlData() )
+            addData(schema, sql, timer);
+
         _out.printBold("Count: " + count);
 
         if ( rollback )
         {
             _out.printBreak();
-            _out.printBold("THESE CHANGES HAVE BEEN ROLLED BACK.");
+            _out.printBreak();
+
+            _out.openSpan();
+            _out.printAttribute("class", KmCssDefaultConstantsIF.sqlRollbackMessage);
+            _out.close();
+            _out.print("These changes have been rolled back.");
+            _out.endSpan();
         }
 
         endBlock();
@@ -157,7 +170,7 @@ public class KmSqlResultFormatterHtmlNormal
     private void addData(String schema, String sql, KmTimer timer)
     {
         _out.open("table");
-        _out.printAttribute("class", "sqlResultData");
+        _out.printAttribute("class", KmCssDefaultConstantsIF.sqlResultValue);
         _out.close();
 
         if ( sql != null )
@@ -198,17 +211,17 @@ public class KmSqlResultFormatterHtmlNormal
 
     private void beginBlockSelect()
     {
-        beginBlock("sqlResultSelect");
+        beginBlock(KmCssDefaultConstantsIF.sqlResultSelect);
     }
 
     private void beginBlockUpdate()
     {
-        beginBlock("sqlResultUpdate");
+        beginBlock(KmCssDefaultConstantsIF.sqlResultUpdate);
     }
 
     private void beginBlockError()
     {
-        beginBlock("sqlResultError");
+        beginBlock(KmCssDefaultConstantsIF.sqlResultError);
     }
 
     private void beginBlock(String css)

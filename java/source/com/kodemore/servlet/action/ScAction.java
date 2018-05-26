@@ -1,15 +1,15 @@
 package com.kodemore.servlet.action;
 
+import com.kodemore.command.KmDao;
 import com.kodemore.command.KmDaoRunnableCommand;
+import com.kodemore.dao.KmDaoSessionManager;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.servlet.utility.ScKeyIF;
+import com.kodemore.servlet.utility.ScActionRegistry;
 import com.kodemore.utility.Kmu;
 
 public class ScAction
-    implements ScKeyIF
 {
     //##################################################
     //# variables
@@ -20,7 +20,7 @@ public class ScAction
      * Keys must be consistently assigned and registered during application
      * startup so that all JVMs use the same keys for the same actions.
      */
-    private String              _key;
+    private int _key;
 
     /**
      * Used to check security and handle errors.
@@ -32,24 +32,24 @@ public class ScAction
      * name of the context, but in some cases it may be usefult to have a
      * more specific name appended to the context.
      */
-    private String              _name;
+    private String _name;
 
     /**
      * The behavior to be executed.
      */
-    private Runnable            _runnable;
+    private Runnable _runnable;
 
     /**
      * If true (the default) the runnable will be executed inside a
      * hibernate (database) transaction.
      */
-    private boolean             _useTransaction;
+    private boolean _useTransaction;
 
     /**
      * If true (the default) the client browser warn the user if there
      * are any dirty fields before submitting the action.
      */
-    private boolean             _changeTracking;
+    private boolean _changeTracking;
 
     /**
      * By default, action use client-side javascript to check for unsaved changes
@@ -63,14 +63,14 @@ public class ScAction
      * This value allows us to override the default behavior.
      * If set, then unsaved changes are only checked inside this container.
      */
-    private ScHtmlIdIF          _changeTrackingScopeOverride;
+    private ScHtmlIdIF _changeTrackingScopeOverride;
 
     /**
      * If true, the slow command warning will be disabled.
      * This is false by default, but is particularly useful for development
      * tools that are expected to take more than a few seconds to run.
      */
-    private boolean             _disableSlowCommandWarning;
+    private boolean _disableSlowCommandWarning;
 
     /**
      * If set this wedge is executed between run() and handle().
@@ -78,7 +78,7 @@ public class ScAction
      * as a way for certain framework code to perform special setup
      * before calling handle.
      */
-    private Runnable            _wedge;
+    private Runnable _wedge;
 
     //##################################################
     //# constructor
@@ -86,8 +86,7 @@ public class ScAction
 
     public ScAction(ScContextSupplierIF ctx, Runnable r)
     {
-        ScControlRegistry reg = ScControlRegistry.getInstance();
-        _key = reg.getNextPersistentKey();
+        ScActionRegistry reg = ScActionRegistry.getInstance();
         reg.register(this);
 
         _contextSupplier = ctx;
@@ -102,15 +101,19 @@ public class ScAction
     //# key
     //##################################################
 
-    @Override
-    public String getKey()
+    public int getKey()
     {
         return _key;
     }
 
-    public boolean hasKey(String s)
+    public void registerKey(int e)
     {
-        return _key.equals(s);
+        _key = e;
+    }
+
+    public boolean hasKey(int e)
+    {
+        return _key == e;
     }
 
     //##################################################
@@ -308,7 +311,7 @@ public class ScAction
     @Override
     public int hashCode()
     {
-        return _key.hashCode();
+        return _key;
     }
 
     //##################################################
@@ -339,9 +342,7 @@ public class ScAction
     {
         try
         {
-            ScSecurityManagerIF secMgr = getSecurityManager();
-            if ( secMgr != null )
-                secMgr.checkSecurity();
+            checkSecurity();
 
             if ( hasWedge() )
                 getWedge().run();
@@ -356,5 +357,17 @@ public class ScAction
 
             errMgr.handleError(ex);
         }
+    }
+
+    private void checkSecurity()
+    {
+        ScSecurityManagerIF secMgr = getSecurityManager();
+        if ( secMgr == null )
+            return;
+
+        if ( KmDaoSessionManager.getInstance().hasSession() )
+            secMgr.checkSecurity();
+        else
+            KmDao.run(secMgr::checkSecurity);
     }
 }

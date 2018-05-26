@@ -2,57 +2,52 @@
  ** sql result
  *******************************************************************/
 
-.sqlResultBlock
-{
-    border: 1px solid #444;
-    padding: 5px;
 
-    box-shadow:         5px 5px 5px #ccc;
-}
+.sqlResultBlock
+    border:             1px solid #444
+    padding:            5px
+    box-shadow:         5px 5px 5px #ccc
+
 
 .sqlResultSelect
-{
-    background-color: #ff0;
-}
+    background-color:   #ff0
+
 
 .sqlResultUpdate
-{
-    background-color: #0ff;
-}
+    background-color:   #0ff
+
 
 .sqlResultError
-{
-    background-color: #f00;
-}
+    background-color:   #faa
+
 
 table.sqlResultTable
-{
-    content: normal; /* Stylus Compression Hack, see comment above. */
-}
+    content: normal // prevent stylus compression
+
 
 td.sqlResultHeader
-{
-    font-weight: bold;
-    padding: 3px;
-    background-color: #eee;
-    white-space: nowrap;
-    border: 1px solid gray;
-}
+    font-weight:        bold
+    padding:            3px
+    background-color:   #eee
+    white-space:        nowrap
+    border:             1px solid gray
+
 
 tr.sqlResultValue:nth-child(even)
-{
-    background-color: #fff;
-}
+    background-color:   #fff
+
 
 tr.sqlResultValue:nth-child(odd)
-{
-    background-color: #eee;
-}
+    background-color:   #eee
+
 
 td.sqlResultValue
-{
-    padding: 3px;
-    border: 1px solid gray;
-    white-space: nowrap;
-}
+    padding:            3px
+    border:             1px solid gray
+    white-space:        nowrap
 
+
+span.sqlRollbackMessage
+    font-weight:        bold
+    text-transform:     uppercase
+    color:              red

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,18 @@
 
 package com.kodemore.servlet.field;
 
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.json.KmJsonMap;
+import com.kodemore.meta.KmMetaAssociation;
+import com.kodemore.meta.KmMetaProperty;
+import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.variable.ScLocalInteger;
+import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.Kmu;
 
-public class ScDropdownField<T>
+public abstract class ScDropdownField<T>
     extends ScAbstractSelectField<T>
 {
     //##################################################
@@ -40,6 +48,24 @@ public class ScDropdownField<T>
      */
     private static final int SELECT_SIZE = 1;
 
+    private static final Integer DEFAULT_INLINE_WIDTH = 200;
+
+    //==================================================
+    //= constants :: chosen
+    //==================================================
+
+    /**
+     * If true, use the 'chosen' javascript library to convert the
+     * html select field into a fancy version that supports client-side searching.
+     *
+     * Homepage
+     * https://harvesthq.github.io/chosen
+     *
+     * Options
+     * https://harvesthq.github.io/chosen/options.html
+     */
+    private static final boolean USES_CHOSEN = false;
+
     //##################################################
     //# static :: layout enum
     //##################################################
@@ -48,6 +74,7 @@ public class ScDropdownField<T>
      * The various layout options.
      */
     private static enum Layout
+        implements KmEnumIF
     {
         /**
          * Treat the control as an inline element, with a fixed width.
@@ -65,14 +92,15 @@ public class ScDropdownField<T>
         /**
          * For use inside a flexbox (row), the child will fill the available space.
          */
-        flexFiller;
+        flexFiller
     }
 
     //##################################################
     //# variables
     //##################################################
 
-    private Layout _layout;
+    private Layout         _layout;
+    private ScLocalInteger _maximumInlineWidth;
 
     //##################################################
     //# constructor
@@ -80,6 +108,7 @@ public class ScDropdownField<T>
 
     public ScDropdownField()
     {
+        _maximumInlineWidth = new ScLocalInteger();
         layoutInline();
     }
 
@@ -90,6 +119,13 @@ public class ScDropdownField<T>
     public void layoutInline()
     {
         _layout = Layout.inline;
+        _maximumInlineWidth.setValue(DEFAULT_INLINE_WIDTH);
+    }
+
+    public void layoutInline(int width)
+    {
+        _layout = Layout.inline;
+        _maximumInlineWidth.setValue(width);
     }
 
     public void layoutBlock()
@@ -103,8 +139,64 @@ public class ScDropdownField<T>
     }
 
     //##################################################
+    //# meta
+    //##################################################
+
+    @Override
+    public void setMeta(KmMetaAssociation<?,T> x)
+    {
+        super.setMeta(x);
+
+        if ( x.isRequired() )
+            setNullSelectPrefix();
+        else
+            setNullNonePrefix();
+    }
+
+    @Override
+    public void setMeta(KmMetaProperty<?,T> x)
+    {
+        super.setMeta(x);
+
+        if ( x.isRequired() )
+            setNullSelectPrefix();
+        else
+            setNullNonePrefix();
+    }
+
+    //##################################################
     //# render
     //##################################################
+
+    @Override
+    public void renderControlOn(KmHtmlBuilder out)
+    {
+        super.renderControlOn(out);
+
+        renderChosenOn(out);
+    }
+
+    /**
+     * @see #USES_CHOSEN
+     */
+    private void renderChosenOn(KmHtmlBuilder out)
+    {
+        if ( !USES_CHOSEN )
+            return;
+
+        String ref = getListReference();
+
+        KmJsonMap options;
+        options = new KmJsonMap();
+        // options.setInteger("disable_search_threshold", 10);
+        // options.setBoolean("search_contains", false);
+        // options.setInteger("width", width);
+
+        ScBlockScript ajax;
+        ajax = out.getPostRender();
+        ajax.run("%s.chosen(%s);", ref, options);
+        ajax.run("%s.chosen().change();", ref);
+    }
 
     @Override
     protected int getSelectSize()
@@ -113,24 +205,56 @@ public class ScDropdownField<T>
     }
 
     @Override
-    protected void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
+    protected void applyWrapperLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
     {
         css.dropdownField();
 
         switch ( _layout )
         {
             case inline:
-                css.flexInlineRow();
+                css.dropdownFieldInline();
                 break;
 
             case block:
-                css.flexRow();
+                css.dropdownFieldBlock();
                 break;
 
             case flexFiller:
-                css.flexInlineRow();
-                css.flexChildFiller();
+                css.dropdownFieldFlexFiller();
                 break;
         }
     }
+
+    @Override
+    protected KmStyleBuilder formatSelectStyle()
+    {
+        switch ( _layout )
+        {
+            case block:
+            case flexFiller:
+                return null;
+
+            case inline:
+                if ( !_maximumInlineWidth.hasValue() )
+                    return null;
+
+                KmStyleBuilder style;
+                style = new KmStyleBuilder();
+                style.maxWidth(_maximumInlineWidth.getValue());
+                return style;
+        }
+        throw Kmu.newEnumError(_layout);
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    protected void _postAjaxUpdate()
+    {
+        if ( USES_CHOSEN )
+            getData().ajax().run("%s.trigger('chosen:updated');", getListReference());
+    }
+
 }

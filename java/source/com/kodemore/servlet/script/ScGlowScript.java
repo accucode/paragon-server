@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -34,24 +34,24 @@ public class ScGlowScript
     //##################################################
 
     /**
-     * The jquery selector for the element(s) to glow. 
+     * The jquery selector for the element(s) to glow.
      * This is required.
      */
-    private String  _target;
+    private String _target;
 
     /**
      * The css attribute to be modified.  This should be a single attribute,
      * compatible with the jquery methods .css and .animate.
      * This is optional.  If not specified, the default is determined by javascript.
      */
-    private String  _attribute;
+    private String _attribute;
 
     /**
      * The value to which the attribute will be temporarily changed.
      * This is optional.  If not specified, the default is determined by javascript.
      * However, if you specify the attribute, then you should probably also set the value.
      */
-    private String  _value;
+    private String _value;
 
     /**
      * The speed of the animation.  This is the total animation speed.

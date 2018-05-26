@@ -20,7 +20,7 @@ public class KmZendeskConnection
     //# constants
     //##################################################
 
-    private static String               HOST = "example.zendesk.com";
+    private static String HOST = "example.zendesk.com";
     // private static String HOST = "localhost";
 
     //##################################################
@@ -31,11 +31,11 @@ public class KmZendeskConnection
      * The uri path. In general, don't encode parameters into the path; set the
      * parameters separately.
      */
-    private String                      _path;
-    private String                      _host;
-    private String                      _apiToken;
-    private String                      _userId;
-    private String                      _data;
+    private String _path;
+    private String _host;
+    private String _apiToken;
+    private String _userId;
+    private String _data;
 
     /**
      * The list of parameters. Parameters are generally stored and used in the
@@ -51,7 +51,7 @@ public class KmZendeskConnection
     /**
      * The http request wrapper.
      */
-    private KmHttpRequest               _request;
+    private KmHttpRequest _request;
 
     //##################################################
     //# constructor

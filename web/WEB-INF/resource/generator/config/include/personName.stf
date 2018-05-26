@@ -28,7 +28,7 @@
     : type      = name
 
 
-    abstractField
+    field
     : name      = fullName
     : label     = Name
     : help...
@@ -37,7 +37,13 @@
         Use the nickname if the first and last names are both empty.
         This should never be blank.
         ---
-    : type      = calculated
+    : type      = name
+    : required  = true
+
+        dependsOn
+        : value = firstName
+        : value = lastName
+        : value = nickname
 
 
     abstractField

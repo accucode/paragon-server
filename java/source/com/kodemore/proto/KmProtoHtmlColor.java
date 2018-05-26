@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.type.KmhHtmlColorType;
 import com.kodemore.meta.KmMetaHtmlColorProperty;
 import com.kodemore.servlet.field.ScColorField;
@@ -23,9 +24,9 @@ public class KmProtoHtmlColor
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "char(7)";
+        return singleColumn("char(7)");
     }
 
     @Override

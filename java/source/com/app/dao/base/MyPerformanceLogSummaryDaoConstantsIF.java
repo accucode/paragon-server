@@ -17,14 +17,16 @@ public interface MyPerformanceLogSummaryDaoConstantsIF
     //# fields
     //##################################################
 
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String AVERAGE_MS = "averageMs";
+    String COUNT = "count";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String MAXIMUM_MS = "maximumMs";
+    String MINIMUM_MS = "minimumMs";
+    String NAME = "name";
+    String TOTAL_MS = "totalMs";
     String UID = "uid";
     String UTC_DATE = "utcDate";
-    String NAME = "name";
-    String COUNT = "count";
-    String MINIMUM_MS = "minimumMs";
-    String MAXIMUM_MS = "maximumMs";
-    String AVERAGE_MS = "averageMs";
-    String TOTAL_MS = "totalMs";
-    String DISPLAY_STRING = "displayString";
 
 }

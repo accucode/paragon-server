@@ -6,12 +6,16 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDiv;
 
 public abstract class MyEditDialog<T>
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
     //##################################################
 
+    /**
+     * The consumers are notified after the value has been
+     * updated/saved.
+     */
     private KmList<Consumer<T>> _savedListeners;
 
     //##################################################
@@ -22,18 +26,29 @@ public abstract class MyEditDialog<T>
     {
         _savedListeners = new KmList<>();
 
-        setSubmitAction(this::handleSave);
+        onSubmit(newUncheckedAction(this::handleSave));
         installButtons();
+        installBody();
     }
+
+    //##################################################
+    //# install
+    //##################################################
+
+    /**
+     * Install the body of the form.
+     * This is the only part that subclasses should generally configure.
+     */
+    protected abstract void installBody();
 
     private void installButtons()
     {
         ScDiv footer;
         footer = showFooter();
-        footer.css().flexRow().flexAlignEnd();
+        footer.css().flexRow().flexAlignStart();
         footer.css().buttonBox();
         footer.addSaveButton();
-        footer.addCancelButton(this::ajaxClose);
+        footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //##################################################
@@ -44,6 +59,19 @@ public abstract class MyEditDialog<T>
     {
         prepare(e);
         ajaxOpen();
+    }
+
+    /**
+     * Update all ui components in preparation for opening
+     * the dialog.
+     */
+    protected abstract void prepare(T e);
+
+    @Override
+    protected final void preRender()
+    {
+        // final, so clients will not override it.
+        super.preRender();
     }
 
     //##################################################
@@ -77,14 +105,8 @@ public abstract class MyEditDialog<T>
     }
 
     //##################################################
-    //# abstract
+    //# save
     //##################################################
-
-    /**
-     * Update all ui components in preparation for opening
-     * the dialog.
-     */
-    protected abstract void prepare(T e);
 
     /**
      * Save the value to the database.  Return the saved

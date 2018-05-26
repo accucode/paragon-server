@@ -7,6 +7,7 @@ import com.kodemore.dao.*;
 import com.kodemore.utility.*;
 
 import ${package}.criteria.*;
+import ${package}.dao.base.*;
 import ${package}.dao.core.*;
 import ${package}.filter.*;
 import ${package}.model.*;
@@ -14,7 +15,7 @@ import ${package}.model.meta.*;
 import ${package}.utility.*;
 
 public abstract class ${model.f_DaoBaseClass}
-    extends KmAbstractDao<${model.f_Class},${model.primaryKeyField.f_Type}>
+    extends ${Prefix}AbstractDao<${model.f_Class},${model.primaryKeyField.f_Type}>
     implements ${model.f_DaoConstantsIF}
 {
 $utility.protocol("constructor")
@@ -62,6 +63,36 @@ $utility.protocol("find")
         return getKey(e);
     }
 
+    /**
+     * Find the keys.
+     * The resulting list may have a DIFFERENT size and sequence.
+     */
+    public KmList<${model.f_Class}> find${model.primaryKeyField.f_Names}(KmList<${model.primaryKeyField.f_Type}> ${model.primaryKeyField.f_names})
+    {
+        return find${model.primaryKeyField.f_Names}(${model.primaryKeyField.f_names}, false);
+    }
+
+    /**
+     * Find the keys.
+     * The resulting list will have the SAME size and sequence.
+     */
+    public KmList<${model.f_Class}> findOrdered${model.primaryKeyField.f_Names}(KmList<${model.primaryKeyField.f_Type}> ${model.primaryKeyField.f_names})
+    {
+        return find${model.primaryKeyField.f_Names}(${model.primaryKeyField.f_names}, true);
+    }
+
+    public KmList<${model.f_Class}> find${model.primaryKeyField.f_Names}(KmList<${model.primaryKeyField.f_Type}> ${model.primaryKeyField.f_names}, boolean ordered)
+    {
+        ${model.f_CriteriaClass} c;
+        c = createCriteria();
+        c.where${model.primaryKeyField.f_Name}().isIn(${model.primaryKeyField.f_names});
+        KmList<${model.f_Class}> v = c.findAll();
+
+        return ordered
+            ? v.toOrderedList(${model.primaryKeyField.f_names}, e -> e.get${model.primaryKeyField.f_Name}())
+            : v;
+    }
+
 $utility.protocol("delete")
 
     public void delete${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
@@ -72,12 +103,5 @@ $utility.protocol("delete")
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
 
         delete(m);
-    }
-
-$utility.protocol("convenience")
-
-    protected ${Prefix}DaoAccess getAccess()
-    {
-        return ${Prefix}Globals.getAccess();
     }
 }

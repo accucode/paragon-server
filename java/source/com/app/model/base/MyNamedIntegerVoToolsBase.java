@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MyNamedIntegerVoToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaNamedIntegerVo Meta = MyNamedIntegerVo.Meta;
 
 }

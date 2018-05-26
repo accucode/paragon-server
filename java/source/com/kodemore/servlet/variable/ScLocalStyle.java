@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import com.kodemore.html.KmStyleBuilder;
 /**
  * I am used to store the "style" attribute in html elements.
  * E.g.: <div style="...">
- * 
+ *
  * We commonly use multiple style values for a single elements.
  * E.g.: <div style="width:100px;height:100px;"
  */
@@ -44,7 +44,7 @@ public class ScLocalStyle
     }
 
     //##################################################
-    //# convenience 
+    //# convenience
     //##################################################
 
     public KmStyleBuilder toBuilder()

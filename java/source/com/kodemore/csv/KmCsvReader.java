@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,11 @@ import java.util.Map;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
  * I am a simply utility to help read Comma Separated Value files.
- * See main method for example usage.
  */
 public class KmCsvReader
 {
@@ -43,25 +43,25 @@ public class KmCsvReader
     //# constants
     //##################################################
 
-    private static final char    DEFAULT_QUOTE     = '"';
-    private static final char    DEFAULT_SEPARATOR = ',';
+    private static final char DEFAULT_QUOTE     = '"';
+    private static final char DEFAULT_SEPARATOR = ',';
 
-    private static final char    CR                = '\r';
-    private static final char    LF                = '\n';
+    private static final char CR = '\r';
+    private static final char LF = '\n';
 
     //##################################################
     //# variables
     //##################################################
 
-    private PushbackReader       _reader;
-    private KmList<String>       _fields;
+    private PushbackReader _reader;
+    private KmList<String> _fields;
 
     /**
-     * The 0-based index of the current line.
-     * Return -1 if the first line has not been read yet.
+     * The 0-based index of the current RECORD (not line).
+     * Return -1 if the first record has not been read yet.
      */
-    private int                  _lineIndex;
-    private int                  _fieldIndex;
+    private int _recordIndex;
+    private int _fieldIndex;
 
     private char                 _quote;
     private char                 _separator;
@@ -73,7 +73,7 @@ public class KmCsvReader
 
     public KmCsvReader()
     {
-        _lineIndex = -1;
+        _recordIndex = -1;
         _separator = DEFAULT_SEPARATOR;
         _quote = DEFAULT_QUOTE;
         _fields = new KmList<>();
@@ -99,7 +99,7 @@ public class KmCsvReader
 
     public void setSourceFile(String path)
     {
-        String s = Kmu.readFileString(path);
+        String s = KmFiles.readString(path);
         setSource(s);
     }
 
@@ -166,7 +166,7 @@ public class KmCsvReader
         if ( i < 0 )
             return false;
 
-        _lineIndex++;
+        _recordIndex++;
         _unread(i);
         _readFields();
 
@@ -187,8 +187,6 @@ public class KmCsvReader
             s = _convert(s);
             _fields.add(s);
         }
-
-        _fields.isNotEmpty();
     }
 
     private String _readField() throws IOException
@@ -210,6 +208,7 @@ public class KmCsvReader
         }
 
         _unread(i);
+
         if ( i == _quote )
             return _readQuotedField();
 
@@ -318,6 +317,14 @@ public class KmCsvReader
     //# fields
     //##################################################
 
+    /**
+     * Return all of the fields on the current line.
+     */
+    public KmList<String> getFields()
+    {
+        return _fields;
+    }
+
     public String getString(int i)
     {
         return getString(i, "");
@@ -335,9 +342,9 @@ public class KmCsvReader
 
     public String getString(int i, String def)
     {
-        if ( !isValidField(i) )
-            return def;
-        return _fields.get(i);
+        return isValidField(i)
+            ? _fields.get(i)
+            : def;
     }
 
     public int getInteger(int i)
@@ -421,9 +428,14 @@ public class KmCsvReader
         return getFieldCount() > i;
     }
 
-    public int getLineIndex()
+    public int getRecordIndex()
     {
-        return _lineIndex;
+        return _recordIndex;
+    }
+
+    public int getLineNumber()
+    {
+        return getRecordIndex() + 1;
     }
 
 }

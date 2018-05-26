@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScDivWrapper;
@@ -32,6 +31,7 @@ import com.kodemore.servlet.control.ScFieldIF;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScUtility;
 import com.kodemore.servlet.script.ScVisibilityScript;
+import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
@@ -55,12 +55,12 @@ public class ScTimestampField
     /**
      * The date field.
      */
-    private ScDateField              _dateField;
+    private ScDateField _dateField;
 
     /**
      * The time field.
      */
-    private ScTimeField              _timeField;
+    private ScTimeField _timeField;
 
     /**
      * I adapt a domain model to this field.  The value adapter is not required,
@@ -68,24 +68,24 @@ public class ScTimestampField
      * In practice, adapters work best when all of the fields in a given container
      * (e.g.: a form or group) are associated with the same model.
      */
-    private ScLocalAdaptor           _valueAdaptor;
+    private ScLocalAdaptor _valueAdaptor;
 
     /**
      * A type specific validator.
      */
-    private KmValidator<KmTimestamp> _validator;
+    private ScLocal<KmValidator<KmTimestamp>> _validator;
 
     /**
      * A link that displays "now", it automatically updates the date/time
      * when clicked. The link is visible by default, but can be hidden.
      */
-    private ScLink                   _nowLink;
+    private ScLink _nowLink;
 
     /**
-     * The timezone that will be used when clicking the now link.  If not set, it
-     * will default to the local timezone.
+     * The timezone that will be used when clicking the now link.
+     * If not set, it will default to the local timezone.
      */
-    private KmTimeZone               _timeZone;
+    private KmTimeZone _timeZone;
 
     //##################################################
     //# constructor
@@ -108,6 +108,7 @@ public class ScTimestampField
         _nowLink = root.addLink("now", newUncheckedAction(this::handleNow));
 
         _valueAdaptor = new ScLocalAdaptor();
+        _validator = new ScLocal<>();
     }
 
     //##################################################
@@ -232,22 +233,22 @@ public class ScTimestampField
 
     public final KmValidator<KmTimestamp> getValidator()
     {
-        return _validator;
+        return _validator.getValue();
     }
 
     public final void setValidator(KmValidator<KmTimestamp> e)
     {
-        _validator = e;
+        _validator.setValue(e);
 
-        if ( _validator == null )
+        if ( e == null )
         {
             _dateField.clearValidator();
             _timeField.clearValidator();
         }
         else
         {
-            _dateField.setRequired(_validator.isRequired());
-            _timeField.setRequired(_validator.isRequired());
+            _dateField.setRequired(e.isRequired());
+            _timeField.setRequired(e.isRequired());
         }
     }
 
@@ -263,7 +264,7 @@ public class ScTimestampField
 
     public final boolean hasValidator()
     {
-        return _validator != null;
+        return _validator.hasValue();
     }
 
     public final void setRequired()
@@ -289,18 +290,35 @@ public class ScTimestampField
     //##################################################
 
     @Override
-    public boolean validateQuietly()
+    public void validate()
     {
-        if ( !super.validateQuietly() )
-            return false;
-
+        super.validate();
         if ( hasErrors() )
-            return false;
+            return;
 
-        if ( !validateParse() )
-            return false;
+        validateParse();
+        if ( hasErrors() )
+            return;
 
-        return validateValidator();
+        validateBothFilled();
+        if ( hasErrors() )
+            return;
+
+        validateValidator();
+    }
+
+    private void validateBothFilled()
+    {
+        boolean hasDate = _dateField.hasValue();
+        boolean hasTime = _timeField.hasValue();
+
+        if ( hasDate && hasTime )
+            return;
+
+        if ( !hasDate && !hasTime )
+            return;
+
+        _dateField.addError("Date and Time must both be filled in.");
     }
 
     /**
@@ -308,27 +326,21 @@ public class ScTimestampField
      * fields to validate the parsing of text-to-value BEFORE the
      * subsequent value is validated.
      *
-     * This returns true by default.
+     * Does nothing by default.
      * Most classes do not need to override this.
      */
-    protected boolean validateParse()
+    protected void validateParse()
     {
-        return true;
+        // none
     }
 
-    private boolean validateValidator()
+    private void validateValidator()
     {
         if ( !hasValidator() )
-            return true;
+            return;
 
-        KmList<KmErrorIF> errors = new KmList<>();
-        getValidator().validateOnly(getValue(), errors);
-
-        if ( errors.isEmpty() )
-            return true;
-
+        KmErrorList errors = getValidator().getValidationErrors(getValue());
         _dateField.setErrors(errors);
-        return false;
     }
 
     //##################################################
@@ -337,12 +349,9 @@ public class ScTimestampField
 
     @Override
     @SuppressWarnings("unchecked")
-    protected boolean applyFromModel_here(Object model, boolean skipEditableFields)
+    protected boolean applyFromModel_here(Object model)
     {
-        if ( skipEditableFields )
-            return true;
-
-        super.applyFromModel_here(model, skipEditableFields);
+        super.applyFromModel_here(model);
 
         if ( _valueAdaptor.hasValue() )
         {

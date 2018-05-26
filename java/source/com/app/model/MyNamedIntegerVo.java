@@ -46,7 +46,28 @@ public class MyNamedIntegerVo
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
+    {
+        return formatNamedValue();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return formatNamedValue();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
+    }
+
+    //==================================================
+    //= private
+    //==================================================
+
+    private String formatNamedValue()
     {
         return getName() + " " + getValue();
     }

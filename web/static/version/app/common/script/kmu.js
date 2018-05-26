@@ -16,22 +16,16 @@ var Kmu = {};
 //**********************************************************
 
 /**
- * Used with the methods to open and close dialogs.
+ * Used to identify the application version used to create and process the
+ * current web page. The application typically sets this when the HTML page
+ * is initially loaded. The application version is subsequently submitted
+ * as part of the ajax requests so that the application and ensure that
+ * the client-side request is in sync with the server-side application code.
  */
-Kmu.dialogOpenSpeed  = 300;
-Kmu.dialogCloseSpeed = 100;
-
-/**
- * Used to determine the automatic block delay.
- * Page content is automatically blocked during ajax requests.
- * If the ajax request takes longer than this, then shade the
- * screen to provide a visual indication to the user.
- */
-Kmu.blockDelayMs     = 500;
+Kmu.applicationVersion = null;
 
 /**
  * Used to identify which page is currently rendered.
-
  * The server compares the current and next page in order to perform certain
  * conditional updates.  For example, rather than updates the left-menu for EVERY
  * request, the server compares the current/next pages to determine when/if the menu
@@ -46,6 +40,20 @@ Kmu.blockDelayMs     = 500;
  */
 Kmu.currentPageKey = null;
 
+/**
+ * Used with the methods to open and close dialogs.
+ */
+Kmu.dialogOpenSpeed  = 300;
+Kmu.dialogCloseSpeed = 100;
+
+/**
+ * Used to determine the automatic block delay.
+ * Page content is automatically blocked during ajax requests.
+ * If the ajax request takes longer than this, then shade the
+ * screen to provide a visual indication to the user.
+ */
+Kmu.blockDelayMs     = 500;
+
 //**********************************************************
 //** ajax
 //**********************************************************
@@ -56,9 +64,13 @@ Kmu.currentPageKey = null;
  *          Required string.
  *          The action key that identifies the server side function to execute.
  *
- *      form
+ *      formId
  *          Optional string selector.
  *          Identifies the parameters to be submitted with this request.
+ *          This should be the form's html id.
+ *
+ *      formToken
+ *          Identifies the form based on the server side token.
  *
  *      argument
  *          Optional string.
@@ -97,13 +109,22 @@ Kmu.ajax = function(options)
 {
     var ajaxFn = function()
     {
-        var onSuccessArr
-        onSuccessArr = Kmu.initAjaxBlocking(options);
+        var onSuccessArr;
+        onSuccessArr = [];
         onSuccessArr.push(Kmu.ajaxSuccess);
+
+        var onErrorArr;
+        onErrorArr = [];
+        onErrorArr.push(Kmu.ajaxError);
+
+        var onCompleteArr;
+        onCompleteArr = Kmu.initAjaxBlocking(options);
+        onCompleteArr.push(Kmu.ajaxComplete);
 
         var data = Kmu.formatAjaxData(options);
 
         // Assumes ROOT servlet context
+        // Charset is always UTF (per specification)
         $.ajax(
         {
             type:       'POST',
@@ -111,8 +132,8 @@ Kmu.ajax = function(options)
             dataType:   'json',
             data:       data,
             success:    onSuccessArr,
-            error:      Kmu.ajaxError,
-            complete:   Kmu.ajaxComplete
+            error:      onErrorArr,
+            complete:   onCompleteArr
         });
     };
 
@@ -145,11 +166,10 @@ Kmu.confirmAndThen = function(htmlMsg, fn)
 
     dialog.dialog(
     {
-        height: 200,
         modal: true,
         stack: true,
         resizable: false,
-        draggable: false,
+        draggable: true,
         closeOnEscape: false, // 'true' interferes with global event listeners.
         close: function()
         {
@@ -177,27 +197,27 @@ Kmu.confirmAndThen = function(htmlMsg, fn)
 
 Kmu.initAjaxBlocking = function(options)
 {
-    var onSuccessArr = [];
+    var arr = [];
 
     if ( options.block )
     {
-          var sel = options.block;
-          var delay = Kmu.blockDelayMs;
+        var sel = options.block;
+        var delay = Kmu.blockDelayMs;
         Kmu.blockControlQuietly(sel, delay);
 
         var fn = function() { Kmu.unblockControl(sel); };
-        onSuccessArr.push(fn);
+        arr.push(fn);
     }
     else
     {
-          var delay = Kmu.blockDelayMs;
+        var delay = Kmu.blockDelayMs;
         Kmu.blockPageQuietly(delay);
 
         var fn = function() { Kmu.unblockPage(); };
-        onSuccessArr.push(fn);
+        arr.push(fn);
     }
 
-    return onSuccessArr;
+    return arr;
 }
 
 Kmu.formatAjaxData = function(options)
@@ -212,6 +232,7 @@ Kmu.formatAjaxBaseParams = function(options)
 {
     var e;
     e = {};
+    e._applicationVersion   = Kmu.applicationVersion;
     e._currentPageKey       = Kmu.currentPageKey;
     e._windowLocation       = window.location.href;
 
@@ -221,8 +242,8 @@ Kmu.formatAjaxBaseParams = function(options)
     e._isPageTitleVisible   = $('#title').isVisible();
     e._isPageContentVisible = $('#content').isVisible();
 
-    if ( options.form )
-        e._form = options.form;
+    if ( options.formToken )
+        e._formToken = options.formToken;
 
     if ( options.action )
         e._action = options.action;
@@ -236,10 +257,6 @@ Kmu.formatAjaxBaseParams = function(options)
     if ( options.direction )
         e._direction = options.direction;
 
-    var gs = KmNavigator.getGlobalSession();
-    if ( gs )
-        e._globalSession = gs;
-
     var ps = KmNavigator.getPageSession();
     if ( ps )
         e._session = ps;
@@ -249,10 +266,10 @@ Kmu.formatAjaxBaseParams = function(options)
 
 Kmu.formatAjaxFormParams = function(options)
 {
-    if ( !options.form )
+    if ( !options.formId )
         return null;
 
-    return $('#' + options.form).serialize();
+    return $('#' + options.formId).serialize();
 }
 
 Kmu.joinAjaxParams = function(a, b)
@@ -278,16 +295,33 @@ Kmu.ajaxSuccess = function(result)
     }
     catch ( ex )
     {
-        alert("Cannot process ajax result...\n" + ex.message);
+        console.log('AJAX ERROR');
+        console.log('Exception processing result in Kmu.ajaxSuccess.');
+        console.log(ex.message);
+        console.log('------------------------------');
+
+        var html = ''
+            + 'An unexpected error occurred when processing the response. '
+            + 'Please refresh your browser and try again. '
+            + 'Notify your administrator if the problem persits.';
+
+        Kmu.showAjaxMessage(html);
     }
 }
 
 Kmu.ajaxError = function(req, status, error)
 {
-    alert('Ajax Error'
-        + '\nStatus: ' + status
-        + '\nError: ' + error
-        );
+    console.log('AJAX ERROR');
+    console.log('Status: ' + status);
+    console.log('Error: ' + error);
+    console.log('------------------------------');
+
+    var html = ''
+        + 'The application is temporarily unavailable. '
+        + 'Please try again in 10 minutes. '
+        + 'If the problem persists, contact your administrator. ';
+
+    Kmu.showAjaxMessage(html);
 }
 
 /**
@@ -303,12 +337,38 @@ Kmu.ajaxComplete = function(jqXHR, textStatus)
 
 /**
  * Use a modal dialog to display a message.
+ *
+ * Options...
+ *      title
+ *          The text to display in the title/banner.
+ *          This must be plain text.
+ *          Defaults to "Notice..." if not specified.
+ *
+ *      textMessage
+ *          The message to be displayed, as plain text.
+ *          Use textMessage or htmlMessage, not both.
+ *
+ *      htmlMessage
+ *          The message to be displayed, as html.
+ *          Use textMessage or htmlMessage, not both.
+ *
  */
-Kmu.showNotice = function(htmlMsg)
+Kmu.showNotice = function(options)
 {
     // The dialog element is predefined in pageLayout.html.
     var dialog = $("#noticeDialog");
-    $('#noticeDialogMessage').html(htmlMsg);
+
+    var title = "Notice...";
+    if ( options.title )
+        title = options.title;
+
+    $('#noticeDialog').attr('title', title);
+
+    if ( options.textMessage )
+        $('#noticeDialogMessage').text(options.textMessage);
+
+    if ( options.htmlMessage )
+        $('#noticeDialogMessage').html(options.htmlMessage);
 
     dialog.dialog(
     {
@@ -327,6 +387,82 @@ Kmu.showNotice = function(htmlMsg)
             "Close": function()
             {
                 $(this).dialog("close");
+            }
+        }
+    });
+
+    dialog.parent().onEscape(function()
+    {
+        dialog.dialog('close');
+    });
+}
+
+
+/**
+ * Use a modal dialog to display a message.
+ */
+Kmu.showAjaxMessage = function(htmlMsg)
+{
+    // The dialog element is predefined in pageLayout.html.
+    var dialog = $("#ajaxDialog");
+    $('#ajaxDialogMessage').html(htmlMsg);
+
+    dialog.dialog(
+    {
+        modal: true,
+        stack: true,
+        resizable: false,
+        draggable: true,
+        closeOnEscape: false, // 'true' interferes with global event listeners.
+        close: function()
+        {
+            $(this).dialog('destroy');
+        },
+        buttons:
+        {
+            "Close": function()
+            {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+/**
+ * Use a modal dialog to display timeout message.
+ */
+Kmu.showTimeoutMessage = function()
+{
+    // The dialog element is predefined in pageLayout.html.
+    var dialog = $("#timeoutDialog");
+
+    if ( dialog.size() == 0 )
+    {
+        alert(""
+            + "Your session has expired, or the application has been updated.\n"
+            + "Please click 'OK' to continue.");
+        window.location.reload(true);
+        return;
+    }
+
+    dialog.dialog(
+    {
+        height: 200,
+        modal: true,
+        stack: true,
+        resizable: false,
+        draggable: false,
+        closeOnEscape: false, // 'true' interferes with global event listeners.
+        dialogClass: 'dialogNoClose',
+        close: function()
+        {
+            window.location.reload(true);
+        },
+        buttons:
+        {
+            "Refresh": function()
+            {
+                window.location.reload(true);
             }
         }
     });
@@ -441,7 +577,7 @@ Kmu.shallowCopy = function(value)
 /**
  * Print the object's attributes to the console.log.
  */
-Kmu.logAttributes = function(o)
+Kmu.printAttributes = function(o)
 {
     if ( !o )
         return;
@@ -449,6 +585,16 @@ Kmu.logAttributes = function(o)
     for ( var e in o )
         if ( o.hasOwnProperty(e) )
             console.log(e + " => " + o[e]);
+}
+
+Kmu.printAttributeNames = function(o)
+{
+    if ( !o )
+        return;
+
+    for ( var e in o )
+        if ( o.hasOwnProperty(e) )
+            console.log(e);
 }
 
 /**
@@ -541,19 +687,6 @@ Kmu.show = function(e)
 //**********************************************************
 
 /**
- * http://jqueryui.com/demos/datepicker/
- */
-Kmu.installDateField = function(sel)
-{
-    $(sel).datepicker(
-    {
-        showOn: 'focus',
-        showAnim: 'slideDown',
-        contrainInput: true
-    });
-}
-
-/**
  * http://www.eyecon.ro/colorpicker/
  */
 Kmu.installColorField = function(sel)
@@ -588,11 +721,73 @@ Kmu.installColorField = function(sel)
     });
 }
 
+
 //**********************************************************
-//** json commands
+//** replace
 //**********************************************************
 
-Kmu.jsonReplaceSimple = function(json)
+
+/**
+ * Replace the target element with some other html.
+ *
+ * This should only be used when both the target and the
+ * replacement are visible, and you want to use a fade
+ * animation to effect the change.
+ *
+ * Options:
+ *
+ * target
+ * The jquery selector of the element to be replaced.
+ *
+ * replacement
+ * The html used to replace the target.
+ *
+ * speed
+ * The speed (in ms) of the transition (default = 250).
+ *
+ * postDomScript
+ * A script to be run after the target has been replaced,
+ * but before the replacement is visible.
+ *
+ * postRenderScript
+ * A script to be run after the replacement is visible and
+ * its fade animation is complete.
+ */
+Kmu.jsonReplaceFade = function(options)
+{
+    var target = $(options.target);
+
+    var speed = options.speed;
+    if ( !speed )
+        speed = 250;
+
+    // half for hide, half for show.
+    speed = speed / 2;
+
+    target.hide('fade', {}, speed, function()
+    {
+        var replacement;
+        replacement = $(options.replacement);
+        replacement.hide();
+
+        target.replaceWith(replacement);
+
+        if ( options.postDomScript )
+            eval(options.postDomScript);
+
+        replacement.show('fade', {}, speed, function()
+        {
+            if ( options.postRenderScript )
+                eval(options.postRenderScript);
+        });
+    });
+}
+
+//**********************************************************
+//** replace content
+//**********************************************************
+
+Kmu.jsonReplaceContentSimple = function(json)
 {
     var inner = $(json.inner);
     var html  = json.html;
@@ -609,9 +804,10 @@ Kmu.jsonReplaceSimple = function(json)
         eval(json.postRenderScript);
 }
 
-Kmu.jsonReplaceFade = function(json)
+Kmu.jsonReplaceContentFade = function(json)
 {
-    var inner = $(json.inner);
+    var inner       = $(json.inner);
+    var innerStyle  = Kmu.getStyle(inner);
 
     var outer = json.outer
         ? $(json.outer)
@@ -638,13 +834,16 @@ Kmu.jsonReplaceFade = function(json)
         {
             if ( json.postRenderScript )
                 eval(json.postRenderScript);
+
+            Kmu.setStyle(inner, innerStyle);
         });
     });
 }
 
-Kmu.jsonReplaceLeft = function(json)
+Kmu.jsonReplaceContentLeft = function(json)
 {
-    var inner = $(json.inner);
+    var inner       = $(json.inner);
+    var innerStyle  = Kmu.getStyle(inner);
 
     var outer = json.outer
         ? $(json.outer)
@@ -671,13 +870,16 @@ Kmu.jsonReplaceLeft = function(json)
         {
             if ( json.postRenderScript )
                 eval(json.postRenderScript);
+
+            Kmu.setStyle(inner, innerStyle);
         });
     });
 }
 
-Kmu.jsonReplaceRight = function(json)
+Kmu.jsonReplaceContentRight = function(json)
 {
-    var inner = $(json.inner);
+    var inner       = $(json.inner);
+    var innerStyle  = Kmu.getStyle(inner);
 
     var outer = json.outer
         ? $(json.outer)
@@ -704,13 +906,16 @@ Kmu.jsonReplaceRight = function(json)
         {
             if ( json.postRenderScript )
                 eval(json.postRenderScript);
+
+            Kmu.setStyle(inner, innerStyle);
         });
     });
 }
 
-Kmu.jsonReplaceFlip = function(json)
+Kmu.jsonReplaceContentFlip = function(json)
 {
-    var inner = $(json.inner);
+    var inner      = $(json.inner);
+    var innerStyle = Kmu.getStyle(inner);
 
     var outer = json.outer
         ? $(json.outer)
@@ -718,9 +923,8 @@ Kmu.jsonReplaceFlip = function(json)
 
     outer.promise().done(function()
     {
-
-        var easing   = jQuery.easing.def;
-        var style    = outer.attr('style');
+        var easing     = jQuery.easing.def;
+        var outerStyle = Kmu.getStyle(outer);
 
         var speed = json.speed;
         if ( !speed )
@@ -763,10 +967,8 @@ Kmu.jsonReplaceFlip = function(json)
                     if ( json.postRenderScript )
                         eval(json.postRenderScript);
 
-                    if ( style )
-                        outer.attr('style', style);
-                    else
-                        outer.removeAttr('style');
+                    Kmu.setStyle(inner, innerStyle);
+                    Kmu.setStyle(outer, outerStyle);
                 });
             });
         });
@@ -860,7 +1062,7 @@ Kmu.focus = function(sel)
 {
     var filters = [
         ":input[autofocus]:visible:enabled:not([readonly]):first",
-        ":input:visible:enabled:not([readonly]):first"
+        ":input:visible:enabled:not(button,[readonly]):first"
     ];
 
     var n = filters.length;
@@ -1580,6 +1782,19 @@ Kmu.scrollToIfOffScreen = function(parentSel, childSel)
         $(parentSel).scrollTo(childSel);
 }
 
+/**
+ * Scroll to the bottom of the target.
+ * This is typically applied to a div or other scrollable container.
+ */
+Kmu.scrollToBottom = function(sel, speedMs)
+{
+    var e = $(sel);
+    if ( !speedMs )
+        e.scrollTop(e[0].scrollHeight);
+    else
+        e.animate({ scrollTop: e.prop("scrollHeight")}, speedMs);
+}
+
 //**********************************************************
 //** client side filter
 //**********************************************************
@@ -1812,10 +2027,11 @@ Kmu.warnIfDirty = function(options)
     dialog.dialog(
     {
         height: 200,
+        width: 400,
         modal: true,
         stack: true,
         resizable: false,
-        draggable: false,
+        draggable: true,
         closeOnEscape: false, // 'true' interferes with global event listeners.
         close: function()
         {
@@ -1869,7 +2085,7 @@ Kmu.hasDirtyValues = function(scope)
             if ( Kmu.hasDirtyValue(e))
             {
                 dirty = true;
-                // console.log('Dirty: ' + $(e).attr('id'));
+                console.log('Dirty: ' + $(e).attr('id'));
                 return false; // return from the elements.each function
             }
         });
@@ -1908,8 +2124,10 @@ Kmu.showNoticeIfDirty = function(scope)
         return true;
 
     Kmu.showNotice(
-        'You have unsaved changes.<br>' +
-        'Save or cancel the changes before continuing.');
+    {
+        title:          "Unsaved Changes",
+        htmlMessage:    "You have unsaved changes.<br>Save or cancel before continuing."
+    });
     return false;
 }
 
@@ -1919,10 +2137,6 @@ Kmu.showNoticeIfDirty = function(scope)
 Kmu.updateOldValue = function(e)
 {
     e = $(e);
-    
-    console.log(e);
-    console.log(e.val());
-    
     e.data('kmOldValue',e.val());
 }
 
@@ -2007,7 +2221,7 @@ Kmu.selectAndCopyField = function(sel)
 {
     $(sel).select();
     Kmu.copyToClipboard();
-    // Kmu.deselect();
+    Kmu.deselect();
 }
 
 
@@ -2122,10 +2336,6 @@ Kmu.calendarGetAjaxData = function(calendar, form)
             result[e.name] = e.value;
         }
     }
-
-    var gs = KmNavigator.getGlobalSession();
-    if ( gs )
-        result._globalSession = gs;
 
     var ps = KmNavigator.getPageSession();
     if ( ps )
@@ -2443,9 +2653,9 @@ Kmu.ckEditorFill = function(textAreaId)
 Kmu.ckEditorSetValue = function(target, value, updateOldValue)
 {
     var e = target;
-    
+
     if ( updateOldValue )
-        e.val(value).done(function() 
+        e.val(value).done(function()
         {
             e.data('kmOldValue',e.val())
         });
@@ -2509,8 +2719,10 @@ Kmu.resetPopups = function()
 Kmu.closeMenu = function()
 {
     var sel = '.menu ul ul';
-    $(sel).hide();
-    setTimeout(function() { $(sel).show() }, 0);
+    var e = $(sel);
+    e.hide();
+    var fn = function() { e.show() };
+    setTimeout(fn, 250);
 }
 
 //**********************************************************
@@ -2538,7 +2750,7 @@ Kmu.roundPrecise = function(value, places)
 }
 
 //**********************************************************
-//** math
+//** tab book
 //**********************************************************
 
 /**
@@ -2560,4 +2772,179 @@ Kmu.adjustTabBookOverlay = function(overlaySel, tabSel)
         of: tabSel,
         collision: 'none'
     });
+}
+
+//**********************************************************
+//** auto complete
+//**********************************************************
+
+/**
+ * Process a request from a jquery autocomplete field.
+ * The requested term is passed to the server, and the
+ * resulting response is passed back to the autocomplete field.
+ * Although it would be simpler to use a static url, using this
+ * approach allows us to inject the current state of the dynamic
+ * page session.
+ *
+ * http://api.jqueryui.com/autocomplete.
+ */
+Kmu.createAutoCompleteCallback = function(options)
+{
+    return function(request, response)
+    {
+        var data =
+        {
+            term:                request.term,
+            trackedValues:       options.trackedValues,
+            _applicationVersion: Kmu.applicationVersion,
+            _session:            KmNavigator.getPageSession
+        };
+
+        var successFn = function(result)
+        {
+            response(result);
+        };
+
+        var errorFn = function()
+        {
+            response([]);
+        };
+
+        $.ajax(
+        {
+            type:       'POST',
+            url:        options.path,
+            dataType:   'json',
+            data:       data,
+            success:    successFn,
+            error:      errorFn
+        });
+    };
+}
+
+//**********************************************************
+//** google maps api
+//**********************************************************
+
+/**
+ * Display a map within an existing div.
+ * This relies on the Google Maps Api.
+ * The Google Api library must be preloaded and the API Key must enable javascript maps.
+ * "https://maps.googleapis.com/maps/api/js?key=[[API_KEY]]" async defer
+ *
+ * Options
+ *      id:             the div used to display the map.
+ *      latitude:       used to center the map.
+ *      longitude:      used to center the map.
+ *      zoom:           the default zoom level.
+ *      markers:        array of makers
+ *          title:      the marker's title, displayed as hover text.
+ *          latitude:   the position of the marker
+ *          longitude:  the position of the marker
+ */
+Kmu.showGoogleMap = function(options)
+{
+    var map = new google.maps.Map(document.getElementById(options.id),
+    {
+        center: {lat: options.latitude, lng: options.longitude},
+        zoom: options.zoom
+    });
+
+    var fit = false;
+
+    var bounds;
+    bounds = new google.maps.LatLngBounds();
+
+    var loc = new google.maps.LatLng(options.latitude, options.longitude);
+    bounds.extend(loc);
+
+    if ( !options.markers )
+        return;
+
+    var arr = options.markers;
+    var n = arr.length;
+    for ( var i=0; i<n; i++ )
+    {
+        var e = arr[i];
+        new google.maps.Marker(
+        {
+            map:   map,
+            title: e.title,
+            position: {lat: e.latitude, lng: e.longitude}
+        });
+
+        if ( e.latitude != options.latitude || e.longitude != options.longitude )
+        {
+            fit = true;
+            loc = new google.maps.LatLng(e.latitude, e.longitude);
+            bounds.extend(loc);
+        }
+    }
+
+    if ( fit )
+    {
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+    }
+}
+
+//**********************************************************
+//** style
+//**********************************************************
+
+Kmu.getStyle = function(e)
+{
+    return $(e).attr('style');
+}
+
+Kmu.setStyle = function(e, style)
+{
+    if ( style )
+        $(e).attr('style', style);
+    else
+        $(e).removeAttr("style");
+}
+
+//**********************************************************
+//** nvd3 charts
+//**********************************************************
+
+Kmu.nvd3Charts = [];
+
+Kmu.nvd3Register = function(e)
+{
+    if ( !Kmu.nvd3Charts.includes(e) )
+        Kmu.nvd3Charts.push(e);
+}
+
+Kmu.nvd3UnregisterAll = function(e)
+{
+    Kmu.nvd3Charts = [];
+}
+
+Kmu.nvd3UpdateAll = function(e)
+{
+    var n = Kmu.nvd3Charts.length;
+    for ( var i=0; i<n; i++ )
+        Kmu.nvd3Charts[i].update();
+}
+
+Kmu.nvd3HandleClick = function(action, arg)
+{
+    var e;
+    e = {};
+    e.action = action;
+    e.argument = "s," + arg;
+
+    Kmu.ajax(e);
+}
+
+
+//**********************************************************
+//** browser tab
+//**********************************************************
+
+Kmu.setBrowserTabTitle = function(title)
+{
+    KmNavigator.updateTitle(title);
 }

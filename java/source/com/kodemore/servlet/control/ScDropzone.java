@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,6 @@ import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalStyle;
-import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScDropzone
@@ -59,8 +58,8 @@ public class ScDropzone
     //# constants
     //##################################################
 
-    private static final String       KEY    = "key";
-    private static final String       FIELDS = "fields";
+    private static final String KEY    = "key";
+    private static final String FIELDS = "fields";
 
     //##################################################
     //# variables
@@ -78,7 +77,7 @@ public class ScDropzone
      * support for removing the file from the server.  See also _removeAction.
      * This is false by default.
      */
-    private ScLocalBoolean            _showsRemoveButtons;
+    private ScLocalBoolean _showsRemoveButtons;
 
     /**
      * This is called when the user clicks the remove/cancel button on an uploaded file.
@@ -87,12 +86,17 @@ public class ScDropzone
      * that the user removed/cancelled an upload, but doesn't tell the server WHICH file
      * was removed/cancelled.
      */
-    private ScAction                  _removeAction;
+    private ScAction _removeAction;
 
     /**
      * This action is run when client finishes uploading the queued files.
      */
-    private ScAction                  _doneAction;
+    private ScAction _doneAction;
+
+    /**
+     * This can be optionally set to limit the number of files uploaded.
+     */
+    private ScLocalBoolean _singleFile;
 
     /**
      * A container for any hidden fields to be tracked.
@@ -102,23 +106,23 @@ public class ScDropzone
      * know how to handle the uploaded file.
      *
      * Wyatt Love, 2/25/2016
-     * This is currently a kludge.  As of the currently dropzone
+     * This is currently a kludge.  As of the current dropzone
      * version 4.3.0, there are three ways to support this.
      *
      * 1) Using hidden fields in the html form; doesn't work.
      * 2) Using dropzone's 'params' option; doesn't work.
      * 3) Manually encoding the details into the url.
      *
-     * Either of the first two would have benn preferable but they
+     * Either of the first two would have been preferable but they
      * don't appear to work at this time. Review on the web indicates
-     * that many other people are having the same problem.  For now
+     * that many other people are having the same problem. For now
      * we simply encode the hidden fields into the url manually.
      * We don't expect to use this very often, or to need a lot of
      * fields, so this should be sufficient.
      */
-    private ScContainer               _hiddenFields;
+    private ScContainer _hiddenFields;
 
-    private ScLocalStyle              _style;
+    private ScLocalStyle _style;
 
     //##################################################
     //# constructor
@@ -127,22 +131,19 @@ public class ScDropzone
     public ScDropzone()
     {
         _showsRemoveButtons = new ScLocalBoolean(false);
+        _singleFile = new ScLocalBoolean(false);
         _hiddenFields = new ScSimpleContainer();
         _style = new ScLocalStyle();
     }
 
     //##################################################
-    //# accessing
+    //# accessing :: html id
     //##################################################
-
-    //==================================================
-    //= html id
-    //==================================================
 
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     @Override
@@ -152,7 +153,7 @@ public class ScDropzone
     }
 
     //==================================================
-    //= remove buttons
+    //= accessing :: remove buttons
     //==================================================
 
     private boolean getShowsRemoveButtons()
@@ -166,7 +167,7 @@ public class ScDropzone
     }
 
     //==================================================
-    //= remove action
+    //= accessing :: remove action
     //==================================================
 
     public ScAction getRemoveAction()
@@ -185,17 +186,12 @@ public class ScDropzone
     }
 
     //==================================================
-    //= done action
+    //= accessing :: done action
     //==================================================
 
     public ScAction getDoneAction()
     {
         return _doneAction;
-    }
-
-    public void setDoneAction(Runnable e)
-    {
-        setDoneAction(newCheckedAction(e));
     }
 
     public void setDoneAction(ScAction e)
@@ -206,6 +202,30 @@ public class ScDropzone
     public boolean hasDoneAction()
     {
         return _doneAction != null;
+    }
+
+    //==================================================
+    //= accessing :: single file
+    //==================================================
+
+    public boolean getSingleFile()
+    {
+        return _singleFile.getValue();
+    }
+
+    public void setSingleFile(boolean e)
+    {
+        _singleFile.setValue(e);
+    }
+
+    public void setSingleFile()
+    {
+        setSingleFile(true);
+    }
+
+    public boolean isSingleFile()
+    {
+        return getSingleFile();
     }
 
     //##################################################
@@ -251,7 +271,7 @@ public class ScDropzone
     }
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
         return !style().hasHide();
     }
@@ -292,6 +312,7 @@ public class ScDropzone
     {
         KmJsonMap map = new KmJsonMap();
         composeUrlOn(map);
+        composeMaxFilesOn(map);
         composeRemoveButtonsOn(map);
         composeRemoveActionOn(map);
         composeInitOn(map);
@@ -313,6 +334,12 @@ public class ScDropzone
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getDropzoneCallback();
         return c.getPath(encodedSuffix);
+    }
+
+    private void composeMaxFilesOn(KmJsonMap map)
+    {
+        if ( isSingleFile() )
+            map.setInteger("maxFiles", 1);
     }
 
     private void composeRemoveButtonsOn(KmJsonMap map)
@@ -339,24 +366,36 @@ public class ScDropzone
 
     private void composeInitOn(KmJsonMap map)
     {
-        if ( !hasDoneAction() )
+        String s = formatInitScript();
+        if ( s.isEmpty() )
             return;
+
+        String fn = Kmu.format("function(){%s}", s);
+        map.setLiteral("init", fn);
+    }
+
+    private String formatInitScript()
+    {
+        return formatDoneScript() + formatSingleFileScript();
+    }
+
+    private String formatDoneScript()
+    {
+        if ( !hasDoneAction() )
+            return "";
 
         ScActionScript script;
         script = new ScActionScript();
         script.setAction(getDoneAction());
 
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("function()");
-        out.print("{");
-        out.print("this.on('queuecomplete', function()");
-        out.print("{");
-        out.print(script);
-        out.print("})");
-        out.print("}");
+        return Kmu.format("this.on('queuecomplete', function(){%s});", script);
+    }
 
-        map.setLiteral("init", out);
+    private String formatSingleFileScript()
+    {
+        return isSingleFile()
+            ? "this.hiddenFileInput.removeAttribute('multiple');"
+            : "";
     }
 
     //##################################################
@@ -367,7 +406,7 @@ public class ScDropzone
      * Format a url compatible suffix that contains the information
      * necessary to subsquently handle the uploaded file.
      *
-     * The suffix include the control's key as well as the details
+     * The suffix includes the control's key as well as the details
      * of any hidden fields.  This must be compatible with
      * handleCallbackSuffix.
      *
@@ -377,7 +416,7 @@ public class ScDropzone
     {
         KmJsonMap map;
         map = new KmJsonMap();
-        map.setString(KEY, getKey());
+        map.setInteger(KEY, getKey());
 
         KmJsonMap fields;
         fields = map.setMap(FIELDS);
@@ -386,7 +425,10 @@ public class ScDropzone
         for ( ScControl c : v )
         {
             ScHiddenField<?> h = (ScHiddenField<?>)c;
-            fields.setString(h.getKey(), encode(h.getValue()));
+
+            String token = h.getKeyToken();
+            String value = encode(h.getValue());
+            fields.setString(token, value);
         }
 
         String decodedSuffix = map.toString();
@@ -402,34 +444,34 @@ public class ScDropzone
      */
     public static void handleServletCallback(String suffix)
     {
+        ScControlRegistry r = ScControlRegistry.getInstance();
         String decodedSuffix = Kmu.decodeUtf8(suffix);
-
         KmJsonMap map = KmJsonReader.parseJsonMap(decodedSuffix);
-        String key = map.getString(KEY);
-
         KmJsonMap fields = map.getMap("fields");
-        KmList<String> fieldKeys = fields.getKeys();
-        for ( String fieldKey : fieldKeys )
+        KmList<String> tokens = fields.getKeys();
+
+        for ( String token : tokens )
         {
-            ScControlRegistry r = ScControlRegistry.getInstance();
-            Object fieldValue = ScDecoder.staticDecode(fields.getString(fieldKey));
+            String encodedValue = fields.getString(token);
+            Object value = ScDecoder.staticDecode(encodedValue);
 
             ScHiddenField<?> hidden;
-            hidden = (ScHiddenField<?>)r.getControl(fieldKey);
-            hidden.setValueUntyped(fieldValue);
+            hidden = (ScHiddenField<?>)r.findToken(token);
+            hidden.setValueUntyped(value);
         }
 
+        Integer key = map.getInteger(KEY);
         ScDropzone dz = findDropzoneForKey(key);
         if ( dz != null )
             dz.handlePost();
     }
 
-    private static ScDropzone findDropzoneForKey(String key)
+    private static ScDropzone findDropzoneForKey(Integer key)
     {
-        if ( Kmu.isEmpty(key) )
+        if ( key == null )
             return null;
 
-        ScControl c = getRegistry().getControl(key);
+        ScControl c = getRegistry().findKey(key);
         if ( !(c instanceof ScDropzone) )
             return null;
 

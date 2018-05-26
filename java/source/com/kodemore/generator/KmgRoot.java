@@ -35,19 +35,19 @@ public class KmgRoot
     private KmList<KmgModel>          _models;
     private KmgPropertyFile           _propertyFile;
 
-    private KmList<String>            _pageClassNames;
-    private KmList<String>            _pagePackageNames;
+    private KmList<String> _pageClassNames;
+    private KmList<String> _pagePackageNames;
 
-    private String                    _applicationName;
-    private String                    _applicationPackage;
-    private String                    _applicationPrefix;
+    private String _applicationName;
+    private String _applicationPackage;
+    private String _applicationPrefix;
 
-    private String                    _defaultDaoModelSuperClass;
-    private String                    _defaultValueModelSuperClass;
+    private String _defaultDaoModelSuperClass;
+    private String _defaultValueModelSuperClass;
 
-    private KmList<KmgFieldExtender>  _extenders;
+    private KmList<KmgFieldExtender> _extenders;
 
-    private KmList<KmgCssBundle>      _cssBundles;
+    private KmList<KmgCssBundle> _cssBundles;
 
     //##################################################
     //# constructor
@@ -364,7 +364,7 @@ public class KmgRoot
     public void installModels(String dir)
     {
         System.out.println("Installing models...");
-        KmFileTraverser e = new KmFileTraverser()
+        KmFileTraverser files = new KmFileTraverser()
         {
             @Override
             protected void processFile(KmFile f)
@@ -373,8 +373,8 @@ public class KmgRoot
                     installModel(f);
             }
         };
-        e.processAll(dir);
-        _models.sortOn(KmgModel.getNameComparator());
+        files.processAll(dir);
+        _models.sortOn(e -> e.getName());
     }
 
     public void validateModels()
@@ -428,7 +428,7 @@ public class KmgRoot
 
         sc = p.addShortcut();
         sc.setElementPath("**/enum/value");
-        sc.setAttributeKey("name");
+        sc.setAttributeKey("label");
     }
 
     public void installExtensions()

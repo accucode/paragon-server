@@ -14,18 +14,18 @@ public abstract class KmMetaQuantityProperty<T>
     @Override
     public ScQuantityField newField()
     {
-        return newField(getLabel());
+        ScQuantityField e;
+        e = new ScQuantityField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScQuantityField newField(String label)
     {
         ScQuantityField e;
-        e = new ScQuantityField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

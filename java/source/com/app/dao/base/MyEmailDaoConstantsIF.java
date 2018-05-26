@@ -17,33 +17,35 @@ public interface MyEmailDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
-    String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
-    String SENT_UTC_TS = "sentUtcTs";
-    String SUBJECT = "subject";
-    String FROM_ADDRESS = "fromAddress";
-    String STATUS_CODE = "statusCode";
-    String ERROR_NOTES = "errorNotes";
-    String RECIPIENT_SUMMARY = "recipientSummary";
-    String TO_ADDRESSES_LABEL = "toAddressesLabel";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CC_ADDRESSES_LABEL = "ccAddressesLabel";
+    String CREATED_UTC_TS = "createdUtcTs";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String ERROR_NOTES = "errorNotes";
+    String FROM_ADDRESS = "fromAddress";
     String PARTS_AS_HTML = "partsAsHtml";
+    String RECIPIENT_SUMMARY = "recipientSummary";
+    String SENT_UTC_TS = "sentUtcTs";
+    String STATUS_CODE = "statusCode";
+    String SUBJECT = "subject";
+    String TO_ADDRESSES_LABEL = "toAddressesLabel";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String STATUS_NAME = "statusName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
     String CREATED_LOCAL_TIME = "createdLocalTime";
-    String UPDATED_LOCAL_TS = "updatedLocalTs";
-    String UPDATED_LOCAL_TS_MESSAGE = "updatedLocalTsMessage";
-    String UPDATED_LOCAL_DATE = "updatedLocalDate";
-    String UPDATED_LOCAL_TIME = "updatedLocalTime";
     String SENT_LOCAL_TS = "sentLocalTs";
     String SENT_LOCAL_TS_MESSAGE = "sentLocalTsMessage";
     String SENT_LOCAL_DATE = "sentLocalDate";
     String SENT_LOCAL_TIME = "sentLocalTime";
+    String UPDATED_LOCAL_TS = "updatedLocalTs";
+    String UPDATED_LOCAL_TS_MESSAGE = "updatedLocalTsMessage";
+    String UPDATED_LOCAL_DATE = "updatedLocalDate";
+    String UPDATED_LOCAL_TIME = "updatedLocalTime";
 
     //##################################################
     //# associations
@@ -59,6 +61,6 @@ public interface MyEmailDaoConstantsIF
     //# collections
     //##################################################
 
-    String RECIPIENTS = "recipients";
     String PARTS = "parts";
+    String RECIPIENTS = "recipients";
 }

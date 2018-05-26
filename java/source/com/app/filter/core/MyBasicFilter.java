@@ -1,5 +1,7 @@
 package com.app.filter.core;
 
+import java.util.function.Supplier;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmAbstractDao;
 import com.kodemore.hibernate.KmhModelCriteria;
@@ -76,6 +78,11 @@ public abstract class MyBasicFilter<T>
         KmhModelCriteria<T> c = createCriteria();
         applyConditionsTo(c);
         return c.findRowCount();
+    }
+
+    public Supplier<KmList<T>> toSupplier()
+    {
+        return () -> findAll();
     }
 
     //##################################################

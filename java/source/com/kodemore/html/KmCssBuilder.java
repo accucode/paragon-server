@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package com.kodemore.html;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.KmValueHolder;
 import com.kodemore.utility.KmValueHolderIF;
 import com.kodemore.utility.Kmu;
@@ -70,6 +71,7 @@ public class KmCssBuilder
     private static final String SEPARATOR = KmConstantsIF.SPACE;
 
     private enum Mode
+        implements KmEnumIF
     {
         add,
         remove,
@@ -180,6 +182,16 @@ public class KmCssBuilder
         return remove(formatComposite(prefix, part, flavor));
     }
 
+    public void removeByPrefix(String prefix)
+    {
+        KmList<String> v;
+        v = getSelectors();
+        v.removeIf(e -> e.startsWith(prefix));
+
+        clear();
+        addAll(v);
+    }
+
     public KmCssBuilder toggle(String e)
     {
         if ( contains(e) )
@@ -233,7 +245,7 @@ public class KmCssBuilder
                 return toggle(e);
         }
 
-        throw Kmu.newFatal("Unhandled mode");
+        throw Kmu.newEnumError(_mode);
     }
 
     public KmCssBuilder apply(String prefix, String part, String flavor)

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -73,17 +73,6 @@ public class ScContainerLink
     public void setAction(ScAction e, Object arg)
     {
         setAction(e);
-        setArgument(arg);
-    }
-
-    public void setAction(Runnable r)
-    {
-        setAction(newCheckedAction(r));
-    }
-
-    public void setAction(Runnable r, Object arg)
-    {
-        setAction(r);
         setArgument(arg);
     }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -71,7 +71,7 @@ public class KmThreadLocalCleaner
      * If set, only this thread will be cleaned.
      * If null, all threads will be cleaned.
      */
-    private Thread   _threadFilter;
+    private Thread _threadFilter;
 
     /**
      * If set, only values of this type of threadLocal class

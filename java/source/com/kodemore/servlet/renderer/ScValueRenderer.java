@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ package com.kodemore.servlet.renderer;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.Kmu;
 
 public class ScValueRenderer
     extends ScRenderer
@@ -42,6 +43,17 @@ public class ScValueRenderer
     public ScValueRenderer(Object e)
     {
         _value = format(e);
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    @Override
+    public void setEmptyText(String e)
+    {
+        if ( Kmu.isEmpty(_value) )
+            _value = e;
     }
 
     //##################################################

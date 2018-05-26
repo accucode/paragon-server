@@ -4,14 +4,14 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am used search for tweets.
- * 
+ *
  * Api documentation
  *      https://dev.twitter.com/docs/api/1.1/get/search/tweets
  */
 public class KmTwitterSearchTweetsRequest
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmTwitterConnection _connection;

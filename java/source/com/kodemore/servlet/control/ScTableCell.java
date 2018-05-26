@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 
@@ -33,13 +34,15 @@ public class ScTableCell
     //# variables
     //##################################################
 
+    private ScLocalBoolean _header;
+
     private ScLocalInteger _columnSpan;
     private ScLocalInteger _rowSpan;
 
-    private ScLocalString  _horizontalAlign;
-    private ScLocalString  _verticalAlign;
+    private ScLocalString _horizontalAlign;
+    private ScLocalString _verticalAlign;
 
-    private ScLocalString  _width;
+    private ScLocalString _width;
 
     //##################################################
     //# constructor
@@ -47,6 +50,7 @@ public class ScTableCell
 
     public ScTableCell()
     {
+        _header = new ScLocalBoolean(false);
         _columnSpan = new ScLocalInteger();
         _rowSpan = new ScLocalInteger();
         _horizontalAlign = new ScLocalString();
@@ -55,13 +59,39 @@ public class ScTableCell
     }
 
     //##################################################
-    //# print
+    //# header
+    //##################################################
+
+    public boolean getHeader()
+    {
+        return _header.isTrue();
+    }
+
+    public void setHeader(boolean e)
+    {
+        _header.setValue(e);
+    }
+
+    public void setHeader()
+    {
+        setHeader(true);
+    }
+
+    //##################################################
+    //# render
     //##################################################
 
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        renderSimpleElementOn(out, "td");
+        renderSimpleElementOn(out, getElementTag());
+    }
+
+    private String getElementTag()
+    {
+        return getHeader()
+            ? "th"
+            : "td";
     }
 
     @Override
@@ -160,6 +190,12 @@ public class ScTableCell
     public Integer getColumnSpan()
     {
         return _columnSpan.getValue();
+    }
+
+    public ScTableCell columnSpan(int i)
+    {
+        setColumnSpan(i);
+        return this;
     }
 
     //##################################################

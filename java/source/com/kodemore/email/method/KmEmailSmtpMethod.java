@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,7 @@ import com.kodemore.email.KmEmailPartIF;
 import com.kodemore.email.KmEmailPartType;
 import com.kodemore.email.KmEmailResult;
 import com.kodemore.log.KmLog;
+import com.kodemore.types.KmStringTuple;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -59,29 +60,29 @@ public class KmEmailSmtpMethod
     //# constants
     //##################################################
 
-    private static final String            MIME_TYPE_TEXT         = "text/plain";
-    private static final String            MIME_TYPE_OCTET_STREAM = "application/octet-stream";
+    private static final String MIME_TYPE_TEXT         = "text/plain";
+    private static final String MIME_TYPE_OCTET_STREAM = "application/octet-stream";
 
     //##################################################
     //# variables
     //##################################################
 
-    private String                         _smtpScheme;
-    private boolean                        _smtpSsl;
-    private String                         _smtpHost;
-    private int                            _smtpPort;
-    private String                         _smtpUser;
-    private String                         _smtpPassword;
-    private String                         _smtpAutoBcc;
+    private String  _smtpScheme;
+    private boolean _smtpSsl;
+    private String  _smtpHost;
+    private int     _smtpPort;
+    private String  _smtpUser;
+    private String  _smtpPassword;
+    private String  _smtpAutoBcc;
 
     private KmList<KmEmailIF>              _emails;
     private KmMap<KmEmailIF,KmEmailResult> _results;
 
-    private KmMap<KmEmailIF,MimeMessage>   _messages;
+    private KmMap<KmEmailIF,MimeMessage> _messages;
 
-    private Properties                     _properties;
-    private Session                        _session;
-    private Transport                      _transport;
+    private Properties _properties;
+    private Session    _session;
+    private Transport  _transport;
 
     //##################################################
     //# setup
@@ -179,6 +180,7 @@ public class KmEmailSmtpMethod
     private void run()
     {
         installResults();
+
         if ( _results.isEmpty() )
             return;
 
@@ -194,6 +196,7 @@ public class KmEmailSmtpMethod
     private void installResults()
     {
         _results = new KmMap<>();
+
         for ( KmEmailIF email : _emails )
             _results.put(email, okResult(email));
     }
@@ -415,6 +418,10 @@ public class KmEmailSmtpMethod
         String bcc = getSmtpAutoBcc();
         if ( Kmu.hasValue(bcc) )
             msg.addRecipient(Message.RecipientType.BCC, newAddress(bcc));
+
+        List<KmStringTuple> headers = email.getHeaders();
+        for ( KmStringTuple header : headers )
+            msg.addHeader(header.getKey(), header.getValue());
 
         return msg;
     }

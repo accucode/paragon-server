@@ -56,22 +56,6 @@ public final class MyDevBeanShellPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -81,14 +65,14 @@ public final class MyDevBeanShellPage
         ScAction submitAction = newCheckedAction(this::handleSubmit);
 
         _scriptField = new ScTextArea();
-        _scriptField.layoutBlock(100);
+        _scriptField.layoutBlock();
         _scriptField.disableChangeTracking();
 
         root.css().fill().auto().columnSpacer10();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(submitAction);
+        form.onSubmit(submitAction);
 
         ScGroup group;
         group = form.addGroup("Bean Shell");
@@ -102,7 +86,7 @@ public final class MyDevBeanShellPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

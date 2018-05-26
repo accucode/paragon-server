@@ -1,0 +1,143 @@
+model
+: name      = customer
+: help...
+    ---
+    The customer details that are specific to a particular project.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = name
+    : unique    = true
+    : on        = project
+    : on        = name
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project to which this customer belongs.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The display name.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** contacts
+    //*****************************************************
+
+
+    association
+    : name      = approvalContact
+    : help...
+        ---
+        The primary contact for job approvals.
+        ---
+    : modelName = customerContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Main Contact
+
+        delegate
+        : field = shortName
+        : label = Main Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Main Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    association
+    : name      = billingContact
+    : help...
+        ---
+        The primary contact for billing.
+        ---
+    : modelName = customerContact
+    : relation  = reference
+
+        delegate
+        : field = fullName
+        : label = Install Contact
+
+        delegate
+        : field = shortName
+        : label = Install Contact
+
+        delegate
+        : field = summaryMultiline
+        : label = Install Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    //*****************************************************
+    //** billing address
+    //*****************************************************
+
+
+    #include billingAddress.stf
+
+
+    //*****************************************************
+    //** collections
+    //*****************************************************
+
+
+    collection
+    : name          = contact
+    : comment       = The customer contacts; primarily used for job notifications.
+    : relation      = children
+    : elementModel  = customerContact
+    : elementField  = customer

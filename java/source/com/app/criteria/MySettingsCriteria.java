@@ -37,22 +37,36 @@ public class MySettingsCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereCodeIs(MySettings e)
+    {
+        whereCode().is(e.getCode());
+    }
+
+    public void whereCodeIsNot(MySettings e)
+    {
+        whereCode().isNot(e.getCode());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
     public KmhIntegerCondition whereCode()
     {
-        return new KmhIntegerCondition(context(), fullName(CODE));
+        return new KmhIntegerCondition(context(), alias(), CODE);
     }
 
     public KmhStringCondition whereSomeMessage()
     {
-        return new KmhStringCondition(context(), fullName(SOME_MESSAGE));
+        return new KmhStringCondition(context(), alias(), SOME_MESSAGE);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################

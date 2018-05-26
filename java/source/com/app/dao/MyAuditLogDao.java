@@ -33,17 +33,4 @@ public class MyAuditLogDao
         c.selectDistinctDomainType();
         return c.findStrings();
     }
-
-    //##################################################
-    //# bundle
-    //##################################################
-
-    public KmList<MyAuditLog> findBundleUid(String uid)
-    {
-        MyAuditLogCriteria c;
-        c = createCriteria();
-        c.whereDomainBundleUid().is(uid);
-        return c.findAll();
-    }
-
 }

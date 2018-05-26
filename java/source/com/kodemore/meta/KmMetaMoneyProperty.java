@@ -14,18 +14,18 @@ public abstract class KmMetaMoneyProperty<T>
     @Override
     public ScMoneyField newField()
     {
-        return newField(getLabel());
+        ScMoneyField e;
+        e = new ScMoneyField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScMoneyField newField(String label)
     {
         ScMoneyField e;
-        e = new ScMoneyField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

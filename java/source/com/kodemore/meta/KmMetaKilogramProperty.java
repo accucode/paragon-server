@@ -14,18 +14,18 @@ public abstract class KmMetaKilogramProperty<T>
     @Override
     public ScKilogramField newField()
     {
-        return newField(getLabel());
+        ScKilogramField e;
+        e = new ScKilogramField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScKilogramField newField(String label)
     {
         ScKilogramField e;
-        e = new ScKilogramField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

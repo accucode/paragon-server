@@ -37,50 +37,46 @@ public class MyPerformanceLogDetailCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyPerformanceLogDetail e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyPerformanceLogDetail e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
-    {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereDurationMs()
     {
-        return new KmhIntegerCondition(context(), fullName(DURATION_MS));
+        return new KmhIntegerCondition(context(), alias(), DURATION_MS);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     //##################################################
     //# sorts
     //##################################################
-
-    public void sortOnUid()
-    {
-        parent().sortAscending(UID);
-    }
-
-    public void sortOnUidDescending()
-    {
-        parent().sortDescending(UID);
-    }
-
-    public void sortOnUid(boolean asc)
-    {
-        if ( asc )
-            sortOnUid();
-        else
-            sortOnUidDescending();
-    }
 
     public void sortOnCreatedUtcTs()
     {
@@ -98,24 +94,6 @@ public class MyPerformanceLogDetailCriteria
             sortOnCreatedUtcTs();
         else
             sortOnCreatedUtcTsDescending();
-    }
-
-    public void sortOnName()
-    {
-        parent().sortAscending(NAME);
-    }
-
-    public void sortOnNameDescending()
-    {
-        parent().sortDescending(NAME);
-    }
-
-    public void sortOnName(boolean asc)
-    {
-        if ( asc )
-            sortOnName();
-        else
-            sortOnNameDescending();
     }
 
     public void sortOnDurationMs()
@@ -136,48 +114,40 @@ public class MyPerformanceLogDetailCriteria
             sortOnDurationMsDescending();
     }
 
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
+    public void sortOnName()
     {
-        select(UID);
+        parent().sortAscending(NAME);
     }
 
-    public void selectDistinctUid()
+    public void sortOnNameDescending()
     {
-        selectDistinct(UID);
+        parent().sortDescending(NAME);
     }
 
-    public void selectCountDistinctUid()
+    public void sortOnName(boolean asc)
     {
-        selectCountDistinct(UID);
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
     }
 
-    public void selectMinimumUid()
+    public void sortOnUid()
     {
-        selectMinimum(UID);
+        parent().sortAscending(UID);
     }
 
-    public void selectMaximumUid()
+    public void sortOnUidDescending()
     {
-        selectMaximum(UID);
+        parent().sortDescending(UID);
     }
 
-    public void selectAverageUid()
+    public void sortOnUid(boolean asc)
     {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
     }
 
     //##################################################
@@ -225,6 +195,50 @@ public class MyPerformanceLogDetailCriteria
     }
 
     //##################################################
+    //# projections (durationMs)
+    //##################################################
+
+    public void selectDurationMs()
+    {
+        select(DURATION_MS);
+    }
+
+    public void selectDistinctDurationMs()
+    {
+        selectDistinct(DURATION_MS);
+    }
+
+    public void selectCountDistinctDurationMs()
+    {
+        selectCountDistinct(DURATION_MS);
+    }
+
+    public void selectMinimumDurationMs()
+    {
+        selectMinimum(DURATION_MS);
+    }
+
+    public void selectMaximumDurationMs()
+    {
+        selectMaximum(DURATION_MS);
+    }
+
+    public void selectAverageDurationMs()
+    {
+        selectAverage(DURATION_MS);
+    }
+
+    public void selectSumDurationMs()
+    {
+        selectSum(DURATION_MS);
+    }
+
+    public void groupByDurationMs()
+    {
+        groupBy(DURATION_MS);
+    }
+
+    //##################################################
     //# projections (name)
     //##################################################
 
@@ -269,47 +283,47 @@ public class MyPerformanceLogDetailCriteria
     }
 
     //##################################################
-    //# projections (durationMs)
+    //# projections (uid)
     //##################################################
 
-    public void selectDurationMs()
+    public void selectUid()
     {
-        select(DURATION_MS);
+        select(UID);
     }
 
-    public void selectDistinctDurationMs()
+    public void selectDistinctUid()
     {
-        selectDistinct(DURATION_MS);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctDurationMs()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(DURATION_MS);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumDurationMs()
+    public void selectMinimumUid()
     {
-        selectMinimum(DURATION_MS);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumDurationMs()
+    public void selectMaximumUid()
     {
-        selectMaximum(DURATION_MS);
+        selectMaximum(UID);
     }
 
-    public void selectAverageDurationMs()
+    public void selectAverageUid()
     {
-        selectAverage(DURATION_MS);
+        selectAverage(UID);
     }
 
-    public void selectSumDurationMs()
+    public void selectSumUid()
     {
-        selectSum(DURATION_MS);
+        selectSum(UID);
     }
 
-    public void groupByDurationMs()
+    public void groupByUid()
     {
-        groupBy(DURATION_MS);
+        groupBy(UID);
     }
 
     //##################################################

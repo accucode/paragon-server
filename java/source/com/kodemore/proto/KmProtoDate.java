@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhDateCondition;
 import com.kodemore.hibernate.type.KmhDateType;
 import com.kodemore.meta.KmMetaDateProperty;
@@ -24,9 +25,9 @@ public class KmProtoDate
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "date";
+        return singleColumn("date");
     }
 
     @Override

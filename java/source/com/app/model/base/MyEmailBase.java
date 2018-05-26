@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyEmailBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyEmail>
+    implements KmUidDomainIF
     ,MyBasicTimestampsIF
 {
     //##################################################
@@ -38,24 +40,25 @@ public abstract class MyEmailBase
     public static final MyMetaEmail Meta = MyMetaEmail.instance;
     public static final MyEmailTools Tools = MyEmailTools.instance;
     public static final MyEmailValidator Validator = MyEmailValidator.instance;
+    public static final MyEmailFinder Finder = MyEmailFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp updatedUtcTs;
-    private KmTimestamp sentUtcTs;
-    private String subject;
-    private String fromAddress;
-    private String statusCode;
     private String errorNotes;
+    private String fromAddress;
+    private KmTimestamp sentUtcTs;
+    private String statusCode;
+    private String subject;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
     private MyUser createdBy;
     private MyUser updatedBy;
-    private List<MyEmailRecipient> recipients;
     private List<MyEmailPart> parts;
+    private List<MyEmailRecipient> recipients;
 
     //##################################################
     //# constructor
@@ -64,54 +67,46 @@ public abstract class MyEmailBase
     public MyEmailBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
         setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
         setCreatedBy(MyGlobals.getCurrentUser());
         setUpdatedBy(MyGlobals.getCurrentUser());
-        recipients = new ArrayList<>();
         parts = new ArrayList<>();
+        recipients = new ArrayList<>();
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
-    public void clearUid()
+    //##################################################
+    //# field (ccAddressesLabel)
+    //##################################################
+
+    public abstract String getCcAddressesLabel();
+
+    public boolean hasCcAddressesLabel()
     {
-        setUid(null);
+        return Kmu.hasValue(getCcAddressesLabel());
     }
 
-    public boolean hasUid()
+    public boolean hasCcAddressesLabel(String e)
     {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getCcAddressesLabel(), e);
     }
 
     //##################################################
@@ -125,7 +120,7 @@ public abstract class MyEmailBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -145,103 +140,75 @@ public abstract class MyEmailBase
     }
 
     //##################################################
-    //# field (updatedUtcTs)
+    //# field (domainSubtitle)
     //##################################################
 
-    public KmTimestamp getUpdatedUtcTs()
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        return updatedUtcTs;
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void setUpdatedUtcTs(KmTimestamp e)
+    public boolean hasDomainSubtitle(String e)
     {
-        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
-        updatedUtcTs = e;
-    }
-
-    public void clearUpdatedUtcTs()
-    {
-        setUpdatedUtcTs(null);
-    }
-
-    public boolean hasUpdatedUtcTs()
-    {
-        return getUpdatedUtcTs() != null;
-    }
-
-    public boolean hasUpdatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getUpdatedUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
     }
 
     //##################################################
-    //# field (sentUtcTs)
+    //# field (domainTitle)
     //##################################################
 
-    public KmTimestamp getSentUtcTs()
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
     {
-        return sentUtcTs;
+        return Kmu.hasValue(getDomainTitle());
     }
 
-    public void setSentUtcTs(KmTimestamp e)
+    public boolean hasDomainTitle(String e)
     {
-        e = Validator.getSentUtcTsValidator().convertOnly(e);
-        sentUtcTs = e;
-    }
-
-    public void clearSentUtcTs()
-    {
-        setSentUtcTs(null);
-    }
-
-    public boolean hasSentUtcTs()
-    {
-        return getSentUtcTs() != null;
-    }
-
-    public boolean hasSentUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getSentUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
-    //# field (subject)
+    //# field (errorNotes)
     //##################################################
 
-    public String getSubject()
+    public String getErrorNotes()
     {
-        return subject;
+        return errorNotes;
     }
 
-    public void setSubject(String e)
+    public void setErrorNotes(String e)
     {
-        e = Validator.getSubjectValidator().convertOnly(e);
-        subject = e;
+        e = Validator.getErrorNotesValidator().convert(e);
+        errorNotes = e;
     }
 
-    public void clearSubject()
+    public void clearErrorNotes()
     {
-        setSubject(null);
+        setErrorNotes(null);
     }
 
-    public boolean hasSubject()
+    public boolean hasErrorNotes()
     {
-        return Kmu.hasValue(getSubject());
+        return Kmu.hasValue(getErrorNotes());
     }
 
-    public boolean hasSubject(String e)
+    public boolean hasErrorNotes(String e)
     {
-        return Kmu.isEqualIgnoreCase(getSubject(), e);
+        return Kmu.isEqualIgnoreCase(getErrorNotes(), e);
     }
 
-    public void truncateSubject()
+    public void truncateErrorNotes()
     {
-        truncateSubject(false);
+        truncateErrorNotes(false);
     }
 
-    public void truncateSubject(boolean ellipses)
+    public void truncateErrorNotes(boolean ellipses)
     {
-        subject = Kmu.truncate(subject, 200, ellipses);
+        errorNotes = Kmu.truncate(errorNotes, 100, ellipses);
     }
 
     //##################################################
@@ -255,7 +222,7 @@ public abstract class MyEmailBase
 
     public void setFromAddress(String e)
     {
-        e = Validator.getFromAddressValidator().convertOnly(e);
+        e = Validator.getFromAddressValidator().convert(e);
         fromAddress = e;
     }
 
@@ -285,6 +252,68 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (partsAsHtml)
+    //##################################################
+
+    public abstract String getPartsAsHtml();
+
+    public boolean hasPartsAsHtml()
+    {
+        return Kmu.hasValue(getPartsAsHtml());
+    }
+
+    public boolean hasPartsAsHtml(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getPartsAsHtml(), e);
+    }
+
+    //##################################################
+    //# field (recipientSummary)
+    //##################################################
+
+    public abstract String getRecipientSummary();
+
+    public boolean hasRecipientSummary()
+    {
+        return Kmu.hasValue(getRecipientSummary());
+    }
+
+    public boolean hasRecipientSummary(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getRecipientSummary(), e);
+    }
+
+    //##################################################
+    //# field (sentUtcTs)
+    //##################################################
+
+    public KmTimestamp getSentUtcTs()
+    {
+        return sentUtcTs;
+    }
+
+    public void setSentUtcTs(KmTimestamp e)
+    {
+        e = Validator.getSentUtcTsValidator().convert(e);
+        sentUtcTs = e;
+    }
+
+    public void clearSentUtcTs()
+    {
+        setSentUtcTs(null);
+    }
+
+    public boolean hasSentUtcTs()
+    {
+        return getSentUtcTs() != null;
+    }
+
+    public boolean hasSentUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getSentUtcTs(), e);
+    }
+
+    //##################################################
     //# field (statusCode)
     //##################################################
 
@@ -295,7 +324,7 @@ public abstract class MyEmailBase
 
     public void setStatusCode(String e)
     {
-        e = Validator.getStatusCodeValidator().convertOnly(e);
+        e = Validator.getStatusCodeValidator().convert(e);
         statusCode = e;
     }
 
@@ -357,11 +386,6 @@ public abstract class MyEmailBase
         return hasStatus(MyEmailStatus.Draft);
     }
 
-    public boolean isNotStatusDraft()
-    {
-        return !isStatusDraft();
-    }
-
     public void setStatusReady()
     {
         setStatus(MyEmailStatus.Ready);
@@ -370,11 +394,6 @@ public abstract class MyEmailBase
     public boolean isStatusReady()
     {
         return hasStatus(MyEmailStatus.Ready);
-    }
-
-    public boolean isNotStatusReady()
-    {
-        return !isStatusReady();
     }
 
     public void setStatusPending()
@@ -387,11 +406,6 @@ public abstract class MyEmailBase
         return hasStatus(MyEmailStatus.Pending);
     }
 
-    public boolean isNotStatusPending()
-    {
-        return !isStatusPending();
-    }
-
     public void setStatusSent()
     {
         setStatus(MyEmailStatus.Sent);
@@ -400,11 +414,6 @@ public abstract class MyEmailBase
     public boolean isStatusSent()
     {
         return hasStatus(MyEmailStatus.Sent);
-    }
-
-    public boolean isNotStatusSent()
-    {
-        return !isStatusSent();
     }
 
     public void setStatusError()
@@ -417,11 +426,6 @@ public abstract class MyEmailBase
         return hasStatus(MyEmailStatus.Error);
     }
 
-    public boolean isNotStatusError()
-    {
-        return !isStatusError();
-    }
-
     public void setStatusIgnored()
     {
         setStatus(MyEmailStatus.Ignored);
@@ -432,65 +436,44 @@ public abstract class MyEmailBase
         return hasStatus(MyEmailStatus.Ignored);
     }
 
-    public boolean isNotStatusIgnored()
-    {
-        return !isStatusIgnored();
-    }
-
     //##################################################
-    //# field (errorNotes)
+    //# field (subject)
     //##################################################
 
-    public String getErrorNotes()
+    public String getSubject()
     {
-        return errorNotes;
+        return subject;
     }
 
-    public void setErrorNotes(String e)
+    public void setSubject(String e)
     {
-        e = Validator.getErrorNotesValidator().convertOnly(e);
-        errorNotes = e;
+        e = Validator.getSubjectValidator().convert(e);
+        subject = e;
     }
 
-    public void clearErrorNotes()
+    public void clearSubject()
     {
-        setErrorNotes(null);
+        setSubject(null);
     }
 
-    public boolean hasErrorNotes()
+    public boolean hasSubject()
     {
-        return Kmu.hasValue(getErrorNotes());
+        return Kmu.hasValue(getSubject());
     }
 
-    public boolean hasErrorNotes(String e)
+    public boolean hasSubject(String e)
     {
-        return Kmu.isEqualIgnoreCase(getErrorNotes(), e);
+        return Kmu.isEqualIgnoreCase(getSubject(), e);
     }
 
-    public void truncateErrorNotes()
+    public void truncateSubject()
     {
-        truncateErrorNotes(false);
+        truncateSubject(false);
     }
 
-    public void truncateErrorNotes(boolean ellipses)
+    public void truncateSubject(boolean ellipses)
     {
-        errorNotes = Kmu.truncate(errorNotes, 100, ellipses);
-    }
-
-    //##################################################
-    //# field (recipientSummary)
-    //##################################################
-
-    public abstract String getRecipientSummary();
-
-    public boolean hasRecipientSummary()
-    {
-        return Kmu.hasValue(getRecipientSummary());
-    }
-
-    public boolean hasRecipientSummary(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getRecipientSummary(), e);
+        subject = Kmu.truncate(subject, 200, ellipses);
     }
 
     //##################################################
@@ -510,35 +493,73 @@ public abstract class MyEmailBase
     }
 
     //##################################################
-    //# field (ccAddressesLabel)
+    //# field (uid)
     //##################################################
 
-    public abstract String getCcAddressesLabel();
-
-    public boolean hasCcAddressesLabel()
+    public String getUid()
     {
-        return Kmu.hasValue(getCcAddressesLabel());
+        return uid;
     }
 
-    public boolean hasCcAddressesLabel(String e)
+    public void setUid(String e)
     {
-        return Kmu.isEqualIgnoreCase(getCcAddressesLabel(), e);
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
+    }
+
+    public void clearUid()
+    {
+        setUid(null);
+    }
+
+    public boolean hasUid()
+    {
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
-    //# field (partsAsHtml)
+    //# field (updatedUtcTs)
     //##################################################
 
-    public abstract String getPartsAsHtml();
-
-    public boolean hasPartsAsHtml()
+    public KmTimestamp getUpdatedUtcTs()
     {
-        return Kmu.hasValue(getPartsAsHtml());
+        return updatedUtcTs;
     }
 
-    public boolean hasPartsAsHtml(String e)
+    public void setUpdatedUtcTs(KmTimestamp e)
     {
-        return Kmu.isEqualIgnoreCase(getPartsAsHtml(), e);
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
     }
 
     //##################################################
@@ -552,7 +573,7 @@ public abstract class MyEmailBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -569,22 +590,6 @@ public abstract class MyEmailBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -683,82 +688,6 @@ public abstract class MyEmailBase
     }
 
     //##################################################
-    //# field (updatedLocalTs)
-    //##################################################
-
-    public final KmTimestamp getUpdatedLocalTs()
-    {
-        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
-    }
-
-    public boolean hasUpdatedLocalTs()
-    {
-        return getUpdatedLocalTs() != null;
-    }
-
-    public boolean hasUpdatedLocalTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getUpdatedLocalTs(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalTsMessage)
-    //##################################################
-
-    public final String getUpdatedLocalTsMessage()
-    {
-        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
-    }
-
-    public boolean hasUpdatedLocalTsMessage()
-    {
-        return Kmu.hasValue(getUpdatedLocalTsMessage());
-    }
-
-    public boolean hasUpdatedLocalTsMessage(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalDate)
-    //##################################################
-
-    public final KmDate getUpdatedLocalDate()
-    {
-        return KmTimestampUtility.getDate(getUpdatedLocalTs());
-    }
-
-    public boolean hasUpdatedLocalDate()
-    {
-        return getUpdatedLocalDate() != null;
-    }
-
-    public boolean hasUpdatedLocalDate(KmDate e)
-    {
-        return Kmu.isEqual(getUpdatedLocalDate(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalTime)
-    //##################################################
-
-    public final KmTime getUpdatedLocalTime()
-    {
-        return KmTimestampUtility.getTime(getUpdatedLocalTs());
-    }
-
-    public boolean hasUpdatedLocalTime()
-    {
-        return getUpdatedLocalTime() != null;
-    }
-
-    public boolean hasUpdatedLocalTime(KmTime e)
-    {
-        return Kmu.isEqual(getUpdatedLocalTime(), e);
-    }
-
-    //##################################################
     //# field (sentLocalTs)
     //##################################################
 
@@ -835,6 +764,82 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
     //# createdBy
     //##################################################
 
@@ -873,6 +878,11 @@ public abstract class MyEmailBase
         if ( hasCreatedBy() )
             return getCreatedBy().getFullName();
         return null;
+    }
+
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
     }
 
     public boolean hasCreatedByFullName()
@@ -926,6 +936,11 @@ public abstract class MyEmailBase
         return null;
     }
 
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
+    }
+
     public boolean hasUpdatedByFullName()
     {
         return hasUpdatedBy() && getUpdatedBy().hasFullName();
@@ -936,73 +951,6 @@ public abstract class MyEmailBase
         return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
     }
 
-
-    //##################################################
-    //# Recipients (collection)
-    //##################################################
-
-    public KmCollection<MyEmailRecipient> getRecipients()
-    {
-        return new KmHibernateCollection<>(
-            getBaseRecipients(),
-            (MyEmail)this,
-            MyEmailRecipient.Meta.Email);
-    }
-
-    public boolean hasRecipients()
-    {
-        return !getBaseRecipients().isEmpty();
-    }
-
-    public int getRecipientCount()
-    {
-        return getBaseRecipients().size();
-    }
-
-    public List<MyEmailRecipient> getBaseRecipients()
-    {
-        return recipients;
-    }
-
-    public MyEmailRecipient addRecipient()
-    {
-        MyEmailRecipient e;
-        e = new MyEmailRecipient();
-        getRecipients().add(e);
-        return e;
-    }
-
-    public void addRecipient(MyEmailRecipient e)
-    {
-        getRecipients().add(e);
-    }
-
-    public boolean removeRecipient(MyEmailRecipient e)
-    {
-        return getRecipients().remove(e);
-    }
-
-    public boolean removeRecipientUid(String myUid)
-    {
-        MyEmailRecipient e = findRecipientUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeRecipient(e);
-    }
-
-    public MyEmailRecipient findRecipientUid(String myUid)
-    {
-        for ( MyEmailRecipient e : getBaseRecipients() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearRecipients()
-    {
-        getRecipients().clear();
-    }
 
     //##################################################
     //# Parts (collection)
@@ -1082,24 +1030,86 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# Recipients (collection)
+    //##################################################
+
+    public KmCollection<MyEmailRecipient> getRecipients()
+    {
+        return new KmHibernateCollection<>(
+            getBaseRecipients(),
+            (MyEmail)this,
+            MyEmailRecipient.Meta.Email);
+    }
+
+    public boolean hasRecipients()
+    {
+        return !getBaseRecipients().isEmpty();
+    }
+
+    public int getRecipientCount()
+    {
+        return getBaseRecipients().size();
+    }
+
+    public List<MyEmailRecipient> getBaseRecipients()
+    {
+        return recipients;
+    }
+
+    public MyEmailRecipient addRecipient()
+    {
+        MyEmailRecipient e;
+        e = new MyEmailRecipient();
+        getRecipients().add(e);
+        return e;
+    }
+
+    public void addRecipient(MyEmailRecipient e)
+    {
+        getRecipients().add(e);
+    }
+
+    public boolean removeRecipient(MyEmailRecipient e)
+    {
+        return getRecipients().remove(e);
+    }
+
+    public boolean removeRecipientUid(String myUid)
+    {
+        MyEmailRecipient e = findRecipientUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeRecipient(e);
+    }
+
+    public MyEmailRecipient findRecipientUid(String myUid)
+    {
+        for ( MyEmailRecipient e : getBaseRecipients() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearRecipients()
+    {
+        getRecipients().clear();
+    }
+
+    //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyEmailValidator getValidator()
     {
-        Validator.validate((MyEmail)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyEmail asSubclass()
     {
-        Validator.validateWarn((MyEmail)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyEmail)this);
+        return (MyEmail)this;
     }
 
     //##################################################
@@ -1118,15 +1128,15 @@ public abstract class MyEmailBase
         super.postCopy();
         uid = newUid();
 
-        List<MyEmailRecipient> old_recipients = recipients;
-        recipients = new ArrayList<>();
-        for ( MyEmailRecipient e : old_recipients )
-            addRecipient(copy(e));
-
         List<MyEmailPart> old_parts = getSortedParts();
         parts = new ArrayList<>();
         for ( MyEmailPart e : old_parts )
             addPart(copy(e));
+
+        List<MyEmailRecipient> old_recipients = recipients;
+        recipients = new ArrayList<>();
+        for ( MyEmailRecipient e : old_recipients )
+            addRecipient(copy(e));
     }
 
     /**
@@ -1138,15 +1148,41 @@ public abstract class MyEmailBase
     {
         MyEmail e;
         e = new MyEmail();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setUpdatedUtcTs(getUpdatedUtcTs());
-        e.setSentUtcTs(getSentUtcTs());
-        e.setSubject(getSubject());
-        e.setFromAddress(getFromAddress());
-        e.setStatusCode(getStatusCode());
-        e.setErrorNotes(getErrorNotes());
+        applyEditableFieldsTo(e);
         resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyEmail e)
+    {
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setErrorNotes(getErrorNotes());
+        e.setFromAddress(getFromAddress());
+        e.setSentUtcTs(getSentUtcTs());
+        e.setStatusCode(getStatusCode());
+        e.setSubject(getSubject());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyEmail e)
+    {
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setErrorNotes(e.getErrorNotes());
+        setFromAddress(e.getFromAddress());
+        setSentUtcTs(e.getSentUtcTs());
+        setStatusCode(e.getStatusCode());
+        setSubject(e.getSubject());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -1177,32 +1213,34 @@ public abstract class MyEmailBase
 
     public boolean isSameIgnoringKey(MyEmail e)
     {
-        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getSentUtcTs(), e.getSentUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getSubject(), e.getSubject()) ) return false;
-        if ( !Kmu.isEqual(getFromAddress(), e.getFromAddress()) ) return false;
-        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( !Kmu.isEqual(getErrorNotes(), e.getErrorNotes()) ) return false;
-        if ( !Kmu.isEqual(getRecipientSummary(), e.getRecipientSummary()) ) return false;
-        if ( !Kmu.isEqual(getToAddressesLabel(), e.getToAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCcAddressesLabel(), e.getCcAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getErrorNotes(), e.getErrorNotes()) ) return false;
+        if ( !Kmu.isEqual(getFromAddress(), e.getFromAddress()) ) return false;
         if ( !Kmu.isEqual(getPartsAsHtml(), e.getPartsAsHtml()) ) return false;
+        if ( !Kmu.isEqual(getRecipientSummary(), e.getRecipientSummary()) ) return false;
+        if ( !Kmu.isEqual(getSentUtcTs(), e.getSentUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
+        if ( !Kmu.isEqual(getSubject(), e.getSubject()) ) return false;
+        if ( !Kmu.isEqual(getToAddressesLabel(), e.getToAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         if ( !Kmu.isEqual(getSentLocalTs(), e.getSentLocalTs()) ) return false;
         if ( !Kmu.isEqual(getSentLocalTsMessage(), e.getSentLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getSentLocalDate(), e.getSentLocalDate()) ) return false;
         if ( !Kmu.isEqual(getSentLocalTime(), e.getSentLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -1236,14 +1274,14 @@ public abstract class MyEmailBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
-        System.out.println("    SentUtcTs = " + sentUtcTs);
-        System.out.println("    Subject = " + subject);
-        System.out.println("    FromAddress = " + fromAddress);
-        System.out.println("    StatusCode = " + statusCode);
         System.out.println("    ErrorNotes = " + errorNotes);
+        System.out.println("    FromAddress = " + fromAddress);
+        System.out.println("    SentUtcTs = " + sentUtcTs);
+        System.out.println("    StatusCode = " + statusCode);
+        System.out.println("    Subject = " + subject);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

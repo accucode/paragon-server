@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -71,16 +72,16 @@ public class MyNamedDoubleVoValidatorBase
     public void convertOnly(MyNamedDoubleVo value)
     {
         // fields...
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setValue(valueValidator.convertOnly(value.getValue()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setValue(valueValidator.convert(value.getValue()));
     }
 
     @Override
-    public void validateOnly(MyNamedDoubleVo value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyNamedDoubleVo value, KmErrorList errors)
     {
         // fields...
-        nameValidator.validateOnly(value.getName(), errors);
-        valueValidator.validateOnly(value.getValue(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        valueValidator.validateOn(value.getValue(), errors);
         // required associations...
     }
 
@@ -94,8 +95,8 @@ public class MyNamedDoubleVoValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(100);
         e.setAllowsPrintable(true);
-        e.setModel("namedDoubleVo");
-        e.setField("name");
+        e.setModelName("namedDoubleVo");
+        e.setFieldName("name");
         return e;
     }
 
@@ -105,8 +106,8 @@ public class MyNamedDoubleVoValidatorBase
         e = new KmDoubleValidator();
         e.setAllDigits(8);
         e.setRightDigits(2);
-        e.setModel("namedDoubleVo");
-        e.setField("value");
+        e.setModelName("namedDoubleVo");
+        e.setFieldName("value");
         return e;
     }
 

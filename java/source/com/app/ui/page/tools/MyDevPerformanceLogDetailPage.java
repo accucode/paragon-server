@@ -2,7 +2,6 @@ package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
 import com.kodemore.servlet.control.ScFilterBox;
@@ -10,7 +9,7 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
-import com.kodemore.servlet.field.ScEnumDropdownField;
+import com.kodemore.servlet.field.ScStaticEnumDropdownField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.time.KmTimestamp;
 
@@ -48,11 +47,11 @@ public final class MyDevPerformanceLogDetailPage
     //# variables
     //##################################################
 
-    private ScFilterBox                    _filterBox;
-    private ScTextField                    _nameField;
-    private ScDateField                    _startDateField;
-    private ScDateField                    _endDateField;
-    private ScEnumDropdownField            _sortField;
+    private ScFilterBox               _filterBox;
+    private ScTextField               _nameField;
+    private ScDateField               _startDateField;
+    private ScDateField               _endDateField;
+    private ScStaticEnumDropdownField _sortField;
 
     private ScGrid<MyPerformanceLogDetail> _grid;
 
@@ -64,22 +63,6 @@ public final class MyDevPerformanceLogDetailPage
     public final MySecurityLevel getSecurityLevel()
     {
         return MySecurityLevel.developer;
-    }
-
-    //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -107,14 +90,14 @@ public final class MyDevPerformanceLogDetailPage
         _endDateField = new ScDateField();
         _endDateField.disableChangeTracking();
 
-        _sortField = new ScEnumDropdownField();
+        _sortField = new ScStaticEnumDropdownField();
         _sortField.setLabel("Sort");
         _sortField.addOptions(MyPerformanceLogDetailFilter.Sort.values());
         _sortField.setValue(MyPerformanceLogDetailFilter.Sort.CreatedUtcTs);
         _sortField.disableChangeTracking();
 
         _filterBox = root.addFilterBox("Search");
-        _filterBox.setAction(this::handleSearch);
+        _filterBox.setAction(newCheckedAction(this::handleSearch));
         _filterBox.getFormWrapper().css().flexChildStatic();
 
         ScFieldLayout fields;
@@ -122,8 +105,8 @@ public final class MyDevPerformanceLogDetailPage
         fields.add(_nameField);
 
         ScDiv dateBox;
-        dateBox = fields.addFlexRow();
-        dateBox.css().flexCrossAlignCenter().rowSpacer5();
+        dateBox = fields.addDiv();
+        dateBox.css().flexRow().rowSpacer5().flexCrossAlignCenter();
         dateBox.setLabel("Date");
         dateBox.add(_startDateField);
         dateBox.addTextSpan("to");
@@ -156,7 +139,7 @@ public final class MyDevPerformanceLogDetailPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

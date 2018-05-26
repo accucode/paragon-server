@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,14 +31,25 @@ public class KmQuantity
     //# constants
     //##################################################
 
-    public static final KmQuantity ZERO               = new KmQuantity(0);
-    public static final KmQuantity ONE                = new KmQuantity(1);
-    public static final KmQuantity TWO                = new KmQuantity(2);
+    public static final KmQuantity ZERO = new KmQuantity(0);
+    public static final KmQuantity ONE  = new KmQuantity(1);
+    public static final KmQuantity TWO  = new KmQuantity(2);
 
-    public static final KmQuantity MAX                = new KmQuantity(999999999999.9999);
+    public static final KmQuantity MAX = new KmQuantity(999999999999.9999);
 
-    public static final int        DATABASE_PRECISION = 16;
-    public static final int        SCALE              = 4;
+    public static final int DATABASE_PRECISION = 16;
+    public static final int SCALE              = 4;
+
+    //##################################################
+    //# instance creation
+    //##################################################
+
+    public static KmQuantity from(Double e)
+    {
+        return e == null
+            ? null
+            : new KmQuantity(e);
+    }
 
     //##################################################
     //# constructor

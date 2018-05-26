@@ -1,31 +1,33 @@
 package com.app.ui.page.login;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScCheckboxField;
+import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScEnterPageScript;
-import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyResourceFiles;
 import com.app.model.MyAutoLogin;
 import com.app.model.MyEmail;
 import com.app.model.MyPasswordReset;
+import com.app.model.MyServerSession;
 import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.ui.layout.MyPageLayout;
@@ -61,30 +63,54 @@ public final class MyLoginPage
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    private static final String PARAM_QUERY = "q";
-
-    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString       _targetQuery;
+    /**
+     * The original target query that was requested before the
+     * user was redirected to log in. Once the user logs in,
+     * we redirect the user to the originally requested page.
+     */
+    private ScHiddenField<String> _targetQueryField;
 
-    private ScCard              _loginCard;
-    private ScCard              _forgotPasswordCard;
-    private ScCard              _messageCard;
+    /**
+     * The frame that shows the various options: login, forgot password,
+     * message, error.
+     */
+    private ScCardFrame _frame;
 
-    private ScTextField         _emailField;
-    private ScTextField         _passwordField;
-    private ScCheckboxField     _stayLoggedInField;
+    //==================================================
+    //= variables :: login card
+    //==================================================
 
-    private ScTextField         _forgotPasswordEmailField;
-    private ScText              _messageBox;
+    private ScCard          _loginCard;
+    private ScTextField     _emailField;
+    private ScTextField     _passwordField;
+    private ScCheckboxField _stayLoggedInField;
 
-    private ScGroup             _oneAllGroup;
-    private ScLiteral           _oneAllBody;
+    private ScGroup   _oneAllGroup;
+    private ScLiteral _oneAllBody;
+
+    //==================================================
+    //= variables :: forgot password card
+    //==================================================
+
+    private ScCard      _forgotPasswordCard;
+    private ScTextField _forgotPasswordEmailField;
+
+    //==================================================
+    //= variables :: message card
+    //==================================================
+
+    private ScCard _messageCard;
+    private ScText _messageText;
+
+    //==================================================
+    //= variables :: error card
+    //==================================================
+
+    private ScCard _errorCard;
+    private ScText _errorText;
 
     //##################################################
     //# settings
@@ -109,8 +135,7 @@ public final class MyLoginPage
     public void ajaxEnterForWindowQuery()
     {
         String q = getData().getWindowQuery();
-        _targetQuery.setValue(q);
-
+        _targetQueryField.setValue(q);
         ajaxEnter();
     }
 
@@ -119,18 +144,44 @@ public final class MyLoginPage
     //##################################################
 
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    public MyLoginBookmark newBookmark()
     {
-        if ( _targetQuery.hasValue() )
-            v.setValue(PARAM_QUERY, _targetQuery.getValue());
+        return new MyLoginBookmark(this);
+    }
+
+    private MyLoginBookmark castBookmark(ScBookmark e)
+    {
+        return (MyLoginBookmark)e;
     }
 
     @Override
-    public void applyBookmark(ScParameterList params)
+    protected void readStateFrom(ScBookmark o)
     {
-        String query = params.getValue(PARAM_QUERY);
-        if ( Kmu.hasValue(query) )
-            _targetQuery.setValue(query);
+        super.readStateFrom(o);
+
+        MyLoginBookmark e;
+        e = castBookmark(o);
+        _targetQueryField.setValue(e.getQuery());
+
+        if ( e.hasError() )
+        {
+            _errorText.setValue(e.getError());
+            _frame.setDefaultCard(_errorCard);
+        }
+
+        // NON-STANDARD, clear the bookmark after applying it.
+        // getData().ajax().replaceHistory(this);
+    }
+
+    @Override
+    protected void writeStateTo(ScBookmark o)
+    {
+        super.writeStateTo(o);
+
+        MyLoginBookmark e;
+        e = castBookmark(o);
+        e.setQuery(_targetQueryField.getValue());
+        e.setError(null);
     }
 
     //##################################################
@@ -140,9 +191,6 @@ public final class MyLoginPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _targetQuery = new ScLocalString();
-        _targetQuery.setAutoSave();
-
         root.css().fill().flexColumn().flexCrossAlignCenter();
         root.addFlexGap(100);
 
@@ -151,7 +199,9 @@ public final class MyLoginPage
 
     private void installContentOn(ScDiv col)
     {
-        ScDiv row = col.addFlexRow();
+        ScDiv row;
+        row = col.addDiv();
+        row.css().flexRow();
 
         installFrameOn(row);
         installLogo(row);
@@ -159,15 +209,21 @@ public final class MyLoginPage
 
     private void installLogo(ScDiv root)
     {
-        ScImage e;
-        e = root.addImage();
-        e.setSource(getThemeImageUrl("logo300.png"));
-        e.style().size(300).marginLeft(50);
-        e.css().backgroundBlack();
+        ScDiv col;
+        col = root.addDiv();
+        col.css().flexColumn();
+        col.addFlexChildFiller();
+
+        ScTextSpan span;
+        span = col.addTextSpan();
+        span.css().loginAppName();
+        span.setValue(MyConstantsIF.APPLICATION_NAME);
+
+        col.addFlexChildFiller();
     }
 
     //==================================================
-    //= frame
+    //= install :: frame
     //==================================================
 
     private void installFrameOn(ScContainer root)
@@ -175,14 +231,16 @@ public final class MyLoginPage
         ScCardFrame frame;
         frame = root.addCardFrame();
         frame.css().width350();
+        _frame = frame;
 
         installLoginCardOn(frame);
         installForgotPasswordCardOn(frame);
         installMessageCardOn(frame);
+        installErrorCardOn(frame);
     }
 
     //==================================================
-    //= frame :: login
+    //= install :: login card
     //==================================================
 
     private void installLoginCardOn(ScCardFrame frame)
@@ -201,59 +259,83 @@ public final class MyLoginPage
     {
         ScForm form;
         form = card.addForm();
-        form.setSubmitAction(this::handleLogin);
+        form.onSubmit(newUncheckedAction(this::handleLogin));
 
         ScGroup group;
         group = form.addGroup();
         group.setTitle("Log in");
 
-        installLoginFormFields(group);
+        installFieldsOn(group);
         installLoginFormFooter(group);
     }
 
-    private void installLoginFormFields(ScGroup group)
+    private void installFieldsOn(ScGroup group)
     {
-        _emailField = new ScTextField();
-        _emailField.setLabel("Email");
-        _emailField.setRequired();
-        _emailField.setWidthFull();
-        _emailField.disableChangeTracking();
-
-        _passwordField = new ScPasswordField();
-        _passwordField.setLabel("Password");
-        _passwordField.setWidthFull();
-        _passwordField.disableChangeTracking();
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad10();
+        body.add(createTargetQueryField());
 
         ScFieldLayout fields;
-        fields = group.getBody().addFieldLayout();
-        fields.css().pad10();
-        fields.add(_emailField);
-        fields.add(_passwordField);
+        fields = body.addFieldLayout();
+        fields.add(createEmailField());
+        fields.add(createPasswordField());
 
         ScLink link;
-        link = fields.addLink("Forgot password?", this::handleForgotPassword);
+        link = fields.addLink("Forgot password?", newCheckedAction(this::handleForgotPassword));
         link.setNoFocus();
+    }
+
+    private ScControl createTargetQueryField()
+    {
+        ScHiddenField<String> e;
+        e = new ScHiddenField<>();
+        _targetQueryField = e;
+        return e;
+    }
+
+    private ScTextField createEmailField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Email");
+        e.setRequired();
+        e.setWidthFull();
+        e.disableChangeTracking();
+        _emailField = e;
+        return e;
+    }
+
+    private ScPasswordField createPasswordField()
+    {
+        ScPasswordField e;
+        e = new ScPasswordField();
+        e.setLabel("Password");
+        e.setWidthFull();
+        e.disableChangeTracking();
+        _passwordField = e;
+        return e;
     }
 
     private void installLoginFormFooter(ScGroup group)
     {
-        _stayLoggedInField = new ScCheckboxField();
-        _stayLoggedInField.disableChangeTracking();
-
         ScDiv footer;
-        footer = group.getFooter();
-        footer.show();
+        footer = group.showFooter();
+        footer.css().flexRow().flexCrossAlignCenter().pad();
+        footer.addSubmitButton("Sign In");
+        footer.addFlexChildFiller();
+        footer.add(createStayLoggedInField());
+        footer.addNonBreakingSpace();
+        footer.addTextSpan("Stay Signed In");
+    }
 
-        ScDiv row;
-        row = footer.addFlexRow();
-        row.css().flexAlignSpaced().flexCrossAlignCenter();
-        row.css().pad();
-
-        row.addSubmitButton("Sign In");
-        row.addFlexChildFiller();
-        row.add(_stayLoggedInField);
-        row.addNonBreakingSpace();
-        row.addTextSpan("Stay Signed In");
+    private ScControl createStayLoggedInField()
+    {
+        ScCheckboxField e;
+        e = new ScCheckboxField();
+        e.disableChangeTracking();
+        _stayLoggedInField = e;
+        return e;
     }
 
     private void installOneAllGroupOn(ScDiv root)
@@ -270,7 +352,7 @@ public final class MyLoginPage
     }
 
     //==================================================
-    //= frame :: forgot password
+    //= install :: forgot password card
     //==================================================
 
     private void installForgotPasswordCardOn(ScCardFrame frame)
@@ -280,8 +362,8 @@ public final class MyLoginPage
 
         ScForm form;
         form = card.addForm();
-        form.setSubmitAction(this::handleRequestResetPassword);
-        form.onEscape().run(newUncheckedAction(this::handleCancel));
+        form.onSubmit(newUncheckedAction(this::handleRequestResetPassword));
+        form.onEscape().run(newUncheckedAction(this::handleReturnToLogin));
 
         ScGroup group;
         group = form.addGroup();
@@ -317,14 +399,14 @@ public final class MyLoginPage
         footer.show();
 
         ScDiv row;
-        row = footer.addFlexRow();
-        row.css().flexAlignSpaced().flexCrossAlignCenter().pad();
+        row = footer.addDiv();
+        row.css().flexRow().flexAlignSpaced().flexCrossAlignCenter().pad();
         row.addSubmitButton("Request Password Reset");
-        row.addCancelButton(this::handleCancel);
+        row.addCancelButton(newUncheckedAction(this::handleReturnToLogin));
     }
 
     //==================================================
-    //= frame :: message
+    //= install :: message card
     //==================================================
 
     private void installMessageCardOn(ScCardFrame frame)
@@ -341,7 +423,7 @@ public final class MyLoginPage
         footer.css().pad();
 
         ScActionButton button;
-        button = footer.addButton("Ok", this::handleCancel);
+        button = footer.addButton("Ok", newCheckedAction(this::handleReturnToLogin));
         button.setFlavorPositive();
         button.css().width50();
 
@@ -349,16 +431,47 @@ public final class MyLoginPage
         body = group.getBody();
         body.css().height50().pad10();
 
-        _messageBox = body.addText();
+        _messageText = body.addText();
         _messageCard = card;
     }
 
+    //==================================================
+    //= install :: error card
+    //==================================================
+
+    private void installErrorCardOn(ScCardFrame frame)
+    {
+        ScCard card;
+        card = frame.addCard();
+
+        ScGroup group;
+        group = card.addGroup();
+        group.setTitle("Error");
+        group.setFlavorAlert();
+
+        ScDiv footer;
+        footer = group.showFooter();
+        footer.css().pad();
+
+        ScActionButton button;
+        button = footer.addButton("Ok", newCheckedAction(this::handleReturnToLogin));
+        button.setFlavorPositive();
+        button.css().width50();
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad10();
+
+        _errorText = body.addText();
+        _errorCard = card;
+    }
+
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         preRenderOneAll();
 
@@ -394,84 +507,47 @@ public final class MyLoginPage
 
     private void handleLogin()
     {
+        MyLoginUtility.ajaxClearAutoLogin();
         _passwordField.ajaxClearFieldValue();
 
-        MyLoginUtility.ajaxClearAutoLogin();
+        ajaxHideAllErrors();
+        validateLogin();
+        checkErrors();
+        ajaxSetEmailCookie();
 
-        ajax().hideAllErrors();
-        ajax().focusPage();
-
-        _loginCard.validate();
-
-        MyTenant tenant = getCurrentTenant();
-        String email = _emailField.getValue();
-        MyUser user = getAccess().getUserDao().findEmail(tenant, email);
-
-        setEmailCookie(email);
-
+        MyUser user = getUser();
         if ( user == null )
-        {
-            _emailField.error("No such user.");
             return;
-        }
 
-        if ( !user.allowsLogin() )
-        {
-            _emailField.error("Login is disabled.");
-            return;
-        }
+        String target = _targetQueryField.getValue();
 
-        String pwd = _passwordField.getValue();
-
-        if ( !user.hasPassword(pwd) )
-        {
-            _passwordField.ajaxFocus();
-            _passwordField.error("Invalid.");
-            return;
-        }
-
-        getAccess().getAutoLoginDao().deleteAllFor(user);
-
-        boolean staySignedIn = _stayLoggedInField.isChecked();
-
-        if ( staySignedIn )
-        {
-            MyAutoLogin auto;
-            auto = new MyAutoLogin();
-            auto.setUser(user);
-            auto.daoAttach();
-
-            MyLoginUtility.logIn(auto);
-        }
-        else
-            MyLoginUtility.ajaxLogIn(user);
-
+        login(user);
         getLayout().ajaxRefreshHeader();
-        startNextPage();
+        startNextPage(target);
     }
 
     private void handleRequestResetPassword()
     {
         _forgotPasswordCard.ajaxHideAllErrors();
         _forgotPasswordCard.ajaxFocus();
-        _forgotPasswordCard.validate();
+        _forgotPasswordCard.validateAndCheck();
 
         MyTenant tenant = getCurrentTenant();
         String email = _forgotPasswordEmailField.getValue();
 
         MyUser user = getAccess().getUserDao().findEmail(tenant, email);
         if ( user == null )
-            _forgotPasswordEmailField.error("No such user.");
+            _forgotPasswordEmailField.addErrorAndCheck("No such user.");
 
         MyPasswordReset pr;
         pr = createPasswordReset(user);
 
         sendEmail(pr);
-        showSentMessage(pr);
-        setEmailCookie(email);
+        ajaxShowSentMessage(pr);
+        ajaxSetEmailCookie(email);
     }
 
-    private void handleCancel()
+    private void handleReturnToLogin()
     {
         preRenderOneAll();
 
@@ -480,33 +556,93 @@ public final class MyLoginPage
     }
 
     //##################################################
+    //# validate
+    //##################################################
+
+    protected void validateLogin()
+    {
+        _loginCard.validate();
+        if ( hasErrors() )
+            return;
+
+        String email = _emailField.getValue();
+        String password = _passwordField.getValue();
+
+        MyTenant tenant = getCurrentTenant();
+        MyUser user = getAccess().getUserDao().findEmail(tenant, email);
+
+        if ( user == null )
+        {
+            _emailField.addError("No such user.");
+            return;
+        }
+
+        if ( !user.allowsLogin() )
+        {
+            _emailField.addError("Login is disabled.");
+            return;
+        }
+
+        if ( !user.hasPassword(password) )
+        {
+            _passwordField.ajaxFocus();
+            _passwordField.addError("Invalid.");
+            return;
+        }
+    }
+
+    //##################################################
     //# support
     //##################################################
 
-    private void startNextPage()
+    private MyUser getUser()
     {
-        if ( _targetQuery.hasValue() )
+        MyTenant tenant = getCurrentTenant();
+        String email = _emailField.getValue();
+
+        return getAccess().getUserDao().findEmail(tenant, email);
+    }
+
+    private void login(MyUser user)
+    {
+        getAccess().getAutoLoginDao().deleteAllFor(user);
+
+        boolean sticky = _stayLoggedInField.isChecked();
+        if ( sticky )
+            stickyLogin(user);
+        else
+            basicLogin(user);
+    }
+
+    private void stickyLogin(MyUser user)
+    {
+        MyAutoLogin auto;
+        auto = new MyAutoLogin();
+        auto.setUser(user);
+        auto.daoAttach();
+
+        MyLoginUtility.ajaxLogIn(auto);
+    }
+
+    private MyServerSession basicLogin(MyUser user)
+    {
+        return MyLoginUtility.ajaxLogIn(user);
+    }
+
+    private void startNextPage(String targetQuery)
+    {
+        ajax().updatePageSession();
+
+        if ( Kmu.hasValue(targetQuery) )
         {
             ScEnterPageScript script;
-            script = ajax().enterPage(_targetQuery.getValue());
+            script = ajax().enterPage(targetQuery);
             script.setReplace();
-
-            _targetQuery.clearValue();
             return;
         }
 
         MyPageLayout.getInstance().ajaxClearContent();
         MyAppNavigator.ajaxEnter();
-    }
-
-    private String getEmailCookie()
-    {
-        return MyLoginUtility.getEmailCookie();
-    }
-
-    private void setEmailCookie(String email)
-    {
-        MyLoginUtility.ajaxSetEmailCookie(email);
     }
 
     private MyPasswordReset createPasswordReset(MyUser user)
@@ -527,7 +663,7 @@ public final class MyLoginPage
         MyUser user = getAccess().getUserDao().findEmail(tenant, to);
         if ( user == null )
         {
-            _emailField.error("We have no record of a user with that email.");
+            _emailField.addErrorAndCheck("We have no record of a user with that email.");
             return;
         }
 
@@ -555,15 +691,38 @@ public final class MyLoginPage
         e.daoAttach();
     }
 
-    private void showSentMessage(MyPasswordReset pr)
+    private void ajaxShowSentMessage(MyPasswordReset pr)
     {
         String email = pr.getEmail();
+        String msg = Kmu.format("We have sent reset instructions to: %s.", email);
 
-        _messageBox.setValue("We have sent reset instructions to: " + email);
-        _messageBox.ajaxUpdateFieldValues();
-
+        _messageText.setValue(msg);
         _messageCard.ajaxPrintCard();
     }
+
+    //##################################################
+    //# email cookie
+    //##################################################
+
+    private String getEmailCookie()
+    {
+        return MyLoginUtility.getEmailCookie();
+    }
+
+    private void ajaxSetEmailCookie()
+    {
+        String email = _emailField.getValue();
+        ajaxSetEmailCookie(email);
+    }
+
+    private void ajaxSetEmailCookie(String email)
+    {
+        MyLoginUtility.ajaxSetEmailCookie(email);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
 
     private String getFromAddress()
     {

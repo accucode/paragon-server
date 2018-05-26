@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -133,22 +133,15 @@ public class KmPhoneticEncoder
         _rules = rp.parseFile(path);
     }
 
-    public void loadRulesFromResource(String path)
+    public void loadRulesFromResource(Class<?> klass, String path)
     {
         KmPhoneticRuleParser rp;
         rp = new KmPhoneticRuleParser();
-        _rules = rp.parseResource(path);
+        _rules = rp.parseResource(klass, path);
     }
 
     public void loadDefaultRules()
     {
-        String pkg;
-        pkg = getClass().getPackage().getName();
-        pkg = Kmu.replaceAll(pkg, ".", "/");
-
-        String path;
-        path = Kmu.joinFilePath(pkg, "phoneticRules.txt");
-
-        loadRulesFromResource(path);
+        loadRulesFromResource(getClass(), "phoneticRules.txt");
     }
 }

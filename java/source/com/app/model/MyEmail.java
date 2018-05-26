@@ -3,6 +3,7 @@ package com.app.model;
 import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.ScCharsets;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyEmailBase;
@@ -125,7 +126,8 @@ public class MyEmail
 
     public void addAttachmentPart(String data, String name)
     {
-        addAttachmentPart(data.getBytes(), name);
+        byte[] bytes = data.getBytes(ScCharsets.EMAIL_CHARSET);
+        addAttachmentPart(bytes, name);
     }
 
     public void addAttachmentPart(byte[] data, String name)
@@ -135,6 +137,7 @@ public class MyEmail
         e.setTypeAttachment();
         e.setAttachmentName(name);
         e.setData(data);
+        e.validateAndCheck();
     }
 
     //##################################################
@@ -200,11 +203,11 @@ public class MyEmail
                     break;
 
                 case Html:
-                    out.printLiteral(e.getData().getStringValue());
+                    out.printLiteral(e.getData().getUtfValue());
                     break;
 
                 case Text:
-                    out.println(e.getData().getStringValue());
+                    out.println(e.getData().getUtfValue());
                     break;
             }
         }
@@ -217,8 +220,22 @@ public class MyEmail
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getSubject();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getSubject();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        String who = getCreatedByFullName();
+        String when = getCreatedUtcTs().formatLocal();
+        return Kmu.format("%s, %s", who, when);
     }
 }

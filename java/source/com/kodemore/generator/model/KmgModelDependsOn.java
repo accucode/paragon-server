@@ -24,7 +24,7 @@ public class KmgModelDependsOn
     /**
      * The method to call when any of the attributes change.
      */
-    private String         _onChange;
+    private String _onChange;
 
     //##################################################
     //# constructor
@@ -123,7 +123,7 @@ public class KmgModelDependsOn
         if ( p instanceof KmgModelAssociation )
             return ((KmgModelAssociation)p).getf_Name();
 
-        throw Kmu.newFatal("Unhandled parent: " + p.getClass().getSimpleName());
+        throw Kmu.newFatal("Unhandled parent: %s.", p.getClass().getSimpleName());
     }
 
     //##################################################

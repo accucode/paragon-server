@@ -17,20 +17,29 @@ public interface MyProjectDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
-    String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
-    String NAME = "name";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String AUTO_SITE_NUMBER_ENABLED = "autoSiteNumberEnabled";
+    String AUTO_SITE_NUMBER_PADDING = "autoSiteNumberPadding";
+    String AUTO_SITE_NUMBER_PREFIX = "autoSiteNumberPrefix";
+    String BUSINESS_DAYS = "businessDays";
+    String BUSINESS_END_TIME = "businessEndTime";
+    String BUSINESS_START_TIME = "businessStartTime";
     String CODE = "code";
     String COMPANY_NAME = "companyName";
+    String CREATED_UTC_TS = "createdUtcTs";
+    String DESCRIPTION = "description";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String ENABLED = "enabled";
+    String ENABLED_STATUS = "enabledStatus";
+    String NAME = "name";
+    String NEXT_AUTO_SITE_NUMBER = "nextAutoSiteNumber";
     String SEND_EMAIL_FROM = "sendEmailFrom";
-    String ACTIVE = "active";
-    String CATALOG_VERSION = "catalogVersion";
-    String BUSINESS_DAYS = "businessDays";
-    String BUSINESS_START_TIME = "businessStartTime";
-    String BUSINESS_END_TIME = "businessEndTime";
+    String TIME_ZONE_CODE = "timeZoneCode";
+    String TIME_ZONE_NAME = "timeZoneName";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
@@ -47,10 +56,30 @@ public interface MyProjectDaoConstantsIF
     String CREATED_BY = "createdBy";
     String CREATED_BY_UID = "createdBy.uid";
 
-    String UPDATED_BY = "updatedBy";
-    String UPDATED_BY_UID = "updatedBy.uid";
+    String DEFAULT_PRIORITY = "defaultPriority";
+    String DEFAULT_PRIORITY_UID = "defaultPriority.uid";
+
+    String SUPERVISOR = "supervisor";
+    String SUPERVISOR_UID = "supervisor.uid";
+
+    String SUPPORT_CONTACT = "supportContact";
+    String SUPPORT_CONTACT_UID = "supportContact.uid";
 
     String TENANT = "tenant";
     String TENANT_UID = "tenant.uid";
 
+    String UPDATED_BY = "updatedBy";
+    String UPDATED_BY_UID = "updatedBy.uid";
+
+    //##################################################
+    //# collections
+    //##################################################
+
+    String BLURBS = "blurbs";
+    String CONTACTS = "contacts";
+    String CUSTOMERS = "customers";
+    String EMAIL_TEMPLATES = "emailTemplates";
+    String HOLIDAYS = "holidays";
+    String MEMBERS = "members";
+    String VENDORS = "vendors";
 }

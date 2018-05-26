@@ -40,10 +40,10 @@ public abstract class KmProtoTypes
         add(m, new KmProtoLong());
         add(m, new KmProtoMoney());
         add(m, new KmProtoQuantity());
-        add(m, new KmProtoRate());
         add(m, new KmProtoString());
         add(m, new KmProtoTime());
         add(m, new KmProtoTimestamp());
+        add(m, new KmProtoUnitDuration());
         return m;
     }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +82,7 @@ public abstract class ScAbstractModelList<T>
      * If empty, the container will still be rendered, thus allowing
      * for subsequent dynamic updates via ajax.
      */
-    private ScLocalList<T>     _values;
+    private ScLocalList<T> _values;
 
     //##################################################
     //# constructor
@@ -204,6 +204,12 @@ public abstract class ScAbstractModelList<T>
     {
         ajaxRemoveAll();
         ajaxAddAll(values);
+    }
+
+    public void ajaxUpdateValues()
+    {
+        ajaxRemoveAll();
+        ajaxAddAll(getValues());
     }
 
     public void ajaxAddAll(KmList<T> values)

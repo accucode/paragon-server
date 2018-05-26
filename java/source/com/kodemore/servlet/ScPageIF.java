@@ -16,34 +16,14 @@ public interface ScPageIF
      */
     String getTitle();
 
+    String getBrowserTabTitle();
+
     /**
      * If true, the framework security will not allow render this page unless
      * an authenticated used is associated with the session.  Also, not actions
      * associated with this page can be run.
      */
     boolean requiresUser();
-
-    //##################################################
-    //# bookmarks
-    //##################################################
-
-    /**
-     * Apply the state from the page, to the url parameters.  This enables the
-     * use of bookmarkable urls that return a page to a particular state.
-     * The only dependency is that the applyBookmark method should know
-     * how to interpret any parameters that are set here.
-     *
-     * @see #applyBookmark
-     */
-    void composeBookmarkOn(ScParameterList v);
-
-    /**
-     * Apply parameters FROM a url TO the page, returning a user to a particular
-     * state.
-     *
-     * @see #composeBookmarkOn
-     */
-    void applyBookmark(ScParameterList v);
 
     //##################################################
     //# navigation
@@ -82,15 +62,4 @@ public interface ScPageIF
      * @see #ajaxEnter
      */
     void ajaxPrint();
-
-    /**
-     * Return a url query string that represents the current bookmarkable state
-     * of the page.
-     */
-    String formatQueryString(boolean withState);
-
-    default String formatQueryString()
-    {
-        return formatQueryString(true);
-    }
 }

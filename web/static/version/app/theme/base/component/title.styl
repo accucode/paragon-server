@@ -1,18 +1,20 @@
-/*****************************
- ** page title
- *****************************/
+//*****************************
+//** page title
+//*****************************
+
 
 /**
  * The unique ID for the page title box.
  * Used by javascript.
  */
 #title
-    /* noop - prevent compression */
-    content: normal;
+    content: normal // prevent stylus compression
+
 
 .title-bare,
 .title-basic
     display: none
+
 
 .title-normal
     box-sizing:         border-box
@@ -27,32 +29,85 @@
     overflow:           hidden
     background:         $title-background
 
-/*****************************
- ** name
- *****************************/
+
+//*****************************
+//** name
+//*****************************
+
 
 .title-left
+    display:            flex
+    flex-direction:     row
     flex-grow:          1
+    flex-basis:         0
+    flex-shrink:        0
     padding-left:       20px
+
 
 .title-nameText
     color:              $title-nameColor
     font:               $title-nameFont
     white-space:        nowrap
 
-/*****************************
- ** help
- *****************************/
+
+.title-pageModuleName
+    color:              #5b5b5b
+    font:               $title-nameFont
+    font-style:         italic
+    white-space:        nowrap
+    padding-left:       10px
+
+
+//*****************************
+//** notifications
+//*****************************
+
+
+.title-center
+    display:            flex
+    flex-direction:     row
+    flex-grow:          1
+    flex-shrink:        0
+    flex-basis:         0
+    padding-right:      20px
+    padding-left:       20px
+    align-items:        center
+    justify-content:    center
+
+
+.title-alert
+    background-color:   #fff8d5
+    border:             1px solid #ffb733
+    box-shadow:         none
+    cursor:             pointer
+
+
+.title-alert:hover
+    box-shadow:         $button-shadow-hover        if $button-shadow-hover
+
+
+//******************************
+//** help
+//******************************
+
 
 .title-right
+    display:            flex
+    flex-direction:     row
+    flex-grow:          1
     flex-shrink:        0
+    flex-basis:         0
+    justify-content:    flex-end
     padding-right:      20px
+
 
 .title-help
     box-sizing:         border-box
     cursor:             help
     vertical-align:     middle
-    background:         url(../image/pageHelp.png) no-repeat
-    height:             16px
-    width:              16px
-    padding-left:       16px /* equal to width */
+    background:         url(../icon/icon_helpOutline_black_48.png) no-repeat
+    background-size:    2.4rem 2.4rem
+    height:             2.4rem
+    width:              2.4rem
+    padding-left:       2.4rem /* equal to width */
+

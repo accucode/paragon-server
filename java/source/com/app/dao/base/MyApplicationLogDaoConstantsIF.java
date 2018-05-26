@@ -17,17 +17,18 @@ public interface MyApplicationLogDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
-    String CREATED_UTC_TS = "createdUtcTs";
-    String LOGGER_NAME = "loggerName";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CONTEXT = "context";
-    String MESSAGE = "message";
-    String LEVEL_NAME = "levelName";
+    String CREATED_UTC_TS = "createdUtcTs";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String LEVEL_CODE = "levelCode";
+    String LEVEL_NAME = "levelName";
+    String LOGGER_NAME = "loggerName";
+    String MESSAGE = "message";
     String THREAD_NAME = "threadName";
     String TRACE = "trace";
-    String LEVEL_CODE_NAME = "levelCodeName";
-    String DISPLAY_STRING = "displayString";
+    String UID = "uid";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

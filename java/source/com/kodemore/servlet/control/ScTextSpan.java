@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -69,6 +69,11 @@ public class ScTextSpan
         _value.setValue(e);
     }
 
+    public boolean hasValue()
+    {
+        return _value.hasValue();
+    }
+
     public void setFormattedValue(Object e)
     {
         _value.setFormattable(e);
@@ -95,6 +100,25 @@ public class ScTextSpan
     }
 
     //##################################################
+    //# empty value
+    //##################################################
+
+    public void setEmptyText(String e)
+    {
+        _value.setEmptyText(e);
+    }
+
+    public void setEmptyTextNone()
+    {
+        _value.setEmptyTextNone();
+    }
+
+    public void setEmptyTextAny()
+    {
+        _value.setEmptyTextAny();
+    }
+
+    //##################################################
     //# print
     //##################################################
 
@@ -117,6 +141,11 @@ public class ScTextSpan
     public void ajaxSetText(String value)
     {
         _htmlIdAjax().setText(value);
+    }
+
+    public void ajaxClearText()
+    {
+        _htmlIdAjax().clearText();
     }
 
     public void ajaxSetContents(KmHtmlBuilder out)

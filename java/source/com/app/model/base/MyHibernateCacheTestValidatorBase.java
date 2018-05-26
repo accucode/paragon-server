@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,8 +36,8 @@ public class MyHibernateCacheTestValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
     private KmStringValidator dataValidator;
+    private KmStringValidator uidValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -46,8 +47,8 @@ public class MyHibernateCacheTestValidatorBase
     protected MyHibernateCacheTestValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
         dataValidator = newDataValidator();
+        uidValidator = newUidValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -55,14 +56,14 @@ public class MyHibernateCacheTestValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
-    {
-        return uidValidator;
-    }
-
     public KmStringValidator getDataValidator()
     {
         return dataValidator;
+    }
+
+    public KmStringValidator getUidValidator()
+    {
+        return uidValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -78,18 +79,18 @@ public class MyHibernateCacheTestValidatorBase
     public void convertOnly(MyHibernateCacheTest value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setData(dataValidator.convertOnly(value.getData()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setData(dataValidator.convert(value.getData()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyHibernateCacheTest value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyHibernateCacheTest value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        dataValidator.validateOnly(value.getData(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        dataValidator.validateOn(value.getData(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
     }
 
@@ -97,26 +98,26 @@ public class MyHibernateCacheTestValidatorBase
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("hibernateCacheTest");
-        e.setField("uid");
-        e.setRequired();
-        return e;
-    }
-
     public KmStringValidator newDataValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(1000);
         e.setAllowsPrintable(true);
-        e.setModel("hibernateCacheTest");
-        e.setField("data");
+        e.setModelName("hibernateCacheTest");
+        e.setFieldName("data");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newUidValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("hibernateCacheTest");
+        e.setFieldName("uid");
         e.setRequired();
         return e;
     }
@@ -125,8 +126,9 @@ public class MyHibernateCacheTestValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("hibernateCacheTest");
-        e.setField("lockVersion");
+        e.setModelName("hibernateCacheTest");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

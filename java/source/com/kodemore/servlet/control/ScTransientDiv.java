@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -62,12 +63,12 @@ public class ScTransientDiv
     /**
      * The css classes.
      */
-    private ScLocalCss    _css;
+    private ScLocalCss _css;
 
     /**
      * The inline css style.
      */
-    private ScLocalStyle  _style;
+    private ScLocalStyle _style;
 
     //##################################################
     //# constructor
@@ -75,7 +76,7 @@ public class ScTransientDiv
 
     public ScTransientDiv()
     {
-        _htmlId = new ScLocalString(getKey());
+        _htmlId = new ScLocalString(getKeyToken());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
     }
@@ -158,7 +159,7 @@ public class ScTransientDiv
     //##################################################
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
         return !style().hasHide();
     }
@@ -200,6 +201,24 @@ public class ScTransientDiv
     public final ScHtmlIdAjax _htmlIdAjax()
     {
         return ScHtmlIdAjax.createOnRoot(this);
+    }
+
+    public ScAddContentScript ajaxAddContents(ScControlIF c)
+    {
+        ScAddContentScript s;
+        s = _htmlIdAjax().addContents();
+        s.setContent(c);
+        return s;
+    }
+
+    public void ajaxScrollToBottom(Integer speedMs)
+    {
+        _htmlIdAjax().scrollToBottom(speedMs);
+    }
+
+    public void ajaxPushWhenDone()
+    {
+        _htmlIdAjax().pushWhenDone();
     }
 
 }

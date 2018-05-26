@@ -19,19 +19,12 @@ attributes
 
 
     #include basicUid.stf
-
-
-    field
-    : name      = createdUtcTs
-    : help      = The time this record was originally created.
-    : type      = timestamp
-    : required  = true
-    : default   = nowUtc()
-    : auditLog  = false
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************
-    //** name
+    //** details
     //*****************************************************
 
 
@@ -42,8 +35,15 @@ attributes
     : required  = true
 
 
+    field
+    : name      = memo
+    : help      = Any brief, free-form notes, about this tenant.
+    : type      = notes
+
+
+
     //*****************************************************
-    //** host
+    //** hosting
     //*****************************************************
 
 
@@ -63,8 +63,8 @@ attributes
     : name      = themeCode
     : help      = Identify the theme.
     : type      = name
-    : required  = true
     : default   = MyTheme.Default.getCode()
+    : required  = true
 
 
     abstractField
@@ -75,40 +75,70 @@ attributes
 
 
     //*****************************************************
-    //** intacct
+    //** time zone
     //*****************************************************
 
 
     field
-    : name      = intacctCompanyId
+    : name      = timeZoneCode
+    : label     = Time Zone
     : help...
         ---
-        The intacct company, used for integration.
-        This is the company name entered on the Intacct login page.
+        The time zone is used in conjuction with the business
+        hours and other configuration options. This is the default
+        used for new projects and depots.
         ---
-    : type      = name
+    : type      = timeZoneCode
+    : default   = MyTenant.DEFAULT_TIME_ZONE.getCode()
+    : required  = true
+
+
+    abstractField
+    : name      = timeZoneName
+    : label     = Time Zone
+    : help      = The default used for new projects and depots.
+    : type      = calculated
+
+
+    //*****************************************************
+    //** business hours
+    //*****************************************************
 
 
     field
-    : name      = intacctUserId
+    : name      = businessDays
     : help...
         ---
-        The intacct user, used for integration.
-        This is the user id entered on the Intacct login page.
-        Intacct's recommendation is to use 'xml_gateway'.
-        However, any valid Intacct user can be used.
+        The nominal business days (e.g.: Monday through Friday).
+        This may be displayed to customers. This is the default
+        for new projects and depots.
         ---
-    : type      = name
+    : type      = dayFrequency
+    : default   = MyTenant.DEFAULT_BUSINESS_DAYS
 
 
     field
-    : name      = intacctUserPassword
+    : name      = businessStartTime
     : help...
         ---
-        The intacct password, used for integration.
-        This is the user password entered on the Intacct login page.
+        The nominal start of business hours.
+        This may be displayed to customers.
         ---
-    : type      = name
+    : type      = time
+    : default   = MyTenant.DEFAULT_BUSINESS_START
+    : required  = true
+
+
+    field
+    : name      = businessEndTime
+    : help...
+        ---
+        The nominal end of business hours.
+        This may be displayed to customers.
+        ---
+    : type      = time
+    : default   = MyTenant.DEFAULT_BUSINESS_END
+    : required  = true
 
 
     //*****************************************************
@@ -126,8 +156,7 @@ attributes
 
     collection
     : name          = user
-    : comment       = The user for this tenant.
+    : comment       = The users for this tenant.
     : relation      = children
     : elementModel  = user
     : elementField  = tenant
-

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -54,7 +53,7 @@ public class ScCheckboxList<T>
      * In this case, the value is a single LIST.  Only values that correspond
      * to the option values will be checked.
      */
-    private ScLocalList<T>       _list;
+    private ScLocalList<T> _list;
 
     /**
      * The options define the display labels and values for the list of
@@ -75,23 +74,25 @@ public class ScCheckboxList<T>
      * The height determines how many options can be listed in each column.
      * If null, the height is not constrained.
      */
-    private Integer              _height;
+    private Integer _height;
 
     /**
      * If true, the checkbox button is disabled.
      * Bear in mind that disabled fields are NOT submitted with the form.
      * False by default.
      */
-    private ScLocalBoolean       _disabled;
+    private ScLocalBoolean _disabled;
 
     /**
-     * Clients are not allowed directly access to the css since that will likely
-     * cause problems.  However, clients are allowed to directly adjust the margin
-     * for minor layout adjustments.
+     * Css styling for the outer wrapper around this control.
      */
-    private ScLocalCss           _cssMargin;
+    private ScLocalCss _css;
 
-    private ScAction             _onChangeAction;
+    /**
+     * If set, this action is run each time one of the checkboxes
+     * is changed.
+     */
+    private ScAction _onChangeAction;
 
     //##################################################
     //# constructor
@@ -103,7 +104,7 @@ public class ScCheckboxList<T>
         _options = new ScLocalOptionList<>();
         _helpOptions = new ScLocalOptionList<>();
         _disabled = new ScLocalBoolean(false);
-        _cssMargin = new ScLocalCss();
+        _css = new ScLocalCss();
     }
 
     //##################################################
@@ -113,16 +114,21 @@ public class ScCheckboxList<T>
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
+    }
+
+    private String getOptionId(int i)
+    {
+        return getHtmlId() + "-option" + i;
     }
 
     //##################################################
     //# css
     //##################################################
 
-    public KmCssMarginBuilder cssMargin()
+    public KmCssDefaultBuilder outerCss()
     {
-        return _cssMargin.toMarginBuilder();
+        return _css.toBuilder();
     }
 
     //##################################################
@@ -264,11 +270,6 @@ public class ScCheckboxList<T>
         _onChangeAction = e;
     }
 
-    public void onChange(Runnable e)
-    {
-        onChange(newCheckedAction(e));
-    }
-
     public boolean hasOnChangeAction()
     {
         return _onChangeAction != null;
@@ -313,7 +314,7 @@ public class ScCheckboxList<T>
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        KmCssDefaultBuilder css = getCss();
+        KmCssDefaultBuilder css = formatOuterCss();
         KmStyleBuilder style = new KmStyleBuilder();
         applyLayoutTo(css, style);
 
@@ -323,18 +324,19 @@ public class ScCheckboxList<T>
         out.printAttribute(style);
         out.close();
 
+        int i = 0;
         for ( ScOption<T> e : _options )
-            renderOptionOn(out, e);
+            renderOptionOn(out, e, i++);
 
         out.endDiv();
     }
 
-    private KmCssDefaultBuilder getCss()
+    private KmCssDefaultBuilder formatOuterCss()
     {
         KmCssDefaultBuilder css;
         css = newCssBuilder();
         css.checkboxList();
-        css.addAll(cssMargin().getSelectors());
+        css.addAll(outerCss().getSelectors());
         return css;
     }
 
@@ -350,7 +352,7 @@ public class ScCheckboxList<T>
         style.height(_height);
     }
 
-    private void renderOptionOn(KmHtmlBuilder out, ScOption<T> e)
+    private void renderOptionOn(KmHtmlBuilder out, ScOption<T> e, int i)
     {
         KmCssDefaultBuilder css;
         css = new KmCssDefaultBuilder();
@@ -360,13 +362,13 @@ public class ScCheckboxList<T>
         out.printAttribute(css);
         out.close();
 
-        renderOptionInputOn(out, e);
-        renderOptionTextOn(out, e);
+        renderOptionInputOn(out, e, i);
+        renderOptionTextOn(out, e, i);
 
         out.endDiv();
     }
 
-    private void renderOptionInputOn(KmHtmlBuilder out, ScOption<T> e)
+    private void renderOptionInputOn(KmHtmlBuilder out, ScOption<T> e, int i)
     {
         String name = getInputName();
         Object item = e.getValue();
@@ -389,8 +391,9 @@ public class ScCheckboxList<T>
         renderHelpOn(out, help);
 
         out.open("input");
-        out.printAttribute("type", "checkbox");
+        out.printAttribute("id", getOptionId(i));
         out.printAttribute("name", name);
+        out.printAttribute("type", "checkbox");
         out.printAttribute("value", encode(item));
 
         if ( hasOnChangeAction() )
@@ -411,12 +414,13 @@ public class ScCheckboxList<T>
         out.endDiv();
     }
 
-    private void renderOptionTextOn(KmHtmlBuilder out, ScOption<T> e)
+    private void renderOptionTextOn(KmHtmlBuilder out, ScOption<T> e, int i)
     {
-        out.open("span");
+        out.open("label");
+        out.printAttribute("for", getOptionId(i));
         out.close();
         out.print(e.getText());
-        out.end("span");
+        out.end("label");
     }
 
     private void renderHelpOn(KmHtmlBuilder out, String help)
@@ -477,7 +481,7 @@ public class ScCheckboxList<T>
 
     private String getInputName()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     private String getHelpFor(ScOption<T> e)

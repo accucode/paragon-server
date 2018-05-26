@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -57,8 +57,8 @@ public class ScArray
     //# variables
     //##################################################
 
-    private ScLocalInteger   _rowCount;
-    private ScLocalInteger   _columnCount;
+    private ScLocalInteger _rowCount;
+    private ScLocalInteger _columnCount;
 
     /**
      * The cell class and style are applied to the TDs of
@@ -66,19 +66,19 @@ public class ScArray
      * cell is "empty".  However, the cell class/style is
      * not applied to the gaps.
      */
-    private ScLocalCss       _cellCss;
+    private ScLocalCss _cellCss;
 
-    private ScLocalStyle     _cellStyle;
+    private ScLocalStyle _cellStyle;
 
     /**
      * The gap to display between all columns.
      */
-    private ScLocalInteger   _horizontalGap;
+    private ScLocalInteger _horizontalGap;
 
     /**
      * The gap to display between all rows.
      */
-    private ScLocalInteger   _verticalGap;
+    private ScLocalInteger _verticalGap;
 
     //##################################################
     //# constructor

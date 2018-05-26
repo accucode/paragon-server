@@ -1,0 +1,96 @@
+model
+: name      = defaultRecipient
+: help...
+    ---
+    Default recipients are simply pointers to contacts that should be the
+    default recipients of emails generated from email templates.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = emailTemplate
+    : unique    = true
+    : on        = emailTemplate
+    : on        = contactTypeCode
+    : on        = typeCode
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = emailTemplate
+    : help      = The email template that this default recipient belongs to.
+    : modelName = emailTemplate
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : help      = The recipient type (e.g. To, Cc).
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#To)
+            value(#Cc)
+
+
+    field
+    : name      = contactTypeCode
+    : help...
+        ---
+        The contact type for this recipient (e.g. Main, Install, etc.).
+        ---
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#ProjectSupport)
+            value(#Main)
+            value(#Install)
+            value(#Technical)
+            value(#Scheduling)
+            value(#Sales)
+            value(#Requester)
+            value(#CustomerApproval)
+            value(#CustomerBilling)
+            value(#ProjectNotifications)
+            value(#JobNotifications)
+            value(#CustomerNotifications)
+            value(#Custom)
+
+
+    field
+    : name      = customEmail
+    : label     = Custom Email
+    : help...
+        ---
+        The email address to be used if the contact type is Custom.
+        ---
+    : type      = text1000
+    : required  = false
+

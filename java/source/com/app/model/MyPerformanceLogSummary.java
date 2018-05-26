@@ -23,16 +23,45 @@ public class MyPerformanceLogSummary
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
-        String name = hasName()
+        return formatNameAndDate();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return formatNameAndDate();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        String s = getFormatter().formatInteger(getTotalMs());
+        return s + " total ms";
+    }
+
+    //==================================================
+    //= display :: private
+    //==================================================
+
+    private String formatNameAndDate()
+    {
+        return Kmu.format("%s-%s", formatName(), formatUtcDate());
+    }
+
+    private String formatName()
+    {
+        return hasName()
             ? getName()
             : "NoName";
+    }
 
-        String date = hasUtcDate()
+    private String formatUtcDate()
+    {
+        return hasUtcDate()
             ? getUtcDate().format_mm_dd_yy()
             : "NoDate";
-
-        return Kmu.format("%s-%s", name, date);
     }
+
 }

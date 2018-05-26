@@ -51,6 +51,12 @@ public class KmCssMarginBuilder
         return this;
     }
 
+    public KmCssMarginBuilder all10()
+    {
+        _inner.margin10();
+        return this;
+    }
+
     public KmCssMarginBuilder left()
     {
         _inner.marginLeft();

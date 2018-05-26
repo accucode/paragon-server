@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -72,6 +72,11 @@ public interface ScControlIF
     //# label
     //##################################################
 
+    /**
+     * Get my label. Controls typically do NOT display their label directly.
+     * Instead a control's label may be used by its container as part of
+     * various layouts.
+     */
     String getLabel();
 
     void setLabel(String e);
@@ -80,20 +85,46 @@ public interface ScControlIF
     //# apply
     //##################################################
 
-    void applyFromModel(Object model, boolean skipFields);
+    /**
+     * Apply the state FROM the model, to myself.
+     */
+    void applyFromModel(Object model);
 
+    /**
+     * Apply my state TO the model
+     */
     void applyToModel(Object model);
 
     //##################################################
     //# validate
     //##################################################
 
+    /**
+     * Validate myself and any children, adding a pertinent
+     * error message to the fields that have a problem.
+     * This does NOT throw an exception.
+     */
     void validate();
 
-    boolean validateQuietly();
+    /**
+     * Validate myself an any children via validate().
+     * Then check hasErrors() and throw an exception if an
+     * error is found.
+     */
+    void validateAndCheck();
 
+    /**
+     * Collect any errors in myself or my children.
+     * This does NOT validate. It only collects errors that have
+     * already been identified.
+     */
     void collectErrorsOn(KmList<String> v);
 
+    /**
+     * Determine if I or any of my children have a reported error.
+     * This does NOT validate the controls, but merely checks to
+     * see if any errors have already been identified.
+     */
     boolean hasErrors();
 
     //##################################################

@@ -28,10 +28,7 @@ public class KmFlickrTest
 
         //        Find PERSON INFO:
         //        c.setParameter("method", "flickr.people.getInfo");
-        /**
-         * xxxxxxxxx@xxx is a placeholder id
-         */
-        //        c.setParameter("user_id", "xxxxxxxxx@xxx");
+        //        c.setParameter("user_id", "john@example.net");
 
         c.submit();
 

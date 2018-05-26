@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -44,9 +44,9 @@ public abstract class KmHttpServer
     //# variables
     //##################################################
 
-    private ServerSocket     _serverSocket;
-    private Socket           _socket;
-    private String           _request;
+    private ServerSocket _serverSocket;
+    private Socket       _socket;
+    private String       _request;
 
     //##################################################
     //# run
@@ -145,15 +145,15 @@ public abstract class KmHttpServer
         System.out.println(s);
 
         OutputStream os = _socket.getOutputStream();
-        BufferedOutputStream out = new BufferedOutputStream(os);
-
-        writeln(out, "HTTP/1.0 200 OK");
-        writeln(out, "Content-Type: " + getContentType());
-        writeln(out, "Content-Length: " + s.length());
-        writeln(out, "");
-        writeln(out, s);
-
-        out.flush();
+        try (BufferedOutputStream out = new BufferedOutputStream(os))
+        {
+            writeln(out, "HTTP/1.0 200 OK");
+            writeln(out, "Content-Type: " + getContentType());
+            writeln(out, "Content-Length: " + s.length());
+            writeln(out, "");
+            writeln(out, s);
+            out.flush();
+        }
     }
 
     public abstract String getContentType();

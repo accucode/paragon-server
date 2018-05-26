@@ -1,0 +1,209 @@
+model
+: name      = feedback
+: help...
+    ---
+    User submitted bug reports and feature requests.
+    ---
+
+database
+: auditLog  = false
+: locking   = false
+
+    index
+    : name      = created
+    : unique    = false
+    : on        = createdUtcTs
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = description
+    : help      = The multiline note describing the issue or request.
+    : type      = notes
+    : required  = true
+
+
+    abstractField
+    : name      = truncatedDescription
+    : help      = The description truncated to 100 characters for display in grids.
+    : type      = calculated
+    : label     = Description
+
+
+    field
+    : name      = pageKey
+    : help      = The key of the current page.
+    : type      = name
+    : required  = false
+
+
+    abstractField
+    : name      = pageName
+    : help      = The user readable page key.
+    : type      = calculated
+    : label     = Page
+
+
+    field
+    : name      = requestUrl
+    : help      = The request url.
+    : type      = notes
+    : required  = false
+
+
+    field
+    : name      = windowLocation
+    : help      = The window location.
+    : type      = notes
+    : required  = false
+
+
+    field
+    : name      = queryString
+    : help      = The query string for the page.
+    : type      = notes
+    : required  = false
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The current tenant.
+    : modelName = tenant
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = name
+        : label = Tenant
+
+
+    association
+    : name      = project
+    : help      = The project.
+    : modelName = project
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : field = name
+        : label = Project
+
+
+    //*****************************************************
+    //** status
+    //*****************************************************
+
+
+    field
+    : name      = statusCode
+    : label     = Status
+    : help...
+        ---
+        The status.
+        ---
+    : type      = longEnumCode
+    : default   = MyFeedbackStatus.Pending.getCode()
+    : required  = true
+
+        enum
+            value(#Pending)
+            value(#Resolved)
+            value(#Dropped)
+
+
+    field
+    : name      = open
+    : help      = Indicates if the feedback is open and needs to be addressed.
+    : type      = boolean
+    : default   = true
+    : required  = true
+
+        dependsOn
+        :value  = statusCode
+
+
+    //*****************************************************
+    //** status
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : label     = Type
+    : help...
+        ---
+        The type of feedback.
+        ---
+    : type      = longEnumCode
+    : required  = false
+
+        enum
+            value(#Bug)
+            value(#Cosmetic)
+            value(#Enhancement)
+            value(#Duplicate)
+
+
+    //*****************************************************
+    //** resolution
+    //*****************************************************
+
+
+    field
+    : name      = notes
+    : help      = Dev notes.
+    : type      = notes
+    : required  = false
+
+
+    field
+    : name      = closedDate
+    : label     = Closed On
+    : help      = The date the feedback was closed.
+    : type      = date
+    : required  = false
+
+
+    abstractField
+    : name      = openDays
+    : help      = The number of days this feedback was open.
+    : type      = calculated
+    : label     = Days open
+
+
+    association
+    : name      = closedBy
+    : label = Closed By
+    : help...
+        ---
+        The user that closed this feedback.
+        ---
+    : modelName = user
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : field = fullName
+        : label = Closed By
+

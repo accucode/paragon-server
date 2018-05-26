@@ -6,7 +6,7 @@ public class KmZendeskTicketUpdate
 {
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmZendeskConnection _connection;

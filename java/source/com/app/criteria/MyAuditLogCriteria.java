@@ -37,32 +37,106 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyAuditLog e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyAuditLog e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhBooleanCondition whereBooleanValue()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhBooleanCondition(context(), alias(), BOOLEAN_VALUE);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
+    }
+
+    public KmhDateCondition whereDateValue()
+    {
+        return new KmhDateCondition(context(), alias(), DATE_VALUE);
+    }
+
+    public KmhStringCondition whereDomainName()
+    {
+        return new KmhStringCondition(context(), alias(), DOMAIN_NAME);
+    }
+
+    public KmhStringCondition whereDomainType()
+    {
+        return new KmhStringCondition(context(), alias(), DOMAIN_TYPE);
+    }
+
+    public KmhStringCondition whereDomainUid()
+    {
+        return new KmhStringCondition(context(), alias(), DOMAIN_UID);
+    }
+
+    public KmhPropertyCondition<Double> whereDoubleValue()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), DOUBLE_VALUE);
+    }
+
+    public KmhStringCondition whereFieldName()
+    {
+        return new KmhStringCondition(context(), alias(), FIELD_NAME);
+    }
+
+    public KmhIntegerCondition whereIntegerValue()
+    {
+        return new KmhIntegerCondition(context(), alias(), INTEGER_VALUE);
+    }
+
+    public KmhPropertyCondition<Long> whereLongValue()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), LONG_VALUE);
+    }
+
+    public KmhPropertyCondition<KmMoney> whereMoneyValue()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), MONEY_VALUE);
+    }
+
+    public KmhStringCondition whereNewValue()
+    {
+        return new KmhStringCondition(context(), alias(), NEW_VALUE);
+    }
+
+    public KmhStringCondition whereOldValue()
+    {
+        return new KmhStringCondition(context(), alias(), OLD_VALUE);
+    }
+
+    public KmhStringCondition whereStringValue()
+    {
+        return new KmhStringCondition(context(), alias(), STRING_VALUE);
+    }
+
+    public KmhTimestampCondition whereTimestampValue()
+    {
+        return new KmhTimestampCondition(context(), alias(), TIMESTAMP_VALUE);
     }
 
     public KmhStringCondition whereTransactionUid()
     {
-        return new KmhStringCondition(context(), fullName(TRANSACTION_UID));
-    }
-
-    public KmhStringCondition whereUserName()
-    {
-        return new KmhStringCondition(context(), fullName(USER_NAME));
+        return new KmhStringCondition(context(), alias(), TRANSACTION_UID);
     }
 
     public KmhStringCondition whereTypeCode()
     {
-        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), alias(), TYPE_CODE);
     }
 
     public void whereTypeIs(MyAuditLogType e)
@@ -135,106 +209,41 @@ public class MyAuditLogCriteria
             whereTypeIsNotDelete();
     }
 
-    public KmhStringCondition whereDomainType()
+    public KmhStringCondition whereUid()
     {
-        return new KmhStringCondition(context(), fullName(DOMAIN_TYPE));
-    }
-
-    public KmhStringCondition whereDomainName()
-    {
-        return new KmhStringCondition(context(), fullName(DOMAIN_NAME));
-    }
-
-    public KmhStringCondition whereDomainUid()
-    {
-        return new KmhStringCondition(context(), fullName(DOMAIN_UID));
-    }
-
-    public KmhStringCondition whereDomainBundleUid()
-    {
-        return new KmhStringCondition(context(), fullName(DOMAIN_BUNDLE_UID));
-    }
-
-    public KmhStringCondition whereFieldName()
-    {
-        return new KmhStringCondition(context(), fullName(FIELD_NAME));
-    }
-
-    public KmhStringCondition whereNewValue()
-    {
-        return new KmhStringCondition(context(), fullName(NEW_VALUE));
-    }
-
-    public KmhStringCondition whereOldValue()
-    {
-        return new KmhStringCondition(context(), fullName(OLD_VALUE));
-    }
-
-    public KmhStringCondition whereStringValue()
-    {
-        return new KmhStringCondition(context(), fullName(STRING_VALUE));
-    }
-
-    public KmhIntegerCondition whereIntegerValue()
-    {
-        return new KmhIntegerCondition(context(), fullName(INTEGER_VALUE));
-    }
-
-    public KmhPropertyCondition<Long> whereLongValue()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(LONG_VALUE));
-    }
-
-    public KmhPropertyCondition<Double> whereDoubleValue()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(DOUBLE_VALUE));
-    }
-
-    public KmhPropertyCondition<KmMoney> whereMoneyValue()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(MONEY_VALUE));
-    }
-
-    public KmhBooleanCondition whereBooleanValue()
-    {
-        return new KmhBooleanCondition(context(), fullName(BOOLEAN_VALUE));
-    }
-
-    public KmhDateCondition whereDateValue()
-    {
-        return new KmhDateCondition(context(), fullName(DATE_VALUE));
-    }
-
-    public KmhTimestampCondition whereTimestampValue()
-    {
-        return new KmhTimestampCondition(context(), fullName(TIMESTAMP_VALUE));
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     public KmhStringCondition whereUidValue()
     {
-        return new KmhStringCondition(context(), fullName(UID_VALUE));
+        return new KmhStringCondition(context(), alias(), UID_VALUE);
+    }
+
+    public KmhStringCondition whereUserName()
+    {
+        return new KmhStringCondition(context(), alias(), USER_NAME);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnBooleanValue()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(BOOLEAN_VALUE);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnBooleanValueDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(BOOLEAN_VALUE);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnBooleanValue(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnBooleanValue();
         else
-            sortOnUidDescending();
+            sortOnBooleanValueDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -255,76 +264,22 @@ public class MyAuditLogCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnTransactionUid()
+    public void sortOnDateValue()
     {
-        parent().sortAscending(TRANSACTION_UID);
+        parent().sortAscending(DATE_VALUE);
     }
 
-    public void sortOnTransactionUidDescending()
+    public void sortOnDateValueDescending()
     {
-        parent().sortDescending(TRANSACTION_UID);
+        parent().sortDescending(DATE_VALUE);
     }
 
-    public void sortOnTransactionUid(boolean asc)
+    public void sortOnDateValue(boolean asc)
     {
         if ( asc )
-            sortOnTransactionUid();
+            sortOnDateValue();
         else
-            sortOnTransactionUidDescending();
-    }
-
-    public void sortOnUserName()
-    {
-        parent().sortAscending(USER_NAME);
-    }
-
-    public void sortOnUserNameDescending()
-    {
-        parent().sortDescending(USER_NAME);
-    }
-
-    public void sortOnUserName(boolean asc)
-    {
-        if ( asc )
-            sortOnUserName();
-        else
-            sortOnUserNameDescending();
-    }
-
-    public void sortOnTypeCode()
-    {
-        parent().sortAscending(TYPE_CODE);
-    }
-
-    public void sortOnTypeCodeDescending()
-    {
-        parent().sortDescending(TYPE_CODE);
-    }
-
-    public void sortOnTypeCode(boolean asc)
-    {
-        if ( asc )
-            sortOnTypeCode();
-        else
-            sortOnTypeCodeDescending();
-    }
-
-    public void sortOnDomainType()
-    {
-        parent().sortAscending(DOMAIN_TYPE);
-    }
-
-    public void sortOnDomainTypeDescending()
-    {
-        parent().sortDescending(DOMAIN_TYPE);
-    }
-
-    public void sortOnDomainType(boolean asc)
-    {
-        if ( asc )
-            sortOnDomainType();
-        else
-            sortOnDomainTypeDescending();
+            sortOnDateValueDescending();
     }
 
     public void sortOnDomainName()
@@ -345,6 +300,24 @@ public class MyAuditLogCriteria
             sortOnDomainNameDescending();
     }
 
+    public void sortOnDomainType()
+    {
+        parent().sortAscending(DOMAIN_TYPE);
+    }
+
+    public void sortOnDomainTypeDescending()
+    {
+        parent().sortDescending(DOMAIN_TYPE);
+    }
+
+    public void sortOnDomainType(boolean asc)
+    {
+        if ( asc )
+            sortOnDomainType();
+        else
+            sortOnDomainTypeDescending();
+    }
+
     public void sortOnDomainUid()
     {
         parent().sortAscending(DOMAIN_UID);
@@ -363,22 +336,22 @@ public class MyAuditLogCriteria
             sortOnDomainUidDescending();
     }
 
-    public void sortOnDomainBundleUid()
+    public void sortOnDoubleValue()
     {
-        parent().sortAscending(DOMAIN_BUNDLE_UID);
+        parent().sortAscending(DOUBLE_VALUE);
     }
 
-    public void sortOnDomainBundleUidDescending()
+    public void sortOnDoubleValueDescending()
     {
-        parent().sortDescending(DOMAIN_BUNDLE_UID);
+        parent().sortDescending(DOUBLE_VALUE);
     }
 
-    public void sortOnDomainBundleUid(boolean asc)
+    public void sortOnDoubleValue(boolean asc)
     {
         if ( asc )
-            sortOnDomainBundleUid();
+            sortOnDoubleValue();
         else
-            sortOnDomainBundleUidDescending();
+            sortOnDoubleValueDescending();
     }
 
     public void sortOnFieldName()
@@ -397,6 +370,60 @@ public class MyAuditLogCriteria
             sortOnFieldName();
         else
             sortOnFieldNameDescending();
+    }
+
+    public void sortOnIntegerValue()
+    {
+        parent().sortAscending(INTEGER_VALUE);
+    }
+
+    public void sortOnIntegerValueDescending()
+    {
+        parent().sortDescending(INTEGER_VALUE);
+    }
+
+    public void sortOnIntegerValue(boolean asc)
+    {
+        if ( asc )
+            sortOnIntegerValue();
+        else
+            sortOnIntegerValueDescending();
+    }
+
+    public void sortOnLongValue()
+    {
+        parent().sortAscending(LONG_VALUE);
+    }
+
+    public void sortOnLongValueDescending()
+    {
+        parent().sortDescending(LONG_VALUE);
+    }
+
+    public void sortOnLongValue(boolean asc)
+    {
+        if ( asc )
+            sortOnLongValue();
+        else
+            sortOnLongValueDescending();
+    }
+
+    public void sortOnMoneyValue()
+    {
+        parent().sortAscending(MONEY_VALUE);
+    }
+
+    public void sortOnMoneyValueDescending()
+    {
+        parent().sortDescending(MONEY_VALUE);
+    }
+
+    public void sortOnMoneyValue(boolean asc)
+    {
+        if ( asc )
+            sortOnMoneyValue();
+        else
+            sortOnMoneyValueDescending();
     }
 
     public void sortOnNewValue()
@@ -453,114 +480,6 @@ public class MyAuditLogCriteria
             sortOnStringValueDescending();
     }
 
-    public void sortOnIntegerValue()
-    {
-        parent().sortAscending(INTEGER_VALUE);
-    }
-
-    public void sortOnIntegerValueDescending()
-    {
-        parent().sortDescending(INTEGER_VALUE);
-    }
-
-    public void sortOnIntegerValue(boolean asc)
-    {
-        if ( asc )
-            sortOnIntegerValue();
-        else
-            sortOnIntegerValueDescending();
-    }
-
-    public void sortOnLongValue()
-    {
-        parent().sortAscending(LONG_VALUE);
-    }
-
-    public void sortOnLongValueDescending()
-    {
-        parent().sortDescending(LONG_VALUE);
-    }
-
-    public void sortOnLongValue(boolean asc)
-    {
-        if ( asc )
-            sortOnLongValue();
-        else
-            sortOnLongValueDescending();
-    }
-
-    public void sortOnDoubleValue()
-    {
-        parent().sortAscending(DOUBLE_VALUE);
-    }
-
-    public void sortOnDoubleValueDescending()
-    {
-        parent().sortDescending(DOUBLE_VALUE);
-    }
-
-    public void sortOnDoubleValue(boolean asc)
-    {
-        if ( asc )
-            sortOnDoubleValue();
-        else
-            sortOnDoubleValueDescending();
-    }
-
-    public void sortOnMoneyValue()
-    {
-        parent().sortAscending(MONEY_VALUE);
-    }
-
-    public void sortOnMoneyValueDescending()
-    {
-        parent().sortDescending(MONEY_VALUE);
-    }
-
-    public void sortOnMoneyValue(boolean asc)
-    {
-        if ( asc )
-            sortOnMoneyValue();
-        else
-            sortOnMoneyValueDescending();
-    }
-
-    public void sortOnBooleanValue()
-    {
-        parent().sortAscending(BOOLEAN_VALUE);
-    }
-
-    public void sortOnBooleanValueDescending()
-    {
-        parent().sortDescending(BOOLEAN_VALUE);
-    }
-
-    public void sortOnBooleanValue(boolean asc)
-    {
-        if ( asc )
-            sortOnBooleanValue();
-        else
-            sortOnBooleanValueDescending();
-    }
-
-    public void sortOnDateValue()
-    {
-        parent().sortAscending(DATE_VALUE);
-    }
-
-    public void sortOnDateValueDescending()
-    {
-        parent().sortDescending(DATE_VALUE);
-    }
-
-    public void sortOnDateValue(boolean asc)
-    {
-        if ( asc )
-            sortOnDateValue();
-        else
-            sortOnDateValueDescending();
-    }
-
     public void sortOnTimestampValue()
     {
         parent().sortAscending(TIMESTAMP_VALUE);
@@ -577,6 +496,60 @@ public class MyAuditLogCriteria
             sortOnTimestampValue();
         else
             sortOnTimestampValueDescending();
+    }
+
+    public void sortOnTransactionUid()
+    {
+        parent().sortAscending(TRANSACTION_UID);
+    }
+
+    public void sortOnTransactionUidDescending()
+    {
+        parent().sortDescending(TRANSACTION_UID);
+    }
+
+    public void sortOnTransactionUid(boolean asc)
+    {
+        if ( asc )
+            sortOnTransactionUid();
+        else
+            sortOnTransactionUidDescending();
+    }
+
+    public void sortOnTypeCode()
+    {
+        parent().sortAscending(TYPE_CODE);
+    }
+
+    public void sortOnTypeCodeDescending()
+    {
+        parent().sortDescending(TYPE_CODE);
+    }
+
+    public void sortOnTypeCode(boolean asc)
+    {
+        if ( asc )
+            sortOnTypeCode();
+        else
+            sortOnTypeCodeDescending();
+    }
+
+    public void sortOnUid()
+    {
+        parent().sortAscending(UID);
+    }
+
+    public void sortOnUidDescending()
+    {
+        parent().sortDescending(UID);
+    }
+
+    public void sortOnUid(boolean asc)
+    {
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
     }
 
     public void sortOnUidValue()
@@ -597,48 +570,66 @@ public class MyAuditLogCriteria
             sortOnUidValueDescending();
     }
 
+    public void sortOnUserName()
+    {
+        parent().sortAscending(USER_NAME);
+    }
+
+    public void sortOnUserNameDescending()
+    {
+        parent().sortDescending(USER_NAME);
+    }
+
+    public void sortOnUserName(boolean asc)
+    {
+        if ( asc )
+            sortOnUserName();
+        else
+            sortOnUserNameDescending();
+    }
+
     //##################################################
-    //# projections (uid)
+    //# projections (booleanValue)
     //##################################################
 
-    public void selectUid()
+    public void selectBooleanValue()
     {
-        select(UID);
+        select(BOOLEAN_VALUE);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctBooleanValue()
     {
-        selectDistinct(UID);
+        selectDistinct(BOOLEAN_VALUE);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctBooleanValue()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(BOOLEAN_VALUE);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumBooleanValue()
     {
-        selectMinimum(UID);
+        selectMinimum(BOOLEAN_VALUE);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumBooleanValue()
     {
-        selectMaximum(UID);
+        selectMaximum(BOOLEAN_VALUE);
     }
 
-    public void selectAverageUid()
+    public void selectAverageBooleanValue()
     {
-        selectAverage(UID);
+        selectAverage(BOOLEAN_VALUE);
     }
 
-    public void selectSumUid()
+    public void selectSumBooleanValue()
     {
-        selectSum(UID);
+        selectSum(BOOLEAN_VALUE);
     }
 
-    public void groupByUid()
+    public void groupByBooleanValue()
     {
-        groupBy(UID);
+        groupBy(BOOLEAN_VALUE);
     }
 
     //##################################################
@@ -686,179 +677,47 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
-    //# projections (transactionUid)
+    //# projections (dateValue)
     //##################################################
 
-    public void selectTransactionUid()
+    public void selectDateValue()
     {
-        select(TRANSACTION_UID);
+        select(DATE_VALUE);
     }
 
-    public void selectDistinctTransactionUid()
+    public void selectDistinctDateValue()
     {
-        selectDistinct(TRANSACTION_UID);
+        selectDistinct(DATE_VALUE);
     }
 
-    public void selectCountDistinctTransactionUid()
+    public void selectCountDistinctDateValue()
     {
-        selectCountDistinct(TRANSACTION_UID);
+        selectCountDistinct(DATE_VALUE);
     }
 
-    public void selectMinimumTransactionUid()
+    public void selectMinimumDateValue()
     {
-        selectMinimum(TRANSACTION_UID);
+        selectMinimum(DATE_VALUE);
     }
 
-    public void selectMaximumTransactionUid()
+    public void selectMaximumDateValue()
     {
-        selectMaximum(TRANSACTION_UID);
+        selectMaximum(DATE_VALUE);
     }
 
-    public void selectAverageTransactionUid()
+    public void selectAverageDateValue()
     {
-        selectAverage(TRANSACTION_UID);
+        selectAverage(DATE_VALUE);
     }
 
-    public void selectSumTransactionUid()
+    public void selectSumDateValue()
     {
-        selectSum(TRANSACTION_UID);
+        selectSum(DATE_VALUE);
     }
 
-    public void groupByTransactionUid()
+    public void groupByDateValue()
     {
-        groupBy(TRANSACTION_UID);
-    }
-
-    //##################################################
-    //# projections (userName)
-    //##################################################
-
-    public void selectUserName()
-    {
-        select(USER_NAME);
-    }
-
-    public void selectDistinctUserName()
-    {
-        selectDistinct(USER_NAME);
-    }
-
-    public void selectCountDistinctUserName()
-    {
-        selectCountDistinct(USER_NAME);
-    }
-
-    public void selectMinimumUserName()
-    {
-        selectMinimum(USER_NAME);
-    }
-
-    public void selectMaximumUserName()
-    {
-        selectMaximum(USER_NAME);
-    }
-
-    public void selectAverageUserName()
-    {
-        selectAverage(USER_NAME);
-    }
-
-    public void selectSumUserName()
-    {
-        selectSum(USER_NAME);
-    }
-
-    public void groupByUserName()
-    {
-        groupBy(USER_NAME);
-    }
-
-    //##################################################
-    //# projections (typeCode)
-    //##################################################
-
-    public void selectTypeCode()
-    {
-        select(TYPE_CODE);
-    }
-
-    public void selectDistinctTypeCode()
-    {
-        selectDistinct(TYPE_CODE);
-    }
-
-    public void selectCountDistinctTypeCode()
-    {
-        selectCountDistinct(TYPE_CODE);
-    }
-
-    public void selectMinimumTypeCode()
-    {
-        selectMinimum(TYPE_CODE);
-    }
-
-    public void selectMaximumTypeCode()
-    {
-        selectMaximum(TYPE_CODE);
-    }
-
-    public void selectAverageTypeCode()
-    {
-        selectAverage(TYPE_CODE);
-    }
-
-    public void selectSumTypeCode()
-    {
-        selectSum(TYPE_CODE);
-    }
-
-    public void groupByTypeCode()
-    {
-        groupBy(TYPE_CODE);
-    }
-
-    //##################################################
-    //# projections (domainType)
-    //##################################################
-
-    public void selectDomainType()
-    {
-        select(DOMAIN_TYPE);
-    }
-
-    public void selectDistinctDomainType()
-    {
-        selectDistinct(DOMAIN_TYPE);
-    }
-
-    public void selectCountDistinctDomainType()
-    {
-        selectCountDistinct(DOMAIN_TYPE);
-    }
-
-    public void selectMinimumDomainType()
-    {
-        selectMinimum(DOMAIN_TYPE);
-    }
-
-    public void selectMaximumDomainType()
-    {
-        selectMaximum(DOMAIN_TYPE);
-    }
-
-    public void selectAverageDomainType()
-    {
-        selectAverage(DOMAIN_TYPE);
-    }
-
-    public void selectSumDomainType()
-    {
-        selectSum(DOMAIN_TYPE);
-    }
-
-    public void groupByDomainType()
-    {
-        groupBy(DOMAIN_TYPE);
+        groupBy(DATE_VALUE);
     }
 
     //##################################################
@@ -906,6 +765,50 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
+    //# projections (domainType)
+    //##################################################
+
+    public void selectDomainType()
+    {
+        select(DOMAIN_TYPE);
+    }
+
+    public void selectDistinctDomainType()
+    {
+        selectDistinct(DOMAIN_TYPE);
+    }
+
+    public void selectCountDistinctDomainType()
+    {
+        selectCountDistinct(DOMAIN_TYPE);
+    }
+
+    public void selectMinimumDomainType()
+    {
+        selectMinimum(DOMAIN_TYPE);
+    }
+
+    public void selectMaximumDomainType()
+    {
+        selectMaximum(DOMAIN_TYPE);
+    }
+
+    public void selectAverageDomainType()
+    {
+        selectAverage(DOMAIN_TYPE);
+    }
+
+    public void selectSumDomainType()
+    {
+        selectSum(DOMAIN_TYPE);
+    }
+
+    public void groupByDomainType()
+    {
+        groupBy(DOMAIN_TYPE);
+    }
+
+    //##################################################
     //# projections (domainUid)
     //##################################################
 
@@ -950,47 +853,47 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
-    //# projections (domainBundleUid)
+    //# projections (doubleValue)
     //##################################################
 
-    public void selectDomainBundleUid()
+    public void selectDoubleValue()
     {
-        select(DOMAIN_BUNDLE_UID);
+        select(DOUBLE_VALUE);
     }
 
-    public void selectDistinctDomainBundleUid()
+    public void selectDistinctDoubleValue()
     {
-        selectDistinct(DOMAIN_BUNDLE_UID);
+        selectDistinct(DOUBLE_VALUE);
     }
 
-    public void selectCountDistinctDomainBundleUid()
+    public void selectCountDistinctDoubleValue()
     {
-        selectCountDistinct(DOMAIN_BUNDLE_UID);
+        selectCountDistinct(DOUBLE_VALUE);
     }
 
-    public void selectMinimumDomainBundleUid()
+    public void selectMinimumDoubleValue()
     {
-        selectMinimum(DOMAIN_BUNDLE_UID);
+        selectMinimum(DOUBLE_VALUE);
     }
 
-    public void selectMaximumDomainBundleUid()
+    public void selectMaximumDoubleValue()
     {
-        selectMaximum(DOMAIN_BUNDLE_UID);
+        selectMaximum(DOUBLE_VALUE);
     }
 
-    public void selectAverageDomainBundleUid()
+    public void selectAverageDoubleValue()
     {
-        selectAverage(DOMAIN_BUNDLE_UID);
+        selectAverage(DOUBLE_VALUE);
     }
 
-    public void selectSumDomainBundleUid()
+    public void selectSumDoubleValue()
     {
-        selectSum(DOMAIN_BUNDLE_UID);
+        selectSum(DOUBLE_VALUE);
     }
 
-    public void groupByDomainBundleUid()
+    public void groupByDoubleValue()
     {
-        groupBy(DOMAIN_BUNDLE_UID);
+        groupBy(DOUBLE_VALUE);
     }
 
     //##################################################
@@ -1035,6 +938,138 @@ public class MyAuditLogCriteria
     public void groupByFieldName()
     {
         groupBy(FIELD_NAME);
+    }
+
+    //##################################################
+    //# projections (integerValue)
+    //##################################################
+
+    public void selectIntegerValue()
+    {
+        select(INTEGER_VALUE);
+    }
+
+    public void selectDistinctIntegerValue()
+    {
+        selectDistinct(INTEGER_VALUE);
+    }
+
+    public void selectCountDistinctIntegerValue()
+    {
+        selectCountDistinct(INTEGER_VALUE);
+    }
+
+    public void selectMinimumIntegerValue()
+    {
+        selectMinimum(INTEGER_VALUE);
+    }
+
+    public void selectMaximumIntegerValue()
+    {
+        selectMaximum(INTEGER_VALUE);
+    }
+
+    public void selectAverageIntegerValue()
+    {
+        selectAverage(INTEGER_VALUE);
+    }
+
+    public void selectSumIntegerValue()
+    {
+        selectSum(INTEGER_VALUE);
+    }
+
+    public void groupByIntegerValue()
+    {
+        groupBy(INTEGER_VALUE);
+    }
+
+    //##################################################
+    //# projections (longValue)
+    //##################################################
+
+    public void selectLongValue()
+    {
+        select(LONG_VALUE);
+    }
+
+    public void selectDistinctLongValue()
+    {
+        selectDistinct(LONG_VALUE);
+    }
+
+    public void selectCountDistinctLongValue()
+    {
+        selectCountDistinct(LONG_VALUE);
+    }
+
+    public void selectMinimumLongValue()
+    {
+        selectMinimum(LONG_VALUE);
+    }
+
+    public void selectMaximumLongValue()
+    {
+        selectMaximum(LONG_VALUE);
+    }
+
+    public void selectAverageLongValue()
+    {
+        selectAverage(LONG_VALUE);
+    }
+
+    public void selectSumLongValue()
+    {
+        selectSum(LONG_VALUE);
+    }
+
+    public void groupByLongValue()
+    {
+        groupBy(LONG_VALUE);
+    }
+
+    //##################################################
+    //# projections (moneyValue)
+    //##################################################
+
+    public void selectMoneyValue()
+    {
+        select(MONEY_VALUE);
+    }
+
+    public void selectDistinctMoneyValue()
+    {
+        selectDistinct(MONEY_VALUE);
+    }
+
+    public void selectCountDistinctMoneyValue()
+    {
+        selectCountDistinct(MONEY_VALUE);
+    }
+
+    public void selectMinimumMoneyValue()
+    {
+        selectMinimum(MONEY_VALUE);
+    }
+
+    public void selectMaximumMoneyValue()
+    {
+        selectMaximum(MONEY_VALUE);
+    }
+
+    public void selectAverageMoneyValue()
+    {
+        selectAverage(MONEY_VALUE);
+    }
+
+    public void selectSumMoneyValue()
+    {
+        selectSum(MONEY_VALUE);
+    }
+
+    public void groupByMoneyValue()
+    {
+        groupBy(MONEY_VALUE);
     }
 
     //##################################################
@@ -1170,270 +1205,6 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
-    //# projections (integerValue)
-    //##################################################
-
-    public void selectIntegerValue()
-    {
-        select(INTEGER_VALUE);
-    }
-
-    public void selectDistinctIntegerValue()
-    {
-        selectDistinct(INTEGER_VALUE);
-    }
-
-    public void selectCountDistinctIntegerValue()
-    {
-        selectCountDistinct(INTEGER_VALUE);
-    }
-
-    public void selectMinimumIntegerValue()
-    {
-        selectMinimum(INTEGER_VALUE);
-    }
-
-    public void selectMaximumIntegerValue()
-    {
-        selectMaximum(INTEGER_VALUE);
-    }
-
-    public void selectAverageIntegerValue()
-    {
-        selectAverage(INTEGER_VALUE);
-    }
-
-    public void selectSumIntegerValue()
-    {
-        selectSum(INTEGER_VALUE);
-    }
-
-    public void groupByIntegerValue()
-    {
-        groupBy(INTEGER_VALUE);
-    }
-
-    //##################################################
-    //# projections (longValue)
-    //##################################################
-
-    public void selectLongValue()
-    {
-        select(LONG_VALUE);
-    }
-
-    public void selectDistinctLongValue()
-    {
-        selectDistinct(LONG_VALUE);
-    }
-
-    public void selectCountDistinctLongValue()
-    {
-        selectCountDistinct(LONG_VALUE);
-    }
-
-    public void selectMinimumLongValue()
-    {
-        selectMinimum(LONG_VALUE);
-    }
-
-    public void selectMaximumLongValue()
-    {
-        selectMaximum(LONG_VALUE);
-    }
-
-    public void selectAverageLongValue()
-    {
-        selectAverage(LONG_VALUE);
-    }
-
-    public void selectSumLongValue()
-    {
-        selectSum(LONG_VALUE);
-    }
-
-    public void groupByLongValue()
-    {
-        groupBy(LONG_VALUE);
-    }
-
-    //##################################################
-    //# projections (doubleValue)
-    //##################################################
-
-    public void selectDoubleValue()
-    {
-        select(DOUBLE_VALUE);
-    }
-
-    public void selectDistinctDoubleValue()
-    {
-        selectDistinct(DOUBLE_VALUE);
-    }
-
-    public void selectCountDistinctDoubleValue()
-    {
-        selectCountDistinct(DOUBLE_VALUE);
-    }
-
-    public void selectMinimumDoubleValue()
-    {
-        selectMinimum(DOUBLE_VALUE);
-    }
-
-    public void selectMaximumDoubleValue()
-    {
-        selectMaximum(DOUBLE_VALUE);
-    }
-
-    public void selectAverageDoubleValue()
-    {
-        selectAverage(DOUBLE_VALUE);
-    }
-
-    public void selectSumDoubleValue()
-    {
-        selectSum(DOUBLE_VALUE);
-    }
-
-    public void groupByDoubleValue()
-    {
-        groupBy(DOUBLE_VALUE);
-    }
-
-    //##################################################
-    //# projections (moneyValue)
-    //##################################################
-
-    public void selectMoneyValue()
-    {
-        select(MONEY_VALUE);
-    }
-
-    public void selectDistinctMoneyValue()
-    {
-        selectDistinct(MONEY_VALUE);
-    }
-
-    public void selectCountDistinctMoneyValue()
-    {
-        selectCountDistinct(MONEY_VALUE);
-    }
-
-    public void selectMinimumMoneyValue()
-    {
-        selectMinimum(MONEY_VALUE);
-    }
-
-    public void selectMaximumMoneyValue()
-    {
-        selectMaximum(MONEY_VALUE);
-    }
-
-    public void selectAverageMoneyValue()
-    {
-        selectAverage(MONEY_VALUE);
-    }
-
-    public void selectSumMoneyValue()
-    {
-        selectSum(MONEY_VALUE);
-    }
-
-    public void groupByMoneyValue()
-    {
-        groupBy(MONEY_VALUE);
-    }
-
-    //##################################################
-    //# projections (booleanValue)
-    //##################################################
-
-    public void selectBooleanValue()
-    {
-        select(BOOLEAN_VALUE);
-    }
-
-    public void selectDistinctBooleanValue()
-    {
-        selectDistinct(BOOLEAN_VALUE);
-    }
-
-    public void selectCountDistinctBooleanValue()
-    {
-        selectCountDistinct(BOOLEAN_VALUE);
-    }
-
-    public void selectMinimumBooleanValue()
-    {
-        selectMinimum(BOOLEAN_VALUE);
-    }
-
-    public void selectMaximumBooleanValue()
-    {
-        selectMaximum(BOOLEAN_VALUE);
-    }
-
-    public void selectAverageBooleanValue()
-    {
-        selectAverage(BOOLEAN_VALUE);
-    }
-
-    public void selectSumBooleanValue()
-    {
-        selectSum(BOOLEAN_VALUE);
-    }
-
-    public void groupByBooleanValue()
-    {
-        groupBy(BOOLEAN_VALUE);
-    }
-
-    //##################################################
-    //# projections (dateValue)
-    //##################################################
-
-    public void selectDateValue()
-    {
-        select(DATE_VALUE);
-    }
-
-    public void selectDistinctDateValue()
-    {
-        selectDistinct(DATE_VALUE);
-    }
-
-    public void selectCountDistinctDateValue()
-    {
-        selectCountDistinct(DATE_VALUE);
-    }
-
-    public void selectMinimumDateValue()
-    {
-        selectMinimum(DATE_VALUE);
-    }
-
-    public void selectMaximumDateValue()
-    {
-        selectMaximum(DATE_VALUE);
-    }
-
-    public void selectAverageDateValue()
-    {
-        selectAverage(DATE_VALUE);
-    }
-
-    public void selectSumDateValue()
-    {
-        selectSum(DATE_VALUE);
-    }
-
-    public void groupByDateValue()
-    {
-        groupBy(DATE_VALUE);
-    }
-
-    //##################################################
     //# projections (timestampValue)
     //##################################################
 
@@ -1475,6 +1246,138 @@ public class MyAuditLogCriteria
     public void groupByTimestampValue()
     {
         groupBy(TIMESTAMP_VALUE);
+    }
+
+    //##################################################
+    //# projections (transactionUid)
+    //##################################################
+
+    public void selectTransactionUid()
+    {
+        select(TRANSACTION_UID);
+    }
+
+    public void selectDistinctTransactionUid()
+    {
+        selectDistinct(TRANSACTION_UID);
+    }
+
+    public void selectCountDistinctTransactionUid()
+    {
+        selectCountDistinct(TRANSACTION_UID);
+    }
+
+    public void selectMinimumTransactionUid()
+    {
+        selectMinimum(TRANSACTION_UID);
+    }
+
+    public void selectMaximumTransactionUid()
+    {
+        selectMaximum(TRANSACTION_UID);
+    }
+
+    public void selectAverageTransactionUid()
+    {
+        selectAverage(TRANSACTION_UID);
+    }
+
+    public void selectSumTransactionUid()
+    {
+        selectSum(TRANSACTION_UID);
+    }
+
+    public void groupByTransactionUid()
+    {
+        groupBy(TRANSACTION_UID);
+    }
+
+    //##################################################
+    //# projections (typeCode)
+    //##################################################
+
+    public void selectTypeCode()
+    {
+        select(TYPE_CODE);
+    }
+
+    public void selectDistinctTypeCode()
+    {
+        selectDistinct(TYPE_CODE);
+    }
+
+    public void selectCountDistinctTypeCode()
+    {
+        selectCountDistinct(TYPE_CODE);
+    }
+
+    public void selectMinimumTypeCode()
+    {
+        selectMinimum(TYPE_CODE);
+    }
+
+    public void selectMaximumTypeCode()
+    {
+        selectMaximum(TYPE_CODE);
+    }
+
+    public void selectAverageTypeCode()
+    {
+        selectAverage(TYPE_CODE);
+    }
+
+    public void selectSumTypeCode()
+    {
+        selectSum(TYPE_CODE);
+    }
+
+    public void groupByTypeCode()
+    {
+        groupBy(TYPE_CODE);
+    }
+
+    //##################################################
+    //# projections (uid)
+    //##################################################
+
+    public void selectUid()
+    {
+        select(UID);
+    }
+
+    public void selectDistinctUid()
+    {
+        selectDistinct(UID);
+    }
+
+    public void selectCountDistinctUid()
+    {
+        selectCountDistinct(UID);
+    }
+
+    public void selectMinimumUid()
+    {
+        selectMinimum(UID);
+    }
+
+    public void selectMaximumUid()
+    {
+        selectMaximum(UID);
+    }
+
+    public void selectAverageUid()
+    {
+        selectAverage(UID);
+    }
+
+    public void selectSumUid()
+    {
+        selectSum(UID);
+    }
+
+    public void groupByUid()
+    {
+        groupBy(UID);
     }
 
     //##################################################
@@ -1522,12 +1425,131 @@ public class MyAuditLogCriteria
     }
 
     //##################################################
+    //# projections (userName)
+    //##################################################
+
+    public void selectUserName()
+    {
+        select(USER_NAME);
+    }
+
+    public void selectDistinctUserName()
+    {
+        selectDistinct(USER_NAME);
+    }
+
+    public void selectCountDistinctUserName()
+    {
+        selectCountDistinct(USER_NAME);
+    }
+
+    public void selectMinimumUserName()
+    {
+        selectMinimum(USER_NAME);
+    }
+
+    public void selectMaximumUserName()
+    {
+        selectMaximum(USER_NAME);
+    }
+
+    public void selectAverageUserName()
+    {
+        selectAverage(USER_NAME);
+    }
+
+    public void selectSumUserName()
+    {
+        selectSum(USER_NAME);
+    }
+
+    public void groupByUserName()
+    {
+        groupBy(USER_NAME);
+    }
+
+    //##################################################
+    //# association (Bundle)
+    //##################################################
+
+    public void selectBundleUid()
+    {
+        select(BUNDLE_UID);
+    }
+
+    public void selectCountDistinctBundleUid()
+    {
+        selectCountDistinct(BUNDLE_UID);
+    }
+    
+    public void selectDistinctBundleUid()
+    {
+        selectDistinct(BUNDLE_UID);
+    }
+
+    public void selectMinimumBundleUid()
+    {
+        selectMinimum(BUNDLE_UID);
+    }
+
+    public void selectMaximumBundleUid()
+    {
+        selectMaximum(BUNDLE_UID);
+    }
+
+    public void groupByBundleUid()
+    {
+        groupBy(BUNDLE_UID);
+    }
+
+    public MyAuditBundleCriteria joinToBundle()
+    {
+        return new MyAuditBundleCriteria(joinTo(BUNDLE));
+    }
+
+    public MyAuditBundleCriteria leftJoinToBundle()
+    {
+        return new MyAuditBundleCriteria(leftJoinTo(BUNDLE));
+    }
+
+    public KmhStringCondition whereBundleUid()
+    {
+        return new KmhStringCondition(parent(), alias(), BUNDLE_UID);
+    }
+
+    public void whereBundleIs(MyAuditBundle e)
+    {
+        if ( e == null )
+            whereBundleUid().isNull();
+        else
+            whereBundleUid().is(e.getUid());
+    }
+
+    public void whereBundleIsNot(MyAuditBundle e)
+    {
+        if ( e == null )
+            whereBundleUid().isNotNull();
+        else
+            whereBundleUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# association (User)
     //##################################################
 
     public void selectUserUid()
     {
         select(USER_UID);
+    }
+
+    public void selectCountDistinctUserUid()
+    {
+        selectCountDistinct(USER_UID);
+    }
+    
+    public void selectDistinctUserUid()
+    {
+        selectDistinct(USER_UID);
     }
 
     public void selectMinimumUserUid()
@@ -1557,7 +1579,7 @@ public class MyAuditLogCriteria
 
     public KmhStringCondition whereUserUid()
     {
-        return new KmhStringCondition(parent(), fullName(USER_UID));
+        return new KmhStringCondition(parent(), alias(), USER_UID);
     }
 
     public void whereUserIs(MyUser e)
@@ -1566,6 +1588,14 @@ public class MyAuditLogCriteria
             whereUserUid().isNull();
         else
             whereUserUid().is(e.getUid());
+    }
+
+    public void whereUserIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUserUid().isNotNull();
+        else
+            whereUserUid().isNot(e.getUid());
     }
 
     //##################################################

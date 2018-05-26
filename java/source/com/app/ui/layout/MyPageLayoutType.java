@@ -1,8 +1,11 @@
 package com.app.ui.layout;
 
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.Kmu;
 
 public enum MyPageLayoutType
+    implements KmEnumIF
 {
     //##################################################
     //# values
@@ -11,8 +14,17 @@ public enum MyPageLayoutType
     /**
      * Shows nothing but the content.
      * This does not even show the header or footer.
+     * The content fills the window, any scrolling must be
+     * managed by the client (page) itself.
      */
     bare,
+
+    /**
+     * Similar to bare, but is configured for native printing
+     * by the browser. The html BODY is configured for automatic
+     * scrolling, the page should NOT use any absolute positioning.
+     */
+    print,
 
     /**
      * Shows only the header, footer.
@@ -36,13 +48,14 @@ public enum MyPageLayoutType
         switch ( type )
         {
             case bare:
+            case print:
                 return false;
 
             case basic:
             case normal:
                 return true;
         }
-        return false;
+        throw Kmu.newEnumError(type);
     }
 
     public String getHeaderCss()
@@ -51,13 +64,14 @@ public enum MyPageLayoutType
         switch ( type )
         {
             case bare:
+            case print:
                 return KmCssDefaultConstantsIF.header_bare;
 
             case basic:
             case normal:
                 return KmCssDefaultConstantsIF.header_normal;
         }
-        return null;
+        throw Kmu.newEnumError(type);
     }
 
     //##################################################
@@ -70,26 +84,28 @@ public enum MyPageLayoutType
         switch ( type )
         {
             case bare:
+            case print:
                 return false;
 
             case basic:
             case normal:
                 return true;
         }
-        return false;
+        throw Kmu.newEnumError(type);
     }
 
     public String getFooterCss()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case bare:
+            case print:
             case basic:
             case normal:
                 return KmCssDefaultConstantsIF.footer;
         }
-        return null;
+        throw Kmu.newEnumError(type);
     }
 
     //##################################################
@@ -98,30 +114,32 @@ public enum MyPageLayoutType
 
     public boolean showsMenu()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case normal:
                 return true;
 
             case bare:
+            case print:
             case basic:
                 return false;
         }
-        return false;
+        throw Kmu.newEnumError(type);
     }
 
     public String getMenuCss()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case bare:
+            case print:
             case basic:
             case normal:
                 return KmCssDefaultConstantsIF.menu;
         }
-        return null;
+        throw Kmu.newEnumError(type);
     }
 
     //##################################################
@@ -130,25 +148,27 @@ public enum MyPageLayoutType
 
     public boolean showsTitle()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case normal:
                 return true;
 
             case bare:
+            case print:
             case basic:
                 return false;
         }
-        return false;
+        throw Kmu.newEnumError(type);
     }
 
     public String getTitleCss()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case bare:
+            case print:
                 return KmCssDefaultConstantsIF.title_bare;
 
             case basic:
@@ -157,7 +177,7 @@ public enum MyPageLayoutType
             case normal:
                 return KmCssDefaultConstantsIF.title_normal;
         }
-        return null;
+        throw Kmu.newEnumError(type);
     }
 
     //##################################################
@@ -171,11 +191,14 @@ public enum MyPageLayoutType
 
     public String getContentCss()
     {
-        MyPageLayoutType e = this;
-        switch ( e )
+        MyPageLayoutType type = this;
+        switch ( type )
         {
             case bare:
                 return KmCssDefaultConstantsIF.content_bare;
+
+            case print:
+                return KmCssDefaultConstantsIF.content_print;
 
             case basic:
                 return KmCssDefaultConstantsIF.content_basic;
@@ -183,7 +206,6 @@ public enum MyPageLayoutType
             case normal:
                 return KmCssDefaultConstantsIF.content_normal;
         }
-        return null;
+        throw Kmu.newEnumError(type);
     }
-
 }

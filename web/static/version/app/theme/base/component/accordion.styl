@@ -1,52 +1,58 @@
-/*******************************************************************
- ** accordion
- *******************************************************************/
+//******************************
+//** accordion
+//******************************
 
 .accordion
-{
-    content: normal; /* Stylus Compression Hack, see comment above. */
-}
+    content: normal // prevent stylus compression
+
 
 .accordionEnabledTab
-{
-    font: bold 1.2rem $fontFamily;
-    color: #000000;
-    background-color: #EEEEEE;
-    border: 1px solid #CCCCCC;
-    padding: 5px;
-    cursor: pointer;
-}
+    font:               bold 1.2rem $fontFamily
+    color:              #000000
+    background-color:   #EEEEEE
+    border:             1px solid #CCCCCC
+    padding:            5px
+    cursor:             pointer
+
 
 .accordionEnabledTab:hover
-{
-    color: #0000FF;
-}
+    color: #0000FF
+
 
 .accordionDisabledTab
-{
-    font: bold 1.2rem $fontFamily;
-    color: #000000;
-    background-color: #EEEEEE;
-    border: 1px solid #CCCCCC;
-    padding: 5px;
-    cursor: pointer;
-}
+    font:               bold 1.2rem $fontFamily
+    color:              #000000
+    background-color:   #EEEEEE
+    border:             1px solid #CCCCCC
+    padding:            5px
+    cursor:             pointer
+
 
 .accordionOpenTab
-{
-    font: bold 1.2rem $fontFamily;
-    color: #000000;
-    background-color: #DDDD66;
-    border: 1px solid #444444;
-    padding: 5px;
-    cursor: pointer;
-}
+    font:               bold 1.2rem $fontFamily;
+    color:              #000000
+    background-color:   #DDDD66
+    border:             1px solid #444444
+    padding:            5px
+    cursor:             pointer
+
 
 .accordionOpenBody
-{
-    background-color: #FFFF88;
-    border: 1px solid #444444;
-    border-top: none;
-    padding: 5px;
-}
+    background-color:   #FFFF88
+    border:             1px solid #444444
+    border-top:         none
+    padding:            5px
 
+
+//******************************
+//** jquery
+//******************************
+
+div.ui-accordion > div.ui-accordion-content
+    overflow:           hidden
+    padding:            1em 1em
+
+.ui-accordion-header-active
+    background:         #69b
+    color:              #fff
+    

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ public class KmSqlPooledConnectionFactory
     //# constants
     //##################################################
 
-    private static final KmLogger    logger = KmLogger.create(KmSqlPooledConnectionFactory.class);
+    private static final KmLogger logger = KmLogger.create(KmSqlPooledConnectionFactory.class);
 
     //##################################################
     //# variables
@@ -109,8 +109,13 @@ public class KmSqlPooledConnectionFactory
     public synchronized void close(KmSqlConnection c)
     {
         _openConnections.remove(c);
+
         if ( _isAlive(c) )
+        {
+            c.rollback();
             _closedConnections.add(c);
+        }
+
         _logCount("Close");
     }
 
@@ -180,6 +185,7 @@ public class KmSqlPooledConnectionFactory
     {
         for ( KmSqlConnection c : v )
             c.closeInnerConnection();
+
         v.clear();
     }
 

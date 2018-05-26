@@ -1,5 +1,6 @@
 package com.app.ui.core;
 
+import com.app.dao.core.MyDaoSessionCache;
 import com.app.finder.MyServerSessionFinder;
 import com.app.model.MyServerSession;
 import com.app.model.MyTenant;
@@ -17,7 +18,7 @@ public class MyServerSessionManager
     private static final String COOKIE_KEY = "ssid";
 
     //##################################################
-    //# access
+    //# begin/end
     //##################################################
 
     /**
@@ -35,6 +36,7 @@ public class MyServerSessionManager
         ss.daoAttach();
 
         setCookieUid(ss.getUid());
+        getCache().putServerSession(ss);
     }
 
     /**
@@ -47,37 +49,12 @@ public class MyServerSessionManager
             ss.close();
 
         getData().clearCookie(COOKIE_KEY);
+        getCache().clearServerSessions();
     }
 
-    /**
-     * Attempt to touch the current session, to keep it from going stale.
-     * Return true if the session was successfully touched.
-     * The session must already exist.
-     * The session must not yet be stale.
-     */
-    public static boolean touchSession()
-    {
-        MyServerSession ss = getValidSession();
-
-        if ( ss == null )
-            return false;
-
-        ss.touch();
-        ss.validate();
-
-        setCookieUid(ss.getUid());
-        return true;
-    }
-
-    /**
-     * Checks to see if there is a valid session.
-     * The session is NOT created, if missing.
-     * The session is NOT touched.
-     */
-    public static boolean hasValidSession()
-    {
-        return getValidSession() != null;
-    }
+    //##################################################
+    //# getSession
+    //##################################################
 
     /**
      * Get the current session if any.
@@ -92,9 +69,38 @@ public class MyServerSessionManager
         if ( uid == null )
             return null;
 
-        return MyServerSessionFinder.staticFind(uid);
+        MyDaoSessionCache cache = getCache();
+        MyServerSession ss;
+
+        ss = cache.getServerSession(uid);
+        if ( ss != null )
+            return ss;
+
+        ss = MyServerSessionFinder.instance.find(uid);
+        if ( ss == null )
+            return null;
+
+        cache.putServerSession(ss);
+        return ss;
     }
 
+    private static MyDaoSessionCache getCache()
+    {
+        return MyGlobals.getDaoSession().getCache();
+    }
+
+    /**
+     * Return the current session, only if it is valid.
+     * Return null if the session is stale (or doesn't exist).
+     *
+     * Most code will use getSession instead of getValidSession.
+     * We check that the session is valid at the beginning of an
+     * http request, but after that we just use the current session
+     * even if it happens to expire while composing the http response.
+     *
+     * This way we don't need to perform a null check for the session
+     * every time we reference it.
+     */
     private static MyServerSession getValidSession()
     {
         MyServerSession ss = getSession();
@@ -102,8 +108,7 @@ public class MyServerSessionManager
         if ( ss == null )
             return null;
 
-        boolean isStale = ss.isStale();
-        if ( isStale )
+        if ( ss.isStale() )
         {
             if ( ss.isActive() )
                 ss.close();
@@ -112,6 +117,16 @@ public class MyServerSessionManager
         }
 
         return ss;
+    }
+
+    /**
+     * Checks to see if there is a valid session.
+     * The session is NOT created, if missing.
+     * The session is NOT touched.
+     */
+    public static boolean hasValidSession()
+    {
+        return getValidSession() != null;
     }
 
     //##################################################
@@ -124,8 +139,35 @@ public class MyServerSessionManager
         ss = getSession();
         ss.setUser(u);
         ss.setTenant(u.getTenant());
-        ss.validate();
+        ss.validateAndCheck();
         return ss;
+    }
+
+    //##################################################
+    //# touch
+    //##################################################
+
+    /**
+     * Attempt to touch the current session, to keep it from going stale.
+     * Return true if the session was successfully touched.
+     * The session must already exist.
+     * The session must not yet be stale.
+     */
+    public static boolean touchSession()
+    {
+        MyServerSession ss = getValidSession();
+
+        if ( ss == null )
+            return false;
+
+        touchSession(ss);
+        setCookieUid(ss.getUid());
+        return true;
+    }
+
+    private static void touchSession(MyServerSession ss)
+    {
+        ss.touch();
     }
 
     //##################################################

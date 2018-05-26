@@ -1,0 +1,88 @@
+model
+: name      = priority
+: help...
+    ---
+    Priorities are used to identify the relative importance of various things. 
+    ---
+
+database
+: auditLog  = false
+: locking   = false
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = project
+
+    index
+    : name      = sequence
+    : unique    = true
+    : on        = project
+    : on        = sequenceCode
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** status
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The name
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = sequenceCode
+    : help      = The sequence is used to determine the order of priorities.
+    : type      = longEnumCode
+    : required  = true
+
+
+    abstractField
+    : name      = sequenceName
+    : help      = The sequence is used to determine the order of priorities.
+    : type      = calculated
+
+
+    field
+    : name      = categoryCode
+    : label     = Category
+    : help      = The category: low, normal, high.
+    : type      = longEnumCode
+    : required  = true
+
+        dependsOn
+        : value = sequenceCode
+
+        enum
+            value(#Low)
+            value(#Normal)
+            value(#High)
+
+
+    //*****************************************************
+    //** project
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project this priority belongs to.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+

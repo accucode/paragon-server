@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public class KmStfParser
     /**
      * The original source being parsed.
      */
-    private String                _source;
+    private String _source;
 
     /**
      * The folder where the source is assumed to live.  This is
@@ -51,7 +51,7 @@ public class KmStfParser
      * freeform strings.  However, the #include command needs to
      * know where this folder lives.
      */
-    private KmFile                _includeFolder;
+    private KmFile _includeFolder;
 
     /**
      * The normalized lines being parsed.
@@ -59,27 +59,28 @@ public class KmStfParser
      * trimming trailing whitespace and converting
      * tabs to spaces.  See normalize method below.
      */
-    private KmList<String>        _lines;
+    private KmList<String> _lines;
 
     /**
      * The 0-based index of the line currently being
      * parsed.
      */
-    private int                   _index;
+    private int _index;
 
     /**
      * Using tabs is not recommended, but is supported by
      * converting each tab to a specified number of spaces.
      * Must be set to a value >= 1; defaults to 4.
      */
-    private int                   _tabSpaces;
+    private int _tabSpaces;
 
     /**
      * The list of prefixes that identify single line comments.
      * The default values include:
-     *      java-style: //
+     *      java-style:     //
+     *      property-style: #
      */
-    private KmList<String>        _singleLineCommentsPatterns;
+    private KmList<String> _singleLineCommentsPatterns;
 
     /**
      * The list of prefixes and suffixes that delimit multiline
@@ -95,7 +96,7 @@ public class KmStfParser
      *      html-style: <!-- ... -->
      *
      */
-    private KmMap<String,String>  _multiLineCommentPatterns;
+    private KmMap<String,String> _multiLineCommentPatterns;
 
     /**
      * Shortcuts can be used to convert element arguments
@@ -106,7 +107,7 @@ public class KmStfParser
     /**
      * A container for the results.
      */
-    private KmStfRoot             _root;
+    private KmStfRoot _root;
 
     //##################################################
     //# constructor
@@ -965,6 +966,14 @@ public class KmStfParser
 
     private RuntimeException newParseError(int index, String msg, Object... args)
     {
+        System.out.println("Lines leading up to the error.");
+        System.out.println("'Includes' are injected into source add affect line numbers.");
+        int n = 10;
+        int from = Math.max(0, index - n);
+        int to = index;
+        for ( int i = from; i <= to; i++ )
+            System.out.printf("%4d. %s%n", i + 1, getLine(i));
+
         KmStfError ex;
         ex = new KmStfError(msg, args);
         ex.setLineText(getLine(index));

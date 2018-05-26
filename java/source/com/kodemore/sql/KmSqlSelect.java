@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -57,13 +57,13 @@ public class KmSqlSelect
     //# variables
     //##################################################
 
-    private KmSqlBuffer        _columns;
-    private KmSqlBuffer        _tables;
-    private KmSqlBuffer        _groupBys;
-    private KmSqlBuffer        _orderBys;
-    private Integer            _rowLimit;
-    private String             _suffix;
-    private KmSqlCondition     _having;
+    private KmSqlBuffer    _columns;
+    private KmSqlBuffer    _tables;
+    private KmSqlBuffer    _groupBys;
+    private KmSqlBuffer    _orderBys;
+    private Integer        _rowLimit;
+    private String         _suffix;
+    private KmSqlCondition _having;
 
     //##################################################
     //# constructor

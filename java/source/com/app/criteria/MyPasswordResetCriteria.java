@@ -37,65 +37,61 @@ public class MyPasswordResetCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyPasswordReset e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyPasswordReset e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
-    {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhTimestampCondition whereUpdatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhStringCondition whereEmail()
     {
-        return new KmhStringCondition(context(), fullName(EMAIL));
-    }
-
-    public KmhStringCondition whereToken()
-    {
-        return new KmhStringCondition(context(), fullName(TOKEN));
+        return new KmhStringCondition(context(), alias(), EMAIL);
     }
 
     public KmhTimestampCondition whereExpirationUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(EXPIRATION_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), EXPIRATION_UTC_TS);
+    }
+
+    public KmhStringCondition whereToken()
+    {
+        return new KmhStringCondition(context(), alias(), TOKEN);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
-
-    public void sortOnUid()
-    {
-        parent().sortAscending(UID);
-    }
-
-    public void sortOnUidDescending()
-    {
-        parent().sortDescending(UID);
-    }
-
-    public void sortOnUid(boolean asc)
-    {
-        if ( asc )
-            sortOnUid();
-        else
-            sortOnUidDescending();
-    }
 
     public void sortOnCreatedUtcTs()
     {
@@ -113,24 +109,6 @@ public class MyPasswordResetCriteria
             sortOnCreatedUtcTs();
         else
             sortOnCreatedUtcTsDescending();
-    }
-
-    public void sortOnUpdatedUtcTs()
-    {
-        parent().sortAscending(UPDATED_UTC_TS);
-    }
-
-    public void sortOnUpdatedUtcTsDescending()
-    {
-        parent().sortDescending(UPDATED_UTC_TS);
-    }
-
-    public void sortOnUpdatedUtcTs(boolean asc)
-    {
-        if ( asc )
-            sortOnUpdatedUtcTs();
-        else
-            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnEmail()
@@ -151,24 +129,6 @@ public class MyPasswordResetCriteria
             sortOnEmailDescending();
     }
 
-    public void sortOnToken()
-    {
-        parent().sortAscending(TOKEN);
-    }
-
-    public void sortOnTokenDescending()
-    {
-        parent().sortDescending(TOKEN);
-    }
-
-    public void sortOnToken(boolean asc)
-    {
-        if ( asc )
-            sortOnToken();
-        else
-            sortOnTokenDescending();
-    }
-
     public void sortOnExpirationUtcTs()
     {
         parent().sortAscending(EXPIRATION_UTC_TS);
@@ -187,6 +147,60 @@ public class MyPasswordResetCriteria
             sortOnExpirationUtcTsDescending();
     }
 
+    public void sortOnToken()
+    {
+        parent().sortAscending(TOKEN);
+    }
+
+    public void sortOnTokenDescending()
+    {
+        parent().sortDescending(TOKEN);
+    }
+
+    public void sortOnToken(boolean asc)
+    {
+        if ( asc )
+            sortOnToken();
+        else
+            sortOnTokenDescending();
+    }
+
+    public void sortOnUid()
+    {
+        parent().sortAscending(UID);
+    }
+
+    public void sortOnUidDescending()
+    {
+        parent().sortDescending(UID);
+    }
+
+    public void sortOnUid(boolean asc)
+    {
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
+    }
+
     public void sortOnLockVersion()
     {
         parent().sortAscending(LOCK_VERSION);
@@ -203,50 +217,6 @@ public class MyPasswordResetCriteria
             sortOnLockVersion();
         else
             sortOnLockVersionDescending();
-    }
-
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
-    {
-        select(UID);
-    }
-
-    public void selectDistinctUid()
-    {
-        selectDistinct(UID);
-    }
-
-    public void selectCountDistinctUid()
-    {
-        selectCountDistinct(UID);
-    }
-
-    public void selectMinimumUid()
-    {
-        selectMinimum(UID);
-    }
-
-    public void selectMaximumUid()
-    {
-        selectMaximum(UID);
-    }
-
-    public void selectAverageUid()
-    {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
     }
 
     //##################################################
@@ -294,50 +264,6 @@ public class MyPasswordResetCriteria
     }
 
     //##################################################
-    //# projections (updatedUtcTs)
-    //##################################################
-
-    public void selectUpdatedUtcTs()
-    {
-        select(UPDATED_UTC_TS);
-    }
-
-    public void selectDistinctUpdatedUtcTs()
-    {
-        selectDistinct(UPDATED_UTC_TS);
-    }
-
-    public void selectCountDistinctUpdatedUtcTs()
-    {
-        selectCountDistinct(UPDATED_UTC_TS);
-    }
-
-    public void selectMinimumUpdatedUtcTs()
-    {
-        selectMinimum(UPDATED_UTC_TS);
-    }
-
-    public void selectMaximumUpdatedUtcTs()
-    {
-        selectMaximum(UPDATED_UTC_TS);
-    }
-
-    public void selectAverageUpdatedUtcTs()
-    {
-        selectAverage(UPDATED_UTC_TS);
-    }
-
-    public void selectSumUpdatedUtcTs()
-    {
-        selectSum(UPDATED_UTC_TS);
-    }
-
-    public void groupByUpdatedUtcTs()
-    {
-        groupBy(UPDATED_UTC_TS);
-    }
-
-    //##################################################
     //# projections (email)
     //##################################################
 
@@ -379,6 +305,50 @@ public class MyPasswordResetCriteria
     public void groupByEmail()
     {
         groupBy(EMAIL);
+    }
+
+    //##################################################
+    //# projections (expirationUtcTs)
+    //##################################################
+
+    public void selectExpirationUtcTs()
+    {
+        select(EXPIRATION_UTC_TS);
+    }
+
+    public void selectDistinctExpirationUtcTs()
+    {
+        selectDistinct(EXPIRATION_UTC_TS);
+    }
+
+    public void selectCountDistinctExpirationUtcTs()
+    {
+        selectCountDistinct(EXPIRATION_UTC_TS);
+    }
+
+    public void selectMinimumExpirationUtcTs()
+    {
+        selectMinimum(EXPIRATION_UTC_TS);
+    }
+
+    public void selectMaximumExpirationUtcTs()
+    {
+        selectMaximum(EXPIRATION_UTC_TS);
+    }
+
+    public void selectAverageExpirationUtcTs()
+    {
+        selectAverage(EXPIRATION_UTC_TS);
+    }
+
+    public void selectSumExpirationUtcTs()
+    {
+        selectSum(EXPIRATION_UTC_TS);
+    }
+
+    public void groupByExpirationUtcTs()
+    {
+        groupBy(EXPIRATION_UTC_TS);
     }
 
     //##################################################
@@ -426,47 +396,91 @@ public class MyPasswordResetCriteria
     }
 
     //##################################################
-    //# projections (expirationUtcTs)
+    //# projections (uid)
     //##################################################
 
-    public void selectExpirationUtcTs()
+    public void selectUid()
     {
-        select(EXPIRATION_UTC_TS);
+        select(UID);
     }
 
-    public void selectDistinctExpirationUtcTs()
+    public void selectDistinctUid()
     {
-        selectDistinct(EXPIRATION_UTC_TS);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctExpirationUtcTs()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(EXPIRATION_UTC_TS);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumExpirationUtcTs()
+    public void selectMinimumUid()
     {
-        selectMinimum(EXPIRATION_UTC_TS);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumExpirationUtcTs()
+    public void selectMaximumUid()
     {
-        selectMaximum(EXPIRATION_UTC_TS);
+        selectMaximum(UID);
     }
 
-    public void selectAverageExpirationUtcTs()
+    public void selectAverageUid()
     {
-        selectAverage(EXPIRATION_UTC_TS);
+        selectAverage(UID);
     }
 
-    public void selectSumExpirationUtcTs()
+    public void selectSumUid()
     {
-        selectSum(EXPIRATION_UTC_TS);
+        selectSum(UID);
     }
 
-    public void groupByExpirationUtcTs()
+    public void groupByUid()
     {
-        groupBy(EXPIRATION_UTC_TS);
+        groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -522,6 +536,16 @@ public class MyPasswordResetCriteria
         select(CREATED_BY_UID);
     }
 
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
     public void selectMinimumCreatedByUid()
     {
         selectMinimum(CREATED_BY_UID);
@@ -549,7 +573,7 @@ public class MyPasswordResetCriteria
 
     public KmhStringCondition whereCreatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
     }
 
     public void whereCreatedByIs(MyUser e)
@@ -560,51 +584,12 @@ public class MyPasswordResetCriteria
             whereCreatedByUid().is(e.getUid());
     }
 
-    //##################################################
-    //# association (UpdatedBy)
-    //##################################################
-
-    public void selectUpdatedByUid()
-    {
-        select(UPDATED_BY_UID);
-    }
-
-    public void selectMinimumUpdatedByUid()
-    {
-        selectMinimum(UPDATED_BY_UID);
-    }
-
-    public void selectMaximumUpdatedByUid()
-    {
-        selectMaximum(UPDATED_BY_UID);
-    }
-
-    public void groupByUpdatedByUid()
-    {
-        groupBy(UPDATED_BY_UID);
-    }
-
-    public MyUserCriteria joinToUpdatedBy()
-    {
-        return new MyUserCriteria(joinTo(UPDATED_BY));
-    }
-
-    public MyUserCriteria leftJoinToUpdatedBy()
-    {
-        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
-    }
-
-    public KmhStringCondition whereUpdatedByUid()
-    {
-        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
-    }
-
-    public void whereUpdatedByIs(MyUser e)
+    public void whereCreatedByIsNot(MyUser e)
     {
         if ( e == null )
-            whereUpdatedByUid().isNull();
+            whereCreatedByUid().isNotNull();
         else
-            whereUpdatedByUid().is(e.getUid());
+            whereCreatedByUid().isNot(e.getUid());
     }
 
     //##################################################
@@ -614,6 +599,16 @@ public class MyPasswordResetCriteria
     public void selectTenantUid()
     {
         select(TENANT_UID);
+    }
+
+    public void selectCountDistinctTenantUid()
+    {
+        selectCountDistinct(TENANT_UID);
+    }
+    
+    public void selectDistinctTenantUid()
+    {
+        selectDistinct(TENANT_UID);
     }
 
     public void selectMinimumTenantUid()
@@ -643,7 +638,7 @@ public class MyPasswordResetCriteria
 
     public KmhStringCondition whereTenantUid()
     {
-        return new KmhStringCondition(parent(), fullName(TENANT_UID));
+        return new KmhStringCondition(parent(), alias(), TENANT_UID);
     }
 
     public void whereTenantIs(MyTenant e)
@@ -652,6 +647,79 @@ public class MyPasswordResetCriteria
             whereTenantUid().isNull();
         else
             whereTenantUid().is(e.getUid());
+    }
+
+    public void whereTenantIsNot(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNotNull();
+        else
+            whereTenantUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
     }
 
     //##################################################

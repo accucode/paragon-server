@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmCssBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -38,9 +37,10 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalOptionList;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmValidator;
 
 /**
  * A simple choice field that shows few options as buttons.  This is
@@ -55,10 +55,15 @@ public class ScChoiceField<T>
     //##################################################
 
     /**
+     * The ID of the outer html element.
+     */
+    private ScLocalString _htmlId;
+
+    /**
      * The value of the field.
      * The type must be compatible with ScEncoder.
      */
-    private ScLocal<T>           _value;
+    private ScLocal<T> _value;
 
     /**
      * The list of options to be displayed.
@@ -71,20 +76,13 @@ public class ScChoiceField<T>
      * Also disabled values are not sent to the server when the form is submitted.
      * Enabled by default.
      */
-    private ScLocalBoolean       _disabled;
-
-    /**
-     * The optional validator.
-     * Primarily used to check for required vs optional.
-     */
-    @SuppressWarnings("rawtypes")
-    private KmValidator          _validator;
+    private ScLocalBoolean _disabled;
 
     /**
      * If set, the action is called any time the web user
      * changes the value in the browser.
      */
-    private ScAction             _onChangeAction;
+    private ScAction _onChangeAction;
 
     //##################################################
     //# constructor
@@ -92,6 +90,7 @@ public class ScChoiceField<T>
 
     public ScChoiceField()
     {
+        _htmlId = new ScLocalString(getKeyToken());
         _value = new ScLocal<>();
         _options = new ScLocalOptionList<>();
         _disabled = new ScLocalBoolean(false);
@@ -102,14 +101,19 @@ public class ScChoiceField<T>
     //##################################################
 
     @Override
-    public String getHtmlId()
+    public final String getHtmlId()
     {
-        return getKey();
+        return _htmlId.getValue();
+    }
+
+    public final void setHtmlId(String e)
+    {
+        _htmlId.setValue(e);
     }
 
     public String getHtmlName()
     {
-        return getKey();
+        return getHtmlId();
     }
 
     //##################################################
@@ -188,7 +192,7 @@ public class ScChoiceField<T>
     public void addOption(T value)
     {
         String label = value == null
-            ? "<none>"
+            ? KmConstantsIF.NONE
             : getFormatter().formatAny(value);
 
         addOption(value, label);
@@ -206,10 +210,10 @@ public class ScChoiceField<T>
     @Override
     protected void readParameters_here(ScServletData data)
     {
-        if ( !data.hasParameter(getKey()) )
+        if ( !data.hasParameter(getHtmlName()) )
             return;
 
-        String s = data.getParameter(getKey());
+        String s = data.getParameter(getHtmlName());
         T e = decodeUnchecked(s);
         setValue(e);
     }
@@ -221,11 +225,6 @@ public class ScChoiceField<T>
     public void onChange(ScAction e)
     {
         _onChangeAction = e;
-    }
-
-    public void onChange(Runnable e)
-    {
-        onChange(newCheckedAction(e));
     }
 
     //##################################################
@@ -342,7 +341,7 @@ public class ScChoiceField<T>
                 getJquerySelector(),
                 formatOnChange());
 
-        // Show visual indication of focus when focused
+        // Show visual indication of focus
         out.printfln(
             "$('%s > input').focus(function(){%s});",
             getJquerySelector(),
@@ -371,28 +370,6 @@ public class ScChoiceField<T>
             "$('%s').removeClass('%s');",
             getJquerySelector(),
             KmCssDefaultConstantsIF.choiceFieldFocus);
-    }
-
-    //##################################################
-    //# validate
-    //##################################################
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean validateQuietly()
-    {
-        boolean ok = super.validateQuietly();
-
-        if ( _validator == null )
-            return ok;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-        _validator.validateOnly(getValue(), errors);
-        if ( errors.isEmpty() )
-            return ok;
-
-        setErrors(errors);
-        return false;
     }
 
     //##################################################

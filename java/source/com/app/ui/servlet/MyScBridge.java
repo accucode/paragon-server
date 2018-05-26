@@ -9,9 +9,11 @@ import com.kodemore.servlet.script.ScReplaceContentsScript;
 import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScPageLayoutBridge;
 
+import com.app.file.MyResourceFiles;
 import com.app.model.MyCssConstantsIF;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageErrorDialog;
+import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
@@ -101,18 +103,34 @@ public class MyScBridge
     }
 
     //##################################################
-    //# main
+    //# data export style
     //##################################################
 
     @Override
-    public void printMain(ScPageRoot root, boolean focus)
+    public String getDataExportStyle()
     {
-        ScReplaceContentsScript r;
-        r = ajax().setContents(getMainSelector(), root);
-
-        printMainTransition(r);
-        printMainPostRender(r, root, focus);
+        return MyResourceFiles.getInstance().getDataExportStyle().readString();
     }
+
+    //##################################################
+    //# browser tab
+    //##################################################
+
+    @Override
+    public String getBrowserTabPrefix()
+    {
+        return MyConstantsIF.APPLICATION_ABBREVIATION + ": ";
+    }
+
+    @Override
+    public String getLoadingTabTitle()
+    {
+        return MyConstantsIF.APPLICATION_ABBREVIATION;
+    }
+
+    //##################################################
+    //# main
+    //##################################################
 
     @Override
     public void clearMain()
@@ -120,7 +138,17 @@ public class MyScBridge
         ajax().clearContents(getMainSelector());
     }
 
-    private void printMainTransition(ScReplaceContentsScript r)
+    @Override
+    public void printMain(ScPageRoot root, boolean focus)
+    {
+        ScReplaceContentsScript r;
+        r = ajax().setContents(getMainSelector(), root);
+
+        applyMainTransitionTo(r);
+        applyMainPostRenderTo(r, root, focus);
+    }
+
+    private void applyMainTransitionTo(ScReplaceContentsScript r)
     {
         ScBridge bridge = ScBridge.getInstance();
         int fadeMs = bridge.getPageTransitionFadeMs();
@@ -142,7 +170,7 @@ public class MyScBridge
         }
     }
 
-    private void printMainPostRender(ScReplaceContentsScript r, ScControlIF e, boolean focus)
+    private void applyMainPostRenderTo(ScReplaceContentsScript r, ScControlIF e, boolean focus)
     {
         ScBlockScript postRender;
         postRender = r.getPostRenderScript();

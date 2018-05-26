@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,8 @@ package com.kodemore.servlet.encoder.coder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScActionRegistry;
+import com.kodemore.utility.Kmu;
 
 public class ScActionCoder
     extends ScAbstractCoder
@@ -46,13 +47,13 @@ public class ScActionCoder
     public void encode(ScEncoder encoder, Object o)
     {
         ScAction e = (ScAction)o;
-        encoder._print(e.getKey());
+        encoder._printInteger(e.getKey());
     }
 
     @Override
     public Object decode(ScDecoder decoder, String s)
     {
-        return ScControlRegistry.getInstance().getAction(s);
+        Integer key = Kmu.parseInteger(s);
+        return ScActionRegistry.getInstance().findKey(key);
     }
-
 }

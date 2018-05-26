@@ -14,18 +14,18 @@ public abstract class KmMetaCostProperty<T>
     @Override
     public ScCostField newField()
     {
-        return newField(getLabel());
+        ScCostField e;
+        e = new ScCostField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScCostField newField(String label)
     {
         ScCostField e;
-        e = new ScCostField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

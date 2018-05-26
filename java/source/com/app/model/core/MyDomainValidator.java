@@ -1,11 +1,14 @@
 package com.app.model.core;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.log.KmLog;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.utility.KmConstantsIF;
 
+/**
+ * Validate the FIELDS and associations contained within
+ * a particular domain model. If you need to perform semantic
+ * validation on the model itself, this should be done by overriding
+ * validateModelOn in the domain model itself.
+ */
 public abstract class MyDomainValidator<T>
     implements KmConstantsIF, Cloneable
 {
@@ -13,33 +16,27 @@ public abstract class MyDomainValidator<T>
     //# validate
     //##################################################
 
-    public final boolean isValid(T value)
+    public final void validateAndCheck(T value)
     {
-        KmList<KmErrorIF> errors = new KmList<>();
-        validate(value, errors);
-        return errors.isEmpty();
+        getValidationErrors(value).check();
     }
 
-    public final void validate(T value)
+    public final KmErrorList getValidationErrors(T value)
     {
-        KmList<KmErrorIF> errors = new KmList<>();
-        validate(value, errors);
-        if ( errors.isNotEmpty() )
-            throw new KmApplicationException(errors);
+        KmErrorList errors = new KmErrorList();
+        validateOn(value, errors);
+        return errors;
     }
 
-    public final void validateWarn(T value)
-    {
-        KmList<KmErrorIF> errors = new KmList<>();
-        validate(value, errors);
-        if ( errors.isNotEmpty() )
-            KmLog.warnTrace(errors.getFirst().formatMessage());
-    }
-
-    public final void validate(T value, KmList<KmErrorIF> errors)
+    public final void validateOn(T value, KmErrorList errors)
     {
         convertOnly(value);
         validateOnly(value, errors);
+    }
+
+    public final boolean isValid(T value)
+    {
+        return getValidationErrors(value).isOk();
     }
 
     //##################################################
@@ -48,6 +45,6 @@ public abstract class MyDomainValidator<T>
 
     public abstract void convertOnly(T value);
 
-    public abstract void validateOnly(T value, KmList<KmErrorIF> errors);
+    public abstract void validateOnly(T value, KmErrorList errors);
 
 }

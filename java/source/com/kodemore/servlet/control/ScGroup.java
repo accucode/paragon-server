@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,9 @@ package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEnumIF;
 
 /**
  * Introduction
@@ -63,12 +62,19 @@ public class ScGroup
     //##################################################
 
     private static enum Flavor
+        implements KmEnumIF
     {
         normal,
-        primary,
-        secondary,
-        tertiary,
-        alert;
+        accent,
+        list,
+        detail,
+        summary,
+        minor,
+        alert,
+        setupCatalog,
+        setupElement,
+        setupProcess,
+        setupProject;
     }
 
     //##################################################
@@ -84,7 +90,7 @@ public class ScGroup
      * note: if setBannerTitle() is called, it will clear any and all content in the banner before
      * setting the Text. Any buttons or links should be added after setBannerTitle() is called.
      */
-    private ScSpacedRow    _banner;
+    private ScSpacedRow _banner;
 
     /**
      * The header is optionally displayed between the banner and the body.  This provides
@@ -92,7 +98,7 @@ public class ScGroup
      * footer are often configured to display the same content.  The header is hidden by
      * default.
      */
-    private ScDiv          _header;
+    private ScDiv _header;
 
     /**
      * The body is always displayed, and is the only section that is intended to contain
@@ -100,13 +106,13 @@ public class ScGroup
      * However, if the group is given a fixed size, then the body will shrink to accommodate
      * the intended size.
      */
-    private ScDiv          _body;
+    private ScDiv _body;
 
     /**
      * The footer is just like the header, but displayed after the body.  The footer is
      * hidden by default.
      */
-    private ScDiv          _footer;
+    private ScDiv _footer;
 
     /**
      * Determine if I should act as the block root for ajax requests.
@@ -117,7 +123,7 @@ public class ScGroup
     /**
      * Determine the styling and color scheme.
      */
-    private ScLocalString  _flavor;
+    private ScLocalString _flavor;
 
     /**
      * Determine whether the body should be attached to the group.
@@ -130,7 +136,7 @@ public class ScGroup
      * rules for client-side scripts that reset fields to their old values.
      * This is false by default.
      */
-    private boolean        _changeTrackingScope;
+    private boolean _changeTrackingScope;
 
     //##################################################
     //# constructor
@@ -140,53 +146,102 @@ public class ScGroup
     {
         css().group();
 
+        createLocals();
+        installLayout();
+        setFlavorNormal();
+        layoutBlock();
+    }
+
+    private void createLocals()
+    {
+        _flavor = new ScLocalString();
+        _attached = new ScLocalBoolean(true);
+        _blockWrapper = new ScLocalBoolean(true);
+    }
+
+    //##################################################
+    //# install
+    //##################################################
+
+    private void installLayout()
+    {
         ScDiv root;
         root = getInner();
+        root.add(createBannerHeader());
+        root.add(createBody());
+        root.add(createFooter());
+    }
 
-        _flavor = new ScLocalString();
-        setFlavorNormal();
+    private ScDiv createBannerHeader()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().groupBannerHeader();
+        e.add(createBanner());
+        e.add(createHeader());
+        return e;
+    }
 
-        _attached = new ScLocalBoolean(true);
+    private ScSpacedRow createBanner()
+    {
+        ScSpacedRow e;
+        e = new ScSpacedRow();
+        e.css().groupBanner();
+        e.getLeft().css().flexRow().flexCrossAlignCenter();
+        e.getCenter().css().flexRow().flexCrossAlignCenter();
+        e.getRight().css().flexRow().flexCrossAlignCenter();
+        _banner = e;
+        return e;
+    }
 
-        ScDiv bannerHeader;
-        bannerHeader = root.addDiv();
-        bannerHeader.css().groupBannerHeader();
+    private ScDiv createHeader()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().groupHeader();
+        e.hide();
+        _header = e;
+        return e;
+    }
 
-        _banner = bannerHeader.addSpacedRow();
-        _banner.css().groupBanner();
-        _banner.getLeft().css().flexRow().flexCrossAlignCenter();
-        _banner.getCenter().css().flexRow().flexCrossAlignCenter();
-        _banner.getRight().css().flexRow().flexCrossAlignCenter();
+    private ScDiv createBody()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().groupBody();
+        _body = e;
+        return e;
+    }
 
-        _header = bannerHeader.addDiv();
-        _header.css().groupHeader();
-        _header.hide();
-
-        _body = root.addDiv();
-        _body.css().groupBody();
-
-        _footer = root.addDiv();
-        _footer.css().groupFooter();
-        _footer.hide();
-
-        _blockWrapper = new ScLocalBoolean(true);
-
-        layoutBlock();
+    private ScDiv createFooter()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().groupFooter();
+        e.hide();
+        _footer = e;
+        return e;
     }
 
     //##################################################
     //# layout
     //##################################################
 
+    public void layoutFill()
+    {
+        layoutBlock();
+        css().fill();
+    }
+
     public void layoutBlock()
     {
-        css().remove().groupInline();
+        css().remove().groupInline().fill();
         css().groupBlock();
     }
 
     public void layoutInline()
     {
-        css().remove().groupBlock();
+        css().remove().groupBlock().fill();
         css().groupInline();
     }
 
@@ -255,6 +310,27 @@ public class ScGroup
         // add a nested span to avoid polluting the banner's css.
         ScTextSpan span;
         span = left.addTextSpan(s);
+        span.css().groupTitle();
+        return span;
+    }
+
+    /**
+     * Replace banner contents (if any) with a standard title and an icon.
+     */
+    public ScTextSpan setTitle(String title, String iconUrl)
+    {
+        ScContainer left;
+        left = getBanner().getLeft();
+        left.clear();
+
+        ScImage icon;
+        icon = left.addImage();
+        icon.css().marginLeft10();
+        icon.setSource(iconUrl);
+
+        // add a nested span to avoid polluting the banner's css.
+        ScTextSpan span;
+        span = left.addTextSpan(title);
         span.css().groupTitle();
         return span;
     }
@@ -361,24 +437,54 @@ public class ScGroup
         setFlavor(Flavor.normal);
     }
 
-    public void setFlavorPrimary()
+    public void setFlavorAccent()
     {
-        setFlavor(Flavor.primary);
+        setFlavor(Flavor.accent);
     }
 
-    public void setFlavorSecondary()
+    public void setFlavorList()
     {
-        setFlavor(Flavor.secondary);
+        setFlavor(Flavor.list);
     }
 
-    public void setFlavorTertiary()
+    public void setFlavorDetail()
     {
-        setFlavor(Flavor.tertiary);
+        setFlavor(Flavor.detail);
+    }
+
+    public void setFlavorSummary()
+    {
+        setFlavor(Flavor.summary);
+    }
+
+    public void setFlavorMinor()
+    {
+        setFlavor(Flavor.minor);
     }
 
     public void setFlavorAlert()
     {
         setFlavor(Flavor.alert);
+    }
+
+    public void setFlavorSetupCatalog()
+    {
+        setFlavor(Flavor.setupCatalog);
+    }
+
+    public void setFlavorSetupElement()
+    {
+        setFlavor(Flavor.setupElement);
+    }
+
+    public void setFlavorSetupProcess()
+    {
+        setFlavor(Flavor.setupProcess);
+    }
+
+    public void setFlavorSetupProject()
+    {
+        setFlavor(Flavor.setupProject);
     }
 
     //##################################################
@@ -402,20 +508,44 @@ public class ScGroup
                 css().groupNormal();
                 break;
 
-            case primary:
-                css().groupPrimary();
+            case accent:
+                css().groupAccent();
                 break;
 
-            case secondary:
-                css().groupSecondary();
+            case list:
+                css().groupList();
                 break;
 
-            case tertiary:
-                css().groupTertiary();
+            case detail:
+                css().groupDetail();
+                break;
+
+            case summary:
+                css().groupSummary();
+                break;
+
+            case minor:
+                css().groupMinor();
                 break;
 
             case alert:
                 css().groupAlert();
+                break;
+
+            case setupCatalog:
+                css().setupGroupCatalog();
+                break;
+
+            case setupElement:
+                css().setupGroupElement();
+                break;
+
+            case setupProcess:
+                css().setupGroupProcess();
+                break;
+
+            case setupProject:
+                css().setupGroupProject();
                 break;
         }
     }
@@ -463,30 +593,43 @@ public class ScGroup
 
     public void installExpandButton(Runnable r)
     {
-        String image = ScUrlBridge.getInstance().getExpandButtonUrl();
-        ScAction action = newUncheckedAction(r);
-
         ScActionButton button;
         button = new ScActionButton();
+        button.setHoverText("Expand");
         button.setFlavorIcon();
-        button.setImage(image);
-        button.setAction(action);
+        button.setIcon().nameFullscreen();
+        button.setAction(newUncheckedAction(r));
 
         getBanner().getLeft().prepend(button);
     }
 
-    public void installShrinkButton(Runnable r)
+    public void installCollapseButton(Runnable r)
     {
-        String image = ScUrlBridge.getInstance().getShrinkButtonUrl();
-        ScAction action = newUncheckedAction(r);
-
         ScActionButton button;
         button = new ScActionButton();
+        button.setHoverText("Collapse");
         button.setFlavorIcon();
-        button.setImage(image);
-        button.setAction(action);
+        button.setIcon().nameFullscreenExit();
+        button.setAction(newUncheckedAction(r));
 
         getBanner().getLeft().prepend(button);
+    }
+
+    //##################################################
+    //# notebook :: convenience
+    //##################################################
+
+    public void setNotebookTab(String tab)
+    {
+        setNotebookTab(tab, tab);
+    }
+
+    public void setNotebookTab(String tab, String title)
+    {
+        setLabel(tab);
+        setTitle(title);
+        setFlavorDetail();
+        layoutFill();
     }
 
 }

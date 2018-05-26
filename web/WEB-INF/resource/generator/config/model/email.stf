@@ -2,9 +2,9 @@ model
 : name      = email
 : help...
     ---
-    I am used to manage emails.  This allows the application to easily create an email
+    I am used to manage emails. This allows the application to easily create an email
     as part of a database transaction, and to subsequently send (and re-send) the email
-    as needed.  This also provides a convenient log of email that were previously sent.
+    as needed. This also provides a convenient log of emails that were previously sent.
     ---
 
 database
@@ -25,6 +25,7 @@ attributes
 
     #include basicUid.stf
     #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************
@@ -33,15 +34,10 @@ attributes
 
 
     field
-    : name      = sentUtcTs
-    : help      = The date and time when the email was last sent.
-    : type      = timestamp
-
-
-    field
     : name      = subject
     : help      = The subject line.
     : type      = text200
+    : required  = true
 
 
     field
@@ -49,6 +45,7 @@ attributes
     : help      = The from address.
     : type      = email
     : label     = From
+    : required  = true
 
 
     field
@@ -64,6 +61,12 @@ attributes
             value(#Sent)
             value(#Error)
             value(#Ignored)
+
+
+    field
+    : name      = sentUtcTs
+    : help      = The date and time when the email was last sent.
+    : type      = timestamp
 
 
     field

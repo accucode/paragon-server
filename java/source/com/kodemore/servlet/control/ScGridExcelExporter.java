@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,12 @@
 
 package com.kodemore.servlet.control;
 
-import java.io.ByteArrayOutputStream;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.kodemore.collection.KmList;
+import com.kodemore.excel.KmExcelBook;
+import com.kodemore.excel.KmExcelCell;
+import com.kodemore.excel.KmExcelFont;
+import com.kodemore.excel.KmExcelRow;
+import com.kodemore.excel.KmExcelSheet;
+import com.kodemore.excel.KmExcelStyle;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.utility.ScFormatter;
 
@@ -48,7 +41,7 @@ public class ScGridExcelExporter<T>
     //# variables
     //##################################################
 
-    private CellStyle _headerStyle;
+    private KmExcelStyle _headerStyle;
 
     //##################################################
     //# constructor
@@ -66,7 +59,7 @@ public class ScGridExcelExporter<T>
     @Override
     protected byte[] export(KmFilterIF<T> filter)
     {
-        try (Workbook book = new XSSFWorkbook())
+        try (KmExcelBook book = new KmExcelBook())
         {
             return exportOn(book, filter);
         }
@@ -76,112 +69,82 @@ public class ScGridExcelExporter<T>
         }
     }
 
-    private byte[] exportOn(Workbook book, KmFilterIF<T> filter) throws Exception
+    private byte[] exportOn(KmExcelBook book, KmFilterIF<T> filter) throws Exception
     {
         createHeaderStyle(book);
 
-        Sheet sheet;
-        sheet = book.createSheet();
+        KmExcelSheet sheet = book.addSheet();
+        exportHeadersOn(sheet);
+        exportDataOn(sheet, filter);
+        sheet.autoSizeColumns();
 
-        Row row;
-        int rowIndex = 0;
+        return book.toBytes();
+    }
 
-        row = sheet.createRow(rowIndex);
-        exportHeadersOn(row);
-        rowIndex++;
+    //==================================================
+    //= export :: headers
+    //==================================================
 
+    private void exportHeadersOn(KmExcelSheet sheet)
+    {
+        KmExcelRow row = sheet.addRow();
+
+        for ( ScGridColumn<T> col : getExportColumns() )
+            exportHeaderOn(row, col);
+    }
+
+    private void exportHeaderOn(KmExcelRow row, ScGridColumn<T> col)
+    {
+        KmExcelCell cell;
+        cell = row.addCell();
+        cell.setValue(col.getHeader());
+        cell.setStyle(_headerStyle);
+    }
+
+    //==================================================
+    //= export :: data
+    //==================================================
+
+    private void exportDataOn(KmExcelSheet sheet, KmFilterIF<T> filter)
+    {
         for ( T e : filter.getCursor() )
-        {
-            row = sheet.createRow(rowIndex);
-            exportDataOn(row, e);
-            rowIndex++;
-        }
-
-        autoSizeColumns(sheet);
-
-        return save(book);
+            exportDataOn(sheet, e);
     }
 
-    private void exportHeadersOn(Row row)
+    private void exportDataOn(KmExcelSheet sheet, T e)
     {
-        int colIndex = 0;
+        KmExcelRow row = sheet.addRow();
 
-        KmList<ScGridColumn<T>> cols = getExportColumns();
-        for ( ScGridColumn<T> col : cols )
-        {
-            exportHeaderOn(row, col, colIndex);
-            colIndex++;
-        }
+        for ( ScGridColumn<T> col : getExportColumns() )
+            exportCellOn(row, col, e);
     }
 
-    private void exportHeaderOn(Row row, ScGridColumn<T> col, int colIndex)
-    {
-        Cell cell;
-        cell = row.createCell(colIndex);
-        cell.setCellType(Cell.CELL_TYPE_STRING);
-        cell.setCellStyle(_headerStyle);
-        cell.setCellValue(col.getHeader());
-    }
-
-    private void exportDataOn(Row row, T e)
-    {
-        int colIndex = 0;
-
-        KmList<ScGridColumn<T>> cols = getExportColumns();
-        for ( ScGridColumn<T> col : cols )
-        {
-            exportCellOn(row, col, e, colIndex);
-            colIndex++;
-        }
-    }
-
-    private void exportCellOn(Row row, ScGridColumn<T> col, T e, int colIndex)
+    private void exportCellOn(KmExcelRow row, ScGridColumn<T> col, T e)
     {
         Object value = getExportValueFor(col, e);
         ScFormatter f = getFormatter();
         String s = f.formatAny(value);
 
-        Cell cell;
-        cell = row.createCell(colIndex);
-        cell.setCellType(Cell.CELL_TYPE_STRING);
-        cell.setCellValue(s);
+        row.addCell().setValue(s);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private void createHeaderStyle(Workbook book)
+    private void createHeaderStyle(KmExcelBook book)
     {
-        DataFormat format = book.createDataFormat();
-
-        Font font;
+        KmExcelFont font;
         font = book.createFont();
-        font.setFontHeightInPoints((short)12);
-        font.setColor(IndexedColors.BLACK.getIndex());
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        font.setPointHeight(12);
+        font.setColorBlack();
+        font.setBold();
 
-        CellStyle style;
-        style = book.createCellStyle();
+        KmExcelStyle style;
+        style = book.createStyle();
         style.setFont(font);
-        style.setDataFormat(format.getFormat("text"));
+        style.setFormatText();
+
         _headerStyle = style;
     }
-
-    private void autoSizeColumns(Sheet sheet)
-    {
-        int n = getExportColumns().size();
-        for ( int i = 0; i < n; i++ )
-            sheet.autoSizeColumn(i);
-    }
-
-    private byte[] save(Workbook book) throws Exception
-    {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream())
-        {
-            book.write(out);
-            return out.toByteArray();
-        }
-    }
-
 }

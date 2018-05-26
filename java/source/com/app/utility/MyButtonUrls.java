@@ -7,184 +7,93 @@ import com.app.ui.servlet.MyServletConstantsIF;
 public class MyButtonUrls
     implements MyServletConstantsIF
 {
-    public static String add()
+    //##################################################
+    //# logos
+    //##################################################
+
+    public static String favicon()
     {
-        return ScUrls.getThemeImage("buttonAdd.png");
+        return ScUrls.getThemeImage("favicon.png");
     }
 
-    public static String back()
-    {
-        return ScUrls.getThemeImage("buttonBack.png");
-    }
+    //##################################################
+    //# fields
+    //##################################################
 
     public static String barcode()
     {
         return ScUrls.getThemeImage("barcode.png");
     }
 
-    public static String cancel()
+    public static String calendar()
     {
-        return ScUrls.getThemeImage("buttonCancel.png");
+        return ScUrls.getThemeImage("calendar.png");
     }
 
-    public static String copy()
+    //##################################################
+    //# menu
+    //##################################################
+
+    public static String menuBlack()
     {
-        return ScUrls.getThemeImage("buttonCopy.png");
+        return ScUrls.getThemeIcon("icon_moreVert_black_48.png");
     }
 
-    public static String edit()
+    public static String menuWhite()
     {
-        return ScUrls.getThemeImage("buttonEdit.png");
+        return ScUrls.getThemeIcon("icon_moreVert_white_48.png");
     }
 
-    public static String forward()
+    //##################################################
+    //# guide pages
+    //##################################################
+
+    public static String guideChart()
     {
-        return ScUrls.getThemeImage("buttonForward.png");
+        return ScUrls.getThemeImage("guideChart.png");
     }
 
-    public static String negative()
+    public static String guideList()
     {
-        return ScUrls.getThemeImage("buttonNegative.png");
+        return ScUrls.getThemeImage("guideList.png");
     }
 
-    public static String next()
+    public static String guideSetup()
     {
-        return ScUrls.getThemeImage("buttonNext.png");
+        return ScUrls.getThemeImage("guideSetup.png");
     }
 
-    public static String positive()
+    public static String guideSummary()
     {
-        return ScUrls.getThemeImage("buttonPositive.png");
+        return ScUrls.getThemeImage("guideSummary.png");
     }
 
-    public static String primary()
+    //##################################################
+    //# setup
+    //##################################################
+
+    public static String setupInfo()
     {
-        return ScUrls.getThemeImage("buttonPrimary.png");
+        return ScUrls.getThemeImage("setupInfo.png");
     }
 
-    public static String rightDown()
+    public static String setupList()
     {
-        return ScUrls.getThemeImage("buttonRightDown.png");
+        return ScUrls.getThemeImage("setupList.png");
     }
 
-    public static String rightUp()
+    public static String setupSheet()
     {
-        return ScUrls.getThemeImage("buttonRightUp.png");
+        return ScUrls.getThemeImage("setupSheet.png");
     }
 
-    public static String popout()
+    public static String setupTransfer()
     {
-        return ScUrls.getThemeImage("buttonPopout.png");
+        return ScUrls.getThemeImage("setupTransfer.png");
     }
 
-    public static String navigatorPopout()
+    public static String setupDefault()
     {
-        return ScUrls.getThemeImage("buttonNavigatorPopout.png");
+        return ScUrls.getThemeImage("setupCheckbox.png");
     }
-
-    public static String inline()
-    {
-        return ScUrls.getThemeImage("buttonInline.png");
-    }
-
-    public static String split()
-    {
-        return ScUrls.getThemeImage("buttonSplit.png");
-    }
-
-    public static String refresh()
-    {
-        return ScUrls.getThemeImage("buttonRefresh.png");
-    }
-
-    public static String search()
-    {
-        return ScUrls.getThemeImage("buttonSearch.png");
-    }
-
-    public static String email()
-    {
-        return ScUrls.getThemeImage("buttonEmail.png");
-    }
-
-    public static String help()
-    {
-        return ScUrls.getThemeImage("buttonHelp.png");
-    }
-
-    public static String auditLog()
-    {
-        return ScUrls.getThemeImage("buttonAuditLog.png");
-    }
-
-    public static String close()
-    {
-        return ScUrls.getThemeImage("buttonClose.png");
-    }
-
-    public static String delete()
-    {
-        return ScUrls.getThemeImage("buttonDelete.png");
-    }
-
-    public static String deleteMaybe()
-    {
-        return ScUrls.getThemeImage("buttonDeleteMaybe.png");
-    }
-
-    public static String showBottom()
-    {
-        return ScUrls.getThemeImage("showBottom.png");
-    }
-
-    public static String showTop()
-    {
-        return ScUrls.getThemeImage("showTop.png");
-    }
-
-    public static String showTopAndBottom()
-    {
-        return ScUrls.getThemeImage("showTopAndBottom.png");
-    }
-
-    public static String taskArrowNext()
-    {
-        return ScUrls.getThemeImage("buttonArrowNext.png");
-    }
-
-    public static String taskArrowPrevious()
-    {
-        return ScUrls.getThemeImage("buttonArrowPrevious.png");
-    }
-
-    public static String taskPause()
-    {
-        return ScUrls.getThemeImage("buttonPause.png");
-    }
-
-    public static String taskFinish()
-    {
-        return ScUrls.getThemeImage("buttonFinished.png");
-    }
-
-    public static String up()
-    {
-        return ScUrls.getThemeImage("buttonUp.png");
-    }
-
-    public static String down()
-    {
-        return ScUrls.getThemeImage("buttonDown.png");
-    }
-
-    public static String expand()
-    {
-        return ScUrls.getThemeImage("buttonExpand.png");
-    }
-
-    public static String shrink()
-    {
-        return ScUrls.getThemeImage("buttonShrink.png");
-    }
-
 }

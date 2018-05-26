@@ -3,8 +3,8 @@ model
 : help...
     ---
     The list of all database patches. These are used to coordinate database migrations.
-    During database migration checks, the list of patches on the file system are compared to the
-    list of patches known in this table.  f
+    During database migration checks, the list of patches on the file system are 
+    compared to the list of patches known in this table.
     ---
 
 database
@@ -12,6 +12,14 @@ database
 : locking   = false
 
 attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicDisplay.stf
 
 
     //*****************************************************

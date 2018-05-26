@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,34 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.Kmu;
 
 public abstract class ScRenderer
     implements KmCompressMemoryIF
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final String NONE = Kmu.formatMetaValue("none");
+    private static final String ANY  = Kmu.formatMetaValue("any");
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public abstract void setEmptyText(String e);
+
+    public final void setEmptyTextNone()
+    {
+        setEmptyText(NONE);
+    }
+
+    public final void setEmptyTextAny()
+    {
+        setEmptyText(ANY);
+    }
+
     //##################################################
     //# render
     //##################################################

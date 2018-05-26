@@ -2,6 +2,7 @@ package com.kodemore.meta;
 
 import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScLongField;
+import com.kodemore.servlet.field.ScStaticDropdownField;
 import com.kodemore.validator.KmLongValidator;
 
 public abstract class KmMetaLongProperty<T>
@@ -14,18 +15,18 @@ public abstract class KmMetaLongProperty<T>
     @Override
     public ScLongField newField()
     {
-        return newField(getLabel());
+        ScLongField e;
+        e = new ScLongField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScLongField newField(String label)
     {
         ScLongField e;
-        e = new ScLongField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 
@@ -36,11 +37,10 @@ public abstract class KmMetaLongProperty<T>
 
     public ScDropdownField<Long> newDropdown(String label, int min, int max)
     {
-        ScDropdownField<Long> e;
-        e = new ScDropdownField<>();
+        ScStaticDropdownField<Long> e;
+        e = new ScStaticDropdownField<>();
+        e.setMeta(this);
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
 
         for ( int i = min; i <= max; i++ )
             e.addOption((long)i, i + "");

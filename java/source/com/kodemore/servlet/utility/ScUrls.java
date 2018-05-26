@@ -1,5 +1,5 @@
 /*return
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,11 @@ public class ScUrls
         return getBridge().getTheme("image", file);
     }
 
+    public static String getThemeIcon(String file)
+    {
+        return getBridge().getTheme("icon", file);
+    }
+
     public static String getThemeCss(String file)
     {
         return getBridge().getTheme("css", file);
@@ -59,21 +64,6 @@ public class ScUrls
     public static String getBlankImage()
     {
         return getThemeImage("b.gif");
-    }
-
-    public static String getPrimaryButtonImage()
-    {
-        return getThemeImage("buttonPrimary.png");
-    }
-
-    public static String getPositiveButtonImage()
-    {
-        return getThemeImage("buttonPositive.png");
-    }
-
-    public static String getNegativeButtonImage()
-    {
-        return getThemeImage("buttonNegative.png");
     }
 
     //##################################################

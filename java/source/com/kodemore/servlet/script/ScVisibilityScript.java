@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ public abstract class ScVisibilityScript
      * The target selector.  This can be any valid jquery
      * selector, and may match zero, one, or many elements.
      */
-    private String   _selector;
+    private String _selector;
 
     /**
      * The optional animation effect to use.  By default,
@@ -66,7 +66,7 @@ public abstract class ScVisibilityScript
      * The speed to be used if an easing function is specified.
      * This is ignored if no easing method is used.
      */
-    private Integer  _speedMs;
+    private Integer _speedMs;
 
     //##################################################
     //# constructor

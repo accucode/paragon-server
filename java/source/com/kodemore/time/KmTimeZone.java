@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -88,9 +88,9 @@ public class KmTimeZone
     //# static :: find
     //##################################################
 
-    public static final KmTimeZone findCode(String id)
+    public static final KmTimeZone findCode(String e)
     {
-        return findId(id, false);
+        return findId(e, false);
     }
 
     private static final KmTimeZone findId(String id, boolean warnIfMissing)
@@ -120,7 +120,7 @@ public class KmTimeZone
     //# static :: common
     //##################################################
 
-    public static final KmTimeZone UTC      = findId("UTC", true);
+    public static final KmTimeZone UTC = findId("UTC", true);
 
     /*
     public static final KmTimeZone LOS_ANGELES = findId("America/Los_Angeles", true);
@@ -150,6 +150,9 @@ public class KmTimeZone
     /**
      * A default timezone for use in situations where a time zone is required
      * but we have no other way to determine one from the local context.
+     *
+     * In most cases, the default should be determined from the project,
+     * depot, or tenant, all of which have a default time zone.
      */
     public static final KmTimeZone SYSTEM_DEFAULT = Mountain;
 
@@ -157,7 +160,7 @@ public class KmTimeZone
     //# variables
     //##################################################
 
-    private ZoneId                 _id;
+    private ZoneId _id;
 
     //##################################################
     //# constructor

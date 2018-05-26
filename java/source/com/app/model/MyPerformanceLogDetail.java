@@ -1,5 +1,7 @@
 package com.app.model;
 
+import com.kodemore.utility.Kmu;
+
 import com.app.model.base.MyPerformanceLogDetailBase;
 import com.app.model.core.MySystemDomainIF;
 
@@ -21,8 +23,30 @@ public class MyPerformanceLogDetail
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getName();
     }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return getFormatter().formatInteger(getDurationMs()) + " ms";
+    }
+
+    //##################################################
+    //# format
+    //##################################################
+
+    public String formatLine()
+    {
+        return Kmu.format("%s: %sms", getName(), getDurationMs());
+    }
+
 }

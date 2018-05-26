@@ -37,50 +37,46 @@ public class MyAutoLoginCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyAutoLogin e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyAutoLogin e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
-    {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhTimestampCondition whereLastTouchedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_TOUCHED_UTC_TS);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
-
-    public void sortOnUid()
-    {
-        parent().sortAscending(UID);
-    }
-
-    public void sortOnUidDescending()
-    {
-        parent().sortDescending(UID);
-    }
-
-    public void sortOnUid(boolean asc)
-    {
-        if ( asc )
-            sortOnUid();
-        else
-            sortOnUidDescending();
-    }
 
     public void sortOnCreatedUtcTs()
     {
@@ -118,6 +114,24 @@ public class MyAutoLoginCriteria
             sortOnLastTouchedUtcTsDescending();
     }
 
+    public void sortOnUid()
+    {
+        parent().sortAscending(UID);
+    }
+
+    public void sortOnUidDescending()
+    {
+        parent().sortDescending(UID);
+    }
+
+    public void sortOnUid(boolean asc)
+    {
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
+    }
+
     public void sortOnLockVersion()
     {
         parent().sortAscending(LOCK_VERSION);
@@ -134,50 +148,6 @@ public class MyAutoLoginCriteria
             sortOnLockVersion();
         else
             sortOnLockVersionDescending();
-    }
-
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
-    {
-        select(UID);
-    }
-
-    public void selectDistinctUid()
-    {
-        selectDistinct(UID);
-    }
-
-    public void selectCountDistinctUid()
-    {
-        selectCountDistinct(UID);
-    }
-
-    public void selectMinimumUid()
-    {
-        selectMinimum(UID);
-    }
-
-    public void selectMaximumUid()
-    {
-        selectMaximum(UID);
-    }
-
-    public void selectAverageUid()
-    {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
     }
 
     //##################################################
@@ -269,6 +239,50 @@ public class MyAutoLoginCriteria
     }
 
     //##################################################
+    //# projections (uid)
+    //##################################################
+
+    public void selectUid()
+    {
+        select(UID);
+    }
+
+    public void selectDistinctUid()
+    {
+        selectDistinct(UID);
+    }
+
+    public void selectCountDistinctUid()
+    {
+        selectCountDistinct(UID);
+    }
+
+    public void selectMinimumUid()
+    {
+        selectMinimum(UID);
+    }
+
+    public void selectMaximumUid()
+    {
+        selectMaximum(UID);
+    }
+
+    public void selectAverageUid()
+    {
+        selectAverage(UID);
+    }
+
+    public void selectSumUid()
+    {
+        selectSum(UID);
+    }
+
+    public void groupByUid()
+    {
+        groupBy(UID);
+    }
+
+    //##################################################
     //# projections (lockVersion)
     //##################################################
 
@@ -321,6 +335,16 @@ public class MyAutoLoginCriteria
         select(USER_UID);
     }
 
+    public void selectCountDistinctUserUid()
+    {
+        selectCountDistinct(USER_UID);
+    }
+    
+    public void selectDistinctUserUid()
+    {
+        selectDistinct(USER_UID);
+    }
+
     public void selectMinimumUserUid()
     {
         selectMinimum(USER_UID);
@@ -348,7 +372,7 @@ public class MyAutoLoginCriteria
 
     public KmhStringCondition whereUserUid()
     {
-        return new KmhStringCondition(parent(), fullName(USER_UID));
+        return new KmhStringCondition(parent(), alias(), USER_UID);
     }
 
     public void whereUserIs(MyUser e)
@@ -357,6 +381,14 @@ public class MyAutoLoginCriteria
             whereUserUid().isNull();
         else
             whereUserUid().is(e.getUid());
+    }
+
+    public void whereUserIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUserUid().isNotNull();
+        else
+            whereUserUid().isNot(e.getUid());
     }
 
     //##################################################

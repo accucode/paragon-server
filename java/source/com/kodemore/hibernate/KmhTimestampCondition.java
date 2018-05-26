@@ -2,8 +2,10 @@ package com.kodemore.hibernate;
 
 import com.kodemore.hibernate.basic.KmhElement;
 import com.kodemore.time.KmDate;
+import com.kodemore.time.KmDateRange;
+import com.kodemore.time.KmMonth;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.time.KmTimestampInterval;
+import com.kodemore.time.KmTimestampRange;
 
 public class KmhTimestampCondition
     extends KmhPropertyCondition<KmTimestamp>
@@ -12,22 +14,32 @@ public class KmhTimestampCondition
     //# constructor
     //##################################################
 
-    public KmhTimestampCondition(KmhElement context, String property)
+    public KmhTimestampCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 
     //##################################################
     //# testing
     //##################################################
 
-    public void isIn(KmTimestampInterval ti)
+    public void isIn(KmTimestampRange tsr)
     {
-        if ( ti.hasStart() )
-            isGreaterThanOrEqualTo(ti.getStart());
+        if ( tsr.hasStart() )
+            isGreaterThanOrEqualTo(tsr.getStart());
 
-        if ( ti.hasEnd() )
-            isLessThanOrEqualTo(ti.getEnd());
+        if ( tsr.hasEnd() )
+            isLessThanOrEqualTo(tsr.getEnd());
+    }
+
+    public void isIn(KmDateRange dr)
+    {
+        isIn(dr.toTimestampRange());
+    }
+
+    public void isIn(KmMonth e)
+    {
+        isIn(e.toTimestampRange());
     }
 
     public void isOn(KmDate e)

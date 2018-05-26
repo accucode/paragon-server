@@ -3,47 +3,47 @@
     // single line comment indented
 
 /*
- * multiline 
+ * multiline
  * comment
  */
 
     /*
      * multiline indented
      */
-    
-    /* multiline on a single line */ 
+
+    /* multiline on a single line */
 
 parent
 : name  = james
 : age   = 34
-: active
-    
+: info
+
     child
     : name  = camie
     : age   = 10
     : description ...
         ---
         This is some long
-        text that spans 
+        text that spans
         multiple lines.
         ---
 /*
 a.b.c
-    x.xx.xxx
+    q.qq.qqq
     y.yy.yyy
     z(#i1 c1 c11).zz(#i2 c2 c22).zzz
 
         "one line"
-        
+
         ---
         This is some long
-        text that spans 
+        text that spans
         multiple lines.
         ---
 */
 /*
 theInclude
-#include animals.stf 
+#include animals.stf
 */
 
 

@@ -14,7 +14,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import ${package}.filter.*;
-import ${package}.finder.*;
 import ${package}.model.*;
 import ${package}.model.core.*;
 import ${package}.model.meta.*;
@@ -26,6 +25,8 @@ import ${package}.utility.*;
 public abstract class ${model.f_ToolsBaseClass}
     extends ${Prefix}AbstractDomainTools
 {
+${javaAutoGenerationComment}
+
     public static final ${model.f_MetaClass} Meta = ${model.f_Class}.Meta;
 
 #if ( $model.hasDatabase() )
@@ -34,10 +35,10 @@ public abstract class ${model.f_ToolsBaseClass}
         ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new ${model.f_FilterClass}());
-        e.setFinder(new ${model.f_FinderClass}());
+        e.setFinder(${model.f_Class}.Finder);
+        e.setOptionSupplier(new ${model.f_FilterClass}().toSupplier());
         e.setOptionKeyFunction(Meta.${model.primaryKeyField.f_Name});
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,8 +36,8 @@ public class MyPatchValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator nameValidator;
     private KmTimestampValidator installedUtcTsValidator;
+    private KmStringValidator nameValidator;
     private KmStringValidator sourceValidator;
 
     //##################################################
@@ -46,8 +47,8 @@ public class MyPatchValidatorBase
     protected MyPatchValidatorBase()
     {
         super();
-        nameValidator = newNameValidator();
         installedUtcTsValidator = newInstalledUtcTsValidator();
+        nameValidator = newNameValidator();
         sourceValidator = newSourceValidator();
     }
 
@@ -55,14 +56,14 @@ public class MyPatchValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getNameValidator()
-    {
-        return nameValidator;
-    }
-
     public KmTimestampValidator getInstalledUtcTsValidator()
     {
         return installedUtcTsValidator;
+    }
+
+    public KmStringValidator getNameValidator()
+    {
+        return nameValidator;
     }
 
     public KmStringValidator getSourceValidator()
@@ -78,18 +79,18 @@ public class MyPatchValidatorBase
     public void convertOnly(MyPatch value)
     {
         // fields...
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setInstalledUtcTs(installedUtcTsValidator.convertOnly(value.getInstalledUtcTs()));
-        value.setSource(sourceValidator.convertOnly(value.getSource()));
+        value.setInstalledUtcTs(installedUtcTsValidator.convert(value.getInstalledUtcTs()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setSource(sourceValidator.convert(value.getSource()));
     }
 
     @Override
-    public void validateOnly(MyPatch value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyPatch value, KmErrorList errors)
     {
         // fields...
-        nameValidator.validateOnly(value.getName(), errors);
-        installedUtcTsValidator.validateOnly(value.getInstalledUtcTs(), errors);
-        sourceValidator.validateOnly(value.getSource(), errors);
+        installedUtcTsValidator.validateOn(value.getInstalledUtcTs(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        sourceValidator.validateOn(value.getSource(), errors);
         // required associations...
     }
 
@@ -97,24 +98,24 @@ public class MyPatchValidatorBase
     //# instance creation
     //##################################################
 
+    public KmTimestampValidator newInstalledUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("patch");
+        e.setFieldName("installedUtcTs");
+        e.setRequired();
+        return e;
+    }
+
     public KmStringValidator newNameValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("patch");
-        e.setField("name");
-        return e;
-    }
-
-    public KmTimestampValidator newInstalledUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("patch");
-        e.setField("installedUtcTs");
-        e.setRequired();
+        e.setModelName("patch");
+        e.setFieldName("name");
         return e;
     }
 
@@ -125,8 +126,8 @@ public class MyPatchValidatorBase
         e.setMaximumLength(50000);
         e.setAllowsPrintable(true);
         e.setAllowsWhitespace(true);
-        e.setModel("patch");
-        e.setField("source");
+        e.setModelName("patch");
+        e.setFieldName("source");
         e.setRequired();
         return e;
     }

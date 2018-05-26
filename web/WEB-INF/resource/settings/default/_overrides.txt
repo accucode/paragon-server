@@ -1,24 +1,39 @@
 #######################################
+## environment
+#######################################
+
+# environment = stage
+# environment = production
+environment = development
+
+#######################################
+## login
+#######################################
+
+autoLoginEmail                              =
+
+#######################################
+## web versioning
+#######################################
+
+webResourceVersioning                       = none
+webResourceVersioning                       = deploy
+webResourceVersioning                       = dev
+
+#######################################
 ## servlet
 #######################################
 
-servletScheme                               = http
-servletHost                                 = localhost
-servletPort                                 = 8080
-
-servletRedirect                             = y
-
-servletShowStackTrace                       = y
-serverSessionTimeoutSeconds                 = 3600
-
-webResourceVersioning                       = dev
-
+servletSslRedirect                          = n
+serverSessionTimeoutSeconds                 = 36000
 
 #######################################
 ## database
 #######################################
 
-databaseSchema                              = core
+bootstrapSystemHostname                     = system.localhost
+
+databaseSchema                              = paragon
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://localhost:3306/
 databaseUser                                = root
@@ -46,9 +61,9 @@ sendEmailMethod                             = smtp
 sendEmailMethod                             = noop
 sendEmailMethod                             = print
 
-sendEmailJobEnabled                         = y
-sendEmailJobActiveSeconds                   = 1
-sendEmailJobIdleSeconds                     = 1
+sendEmailChoreEnabled                       = y
+sendEmailChoreActiveSeconds                 = 1
+sendEmailChoreIdleSeconds                   = 1
 
 smtpScheme                                  = http
 smtpHost                                    = smtp.sendgrid.net
@@ -66,55 +81,53 @@ ftpEnabled                                  = n
 
 
 #######################################
-## jobs
+## chores
 #######################################
 
-monitorJobEnabled                           = n
-monitorJobActiveSeconds                     = 3600
-monitorJobIdleSeconds                       = 3600
+monitorChoreEnabled                         = y
+monitorChoreActiveSeconds                   = 3600
+monitorChoreIdleSeconds                     = 3600
 
-overridesReloaderJobEnabled                 = y
-overridesReloaderJobActiveSeconds           = 1
-overridesReloaderJobIdleSeconds             = 1
+overridesReloaderChoreEnabled               = y
+overridesReloaderChoreActiveSeconds         = 1
+overridesReloaderChoreIdleSeconds           = 1
 
-deleteOldServerSessionsJobEnabled           = y
-deleteOldServerSessionsJobActiveSeconds     = 1
-deleteOldServerSessionsJobIdleSeconds       = 1
+performanceLogFlusherChoreEnabled           = y
+performanceLogFlusherChoreActiveSeconds     = 1
+performanceLogFlusherChoreIdleSeconds       = 1
 
-deleteOldSystemLogsJobEnabled               = y
-deleteOldSystemLogsJobActiveSeconds         = 1
-deleteOldSystemLogsJobIdleSeconds           = 1
-
-deleteOldPerformanceLogsJobEnabled          = y
-deleteOldPerformanceLogsJobActiveSeconds    = 1
-deleteOldPerformanceLogsJobIdleSeconds      = 1
-
-performanceLogJobEnabled                    = y
-performanceLogJobActiveSeconds              = 10
-performanceLogJobIdleSeconds                = 10
+applicationLogFlusherChoreEnabled           = y
+applicationLogFlusherChoreActiveSeconds     = 1
+applicationLogFlusherChoreIdleSeconds       = 1
 
 
 #######################################
 ## misc
 #######################################
 
+printAuditLog                               = n
+printAjaxTime                               = y
+deleteThreadTopicsOnStart                   = y
+chorePerformanceLogEnabled                  = y
+
 showHibernateSql                            = n
 daoCommandWarningThresholdMs                = 5000
-servletShowStackTrace                       = y
 
-writeLastServletResults                     = y
+writeLastServletResults                     = n
 writeLastServletResultsCounter              = n
 
 contextFormatterEnabled                     = y
 contextFormatterLines                       = 25
 
-checkRecommendedBrowser                     = n
-
+maintenanceChoreEnabled                     = y
+maintenanceChoreActiveSeconds               = 1
+maintenanceChoreIdleSeconds                 = 1
 maintenancePeriodStartHour                  = 0
 maintenancePeriodEndHour                    = 23
 
-memoryLeakLoopEnabled                       = n
-memoryLeakLoopSpeedMs                       = 200
-
 ajaxLogEnabled                              = y
 ajaxLogDeleteOnStart                        = y
+
+oneAllEnabled                               = n
+renderDebugDomComments                      = y
+developerEmailCsv                           = me@example.net

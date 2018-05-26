@@ -1,12 +1,18 @@
-type
-: name      = alphanumeric
-: comment   = Letters and digits
-: baseType  = string
-: allows    = letters
-: allows    = digits
+//###########################################################
+//# basics
+//###########################################################
+
 
 type
-: name      = blob
+: name              = alphanumeric
+: comment           = Letters and digits
+: baseType          = string
+: allows            = letters
+: allows            = digits
+
+
+type
+: name              = blob
 : comment...
     ---
     A Binary Large OBject, a byte array, with a maximum size of ~16MG.
@@ -16,13 +22,283 @@ type
     really need to store large files, we should probably manage coordinate
     store via redundant file store or Amazon S3.
     ---
-: baseType  = blob
+: baseType          = blob
+
 
 type
-: name          = boolean
-: comment       = A true / false value.
-: baseType      = boolean
-: columnWidth   = 10
+: name              = boolean
+: comment           = A true / false value.
+: baseType          = boolean
+: columnWidth       = 10
+
+
+type
+: name              = character
+: comment           = A single character.
+: baseType          = string
+: allows            = all
+: maximumLength     = 1
+: columnWidth       = 1
+
+
+type
+: name              = cost
+: comment           = Used for dollar costs that are not represented as money.
+: baseType          = cost
+: columnWidth       = 10
+
+
+type
+: name              = date
+: comment           = Month day and year.
+: baseType          = date
+: columnWidth       = 10
+
+
+type
+: name              = double
+: comment           = Doubles are stored in a standard decimal.
+: baseType          = double
+: allDigits         = 8
+: rightDigits       = 2
+: columnWidth       = 10
+
+
+type
+: name              = doubleMin0
+: comment           = Doubles are stored in a standard decimal.
+: baseType          = double
+: allDigits         = 8
+: rightDigits       = 2
+: columnWidth       = 10
+: minimumValue      = 0.0
+
+
+type
+: name              = integer
+: comment           = An integer, positive or negative.
+: baseType          = integer
+: columnWidth       = 10
+
+
+type
+: name              = integerMin0
+: comment           = An integer, >= 0.
+: baseType          = integer
+: columnWidth       = 10
+: minimumValue      = 0
+
+
+type
+: name              = integerMin1
+: comment           = An integer, positive.
+: baseType          = integer
+: columnWidth       = 10
+: minimumValue      = 1
+
+
+type
+: name              = duration
+: comment           = A length of time (hh:mm) stored as integer seconds.
+: baseType          = duration
+: columnWidth       = 10
+
+
+type
+: name              = unitDuration
+: comment           = A duration that specifies the unit. e.g. 8.5 Hours.
+: baseType          = unitDuration
+: columnWidth       = 10
+
+
+type
+: name              = long
+: comment           = An long, positive or negative.
+: baseType          = long
+: columnWidth       = 15
+
+
+type
+: name              = longId
+: comment           = An id, based on a long.
+: baseType          = long
+: columnWidth       = 15
+
+
+type
+: name              = dayFrequency
+: comment           = Day frequency is stored in the database as a 7 character string.
+: baseType          = dayFrequency
+: columnWidth       = 10
+
+
+type
+: name              = kilogram
+: comment           = Weights are stored in a standard uom: kilograms.
+: baseType          = kilogram
+: columnWidth       = 10
+
+
+type
+: name              = letterCode
+: comment           = Used for a single letter.
+: baseType          = string
+: allows            = letters
+: maximumLength     = 1
+: forceUpperCase    = true
+: stripAllSpaces    = true
+
+
+type
+: name              = letters
+: comment           = Used for data that can contain only letters.
+: baseType          = string
+: allows            = letters
+
+
+type
+: name              = money
+: comment           = Money is stored in the database as a combination of two columns, one for value and one for currency.
+: baseType          = money
+: columnWidth       = 10
+
+
+type
+: name              = moneyMin0
+: comment           = Money is stored in the database as a combination of two columns, one for value and one for currency.
+: baseType          = money
+: columnWidth       = 10
+: minimumValue      = KmMoney.ZERO
+
+
+type
+: name              = sequence
+: comment           = Used to indicate the relative sequence of multiple values.
+: baseType          = integer
+: columnWidth       = 3
+
+
+type
+: name              = string
+: comment           = Any string. This may include non-printable characters.
+: baseType          = string
+: allows            = all
+
+
+type
+: name              = phone
+: comment           = A phone number.
+: baseType          = string
+: maximumLength     = 30
+: allows            = printable
+: columnWidth       = 12
+
+
+type
+: name              = quantity
+: comment           = A quantity, used for things like the quantity ordered on a job.
+: baseType          = quantity
+
+
+type
+: name              = quantityMin0
+: comment           = A quantity, used for things like the quantity ordered on a job.
+: baseType          = quantity
+: minimumValue      = KmQuantity.ZERO
+
+
+type
+: name              = time
+: comment           = Hours minutes seconds and milliseconds.
+: baseType          = time
+: columnWidth       = 10
+
+
+type
+: name              = timestamp
+: comment           = Month day year hours minutes seconds and milliseconds.
+: baseType          = timestamp
+: columnWidth       = 16
+
+
+type
+: name              = updateCount
+: comment           = The number of times the record has been updated.
+: baseType          = integer
+: columnWidth       = 10
+
+
+type
+: name              = filePath
+: comment           = string
+: baseType          = string
+: maximumLength     = 100
+: allows            = printable
+: allows            = whitespace
+
+
+type
+: name              = fileName
+: comment           = The name of a file, 255 is the maximum allowed in windows.
+: baseType          = string
+: maximumLength     = 255
+: allows            = printable
+: columnWidth       = 25
+
+
+type
+: name              = htmlColor
+: comment           = A 7-character html color. E.g.: red is #FF0000.
+: baseType          = htmlColor
+
+
+type
+: name              = htmlStyle
+: comment           = Used for style sheet properties.
+: baseType          = string
+: maximumLength     = 100
+: allows            = all
+
+
+//###########################################################
+//# id
+//###########################################################
+
+
+type
+: name              = id
+: comment           = Used for auto-incrementing primary keys. This provides ~2 billion unique records.
+: baseType          = integer
+: columnWidth       = 7
+
+
+type
+: name              = uid
+: comment           = A unique identifier. Randomly generated, roughly alpha numeric with some punctuation.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 30
+: columnWidth       = 20
+
+
+type
+: name              = guid
+: comment...
+    ---
+    A unique identifier.
+    This is used for guids in a ~standard 128-bit format that typically looks like
+    the following as a hex-encoded value, '30dd879c-ee2f-11db-8314-0800200c9a66'.
+    ---
+: baseType          = string
+: allows            = printable
+: maximumLength     = 40
+: columnWidth       = 20
+
+
+//###########################################################
+//# code
+//###########################################################
+
 
 type
 : name              = code
@@ -32,6 +308,7 @@ type
 : allows            = digits
 : forceUpperCase    = true
 : stripAllSpaces    = true
+
 
 type
 : name              = code5
@@ -43,6 +320,7 @@ type
 : stripAllSpaces    = true
 : maximumLength     = 5
 
+
 type
 : name              = codeLower
 : comment           = Typically used for natural keys. Alphanumeric, no whitespace.
@@ -52,412 +330,410 @@ type
 : forceLowerCase    = true
 : stripAllSpaces    = true
 
-type
-: name          = character
-: comment       = A single character.
-: baseType      = string
-: allows        = all
-: maximumLength = 1
-: columnWidth   = 1
+
+//###########################################################
+//# text
+//###########################################################
+
 
 type
-: name          = cost
-: comment       = Used for dollar costs that are not represented as money.
-: baseType      = cost
-: columnWidth   = 10
+: name              = text
+: comment           = Used for short, single line, free form text. Space is allowed but not CR, LF, or TAB.
+: baseType          = string
+: allows            = printable
+
 
 type
-: name          = date
-: comment       = Month day and year.
-: baseType      = date
-: columnWidth   = 10
+: name              = text5
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 5
+
 
 type
-: name          = double
-: comment       = Doubles are stored in a standard decimal.
-: baseType      = double
-: allDigits     = 8
-: rightDigits   = 2
-: columnWidth   = 10
+: name              = text10
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 10
+
 
 type
-: name          = id
-: comment       = Used for auto-incrementing primary keys. This provides ~2 billion unique records.
-: baseType      = integer
-: columnWidth   = 7
+: name              = text20
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 20
+
 
 type
-: name          = integer
-: comment       = An integer, positive or negative.
-: baseType      = integer
-: columnWidth   = 10
+: name              = text30
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 30
+
 
 type
-: name          = duration
-: comment       = A length of time (hh:mm) stored as integer seconds.
-: baseType      = duration
-: columnWidth   = 10
+: name              = text40
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 40
+
 
 type
-: name          = uid
-: comment       = A unique identifier. Randomly generated, roughly alpha numeric with some punctuation.
-: baseType      = string
-: allows        = printable
-: maximumLength = 30
-: columnWidth   = 20
+: name              = text100
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 100
+
 
 type
-: name          = guid
+: name              = text200
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 200
+
+
+type
+: name              = text1000
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 1000
+
+
+//###########################################################
+//# text hex
+//###########################################################
+
+
+type
+: name              = textHex
 : comment...
     ---
-    A unique identifier.
-    This is used for guids in a ~standard 128-bit format that typically looks like
-    the following as a hex-encoded value, '30dd879c-ee2f-11db-8314-0800200c9a66'.
+    Used to encode utf-8 text as hexidecimal characters.
+    This is used when storing UTF-8 characters using MySql's default Latin1 charset.
+    The textHex types are all twice as long as normal since it requires two hex characters
+    to encode a single character. Note that these are NOT guaranteed to be long enough
+    to store the indicated text length, since UTF-8 is a variable length encoding.
     ---
-: baseType      = string
-: allows        = printable
-: maximumLength = 40
-: columnWidth   = 20
-
-type
-: name          = email
-: comment       = An email address.
-: baseType      = string
-: allows        = printable
-: maximumLength = 50
-: columnWidth   = 20
-
-type
-: name          = long
-: comment       = An long, positive or negative.
-: baseType      = long
-: columnWidth   = 15
-
-type
-: name          = longId
-: comment       = An id, based on a long.
-: baseType      = long
-: columnWidth   = 15
-
-type
-: name          = dayFrequency
-: comment       = Day frequency is stored in the database as a 7 character string.
-: baseType      = dayFrequency
-: columnWidth   = 10
-
-type
-: name          = kilogram
-: comment       = Weights are stored in a standard uom: kilograms.
-: baseType      = kilogram
-: columnWidth   = 10
-
-type
-: name              = letterCode
-: comment           = Used for a single letter.
 : baseType          = string
-: allows            = letters
-: maximumLength     = 1
-: forceUpperCase    = true
-: stripAllSpaces    = true
+: allows            = printable
+
 
 type
-: name              = longEnumCode
-: comment           = Longer version of letterCode
+: name              = textHex5
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 10
+
+
+type
+: name              = textHex10
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 20
+
+
+type
+: name              = textHex20
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 40
+
+
+type
+: name              = textHex30
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 60
+
+
+type
+: name              = textHex40
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 80
+
+
+type
+: name              = textHex100
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 200
+
+
+type
+: name              = textHex200
+: comment           = See text.
+: baseType          = string
+: allows            = printable
+: maximumLength     = 400
+
+
+//###########################################################
+//# multiline
+//###########################################################
+
+
+type
+: name              = multiline
+: comment           = Used for freeform text with embedded whitespace (CR, LF, TAB).
+: baseType          = string
+: allows            = printable
+: allows            = whitespace
+
+
+type
+: name              = multiline100
+: comment           = Used for freeform text with embedded whitespace (CR, LF, TAB).
+: baseType          = string
+: allows            = printable
+: allows            = whitespace
+: maximumLength     = 100
+
+
+type
+: name              = multiline1000
+: comment           = See multiline
+: baseType          = string
+: allows            = printable
+: allows            = whitespace
+: maximumLength     = 1000
+
+
+//###########################################################
+//# memo
+//###########################################################
+
+
+type
+: name              = memo
+: comment           = The standard for relatively short free-form multi-line text.
+: baseType          = string
+: allows            = printable
+: allows            = whitespace
+: maximumLength     = 1000
+
+
+//###########################################################
+//# big text
+//###########################################################
+
+
+type
+: name              = bigText
+: comment           = A very large multiline string value stored as "text" in mysql.
+: baseType          = string
+: allows            = printable
+: allows            = whitespace
+: maximumLength     = 50000
+
+
+//###########################################################
+//# name
+//###########################################################
+
+
+type
+: name              = name
+: comment           = A general name, used to supply a common format for many names.
+: baseType          = string
+: maximumLength     = 50
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = utfHexName
+: comment           = Used to store utf/hex encoded names.
+: baseType          = string
+: maximumLength     = 100
+: allows            = printable
+: columnWidth       = 15
+
+
+//-----------------------------------------------------------
+//- name 100
+//-----------------------------------------------------------
+
+
+type
+: name              = name100
+: comment           = A general name, used to supply a common format for many names.
+: baseType          = string
+: maximumLength     = 100
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = utfHexName100
+: comment           = Used to store utf/hex encoded names.
+: baseType          = string
+: maximumLength     = 200
+: allows            = printable
+: columnWidth       = 15
+
+
+//-----------------------------------------------------------
+//- name 200
+//-----------------------------------------------------------
+
+
+type
+: name              = name200
+: comment           = A general name, used to supply a common format for many names.
+: baseType          = string
+: maximumLength     = 200
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = utfHexName200
+: comment           = Used to store utf/hex encoded names.
+: baseType          = string
+: maximumLength     = 400
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = serialNumber
+: comment           = The standard format for a serial number.
+: baseType          = string
+: maximumLength     = 30
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: columnWidth       = 15
+
+
+type
+: name              = tagNumber
+: comment           = The standard format for a tag number.
+: baseType          = string
+: maximumLength     = 30
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: columnWidth       = 15
+
+
+//###########################################################
+//# domain types
+//###########################################################
+
+
+type
+: name              = ipAddress
+: comment           = The standard format for an IP Address.
+: baseType          = string
+: maximumLength     = 15
+: allows            = digits
+: allows            = symbols
+: columnWidth       = 15
+
+
+type
+: name              = macAddress
+: comment           = The standard format for a Mac Address.
+: baseType          = string
+: maximumLength     = 20
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: columnWidth       = 15
+
+type
+: name              = shaHash
+: comment           = Store and SHA hash code.
+: baseType          = string
+: maximumLength     = 40
+: allows            = printable
+: columnWidth       = 40
+
+
+type
+: name              = notes
+: comment           = Free form, multi-line notes.
+: baseType          = string
+: maximumLength     = 1000
+: allows            = printable
+: allows            = whitespace
+
+
+type
+: name              = email
+: comment           = An email address.
 : baseType          = string
 : allows            = letters
 : allows            = digits
 : allows            = symbols
+: maximumLength     = 50
+: columnWidth       = 20
+
+
+type
+: name              = hostName
+: comment           = The host name.
+: baseType          = string
 : maximumLength     = 30
-: stripAllSpaces    = true
+: allows            = printable
+
 
 type
-: name      = letters
-: comment   = Used for data that can contain only letters.
-: baseType  = string
-: allows    = letters
+: name              = serviceName
+: comment           = The service name.
+: baseType          = string
+: maximumLength     = 30
+: allows            = printable
+
 
 type
-: name          = money
-: comment       = Money is stored in the database as a combination of two columns, one for value and one for currency.
-: baseType      = money
-: columnWidth   = 10
+: name              = rawDataMessage
+: comment           = Used for unparsed message columns in the raw data table.
+: baseType          = string
+: maximumLength     = 300
+: allows            = printable
+
 
 type
-: name          = sequence
-: comment       = Used to indicate the relative sequence of multiple values.
-: baseType      = integer
-: columnWidth   = 3
+: name              = timeZoneCode
+: comment           = The code for a timezone.
+: baseType          = string
+: maximumLength     = 40
+: allows            = printable
+
 
 type
-: name      = string
-: comment   = Any string. This may include non-printable characters.
-: baseType  = string
-: allows    = all
+: name              = lockVersion
+: comment           = Used for columns that use a count for optimistic locking.
+: baseType          = integer
+
 
 type
-: name      = text
-: comment   = Used for short, single line, free form text. Space is allowed but not CR, LF, or TAB.
-: baseType  = string
-: allows    = printable
+: name              = imNumber
+: comment           = The standard format for an IM number.
+: baseType          = string
+: maximumLength     = 20
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: columnWidth       = 15
 
-type
-: name          = text5
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 5
-
-type
-: name          = text10
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 10
-
-type
-: name          = text20
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 20
-
-type
-: name          = text100
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 100
-
-type
-: name          = text200
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 200
-
-type
-: name          = text1000
-: comment       = See text.
-: baseType      = string
-: allows        = printable
-: maximumLength = 1000
-
-type
-: name          = abstractText
-: comment       = Used for abstract text fields.
-: baseType      = string
-: allows        = all
-: maximumLength = 1000
-
-type
-: name      = multiline
-: comment   = Used for freeform text with embedded whitespace (CR, LF, TAB).
-: baseType  = string
-: allows    = printable
-: allows    = whitespace
-
-type
-: name          = multiline100
-: comment       = Used for freeform text with embedded whitespace (CR, LF, TAB).
-: baseType      = string
-: allows        = printable
-: allows        = whitespace
-: maximumLength = 100
-
-type
-: name          = multiline1000
-: comment       = See multiline
-: baseType      = string
-: allows        = printable
-: allows        = whitespace
-: maximumLength = 1000
-
-type
-: name          = bigText
-: comment       = A very large multiline string value stored as "text" in mysql.
-: baseType      = string
-: allows        = printable
-: allows        = whitespace
-: maximumLength = 50000
-
-type
-: name          = phone
-: comment       = A phone number.
-: baseType      = string
-: maximumLength = 30
-: allows        = printable
-: columnWidth   = 12
-
-type
-: name      = quantity
-: comment   = A quantity, used for things like the quantity ordered on a sales order.
-: baseType  = quantity
-
-type
-: name          = time
-: comment       = Hours minutes seconds and milliseconds.
-: baseType      = time
-: columnWidth   = 10
-
-type
-: name          = timestamp
-: comment       = Month day year hours minutes seconds and milliseconds.
-: baseType      = timestamp
-: columnWidth   = 16
-
-type
-: name          = updateCount
-: comment       = The number of times the record has been updated.
-: baseType      = integer
-: columnWidth   = 10
-
-type
-: name          = filePath
-: comment       = string
-: baseType      = string
-: maximumLength = 100
-: allows        = printable
-: allows        = whitespace
-
-type
-: name          = fileName
-: comment       = The name of a file.
-: baseType      = string
-: maximumLength = 200
-: allows        = printable
-: columnWidth   = 25
-
-type
-: name          = calculated
-: comment       = Used for calculated values that really do not have a maximum value. Calculated types should not be used for data entry for validation.
-: baseType      = string
-: maximumLength = 1000
-: allows        = all
-
-type
-: name      = htmlColor
-: comment   = A 7-character html color. E.g.: red is #FF0000.
-: baseType  = htmlColor
-
-type
-: name          = htmlStyle
-: comment       = Used for style sheet properties.
-: baseType      = string
-: maximumLength = 100
-: allows        = all
-
-type
-: name          = name
-: comment       = The a general name, used to supply a common format for many names.
-: baseType      = string
-: maximumLength = 50
-: allows        = printable
-: columnWidth   = 15
-
-type
-: name          = serialNumber
-: comment       = The standard format for a serial number.
-: baseType      = string
-: maximumLength = 30
-: allows        = letters
-: allows        = digits
-: allows        = symbols
-: columnWidth   = 15
-
-type
-: name          = tagNumber
-: comment       = The standard format for a tag number.
-: baseType      = string
-: maximumLength = 30
-: allows        = letters
-: allows        = digits
-: allows        = symbols
-: columnWidth   = 15
-
-type
-: name          = imNumber
-: comment       = The standard format for an IM number.
-: baseType      = string
-: maximumLength = 20
-: allows        = letters
-: allows        = digits
-: allows        = symbols
-: columnWidth   = 15
-
-type
-: name          = ipAddress
-: comment       = The standard format for an IP Address.
-: baseType      = string
-: maximumLength = 15
-: allows        = digits
-: allows        = symbols
-: columnWidth   = 15
-
-type
-: name          = macAddress
-: comment       = The standard format for a Mac Address.
-: baseType      = string
-: maximumLength = 20
-: allows        = letters
-: allows        = digits
-: allows        = symbols
-: columnWidth   = 15
-
-type
-: name          = shaHash
-: comment       = Store and SHA hash code.
-: baseType      = string
-: maximumLength = 40
-: allows        = printable
-: columnWidth   = 40
-
-type
-: name          = notes
-: comment       = Free form, multi-line notes.
-: baseType      = string
-: maximumLength = 1000
-: allows        = printable
-: allows        = whitespace
-
-type
-: name          = hostName
-: comment       = The host name.
-: baseType      = string
-: maximumLength = 30
-: allows        = printable
-
-type
-: name          = serviceName
-: comment       = The service name.
-: baseType      = string
-: maximumLength = 30
-: allows        = printable
-
-type
-: name          = rawDataMessage
-: comment       = Used for unparsed message columns in the raw data table.
-: baseType      = string
-: maximumLength = 300
-: allows        = printable
-
-type
-: name          = timeZoneCode
-: comment       = The code for a timezone.
-: baseType      = string
-: maximumLength = 40
-: allows        = printable
-
-type
-: name          = postalCode
-: comment       = An international postal code (not just the U.S. 5-4 format.)
-: baseType      = string
-: maximumLength = 20
-: allows        = printable
-
-type
-: name          = lockVersion
-: comment       = Used for columns that use a count for optimistic locking.
-: baseType      = integer
 
 type
 : name              = projectCode
@@ -469,5 +745,99 @@ type
 : stripAllSpaces    = true
 : maximumLength     = 5
 
+
+type
+: name              = longEnumCode
+: comment           = Longer version of letterCode
+: baseType          = string
+: allows            = letters
+: allows            = digits
+: allows            = symbols
+: maximumLength     = 30
+: stripAllSpaces    = true
+
+
+type
+: name              = url
+: comment           = Used for urls.
+: baseType          = string
+: maximumLength     = 200
+: allows            = printable
+
+
+//###########################################################
+//# address
+//###########################################################
+
+
+type
+: name              = addressStreet
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 100
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = addressCity
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 50
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = addressRegion
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 50
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = addressPostalCode
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 20
+: allows            = printable
+: columnWidth       = 20
+
+
+type
+: name              = addressCountry
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 50
+: allows            = printable
+: columnWidth       = 15
+
+
+type
+: name              = addressAttention
+: comment           = Used for addresses.
+: baseType          = string
+: maximumLength     = 50
+: allows            = printable
+: columnWidth       = 15
+
+
+//###########################################################
+//# calculated
+//###########################################################
+
+
+type
+: name              = calculated
+: comment...
+    ---
+    Used for calculated values that really do not have a maximum value.
+    Calculated types should not be used for data entry for validation.
+    ---
+: baseType          = string
+: maximumLength     = 1000
+: allows            = all
 
 

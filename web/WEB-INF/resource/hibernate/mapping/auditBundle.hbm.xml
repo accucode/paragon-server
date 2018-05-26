@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyAuditBundle"
+        table="auditBundle"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <property
+            name="changeTypeCode"
+            column="changeTypeCode"
+            type="string"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="domainName"
+            column="domainName"
+            type="string"
+            />
+
+        <property
+            name="domainType"
+            column="domainType"
+            type="string"
+            />
+
+        <property
+            name="domainUid"
+            column="domainUid"
+            type="string"
+            />
+
+        <property
+            name="transactionUid"
+            column="transactionUid"
+            type="string"
+            />
+
+        <property
+            name="userName"
+            column="userName"
+            type="string"
+            />
+
+        <many-to-one
+            name="user"
+            column="userUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="logs"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="bundleUid"/>
+                <one-to-many class="com.app.model.MyAuditLog"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

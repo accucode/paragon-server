@@ -4,10 +4,6 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScSimpleBlockScript;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.utility.Kmu;
 
 public class MyMenuItem
@@ -17,25 +13,19 @@ public class MyMenuItem
     //##################################################
 
     /**
-     * A unique key, useful for things like the htmlId.
-     * We cannot rely on the page key, since not all menus
-     * have a direct page.
-     */
-    private String             _key;
-    /**
      * The text to display.
      */
-    private String             _title;
+    private String _title;
 
     /**
      * The page this menu item opens.
      */
-    private ScPage             _page;
+    private ScPage _page;
 
     /**
      * The parent menu.  Used to navigate the hierarchy from any starting point.
      */
-    private MyMenuItem         _parent;
+    private MyMenuItem _parent;
 
     /**
      * The nested child menus.
@@ -48,24 +38,24 @@ public class MyMenuItem
      * The depth of this item in the tree.  This is a cached value, and
      * assumes that the trees composition is static once created.
      */
-    private int                _depth;
+    private int _depth;
 
     /**
      * Extra css to be included in the menu.
      */
-    private String             _css;
+    private String _css;
 
     /**
      * If true, show a divider ABOVE this item.
      * If this item is hidden, so is the divider.
      */
-    private boolean            _topDivider;
+    private boolean _topDivider;
 
     /**
      * If true, show a divider BELOW this item.
      * If this item is hidden, so is the divider.
      */
-    private boolean            _bottomDivider;
+    private boolean _bottomDivider;
 
     //##################################################
     //# constructor
@@ -73,19 +63,9 @@ public class MyMenuItem
 
     public MyMenuItem()
     {
-        _key = ScControlRegistry.getInstance().getNextKey();
         _children = new KmList<>();
         _depth = -1;
         _css = null;
-    }
-
-    //##################################################
-    //# key
-    //##################################################
-
-    public String getKey()
-    {
-        return _key;
     }
 
     //##################################################
@@ -233,7 +213,7 @@ public class MyMenuItem
     public MyMenuItem addMenu(String title, ScPage page)
     {
         if ( page == null )
-            throw Kmu.newFatal("Page is null");
+            throw Kmu.newFatal("Page is null. Did you update the page registry?");
 
         MyMenuItem e;
         e = addMenu();
@@ -381,40 +361,10 @@ public class MyMenuItem
     public void printTree(int indent)
     {
         System.out.print(Kmu.repeat("    ", indent));
-        System.out.printf("%s, key(%s), visible(%s)%n", getTitle(), getKey(), isVisible());
+        System.out.printf("%s, key(%s), visible(%s)%n", getTitle(), isVisible());
 
         for ( MyMenuItem e : getSubMenus() )
             e.printTree(indent + 1);
-    }
-
-    //##################################################
-    //# html
-    //##################################################
-
-    public String getHtmlId()
-    {
-        return "menu-" + getKey();
-    }
-
-    public String getJquerySelector()
-    {
-        return ScJquery.formatIdSelector(getHtmlId());
-    }
-
-    public ScBlockScript getClickScript()
-    {
-        ScPage page = getPage();
-
-        ScBlockScript e;
-        e = new ScSimpleBlockScript();
-        e.run("Kmu.closeMenu();");
-
-        if ( page == null )
-            e.toast("No page defined for %s.", getTitle());
-        else
-            e.enterPageClearSession(page, false);
-
-        return e;
     }
 
     //##################################################

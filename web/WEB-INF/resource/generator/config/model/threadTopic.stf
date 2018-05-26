@@ -6,12 +6,12 @@ model
     even across multiple JVMs.
 
     To correctly ensure that only one JVM is running a given task, every
-    JVM must check this table before starting a particular topic.  Additionally,
+    JVM must check this table before starting a particular activity. Additionally,
     once a particular JVM is assigned ownership, it must 'touch' the pertinent
-    topic at least once a minute, updating the lastTouched time.  Without
+    topic at least once a minute, updating the lastTouched time. Without
     this touch, a long running task will eventually be deemed hung/dead, and another
     JVM will be allowed to become the new owner.  This could result in multiple
-    threads running the same task.  To avoid this, break long running tasks into
+    threads running the same task. To avoid this, break long running tasks into
     smaller database transactions, and ensure that the topic is 'touched' periodically.
     ---
 
@@ -21,6 +21,14 @@ database
 
 
 attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicDisplay.stf
 
 
     //*****************************************************
@@ -51,9 +59,9 @@ attributes
     : name      = ownerUid
     : help...
         ---
-        The unique id of a particular JVM.  This is typically generated
+        The unique id of a particular JVM. This is typically generated
         as a random UID within the JVM rather than trying to rely on an
-        externally generated value.  It is understood that restarting a JVM
+        externally generated value. It is understood that restarting a JVM
         will likely change the ownerUid even if it is the only JVM on that
         machine.
         ---

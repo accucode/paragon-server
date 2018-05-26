@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,27 @@
 
 package com.kodemore.exception.error;
 
-public abstract class KmValidationError
+public class KmValidationError
     extends KmError
 {
-    //##################################################
-    //# constructor
-    //##################################################
-
-    public KmValidationError(String model, String field)
-    {
-        _model = model;
-        _field = field;
-    }
-
     //##################################################
     //# variables
     //##################################################
 
     private String _model;
     private String _field;
+    private String _problem;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public KmValidationError(String model, String field, String problem)
+    {
+        _model = model;
+        _field = field;
+        _problem = problem;
+    }
 
     //##################################################
     //# accessing
@@ -73,10 +75,16 @@ public abstract class KmValidationError
     @Override
     public String formatMessage()
     {
-        StringBuilder sb = new StringBuilder();
-        formatSubject(sb);
-        formatProblem(sb);
-        return sb.toString();
+        StringBuilder out = new StringBuilder();
+        formatSubject(out);
+        formatProblemOn(out);
+        return out.toString();
+    }
+
+    @Override
+    public void formatProblemOn(StringBuilder out)
+    {
+        out.append(_problem);
     }
 
     public void formatSubject(StringBuilder out)

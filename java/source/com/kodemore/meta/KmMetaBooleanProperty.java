@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScStaticDropdownField;
 import com.kodemore.validator.KmBooleanValidator;
 
 public abstract class KmMetaBooleanProperty<T>
@@ -11,39 +12,30 @@ public abstract class KmMetaBooleanProperty<T>
     implements Predicate<T>
 {
     //##################################################
-    //# predicate
-    //##################################################
-
-    @Override
-    public boolean test(T t)
-    {
-        return getValueFor(t);
-    }
-
-    //##################################################
     //# field
     //##################################################
 
     @Override
     public ScCheckboxField newField()
     {
-        return newField(getLabel());
+        ScCheckboxField e;
+        e = new ScCheckboxField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScCheckboxField newField(String label)
     {
         ScCheckboxField e;
-        e = new ScCheckboxField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
         return e;
     }
 
-    //==================================================
-    //= dropdown
-    //==================================================
+    //##################################################
+    //# dropdown
+    //##################################################
 
     public ScDropdownField<Boolean> newDropdown()
     {
@@ -52,13 +44,24 @@ public abstract class KmMetaBooleanProperty<T>
 
     public ScDropdownField<Boolean> newDropdown(String label)
     {
-        ScDropdownField<Boolean> e;
-        e = new ScDropdownField<>();
+        ScStaticDropdownField<Boolean> e;
+        e = new ScStaticDropdownField<>();
+        e.setMeta(this);
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
         e.addOption(true, "Yes");
         e.addOption(false, "No");
+        return e;
+    }
+
+    //##################################################
+    //# checkbox
+    //##################################################
+
+    public ScCheckboxField newCheckboxField()
+    {
+        ScCheckboxField e;
+        e = new ScCheckboxField();
+        e.setMeta(this);
         return e;
     }
 
@@ -70,6 +73,16 @@ public abstract class KmMetaBooleanProperty<T>
     public KmBooleanValidator getValidator()
     {
         return null;
+    }
+
+    //##################################################
+    //# predicate
+    //##################################################
+
+    @Override
+    public boolean test(T t)
+    {
+        return getValueFor(t);
     }
 
 }

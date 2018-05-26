@@ -6,6 +6,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -55,22 +56,22 @@ $utility.protocol("validate")
     {
         // fields...
 #foreach ( $field in ${model.editableFields} )
-        value.${field.f_setMethod}(${field.f_variable}Validator.convertOnly(value.${field.f_getMethod}()));
+        value.${field.f_setMethod}(${field.f_variable}Validator.convert(value.${field.f_getMethod}()));
 #end
     }
 
     @Override
-    public void validateOnly(${model.f_Class} value, KmList<KmErrorIF> errors)
+    public void validateOnly(${model.f_Class} value, KmErrorList errors)
     {
         // fields...
 #foreach ( $field in ${model.editableFields} )
-        ${field.f_variable}Validator.validateOnly(value.${field.f_getMethod}(), errors);
+        ${field.f_variable}Validator.validateOn(value.${field.f_getMethod}(), errors);
 #end
         // required associations...
 #foreach ( $field in ${model.editableAssociations} )
 #if ( $field.isRequired() )
         if ( !value.${field.f_hasMethod}() )
-            errors.add(new KmRequiredValidationError("$model.f_name", "${field.f_name}"));
+            errors.addRequiredField("$model.f_name", "${field.f_name}");
 #end
 #end
     }
@@ -108,13 +109,43 @@ $utility.protocol("instance creation")
         e.setAllowsWhitespace(true);
 #end
 #end
+#if ( $field.type.isInteger() )
+#if ( $field.type.hasMinimumValue() )
+        e.setMinimumValue($field.type.minimumValue);
+#end
+#if ( $field.type.hasMaximumValue() )
+        e.setMaximumValue($field.type.maximumValue);
+#end
+#end
 #if ( $field.type.isDouble() )
         e.setAllDigits(${field.type.allDigits});
         e.setRightDigits(${field.type.rightDigits});
+#if ( $field.type.hasMinimumValue() )
+        e.setMinimumValue($field.type.minimumValue);
+#end
+#if ( $field.type.hasMaximumValue() )
+        e.setMaximumValue($field.type.maximumValue);
+#end
 #end
 #if ( $field.type.isDecimal() )
         e.setAllDigits(${field.type.allDigits});
         e.setRightDigits(${field.type.rightDigits});
+#end
+#if ( $field.type.isQuantity() )
+#if ( $field.type.hasMinimumValue() )
+        e.setMinimumValue($field.type.minimumValue);
+#end
+#if ( $field.type.hasMaximumValue() )
+        e.setMaximumValue($field.type.maximumValue);
+#end
+#end
+#if ( $field.type.isMoney() )
+#if ( $field.type.hasMinimumValue() )
+        e.setMinimumValue($field.type.minimumValue);
+#end
+#if ( $field.type.hasMaximumValue() )
+        e.setMaximumValue($field.type.maximumValue);
+#end
 #end
 #if ( $field.type.getForcesLowerCase() )
         e.setForcesLowerCase(true);
@@ -131,8 +162,8 @@ $utility.protocol("instance creation")
 #if ( $field.type.getStripsAllDashes() )
         e.setStripsAllDashes(true);
 #end
-        e.setModel("$model.f_name");
-        e.setField("${field.f_name}");
+        e.setModelName("$model.f_name");
+        e.setFieldName("${field.f_name}");
 #if ( $field.isRequired() )
         e.setRequired();
 #end

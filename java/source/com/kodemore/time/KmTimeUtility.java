@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -69,24 +69,42 @@ public class KmTimeUtility
         s = Kmu.replaceAll(s, "{S}", e.getSecond() + "");
         s = Kmu.replaceAll(s, "{SS}", pad2(e.getSecond()));
 
-        s = Kmu.replaceAll(s, "{/p}", e.isAm()
-            ? ""
-            : "p");
-        s = Kmu.replaceAll(s, "{/pm}", e.isAm()
-            ? ""
-            : "pm");
-        s = Kmu.replaceAll(s, "{a/p}", e.isAm()
-            ? "a"
-            : "p");
-        s = Kmu.replaceAll(s, "{A/P}", e.isAm()
-            ? "A"
-            : "P");
-        s = Kmu.replaceAll(s, "{am/pm}", e.isAm()
-            ? "am"
-            : "pm");
-        s = Kmu.replaceAll(s, "{AM/PM}", e.isAm()
-            ? "AM"
-            : "PM");
+        s = Kmu.replaceAll(
+            s,
+            "{/p}",
+            e.isAm()
+                ? ""
+                : "p");
+        s = Kmu.replaceAll(
+            s,
+            "{/pm}",
+            e.isAm()
+                ? ""
+                : "pm");
+        s = Kmu.replaceAll(
+            s,
+            "{a/p}",
+            e.isAm()
+                ? "a"
+                : "p");
+        s = Kmu.replaceAll(
+            s,
+            "{A/P}",
+            e.isAm()
+                ? "A"
+                : "P");
+        s = Kmu.replaceAll(
+            s,
+            "{am/pm}",
+            e.isAm()
+                ? "am"
+                : "pm");
+        s = Kmu.replaceAll(
+            s,
+            "{AM/PM}",
+            e.isAm()
+                ? "AM"
+                : "PM");
         return s;
     }
 

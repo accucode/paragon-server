@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package com.kodemore.dateConsolidator;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmTwoKeyMap;
 import com.kodemore.time.KmDate;
-import com.kodemore.time.KmDateInterval;
+import com.kodemore.time.KmDateRange;
 import com.kodemore.time.KmWeekDay;
 import com.kodemore.utility.Kmu;
 
@@ -55,7 +55,7 @@ public class KmDateConsolidator
     /**
      * The list of input values.  Input values MAY contain duplicate dates.
      */
-    private KmList<KmDateConsolidatorValue>                            _values;
+    private KmList<KmDateConsolidatorValue> _values;
 
     /**
      * An internally generated map, this provides effecient access
@@ -69,28 +69,28 @@ public class KmDateConsolidator
      * still exceeds the max.  If null, then the data will be grouped by date,
      * with no maximum number of groups.
      */
-    private Integer                                                    _maxGroupCount;
+    private Integer _maxGroupCount;
 
     /**
      * The minimum date in the input set.
      */
-    private KmDate                                                     _minDate;
+    private KmDate _minDate;
 
     /**
      * The maximum date in the input set.
      */
-    private KmDate                                                     _maxDate;
+    private KmDate _maxDate;
 
     /**
      * The day used as the start of each week.  This is used
      * when grouping information by week.  Defaults to Monday.
      */
-    private KmWeekDay                                                  _startOfWeek;
+    private KmWeekDay _startOfWeek;
 
     /**
      * The generated list of output values.
      */
-    private KmList<KmDateConsolidatorResult>                           _results;
+    private KmList<KmDateConsolidatorResult> _results;
 
     //##################################################
     //# constructor
@@ -232,7 +232,7 @@ public class KmDateConsolidator
 
     private void generateDays()
     {
-        KmDateInterval di = KmDateInterval.create(_minDate, _maxDate);
+        KmDateRange di = KmDateRange.create(_minDate, _maxDate);
         for ( KmDate d : di )
         {
             KmList<KmDateConsolidatorResult> v = consolidate(d);
@@ -423,7 +423,7 @@ public class KmDateConsolidator
     {
         KmList<KmDateConsolidatorResult> v = new KmList<>();
 
-        KmList<String> cats = _valueMap.getKeyList1();
+        KmList<String> cats = _valueMap.getKey1List();
         for ( String cat : cats )
         {
             KmDateConsolidatorResult e = consolidate(cat, start, end);
@@ -439,7 +439,7 @@ public class KmDateConsolidator
         double total = 0.0;
         double value = 0.0;
 
-        KmDateInterval di = KmDateInterval.create(start, end);
+        KmDateRange di = KmDateRange.create(start, end);
         for ( KmDate d : di )
         {
             KmList<KmDateConsolidatorValue> v = _valueMap.get(category, d);

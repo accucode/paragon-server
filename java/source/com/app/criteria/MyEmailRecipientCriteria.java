@@ -37,32 +37,36 @@ public class MyEmailRecipientCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyEmailRecipient e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyEmailRecipient e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhStringCondition whereAddress()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhStringCondition(context(), alias(), ADDRESS);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhTimestampCondition whereUpdatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereAddress()
-    {
-        return new KmhStringCondition(context(), fullName(ADDRESS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhStringCondition whereTypeCode()
     {
-        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), alias(), TYPE_CODE);
     }
 
     public void whereTypeIs(MyEmailRecipientType e)
@@ -117,31 +121,41 @@ public class MyEmailRecipientCriteria
             whereTypeIsNotCc();
     }
 
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
+    }
+
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnAddress()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(ADDRESS);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnAddressDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(ADDRESS);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnAddress(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnAddress();
         else
-            sortOnUidDescending();
+            sortOnAddressDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -162,42 +176,6 @@ public class MyEmailRecipientCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnUpdatedUtcTs()
-    {
-        parent().sortAscending(UPDATED_UTC_TS);
-    }
-
-    public void sortOnUpdatedUtcTsDescending()
-    {
-        parent().sortDescending(UPDATED_UTC_TS);
-    }
-
-    public void sortOnUpdatedUtcTs(boolean asc)
-    {
-        if ( asc )
-            sortOnUpdatedUtcTs();
-        else
-            sortOnUpdatedUtcTsDescending();
-    }
-
-    public void sortOnAddress()
-    {
-        parent().sortAscending(ADDRESS);
-    }
-
-    public void sortOnAddressDescending()
-    {
-        parent().sortDescending(ADDRESS);
-    }
-
-    public void sortOnAddress(boolean asc)
-    {
-        if ( asc )
-            sortOnAddress();
-        else
-            sortOnAddressDescending();
-    }
-
     public void sortOnTypeCode()
     {
         parent().sortAscending(TYPE_CODE);
@@ -216,6 +194,42 @@ public class MyEmailRecipientCriteria
             sortOnTypeCodeDescending();
     }
 
+    public void sortOnUid()
+    {
+        parent().sortAscending(UID);
+    }
+
+    public void sortOnUidDescending()
+    {
+        parent().sortDescending(UID);
+    }
+
+    public void sortOnUid(boolean asc)
+    {
+        if ( asc )
+            sortOnUid();
+        else
+            sortOnUidDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
+    }
+
     public void sortOnLockVersion()
     {
         parent().sortAscending(LOCK_VERSION);
@@ -232,138 +246,6 @@ public class MyEmailRecipientCriteria
             sortOnLockVersion();
         else
             sortOnLockVersionDescending();
-    }
-
-    //##################################################
-    //# projections (uid)
-    //##################################################
-
-    public void selectUid()
-    {
-        select(UID);
-    }
-
-    public void selectDistinctUid()
-    {
-        selectDistinct(UID);
-    }
-
-    public void selectCountDistinctUid()
-    {
-        selectCountDistinct(UID);
-    }
-
-    public void selectMinimumUid()
-    {
-        selectMinimum(UID);
-    }
-
-    public void selectMaximumUid()
-    {
-        selectMaximum(UID);
-    }
-
-    public void selectAverageUid()
-    {
-        selectAverage(UID);
-    }
-
-    public void selectSumUid()
-    {
-        selectSum(UID);
-    }
-
-    public void groupByUid()
-    {
-        groupBy(UID);
-    }
-
-    //##################################################
-    //# projections (createdUtcTs)
-    //##################################################
-
-    public void selectCreatedUtcTs()
-    {
-        select(CREATED_UTC_TS);
-    }
-
-    public void selectDistinctCreatedUtcTs()
-    {
-        selectDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectCountDistinctCreatedUtcTs()
-    {
-        selectCountDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectMinimumCreatedUtcTs()
-    {
-        selectMinimum(CREATED_UTC_TS);
-    }
-
-    public void selectMaximumCreatedUtcTs()
-    {
-        selectMaximum(CREATED_UTC_TS);
-    }
-
-    public void selectAverageCreatedUtcTs()
-    {
-        selectAverage(CREATED_UTC_TS);
-    }
-
-    public void selectSumCreatedUtcTs()
-    {
-        selectSum(CREATED_UTC_TS);
-    }
-
-    public void groupByCreatedUtcTs()
-    {
-        groupBy(CREATED_UTC_TS);
-    }
-
-    //##################################################
-    //# projections (updatedUtcTs)
-    //##################################################
-
-    public void selectUpdatedUtcTs()
-    {
-        select(UPDATED_UTC_TS);
-    }
-
-    public void selectDistinctUpdatedUtcTs()
-    {
-        selectDistinct(UPDATED_UTC_TS);
-    }
-
-    public void selectCountDistinctUpdatedUtcTs()
-    {
-        selectCountDistinct(UPDATED_UTC_TS);
-    }
-
-    public void selectMinimumUpdatedUtcTs()
-    {
-        selectMinimum(UPDATED_UTC_TS);
-    }
-
-    public void selectMaximumUpdatedUtcTs()
-    {
-        selectMaximum(UPDATED_UTC_TS);
-    }
-
-    public void selectAverageUpdatedUtcTs()
-    {
-        selectAverage(UPDATED_UTC_TS);
-    }
-
-    public void selectSumUpdatedUtcTs()
-    {
-        selectSum(UPDATED_UTC_TS);
-    }
-
-    public void groupByUpdatedUtcTs()
-    {
-        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -411,6 +293,50 @@ public class MyEmailRecipientCriteria
     }
 
     //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
     //# projections (typeCode)
     //##################################################
 
@@ -452,6 +378,94 @@ public class MyEmailRecipientCriteria
     public void groupByTypeCode()
     {
         groupBy(TYPE_CODE);
+    }
+
+    //##################################################
+    //# projections (uid)
+    //##################################################
+
+    public void selectUid()
+    {
+        select(UID);
+    }
+
+    public void selectDistinctUid()
+    {
+        selectDistinct(UID);
+    }
+
+    public void selectCountDistinctUid()
+    {
+        selectCountDistinct(UID);
+    }
+
+    public void selectMinimumUid()
+    {
+        selectMinimum(UID);
+    }
+
+    public void selectMaximumUid()
+    {
+        selectMaximum(UID);
+    }
+
+    public void selectAverageUid()
+    {
+        selectAverage(UID);
+    }
+
+    public void selectSumUid()
+    {
+        selectSum(UID);
+    }
+
+    public void groupByUid()
+    {
+        groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -507,6 +521,16 @@ public class MyEmailRecipientCriteria
         select(CREATED_BY_UID);
     }
 
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
     public void selectMinimumCreatedByUid()
     {
         selectMinimum(CREATED_BY_UID);
@@ -534,7 +558,7 @@ public class MyEmailRecipientCriteria
 
     public KmhStringCondition whereCreatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
     }
 
     public void whereCreatedByIs(MyUser e)
@@ -545,51 +569,12 @@ public class MyEmailRecipientCriteria
             whereCreatedByUid().is(e.getUid());
     }
 
-    //##################################################
-    //# association (UpdatedBy)
-    //##################################################
-
-    public void selectUpdatedByUid()
-    {
-        select(UPDATED_BY_UID);
-    }
-
-    public void selectMinimumUpdatedByUid()
-    {
-        selectMinimum(UPDATED_BY_UID);
-    }
-
-    public void selectMaximumUpdatedByUid()
-    {
-        selectMaximum(UPDATED_BY_UID);
-    }
-
-    public void groupByUpdatedByUid()
-    {
-        groupBy(UPDATED_BY_UID);
-    }
-
-    public MyUserCriteria joinToUpdatedBy()
-    {
-        return new MyUserCriteria(joinTo(UPDATED_BY));
-    }
-
-    public MyUserCriteria leftJoinToUpdatedBy()
-    {
-        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
-    }
-
-    public KmhStringCondition whereUpdatedByUid()
-    {
-        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
-    }
-
-    public void whereUpdatedByIs(MyUser e)
+    public void whereCreatedByIsNot(MyUser e)
     {
         if ( e == null )
-            whereUpdatedByUid().isNull();
+            whereCreatedByUid().isNotNull();
         else
-            whereUpdatedByUid().is(e.getUid());
+            whereCreatedByUid().isNot(e.getUid());
     }
 
     //##################################################
@@ -599,6 +584,16 @@ public class MyEmailRecipientCriteria
     public void selectEmailUid()
     {
         select(EMAIL_UID);
+    }
+
+    public void selectCountDistinctEmailUid()
+    {
+        selectCountDistinct(EMAIL_UID);
+    }
+    
+    public void selectDistinctEmailUid()
+    {
+        selectDistinct(EMAIL_UID);
     }
 
     public void selectMinimumEmailUid()
@@ -628,7 +623,7 @@ public class MyEmailRecipientCriteria
 
     public KmhStringCondition whereEmailUid()
     {
-        return new KmhStringCondition(parent(), fullName(EMAIL_UID));
+        return new KmhStringCondition(parent(), alias(), EMAIL_UID);
     }
 
     public void whereEmailIs(MyEmail e)
@@ -637,6 +632,79 @@ public class MyEmailRecipientCriteria
             whereEmailUid().isNull();
         else
             whereEmailUid().is(e.getUid());
+    }
+
+    public void whereEmailIsNot(MyEmail e)
+    {
+        if ( e == null )
+            whereEmailUid().isNotNull();
+        else
+            whereEmailUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
     }
 
     //##################################################

@@ -34,7 +34,7 @@ public class KmPatchManager
     //# variables
     //##################################################
 
-    private static final String   DATABASE_PATCH_MANAGER_LOCK = "DATABASE.PATCH_MANAGER";
+    private static final String DATABASE_PATCH_MANAGER_LOCK = "DATABASE.PATCH_MANAGER";
 
     /**
      * The patches available on the local file system.
@@ -49,9 +49,9 @@ public class KmPatchManager
     /*
      * Allows logging  to be specified, default is to console
      */
-    private KmLogPrinter          _log;
+    private KmLogPrinter _log;
 
-    private KmDatabaseTool        _dbTools;
+    private KmDatabaseTool _dbTools;
 
     //##################################################
     //# constructor
@@ -229,7 +229,7 @@ public class KmPatchManager
     }
 
     /**
-     * fixme_ryan: this uses a different locking pattern than the methods above.  
+     * fixme_ryan: this uses a different locking pattern than the methods above.
      */
     public void create()
     {
@@ -521,7 +521,7 @@ public class KmPatchManager
 
     private void lockDatabase()
     {
-        printLog("Trying to obtain lock on database before managing patches.");
+        printLog("Database lock...");
         while ( true )
         {
             // try for db lock every 5 seconds for up to 60 seconds
@@ -555,13 +555,13 @@ public class KmPatchManager
             try
             {
                 lockDatabase();
-                printLog("Database lock obtained.");
+                printLog("Database locked.");
                 return handle();
             }
             finally
             {
                 unlockDatabaseSafely();
-                printLog("Lock released.");
+                printLog("Database lock released.");
             }
         }
 

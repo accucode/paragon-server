@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -36,12 +37,12 @@ public class MyThreadTopicValidatorBase
     //##################################################
 
     private KmStringValidator codeValidator;
-    private KmStringValidator ownerUidValidator;
-    private KmStringValidator hostNameValidator;
     private KmStringValidator hostAddressValidator;
-    private KmTimestampValidator lastStartUtcTsValidator;
+    private KmStringValidator hostNameValidator;
     private KmTimestampValidator lastEndUtcTsValidator;
+    private KmTimestampValidator lastStartUtcTsValidator;
     private KmTimestampValidator lastTouchUtcTsValidator;
+    private KmStringValidator ownerUidValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -52,12 +53,12 @@ public class MyThreadTopicValidatorBase
     {
         super();
         codeValidator = newCodeValidator();
-        ownerUidValidator = newOwnerUidValidator();
-        hostNameValidator = newHostNameValidator();
         hostAddressValidator = newHostAddressValidator();
-        lastStartUtcTsValidator = newLastStartUtcTsValidator();
+        hostNameValidator = newHostNameValidator();
         lastEndUtcTsValidator = newLastEndUtcTsValidator();
+        lastStartUtcTsValidator = newLastStartUtcTsValidator();
         lastTouchUtcTsValidator = newLastTouchUtcTsValidator();
+        ownerUidValidator = newOwnerUidValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -70,9 +71,9 @@ public class MyThreadTopicValidatorBase
         return codeValidator;
     }
 
-    public KmStringValidator getOwnerUidValidator()
+    public KmStringValidator getHostAddressValidator()
     {
-        return ownerUidValidator;
+        return hostAddressValidator;
     }
 
     public KmStringValidator getHostNameValidator()
@@ -80,9 +81,9 @@ public class MyThreadTopicValidatorBase
         return hostNameValidator;
     }
 
-    public KmStringValidator getHostAddressValidator()
+    public KmTimestampValidator getLastEndUtcTsValidator()
     {
-        return hostAddressValidator;
+        return lastEndUtcTsValidator;
     }
 
     public KmTimestampValidator getLastStartUtcTsValidator()
@@ -90,14 +91,14 @@ public class MyThreadTopicValidatorBase
         return lastStartUtcTsValidator;
     }
 
-    public KmTimestampValidator getLastEndUtcTsValidator()
-    {
-        return lastEndUtcTsValidator;
-    }
-
     public KmTimestampValidator getLastTouchUtcTsValidator()
     {
         return lastTouchUtcTsValidator;
+    }
+
+    public KmStringValidator getOwnerUidValidator()
+    {
+        return ownerUidValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -113,28 +114,28 @@ public class MyThreadTopicValidatorBase
     public void convertOnly(MyThreadTopic value)
     {
         // fields...
-        value.setCode(codeValidator.convertOnly(value.getCode()));
-        value.setOwnerUid(ownerUidValidator.convertOnly(value.getOwnerUid()));
-        value.setHostName(hostNameValidator.convertOnly(value.getHostName()));
-        value.setHostAddress(hostAddressValidator.convertOnly(value.getHostAddress()));
-        value.setLastStartUtcTs(lastStartUtcTsValidator.convertOnly(value.getLastStartUtcTs()));
-        value.setLastEndUtcTs(lastEndUtcTsValidator.convertOnly(value.getLastEndUtcTs()));
-        value.setLastTouchUtcTs(lastTouchUtcTsValidator.convertOnly(value.getLastTouchUtcTs()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setCode(codeValidator.convert(value.getCode()));
+        value.setHostAddress(hostAddressValidator.convert(value.getHostAddress()));
+        value.setHostName(hostNameValidator.convert(value.getHostName()));
+        value.setLastEndUtcTs(lastEndUtcTsValidator.convert(value.getLastEndUtcTs()));
+        value.setLastStartUtcTs(lastStartUtcTsValidator.convert(value.getLastStartUtcTs()));
+        value.setLastTouchUtcTs(lastTouchUtcTsValidator.convert(value.getLastTouchUtcTs()));
+        value.setOwnerUid(ownerUidValidator.convert(value.getOwnerUid()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyThreadTopic value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyThreadTopic value, KmErrorList errors)
     {
         // fields...
-        codeValidator.validateOnly(value.getCode(), errors);
-        ownerUidValidator.validateOnly(value.getOwnerUid(), errors);
-        hostNameValidator.validateOnly(value.getHostName(), errors);
-        hostAddressValidator.validateOnly(value.getHostAddress(), errors);
-        lastStartUtcTsValidator.validateOnly(value.getLastStartUtcTs(), errors);
-        lastEndUtcTsValidator.validateOnly(value.getLastEndUtcTs(), errors);
-        lastTouchUtcTsValidator.validateOnly(value.getLastTouchUtcTs(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        codeValidator.validateOn(value.getCode(), errors);
+        hostAddressValidator.validateOn(value.getHostAddress(), errors);
+        hostNameValidator.validateOn(value.getHostName(), errors);
+        lastEndUtcTsValidator.validateOn(value.getLastEndUtcTs(), errors);
+        lastStartUtcTsValidator.validateOn(value.getLastStartUtcTs(), errors);
+        lastTouchUtcTsValidator.validateOn(value.getLastTouchUtcTs(), errors);
+        ownerUidValidator.validateOn(value.getOwnerUid(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
     }
 
@@ -148,31 +149,9 @@ public class MyThreadTopicValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("threadTopic");
-        e.setField("code");
+        e.setModelName("threadTopic");
+        e.setFieldName("code");
         e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newOwnerUidValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("threadTopic");
-        e.setField("ownerUid");
-        return e;
-    }
-
-    public KmStringValidator newHostNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("threadTopic");
-        e.setField("hostName");
         return e;
     }
 
@@ -182,17 +161,19 @@ public class MyThreadTopicValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("threadTopic");
-        e.setField("hostAddress");
+        e.setModelName("threadTopic");
+        e.setFieldName("hostAddress");
         return e;
     }
 
-    public KmTimestampValidator newLastStartUtcTsValidator()
+    public KmStringValidator newHostNameValidator()
     {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("threadTopic");
-        e.setField("lastStartUtcTs");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("threadTopic");
+        e.setFieldName("hostName");
         return e;
     }
 
@@ -200,8 +181,17 @@ public class MyThreadTopicValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("threadTopic");
-        e.setField("lastEndUtcTs");
+        e.setModelName("threadTopic");
+        e.setFieldName("lastEndUtcTs");
+        return e;
+    }
+
+    public KmTimestampValidator newLastStartUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("threadTopic");
+        e.setFieldName("lastStartUtcTs");
         return e;
     }
 
@@ -209,8 +199,19 @@ public class MyThreadTopicValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("threadTopic");
-        e.setField("lastTouchUtcTs");
+        e.setModelName("threadTopic");
+        e.setFieldName("lastTouchUtcTs");
+        return e;
+    }
+
+    public KmStringValidator newOwnerUidValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("threadTopic");
+        e.setFieldName("ownerUid");
         return e;
     }
 
@@ -218,8 +219,9 @@ public class MyThreadTopicValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("threadTopic");
-        e.setField("lockVersion");
+        e.setModelName("threadTopic");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

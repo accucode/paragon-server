@@ -32,27 +32,21 @@
         </id>
 
         <property
-            name="createdUtcTs"
-            column="createdUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
-            />
-
-        <property
-            name="loggerName"
-            column="loggerName"
-            type="string"
-            />
-
-        <property
             name="context"
             column="context"
             type="string"
             />
 
         <property
-            name="message"
-            column="message"
-            type="string"
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="levelCode"
+            column="levelCode"
+            type="integer"
             />
 
         <property
@@ -62,9 +56,15 @@
             />
 
         <property
-            name="levelCode"
-            column="levelCode"
-            type="integer"
+            name="loggerName"
+            column="loggerName"
+            type="string"
+            />
+
+        <property
+            name="message"
+            column="message"
+            type="string"
             />
 
         <property

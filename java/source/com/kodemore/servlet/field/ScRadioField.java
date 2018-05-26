@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,7 @@ public class ScRadioField
      * The html name used for the radio.
      * This allows multiple radio buttons to share the same name/group.
      */
-    private ScLocalString  _htmlName;
+    private ScLocalString _htmlName;
 
     /**
      * The radio field's boolean value.
@@ -70,7 +70,7 @@ public class ScRadioField
      * within a common group should use a distinct value.
      * This value must be compatible with ScEncoder.
      */
-    private ScLocalObject  _optionValue;
+    private ScLocalObject _optionValue;
 
     /**
      * If true, the radio button is disabled.
@@ -83,13 +83,13 @@ public class ScRadioField
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss     _cssMargin;
+    private ScLocalCss _cssMargin;
 
     /**
      * If set, run this script when 'clicked.' This is also
      * called when the radio selection changes via keyboard.
      */
-    private ScAction       _clickAction;
+    private ScAction _clickAction;
 
     //##################################################
     //# constructor
@@ -97,7 +97,7 @@ public class ScRadioField
 
     public ScRadioField()
     {
-        _htmlName = new ScLocalString(getKey());
+        _htmlName = new ScLocalString(getKeyToken());
         _checked = new ScLocalBoolean(false);
         _optionValue = new ScLocalObject();
         _disabled = new ScLocalBoolean(false);
@@ -111,7 +111,7 @@ public class ScRadioField
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     private String getInputHtmlId()
@@ -220,11 +220,6 @@ public class ScRadioField
     //##################################################
     //# on click
     //##################################################
-
-    public void onClick(Runnable e)
-    {
-        onClick(newCheckedAction(e));
-    }
 
     public void onClick(ScAction e)
     {

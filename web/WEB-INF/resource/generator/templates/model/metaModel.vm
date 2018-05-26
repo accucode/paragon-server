@@ -5,15 +5,21 @@ package ${package}.model.meta;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.dao.*;
 import com.kodemore.exception.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.finder.*;
 import ${package}.model.*;
+import ${package}.model.base.*;
 import ${package}.model.core.*;
 import ${package}.utility.*;
 
@@ -58,12 +64,209 @@ $utility.protocol("accessing")
 $utility.protocol("fields and delegates")
 
 #foreach ( $field in $model.metaFieldsAndDelegates )
-    public static final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
+    public final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
 #end
 
 $utility.protocol("associations")
 
 #foreach ( $field in $model.metaAssociations )
-    public static final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
+    public final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
 #end
+
+#foreach ( $field in $model.metaFieldsAndDelegates )
+$utility.protocol("${field.f_Name}")
+
+    public class ${field.f_MetaClass}
+        extends ${field.f_MetaSuperClass}
+#if ( $field.isDaoProperty() )
+        implements KmMetaDaoPropertyIF<${field.model.f_Class},${field.f_Type}>
+#end
+    {
+        @Override
+        public String getName()
+        {
+            return "${field.f_name}";
+        }
+
+        @Override
+        public String getLabel()
+        {
+            return "${field.f_label}";
+        }
+
+        @Override
+        public String getHelp()
+        {
+#if ( $field.hasHelp() )
+            return "${field.f_helpJavaString}";
+#else
+            return null;
+#end
+        }
+
+        @Override
+        public int getColumnWidth()
+        {
+            return ${field.f_columnWidth};
+        }
+
+        @Override
+        public boolean isEditable()
+        {
+            return $field.isEditable();
+        }
+
+#if ( $field.hasValidator() )
+        @Override
+        public ${field.f_ValidatorClass} getValidator()
+        {
+            return ${field.model.f_ValidatorClass}.instance.get${field.f_Name}Validator();
+        }
+
+#end
+#if ( $field.isDaoProperty() )
+        @Override
+        public String getDaoPropertyName()
+        {
+            return "${field.f_daoPropertyName}";
+        }
+
+        @Override
+        public $field.model.f_DaoClass getDao()
+        {
+            return ${field.model.f_daoGetter}();
+        }
+
+#if ( $field.isPrimaryKey() )
+#if ( $field.isString() )
+        public KmDaoStringKeyCursor<${field.model.f_Class}> createCursor()
+        {
+            KmDaoStringKeyCursor<${field.model.f_Class}> e;
+            e = new KmDaoStringKeyCursor<>();
+            e.setProperty(this);
+            return e;
+        }
+
+#end
+#end
+#if ( $field.isPrimaryKey() )
+#if ( $field.isInteger() )
+        public KmDaoIntegerKeyCursor<${field.model.f_Class}> createCursor()
+        {
+            KmDaoIntegerKeyCursor<${field.model.f_Class}> e;
+            e = new KmDaoIntegerKeyCursor<>();
+            e.setProperty(this);
+            return e;
+        }
+
+#end
+#end
+#end
+#if ( $field.hasEnum() )
+        public ScDynamicEnumDropdownField newDropdown()
+        {
+            ScDynamicEnumDropdownField e;
+            e = new ScDynamicEnumDropdownField();
+            e.setMeta(this);
+            e.setEnumArraySupplier(${field.enum.f_Class}::values);
+            return e;
+        }
+
+        public ScDynamicEnumDropdownField newDropdown(String label)
+        {
+            ScDynamicEnumDropdownField e;
+            e = newDropdown();
+            e.setLabel(label);
+            return e;
+        }
+
+#end
+        @Override
+        public ${field.f_Type} getValueFor(${field.model.f_Class} model)
+        {
+            return model.${field.f_getMethod}();
+        }
+
+#if ( $field.isEditable() )
+        @Override
+        public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+        {
+            model.${field.f_setMethod}(value);
+        }
+
+#end
+        @Override
+        public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+        {
+            return model.${field.f_hasMethod}(value);
+        }
+    }
+
+#end
+
+#foreach ( $field in $model.metaAssociations )
+$utility.protocol("${field.f_Name}")
+
+    public class ${field.f_MetaClass}
+        extends ${field.f_MetaSuperClass}
+    {
+        @Override
+        public String getName()
+        {
+            return "${field.f_name}";
+        }
+
+        @Override
+        public String getLabel()
+        {
+            return "${field.f_label}";
+        }
+
+        @Override
+        public String getHelp()
+        {
+#if ( $field.hasHelp() )
+            return "${field.f_helpJavaString}";
+#else
+            return null;
+#end
+        }
+
+        @Override
+        public boolean isRequired()
+        {
+            return ${field.isRequired()};
+        }
+
+        @Override
+        public ${field.f_Type} getValueFor(${field.model.f_Class} model)
+        {
+            return model.${field.f_getMethod}();
+        }
+
+        @Override
+        public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+        {
+#if ( $field.isEditable() )
+            model.${field.f_setMethod}(value);
+#else
+            throw new UnsupportedOperationException();
+#end
+        }
+
+        @Override
+        public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+        {
+            return model.${field.f_hasMethod}(value);
+        }
+    }
+
+#end
+$utility.protocol("support")
+
+    protected MyDaoAccess getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+
 }

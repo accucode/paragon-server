@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,11 @@
 
 package com.kodemore.servlet.result;
 
+import java.nio.charset.Charset;
+
 import com.kodemore.servlet.ScConstantsIF;
+import com.kodemore.servlet.ScContentType;
+import com.kodemore.servlet.ScServletData;
 
 /**
  * I define results for http requests.  This provides a simple mechanism
@@ -36,56 +40,75 @@ public abstract class ScAbstractResult
     //# variables
     //##################################################
 
-    private String _contentType;
-    private String _attachmentName;
+    private ScContentType _contentType;
+    private Charset       _charset;
+    private boolean       _httpNoCache;
+    private String        _attachmentName;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public ScAbstractResult()
+    {
+        _charset = ScConstantsIF.WEB_CHARSET;
+    }
 
     //##################################################
     //# content type
     //##################################################
 
-    public void setContentTypeText()
+    public ScContentType getContentType()
     {
-        setContentType(CONTENT_TYPE_TEXT);
+        return _contentType;
     }
 
-    public void setContentTypeCss()
-    {
-        setContentType(CONTENT_TYPE_CSS);
-    }
-
-    public void setContentTypeHtml()
-    {
-        setContentType(CONTENT_TYPE_HTML);
-    }
-
-    public void setContentTypeXml()
-    {
-        setContentType(CONTENT_TYPE_XML);
-    }
-
-    public void setContentTypeOctet()
-    {
-        setContentType(CONTENT_TYPE_OCTET);
-    }
-
-    public void setContentTypePdf()
-    {
-        setContentType(CONTENT_TYPE_PDF);
-    }
-
-    public void setContentTypeJson()
-    {
-        setContentType(CONTENT_TYPE_JSON);
-    }
-
-    private void setContentType(String e)
+    public void setContentType(ScContentType e)
     {
         _contentType = e;
     }
 
-    public String getContentType()
+    public boolean hasContentType()
     {
-        return _contentType;
+        return _contentType != null;
+    }
+
+    //##################################################
+    //# charset
+    //##################################################
+
+    public Charset getCharset()
+    {
+        return _charset;
+    }
+
+    public void setCharset(Charset e)
+    {
+        _charset = e;
+    }
+
+    public boolean hasCharset()
+    {
+        return _charset != null;
+    }
+
+    //##################################################
+    //# http no cache
+    //##################################################
+
+    public boolean getHttpNoCache()
+    {
+        return _httpNoCache;
+    }
+
+    public void setHttpNoCache(boolean e)
+    {
+        _httpNoCache = e;
+    }
+
+    public void setHttpNoCache()
+    {
+        setHttpNoCache(true);
     }
 
     //##################################################
@@ -100,11 +123,39 @@ public abstract class ScAbstractResult
     public void setAttachmentName(String name)
     {
         _attachmentName = name;
-        setContentTypeOctet();
+        setContentType(ScContentType.Octet);
     }
 
     public boolean isAttachment()
     {
         return _attachmentName != null;
     }
+
+    //##################################################
+    //# apply
+    //##################################################
+
+    @Override
+    public final void applyTo(ScServletData data)
+    {
+        applyHeadersTo(data);
+        applyContentTo(data);
+    }
+
+    private void applyHeadersTo(ScServletData data)
+    {
+        data.setFrameOptionsSameOrigin();
+
+        if ( hasContentType() )
+            data.setContentType(getContentType());
+
+        if ( hasCharset() )
+            data.setCharset(getCharset());
+
+        if ( getHttpNoCache() )
+            data.setNoCacheHeaders();
+    }
+
+    protected abstract void applyContentTo(ScServletData data);
+
 }

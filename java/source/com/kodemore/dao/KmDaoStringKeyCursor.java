@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,15 +29,19 @@ import com.kodemore.meta.KmMetaDaoPropertyIF;
 /**
  * A simple cursor used to iterate through the database.
  * The attribute must represent a unique, non-null key.
- *
- * NOTE! : The session will be flushed and cleared at the beginning
- * of each batch.
- *
  * Elements returned are guaranteed to be non-null.
+ *
+ * NOTE : The session is flushed and cleared at the beginning of each batch.
  */
 public class KmDaoStringKeyCursor<T>
     extends KmDaoCursor<T>
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final int DEFAULT_BATCH_SIZE = 100;
+
     //##################################################
     //# instance creation
     //##################################################
@@ -63,7 +67,7 @@ public class KmDaoStringKeyCursor<T>
     /**
      * The number of elements to retrieve in each batch;
      */
-    private int                           _batchSize;
+    private int _batchSize;
 
     //##################################################
     //# constructor
@@ -71,7 +75,7 @@ public class KmDaoStringKeyCursor<T>
 
     public KmDaoStringKeyCursor()
     {
-        _batchSize = 100;
+        _batchSize = DEFAULT_BATCH_SIZE;
     }
 
     //##################################################

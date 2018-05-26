@@ -31,22 +31,22 @@ public class KmSpreadsheetCellReader
     /**
      * The index of the NEXT value.
      */
-    private int                               _rowIndex;
+    private int _rowIndex;
 
     /**
      * The index of the NEXT value.
      */
-    private int                               _columnIndex;
+    private int _columnIndex;
 
     /**
      * The number of rows detected.
      */
-    private int                               _rowCount;
+    private int _rowCount;
 
     /**
      * The maximum number of columns detected for any row.
      */
-    private int                               _columnCount;
+    private int _columnCount;
 
     //##################################################
     //# constructor

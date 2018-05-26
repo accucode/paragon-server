@@ -41,22 +41,6 @@ public final class MyBlankTestPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -67,7 +51,7 @@ public final class MyBlankTestPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyThreadTopicBase
-    extends MyAbstractDaoDomain
-    implements MyDomainIF
+    extends MyAbstractDaoDomain<MyThreadTopic>
+    implements KmDomainIF
 {
     //##################################################
     //# static
@@ -37,18 +39,19 @@ public abstract class MyThreadTopicBase
     public static final MyMetaThreadTopic Meta = MyMetaThreadTopic.instance;
     public static final MyThreadTopicTools Tools = MyThreadTopicTools.instance;
     public static final MyThreadTopicValidator Validator = MyThreadTopicValidator.instance;
+    public static final MyThreadTopicFinder Finder = MyThreadTopicFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
     private String code;
-    private String ownerUid;
-    private String hostName;
     private String hostAddress;
-    private KmTimestamp lastStartUtcTs;
+    private String hostName;
     private KmTimestamp lastEndUtcTs;
+    private KmTimestamp lastStartUtcTs;
     private KmTimestamp lastTouchUtcTs;
+    private String ownerUid;
     private Integer lockVersion;
 
     //##################################################
@@ -62,6 +65,22 @@ public abstract class MyThreadTopicBase
     }
 
     //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
     //# field (code)
     //##################################################
 
@@ -72,7 +91,7 @@ public abstract class MyThreadTopicBase
 
     public void setCode(String e)
     {
-        e = Validator.getCodeValidator().convertOnly(e);
+        e = Validator.getCodeValidator().convert(e);
         code = e;
     }
 
@@ -102,83 +121,35 @@ public abstract class MyThreadTopicBase
     }
 
     //##################################################
-    //# field (ownerUid)
+    //# field (domainSubtitle)
     //##################################################
 
-    public String getOwnerUid()
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        return ownerUid;
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void setOwnerUid(String e)
+    public boolean hasDomainSubtitle(String e)
     {
-        e = Validator.getOwnerUidValidator().convertOnly(e);
-        ownerUid = e;
-    }
-
-    public void clearOwnerUid()
-    {
-        setOwnerUid(null);
-    }
-
-    public boolean hasOwnerUid()
-    {
-        return Kmu.hasValue(getOwnerUid());
-    }
-
-    public boolean hasOwnerUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getOwnerUid(), e);
-    }
-
-    public void truncateOwnerUid()
-    {
-        truncateOwnerUid(false);
-    }
-
-    public void truncateOwnerUid(boolean ellipses)
-    {
-        ownerUid = Kmu.truncate(ownerUid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
     }
 
     //##################################################
-    //# field (hostName)
+    //# field (domainTitle)
     //##################################################
 
-    public String getHostName()
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
     {
-        return hostName;
+        return Kmu.hasValue(getDomainTitle());
     }
 
-    public void setHostName(String e)
+    public boolean hasDomainTitle(String e)
     {
-        e = Validator.getHostNameValidator().convertOnly(e);
-        hostName = e;
-    }
-
-    public void clearHostName()
-    {
-        setHostName(null);
-    }
-
-    public boolean hasHostName()
-    {
-        return Kmu.hasValue(getHostName());
-    }
-
-    public boolean hasHostName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getHostName(), e);
-    }
-
-    public void truncateHostName()
-    {
-        truncateHostName(false);
-    }
-
-    public void truncateHostName(boolean ellipses)
-    {
-        hostName = Kmu.truncate(hostName, 50, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -192,7 +163,7 @@ public abstract class MyThreadTopicBase
 
     public void setHostAddress(String e)
     {
-        e = Validator.getHostAddressValidator().convertOnly(e);
+        e = Validator.getHostAddressValidator().convert(e);
         hostAddress = e;
     }
 
@@ -222,33 +193,43 @@ public abstract class MyThreadTopicBase
     }
 
     //##################################################
-    //# field (lastStartUtcTs)
+    //# field (hostName)
     //##################################################
 
-    public KmTimestamp getLastStartUtcTs()
+    public String getHostName()
     {
-        return lastStartUtcTs;
+        return hostName;
     }
 
-    public void setLastStartUtcTs(KmTimestamp e)
+    public void setHostName(String e)
     {
-        e = Validator.getLastStartUtcTsValidator().convertOnly(e);
-        lastStartUtcTs = e;
+        e = Validator.getHostNameValidator().convert(e);
+        hostName = e;
     }
 
-    public void clearLastStartUtcTs()
+    public void clearHostName()
     {
-        setLastStartUtcTs(null);
+        setHostName(null);
     }
 
-    public boolean hasLastStartUtcTs()
+    public boolean hasHostName()
     {
-        return getLastStartUtcTs() != null;
+        return Kmu.hasValue(getHostName());
     }
 
-    public boolean hasLastStartUtcTs(KmTimestamp e)
+    public boolean hasHostName(String e)
     {
-        return Kmu.isEqual(getLastStartUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getHostName(), e);
+    }
+
+    public void truncateHostName()
+    {
+        truncateHostName(false);
+    }
+
+    public void truncateHostName(boolean ellipses)
+    {
+        hostName = Kmu.truncate(hostName, 50, ellipses);
     }
 
     //##################################################
@@ -262,7 +243,7 @@ public abstract class MyThreadTopicBase
 
     public void setLastEndUtcTs(KmTimestamp e)
     {
-        e = Validator.getLastEndUtcTsValidator().convertOnly(e);
+        e = Validator.getLastEndUtcTsValidator().convert(e);
         lastEndUtcTs = e;
     }
 
@@ -282,6 +263,36 @@ public abstract class MyThreadTopicBase
     }
 
     //##################################################
+    //# field (lastStartUtcTs)
+    //##################################################
+
+    public KmTimestamp getLastStartUtcTs()
+    {
+        return lastStartUtcTs;
+    }
+
+    public void setLastStartUtcTs(KmTimestamp e)
+    {
+        e = Validator.getLastStartUtcTsValidator().convert(e);
+        lastStartUtcTs = e;
+    }
+
+    public void clearLastStartUtcTs()
+    {
+        setLastStartUtcTs(null);
+    }
+
+    public boolean hasLastStartUtcTs()
+    {
+        return getLastStartUtcTs() != null;
+    }
+
+    public boolean hasLastStartUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getLastStartUtcTs(), e);
+    }
+
+    //##################################################
     //# field (lastTouchUtcTs)
     //##################################################
 
@@ -292,7 +303,7 @@ public abstract class MyThreadTopicBase
 
     public void setLastTouchUtcTs(KmTimestamp e)
     {
-        e = Validator.getLastTouchUtcTsValidator().convertOnly(e);
+        e = Validator.getLastTouchUtcTsValidator().convert(e);
         lastTouchUtcTs = e;
     }
 
@@ -312,6 +323,46 @@ public abstract class MyThreadTopicBase
     }
 
     //##################################################
+    //# field (ownerUid)
+    //##################################################
+
+    public String getOwnerUid()
+    {
+        return ownerUid;
+    }
+
+    public void setOwnerUid(String e)
+    {
+        e = Validator.getOwnerUidValidator().convert(e);
+        ownerUid = e;
+    }
+
+    public void clearOwnerUid()
+    {
+        setOwnerUid(null);
+    }
+
+    public boolean hasOwnerUid()
+    {
+        return Kmu.hasValue(getOwnerUid());
+    }
+
+    public boolean hasOwnerUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getOwnerUid(), e);
+    }
+
+    public void truncateOwnerUid()
+    {
+        truncateOwnerUid(false);
+    }
+
+    public void truncateOwnerUid(boolean ellipses)
+    {
+        ownerUid = Kmu.truncate(ownerUid, 30, ellipses);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -322,7 +373,7 @@ public abstract class MyThreadTopicBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -339,98 +390,6 @@ public abstract class MyThreadTopicBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
-
-    //##################################################
-    //# field (lastStartLocalTs)
-    //##################################################
-
-    public final KmTimestamp getLastStartLocalTs()
-    {
-        return KmTimestampUtility.toLocal(getLastStartUtcTs());
-    }
-
-    public boolean hasLastStartLocalTs()
-    {
-        return getLastStartLocalTs() != null;
-    }
-
-    public boolean hasLastStartLocalTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getLastStartLocalTs(), e);
-    }
-
-    //##################################################
-    //# field (lastStartLocalTsMessage)
-    //##################################################
-
-    public final String getLastStartLocalTsMessage()
-    {
-        return KmTimestampUtility.formatLocalMessage(getLastStartUtcTs());
-    }
-
-    public boolean hasLastStartLocalTsMessage()
-    {
-        return Kmu.hasValue(getLastStartLocalTsMessage());
-    }
-
-    public boolean hasLastStartLocalTsMessage(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getLastStartLocalTsMessage(), e);
-    }
-
-    //##################################################
-    //# field (lastStartLocalDate)
-    //##################################################
-
-    public final KmDate getLastStartLocalDate()
-    {
-        return KmTimestampUtility.getDate(getLastStartLocalTs());
-    }
-
-    public boolean hasLastStartLocalDate()
-    {
-        return getLastStartLocalDate() != null;
-    }
-
-    public boolean hasLastStartLocalDate(KmDate e)
-    {
-        return Kmu.isEqual(getLastStartLocalDate(), e);
-    }
-
-    //##################################################
-    //# field (lastStartLocalTime)
-    //##################################################
-
-    public final KmTime getLastStartLocalTime()
-    {
-        return KmTimestampUtility.getTime(getLastStartLocalTs());
-    }
-
-    public boolean hasLastStartLocalTime()
-    {
-        return getLastStartLocalTime() != null;
-    }
-
-    public boolean hasLastStartLocalTime(KmTime e)
-    {
-        return Kmu.isEqual(getLastStartLocalTime(), e);
     }
 
     //##################################################
@@ -507,6 +466,82 @@ public abstract class MyThreadTopicBase
     public boolean hasLastEndLocalTime(KmTime e)
     {
         return Kmu.isEqual(getLastEndLocalTime(), e);
+    }
+
+    //##################################################
+    //# field (lastStartLocalTs)
+    //##################################################
+
+    public final KmTimestamp getLastStartLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getLastStartUtcTs());
+    }
+
+    public boolean hasLastStartLocalTs()
+    {
+        return getLastStartLocalTs() != null;
+    }
+
+    public boolean hasLastStartLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getLastStartLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (lastStartLocalTsMessage)
+    //##################################################
+
+    public final String getLastStartLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getLastStartUtcTs());
+    }
+
+    public boolean hasLastStartLocalTsMessage()
+    {
+        return Kmu.hasValue(getLastStartLocalTsMessage());
+    }
+
+    public boolean hasLastStartLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getLastStartLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (lastStartLocalDate)
+    //##################################################
+
+    public final KmDate getLastStartLocalDate()
+    {
+        return KmTimestampUtility.getDate(getLastStartLocalTs());
+    }
+
+    public boolean hasLastStartLocalDate()
+    {
+        return getLastStartLocalDate() != null;
+    }
+
+    public boolean hasLastStartLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getLastStartLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (lastStartLocalTime)
+    //##################################################
+
+    public final KmTime getLastStartLocalTime()
+    {
+        return KmTimestampUtility.getTime(getLastStartLocalTs());
+    }
+
+    public boolean hasLastStartLocalTime()
+    {
+        return getLastStartLocalTime() != null;
+    }
+
+    public boolean hasLastStartLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getLastStartLocalTime(), e);
     }
 
     //##################################################
@@ -591,20 +626,15 @@ public abstract class MyThreadTopicBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyThreadTopicValidator getValidator()
     {
-        Validator.validate((MyThreadTopic)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyThreadTopic asSubclass()
     {
-        Validator.validateWarn((MyThreadTopic)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyThreadTopic)this);
+        return (MyThreadTopic)this;
     }
 
     //##################################################
@@ -633,13 +663,38 @@ public abstract class MyThreadTopicBase
     {
         MyThreadTopic e;
         e = new MyThreadTopic();
-        e.setOwnerUid(getOwnerUid());
-        e.setHostName(getHostName());
-        e.setHostAddress(getHostAddress());
-        e.setLastStartUtcTs(getLastStartUtcTs());
-        e.setLastEndUtcTs(getLastEndUtcTs());
-        e.setLastTouchUtcTs(getLastTouchUtcTs());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyThreadTopic e)
+    {
+        e.setHostAddress(getHostAddress());
+        e.setHostName(getHostName());
+        e.setLastEndUtcTs(getLastEndUtcTs());
+        e.setLastStartUtcTs(getLastStartUtcTs());
+        e.setLastTouchUtcTs(getLastTouchUtcTs());
+        e.setOwnerUid(getOwnerUid());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyThreadTopic e)
+    {
+        setHostAddress(e.getHostAddress());
+        setHostName(e.getHostName());
+        setLastEndUtcTs(e.getLastEndUtcTs());
+        setLastStartUtcTs(e.getLastStartUtcTs());
+        setLastTouchUtcTs(e.getLastTouchUtcTs());
+        setOwnerUid(e.getOwnerUid());
     }
 
     //##################################################
@@ -670,22 +725,24 @@ public abstract class MyThreadTopicBase
 
     public boolean isSameIgnoringKey(MyThreadTopic e)
     {
-        if ( !Kmu.isEqual(getOwnerUid(), e.getOwnerUid()) ) return false;
-        if ( !Kmu.isEqual(getHostName(), e.getHostName()) ) return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getHostAddress(), e.getHostAddress()) ) return false;
-        if ( !Kmu.isEqual(getLastStartUtcTs(), e.getLastStartUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getHostName(), e.getHostName()) ) return false;
         if ( !Kmu.isEqual(getLastEndUtcTs(), e.getLastEndUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLastStartUtcTs(), e.getLastStartUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLastTouchUtcTs(), e.getLastTouchUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getOwnerUid(), e.getOwnerUid()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
-        if ( !Kmu.isEqual(getLastStartLocalTs(), e.getLastStartLocalTs()) ) return false;
-        if ( !Kmu.isEqual(getLastStartLocalTsMessage(), e.getLastStartLocalTsMessage()) ) return false;
-        if ( !Kmu.isEqual(getLastStartLocalDate(), e.getLastStartLocalDate()) ) return false;
-        if ( !Kmu.isEqual(getLastStartLocalTime(), e.getLastStartLocalTime()) ) return false;
         if ( !Kmu.isEqual(getLastEndLocalTs(), e.getLastEndLocalTs()) ) return false;
         if ( !Kmu.isEqual(getLastEndLocalTsMessage(), e.getLastEndLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getLastEndLocalDate(), e.getLastEndLocalDate()) ) return false;
         if ( !Kmu.isEqual(getLastEndLocalTime(), e.getLastEndLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getLastStartLocalTs(), e.getLastStartLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getLastStartLocalTsMessage(), e.getLastStartLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getLastStartLocalDate(), e.getLastStartLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getLastStartLocalTime(), e.getLastStartLocalTime()) ) return false;
         if ( !Kmu.isEqual(getLastTouchLocalTs(), e.getLastTouchLocalTs()) ) return false;
         if ( !Kmu.isEqual(getLastTouchLocalTsMessage(), e.getLastTouchLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getLastTouchLocalDate(), e.getLastTouchLocalDate()) ) return false;
@@ -724,12 +781,12 @@ public abstract class MyThreadTopicBase
     {
         System.out.println(this);
         System.out.println("    Code = " + code);
-        System.out.println("    OwnerUid = " + ownerUid);
-        System.out.println("    HostName = " + hostName);
         System.out.println("    HostAddress = " + hostAddress);
-        System.out.println("    LastStartUtcTs = " + lastStartUtcTs);
+        System.out.println("    HostName = " + hostName);
         System.out.println("    LastEndUtcTs = " + lastEndUtcTs);
+        System.out.println("    LastStartUtcTs = " + lastStartUtcTs);
         System.out.println("    LastTouchUtcTs = " + lastTouchUtcTs);
+        System.out.println("    OwnerUid = " + ownerUid);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

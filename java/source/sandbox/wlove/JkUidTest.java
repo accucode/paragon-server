@@ -1,38 +1,40 @@
 package sandbox.wlove;
 
-import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
 
-public class JkUidTest
+public final class JkUidTest
+    extends JkAbstractTest
 {
+    //##################################################
+    //# main
+    //##################################################
+
     public static void main(String[] args)
     {
         new JkUidTest().run();
     }
 
-    private void run()
+    //##################################################
+    //# init
+    //##################################################
+
+    @Override
+    protected void init()
     {
-        printOne();
-        speedTest();
+        setAutoInstall(false);
+        setAutoTransaction(false);
+
+        setShortErrors(false);
+        setShowTimes(false);
     }
 
-    protected void printOne()
+    //##################################################
+    //# handle
+    //##################################################
+
+    @Override
+    protected void handle()
     {
         System.out.println(Kmu.newUid());
-    }
-
-    protected void speedTest()
-    {
-        int n = 1000000;
-        for ( int i = 0; i < n; i++ )
-            Kmu.newUid();
-
-        KmTimer t = KmTimer.run();
-        for ( int i = 0; i < n; i++ )
-            Kmu.newUid();
-        t.stop();
-
-        int iPerMs = (int)(n / t.getMilliseconds());
-        System.out.println(iPerMs + " / ms");
     }
 }

@@ -9,6 +9,7 @@ import com.kodemore.dao.KmDaoSession;
 import com.kodemore.dao.KmDaoSessionManager;
 import com.kodemore.exception.KmSignalingException;
 import com.kodemore.hibernate.lock.KmhDaoOptimisticLockException;
+import com.kodemore.log.KmLog;
 import com.kodemore.log.KmLogger;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
@@ -35,7 +36,7 @@ public abstract class KmDaoCommand
      * Log a warning if the command takes too long to run.
      * This does not interrupt or otherwise affect the command.
      */
-    private int                   _warningThresholdMs;
+    private int _warningThresholdMs;
 
     /**
      * If true, ignore any stale object exceptions.
@@ -50,19 +51,28 @@ public abstract class KmDaoCommand
      * reached, any additional exception will be throw unless this flag
      * is set to ignore it.
      */
-    private boolean               _ignoreStaleExceptions;
+    private boolean _ignoreStaleExceptions;
+
+    /**
+     * Nested commands are discouraged since they may indicate false
+     * expectations about the results. We cannot support nested database
+     * transactions at this time, so the nested command really just joins
+     * the existing outer command's transaction. This can be enabled
+     * to generate a warning stack trace when nested commands are detected.
+     */
+    private boolean _warnOnNestedCommands;
 
     /**
      * The number of times to retry the transaction if a stale object
      * exception is detected.
      */
-    private int                   _staleObjectRetryCount;
+    private int _staleObjectRetryCount;
 
     /**
      * The delay to way before retrying the transaction after a stale
      * object exception.
      */
-    private int                   _staleObjectRetryDelayMs;
+    private int _staleObjectRetryDelayMs;
 
     /**
      * The database lock key.  We primarily rely on optimistic locking
@@ -73,7 +83,7 @@ public abstract class KmDaoCommand
      * This creates a global lock on the entire database installation and
      * should generally be avoided except where absolutely necessary.
      */
-    private String                _lockKey;
+    private String _lockKey;
 
     //##################################################
     //# constructor
@@ -86,6 +96,7 @@ public abstract class KmDaoCommand
         _warningThresholdMs = bridge.getWarningThresholdMs();
         _staleObjectRetryCount = bridge.getStaleObjectRetryCount();
         _staleObjectRetryDelayMs = bridge.getStaleObjectRetryDelayMs();
+        _warnOnNestedCommands = false;
     }
 
     //##################################################
@@ -110,6 +121,11 @@ public abstract class KmDaoCommand
     public void disableWarningThresholdMs()
     {
         setWarningThresholdMs(0);
+    }
+
+    public void disableNestedCommandWarning()
+    {
+        _warnOnNestedCommands = false;
     }
 
     public boolean getIgnoreStaleExceptions()
@@ -152,6 +168,9 @@ public abstract class KmDaoCommand
 
     private void runInOpenTransaction()
     {
+        if ( _warnOnNestedCommands )
+            KmLog.warnTrace("Nested dao command");
+
         checkLock();
         runDao();
     }
@@ -182,6 +201,7 @@ public abstract class KmDaoCommand
                 }
 
                 retries++;
+                KmLog.info("Dao retry %s of %s.", retries, retryCount);
                 Kmu.sleepMs(retryDelayMs);
                 onStaleObjectRetry();
             }
@@ -193,8 +213,8 @@ public abstract class KmDaoCommand
      * For example, we can generally retry the Hibernate exceptions for
      * optimistic locking.
      *
-     * Also, we retry constraint violation exceptions.  These generally indicate
-     * a collision on a unique key/index.  In most cases this is effectively the
+     * Also, we retry constraint violation exceptions. These generally indicate
+     * a collision on a unique key/index.  In many cases this is effectively the
      * same type of situation as an optimistic lock, so we retry this as well.
      */
     private boolean isRetryable(RuntimeException ex)
@@ -294,13 +314,17 @@ public abstract class KmDaoCommand
         if ( ms < getWarningThresholdMs() )
             return;
 
-        String s = Kmu.format("Slow command %sms, Class(%s)", (int)ms, getSimpleClassName());
+        String time = ms < 1000
+            ? Kmu.format("%,dms", (int)ms)
+            : Kmu.format("%,.1fsec", ms / 1000);
 
-        String c = getContext();
-        if ( c != null )
-            s += " Context:\n" + c;
+        String ctx = hasContext()
+            ? " Context:\n" + getContext()
+            : "";
 
-        logger.warn(s);
+        String msg = Kmu.format("Slow command %s, Class(%s)%s", time, getSimpleClassName(), ctx);
+
+        logger.warn(msg);
     }
 
     //##################################################

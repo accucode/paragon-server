@@ -2,7 +2,7 @@ package com.kodemore.json;
 
 /**
  * I provide a simple test for the json tools.
- * 
+ *
  * The general process is as follows:
  *      1) Create a complex json object that includes samples of each data type.
  *          Include all the primitive (and nulls).

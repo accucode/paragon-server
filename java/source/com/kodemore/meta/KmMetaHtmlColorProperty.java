@@ -14,18 +14,18 @@ public abstract class KmMetaHtmlColorProperty<T>
     @Override
     public ScColorField newField()
     {
-        return newField(getLabel());
+        ScColorField e;
+        e = new ScColorField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScColorField newField(String label)
     {
         ScColorField e;
-        e = new ScColorField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

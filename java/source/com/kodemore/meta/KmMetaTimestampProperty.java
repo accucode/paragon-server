@@ -1,6 +1,6 @@
 package com.kodemore.meta;
 
-import com.kodemore.servlet.field.ScTimestampField;
+import com.kodemore.servlet.field.ScZonedTimestampField;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.validator.KmTimestampValidator;
 
@@ -12,20 +12,20 @@ public abstract class KmMetaTimestampProperty<T>
     //##################################################
 
     @Override
-    public ScTimestampField newField()
+    public ScZonedTimestampField newField()
     {
-        return newField(getLabel());
+        ScZonedTimestampField e;
+        e = new ScZonedTimestampField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
-    public ScTimestampField newField(String label)
+    public ScZonedTimestampField newField(String label)
     {
-        ScTimestampField e;
-        e = new ScTimestampField();
+        ScZonedTimestampField e;
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
-        e.setValidator(getValidator());
         return e;
     }
 

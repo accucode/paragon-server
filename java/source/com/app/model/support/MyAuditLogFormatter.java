@@ -2,8 +2,14 @@ package com.app.model.support;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.control.ScTable;
+import com.kodemore.servlet.control.ScTableRow;
+import com.kodemore.time.KmClock;
+import com.kodemore.time.KmDate;
+import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAuditLog;
+import com.app.model.MyUser;
 import com.app.model.base.MyAuditLogType;
 
 /**
@@ -15,21 +21,18 @@ public class MyAuditLogFormatter
     //# static
     //##################################################
 
-    public static String format(KmList<MyAuditLog> v)
+    public static KmHtmlBuilder format(KmList<MyAuditLog> v)
     {
         if ( v == null || v.isEmpty() )
             return null;
 
-        MyAuditLogFormatter f;
-        f = new MyAuditLogFormatter();
-        f.setAuditLogs(v);
-        return f.format();
+        return new MyAuditLogFormatter().composeHtml(v);
     }
 
-    public static String format(MyAuditLog e)
+    public static KmHtmlBuilder format(MyAuditLog e)
     {
         return e == null
-            ? ""
+            ? null
             : format(KmList.createWith(e));
     }
 
@@ -37,10 +40,7 @@ public class MyAuditLogFormatter
     //# variables
     //##################################################
 
-    private KmList<MyAuditLog> _auditLogs;
-    private KmHtmlBuilder      _builder;
-    private MyAuditLog         _previous;
-    private boolean            _inBulletList;
+    private MyAuditLog _previous;
 
     //##################################################
     //# constructor
@@ -48,294 +48,141 @@ public class MyAuditLogFormatter
 
     private MyAuditLogFormatter()
     {
-        _builder = new KmHtmlBuilder();
+        // none
     }
 
     //##################################################
-    //# accessing
+    //# compose
     //##################################################
 
-    private KmList<MyAuditLog> getAuditLogs()
+    public KmHtmlBuilder composeHtml(KmList<MyAuditLog> v)
     {
-        return _auditLogs;
-    }
+        _previous = null;
 
-    private void setAuditLogs(KmList<MyAuditLog> e)
-    {
-        _auditLogs = e;
-    }
+        ScTable table;
+        table = new ScTable();
+        table.css().dataTable();
+        table.defaultCellCss().noWrap();
 
-    private boolean hasAuditLogs()
-    {
-        KmList<MyAuditLog> v = getAuditLogs();
+        ScTableRow row;
+        row = table.addRow();
+        row.addHeader("On");
+        row.addHeader("At");
+        row.addHeader("User");
+        row.addHeader("Action");
+        row.addHeader("Element");
+        row.addHeader("Attribute");
+        row.addHeader("New Value");
+        row.addHeader("Old Value");
 
-        if ( v == null )
-            return false;
-
-        if ( v.isEmpty() )
-            return false;
-
-        return true;
-    }
-
-    //##################################################
-    //# format
-    //##################################################
-
-    private String format()
-    {
-        if ( !hasAuditLogs() )
-            return "";
-
-        for ( MyAuditLog e : getAuditLogs() )
+        for ( MyAuditLog e : v )
         {
-            printLog(e);
+            compose(table, e);
             _previous = e;
         }
 
-        endBulletList();
-
-        return _builder.toString().trim();
+        return table.render();
     }
 
-    private void printLog(MyAuditLog e)
+    private void compose(ScTable table, MyAuditLog e)
     {
-        if ( isNewSection(e) )
-            printSectionHeader(e);
+        ScTableRow row;
+        row = table.addRow();
 
-        if ( isNewGroup(e) )
-            printGroupHeader(e);
-
-        printDetail(e);
+        row.addCell().addText(formatDate(e));
+        row.addCell().addText(formatTime(e));
+        row.addCell().addText(formatUser(e));
+        row.addCell().addText(formatAction(e));
+        row.addCell().addText(formatElement(e));
+        row.addCell().addText(formatAttribute(e));
+        row.addCell().addText(formatNewValue(e));
+        row.addCell().addText(formatOldValue(e));
     }
 
-    //##################################################
-    //# section header
-    //##################################################
-
-    private void printSectionHeader(MyAuditLog e)
+    private String formatDate(MyAuditLog e)
     {
-        String name = e.formatMessageUserName();
-        String msg = e.getCreatedLocalTsMessage();
+        if ( isSameBundle(e) )
+            return "";
 
-        endBulletList();
+        KmDate date = e.getCreatedLocalDate();
+        int currentYear = KmClock.getLocalDate().getYear();
 
-        if ( !_builder.isEmpty() )
-        {
-            println();
-            println();
-        }
-
-        printDivider();
-        printflnBold("%s, %s", name, msg);
-        printDivider();
+        return date.hasYear(currentYear)
+            ? date.format_m_d()
+            : date.format_m_d_yy();
     }
 
-    //##################################################
-    //# group header
-    //##################################################
-
-    private void printGroupHeader(MyAuditLog e)
+    private String formatTime(MyAuditLog e)
     {
+        if ( isSameBundle(e) )
+            return "";
+
+        return e.getCreatedLocalTime().format_h_mm_am();
+    }
+
+    private String formatUser(MyAuditLog e)
+    {
+        if ( isSameBundle(e) )
+            return "";
+
+        MyUser user = e.getUser();
+        return user == null
+            ? Kmu.formatMetaValue("system")
+            : user.getFullName();
+    }
+
+    private String formatAction(MyAuditLog e)
+    {
+        if ( isSameBundle(e) )
+            return "";
+
         MyAuditLogType type = e.getType();
-        if ( type == null )
-            return;
-
-        endBulletList();
-        println();
-
         switch ( type )
         {
             case Add:
-                printAddGroupHeader(e);
-                break;
-
-            case Update:
-                printUpdateGroupHeader(e);
-                break;
+                return "Added";
 
             case Delete:
-                printDeleteGroupHeader(e);
-                break;
-        }
-    }
-
-    private void printAddGroupHeader(MyAuditLog e)
-    {
-        printfln("Added %s [%s]", e.getDomainTypeLabel(), e.getDomainName());
-    }
-
-    private void printUpdateGroupHeader(MyAuditLog e)
-    {
-        printfln("Updated %s [%s]", e.getDomainTypeLabel(), e.getDomainName());
-    }
-
-    private void printDeleteGroupHeader(MyAuditLog e)
-    {
-        printfln("Deleted %s [%s]", e.getDomainTypeLabel(), e.getDomainName());
-    }
-
-    //##################################################
-    //# detail
-    //##################################################
-
-    private void printDetail(MyAuditLog e)
-    {
-        MyAuditLogType type = e.getType();
-
-        if ( type == null )
-            return;
-
-        beginBullet();
-        switch ( type )
-        {
-            case Add:
-                formatAddDetail(e);
-                break;
+                return "Deleted";
 
             case Update:
-                formatUpdateDetail(e);
-                break;
-
-            case Delete:
-                formatDeleteDetail(e);
-                break;
+                return "Updated";
         }
-        endBullet();
+        throw Kmu.newEnumError(type);
     }
 
-    private void formatAddDetail(MyAuditLog e)
+    private String formatElement(MyAuditLog e)
     {
-        printfln("set %s = [%s].", e.getFieldNameLabel(), e.getNewValue());
+        if ( isSameBundle(e) )
+            return "";
+
+        return Kmu.format("%s (%s)", e.getDomainName(), e.getDomainType());
     }
 
-    private void formatUpdateDetail(MyAuditLog e)
+    private String formatAttribute(MyAuditLog e)
     {
-        printfln(
-            "changed %s from [%s] to [%s].",
-            e.getFieldNameLabel(),
-            e.getOldValue(),
-            e.getNewValue());
+        return e.getFieldName();
     }
 
-    private void formatDeleteDetail(MyAuditLog e)
+    private String formatNewValue(MyAuditLog e)
     {
-        printfln("%s was [%s].", e.getFieldNameLabel(), e.getOldValue());
+        return e.getNewValue();
+    }
+
+    private String formatOldValue(MyAuditLog e)
+    {
+        return e.getOldValue();
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private boolean isNewSection(MyAuditLog e)
+    private boolean isSameBundle(MyAuditLog e)
     {
-        if ( _previous == null )
-            return true;
-
-        return isNewTransaction(e) || isNewUser(e);
-    }
-
-    private boolean isNewGroup(MyAuditLog e)
-    {
-        if ( _previous == null )
-            return true;
-
-        return isNewTransaction(e) || isNewDomain(e);
-    }
-
-    private boolean isNewTransaction(MyAuditLog e)
-    {
-        if ( _previous == null )
-            return true;
-
-        if ( _previous.hasTransactionUid(e.getTransactionUid()) )
-            return false;
-
-        return true;
-    }
-
-    private boolean isNewUser(MyAuditLog e)
-    {
-        if ( _previous == null )
-            return true;
-
-        if ( _previous.hasUserName(e.getUserName()) )
-            return false;
-
-        return true;
-    }
-
-    private boolean isNewDomain(MyAuditLog e)
-    {
-        if ( _previous == null )
-            return true;
-
-        if ( !_previous.hasDomainType(e.getDomainType()) )
-            return true;
-
-        if ( !_previous.hasDomainUid(e.getDomainUid()) )
-            return true;
-
-        return false;
-    }
-
-    //##################################################
-    //# print
-    //##################################################
-
-    private void printDivider()
-    {
-        _builder.printRule();
-    }
-
-    private void printfln(String format, Object... args)
-    {
-        _builder.printfln(format, args);
-    }
-
-    private void printflnBold(String format, Object... args)
-    {
-        _builder.beginBold();
-        _builder.printfln(format, args);
-        _builder.endBold();
-    }
-
-    private void println()
-    {
-        _builder.println();
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private void beginBulletList()
-    {
-        if ( _inBulletList )
-            return;
-
-        _builder.beginBulletList();
-        _inBulletList = true;
-    }
-
-    private void endBulletList()
-    {
-        if ( !_inBulletList )
-            return;
-
-        _builder.endBulletList();
-        _inBulletList = false;
-    }
-
-    private void beginBullet()
-    {
-        beginBulletList();
-        _builder.beginBullet();
-    }
-
-    private void endBullet()
-    {
-        _builder.endBullet();
+        return _previous == null
+            ? false
+            : e.hasBundle(_previous.getBundle());
     }
 
 }

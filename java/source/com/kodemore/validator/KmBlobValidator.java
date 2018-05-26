@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@
 package com.kodemore.validator;
 
 import com.kodemore.collection.KmBlob;
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 
 public class KmBlobValidator
     extends KmValidator<KmBlob>
@@ -34,9 +33,9 @@ public class KmBlobValidator
     //##################################################
 
     @Override
-    public void validateModel(KmBlob value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmBlob value, KmErrorList errors)
     {
-        //
+        // none
     }
 
     //##################################################

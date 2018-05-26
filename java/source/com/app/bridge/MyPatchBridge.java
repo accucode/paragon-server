@@ -35,8 +35,8 @@ public class MyPatchBridge
     //# constants
     //##################################################
 
-    private static final String TABLE                   = "patch";
-    private static final String ALIAS                   = "p";
+    private static final String TABLE = "patch";
+    private static final String ALIAS = "p";
 
     private static final String COLUMN_NAME             = "name";
     private static final String COLUMN_SOURCE           = "source";

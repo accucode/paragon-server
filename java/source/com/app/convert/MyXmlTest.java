@@ -1,6 +1,6 @@
 package com.app.convert;
 
-import com.kodemore.utility.Kmu;
+import com.kodemore.utility.KmFiles;
 
 import com.app.utility.MyInstaller;
 
@@ -23,8 +23,8 @@ public class MyXmlTest
     {
         MyInstaller.installCore();
 
-        String xmlFile = "converterTest/upcA.xml";
-        String xml = Kmu.readFileString(xmlFile);
+        String xmlPath = "converterTest/upcA.xml";
+        String xml = KmFiles.readString(xmlPath);
 
         MyXmlConverter e;
         e = new MyXmlConverter();

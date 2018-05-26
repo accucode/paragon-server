@@ -61,7 +61,7 @@ public class KmSqlResultFormatterCsvSimple
             return "Too many rows.";
 
         if ( wasNull )
-            return "-null-";
+            return formatNull();
 
         return s;
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -45,16 +46,16 @@ public class ScPopupMenu
 
     /**
      * The image url.
-     * Defaults to: ~threeDotMenuBlack.png
+     * Defaulted based on the url bridge.
      */
-    private ScLocalString           _imageUrl;
+    private ScLocalString _imageUrl;
 
     /**
      * If using the 'three dot' menu icon, this determines the size (width & height)
      * of the icon. The original icon is 128px so scaling larger than this is not
      * recommended. The default size is 24px.
      */
-    private ScLocalInteger          _imageSize;
+    private ScLocalInteger _imageSize;
 
     /**
      * The items to be displayed in the popup menu.
@@ -65,13 +66,13 @@ public class ScPopupMenu
      * If true, open the menu above the target.
      * By default, it opens below.
      */
-    private ScLocalBoolean          _alignTop;
+    private ScLocalBoolean _alignTop;
 
     /**
      * The speed in ms to open the menu.
      * Defaults to 100ms.
      */
-    private ScLocalInteger          _speedMs;
+    private ScLocalInteger _speedMs;
 
     //##################################################
     //# constructor
@@ -105,12 +106,12 @@ public class ScPopupMenu
 
     public void setColorBlack()
     {
-        setImageUrl(getThemeImageUrl("threeDotMenuBlack.png"));
+        setImageUrl(ScUrlBridge.getInstance().getMenuBlackIcon());
     }
 
     public void setColorWhite()
     {
-        setImageUrl(getThemeImageUrl("threeDotMenuWhite.png"));
+        setImageUrl(ScUrlBridge.getInstance().getMenuWhiteIcon());
     }
 
     //==================================================
@@ -131,10 +132,9 @@ public class ScPopupMenu
     //# accessing :: items
     //##################################################
 
-    public ScPopupMenuItem addItem(String text, Runnable runnable)
+    public void addItem(ScPopupMenuItem e)
     {
-        ScAction action = newCheckedAction(runnable);
-        return addItem(text, action);
+        _items.add(e);
     }
 
     public ScPopupMenuItem addItem(String text, ScAction action)
@@ -150,8 +150,18 @@ public class ScPopupMenu
         e.setText(text);
         e.setAction(action);
         e.setArgument(arg);
-        _items.add(e);
+        addItem(e);
         return e;
+    }
+
+    public boolean hasItems()
+    {
+        return !_items.isEmpty();
+    }
+
+    public boolean hasVisibleItems()
+    {
+        return _items.containsIf(e -> e.isVisible());
     }
 
     //##################################################
@@ -194,7 +204,7 @@ public class ScPopupMenu
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        if ( _items.isEmpty() )
+        if ( !hasVisibleItems() )
             return;
 
         out.open("div");
@@ -202,7 +212,6 @@ public class ScPopupMenu
         out.printAttribute("class", "popr");
         out.printDataAttribute("id", getHtmlId());
         out.close();
-
         renderImageOn(out);
         out.end("div");
 
@@ -276,6 +285,7 @@ public class ScPopupMenu
         out.setForm(findFormWrapper());
         out.setAction(action);
         out.setArgument(arg);
-        return out.toString();
+
+        return out.toString() + "return false;";
     }
 }

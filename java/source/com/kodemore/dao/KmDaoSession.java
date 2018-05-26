@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public abstract class KmDaoSession
      * Hibernate's primitive session.
      * Client's do not need this except for a few of the core framework methods.
      */
-    private Session     _session;
+    private Session _session;
 
     /**
      * Hibernate's internal transactions.
@@ -58,14 +58,14 @@ public abstract class KmDaoSession
      * committing or rolling back a transaction clears the uid.  This value
      * should be unique across all servers.
      */
-    private String      _transactionUid;
+    private String _transactionUid;
 
     /**
      * If set, this key is used to generate a global pessimistic lock on the
      * database.  Use of pessimistic locks is generally discouraged, but still
      * useful on a few highly specific scenarios.
      */
-    private String      _lockKey;
+    private String _lockKey;
 
     //##################################################
     //# constructor
@@ -80,12 +80,12 @@ public abstract class KmDaoSession
     //# accessing
     //##################################################
 
-    public Session getSession()
+    public Session getHibernateSession()
     {
         return _session;
     }
 
-    private Transaction getTransaction()
+    private Transaction getHibernateTransaction()
     {
         return _transaction;
     }
@@ -101,7 +101,7 @@ public abstract class KmDaoSession
 
     public void open()
     {
-        _session = newSession();
+        _session = newInnerSession();
         begin();
     }
 
@@ -182,12 +182,12 @@ public abstract class KmDaoSession
     public void clear()
     {
         clearCache();
-        getSession().clear();
+        getHibernateSession().clear();
     }
 
     public void flush()
     {
-        getSession().flush();
+        getHibernateSession().flush();
     }
 
     /**
@@ -209,12 +209,12 @@ public abstract class KmDaoSession
 
     public boolean isDirty()
     {
-        return getSession().isDirty();
+        return getHibernateSession().isDirty();
     }
 
     public void evict(Object e)
     {
-        getSession().evict(e);
+        getHibernateSession().evict(e);
     }
 
     /**
@@ -231,7 +231,7 @@ public abstract class KmDaoSession
      */
     public void _attach(Object e)
     {
-        getSession().save(e);
+        getHibernateSession().save(e);
     }
 
     /**
@@ -243,22 +243,22 @@ public abstract class KmDaoSession
      */
     public boolean isAttached(Object e)
     {
-        return getSession().contains(e);
+        return getHibernateSession().contains(e);
     }
 
     public void delete(Object e)
     {
-        getSession().delete(e);
+        getHibernateSession().delete(e);
     }
 
     public void update(Object e)
     {
-        getSession().update(e);
+        getHibernateSession().update(e);
     }
 
     public boolean isActive()
     {
-        return getTransaction().isActive();
+        return getHibernateTransaction().isActive();
     }
 
     public void fetch(Object e)
@@ -527,6 +527,6 @@ public abstract class KmDaoSession
     //# abstract
     //##################################################
 
-    protected abstract Session newSession();
+    protected abstract Session newInnerSession();
 
 }

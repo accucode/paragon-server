@@ -1,14 +1,6 @@
 package com.app.model;
 
-import com.kodemore.collection.*;
-import com.kodemore.exception.*;
-import com.kodemore.exception.error.*;
-import com.kodemore.time.*;
-import com.kodemore.utility.*;
-import com.kodemore.validator.*;
-
-import com.app.model.base.*;
-import com.app.utility.*;
+import com.app.model.base.MyTenantValidatorBase;
 
 /**
  * Custom validation rules for tenant.
@@ -18,4 +10,3 @@ public class MyTenantValidator
 {
     // none
 }
-

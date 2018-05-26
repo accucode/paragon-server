@@ -10,75 +10,223 @@
 DROP TABLE IF EXISTS applicationLog;
 CREATE TABLE applicationLog
 (
-    uid varchar(30),
-    createdUtcTs datetime,
-    loggerName varchar(100),
     context varchar(100),
-    message varchar(100),
-    levelName char(5),
+    createdUtcTs datetime,
     levelCode int,
+    levelName char(5),
+    loggerName varchar(100),
+    message varchar(100),
     threadName varchar(100),
     trace text,
+    uid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index levelCode on applicationLog (levelCode, uid);
 create index createdUtcTs on applicationLog (createdUtcTs, uid);
 
 
+DROP TABLE IF EXISTS attachment;
+CREATE TABLE attachment
+(
+    content mediumblob,
+    createdUtcTs datetime,
+    enabled char(1),
+    name varchar(255),
+    ownerTypeCode varchar(30),
+    typeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    customerUid varchar(30),
+    projectUid varchar(30),
+    siteUid varchar(30),
+    tenantUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index project on attachment (ownerTypeCode, projectUid, createdUtcTs);
+create index customer on attachment (ownerTypeCode, customerUid, createdUtcTs);
+create index site on attachment (ownerTypeCode, siteUid, createdUtcTs);
+
+
+DROP TABLE IF EXISTS auditBundle;
+CREATE TABLE auditBundle
+(
+    changeTypeCode varchar(30),
+    createdUtcTs datetime,
+    domainName varchar(50),
+    domainType varchar(50),
+    domainUid varchar(30),
+    transactionUid varchar(30),
+    uid varchar(30),
+    userName varchar(50),
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+
+
 DROP TABLE IF EXISTS auditLog;
 CREATE TABLE auditLog
 (
-    uid varchar(30),
+    booleanValue char(1),
     createdUtcTs datetime,
-    transactionUid varchar(30),
-    userName varchar(50),
-    typeCode varchar(30),
-    domainType varchar(50),
+    dateValue date,
     domainName varchar(50),
+    domainType varchar(50),
     domainUid varchar(30),
-    domainBundleUid varchar(30),
+    doubleValue double,
     fieldName varchar(50),
+    integerValue int,
+    longValue bigint,
+    moneyValue decimal(20,2),
     newValue varchar(100),
     oldValue varchar(100),
     stringValue varchar(1000),
-    integerValue int,
-    longValue bigint,
-    doubleValue double,
-    moneyValue decimal(20,2),
-    booleanValue char(1),
-    dateValue date,
     timestampValue datetime,
+    transactionUid varchar(30),
+    typeCode varchar(30),
+    uid varchar(30),
     uidValue varchar(30),
+    userName varchar(50),
+    bundleUid varchar(30),
     userUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index domainField on auditLog (domainUid, fieldName, createdUtcTs);
-create index bundle on auditLog (domainBundleUid, uid);
+create index bundle on auditLog (bundleUid, uid);
 create index domainType on auditLog (domainType);
 
 
 DROP TABLE IF EXISTS autoLogin;
 CREATE TABLE autoLogin
 (
-    uid varchar(30),
     createdUtcTs datetime,
     lastTouchedUtcTs datetime,
+    uid varchar(30),
     lockVersion int,
     userUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 
 
+DROP TABLE IF EXISTS blurb;
+CREATE TABLE blurb
+(
+    createdUtcTs datetime,
+    enabled char(1),
+    messageHtml text,
+    name varchar(50),
+    ownerTypeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index project on blurb (projectUid, createdUtcTs);
+create unique index projectName on blurb (projectUid, name);
+
+
+DROP TABLE IF EXISTS choice;
+CREATE TABLE choice
+(
+    createdUtcTs datetime,
+    defaultValue char(1),
+    enabled char(1),
+    name varchar(50),
+    typeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index type on choice (projectUid, typeCode, name);
+
+
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer
+(
+    billingAttention varchar(50),
+    billingCity varchar(50),
+    billingCountry varchar(50),
+    billingPhone varchar(30),
+    billingPostalCode varchar(20),
+    billingRegion varchar(50),
+    billingStreet1 varchar(100),
+    billingStreet2 varchar(100),
+    createdUtcTs datetime,
+    enabled char(1),
+    name varchar(50),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    approvalContactUid varchar(30),
+    billingContactUid varchar(30),
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index name on customer (projectUid, name);
+
+
+DROP TABLE IF EXISTS customerContact;
+CREATE TABLE customerContact
+(
+    createdUtcTs datetime,
+    email varchar(50),
+    firstName varchar(50),
+    fullName varchar(50),
+    lastName varchar(50),
+    nickname varchar(50),
+    phone varchar(30),
+    title varchar(50),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    customerUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index customer on customerContact (customerUid);
+
+
+DROP TABLE IF EXISTS defaultRecipient;
+CREATE TABLE defaultRecipient
+(
+    contactTypeCode varchar(30),
+    createdUtcTs datetime,
+    customEmail varchar(1000),
+    typeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    emailTemplateUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index emailTemplate on defaultRecipient (emailTemplateUid, contactTypeCode, typeCode);
+
+
 DROP TABLE IF EXISTS download;
 CREATE TABLE download
 (
-    uid varchar(30),
-    createdUtcTs datetime,
-    name varchar(200),
-    typeCode varchar(30),
-    fileName varchar(50),
     bytes mediumblob,
+    createdUtcTs datetime,
+    fileName varchar(50),
+    name varchar(255),
+    typeCode varchar(30),
+    uid varchar(30),
     lockVersion int,
+    attachmentUid varchar(30),
     userUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
@@ -88,14 +236,14 @@ create index created on download (createdUtcTs);
 DROP TABLE IF EXISTS email;
 CREATE TABLE email
 (
-    uid varchar(30),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
-    sentUtcTs datetime,
-    subject varchar(200),
-    fromAddress varchar(50),
-    statusCode varchar(30),
     errorNotes varchar(100),
+    fromAddress varchar(50),
+    sentUtcTs datetime,
+    statusCode varchar(30),
+    subject varchar(200),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
     updatedByUid varchar(30),
@@ -107,17 +255,17 @@ create index status on email (statusCode, createdUtcTs);
 DROP TABLE IF EXISTS emailPart;
 CREATE TABLE emailPart
 (
-    uid varchar(30),
+    attachmentName varchar(255),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
+    data mediumblob,
     sequence int,
     typeCode varchar(30),
-    attachmentName varchar(50),
-    data mediumblob,
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
     emailUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index email on emailPart (emailUid);
@@ -126,38 +274,85 @@ create index email on emailPart (emailUid);
 DROP TABLE IF EXISTS emailRecipient;
 CREATE TABLE emailRecipient
 (
-    uid varchar(30),
-    createdUtcTs datetime,
-    updatedUtcTs datetime,
     address varchar(50),
+    createdUtcTs datetime,
     typeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
     emailUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index email on emailRecipient (emailUid);
 
 
+DROP TABLE IF EXISTS emailTemplate;
+CREATE TABLE emailTemplate
+(
+    bodyHtml text,
+    contextTypeCode varchar(30),
+    createdUtcTs datetime,
+    enabled char(1),
+    name varchar(50),
+    subjectText varchar(200),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index project on emailTemplate (projectUid, createdUtcTs);
+create unique index projectName on emailTemplate (projectUid, name);
+
+
+DROP TABLE IF EXISTS feedback;
+CREATE TABLE feedback
+(
+    closedDate date,
+    createdUtcTs datetime,
+    description varchar(1000),
+    notes varchar(1000),
+    open char(1),
+    pageKey varchar(50),
+    queryString varchar(1000),
+    requestUrl varchar(1000),
+    statusCode varchar(30),
+    typeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    windowLocation varchar(1000),
+    closedByUid varchar(30),
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    tenantUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index created on feedback (createdUtcTs);
+
+
 DROP TABLE IF EXISTS fieldTest;
 CREATE TABLE fieldTest
 (
-    uid varchar(30),
+    booleanTest char(1),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
-    nameValue varchar(50),
+    dateTest date,
+    dayFrequency char(7),
+    doubleTest double,
+    duration bigint,
     integerValue int,
     longTest bigint,
-    doubleTest double,
     moneyTest decimal(20,2),
-    booleanTest char(1),
-    dateTest date,
-    timestampTest datetime,
+    nameValue varchar(50),
     pinNumber1 char(5),
     pinNumber2 char(5),
-    duration bigint,
-    dayFrequency char(7),
+    timestampTest datetime,
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
     updatedByUid varchar(30),
@@ -166,52 +361,123 @@ CREATE TABLE fieldTest
 ) ENGINE = INNODB;
 
 
-DROP TABLE IF EXISTS file;
-CREATE TABLE file
+DROP TABLE IF EXISTS filterTemplate;
+CREATE TABLE filterTemplate
 (
-    uid varchar(30),
+    contextTypeCode varchar(30),
     createdUtcTs datetime,
+    deleted char(1),
+    modified char(1),
+    name varchar(50),
+    preferred char(1),
+    typeCode varchar(30),
+    uid varchar(30),
     updatedUtcTs datetime,
-    name varchar(100),
-    path varchar(100),
-    statusCode varchar(30),
-    size int,
-    partialSize int,
     lockVersion int,
     createdByUid varchar(30),
+    projectUid varchar(30),
     updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
+create index project on filterTemplate (projectUid, contextTypeCode, name);
+
+
+DROP TABLE IF EXISTS filterTemplateItem;
+CREATE TABLE filterTemplateItem
+(
+    attributeCode varchar(50),
+    createdUtcTs datetime,
+    uid varchar(30),
+    updatedUtcTs datetime,
+    used char(1),
+    value varchar(100),
+    lockVersion int,
+    createdByUid varchar(30),
+    templateUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index template on filterTemplateItem (templateUid);
 
 
 DROP TABLE IF EXISTS hibernateCacheTest;
 CREATE TABLE hibernateCacheTest
 (
-    uid varchar(30),
     data varchar(1000),
+    uid varchar(30),
     lockVersion int,
     primary key (uid)
 ) ENGINE = INNODB;
 
 
-DROP TABLE IF EXISTS invitation;
-CREATE TABLE invitation
+DROP TABLE IF EXISTS holiday;
+CREATE TABLE holiday
 (
-    uid varchar(30),
     createdUtcTs datetime,
+    day date,
+    name varchar(50),
+    uid varchar(30),
     updatedUtcTs datetime,
-    typeCode varchar(30),
-    statusCode varchar(30),
-    closedUtcTs datetime,
-    toEmail varchar(50),
-    roleCode char(1),
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
-    fromUserUid varchar(30),
     projectUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
+create index name on holiday (projectUid, name);
+create index day on holiday (projectUid, day);
+
+
+DROP TABLE IF EXISTS member;
+CREATE TABLE member
+(
+    createdUtcTs datetime,
+    dashboardLineCount1 int,
+    dashboardLineCount2 int,
+    dashboardOrientationTypeCode varchar(30),
+    dashboardPanelCodeA varchar(30),
+    dashboardPanelCodeB varchar(30),
+    dashboardPanelCodeC varchar(30),
+    dashboardPanelCodeD varchar(30),
+    dashboardPanelCodeE varchar(30),
+    dashboardPanelCodeF varchar(30),
+    dashboardPanelCodeG varchar(30),
+    dashboardRefreshMinutes int,
+    enabled char(1),
+    roleCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index projectUser on member (projectUid, userUid);
+
+
+DROP TABLE IF EXISTS note;
+CREATE TABLE note
+(
+    createdUtcTs datetime,
+    message varchar(1000),
+    ownerTypeCode varchar(30),
+    sourceTypeCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    customerUid varchar(30),
+    projectUid varchar(30),
+    siteUid varchar(30),
+    tenantUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index project on note (ownerTypeCode, projectUid, createdUtcTs);
+create index customer on note (ownerTypeCode, customerUid, createdUtcTs);
+create index site on note (ownerTypeCode, siteUid, createdUtcTs);
 
 
 DROP TABLE IF EXISTS optimisticLock;
@@ -226,16 +492,16 @@ CREATE TABLE optimisticLock
 DROP TABLE IF EXISTS passwordReset;
 CREATE TABLE passwordReset
 (
-    uid varchar(30),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
     email varchar(50),
-    token varchar(30),
     expirationUtcTs datetime,
+    token varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
     tenantUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index token on passwordReset (token);
@@ -245,8 +511,8 @@ create index expiration on passwordReset (expirationUtcTs);
 DROP TABLE IF EXISTS patch;
 CREATE TABLE patch
 (
-    name varchar(50),
     installedUtcTs datetime,
+    name varchar(50),
     source text,
     primary key (name)
 ) ENGINE = INNODB;
@@ -255,71 +521,119 @@ CREATE TABLE patch
 DROP TABLE IF EXISTS performanceLogDetail;
 CREATE TABLE performanceLogDetail
 (
-    uid varchar(30),
     createdUtcTs datetime,
-    name varchar(100),
     durationMs int,
+    name varchar(100),
+    uid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-create index name on performanceLogDetail (name);
+create index name on performanceLogDetail (name, createdUtcTs, durationMs);
 create index createdUtcTs on performanceLogDetail (createdUtcTs, name);
 
 
 DROP TABLE IF EXISTS performanceLogSummary;
 CREATE TABLE performanceLogSummary
 (
+    averageMs int,
+    count int,
+    maximumMs int,
+    minimumMs int,
+    name varchar(100),
+    totalMs int,
     uid varchar(30),
     utcDate date,
-    name varchar(100),
-    count int,
-    minimumMs int,
-    maximumMs int,
-    averageMs int,
-    totalMs int,
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index date on performanceLogSummary (utcDate, name);
 create index name on performanceLogSummary (name, utcDate);
 
 
+DROP TABLE IF EXISTS priority;
+CREATE TABLE priority
+(
+    categoryCode varchar(30),
+    createdUtcTs datetime,
+    name varchar(50),
+    sequenceCode varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index project on priority (projectUid);
+create unique index sequence on priority (projectUid, sequenceCode);
+
+
 DROP TABLE IF EXISTS project;
 CREATE TABLE project
 (
-    uid varchar(30),
-    createdUtcTs datetime,
-    updatedUtcTs datetime,
-    name varchar(50),
+    autoSiteNumberEnabled char(1),
+    autoSiteNumberPadding int,
+    autoSiteNumberPrefix char(5),
+    businessDays char(7),
+    businessEndTime time,
+    businessStartTime time,
     code char(5),
     companyName varchar(50),
+    createdUtcTs datetime,
+    description varchar(1000),
+    enabled char(1),
+    name varchar(50),
+    nextAutoSiteNumber int,
     sendEmailFrom varchar(50),
-    active char(1),
-    catalogVersion int,
-    businessDays char(7),
-    businessStartTime time,
-    businessEndTime time,
+    timeZoneCode varchar(40),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
+    defaultPriorityUid varchar(30),
+    supervisorUid varchar(30),
+    supportContactUid varchar(30),
     tenantUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index projectName on project (tenantUid, name);
 create unique index projectCode on project (tenantUid, code);
 
 
+DROP TABLE IF EXISTS projectContact;
+CREATE TABLE projectContact
+(
+    createdUtcTs datetime,
+    email varchar(50),
+    firstName varchar(50),
+    fullName varchar(50),
+    lastName varchar(50),
+    nickname varchar(50),
+    phone varchar(30),
+    title varchar(50),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index projectName on projectContact (projectUid);
+
+
 DROP TABLE IF EXISTS serverSession;
 CREATE TABLE serverSession
 (
-    uid varchar(30),
     active char(1),
-    createdUtcTs datetime,
     closedUtcTs datetime,
+    createdUtcTs datetime,
     lastTouchedUtcTs datetime,
+    uid varchar(30),
     version varchar(50),
     lockVersion int,
+    autoLoginUid varchar(30),
     tenantUid varchar(30),
     userUid varchar(30),
-    autoLoginUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 
@@ -334,18 +648,83 @@ CREATE TABLE settings
 ) ENGINE = INNODB;
 
 
+DROP TABLE IF EXISTS site;
+CREATE TABLE site
+(
+    addressAttention varchar(50),
+    addressCity varchar(50),
+    addressCountry varchar(50),
+    addressPhone varchar(30),
+    addressPostalCode varchar(20),
+    addressRegion varchar(50),
+    addressStreet1 varchar(100),
+    addressStreet2 varchar(100),
+    createdUtcTs datetime,
+    enabled char(1),
+    fullName varchar(100),
+    name varchar(50),
+    number varchar(50),
+    timeZoneCode varchar(40),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    customerUid varchar(30),
+    installContactUid varchar(30),
+    mainContactUid varchar(30),
+    priorityUid varchar(30),
+    requesterContactUid varchar(30),
+    salesContactUid varchar(30),
+    schedulingContactUid varchar(30),
+    technicalContactUid varchar(30),
+    typeUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index customer on site (customerUid);
+create unique index number on site (customerUid, number);
+
+
+DROP TABLE IF EXISTS siteContact;
+CREATE TABLE siteContact
+(
+    createdUtcTs datetime,
+    email varchar(50),
+    enabled char(1),
+    firstName varchar(50),
+    fullName varchar(50),
+    lastName varchar(50),
+    nickname varchar(50),
+    phone varchar(30),
+    title varchar(50),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    siteUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index site on siteContact (siteUid);
+
+
 DROP TABLE IF EXISTS tenant;
 CREATE TABLE tenant
 (
-    uid varchar(30),
+    businessDays char(7),
+    businessEndTime time,
+    businessStartTime time,
     createdUtcTs datetime,
-    name varchar(50),
     hostname varchar(50),
+    memo varchar(1000),
+    name varchar(50),
     themeCode varchar(50),
-    intacctCompanyId varchar(50),
-    intacctUserId varchar(50),
-    intacctUserPassword varchar(50),
+    timeZoneCode varchar(40),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
+    createdByUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 
@@ -354,12 +733,12 @@ DROP TABLE IF EXISTS threadTopic;
 CREATE TABLE threadTopic
 (
     code varchar(50),
-    ownerUid varchar(30),
-    hostName varchar(50),
     hostAddress varchar(50),
-    lastStartUtcTs datetime,
+    hostName varchar(50),
     lastEndUtcTs datetime,
+    lastStartUtcTs datetime,
     lastTouchUtcTs datetime,
+    ownerUid varchar(30),
     lockVersion int,
     primary key (code)
 ) ENGINE = INNODB;
@@ -368,34 +747,25 @@ CREATE TABLE threadTopic
 DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
-    uid varchar(30),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
-    firstName varchar(50),
-    lastName varchar(50),
-    nickname varchar(50),
     email varchar(50),
-    passwordSalt varchar(30),
+    enabled char(1),
+    firstName varchar(50),
+    fullName varchar(50),
+    lastName varchar(50),
+    memo varchar(1000),
+    nickname varchar(50),
     passwordHash varchar(40),
+    passwordSalt varchar(30),
     phone varchar(30),
-    active char(1),
-    timeZoneCode varchar(40),
     roleCode varchar(30),
-    dashboardOrientationTypeCode varchar(30),
-    dashboardLineCount1 int,
-    dashboardLineCount2 int,
-    dashboardPanelCodeA varchar(30),
-    dashboardPanelCodeB varchar(30),
-    dashboardPanelCodeC varchar(30),
-    dashboardPanelCodeD varchar(30),
-    dashboardPanelCodeE varchar(30),
-    dashboardPanelCodeF varchar(30),
-    dashboardPanelCodeG varchar(30),
+    timeZoneCode varchar(40),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
     tenantUid varchar(30),
-    lastProjectUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index email on user (tenantUid, email);
@@ -404,19 +774,52 @@ create unique index email on user (tenantUid, email);
 DROP TABLE IF EXISTS userActivation;
 CREATE TABLE userActivation
 (
-    uid varchar(30),
     createdUtcTs datetime,
-    updatedUtcTs datetime,
     email varchar(50),
-    token varchar(30),
     expirationUtcTs datetime,
+    token varchar(30),
+    uid varchar(30),
+    updatedUtcTs datetime,
     lockVersion int,
     createdByUid varchar(30),
-    updatedByUid varchar(30),
     tenantUid varchar(30),
+    updatedByUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
 create index token on userActivation (token);
 create index expiration on userActivation (expirationUtcTs);
+
+
+DROP TABLE IF EXISTS userRecentProject;
+CREATE TABLE userRecentProject
+(
+    createdUtcTs datetime,
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index userProject on userRecentProject (userUid, projectUid);
+
+
+DROP TABLE IF EXISTS vendor;
+CREATE TABLE vendor
+(
+    createdUtcTs datetime,
+    enabled char(1),
+    name varchar(50),
+    uid varchar(30),
+    updatedUtcTs datetime,
+    lockVersion int,
+    createdByUid varchar(30),
+    projectUid varchar(30),
+    updatedByUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index name on vendor (projectUid, name);
 
 

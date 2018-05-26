@@ -32,4 +32,46 @@ public class MyTenantDao
         return c.findFirst();
     }
 
+    //##################################################
+    //# duplicate name
+    //##################################################
+
+    public boolean isDuplicateName(String name)
+    {
+        MyTenantCriteria c;
+        c = createCriteria();
+        c.whereName().is(name);
+        return c.exists();
+    }
+
+    public boolean isDuplicateName(MyTenant tenant, String name)
+    {
+        MyTenantCriteria c;
+        c = createCriteria();
+        c.whereName().is(name);
+        c.whereUidIsNot(tenant);
+        return c.exists();
+    }
+
+    //##################################################
+    //# duplicate hostname
+    //##################################################
+
+    public boolean isDuplicateHostname(String hostname)
+    {
+        MyTenantCriteria c;
+        c = createCriteria();
+        c.whereHostname().is(hostname);
+        return c.exists();
+    }
+
+    public boolean isDuplicateHostname(MyTenant tenant, String hostname)
+    {
+        MyTenantCriteria c;
+        c = createCriteria();
+        c.whereHostname().is(hostname);
+        c.whereUidIsNot(tenant);
+        return c.exists();
+    }
+
 }

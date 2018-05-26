@@ -56,37 +56,49 @@
  */
 
 
-/******************************
- * base
- ******************************/
+//******************************
+//** base
+//******************************
+
 
 .button
     box-sizing:         border-box
+
+    display:            inline-flex
+    justify-content:    center
+    align-items:        center
+    flex-shrink:        0
+
+    overflow:           hidden
+    position:           relative
 
     height:             $button-height                  if $button-height
     min-width:          $button-minimumWidth            if $button-minimumWidth
     padding:            $button-padding                 if $button-padding
 
-    overflow:           hidden
-    display:            inline-block
-    position:           relative
-
     font:               $button-font                    if $button-font
+    text-transform:     $button-textTransform           if $button-textTransform
     text-decoration:    none
     white-space:        nowrap
 
     outline:            none
     border-radius:      $button-radius                  if $button-radius
 
-    flex-shrink:        0
-    text-transform:     $button-textTransform           if $button-textTransform
 
 .button:focus
     outline:            $button-focusOutline            if $button-focusOutline
     outline-offset:     $button-focusOutlineOffset      if $button-focusOutlineOffset
 
 
-.button > img
+.button > *
+    margin-left: 0.5rem
+
+
+.button > *:first-child
+    margin-left: 0
+
+
+.button > img.buttonImage
     margin:             $button-imageMargin              if $button-imageMargin
     padding:            $button-imagePadding             if $button-imagePadding
     width:              $button-imageWidth               if $button-imageWidth
@@ -100,11 +112,17 @@
     right:              0
     height:             $tooltip-triangleSize           if $tooltip-triangleSize
     width:              $tooltip-triangleSize           if $tooltip-triangleSize
+    margin:             0
+    padding:            0
+    border:             none
     cursor:             help
+    z-index:            1
 
-/******************************
- * normal
- ******************************/
+
+//******************************
+//** normal
+//******************************
+
 
 .button-normal
     color:      $button-normalColor                     if $button-normalColor
@@ -125,9 +143,11 @@
     border:     $button-normalBorder-active             if $button-normalBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
 
-/******************************
- * positive
- ******************************/
+
+//******************************
+//** positive
+//******************************
+
 
 .button-positive
     color:      $button-positiveColor                   if $button-positiveColor
@@ -148,9 +168,11 @@
     border:     $button-positiveBorder-active           if $button-positiveBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
 
-/******************************
- * negative
- ******************************/
+
+//******************************
+//** negative
+//******************************
+
 
 .button-negative
     color:      $button-negativeColor                   if $button-negativeColor
@@ -171,32 +193,36 @@
     border:     $button-negativeBorder-active           if $button-negativeBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
 
-/******************************
- * delete
- ******************************/
 
-.button-delete
-    color:      $button-deleteColor                     if $button-deleteColor
-    background: $button-deleteBackground                if $button-deleteBackground
-    border:     $button-deleteBorder                    if $button-deleteBorder
+//******************************
+//** warning
+//******************************
+
+
+.button-warn
+    color:      $button-warnColor                       if $button-warnColor
+    background: $button-warnBackground                  if $button-warnBackground
+    border:     $button-warnBorder                      if $button-warnBorder
     box-shadow: $button-shadow                          if $button-shadow
     cursor:     pointer
 
-.button-delete:hover
-    color:      $button-deleteColor-hover               if $button-deleteColor-hover
-    background: $button-deleteBackground-hover          if $button-deleteBackground-hover
-    border:     $button-deleteBorder-hover              if $button-deleteBorder-hover
+.button-warn:hover
+    color:      $button-warnColor-hover                 if $button-warnColor-hover
+    background: $button-warnBackground-hover            if $button-warnBackground-hover
+    border:     $button-warnBorder-hover                if $button-warnBorder-hover
     box-shadow: $button-shadow-hover                    if $button-shadow-hover
 
-.button-delete:active
-    color:      $button-deleteColor-active              if $button-deleteColor-active
-    background: $button-deleteBackground-active         if $button-deleteBackground-active
-    border:     $button-deleteBorder-active             if $button-deleteBorder-active
+.button-warn:active
+    color:      $button-warnColor-active                if $button-warnColor-active
+    background: $button-warnBackground-active           if $button-warnBackground-active
+    border:     $button-warnBorder-active               if $button-warnBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
 
-/******************************
- * icon
- ******************************/
+
+//******************************
+//** icon
+//******************************
+
 
 .button-icon
     color:      $button-iconColor                       if $button-iconColor
@@ -217,9 +243,51 @@
     border:     $button-iconBorder-active               if $button-iconBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
 
-/******************************
- * disabled
- ******************************/
+.button-icon:focus
+    outline:    1px solid #48f
+
+
+//******************************
+//** icon
+//******************************
+
+
+.button-smallIcon
+    color:      $button-iconColor                       if $button-iconColor
+    background: $button-iconBackground                  if $button-iconBackground
+    border:     $button-iconBorder                      if $button-iconBorder
+    box-shadow: none
+    cursor:     pointer
+    height:     2rem
+    width:      2rem
+    min-width:  2rem
+    padding:    0
+    margin:     0
+
+
+.button-smallIcon > img
+    margin:     0
+    padding:    0
+
+
+.button-smallIcon:hover
+    color:      $button-iconColor-hover                 if $button-iconColor-hover
+    background: $button-iconBackground-hover            if $button-iconBackground-hover
+    border:     $button-iconBorder-hover                if $button-iconBorder-hover
+    box-shadow: $button-shadow-hover                    if $button-shadow-hover
+
+
+.button-smallIcon:active
+    color:      $button-iconColor-active                if $button-iconColor-active
+    background: $button-iconBackground-active           if $button-iconBackground-active
+    border:     $button-iconBorder-active               if $button-iconBorder-active
+    box-shadow: $button-shadow-active                   if $button-shadow-active
+
+
+//******************************
+//** disabled
+//******************************
+
 
 .button-disabled
     color:      $button-disabledColor                   if $button-disabledColor
@@ -228,33 +296,63 @@
     box-shadow: $button-shadow                          if $button-shadow
     cursor:     pointer
 
+
+/*
 .button-disabled:hover
     color:      $button-disabledColor-hover             if $button-disabledColor-hover
     background: $button-disabledBackground-hover        if $button-disabledBackground-hover
     border:     $button-disabledBorder-hover            if $button-disabledBorder-hover
     box-shadow: $button-shadow-hover                    if $button-shadow-hover
 
+
 .button-disabled:active
     color:      $button-disabledColor-active            if $button-disabledColor-active
     background: $button-disabledBackground-active       if $button-disabledBackground-active
     border:     $button-disabledBorder-active           if $button-disabledBorder-active
     box-shadow: $button-shadow-active                   if $button-shadow-active
+*/
 
-/******************************
- * primary
- ******************************/
+
+//******************************
+//** primary
+//******************************
+
 
 .button-primary
     font:       $button-primaryFont
 
-/*******************************************************************
- ** layouts
- *******************************************************************/
 
-.buttonBox                  { padding: 10px; white-space: nowrap; }
+//******************************
+//** layouts
+//******************************
+
+
+.buttonBox
+    display:        flex
+    flex-direction: row
+    padding:        10px
+    white-space:    nowrap
+
 .buttonBox > *              { margin-left: 5px;  }
 .buttonBox > *:first-child  { margin-left: 0;    }
 
-.buttonBox5                  { padding: 5px; white-space: nowrap; }
+
+.buttonBox5
+    display:        flex
+    flex-direction: row
+    padding:        5px
+    white-space:    nowrap
+
 .buttonBox5 > *              { margin-left: 5px;  }
 .buttonBox5 > *:first-child  { margin-left: 0;    }
+
+
+//******************************
+//** auto run
+//******************************
+
+
+.autoRun
+    content: normal // prevent stylus compression
+
+

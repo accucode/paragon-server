@@ -1,11 +1,17 @@
-/*******************************************************************
- ** field set
- *******************************************************************/
+//******************************
+//** fieldset
+//******************************
+
 
 .fieldset
-    position:           relative
     border:             $fieldset-bodyBorder
     border-radius:      $fieldset-bodyRadius
+
+
+//******************************
+//** default
+//******************************
+
 
 .fieldset-legend-default
     font:               $fieldset-legendFont
@@ -14,8 +20,68 @@
     background-color:   $fieldset-legendBackground
     border:             $fieldset-legendBorder
     border-radius:      $fieldset-legendRadius
+    white-space:        nowrap
+    overflow:           hidden
+    text-overflow:      ellipsis
+
 
 .fieldset-body-default
     color:              $fieldset-bodyColor
     background-color:   $fieldset-bodyBackground
 
+
+//******************************
+//** warning
+//******************************
+
+
+.fieldset-legend-warning
+    font:               $fieldset-legendFont
+    padding:            $fieldset-legendPadding
+    color:              $fieldset-legendColor
+    background-color:   $fieldset-legendBackground
+    border:             $fieldset-legendBorder
+    border-radius:      $fieldset-legendRadius
+    white-space:        nowrap
+    overflow:           hidden
+    text-overflow:      ellipsis
+
+
+.fieldset-body-warning
+    color:              $fieldset-bodyColor
+    background-color:   #fdd
+
+
+//******************************
+//** position
+//******************************
+
+
+.fieldsetFill
+    position: absolute;
+    left:     0
+    right:    0
+    width:    auto
+    top:      10px
+    bottom:   0
+    height:   auto
+
+
+.fieldsetFillOffset10
+    position: absolute
+    left:     10px
+    right:    10px
+    width:    auto
+    top:      30px
+    bottom:   10px
+    height:   auto
+
+
+.fieldsetFillOffset20
+    position: absolute
+    left:     20px
+    right:    20px
+    width:    auto
+    top:      40px
+    bottom:   20px
+    height:   auto

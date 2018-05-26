@@ -2,26 +2,50 @@ package com.app.model.core;
 
 import java.io.Serializable;
 
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmCopyIF;
-import com.kodemore.utility.KmDisplayStringIF;
 import com.kodemore.utility.Kmu;
 
 import com.app.property.MyProperties;
 import com.app.utility.MyGlobals;
 
-public abstract class MyAbstractDomain
-    implements KmDisplayStringIF, KmCopyIF, Serializable, Cloneable
+public abstract class MyAbstractDomain<T extends MyAbstractDomain<?>>
+    implements KmCopyIF, Serializable, Cloneable
 {
     //##################################################
-    //# abstract
+    //# generic
     //##################################################
 
-    public abstract void validate();
+    protected abstract T asSubclass();
 
-    public abstract void validateWarn();
+    //##################################################
+    //# validate
+    //##################################################
+
+    protected abstract MyDomainValidator<T> getValidator();
+
+    public final void validateAndCheck()
+    {
+        getValidator().validateAndCheck(asSubclass());
+    }
+
+    public final KmErrorList getValidationErrors()
+    {
+        return getValidator().getValidationErrors(asSubclass());
+    }
+
+    public final void validateOn(KmErrorList errors)
+    {
+        getValidator().validateOn(asSubclass(), errors);
+    }
+
+    public final boolean isValid()
+    {
+        return getValidator().isValid(asSubclass());
+    }
 
     //##################################################
     //# support
@@ -62,18 +86,19 @@ public abstract class MyAbstractDomain
      * The parent reference, if any, is set to null.
      */
     @Override
-    public MyAbstractDomain getCopy()
+    public MyAbstractDomain<T> getCopy()
     {
-        MyAbstractDomain e = getShallowCopy();
+        MyAbstractDomain<T> e = getShallowCopy();
         e.postCopy();
         return e;
     }
 
-    protected final MyAbstractDomain getShallowCopy()
+    @SuppressWarnings("unchecked")
+    protected final MyAbstractDomain<T> getShallowCopy()
     {
         try
         {
-            return (MyAbstractDomain)clone();
+            return (MyAbstractDomain<T>)clone();
         }
         catch ( Exception ex )
         {
@@ -88,7 +113,8 @@ public abstract class MyAbstractDomain
      *
      * Immutables and primitives do NOT need to be copied.
      * References to other models do NOT need to be copied.
-     * The primary key is reset to its default value (typically null, or a new UID).
+     * The primary key is reset to its default value
+     * (typically null, or a new UID).
      * Child collections are copied.
      */
     protected void postCopy()
@@ -99,7 +125,7 @@ public abstract class MyAbstractDomain
     /**
      * Copy an instance of KmCopyIF, checking for null.
      */
-    protected final <T extends KmCopyIF> T copy(T e)
+    protected final <E extends KmCopyIF> E copy(E e)
     {
         return Kmu.copy(e);
     }
@@ -115,13 +141,7 @@ public abstract class MyAbstractDomain
 
     public final void applyTo(ScModelApplicatorIF e)
     {
-        boolean skipFields = MyGlobals.getData().hasErrors();
-        e.applyFromModel(this, skipFields);
-    }
-
-    public final void applyTo(ScModelApplicatorIF e, boolean skipFields)
-    {
-        e.applyFromModel(this, skipFields);
+        e.applyFromModel(this);
     }
 
     //##################################################
@@ -129,4 +149,5 @@ public abstract class MyAbstractDomain
     //##################################################
 
     public abstract String getMetaName();
+
 }

@@ -16,5 +16,4 @@ public abstract class KmMetaModel
     {
         return Kmu.formatCamelCaseAsCapitalizedWords(getName());
     }
-
 }

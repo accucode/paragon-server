@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 
 import com.kodemore.file.KmFile;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -144,7 +145,7 @@ public abstract class KmAbstractChart
 
     public void savePng(String path)
     {
-        Kmu.writeFile(path, createPng());
+        KmFiles.writeBytes(path, createPng());
     }
 
     public void savePng(KmFile file)

@@ -132,23 +132,12 @@
 
 
     <target
-        name="validateProjectCopier"
+        name="runApplicationTests"
         depends="init"
-        description="Validate the project copier.">
+        description="Run all application tests.">
         <antcall
             target="runJavaClass">
-            <param name="javaClass" value="com.app.projectCopier.MyProjectCopierValidatorTool"/>
-        </antcall>
-    </target>
-
-
-    <target
-        name="validateDomainHierarchy"
-        depends="init"
-        description="Validate the domain hierarchy.">
-        <antcall
-            target="runJavaClass">
-            <param name="javaClass" value="com.app.tools.MyDomainHierarchyCheckerTool"/>
+            <param name="javaClass" value="com.app.tools.MyApplicationTester"/>
         </antcall>
     </target>
 
@@ -214,10 +203,16 @@
         name="generateThemeFor">
         <exec
             executable="${env.USERPROFILE}\AppData\Roaming\npm\stylus.cmd">
-            <arg value="${dir}\theme.styl" />
+            <arg value="${dir}/theme.styl" />
             <arg value="--out" />
-            <arg value="${dir}\css" />
+            <arg value="${dir}/css" />
         </exec>
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyLineEndingFixer"/>
+            <param name="javaArgs"  value="${dir}\css\theme.css"/>
+        </antcall>
+
     </target>
 
 </project>

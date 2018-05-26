@@ -2,11 +2,11 @@ package com.app.ui.layout;
 
 import com.kodemore.servlet.control.ScDiv;
 
-import com.app.ui.control.MyDialog;
+import com.app.ui.control.MyFormDialog;
 import com.app.ui.page.login.MyLoginUtility;
 
 public class MyUserDialog
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
@@ -43,15 +43,15 @@ public class MyUserDialog
         body = getBody().addDiv();
         body.css().pad20().flexColumn().columnSpacer10();
 
-        body.addLink("Change Password", this::handleChangePassword);
-        body.addLink("Log Out", this::handleLogout);
+        body.addLink("Change Password", newCheckedAction(this::handleChangePassword));
+        body.addLink("Log Out", newCheckedAction(this::handleLogout));
     }
 
     private void installFooter()
     {
         ScDiv footer;
         footer = showFooter().addButtonBox();
-        footer.addCancelButton(this::ajaxClose);
+        footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //##################################################

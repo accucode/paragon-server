@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,11 @@
 
 package com.kodemore.utility;
 
+import java.nio.charset.CharsetEncoder;
 import java.util.List;
 import java.util.Random;
+
+import com.kodemore.servlet.ScCharsets;
 
 /**
  * I provide a convenience wrapper for access to random values.
@@ -53,26 +56,26 @@ public class KmRandom
     /**
      * The 26 american ascii letters a..z.
      */
-    private static final String LOWER_STRING         = "abcdefghijklmnopqrstuvwxyz";
-    private static final char[] LOWER_ARRAY          = LOWER_STRING.toCharArray();
+    private static final String LOWER_STRING = "abcdefghijklmnopqrstuvwxyz";
+    private static final char[] LOWER_ARRAY  = LOWER_STRING.toCharArray();
 
     /**
      * The 26 american ascii letters A..Z.
      */
-    private static final String UPPER_STRING         = LOWER_STRING.toUpperCase();
-    private static final char[] UPPER_ARRAY          = UPPER_STRING.toCharArray();
+    private static final String UPPER_STRING = LOWER_STRING.toUpperCase();
+    private static final char[] UPPER_ARRAY  = UPPER_STRING.toCharArray();
 
     /**
      * The combination of all upper and lower-case letters.
      */
-    private static final String ALPHA_STRING         = LOWER_STRING + UPPER_STRING;
-    private static final char[] ALPHA_ARRAY          = ALPHA_STRING.toCharArray();
+    private static final String ALPHA_STRING = LOWER_STRING + UPPER_STRING;
+    private static final char[] ALPHA_ARRAY  = ALPHA_STRING.toCharArray();
 
     /**
      * The 10 digits 0..9.
      */
-    private static final String DIGIT_STRING         = "0123456789";
-    private static final char[] DIGIT_ARRAY          = DIGIT_STRING.toCharArray();
+    private static final String DIGIT_STRING = "0123456789";
+    private static final char[] DIGIT_ARRAY  = DIGIT_STRING.toCharArray();
 
     /**
      * The combination of all letters and digits.
@@ -83,21 +86,21 @@ public class KmRandom
     /**
      * The standard (lower) ascii symbols, the ones found on a typical keyboard.
      */
-    private static final String SYMBOL_STRING        = "`~!@#$%^&*()-_=+[]{}|;:,.<>/?'\"\\";
-    private static final char[] SYMBOL_ARRAY         = SYMBOL_STRING.toCharArray();
+    private static final String SYMBOL_STRING = "`~!@#$%^&*()-_=+[]{}|;:,.<>/?'\"\\";
+    private static final char[] SYMBOL_ARRAY  = SYMBOL_STRING.toCharArray();
 
     /**
      * A list of letters that are relatively safe to use in auto-generated
      * passwords and such.  We leave out all of the vowels (and y) to avoid
      * accidentally generating undesirable results (such as curse words).
      */
-    private static final char[] SAFE_ARRAY           = "BCDFGHJKLMNPQRSTVWXZ".toCharArray();
+    private static final char[] SAFE_ARRAY = "BCDFGHJKLMNPQRSTVWXZ".toCharArray();
 
     //##################################################
     //# variables
     //##################################################
 
-    private Random              _random;
+    private Random _random;
 
     //##################################################
     //# constructor
@@ -160,6 +163,14 @@ public class KmRandom
     }
 
     /**
+     * Return a random integer less than zero.
+     */
+    public int getNegativeInteger()
+    {
+        return -getPositiveInteger();
+    }
+
+    /**
      * Return a random integer in the range 0..n-1
      */
     public int getInteger(int n)
@@ -200,7 +211,7 @@ public class KmRandom
      */
     public char getCharacter()
     {
-        return (char)getInteger();
+        return (char)getInteger(Character.MAX_VALUE + 1);
     }
 
     /**
@@ -340,6 +351,34 @@ public class KmRandom
     }
 
     //##################################################
+    //# utf
+    //##################################################
+
+    public String getUtf8String(int n)
+    {
+        StringBuilder out = new StringBuilder();
+
+        for ( int i = 0; i < n; i++ )
+            out.append(getUtfCharacter());
+
+        return out.toString();
+    }
+
+    /**
+     * Return a random character.
+     */
+    public char getUtfCharacter()
+    {
+        CharsetEncoder encoder = ScCharsets.UTF_8.newEncoder();
+        while ( true )
+        {
+            char c = (char)getInteger(Character.MAX_VALUE + 1);
+            if ( encoder.canEncode(c) )
+                return c;
+        }
+    }
+
+    //##################################################
     //# list
     //##################################################
 
@@ -352,4 +391,5 @@ public class KmRandom
             ? null
             : v.get(getInteger(v.size()));
     }
+
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -70,11 +70,11 @@ public abstract class KmError
     @Override
     public String formatProblem()
     {
-        StringBuilder sb = new StringBuilder();
-        formatProblem(sb);
-        return sb.toString();
+        StringBuilder out = new StringBuilder();
+        formatProblemOn(out);
+        return out.toString();
     }
 
-    public abstract void formatProblem(StringBuilder out);
+    public abstract void formatProblemOn(StringBuilder out);
 
 }

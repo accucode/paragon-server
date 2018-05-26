@@ -6,10 +6,10 @@ import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.utility.Kmu;
 
-import com.app.ui.control.MyDialog;
+import com.app.ui.control.MyFormDialog;
 
 public class MyPageErrorDialog
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
@@ -24,7 +24,7 @@ public class MyPageErrorDialog
     public MyPageErrorDialog()
     {
         setLabel("Error");
-        setWidth(600);
+        setWidth(800);
         setFlavorAlert();
 
         ScDiv body;

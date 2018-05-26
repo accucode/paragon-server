@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,7 @@ package com.kodemore.validator;
 import java.util.Iterator;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.exception.error.KmFixedLengthValidationError;
-import com.kodemore.exception.error.KmMaximumLengthValidationError;
-import com.kodemore.exception.error.KmMinimumLengthValidationError;
-import com.kodemore.exception.error.KmRequiredValidationError;
-import com.kodemore.exception.error.KmStringConstraintValidationError;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.utility.Kmu;
 
 public class KmStringValidator
@@ -244,7 +239,7 @@ public class KmStringValidator
     //##################################################
 
     @Override
-    public String convertOnly(String s)
+    public String convert(String s)
     {
         if ( s == null )
             return null;
@@ -268,64 +263,68 @@ public class KmStringValidator
     }
 
     @Override
-    public void validateModel(String s, KmList<KmErrorIF> v)
+    public void validateValueOn(String value, KmErrorList errors)
     {
-        validateRequired(s, v);
-        if ( Kmu.isNotEmpty(s) )
+        if ( !validateRequired(value, errors) )
+            return;
+
+        validateFixedLength(value, errors);
+        validateMinimumLength(value, errors);
+        validateMaximumLength(value, errors);
+        validateValidCharacters(value, errors);
+    }
+
+    private boolean validateRequired(String value, KmErrorList errors)
+    {
+        if ( isRequired() && Kmu.isEmpty(value) )
         {
-            validateFixedLength(s, v);
-            validateMinimumLength(s, v);
-            validateMaximumLength(s, v);
-            validateValidCharacters(s, v);
+            errors.addRequiredField(this);
+            return false;
         }
+
+        return true;
     }
 
-    private void validateRequired(String s, KmList<KmErrorIF> v)
-    {
-        if ( isRequired() && Kmu.isEmpty(s) )
-            v.add(new KmRequiredValidationError(getModel(), getField()));
-    }
-
-    private void validateMinimumLength(String s, KmList<KmErrorIF> v)
+    private void validateMinimumLength(String value, KmErrorList errors)
     {
         if ( _minimumLength == null )
             return;
 
-        if ( s.length() < _minimumLength )
-            v.add(new KmMinimumLengthValidationError(getModel(), getField(), _minimumLength));
+        if ( value.length() < _minimumLength )
+            errors.addFieldError(this, "minimum length is " + _minimumLength);
     }
 
-    private void validateMaximumLength(String s, KmList<KmErrorIF> v)
+    private void validateMaximumLength(String value, KmErrorList errors)
     {
         if ( _maximumLength == null )
             return;
 
-        if ( s.length() > _maximumLength )
-            v.add(new KmMaximumLengthValidationError(getModel(), getField(), _maximumLength));
+        if ( value.length() > _maximumLength )
+            errors.addFieldError(this, "maximum length is " + _maximumLength);
     }
 
-    private void validateFixedLength(String s, KmList<KmErrorIF> v)
+    private void validateFixedLength(String value, KmErrorList errors)
     {
         if ( _fixedLength == null )
             return;
 
-        if ( s.length() != _fixedLength )
-            v.add(new KmFixedLengthValidationError(getModel(), getField(), _fixedLength));
+        if ( value.length() != _fixedLength )
+            errors.addFieldError(this, "must be length " + _fixedLength);
     }
 
     //##################################################
     //# private (constraints)
     //##################################################
 
-    private void validateValidCharacters(String s, KmList<KmErrorIF> v)
+    private void validateValidCharacters(String value, KmErrorList errors)
     {
         if ( _allowsAll )
             return;
 
-        int n = s.length();
+        int n = value.length();
         for ( int i = 0; i < n; i++ )
         {
-            char c = s.charAt(i);
+            char c = value.charAt(i);
 
             if ( _allowsPrintable && isPrintable(c) )
                 continue;
@@ -342,12 +341,12 @@ public class KmStringValidator
             if ( _allowsWhitespace && isWhitespace(c) )
                 continue;
 
-            addConstraintError(v);
+            addConstraintError(errors);
             break;
         }
     }
 
-    private void addConstraintError(KmList<KmErrorIF> errors)
+    private void addConstraintError(KmErrorList errors)
     {
         KmList<String> v = new KmList<>();
         if ( _allowsPrintable )
@@ -372,28 +371,30 @@ public class KmStringValidator
             return;
         }
 
-        StringBuilder sb;
-        sb = new StringBuilder();
-        sb.append("may only contain ");
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("may only contain ");
 
         Iterator<String> i = v.iterator();
-        sb.append(i.next());
+        out.append(i.next());
+
         while ( i.hasNext() )
         {
             String s = i.next();
-            sb.append(", ");
+            out.append(", ");
+
             if ( !i.hasNext() )
-                sb.append("or ");
-            sb.append(s);
+                out.append("or ");
+
+            out.append(s);
         }
-        addConstraintError(errors, sb.toString());
+
+        addConstraintError(errors, out.toString());
     }
 
-    private void addConstraintError(KmList<KmErrorIF> v, String message)
+    private void addConstraintError(KmErrorList errors, String problem)
     {
-        KmStringConstraintValidationError e;
-        e = new KmStringConstraintValidationError(getModel(), getField(), message);
-        v.add(e);
+        errors.addFieldError(this, problem);
     }
 
     //##################################################
@@ -430,7 +431,7 @@ public class KmStringValidator
 
     private boolean isPrintable(char c)
     {
-        return c >= 32 && c <= 126;
+        return Kmu.isSingleLinePrintable(c);
     }
 
     private boolean isSymbol(char c)

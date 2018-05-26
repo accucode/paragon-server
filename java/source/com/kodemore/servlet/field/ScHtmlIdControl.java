@@ -41,7 +41,7 @@ public abstract class ScHtmlIdControl
     @Override
     public final String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class ScHtmlIdControl
     }
 
     @Override
-    public final boolean getVisible()
+    public final boolean isVisible()
     {
         return !style().hasHide();
     }

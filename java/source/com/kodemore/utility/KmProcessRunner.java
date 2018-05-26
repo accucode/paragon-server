@@ -21,10 +21,10 @@ public class KmProcessRunner
     //# variables
     //##################################################
 
-    private String[]      _command;
-    private Process       _process;
-    private InputStream   _standardOutputStream;
-    private InputStream   _standardErrorStream;
+    private String[]    _command;
+    private Process     _process;
+    private InputStream _standardOutputStream;
+    private InputStream _standardErrorStream;
 
     private StringBuilder _outputBuffer;
     private StringBuilder _errorBuffer;

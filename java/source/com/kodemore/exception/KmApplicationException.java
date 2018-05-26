@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import java.util.List;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmDatabaseLockError;
 import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.utility.KmGeneralError;
 import com.kodemore.utility.Kmu;
 
@@ -61,7 +62,7 @@ public class KmApplicationException
         super();
     }
 
-    public KmApplicationException(KmList<KmErrorIF> errors)
+    public KmApplicationException(KmErrorList errors)
     {
         setErrors(errors);
     }
@@ -80,9 +81,9 @@ public class KmApplicationException
         return _errors;
     }
 
-    public void setErrors(KmList<KmErrorIF> e)
+    public void setErrors(KmErrorList e)
     {
-        _errors = e;
+        _errors = e.getErrors();
     }
 
     @Override

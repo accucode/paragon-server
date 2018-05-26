@@ -8,7 +8,7 @@ import com.kodemore.json.KmJsonReader;
 
 /**
  * I am used connect to Facebook to make various requests.
- * 
+ *
  * Facebook Graph Api documentation: http://goo.gl/cj4rBE
  */
 public class KmFacebookConnection
@@ -17,7 +17,7 @@ public class KmFacebookConnection
     //# constants
     //##################################################
 
-    private static String               HOST = "graph.facebook.com";
+    private static String HOST = "graph.facebook.com";
 
     //##################################################
     //# variables
@@ -33,7 +33,7 @@ public class KmFacebookConnection
     /**
      * The http request wrapper.
      */
-    private KmHttpRequest               _request;
+    private KmHttpRequest _request;
 
     //##################################################
     //# constructor

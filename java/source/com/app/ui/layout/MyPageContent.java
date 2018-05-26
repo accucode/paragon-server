@@ -22,7 +22,6 @@ public class MyPageContent
 
         _inner = addDiv();
         _inner.setHtmlId(KmCssDefaultConstantsIF.ID_content_inner);
-        _inner.css().appContentInner().flexColumn();
     }
 
     //##################################################

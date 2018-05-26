@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,15 +48,15 @@ public class KmStringSplitter
     //# variables
     //##################################################
 
-    private int             _width;
-    private int             _firstWidth;
-    private int             _mode;
-    private FontMetrics     _fontMetrics;
-    private boolean         _collapseWordBreaks;
-    private String          _wordBreakCharacters;
-    private String          _lineBreakCharacters;
-    private boolean         _convertWordBreaksToSpace;
-    private boolean         _allowTrailingWhiteSpace;
+    private int         _width;
+    private int         _firstWidth;
+    private int         _mode;
+    private FontMetrics _fontMetrics;
+    private boolean     _collapseWordBreaks;
+    private String      _wordBreakCharacters;
+    private String      _lineBreakCharacters;
+    private boolean     _convertWordBreaksToSpace;
+    private boolean     _allowTrailingWhiteSpace;
 
     //##################################################
     //# constructor

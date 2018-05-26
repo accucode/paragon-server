@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,15 +27,25 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScToggleScript;
 import com.kodemore.servlet.script.ScVisibilityScript;
 import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.utility.Kmu;
 
 public interface ScHtmlIdIF
     extends ScVisibleIF
 {
     //##################################################
-    //# basics
+    //# html id
     //##################################################
 
     String getHtmlId();
+
+    default boolean hasHtmlId(String e)
+    {
+        return Kmu.isEqual(e, getHtmlId());
+    }
+
+    //##################################################
+    //# focus
+    //##################################################
 
     ScHtmlIdIF getFocusTarget();
 

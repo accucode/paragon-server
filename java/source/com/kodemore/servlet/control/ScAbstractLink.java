@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,10 @@ package com.kodemore.servlet.control;
 import java.util.function.Function;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.renderer.ScRenderer;
+import com.kodemore.servlet.script.ScShowNoticeScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
@@ -37,13 +39,22 @@ public abstract class ScAbstractLink
     //# variables
     //##################################################
 
+    /**
+     * The text to display on screen.
+     */
     private ScLocalRenderer _text;
 
     /**
      * If true, the default, the link may receive tab focus.
      * If false, set the tabindex = -1 to disable tab focus.
      */
-    private ScLocalBoolean  _focusable;
+    private ScLocalBoolean _focusable;
+
+    /**
+     * If true, the visual style of the link is changed,
+     * and the link is no longer clickable.
+     */
+    private ScLocalBoolean _disabled;
 
     //##################################################
     //# constructor
@@ -53,6 +64,7 @@ public abstract class ScAbstractLink
     {
         _text = new ScLocalRenderer();
         _focusable = new ScLocalBoolean(true);
+        _disabled = new ScLocalBoolean();
 
         css().link();
     }
@@ -101,6 +113,41 @@ public abstract class ScAbstractLink
     }
 
     //##################################################
+    //# disabled
+    //##################################################
+
+    private boolean getDisabled()
+    {
+        return _disabled.isTrue();
+    }
+
+    private void setDisabled(boolean e)
+    {
+        _disabled.setValue(e);
+    }
+
+    public void enable()
+    {
+        setDisabled(false);
+    }
+
+    public void disable(String msg)
+    {
+        setDisabled(true);
+        setHoverText(msg);
+    }
+
+    public boolean isEnabled()
+    {
+        return !isDisabled();
+    }
+
+    public boolean isDisabled()
+    {
+        return getDisabled();
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -121,8 +168,8 @@ public abstract class ScAbstractLink
     {
         super.renderAttributesOn(out);
 
-        out.printAttribute("href", formatHref());
         out.printAttribute("target", formatTarget());
+        out.printAttribute("href", formatHref());
         out.printAttribute("onclick", formatOnClick());
 
         if ( !getFocusable() )
@@ -135,15 +182,78 @@ public abstract class ScAbstractLink
         return super.formatCss();
     }
 
+    @Override
+    protected KmStyleBuilder formatStyle()
+    {
+        KmStyleBuilder e = super.formatStyle();
+
+        if ( isDisabled() )
+            e.color("#666");
+
+        return e;
+    }
+
     //##################################################
     //# render: overrides
     //##################################################
 
+    /**
+     * This is used for the target attribute.
+     * E.g.: <a target="_blank">
+     */
     protected abstract String formatTarget();
 
-    protected abstract String formatHref();
+    //##################################################
+    //# format :: href
+    //##################################################
 
-    protected abstract String formatOnClick();
+    private String formatHref()
+    {
+        return isEnabled()
+            ? formatEnabledHref()
+            : formatDisabledHref();
+    }
+
+    /**
+     * This is used for the href attribute.
+     * E.g.: <a href="url">
+     */
+    protected abstract String formatEnabledHref();
+
+    private String formatDisabledHref()
+    {
+        return null;
+    }
+
+    //##################################################
+    //# format :: on click
+    //##################################################
+
+    private String formatOnClick()
+    {
+        return isEnabled()
+            ? formatEnabledOnClick()
+            : formatDisabledOnClick();
+    }
+
+    /**
+     * This is used for the onclick attribute.
+     * E.g.: <a onclick="alert()">
+     */
+    protected abstract String formatEnabledOnClick();
+
+    private String formatDisabledOnClick()
+    {
+        String msg = hasHoverText()
+            ? getHoverText()
+            : "This action is currently disabled.";
+
+        ScShowNoticeScript s;
+        s = new ScShowNoticeScript();
+        s.setTitle("Disabled");
+        s.setTextMessage(msg);
+        return s.formatScript() + " return false;";
+    }
 
     //##################################################
     //# ajax

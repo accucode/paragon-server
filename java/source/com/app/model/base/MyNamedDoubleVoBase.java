@@ -8,34 +8,44 @@
 
 package com.app.model.base;
 
-import com.kodemore.utility.Kmu;
+import java.util.*;
 
-import com.app.model.MyNamedDoubleVo;
-import com.app.model.MyNamedDoubleVoTools;
-import com.app.model.MyNamedDoubleVoValidator;
-import com.app.model.core.MyAbstractValueDomain;
-import com.app.model.core.MyDomainIF;
-import com.app.model.meta.MyMetaNamedDoubleVo;
+import com.kodemore.collection.*;
+import com.kodemore.domain.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.finder.*;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
+import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyNamedDoubleVoBase
-    extends MyAbstractValueDomain
-    implements MyDomainIF
+    extends MyAbstractValueDomain<MyNamedDoubleVo>
+    implements KmDomainIF
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaNamedDoubleVo      Meta      = MyMetaNamedDoubleVo.instance;
-    public static final MyNamedDoubleVoTools     Tools     = MyNamedDoubleVoTools.instance;
+    public static final MyMetaNamedDoubleVo Meta = MyMetaNamedDoubleVo.instance;
+    public static final MyNamedDoubleVoTools Tools = MyNamedDoubleVoTools.instance;
     public static final MyNamedDoubleVoValidator Validator = MyNamedDoubleVoValidator.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String                               name;
-    private Double                               value;
+    private String name;
+    private Double value;
 
     //##################################################
     //# constructor
@@ -44,6 +54,54 @@ public abstract class MyNamedDoubleVoBase
     public MyNamedDoubleVoBase()
     {
         super();
+    }
+
+    //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -57,7 +115,7 @@ public abstract class MyNamedDoubleVoBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -97,7 +155,7 @@ public abstract class MyNamedDoubleVoBase
 
     public void setValue(Double e)
     {
-        e = Validator.getValueValidator().convertOnly(e);
+        e = Validator.getValueValidator().convert(e);
         value = e;
     }
 
@@ -116,41 +174,21 @@ public abstract class MyNamedDoubleVoBase
         return Kmu.isEqual(getValue(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyNamedDoubleVoValidator getValidator()
     {
-        Validator.validate((MyNamedDoubleVo)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyNamedDoubleVo asSubclass()
     {
-        Validator.validateWarn((MyNamedDoubleVo)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyNamedDoubleVo)this);
+        return (MyNamedDoubleVo)this;
     }
 
     //##################################################
@@ -167,7 +205,6 @@ public abstract class MyNamedDoubleVoBase
     public void postCopy()
     {
         super.postCopy();
-        name = null;
     }
 
     /**
@@ -179,43 +216,48 @@ public abstract class MyNamedDoubleVoBase
     {
         MyNamedDoubleVo e;
         e = new MyNamedDoubleVo();
-        e.setValue(getValue());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyNamedDoubleVo e)
+    {
+        e.setName(getName());
+        e.setValue(getValue());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyNamedDoubleVo e)
+    {
+        setName(e.getName());
+        setValue(e.getValue());
     }
 
     //##################################################
     //# compare
     //##################################################
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if ( !(o instanceof MyNamedDoubleVoBase) )
-            return false;
-
-        MyNamedDoubleVoBase e = (MyNamedDoubleVoBase)o;
-        return Kmu.isEqual(getName(), e.getName());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Kmu.getHashCode(getName());
-    }
-
     public boolean isSame(MyNamedDoubleVo e)
     {
-        if ( !Kmu.isEqual(getName(), e.getName()) )
-            return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyNamedDoubleVo e)
     {
-        if ( !Kmu.isEqual(getValue(), e.getValue()) )
-            return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) )
-            return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getValue(), e.getValue()) ) return false;
         return true;
     }
 
@@ -240,8 +282,6 @@ public abstract class MyNamedDoubleVoBase
         out = new StringBuilder();
         out.append("MyNamedDoubleVo");
         out.append("(");
-        out.append("Name=");
-        out.append(name);
         out.append(")");
         return out.toString();
     }
@@ -252,6 +292,7 @@ public abstract class MyNamedDoubleVoBase
         System.out.println("    Name = " + name);
         System.out.println("    Value = " + value);
     }
+
 
     //##################################################
     //# convenience

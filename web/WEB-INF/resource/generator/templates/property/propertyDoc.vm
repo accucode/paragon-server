@@ -10,23 +10,26 @@ ${htmlAutoGenerationComment}
 <h1>${applicationName} Properties</h1>
 
 #foreach ( $group in $root.propertyFile.groups )
-<h2>${group.f_name}</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>${group.f_name}</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
 #foreach ( $property in $group.properties )
-      <tr>
-        <td>${property.f_name}&nbsp;</td>
-        <td>${property.f_comment}&nbsp;</td>
-        <td>${property.f_type}&nbsp;</td>
-        <td>${property.f_default}&nbsp;</td>
-      </tr>
+        <tr>
+            <td>${property.f_name}&nbsp;</td>
+            <td>${property.f_comment}&nbsp;</td>
+            <td>${property.f_type}&nbsp;</td>
+            <td>${property.f_default}&nbsp;</td>
+        </tr>
 #end
     </table>
+    <br>
     <br>
 
 #end

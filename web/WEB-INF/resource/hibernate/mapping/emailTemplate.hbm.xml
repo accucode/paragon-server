@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyEmailTemplate"
+        table="emailTemplate"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="bodyHtml"
+            column="bodyHtml"
+            type="string"
+            />
+
+        <property
+            name="contextTypeCode"
+            column="contextTypeCode"
+            type="string"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="enabled"
+            column="enabled"
+            type="yes_no"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="subjectText"
+            column="subjectText"
+            type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="defaultRecipients"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="emailTemplateUid"/>
+                <one-to-many class="com.app.model.MyDefaultRecipient"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

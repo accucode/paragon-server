@@ -1,20 +1,17 @@
-/**
- * Code39Azalea Copyright 2012 Jerry Whiting (CC BY-ND 3.0) azalea.com/web-fonts/
- */
+/*  Code39Azalea Copyright 2012 Jerry Whiting (CC BY-ND 3.0) azalea.com/web-fonts/  */
 
 /**
- * Aaron Ledbetter, Accucode, 10/13/2016
- * I changed the urls to use local resources instead of loading fonts from the azalea servers.
+/* Changed the urls to use local resources instead of 
+ * loading fonts from the azalea servers.
  */
 
 @font-face
 {
-    font-family:    Code39AzaleaFont;
-    src:
-       url('Code39Azalea.eot') format('embedded-opentype'),    /* IE9 Compat Modes     */
-       url('Code39Azalea.woff') format('woff'),                /* Modern Browsers      */
-       url('Code39Azalea.ttf') format('truetype'),             /* Safari, Android, iOS */
-       url('Code39Azalea.svg#Code39Azalea') format('svg');     /* Legacy iOS           */
-    font-weight:    normal;
-    font-style:     normal;
+font-family: Code39AzaleaFont;
+src: url('Code39Azalea.eot') format('embedded-opentype'), /* IE9 Compat Modes */
+   url('Code39Azalea.woff') format('woff'), /* Modern Browsers */
+   url('Code39Azalea.ttf') format('truetype'), /* Safari, Android, iOS */
+   url('Code39Azalea.svg#Code39Azalea') format('svg'); /* Legacy iOS */
+font-weight: normal;
+font-style: normal;
 }

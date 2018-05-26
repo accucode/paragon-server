@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -52,8 +52,8 @@ public class KmProfileReader
     private KmList<KmProfileCpu>   _cpus;
     private KmProfileTraceNode     _traceNodeRoot;
 
-    private BufferedReader         _reader;
-    private String                 _line;
+    private BufferedReader _reader;
+    private String         _line;
 
     //##################################################
     //# constructor
@@ -203,7 +203,7 @@ public class KmProfileReader
     {
         KmProfileTraceNode root;
         root = new KmProfileTraceNode();
-        root.setName("<<System Root>>");
+        root.setName(Kmu.formatMetaValue("System Root"));
 
         Iterator<KmProfileTrace> i = getTraces().iterator();
         while ( i.hasNext() )

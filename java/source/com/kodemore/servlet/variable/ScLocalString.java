@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,20 +42,15 @@ public class ScLocalString
     }
 
     //##################################################
-    //# compress
+    //# default
     //##################################################
 
-    /**
-     * @see ScAbstractLocal#compressMemory
-     */
     @Override
-    public void compressMemory()
+    protected String normalizeDefault(String e)
     {
-        super.compressMemory();
-
-        String s = getValue();
-        if ( s != null )
-            setValue(s.intern());
+        return e == null
+            ? null
+            : e.intern();
     }
 
     //##################################################

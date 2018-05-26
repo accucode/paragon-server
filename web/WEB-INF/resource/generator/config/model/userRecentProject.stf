@@ -1,0 +1,50 @@
+model
+: name      = userRecentProject
+: help...
+    ---
+    A record of projects recently used by a given user.
+    ---
+
+database
+: auditLog  = false
+: locking   = true
+
+    index
+    : name      = userProject
+    : unique    = true
+    : on        = user
+    : on        = project
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name          = user
+    : help          = The user being granted access.
+    : modelName     = user
+    : relation      = reference
+    : required      = true
+
+
+    association
+    : name          = project
+    : help          = The project to which this member belongs.
+    : modelName     = project
+    : relation      = reference
+    : required      = true
+

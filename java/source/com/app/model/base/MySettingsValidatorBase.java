@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -78,18 +79,18 @@ public class MySettingsValidatorBase
     public void convertOnly(MySettings value)
     {
         // fields...
-        value.setCode(codeValidator.convertOnly(value.getCode()));
-        value.setSomeMessage(someMessageValidator.convertOnly(value.getSomeMessage()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setCode(codeValidator.convert(value.getCode()));
+        value.setSomeMessage(someMessageValidator.convert(value.getSomeMessage()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MySettings value, KmList<KmErrorIF> errors)
+    public void validateOnly(MySettings value, KmErrorList errors)
     {
         // fields...
-        codeValidator.validateOnly(value.getCode(), errors);
-        someMessageValidator.validateOnly(value.getSomeMessage(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        codeValidator.validateOn(value.getCode(), errors);
+        someMessageValidator.validateOn(value.getSomeMessage(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
     }
 
@@ -101,8 +102,8 @@ public class MySettingsValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("settings");
-        e.setField("code");
+        e.setModelName("settings");
+        e.setFieldName("code");
         e.setRequired();
         return e;
     }
@@ -113,8 +114,8 @@ public class MySettingsValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(100);
         e.setAllowsPrintable(true);
-        e.setModel("settings");
-        e.setField("someMessage");
+        e.setModelName("settings");
+        e.setFieldName("someMessage");
         return e;
     }
 
@@ -122,8 +123,9 @@ public class MySettingsValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("settings");
-        e.setField("lockVersion");
+        e.setModelName("settings");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

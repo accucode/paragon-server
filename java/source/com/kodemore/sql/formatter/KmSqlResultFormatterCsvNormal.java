@@ -36,7 +36,9 @@ public class KmSqlResultFormatterCsvNormal
     @Override
     public void formatResultSet(String schema, String sql, KmSqlResultSet rs, KmTimer timer)
     {
-        resultSetData(schema, sql, timer);
+        if ( showsSqlData() )
+            resultSetData(schema, sql, timer);
+
         resultSetHeaders(rs);
         resultSetRows(rs);
         _out.endRecord();
@@ -82,7 +84,7 @@ public class KmSqlResultFormatterCsvNormal
     {
         String value = rs.getString();
         if ( value == null )
-            _out.printField("-null-");
+            _out.printField(formatNull());
         else
             _out.printField(value);
     }
@@ -94,7 +96,9 @@ public class KmSqlResultFormatterCsvNormal
     @Override
     public void formatUpdate(String schema, String sql, int count, KmTimer timer, boolean rollback)
     {
-        updateData(schema, sql, timer);
+        if ( showsSqlData() )
+            updateData(schema, sql, timer);
+
         updateCount(count, rollback);
 
         _out.endRecord();

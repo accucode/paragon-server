@@ -1,10 +1,11 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhTimestampCondition;
 import com.kodemore.hibernate.type.KmhTimestampType;
 import com.kodemore.meta.KmMetaTimestampProperty;
-import com.kodemore.servlet.field.ScTimestampField;
+import com.kodemore.servlet.field.ScZonedTimestampField;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.validator.KmTimestampValidator;
 
@@ -30,9 +31,9 @@ public class KmProtoTimestamp
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "datetime";
+        return singleColumn("datetime");
     }
 
     @Override
@@ -56,7 +57,7 @@ public class KmProtoTimestamp
     @Override
     public Class<?> getEditControlClass()
     {
-        return ScTimestampField.class;
+        return ScZonedTimestampField.class;
     }
 
     @Override

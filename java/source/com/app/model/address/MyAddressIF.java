@@ -4,11 +4,11 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I define common methods for a street address.  This project
- * generally embeds the address fields directly into the containing model.
- * In other words, there is no table called "Address" but instead the Site
- * table contains fields for street, city, etc.
+ * generally embeds the address fields directly into each model.
+ * In other words, there is no table called "Address" but instead
+ * the Site table contains fields for street, city, etc.
  *
- * However, there are many circumstances where it is convenience for the
+ * However, there are many circumstances where it is convenient for the
  * application to work with an address object and this interface helps to
  * support that.
  */
@@ -180,6 +180,11 @@ public interface MyAddressIF
     default String formatLongLine()
     {
         return MyAddressFormatter.formatLongLine(this);
+    }
+
+    default String formatGeocodeLine()
+    {
+        return MyAddressFormatter.formatGeocodeLine(this);
     }
 
     default String formatMultiLine()

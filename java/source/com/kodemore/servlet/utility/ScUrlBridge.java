@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -89,38 +89,17 @@ public abstract class ScUrlBridge
 
     public abstract String getErrorUrl();
 
+    public abstract String getWarnUrl();
+
     //##################################################
     //# buttons
     //##################################################
 
-    public abstract String getAddButtonUrl();
+    public abstract String getHelpTriangleUrl();
 
-    public abstract String getEditButtonUrl();
+    public abstract String getBarcodeButtonUrl();
 
-    public abstract String getDeleteButtonUrl();
+    public abstract String getMenuBlackIcon();
 
-    public abstract String getDeleteMaybeButtonUrl();
-
-    public abstract String getRemoveButtonUrl();
-
-    public abstract String getRefreshButtonUrl();
-
-    public abstract String getAuditButtonUrl();
-
-    public abstract String getBackButtonUrl();
-
-    public abstract String getSearchButtonUrl();
-
-    public abstract String getHelpIndicatorUrl();
-
-    public abstract String getUpButtonUrl();
-
-    public abstract String getDownButtonUrl();
-
-    public abstract String getPopoutButtonUrl();
-
-    public abstract String getExpandButtonUrl();
-
-    public abstract String getShrinkButtonUrl();
-
+    public abstract String getMenuWhiteIcon();
 }

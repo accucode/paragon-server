@@ -1,6 +1,5 @@
 package com.app.ui.page.tools;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -64,22 +63,6 @@ public final class MyDevUtilityPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -89,7 +72,7 @@ public final class MyDevUtilityPage
         root.css().fill().auto();
 
         ScDiv row;
-        row = root.addFlexRow();
+        row = root.addDiv();
         row.css().flexRow().flexWrap().boxGray().gap();
 
         installSingleVmGroup(row);
@@ -108,8 +91,8 @@ public final class MyDevUtilityPage
         ScDiv body;
         body = group.getBody();
         body.css().flexColumn().columnSpacer5().pad();
-        body.addLink("garbage collection", this::handleGarbageCollection);
-        body.addLink("reload properties", this::handleReloadProperties);
+        body.addLink("garbage collection", newCheckedAction(this::handleGarbageCollection));
+        body.addLink("reload properties", newCheckedAction(this::handleReloadProperties));
     }
 
     private void installExceptionGroup(ScContainer root)
@@ -121,10 +104,10 @@ public final class MyDevUtilityPage
         ScDiv body;
         body = group.getBody();
         body.css().flexColumn().pad().columnSpacer5();
-        body.addLink("message", this::handleMessage);
-        body.addLink("error", this::handleError);
-        body.addLink("fatal", this::handleFatal);
-        body.addLink("runtime exception", this::handleRuntimeException);
+        body.addLink("message", newCheckedAction(this::handleMessage));
+        body.addLink("error", newCheckedAction(this::handleError));
+        body.addLink("fatal", newCheckedAction(this::handleFatal));
+        body.addLink("runtime exception", newCheckedAction(this::handleRuntimeException));
     }
 
     private void installTimeGroup(ScContainer root)
@@ -143,7 +126,7 @@ public final class MyDevUtilityPage
         group.layoutInline();
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFieldTable();
+        fields = group.getBody().addPad().addFullWidthFieldTable();
         fields.style().width(200);
         fields.add(_utcText);
         fields.add(_localText);
@@ -159,7 +142,7 @@ public final class MyDevUtilityPage
         ScDiv body;
         body = group.getBody();
         body.css().flexColumn().pad().columnSpacer5();
-        body.addLink("uid sequence", this::handleUidSequence);
+        body.addLink("uid sequence", newCheckedAction(this::handleUidSequence));
     }
 
     private void installRequestGroup(ScContainer root)
@@ -178,18 +161,18 @@ public final class MyDevUtilityPage
         group.layoutInline();
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFieldTable();
+        fields = group.getBody().addPad().addFullWidthFieldTable();
         fields.add(_userAgentText);
         fields.add(_isInternetExplorerText);
         fields.add(_isFirefoxText);
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         MyServletData data = getData();
 
@@ -217,18 +200,22 @@ public final class MyDevUtilityPage
 
     private void handleGarbageCollection()
     {
-        Runtime rt = Runtime.getRuntime();
-        long max = rt.maxMemory();
-        long free1 = rt.freeMemory();
+        Runtime rt;
+        rt = Runtime.getRuntime();
         rt.gc();
-        long free2 = rt.freeMemory();
+        rt.gc();
+
+        long free = rt.freeMemory();
+        long total = rt.totalMemory();
+        long max = rt.maxMemory();
+        long used = total - free;
 
         KmStringBuilder out;
         out = new KmStringBuilder();
+        out.printfln("Used: %s", Kmu.formatInteger(used));
+        out.printfln("Free: %s", Kmu.formatInteger(free));
+        out.printfln("Total: %s", Kmu.formatInteger(total));
         out.printfln("Max: %s", Kmu.formatInteger(max));
-        out.printfln("Free Before: %s", Kmu.formatInteger(free1));
-        out.printfln("Free After: %s", Kmu.formatInteger(free2));
-        out.printfln("Reclaimed: %s", Kmu.formatInteger(free2 - free1));
 
         ajax().toast(out.toString()).sticky();
     }

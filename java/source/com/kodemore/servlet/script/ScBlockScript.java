@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,17 +25,17 @@ package com.kodemore.servlet.script;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.ScPageIF;
 import com.kodemore.servlet.ScPageSession;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
+import com.kodemore.servlet.control.ScDownloadDialog;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScJquery;
-import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -98,6 +98,15 @@ public abstract class ScBlockScript
         return e;
     }
 
+    public ScActionScript run(ScAction action, Object arg)
+    {
+        ScActionScript e;
+        e = ScActionScript.create(action);
+        e.setArgument(arg);
+        run(e);
+        return e;
+    }
+
     public ScActionScript run(ScAction action, ScForm form)
     {
         ScActionScript e;
@@ -128,6 +137,42 @@ public abstract class ScBlockScript
         _add(e);
 
         return e;
+    }
+
+    /**
+     * Run the action as a client-side script after a brief delay,
+     * submitting the fields in the specified form.
+     */
+    public ScActionScript runDelayedAction(ScForm form, ScAction action)
+    {
+        Object arg = null;
+        return runDelayedAction(form, action, arg);
+    }
+
+    public ScActionScript runDelayedAction(ScForm form, ScAction action, Object arg)
+    {
+        ScDelayedScript delayScript;
+        delayScript = runDelayed();
+        delayScript.setDelayMs(1);
+
+        ScActionScript actionScript;
+        actionScript = delayScript.getScript().run(action, arg);
+        actionScript.setForm(form);
+        actionScript.setBlockTarget(form);
+        return actionScript;
+    }
+
+    public ScActionScript runDelayedAction(ScAction action)
+    {
+        ScForm form = null;
+        Object arg = null;
+        return runDelayedAction(form, action, arg);
+    }
+
+    public ScActionScript runDelayedAction(ScAction action, Object arg)
+    {
+        ScForm form = null;
+        return runDelayedAction(form, action, arg);
     }
 
     //##################################################
@@ -341,10 +386,9 @@ public abstract class ScBlockScript
 
     public ScReplaceContentsScript setContents(String sel, ScControlIF c)
     {
-        if ( c == null )
-            return setContents(sel, (KmHtmlBuilder)null);
-
-        return setContents(sel, c.render());
+        return c == null
+            ? setContents(sel, (KmHtmlBuilder)null)
+            : setContents(sel, c.render());
     }
 
     public ScReplaceContentsScript setContents(ScHtmlIdIF target, KmHtmlBuilder contents)
@@ -432,41 +476,30 @@ public abstract class ScBlockScript
         return e;
     }
 
-    public ScEnterPageScript enterPage(ScPageIF pg)
+    public ScEnterPageScript enterPage(ScPage pg)
     {
-        ScEnterPageScript e;
-        e = _enterPage();
-        e.setUrl(pg);
-        return e;
+        return enterPage(pg.getBookmark());
     }
 
-    public ScEnterPageScript enterPage(ScPageIF pg, boolean withState)
+    public ScEnterPageScript enterPage(ScBookmark b)
     {
         ScEnterPageScript e;
         e = _enterPage();
-        e.setUrl(pg, withState);
-        return e;
-    }
-
-    public ScEnterPageScript enterPageClearSession(ScPageIF pg, boolean withState)
-    {
-        ScEnterPageScript e;
-        e = _enterPage();
-        e.setUrl(pg, withState);
-        e.setClearPageSession(true);
+        e.setUrl(b.formatQueryString());
+        e.setTitle(b.getBrowserTabTitle());
         return e;
     }
 
     /**
-     * Uses replaces the current browser history with the current
+     * Replaces the current browser history with the current
      * state of the page specified.  This does NOT trigger a navigation
-     * event.  This does NOT warn if there are changed values that will
+     * event. This does NOT warn if there are changed values that will
      * be lost.
      */
     public ScEnterPageScript replaceHistory(ScPage pg)
     {
         ScEnterPageScript e;
-        e = enterPage(pg);
+        e = enterPage(pg.getBookmark());
         e.setReplace();
         e.setHandleStateChange(false);
         e.setChangeTracking(false);
@@ -504,12 +537,17 @@ public abstract class ScBlockScript
     public void replaceWith(String targetSel, KmHtmlBuilder out)
     {
         String html = out.formatHtml();
-        String postDom = out.getPostDom().formatScript();
-        String postRender = out.getPostRender().formatScript();
-
         run("$(%s).replaceWith(%s);", json(targetSel), json(html));
-        run(postDom);
-        run(postRender);
+
+        String s;
+
+        s = out.getPostDom().formatScript();
+        if ( !s.isEmpty() )
+            run(s);
+
+        s = out.getPostRender().formatScript();
+        if ( !s.isEmpty() )
+            run(s);
     }
 
     public void replaceWith(String targetSel, ScControlIF with)
@@ -675,6 +713,11 @@ public abstract class ScBlockScript
         return e;
     }
 
+    public ScOpenWindowScript openWindowUrl(ScBookmark b)
+    {
+        return openWindowUrl(b.formatQueryString());
+    }
+
     //##################################################
     //# errors
     //##################################################
@@ -698,7 +741,7 @@ public abstract class ScBlockScript
      * where this is usually handled automatically:
      *
      * 1) Any time the client code calls enterPage.  This ensures the client-side page
-     *      session is updated before navigating away from the page and updating the
+     *      session is updated BEFORE navigating away from the page and updating the
      *      browser history stack.
      *
      * 2) At the end of every normal ajax request.
@@ -706,9 +749,8 @@ public abstract class ScBlockScript
     public void updatePageSession()
     {
         ScPageSession ps = getData().getPageSession();
-        String global = ps.formatGlobalValues();
         String session = ps.formatSessionValues();
-        run("KmNavigator.updatePageSession(%s,%s);", json(global), json(session));
+        run("KmNavigator.updatePageSession(%s);", json(session));
     }
 
     /**
@@ -725,6 +767,9 @@ public abstract class ScBlockScript
 
     public void setText(ScHtmlIdIF target, String value)
     {
+        if ( value == null )
+            value = "";
+
         run("%s.text(%s);", formatReference(target), json(value));
     }
 
@@ -735,6 +780,9 @@ public abstract class ScBlockScript
 
     public void setHtml(ScHtmlIdIF target, String value)
     {
+        if ( value == null )
+            value = "";
+
         run("%s.html(%s);", formatReference(target), json(value));
     }
 
@@ -853,6 +901,11 @@ public abstract class ScBlockScript
     public void closeDialog(ScHtmlIdIF target)
     {
         closeDialog(target.getJquerySelector());
+    }
+
+    public void showTimeoutMessage()
+    {
+        run("Kmu.showTimeoutMessage();");
     }
 
     //##################################################
@@ -1045,12 +1098,12 @@ public abstract class ScBlockScript
     //# fire on change
     //##################################################
 
-    public void fireOnChange(ScHtmlIdIF target)
+    public void fireChanged(ScHtmlIdIF target)
     {
-        fireOnChange(target.getJquerySelector());
+        fireChanged(target.getJquerySelector());
     }
 
-    public void fireOnChange(String sel)
+    public void fireChanged(String sel)
     {
         run("$(%s).change();", json(sel));
     }
@@ -1091,39 +1144,7 @@ public abstract class ScBlockScript
 
     public void download(String name, byte[] value)
     {
-        String url = ScUrlBridge.getInstance().createDownloadFor(name, value);
-        String html = formatDownloadHtml(name, url);
-
-        openWindowHtml(html);
-    }
-
-    private String formatDownloadHtml(String name, String url)
-    {
-        String onload = Kmu.format("window.location='%s';", url);
-
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printDocType();
-        out.beginHtml();
-        out.printTitle("Download");
-
-        out.openBody();
-        out.printAttribute("onload", onload);
-        out.close();
-
-        out.printHeader1("Downloading: " + name);
-        out.println("Your download will begin shortly...");
-
-        out.open("button");
-        out.printAttribute("onclick", "window.close();");
-        out.close();
-        out.print("Close");
-        out.end("button");
-
-        out.endBody();
-        out.endHtml();
-
-        return out.toString();
+        ScDownloadDialog.getInstance().ajaxOpenFor(name, value);
     }
 
     //##################################################
@@ -1199,6 +1220,26 @@ public abstract class ScBlockScript
     }
 
     //##################################################
+    //# scroll to bottom
+    //##################################################
+
+    public void scrollToBottom(ScHtmlIdIF container)
+    {
+        Integer speedMs = null;
+        scrollToBottom(container, speedMs);
+    }
+
+    public void scrollToBottom(ScHtmlIdIF container, Integer speedMs)
+    {
+        scrollToBottom(container.getJquerySelector(), speedMs);
+    }
+
+    public void scrollToBottom(String containerSel, Integer speedMs)
+    {
+        run("Kmu.scrollToBottom('%s',%s);", containerSel, speedMs);
+    }
+
+    //##################################################
     //# scrollTo (off screen)
     //##################################################
 
@@ -1211,6 +1252,26 @@ public abstract class ScBlockScript
     {
         String containerSel = container.getJquerySelector();
         run("Kmu.scrollToIfOffScreen('%s','%s');", containerSel, targetSel);
+    }
+
+    //##################################################
+    //# sync scroll
+    //##################################################
+
+    /**
+     * When the source element is scrolled, update the target element to match.
+     */
+    public void onScrollUpdate(ScHtmlIdIF source, ScHtmlIdIF target)
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("%s.on('scroll', function()", source.getJqueryReference());
+        out.printf("{");
+        out.printf("%s.scrollTop($(this).scrollTop());", target.getJqueryReference());
+        out.printf("%s.scrollLeft($(this).scrollLeft());", target.getJqueryReference());
+        out.printf("});");
+
+        run(out.toString());
     }
 
     //##################################################
@@ -1254,6 +1315,58 @@ public abstract class ScBlockScript
         e = new ScResetScript();
         e.setTarget(target);
         return e;
+    }
+
+    //##################################################
+    //# notice dialog
+    //##################################################
+
+    public ScShowNoticeScript showNoticeText(String msg)
+    {
+        ScShowNoticeScript e;
+        e = new ScShowNoticeScript();
+        e.setTextMessage(msg);
+        run(e);
+        return e;
+    }
+
+    public ScShowNoticeScript showNoticeHtml(String msg)
+    {
+        ScShowNoticeScript e;
+        e = new ScShowNoticeScript();
+        e.setHtmlMessage(msg);
+        run(e);
+        return e;
+    }
+
+    //##################################################
+    //# browser title
+    //##################################################
+
+    public void setBrowserTabTitle(String title)
+    {
+        run("Kmu.setBrowserTabTitle('%s');", Kmu.escapeJavascriptStringLiteral(title));
+    }
+
+    //##################################################
+    //# type watch
+    //##################################################
+
+    public ScTypeWatchScript typeWatch(String sel)
+    {
+        ScTypeWatchScript e;
+        e = new ScTypeWatchScript();
+        e.setSelector(sel);
+        return e;
+    }
+
+    //##################################################
+    //# nvd3 charts
+    //##################################################
+
+    public void unregisterCharts()
+    {
+        run("Kmu.nvd3UnregisterAll();");
     }
 
     //##################################################
@@ -1312,4 +1425,5 @@ public abstract class ScBlockScript
     {
         run(";");
     }
+
 }

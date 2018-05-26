@@ -102,6 +102,7 @@ public abstract class KmWikiElement
         printTreeOn(System.out);
     }
 
+    @SuppressWarnings("resource")
     public final void printTreeOn(OutputStream os)
     {
         KmIndentPrintWriter out;
@@ -110,6 +111,7 @@ public abstract class KmWikiElement
         out.flush();
     }
 
+    @SuppressWarnings("resource")
     public final void printTreeOn(Writer w)
     {
         KmIndentPrintWriter out;
@@ -120,11 +122,10 @@ public abstract class KmWikiElement
 
     public void printTreeOn(KmIndentPrintWriter out)
     {
-        String s = Kmu.format(
-            "%s (%s,%s)",
-            getName(),
-            getSource().getRow(),
-            getSource().getColumn());
-        out.println(s);
+        KmWikiSource src = getSource();
+        Integer row = src.getRow();
+        Integer col = src.getColumn();
+
+        out.printfln("%s (%s,%s)", getName(), row, col);
     }
 }

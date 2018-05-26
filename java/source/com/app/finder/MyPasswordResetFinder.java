@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyPasswordResetFinder
+public final class MyPasswordResetFinder
     implements KmKeyFinderIF<MyPasswordReset,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyPasswordReset staticFind(String key)
-    {
-        return new MyPasswordResetFinder().find(key);
-    }
+    public static final MyPasswordResetFinder instance = new MyPasswordResetFinder();
 
-    public static MyPasswordReset staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyPasswordResetFinder()
     {
-        return new MyPasswordResetFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyPasswordResetFinder
 
     public MyPasswordReset findDao(String key)
     {
-        MyDaoKeyFinder<MyPasswordReset,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

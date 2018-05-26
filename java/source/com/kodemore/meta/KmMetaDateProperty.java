@@ -14,18 +14,18 @@ public abstract class KmMetaDateProperty<T>
     @Override
     public ScDateField newField()
     {
-        return newField(getLabel());
+        ScDateField e;
+        e = new ScDateField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScDateField newField(String label)
     {
         ScDateField e;
-        e = new ScDateField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,16 @@ public interface KmErrorIF
 
     boolean hasCode(String s);
 
+    /**
+     * A longer message that includes both the subject and project.
+     * For example: "Name of Customer is required."
+     */
     String formatMessage();
 
+    /**
+     * A short description of the problem, without the subject.
+     * For example: "is required."
+     */
     String formatProblem();
 
     boolean isConfirmation();

@@ -1,14 +1,14 @@
 package com.app.ui.layout;
 
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.control.ScSimpleContainer;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
 import com.app.property.MyProperties;
-import com.app.ui.control.MyConfirmDialog;
-import com.app.ui.control.MyNotifyDialog;
 import com.app.ui.page.MyPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 import com.app.utility.MyGlobals;
@@ -43,21 +43,11 @@ public class MyPageLayout
     //# variables
     //##################################################
 
-    private MyPageHeader    _header;
-    private MyPageFooter    _footer;
-    private MyPageMenu      _menu;
-    private MyPageTitle     _title;
-    private MyPageContent   _content;
-
-    /**
-     * A global dialog managed by the layout.
-     */
-    private MyConfirmDialog _confirmDialog;
-
-    /**
-     * A global dialog managed by the layout.
-     */
-    private MyNotifyDialog  _notifyDialog;
+    private MyPageHeader  _header;
+    private MyPageFooter  _footer;
+    private MyPageMenu    _menu;
+    private MyPageTitle   _title;
+    private MyPageContent _content;
 
     //##################################################
     //# constructor
@@ -82,9 +72,6 @@ public class MyPageLayout
 
         _header = add(new MyPageHeader());
         _header.hide();
-
-        _confirmDialog = new MyConfirmDialog();
-        _notifyDialog = new MyNotifyDialog();
     }
 
     //##################################################
@@ -114,16 +101,6 @@ public class MyPageLayout
     public MyPageContent getContent()
     {
         return _content;
-    }
-
-    public MyNotifyDialog getNotifyDialog()
-    {
-        return _notifyDialog;
-    }
-
-    public MyConfirmDialog getConfirmDialog()
-    {
-        return _confirmDialog;
     }
 
     //##################################################
@@ -186,7 +163,13 @@ public class MyPageLayout
             refresh = true;
 
         if ( refresh )
+        {
             getHeader().ajaxRefreshContent(show);
+            return;
+        }
+
+        if ( show )
+            getHeader().ajaxRefreshProject();
     }
 
     private void refreshMenu(MyPage page)
@@ -275,11 +258,34 @@ public class MyPageLayout
     {
         MyPageLayoutType type = page.getLayoutType();
 
+        ajaxUpdateBodyCss(type);
+
         getHeader().ajaxSetCss(type.getHeaderCss());
         getMenu().ajaxSetCss(type.getMenuCss());
         getTitle().ajaxSetCss(type.getTitleCss());
         getContent().ajaxSetCss(type.getContentCss());
         getFooter().ajaxSetCss(type.getFooterCss());
+    }
+
+    private void ajaxUpdateBodyCss(MyPageLayoutType type)
+    {
+        ScBlockScript ajax;
+        ajax = getData().ajax();
+        ajax.removeCss("body", KmCssDefaultConstantsIF.body_normal);
+        ajax.removeCss("body", KmCssDefaultConstantsIF.body_print);
+
+        switch ( type )
+        {
+            case bare:
+            case basic:
+            case normal:
+                ajax.addCss("body", KmCssDefaultConstantsIF.body_normal);
+                return;
+
+            case print:
+                ajax.addCss("body", KmCssDefaultConstantsIF.body_print);
+                return;
+        }
     }
 
     protected MyProperties getProperties()

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ import com.kodemore.generator.model.KmgModel;
 import com.kodemore.generator.model.KmgModelEnum;
 import com.kodemore.generator.setup.KmgSetup;
 import com.kodemore.generator.setup.KmgSetupReader;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 public class KmgGenerator
@@ -44,26 +45,26 @@ public class KmgGenerator
     //# variables
     //##################################################
 
-    private String               _setupDir;
-    private String               _setupFile;
+    private String _setupDir;
+    private String _setupFile;
 
-    private String               _definesPath;
+    private String _definesPath;
 
     /**
      * The root path is used to process the templates, it is not combined
      * with the setupPath or definesPath.
      */
-    private String               _rootPath;
+    private String _rootPath;
 
-    private KmgRoot              _root;
+    private KmgRoot _root;
 
-    private KmList<KmgSetup>     _setups;
+    private KmList<KmgSetup> _setups;
 
-    private String               _javaAutoGenerationComment;
-    private String               _xmlAutoGenerationComment;
-    private String               _ddlAutoGenerationComment;
+    private String _javaAutoGenerationComment;
+    private String _xmlAutoGenerationComment;
+    private String _ddlAutoGenerationComment;
 
-    private String               _lineEnd;
+    private String _lineEnd;
 
     private VelocityEngine       _velocity;
     private VelocityContext      _rootContext;
@@ -167,12 +168,15 @@ public class KmgGenerator
         init();
 
         for ( KmgSetup e : getSetups() )
+        {
             process(e);
+            gc();
+        }
     }
 
     private void process(KmgSetup t)
     {
-        System.out.println(t.getName());
+        print(t.getName());
 
         if ( t.getFileMode().equals("oneFile") )
         {
@@ -295,6 +299,16 @@ public class KmgGenerator
         }
     }
 
+    /**
+     * Perform a manual garbage collection. Without this,
+     * the generator sometimes fails on large projects due
+     * to an out of memory exception.
+     */
+    private void gc()
+    {
+        System.gc();
+    }
+
     //##################################################
     //# context
     //##################################################
@@ -309,7 +323,8 @@ public class KmgGenerator
 
     private VelocityContext createRootContext()
     {
-        VelocityContext c = new VelocityContext();
+        VelocityContext c;
+        c = new VelocityContext();
         c.put("root", _root);
         c.put("applicationName", _root.getApplicationName());
         c.put("package", _root.getApplicationPackage());
@@ -346,7 +361,7 @@ public class KmgGenerator
         targetPath = Kmu.joinFilePath(targetDir, targetName);
         targetPath = Kmu.getCanonicalPath(targetPath);
 
-        Kmu.createFolder(targetDir);
+        KmFiles.createFolder(targetDir);
 
         File targetFile = new File(targetPath);
         boolean targetExists = targetFile.exists();
@@ -362,8 +377,8 @@ public class KmgGenerator
 
         if ( hasChanged(targetPath, text) )
         {
-            Kmu.writeFile(targetPath, text);
-            System.out.println(targetPath);
+            KmFiles.writeString(targetPath, text);
+            print(targetPath);
         }
     }
 
@@ -374,10 +389,10 @@ public class KmgGenerator
 
     private boolean hasChanged(String path, String newText)
     {
-        if ( !Kmu.fileExists(path) )
+        if ( !KmFiles.exists(path) )
             return true;
 
-        String oldText = Kmu.readFileString(path);
+        String oldText = KmFiles.readString(path);
         return !oldText.equals(newText);
     }
 
@@ -551,13 +566,13 @@ public class KmgGenerator
     }
 
     //##################################################
-    //# log
+    //# counts (static)
     //##################################################
 
     private static KmMap<String,Integer> bytes = new KmMap<>();
     private static KmMap<String,Integer> lines = new KmMap<>();
 
-    public void updateCounts(String path, String text)
+    public static void updateCounts(String path, String text)
     {
         Integer i;
         String ext = Kmu.getExtension(path);
@@ -580,16 +595,31 @@ public class KmgGenerator
 
     public static void printCounts()
     {
-        System.out.println();
-        System.out.println();
-        System.out.println("Summary");
-        System.out.printf("%8s: %10s %10s\n", "Ext", "Lines", "Bytes");
+        print();
+        print();
+        print("Summary");
+        print("%8s: %10s %10s", "Ext", "Lines", "Bytes");
 
         KmList<String> exts;
         exts = bytes.getKeys();
         exts.sort();
         for ( String s : exts )
-            System.out.printf("%8s: %,10d %,10d\n", s, lines.get(s), bytes.get(s));
+            print("%8s: %,10d %,10d", s, lines.get(s), bytes.get(s));
+    }
+
+    //##################################################
+    //# print (static)
+    //##################################################
+
+    private static void print()
+    {
+        System.out.println();
+    }
+
+    private static void print(String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+        System.out.println(s);
     }
 
 }

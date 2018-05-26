@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,14 +36,14 @@ public class MyPerformanceLogSummaryValidatorBase
     //# variables
     //##################################################
 
+    private KmIntegerValidator averageMsValidator;
+    private KmIntegerValidator countValidator;
+    private KmIntegerValidator maximumMsValidator;
+    private KmIntegerValidator minimumMsValidator;
+    private KmStringValidator nameValidator;
+    private KmIntegerValidator totalMsValidator;
     private KmStringValidator uidValidator;
     private KmDateValidator utcDateValidator;
-    private KmStringValidator nameValidator;
-    private KmIntegerValidator countValidator;
-    private KmIntegerValidator minimumMsValidator;
-    private KmIntegerValidator maximumMsValidator;
-    private KmIntegerValidator averageMsValidator;
-    private KmIntegerValidator totalMsValidator;
 
     //##################################################
     //# constructor
@@ -51,19 +52,49 @@ public class MyPerformanceLogSummaryValidatorBase
     protected MyPerformanceLogSummaryValidatorBase()
     {
         super();
+        averageMsValidator = newAverageMsValidator();
+        countValidator = newCountValidator();
+        maximumMsValidator = newMaximumMsValidator();
+        minimumMsValidator = newMinimumMsValidator();
+        nameValidator = newNameValidator();
+        totalMsValidator = newTotalMsValidator();
         uidValidator = newUidValidator();
         utcDateValidator = newUtcDateValidator();
-        nameValidator = newNameValidator();
-        countValidator = newCountValidator();
-        minimumMsValidator = newMinimumMsValidator();
-        maximumMsValidator = newMaximumMsValidator();
-        averageMsValidator = newAverageMsValidator();
-        totalMsValidator = newTotalMsValidator();
     }
 
     //##################################################
     //# accessing
     //##################################################
+
+    public KmIntegerValidator getAverageMsValidator()
+    {
+        return averageMsValidator;
+    }
+
+    public KmIntegerValidator getCountValidator()
+    {
+        return countValidator;
+    }
+
+    public KmIntegerValidator getMaximumMsValidator()
+    {
+        return maximumMsValidator;
+    }
+
+    public KmIntegerValidator getMinimumMsValidator()
+    {
+        return minimumMsValidator;
+    }
+
+    public KmStringValidator getNameValidator()
+    {
+        return nameValidator;
+    }
+
+    public KmIntegerValidator getTotalMsValidator()
+    {
+        return totalMsValidator;
+    }
 
     public KmStringValidator getUidValidator()
     {
@@ -75,36 +106,6 @@ public class MyPerformanceLogSummaryValidatorBase
         return utcDateValidator;
     }
 
-    public KmStringValidator getNameValidator()
-    {
-        return nameValidator;
-    }
-
-    public KmIntegerValidator getCountValidator()
-    {
-        return countValidator;
-    }
-
-    public KmIntegerValidator getMinimumMsValidator()
-    {
-        return minimumMsValidator;
-    }
-
-    public KmIntegerValidator getMaximumMsValidator()
-    {
-        return maximumMsValidator;
-    }
-
-    public KmIntegerValidator getAverageMsValidator()
-    {
-        return averageMsValidator;
-    }
-
-    public KmIntegerValidator getTotalMsValidator()
-    {
-        return totalMsValidator;
-    }
-
     //##################################################
     //# validate
     //##################################################
@@ -113,28 +114,28 @@ public class MyPerformanceLogSummaryValidatorBase
     public void convertOnly(MyPerformanceLogSummary value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setUtcDate(utcDateValidator.convertOnly(value.getUtcDate()));
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setCount(countValidator.convertOnly(value.getCount()));
-        value.setMinimumMs(minimumMsValidator.convertOnly(value.getMinimumMs()));
-        value.setMaximumMs(maximumMsValidator.convertOnly(value.getMaximumMs()));
-        value.setAverageMs(averageMsValidator.convertOnly(value.getAverageMs()));
-        value.setTotalMs(totalMsValidator.convertOnly(value.getTotalMs()));
+        value.setAverageMs(averageMsValidator.convert(value.getAverageMs()));
+        value.setCount(countValidator.convert(value.getCount()));
+        value.setMaximumMs(maximumMsValidator.convert(value.getMaximumMs()));
+        value.setMinimumMs(minimumMsValidator.convert(value.getMinimumMs()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setTotalMs(totalMsValidator.convert(value.getTotalMs()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUtcDate(utcDateValidator.convert(value.getUtcDate()));
     }
 
     @Override
-    public void validateOnly(MyPerformanceLogSummary value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyPerformanceLogSummary value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        utcDateValidator.validateOnly(value.getUtcDate(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
-        countValidator.validateOnly(value.getCount(), errors);
-        minimumMsValidator.validateOnly(value.getMinimumMs(), errors);
-        maximumMsValidator.validateOnly(value.getMaximumMs(), errors);
-        averageMsValidator.validateOnly(value.getAverageMs(), errors);
-        totalMsValidator.validateOnly(value.getTotalMs(), errors);
+        averageMsValidator.validateOn(value.getAverageMs(), errors);
+        countValidator.validateOn(value.getCount(), errors);
+        maximumMsValidator.validateOn(value.getMaximumMs(), errors);
+        minimumMsValidator.validateOn(value.getMinimumMs(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        totalMsValidator.validateOn(value.getTotalMs(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        utcDateValidator.validateOn(value.getUtcDate(), errors);
         // required associations...
     }
 
@@ -142,24 +143,42 @@ public class MyPerformanceLogSummaryValidatorBase
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmIntegerValidator newAverageMsValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("performanceLogSummary");
-        e.setField("uid");
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("averageMs");
         e.setRequired();
         return e;
     }
 
-    public KmDateValidator newUtcDateValidator()
+    public KmIntegerValidator newCountValidator()
     {
-        KmDateValidator e;
-        e = new KmDateValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("utcDate");
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("count");
+        e.setRequired();
+        return e;
+    }
+
+    public KmIntegerValidator newMaximumMsValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("maximumMs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmIntegerValidator newMinimumMsValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("minimumMs");
         e.setRequired();
         return e;
     }
@@ -170,48 +189,8 @@ public class MyPerformanceLogSummaryValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(100);
         e.setAllowsPrintable(true);
-        e.setModel("performanceLogSummary");
-        e.setField("name");
-        e.setRequired();
-        return e;
-    }
-
-    public KmIntegerValidator newCountValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("count");
-        e.setRequired();
-        return e;
-    }
-
-    public KmIntegerValidator newMinimumMsValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("minimumMs");
-        e.setRequired();
-        return e;
-    }
-
-    public KmIntegerValidator newMaximumMsValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("maximumMs");
-        e.setRequired();
-        return e;
-    }
-
-    public KmIntegerValidator newAverageMsValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("averageMs");
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("name");
         e.setRequired();
         return e;
     }
@@ -220,8 +199,30 @@ public class MyPerformanceLogSummaryValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("performanceLogSummary");
-        e.setField("totalMs");
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("totalMs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newUidValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("uid");
+        e.setRequired();
+        return e;
+    }
+
+    public KmDateValidator newUtcDateValidator()
+    {
+        KmDateValidator e;
+        e = new KmDateValidator();
+        e.setModelName("performanceLogSummary");
+        e.setFieldName("utcDate");
         e.setRequired();
         return e;
     }

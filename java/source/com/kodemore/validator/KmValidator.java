@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.exception.error.KmRequiredValidationError;
-import com.kodemore.string.KmStringBuilder;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.utility.KmCopyIF;
 import com.kodemore.utility.Kmu;
 
@@ -37,43 +33,37 @@ public abstract class KmValidator<T>
     //# variables
     //##################################################
 
-    private String  _model;
-    private String  _field;
+    private String  _modelName;
+    private String  _fieldName;
     private boolean _required;
 
     //##################################################
     //# accessing
     //##################################################
 
-    public String getModel()
+    public String getModelName()
     {
-        return _model;
+        return _modelName;
     }
 
-    public void setModel(String e)
+    public void setModelName(String e)
     {
-        _model = e;
+        _modelName = e;
     }
 
-    public String getField()
+    public String getFieldName()
     {
-        return _field;
+        return _fieldName;
     }
 
-    public void setField(String e)
+    public void setFieldName(String e)
     {
-        _field = e;
+        _fieldName = e;
     }
 
-    public boolean isRequired()
-    {
-        return _required;
-    }
-
-    public boolean isOptional()
-    {
-        return !isRequired();
-    }
+    //==================================================
+    //= accessing :: required
+    //==================================================
 
     public void setRequired(boolean e)
     {
@@ -85,80 +75,60 @@ public abstract class KmValidator<T>
         setRequired(true);
     }
 
+    public boolean isRequired()
+    {
+        return _required;
+    }
+
     public void setOptional()
     {
         setRequired(false);
+    }
+
+    public boolean isOptional()
+    {
+        return !isRequired();
     }
 
     //##################################################
     //# public
     //##################################################
 
-    public T convertOnly(T e)
+    public void validateAndCheck(T value)
+    {
+        value = convert(value);
+        KmErrorList errors = getValidationErrors(value);
+        errors.check();
+    }
+
+    public T convert(T e)
     {
         return e;
     }
 
-    public void validateOnly(T e)
+    public KmErrorList getValidationErrors(T value)
     {
-        KmList<KmErrorIF> v = new KmList<>();
-        validateOnly(e, v);
-        check(v);
+        KmErrorList errors = new KmErrorList();
+        validateOn(value, errors);
+        return errors;
     }
 
-    public KmErrorIF getValidationError(T e)
-    {
-        KmList<KmErrorIF> errors = new KmList<>();
-        validateOnly(e, errors);
-        return errors.getFirstSafe();
-    }
-
-    public void validateOnly(T e, KmList<KmErrorIF> errors)
+    public void validateOn(T e, KmErrorList errors)
     {
         if ( e == null )
         {
             if ( _required )
-                errors.add(new KmRequiredValidationError(getModel(), getField()));
+                errors.addRequiredField(getModelName(), getFieldName());
             return;
         }
-        validateModel(e, errors);
-    }
-
-    public void validate(T e)
-    {
-        e = convertOnly(e);
-        validateOnly(e);
-    }
-
-    public void validate(T e, KmList<KmErrorIF> errors)
-    {
-        e = convertOnly(e);
-        validateOnly(e, errors);
-    }
-
-    public String formatErrorsFor(T e)
-    {
-        KmList<KmErrorIF> errors = new KmList<>();
-
-        validate(e, errors);
-
-        if ( errors.isEmpty() )
-            return null;
-
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-
-        for ( KmErrorIF error : errors )
-            out.println(error.formatProblem());
-
-        return out.toString();
+        validateValueOn(e, errors);
     }
 
     //##################################################
-    //# validate
+    //# abstract
     //##################################################
 
-    public abstract void validateModel(T e, KmList<KmErrorIF> v);
+    public abstract void validateValueOn(T e, KmErrorList errors);
 
     //##################################################
     //# copy
@@ -207,20 +177,4 @@ public abstract class KmValidator<T>
     {
         return Kmu.copy(e);
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private void check(KmList<KmErrorIF> errors)
-    {
-        if ( errors.isEmpty() )
-            return;
-
-        KmApplicationException ex;
-        ex = new KmApplicationException();
-        ex.addErrors(errors);
-        throw ex;
-    }
-
 }

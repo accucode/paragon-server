@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,24 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.meta.KmMetaProperty;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScDivWrapper;
 import com.kodemore.servlet.control.ScFieldIF;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScUtility;
 import com.kodemore.servlet.script.ScVisibilityScript;
+import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeZone;
+import com.kodemore.time.KmTimeZoneBridge;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.Kmu;
 import com.kodemore.validator.KmValidator;
 
 /**
@@ -45,7 +48,7 @@ import com.kodemore.validator.KmValidator;
  * I am implemented as a composite of date, time, and time zone.
  *
  * My value is always is always in UTC, but my time zone
- * dropdown is used to convert the timestamp for display/enter.
+ * dropdown is used to convert the timestamp for display/entry.
  */
 public class ScZonedTimestampField
     extends ScDivWrapper
@@ -58,19 +61,19 @@ public class ScZonedTimestampField
     /**
      * The editable date field (mm/dd/yy).
      */
-    private ScDateField              _dateField;
+    private ScDateField _dateField;
 
     /**
      * The editable time field (hh:mm).
      */
-    private ScTimeField              _timeField;
+    private ScTimeField _timeField;
 
     /**
      * The selectable time zone. The time zone is used ONLY for
      * display purposes. The timestamp value is always converted
      * to UTC for internal persistence.
      */
-    private ScDropdownField<String>  _zoneField;
+    private ScTimeZoneField _timeZoneField;
 
     /**
      * I adapt a domain model to this field.  The value adapter is not required,
@@ -78,24 +81,24 @@ public class ScZonedTimestampField
      * In practice, adapters work best when all of the fields in a given container
      * (e.g.: a form or group) are associated with the same model.
      */
-    private ScLocalAdaptor           _valueAdaptor;
+    private ScLocalAdaptor _valueAdaptor;
 
     /**
      * A type specific validator.
      */
-    private KmValidator<KmTimestamp> _validator;
+    private ScLocal<KmValidator<KmTimestamp>> _validator;
 
     /**
      * An optional link that updates fields with the current time.
      * Hidden by default.
      */
-    private ScLink                   _nowLink;
+    private ScLink _nowLink;
 
     /**
      * An optional link that clear the fields.
      * Hidden by default.
      */
-    private ScLink                   _clearLink;
+    private ScLink _clearLink;
 
     //##################################################
     //# constructor
@@ -106,16 +109,15 @@ public class ScZonedTimestampField
         _dateField = new ScDateField();
         _timeField = new ScTimeField();
 
-        _zoneField = new ScDropdownField<>();
-        _zoneField.setNullSelectPrefix();
-        setZoneOptions(KmTimeZone.getCommonZones(), KmTimeZone.getAllZones());
+        _timeZoneField = new ScTimeZoneField();
+        _timeZoneField.setNullSelectPrefix();
 
         ScDiv root;
         root = getInner();
         root.css().flexRow().flexCrossAlignCenter().rowSpacer5();
         root.add(_dateField);
         root.add(_timeField);
-        root.add(_zoneField);
+        root.add(_timeZoneField);
 
         _nowLink = root.addLink("now", newUncheckedAction(this::handleNow));
         _nowLink.hide();
@@ -124,6 +126,7 @@ public class ScZonedTimestampField
         _clearLink.hide();
 
         _valueAdaptor = new ScLocalAdaptor();
+        _validator = new ScLocal<>();
     }
 
     //##################################################
@@ -144,47 +147,53 @@ public class ScZonedTimestampField
     //# time zone
     //##################################################
 
-    public KmTimeZone getZone()
+    public KmTimeZone getTimeZone()
     {
-        String code = _zoneField.getValue();
-        return KmTimeZone.findCode(code);
+        return _timeZoneField.getValue();
     }
 
-    public void setZone(KmTimeZone e)
+    public void setTimeZone(KmTimeZone e)
     {
-        _zoneField.setValue(KmTimeZone.getCodeFor(e));
-        _zoneField.ensureValidValue();
+        if ( e == null )
+            throw Kmu.newFatal("Cannot set null time zone.");
+
+        KmTimestamp utc = getValue();
+
+        _timeZoneField.setValue(e);
+        _timeZoneField.ensureValidValue();
+
+        if ( !_timeZoneField.hasValue() )
+            throw Kmu.newFatal("Selected time zone is not a valid option.");
+
+        setValue(utc);
     }
 
-    public void setZoneOptions(KmList<KmTimeZone> common, KmList<KmTimeZone> all)
+    public boolean hasTimeZone()
     {
-        _zoneField.clearOptions();
-
-        for ( KmTimeZone e : common )
-            _zoneField.addOption(e.getCode(), e.getName());
-
-        _zoneField.addOption(null, "--------------------");
-
-        for ( KmTimeZone e : all )
-            _zoneField.addOption(e.getCode(), e.getName());
+        return getTimeZone() != null;
     }
 
-    public boolean hasZone()
+    public KmTimeZone ensureTimeZone()
     {
-        return getZone() != null;
+        if ( hasTimeZone() )
+            return getTimeZone();
+
+        KmTimeZone def = getDefaultTimeZone();
+        if ( def == null )
+            throw Kmu.newFatal("Cannot determine default time zone.");
+
+        setTimeZone(def);
+        return def;
     }
 
-    public KmTimeZone ensureZone()
+    private KmTimeZone getDefaultTimeZone()
     {
-        if ( !_zoneField.hasValue() )
-            _zoneField.setValue(getDefaultZone().getCode());
-
-        return getZone();
+        return KmTimeZoneBridge.getInstance().getLocalZone();
     }
 
-    private KmTimeZone getDefaultZone()
+    public void disableTimeZone()
     {
-        return KmTimeZone.UTC;
+        _timeZoneField.disable();
     }
 
     //##################################################
@@ -195,7 +204,26 @@ public class ScZonedTimestampField
     {
         _dateField.disableChangeTracking();
         _timeField.disableChangeTracking();
-        _zoneField.disableChangeTracking();
+        _timeZoneField.disableChangeTracking();
+    }
+
+    public void onTypeWatch(ScAction e)
+    {
+        _dateField.onTypeWatch(e);
+        _timeField.onTypeWatch(e);
+        _timeZoneField.onChange(e);
+    }
+
+    //##################################################
+    //# meta
+    //##################################################
+
+    public void setMeta(KmMetaProperty<?,KmTimestamp> x)
+    {
+        setLabel(x);
+        setHelp(x);
+        setValueAdaptor(x);
+        setValidator(x);
     }
 
     //##################################################
@@ -207,7 +235,7 @@ public class ScZonedTimestampField
     {
         KmDate date = _dateField.getValue();
         KmTime time = _timeField.getValue();
-        KmTimeZone zone = getZone();
+        KmTimeZone zone = getTimeZone();
 
         if ( date == null || time == null || zone == null )
             return null;
@@ -215,10 +243,16 @@ public class ScZonedTimestampField
         return KmTimestamp.fromDateTime(date, time).toUtc(zone);
     }
 
+    public void setValue(KmTimestamp utc, KmTimeZone zone)
+    {
+        setTimeZone(zone);
+        setValue(utc);
+    }
+
     @Override
     public void setValue(KmTimestamp utc)
     {
-        KmTimeZone zone = ensureZone();
+        KmTimeZone zone = ensureTimeZone();
 
         if ( utc == null )
         {
@@ -233,12 +267,17 @@ public class ScZonedTimestampField
         _timeField.setValue(local.getTime());
     }
 
+    public void clearValue()
+    {
+        setValue(null);
+    }
+
     @Override
     public void saveValue()
     {
         _dateField.saveValue();
         _timeField.saveValue();
-        _zoneField.saveValue();
+        _timeZoneField.saveValue();
     }
 
     @Override
@@ -246,7 +285,7 @@ public class ScZonedTimestampField
     {
         _dateField.resetValue();
         _timeField.resetValue();
-        _zoneField.resetValue();
+        _timeZoneField.resetValue();
     }
 
     //==================================================
@@ -297,22 +336,22 @@ public class ScZonedTimestampField
 
     public final KmValidator<KmTimestamp> getValidator()
     {
-        return _validator;
+        return _validator.getValue();
     }
 
     public final void setValidator(KmValidator<KmTimestamp> e)
     {
-        _validator = e;
+        _validator.setValue(e);
 
-        if ( _validator == null )
+        if ( e == null )
         {
             _dateField.clearValidator();
             _timeField.clearValidator();
         }
         else
         {
-            _dateField.setRequired(_validator.isRequired());
-            _timeField.setRequired(_validator.isRequired());
+            _dateField.setRequired(e.isRequired());
+            _timeField.setRequired(e.isRequired());
         }
     }
 
@@ -328,7 +367,7 @@ public class ScZonedTimestampField
 
     public final boolean hasValidator()
     {
-        return _validator != null;
+        return _validator.hasValue();
     }
 
     public final void setRequired()
@@ -354,18 +393,17 @@ public class ScZonedTimestampField
     //##################################################
 
     @Override
-    public boolean validateQuietly()
+    public void validate()
     {
-        if ( !super.validateQuietly() )
-            return false;
-
+        super.validate();
         if ( hasErrors() )
-            return false;
+            return;
 
-        if ( !validateParse() )
-            return false;
+        validateParse();
+        if ( hasErrors() )
+            return;
 
-        return validateValidator();
+        validateValidator();
     }
 
     /**
@@ -373,37 +411,32 @@ public class ScZonedTimestampField
      * fields to validate the parsing of text-to-value BEFORE the
      * subsequent value is validated.
      *
-     * This returns true by default.
+     * This does nothing by default.
      * Most classes do not need to override this.
      */
-    protected boolean validateParse()
+    protected void validateParse()
     {
-        return true;
+        // none
     }
 
-    private boolean validateValidator()
+    private void validateValidator()
     {
         if ( !hasValidator() )
-            return true;
+            return;
 
-        KmList<KmErrorIF> errors = new KmList<>();
-        getValidator().validateOnly(getValue(), errors);
-
-        if ( errors.isEmpty() )
-            return true;
-
+        KmErrorList errors = getValidator().getValidationErrors(getValue());
         _dateField.setErrors(errors);
-        return false;
-    }
-
-    public void error(String msg, Object... args)
-    {
-        _dateField.error(msg, args);
     }
 
     public void addError(String msg, Object... args)
     {
         _dateField.addError(msg, args);
+    }
+
+    public void addErrorAndCheck(String msg, Object... args)
+    {
+        addError(msg, args);
+        checkErrors();
     }
 
     //##################################################
@@ -412,12 +445,9 @@ public class ScZonedTimestampField
 
     @Override
     @SuppressWarnings("unchecked")
-    protected boolean applyFromModel_here(Object model, boolean skipEditableFields)
+    protected boolean applyFromModel_here(Object model)
     {
-        if ( skipEditableFields )
-            return true;
-
-        super.applyFromModel_here(model, skipEditableFields);
+        super.applyFromModel_here(model);
 
         if ( _valueAdaptor.hasValue() )
         {
@@ -441,6 +471,16 @@ public class ScZonedTimestampField
     }
 
     //##################################################
+    //# render
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        ensureTimeZone();
+    }
+
+    //##################################################
     //# ajax
     //##################################################
 
@@ -453,9 +493,9 @@ public class ScZonedTimestampField
     @Override
     public void ajaxSetFieldValue(KmTimestamp utc)
     {
-        KmTimeZone zone = getZone();
+        KmTimeZone zone = getTimeZone();
         if ( zone == null )
-            zone = getDefaultZone();
+            zone = getDefaultTimeZone();
 
         if ( utc == null )
         {
@@ -468,15 +508,15 @@ public class ScZonedTimestampField
 
         _dateField.ajaxSetFieldValue(local.getDate());
         _timeField.ajaxSetFieldValue(local.getTime());
-        _zoneField.ajaxSetFieldValue(zone.getCode());
+        _timeZoneField.ajaxSetFieldValue(zone);
     }
 
     @Override
     public void ajaxSetFieldValue(KmTimestamp utc, boolean updateOldValue)
     {
-        KmTimeZone zone = getZone();
+        KmTimeZone zone = getTimeZone();
         if ( zone == null )
-            zone = getDefaultZone();
+            zone = getDefaultTimeZone();
 
         if ( utc == null )
         {
@@ -489,7 +529,7 @@ public class ScZonedTimestampField
 
         _dateField.ajaxSetFieldValue(local.getDate(), updateOldValue);
         _timeField.ajaxSetFieldValue(local.getTime(), updateOldValue);
-        _zoneField.ajaxSetFieldValue(zone.getCode(), updateOldValue);
+        _timeZoneField.ajaxSetFieldValue(zone, updateOldValue);
     }
 
     @Override
@@ -497,7 +537,7 @@ public class ScZonedTimestampField
     {
         _dateField.ajaxUpdateFieldValue_here(updateOldValue);
         _timeField.ajaxUpdateFieldValue_here(updateOldValue);
-        _zoneField.ajaxUpdateFieldValue_here(updateOldValue);
+        _timeZoneField.ajaxUpdateFieldValue_here(updateOldValue);
     }
 
     //##################################################
@@ -506,7 +546,7 @@ public class ScZonedTimestampField
 
     private void handleNow()
     {
-        KmTimeZone zone = ensureZone();
+        KmTimeZone zone = ensureTimeZone();
         if ( zone == null )
         {
             ajaxToast("Select a time zone.");

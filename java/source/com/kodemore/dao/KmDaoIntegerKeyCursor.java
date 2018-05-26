@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,7 @@ public class KmDaoIntegerKeyCursor<T>
 
     private KmMetaDaoPropertyIF<T,Integer> _property;
 
-    private int                            _batchSize;
+    private int _batchSize;
 
     //##################################################
     //# constructor

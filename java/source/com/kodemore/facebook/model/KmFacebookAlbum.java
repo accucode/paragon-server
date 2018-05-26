@@ -31,19 +31,19 @@ public class KmFacebookAlbum
     //# variables
     //##################################################
 
-    private String              _id;
-    private String              _name;
-    private KmFacebookIdName    _from;
-    private String              _description;
-    private String              _location;
-    private String              _link;
-    private String              _coverPhoto;
-    private String              _privacy;
-    private Integer             _count;
-    private String              _type;
-    private KmTimestamp         _createdTimestamp;
-    private KmTimestamp         _updatedTimestamp;
-    private Boolean             _canUpload;
+    private String           _id;
+    private String           _name;
+    private KmFacebookIdName _from;
+    private String           _description;
+    private String           _location;
+    private String           _link;
+    private String           _coverPhoto;
+    private String           _privacy;
+    private Integer          _count;
+    private String           _type;
+    private KmTimestamp      _createdTimestamp;
+    private KmTimestamp      _updatedTimestamp;
+    private Boolean          _canUpload;
 
     //==================================================
     //= variables :: connections

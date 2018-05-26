@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -116,9 +116,11 @@ public class KmCompositeComparator<T>
         _comparators.add(c);
     }
 
-    public void add(Function<T,Comparable<?>> f)
+    public KmComparator<T> add(Function<T,Comparable<?>> f)
     {
-        add(KmComparator.createWith(f));
+        KmComparator<T> c = KmComparator.createWith(f);
+        add(c);
+        return c;
     }
 
     //==================================================

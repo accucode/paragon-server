@@ -17,14 +17,16 @@ public interface MyDownloadDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String BYTES = "bytes";
     String CREATED_UTC_TS = "createdUtcTs";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String FILE_NAME = "fileName";
     String NAME = "name";
     String TYPE_CODE = "typeCode";
-    String FILE_NAME = "fileName";
-    String BYTES = "bytes";
+    String UID = "uid";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String TYPE_NAME = "typeName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
@@ -34,6 +36,9 @@ public interface MyDownloadDaoConstantsIF
     //##################################################
     //# associations
     //##################################################
+
+    String ATTACHMENT = "attachment";
+    String ATTACHMENT_UID = "attachment.uid";
 
     String USER = "user";
     String USER_UID = "user.uid";

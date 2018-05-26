@@ -5,7 +5,6 @@ import org.apache.log4j.Level;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -13,7 +12,6 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGridGroup;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLink;
@@ -25,7 +23,7 @@ import com.kodemore.servlet.field.ScTextField;
 
 import com.app.filter.MyApplicationLogFilter;
 import com.app.model.MyApplicationLog;
-import com.app.model.MyApplicationLogTools;
+import com.app.model.MyApplicationLogBuffer;
 import com.app.model.meta.MyMetaApplicationLog;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -67,9 +65,8 @@ public final class MyDevApplicationLogsPage
 
     private ScGrid<MyApplicationLog> _grid;
 
-    private ScCardFrame              _detailFrame;
-    private ScGroup                  _detailGroup;
-    private ScLink                   _deleteLogLink;
+    private ScCardFrame _detailFrame;
+    private ScGroup     _detailGroup;
 
     //##################################################
     //# settings
@@ -79,22 +76,6 @@ public final class MyDevApplicationLogsPage
     public final MySecurityLevel getSecurityLevel()
     {
         return MySecurityLevel.developer;
-    }
-
-    //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -109,129 +90,221 @@ public final class MyDevApplicationLogsPage
         installFilterOn(root);
 
         ScDiv row;
-        row = root.addFlexRow();
-        row.css().flexChildFiller().rowSpacer10();
+        row = root.addDiv();
+        row.css().flexRow().rowSpacer10().flexChildFiller();
 
         installGridOn(row);
-        installDetailGroupOn(row);
+        installDetailOn(row);
     }
+
+    //==================================================
+    //= install :: filter
+    //==================================================
 
     private void installFilterOn(ScDiv root)
     {
-        MyApplicationLogTools x = MyApplicationLog.Tools;
-
-        _levelDropdown = x.newLevelDropdown();
-        _levelDropdown.setNullAnyPrefix();
-        _levelDropdown.setValue(Level.FATAL.getSyslogEquivalent());
-
-        _loggerField = new ScTextField();
-        _loggerField.setLabel("Logger");
-
-        _contextField = new ScTextField();
-        _contextField.setLabel("Context");
-
-        _startDateField = new ScDateField();
-        _startDateField.setLabel("Start Date");
-
-        _endDateField = new ScDateField();
-        _endDateField.setLabel("End Date");
-
-        _filterBox = root.addFilterBox("Filter");
-        _filterBox.getFormWrapper().css().flexChildStatic();
-        _filterBox.setAction(this::handleFilter);
+        ScFilterBox filter;
+        filter = createFilterBoxOn(root);
 
         ScArray row;
-        row = _filterBox.addArraySpacedRow();
+        row = filter.addArraySpacedRow();
 
         ScFieldTable fields;
-        fields = row.addFieldTable();
-        fields.add(_levelDropdown);
-        fields.add(_loggerField);
-        fields.add(_contextField);
+        fields = row.addFullWidthFieldTable();
+        fields.add(createLevelField());
+        fields.add(createLoggerField());
+        fields.add(createContextField());
 
-        fields = row.addFieldTable();
-        fields.add(_startDateField);
-        fields.add(_endDateField);
+        fields = row.addFullWidthFieldTable();
+        fields.add(createStartDateField());
+        fields.add(createEndDateField());
 
-        ScActionButton button;
-        button = _filterBox.getLeftButtons().addButton("Delete All", this::handleDeleteAll);
-        button.setConfirmationMessageText("Delete All Logs?");
-
-        installTestButtons();
+        installLeftButtonsOn(filter);
+        installRightButtonsOn(filter);
     }
 
-    private void installTestButtons()
+    private ScFilterBox createFilterBoxOn(ScDiv root)
+    {
+        ScFilterBox e;
+        e = root.addFilterBox("Filter");
+        e.getFormWrapper().css().flexChildStatic();
+        e.setAction(newCheckedAction(this::handleFilter));
+        _filterBox = e;
+        return e;
+    }
+
+    private ScDropdownField<Integer> createLevelField()
+    {
+        ScDropdownField<Integer> e;
+        e = MyApplicationLog.Tools.newLevelDropdown();
+        e.setNullAnyPrefix();
+        e.setValue(Level.FATAL.getSyslogEquivalent());
+        e.disableChangeTracking();
+        _levelDropdown = e;
+        return e;
+    }
+
+    private ScTextField createLoggerField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Logger");
+        e.disableChangeTracking();
+        _loggerField = e;
+        return e;
+    }
+
+    private ScTextField createContextField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Context");
+        e.disableChangeTracking();
+        _contextField = e;
+        return e;
+    }
+
+    private ScDateField createStartDateField()
+    {
+        ScDateField e;
+        e = new ScDateField();
+        e.setLabel("Start Date");
+        e.disableChangeTracking();
+        _startDateField = e;
+        return e;
+    }
+
+    private ScDateField createEndDateField()
+    {
+        ScDateField e;
+        e = new ScDateField();
+        e.setLabel("End Date");
+        e.disableChangeTracking();
+        _endDateField = e;
+        return e;
+    }
+
+    private void installLeftButtonsOn(ScFilterBox root)
     {
         ScDiv buttons;
-        buttons = _filterBox.getRightButtons();
-        buttons.addButton("Add Debug", this::handleAddDebugLog);
-        buttons.addButton("Add Info", this::handleAddInfoLog);
-        buttons.addButton("Add Fatal", this::handleAddFatalLog);
+        buttons = root.getLeftButtons();
+
+        ScActionButton button;
+        button = buttons.addButton("Delete All", newCheckedAction(this::handleDeleteAll));
+        button.setConfirmationMessageText("Delete All Logs?");
     }
+
+    private void installRightButtonsOn(ScFilterBox root)
+    {
+        ScDiv buttons;
+        buttons = root.getRightButtons();
+        buttons.addButton("Add Debug", newCheckedAction(this::handleAddDebugLog));
+        buttons.addButton("Add Info", newCheckedAction(this::handleAddInfoLog));
+        buttons.addButton("Add Fatal", newCheckedAction(this::handleAddFatalLog));
+        buttons.addButton("Flush", newCheckedAction(this::handleFlush));
+    }
+
+    //==================================================
+    //= install :: grid
+    //==================================================
 
     private void installGridOn(ScDiv root)
     {
-        MyMetaApplicationLog x = MyApplicationLog.Meta;
-
-        _grid = new ScGrid<>();
-        _grid.setFilterFactory(newFetcher());
-        _grid.trackAll(_filterBox);
-        _grid.layoutFill();
-
-        ScGridColumn<MyApplicationLog> col;
-        col = _grid.addLinkColumn("View", this::handleSelect, x.Uid);
-        col.setWidth(40);
-
-        _grid.addColumn(x.CreatedLocalTsMessage);
-        _grid.addColumn(x.LevelName, "Level");
-        _grid.addColumn(x.Message);
-
         ScGridGroup<MyApplicationLog> group;
-        group = root.addGroup("Results", _grid);
+        group = root.addGroup("Results", createGrid());
         group.css().flexChildFiller0();
     }
 
-    private void installDetailGroupOn(ScDiv root)
+    private ScGrid<MyApplicationLog> createGrid()
     {
         MyMetaApplicationLog x = MyApplicationLog.Meta;
 
-        _detailFrame = root.addCardFrame();
-        _detailFrame.setTransitionFade();
-        _detailFrame.css().flexChildFiller0().relative();
+        ScGrid<MyApplicationLog> grid;
+        grid = new ScGrid<>();
+        grid.setFilterFactory(newFetcher());
+        grid.trackAll(_filterBox);
+        grid.layoutFill();
+
+        grid.addLinkColumn("View", newCheckedAction(this::handleSelect), x.Uid).width(40);
+        grid.addColumn(x.CreatedLocalTsMessage);
+        grid.addColumn(x.LevelName, "Level");
+        grid.addColumn(x.Message, 250);
+
+        _grid = grid;
+        return grid;
+    }
+
+    //==================================================
+    //= install :: details
+    //==================================================
+
+    private void installDetailOn(ScDiv root)
+    {
+        ScCardFrame frame;
+        frame = root.addCardFrame();
+        frame.setTransitionFade();
+        frame.css().flexChildFiller0().relative();
+        frame.addCard(createDetailGroup());
+        _detailFrame = frame;
+    }
+
+    private ScGroup createDetailGroup()
+    {
+        MyMetaApplicationLog x = MyApplicationLog.Meta;
 
         ScGroup group;
-        group = _detailFrame.addCard(new ScGroup());
+        group = new ScGroup();
         group.css().fill();
         group.setTitle("Detail");
 
-        _detailGroup = group;
-
-        ScSimpleContainer idRow;
-        idRow = new ScSimpleContainer();
-        idRow.setLabel("Uid");
-        idRow.addFieldText(x.Uid);
-        idRow.addSpace();
-
-        _deleteLogLink = idRow.addLink("delete", this::handleDelete, x.Uid);
-        _deleteLogLink.setConfirmationMessage("Delete?");
-
-        group.bodyCss().auto();
-
-        ScDiv box;
-        box = group.getBody().addDiv();
-        box.css().pad();
+        ScDiv body;
+        body = group.getBody();
+        body.css().auto().pad();
 
         ScFieldTable fields;
-        fields = box.addFieldTable();
-        fields.add(idRow);
+        fields = body.addFullWidthFieldTable();
+        fields.add(createUidRow());
         fields.addFieldText(x.CreatedLocalTsMessage);
         fields.addFieldText(x.Context);
         fields.addFieldText(x.LevelName);
         fields.addFieldText(x.LoggerName);
 
+        installMessageOn(body);
+        installTraceOn(body);
+
+        _detailGroup = group;
+        return group;
+    }
+
+    private ScSimpleContainer createUidRow()
+    {
+        MyMetaApplicationLog x = MyApplicationLog.Meta;
+
+        ScSimpleContainer row;
+        row = new ScSimpleContainer();
+        row.setLabel("Uid");
+        row.addFieldText(x.Uid);
+        row.addSpace();
+
+        ScLink link;
+        link = row.addLink("delete", newCheckedAction(this::handleDelete), x.Uid);
+        link.setConfirmationMessage("Delete?");
+
+        return row;
+    }
+
+    private void installMessageOn(ScDiv box)
+    {
+        MyMetaApplicationLog x = MyApplicationLog.Meta;
+
         box.addBreak();
         box.addParagraph().addBold("Message");
         box.addParagraph().addTextSpan(x.Message).css().noWrap();
+    }
+
+    private void installTraceOn(ScDiv box)
+    {
+        MyMetaApplicationLog x = MyApplicationLog.Meta;
 
         box.addBreak();
         box.addParagraph().addBold("Trace");
@@ -239,7 +312,7 @@ public final class MyDevApplicationLogsPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -260,7 +333,7 @@ public final class MyDevApplicationLogsPage
 
     private void handleSelect()
     {
-        String uid = getStringArgument();
+        String uid = getData().getStringArgument();
         MyApplicationLog log = getAccess().findApplicationLogUid(uid);
 
         if ( log == null )
@@ -283,7 +356,7 @@ public final class MyDevApplicationLogsPage
 
     private void handleDelete()
     {
-        String uid = getStringArgument();
+        String uid = getData().getStringArgument();
 
         MyApplicationLog e;
         e = getAccess().findApplicationLogUid(uid);
@@ -312,6 +385,11 @@ public final class MyDevApplicationLogsPage
     {
         KmLog.fatalTrace("Info log test.");
         ajax().toast("Fatal log created.  Refresh.");
+    }
+
+    private void handleFlush()
+    {
+        MyApplicationLogBuffer.flush();
     }
 
     //##################################################

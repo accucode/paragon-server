@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.types.KmHtmlColor;
 
 public class KmHtmlColorValidator
@@ -34,7 +33,7 @@ public class KmHtmlColorValidator
     //##################################################
 
     @Override
-    public void validateModel(KmHtmlColor value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmHtmlColor value, KmErrorList errors)
     {
         // none
     }

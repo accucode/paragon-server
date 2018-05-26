@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -388,6 +388,89 @@ public class KmDuration
 
     public String format()
     {
+        return formatExact();
+    }
+
+    /**
+     * Format a summary that includes only the most significant part.
+     */
+    public String formatEstimatedTime()
+    {
+        StringBuilder out = new StringBuilder();
+
+        if ( isNegative() )
+            out.append("-");
+
+        KmDuration abs = abs();
+
+        double dd = abs.getTotalDaysExact();
+        double yy = dd / 365.25;
+        if ( yy > 1 )
+            return formatUnit(yy, "year");
+
+        double mm = dd / 30.4;
+        if ( mm > 1 )
+            return formatUnit(mm, "month");
+
+        if ( dd > 1 )
+            return formatUnit(dd, "day");
+
+        double h = abs.getTotalHoursExact();
+        if ( h > 1 )
+            return formatUnit(h, "hour");
+
+        double m = abs.getTotalMinutesExact();
+        if ( m > 1 )
+            return formatUnit(m, "minute");
+
+        int s = abs.getTotalSeconds();
+        return formatUnit(s, "second");
+    }
+
+    /**
+     * Format the total time an an estimate of work-hours.
+     * This assumes 8 hours per day, 20 days per month.
+     */
+    public String formatEstimatedWork()
+    {
+        StringBuilder out = new StringBuilder();
+
+        if ( isNegative() )
+            out.append("-");
+
+        KmDuration abs = abs();
+
+        final double hoursPerDay = 8;
+        final double hoursPerMonth = hoursPerDay * 20;
+        final double hoursPerYear = hoursPerMonth * 12;
+
+        double hours = abs.getTotalHoursExact();
+        double yy = hours / hoursPerYear;
+        if ( yy > 1 )
+            return formatUnit(yy, "year");
+
+        double mm = hours / hoursPerMonth;
+        if ( mm > 1 )
+            return formatUnit(mm, "month");
+
+        double dd = hours / hoursPerDay;
+        if ( dd > 1 )
+            return formatUnit(dd, "day");
+
+        double h = hours;
+        if ( h > 1 )
+            return formatUnit(h, "hour");
+
+        double m = abs.getTotalMinutesExact();
+        if ( m > 1 )
+            return formatUnit(m, "minute");
+
+        int s = abs.getTotalSeconds();
+        return formatUnit(s, "second");
+    }
+
+    public String formatExact()
+    {
         StringBuilder out = new StringBuilder();
 
         if ( isNegative() )
@@ -426,6 +509,16 @@ public class KmDuration
     private String _pad2(long i)
     {
         return Kmu.leftPad(i + "", 2, '0');
+    }
+
+    private String formatUnit(double d, String unit)
+    {
+        String qty = Kmu.formatDouble(d, 1);
+
+        if ( !qty.equals("1.0") )
+            unit = Kmu.pluralize(unit);
+
+        return Kmu.format("%s %s", qty, unit);
     }
 
 }

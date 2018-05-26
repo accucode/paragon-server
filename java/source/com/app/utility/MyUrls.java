@@ -1,59 +1,81 @@
 package com.app.utility;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmAsserts;
 import com.kodemore.utility.Kmu;
 
+import com.app.model.MyAttachment;
 import com.app.model.MyDownload;
-import com.app.model.MyPasswordReset;
 import com.app.model.MyTenant;
 import com.app.ui.core.MyServletData;
-import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyUrls
     implements MyServletConstantsIF
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * This is used to identify the servlet responsible for
+     * rendering the main HTML content. This is typically used
+     * to compose the initial GET response, whereas subsequent
+     * requests are handled by increment AJAX posts.
+     */
+    private static final String MAIN_SERVLET = "main";
+
+    //##################################################
     //# urls
     //##################################################
 
     /**
-     * A entry url that generally leads back to the top of the module
-     * you are already in. For example, this will re-enter the main app,
-     * developer tools, or onling store that you are already viewing.
+     * Format a complete URL that can be used to enter the application.
+     *
+     * Within the application, navigation usually requires only the query string.
+     * The complete entry url is mainly required when passing a URL to an external
+     * third party, such as another web server, or when embedding the url
+     * in an email.
+     *
+     * REQUIRES an active http request to infer the tenant/host.
      */
-    public static String getEntryUrl()
+    public static String formatEntryUrl()
     {
-        return formatUrl("");
+        return newRequestInfo().formatUrl();
     }
 
-    public static String getEntryUrl(ScParameterList params)
+    /**
+     * Format a complete URL that can be used to enter the application,
+     * for the specified tenant.
+     */
+    public static String formatEntryUrl(MyTenant tenant, ScParameterList params)
     {
-        return params == null || params.isEmpty()
-            ? formatUrl("")
-            : formatServletUrl("main", params);
+        KmAsserts.isNotNull("Tenant is required.", tenant);
+
+        MyUrlInfo e;
+        e = getDefaultInfo();
+        e.setHostFor(tenant);
+        e.setPath(formatServletPath(MAIN_SERVLET));
+        e.setParameters(params);
+        return e.formatUrl();
     }
 
-    public static String getEntryUrl(MyTenant tenant, ScParameterList params)
-    {
-        return formatServletUrl(tenant, "main", params);
-
-    }
-
-    public static String getPasswordResetUrl(MyPasswordReset e)
-    {
-        return MyPasswordResetPage.getInstance().formatEntryUrl(e);
-    }
-
-    public static String getCallbackUrl()
-    {
-        return formatServletUrl("callback");
-    }
+    //##################################################
+    //# paths
+    //##################################################
 
     public static String getCallbackPath()
     {
         return formatServletPath("callback");
+    }
+
+    //##################################################
+    //# servlet urls
+    //##################################################
+
+    public static String getCallbackUrl()
+    {
+        return formatServletUrl("callback");
     }
 
     public static String getDownloadUrl(MyDownload e)
@@ -61,97 +83,72 @@ public class MyUrls
         return formatServletUrl("download/" + e.getUid());
     }
 
+    public static String getAttachmentUrl(MyAttachment e)
+    {
+        return formatServletUrl("attachment/" + e.getUid());
+    }
+
     public static String getOneAllCallbackUrl()
     {
         return formatServletUrl("oneall");
     }
 
+    /**
+     * REQUIRES an active http request to infer the tenant/host.
+     */
+    private static String formatServletUrl(String servlet)
+    {
+        MyUrlInfo e;
+        e = new MyUrlInfo();
+        e.setRequestScheme();
+        e.setRequestHost();
+        e.setRequestPort();
+        e.setPath(formatServletPath(servlet));
+        return e.formatUrl();
+    }
+
     //##################################################
-    //# private
+    //# defaults
     //##################################################
+
+    private static MyUrlInfo getDefaultInfo()
+    {
+        return hasData()
+            ? newRequestInfo()
+            : newWebInfo();
+    }
+
+    private static MyUrlInfo newWebInfo()
+    {
+        MyUrlInfo e;
+        e = new MyUrlInfo();
+        e.setWebPort();
+        e.setWebScheme();
+        return e;
+    }
+
+    private static MyUrlInfo newRequestInfo()
+    {
+        MyUrlInfo e;
+        e = new MyUrlInfo();
+        e.setRequestScheme();
+        e.setRequestHost();
+        e.setRequestPort();
+        return e;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private static boolean hasData()
+    {
+        return MyServletData.hasLocal();
+    }
 
     public static String formatServletPath(String servlet)
     {
-        // Assumes ROOT (implied) context
         return Kmu.joinUrlPath(SERVLET_ROOT, SERVLET_PATH, servlet);
-    }
-
-    private static String formatServletUrl(String servlet)
-    {
-        ScParameterList params = null;
-        return formatServletUrl(servlet, params);
-    }
-
-    private static String formatServletUrl(String servlet, ScParameterList params)
-    {
-        String path = formatServletPath(servlet);
-        return formatUrl(path, params);
-    }
-
-    private static String formatServletUrl(MyTenant tenant, String servlet, ScParameterList params)
-    {
-        String path = formatServletPath(servlet);
-        return formatUrl(tenant, path, params);
-    }
-
-    private static String formatUrl(String path)
-    {
-        ScParameterList params = null;
-        return formatUrl(path, params);
-    }
-
-    private static String formatUrl(String path, ScParameterList params)
-    {
-        MyServletData data = MyServletData.getLocal();
-
-        String scheme = data.getRequestScheme();
-        String host = data.getRequestServerHostName();
-        int port = data.getRequestServerPort();
-
-        return formatUrl(scheme, host, port, path, params);
-    }
-
-    private static String formatUrl(MyTenant tenant, String path, ScParameterList params)
-    {
-        MyServletData data = MyServletData.getLocal();
-
-        String scheme = data.getRequestScheme();
-        String host = tenant.getHostname();
-        int port = data.getRequestServerPort();
-
-        return formatUrl(scheme, host, port, path, params);
-    }
-
-    public static String formatUrl(
-        String scheme,
-        String host,
-        Integer port,
-        String path,
-        ScParameterList requestParams)
-    {
-        KmStringBuilder out = new KmStringBuilder();
-
-        if ( Kmu.hasValue(scheme) )
-        {
-            out.print(scheme);
-            out.print("://");
-        }
-
-        out.print(host);
-
-        if ( port != null && port != 80 )
-        {
-            out.print(":");
-            out.print(port);
-        }
-
-        if ( Kmu.hasValue(path) )
-            out.print(path);
-
-        if ( requestParams != null )
-            out.print(requestParams.formatUrl());
-
-        return out.toString();
     }
 
 }

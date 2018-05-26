@@ -91,6 +91,5 @@ public interface KmEnumIF
     default boolean hasLabel(String e)
     {
         return getLabel().equals(e);
-
     }
 }

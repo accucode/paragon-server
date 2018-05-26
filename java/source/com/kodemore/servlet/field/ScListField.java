@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package com.kodemore.servlet.field;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 
-public class ScListField<T>
+public abstract class ScListField<T>
     extends ScAbstractSelectField<T>
 {
     //##################################################
@@ -46,7 +46,7 @@ public class ScListField<T>
      * To control the visual height of the list, you should use
      * the css/style.
      */
-    private static final int SELECT_SIZE    = 2;
+    private static final int SELECT_SIZE = 2;
 
     /**
      * This is the default height (px) for list fields.
@@ -149,7 +149,7 @@ public class ScListField<T>
     }
 
     @Override
-    protected void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
+    protected void applyWrapperLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
     {
         css.listField();
         style.width(_width);

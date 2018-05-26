@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSubmitButton;
 
 public abstract class MyAddDialog<T>
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
@@ -18,8 +18,8 @@ public abstract class MyAddDialog<T>
 
     private KmList<Consumer<T>> _saveListeners;
 
-    private ScSubmitButton      _saveButton;
-    private ScActionButton      _cancelButton;
+    private ScSubmitButton _saveButton;
+    private ScActionButton _cancelButton;
 
     //##################################################
     //# constructor
@@ -29,7 +29,7 @@ public abstract class MyAddDialog<T>
     {
         _saveListeners = new KmList<>();
 
-        setSubmitAction(this::handleSave);
+        onSubmit(newUncheckedAction(this::handleSave));
 
         ScDiv footer;
         footer = showFooter();
@@ -37,7 +37,7 @@ public abstract class MyAddDialog<T>
         footer.css().buttonBox();
 
         _saveButton = footer.addSaveButton();
-        _cancelButton = footer.addCancelButton(this::ajaxClose);
+        _cancelButton = footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //##################################################
@@ -127,16 +127,7 @@ public abstract class MyAddDialog<T>
     protected void ajaxEnableSave(ScAction action)
     {
         getSaveButton().ajaxEnable();
-        getForm().ajaxOnSubmit(action);
-    }
-
-    /**
-     * Enable the save button and set the form's onSubmit action.
-     */
-    protected void ajaxEnableSave(Runnable runnable)
-    {
-        getSaveButton().ajaxEnable();
-        getForm().ajaxOnSubmit(runnable);
+        getDialogRoot().ajaxOnSubmit(action);
     }
 
     /**
@@ -148,18 +139,6 @@ public abstract class MyAddDialog<T>
     protected void ajaxDisableSave(ScAction action)
     {
         getSaveButton().ajaxDisable();
-        getForm().ajaxOnSubmit(action);
-    }
-
-    /**
-     * Disable the submit button and set the form's onSubmit action.
-     * This is primarily used when there is an alternate submit button
-     * on the form.  You should ensure that there is a second submit button
-     * on the form is you use this.
-     */
-    protected void ajaxDisableSave(Runnable action)
-    {
-        getSaveButton().ajaxDisable();
-        getForm().ajaxOnSubmit(action);
+        getDialogRoot().ajaxOnSubmit(action);
     }
 }

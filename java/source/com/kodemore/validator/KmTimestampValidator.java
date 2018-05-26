@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.exception.error.KmMaximumValueValidationError;
-import com.kodemore.exception.error.KmMinimumValueValidationError;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.time.KmTimestamp;
 
 public class KmTimestampValidator
@@ -36,22 +33,22 @@ public class KmTimestampValidator
     //##################################################
 
     @Override
-    public void validateModel(KmTimestamp e, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmTimestamp value, KmErrorList errors)
     {
-        validateYear(e, errors);
+        validateYear(value, errors);
     }
 
-    public void validateYear(KmTimestamp e, KmList<KmErrorIF> errors)
+    public void validateYear(KmTimestamp e, KmErrorList errors)
     {
         // this is limited by MySql
         int min = 1970;
         int max = 2035;
 
         if ( e.getYear() < min )
-            errors.add(new KmMinimumValueValidationError(getModel(), getField(), min));
+            errors.addMinimumValue(this, min + "");
 
         if ( e.getYear() > max )
-            errors.add(new KmMaximumValueValidationError(getModel(), getField(), max));
+            errors.addMaximumValue(this, max + "");
     }
 
     //##################################################

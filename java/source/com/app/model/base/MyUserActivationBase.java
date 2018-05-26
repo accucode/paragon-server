@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyUserActivationBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyUserActivation>
+    implements KmUidDomainIF
     ,MyBasicTimestampsIF
 {
     //##################################################
@@ -38,21 +40,22 @@ public abstract class MyUserActivationBase
     public static final MyMetaUserActivation Meta = MyMetaUserActivation.instance;
     public static final MyUserActivationTools Tools = MyUserActivationTools.instance;
     public static final MyUserActivationValidator Validator = MyUserActivationValidator.instance;
+    public static final MyUserActivationFinder Finder = MyUserActivationFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp updatedUtcTs;
     private String email;
-    private String token;
     private KmTimestamp expirationUtcTs;
+    private String token;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
     private MyUser createdBy;
-    private MyUser updatedBy;
     private MyTenant tenant;
+    private MyUser updatedBy;
 
     //##################################################
     //# constructor
@@ -61,53 +64,29 @@ public abstract class MyUserActivationBase
     public MyUserActivationBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
-        setUpdatedUtcTs(nowUtc());
         setToken(newUid());
+        setUid(newUid());
+        setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
         setCreatedBy(MyGlobals.getCurrentUser());
         setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
-    }
-
-    public void clearUid()
-    {
-        setUid(null);
-    }
-
-    public boolean hasUid()
-    {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -121,7 +100,7 @@ public abstract class MyUserActivationBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -141,33 +120,35 @@ public abstract class MyUserActivationBase
     }
 
     //##################################################
-    //# field (updatedUtcTs)
+    //# field (domainSubtitle)
     //##################################################
 
-    public KmTimestamp getUpdatedUtcTs()
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        return updatedUtcTs;
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void setUpdatedUtcTs(KmTimestamp e)
+    public boolean hasDomainSubtitle(String e)
     {
-        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
-        updatedUtcTs = e;
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
     }
 
-    public void clearUpdatedUtcTs()
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
     {
-        setUpdatedUtcTs(null);
+        return Kmu.hasValue(getDomainTitle());
     }
 
-    public boolean hasUpdatedUtcTs()
+    public boolean hasDomainTitle(String e)
     {
-        return getUpdatedUtcTs() != null;
-    }
-
-    public boolean hasUpdatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getUpdatedUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -181,7 +162,7 @@ public abstract class MyUserActivationBase
 
     public void setEmail(String e)
     {
-        e = Validator.getEmailValidator().convertOnly(e);
+        e = Validator.getEmailValidator().convert(e);
         email = e;
     }
 
@@ -211,6 +192,36 @@ public abstract class MyUserActivationBase
     }
 
     //##################################################
+    //# field (expirationUtcTs)
+    //##################################################
+
+    public KmTimestamp getExpirationUtcTs()
+    {
+        return expirationUtcTs;
+    }
+
+    public void setExpirationUtcTs(KmTimestamp e)
+    {
+        e = Validator.getExpirationUtcTsValidator().convert(e);
+        expirationUtcTs = e;
+    }
+
+    public void clearExpirationUtcTs()
+    {
+        setExpirationUtcTs(null);
+    }
+
+    public boolean hasExpirationUtcTs()
+    {
+        return getExpirationUtcTs() != null;
+    }
+
+    public boolean hasExpirationUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getExpirationUtcTs(), e);
+    }
+
+    //##################################################
     //# field (token)
     //##################################################
 
@@ -221,7 +232,7 @@ public abstract class MyUserActivationBase
 
     public void setToken(String e)
     {
-        e = Validator.getTokenValidator().convertOnly(e);
+        e = Validator.getTokenValidator().convert(e);
         token = e;
     }
 
@@ -251,33 +262,73 @@ public abstract class MyUserActivationBase
     }
 
     //##################################################
-    //# field (expirationUtcTs)
+    //# field (uid)
     //##################################################
 
-    public KmTimestamp getExpirationUtcTs()
+    public String getUid()
     {
-        return expirationUtcTs;
+        return uid;
     }
 
-    public void setExpirationUtcTs(KmTimestamp e)
+    public void setUid(String e)
     {
-        e = Validator.getExpirationUtcTsValidator().convertOnly(e);
-        expirationUtcTs = e;
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    public void clearExpirationUtcTs()
+    public void clearUid()
     {
-        setExpirationUtcTs(null);
+        setUid(null);
     }
 
-    public boolean hasExpirationUtcTs()
+    public boolean hasUid()
     {
-        return getExpirationUtcTs() != null;
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasExpirationUtcTs(KmTimestamp e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getExpirationUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
     }
 
     //##################################################
@@ -291,7 +342,7 @@ public abstract class MyUserActivationBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -308,22 +359,6 @@ public abstract class MyUserActivationBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -403,82 +438,6 @@ public abstract class MyUserActivationBase
     }
 
     //##################################################
-    //# field (updatedLocalTs)
-    //##################################################
-
-    public final KmTimestamp getUpdatedLocalTs()
-    {
-        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
-    }
-
-    public boolean hasUpdatedLocalTs()
-    {
-        return getUpdatedLocalTs() != null;
-    }
-
-    public boolean hasUpdatedLocalTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getUpdatedLocalTs(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalTsMessage)
-    //##################################################
-
-    public final String getUpdatedLocalTsMessage()
-    {
-        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
-    }
-
-    public boolean hasUpdatedLocalTsMessage()
-    {
-        return Kmu.hasValue(getUpdatedLocalTsMessage());
-    }
-
-    public boolean hasUpdatedLocalTsMessage(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalDate)
-    //##################################################
-
-    public final KmDate getUpdatedLocalDate()
-    {
-        return KmTimestampUtility.getDate(getUpdatedLocalTs());
-    }
-
-    public boolean hasUpdatedLocalDate()
-    {
-        return getUpdatedLocalDate() != null;
-    }
-
-    public boolean hasUpdatedLocalDate(KmDate e)
-    {
-        return Kmu.isEqual(getUpdatedLocalDate(), e);
-    }
-
-    //##################################################
-    //# field (updatedLocalTime)
-    //##################################################
-
-    public final KmTime getUpdatedLocalTime()
-    {
-        return KmTimestampUtility.getTime(getUpdatedLocalTs());
-    }
-
-    public boolean hasUpdatedLocalTime()
-    {
-        return getUpdatedLocalTime() != null;
-    }
-
-    public boolean hasUpdatedLocalTime(KmTime e)
-    {
-        return Kmu.isEqual(getUpdatedLocalTime(), e);
-    }
-
-    //##################################################
     //# field (expirationLocalTs)
     //##################################################
 
@@ -555,6 +514,82 @@ public abstract class MyUserActivationBase
     }
 
     //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
     //# createdBy
     //##################################################
 
@@ -595,6 +630,11 @@ public abstract class MyUserActivationBase
         return null;
     }
 
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
+    }
+
     public boolean hasCreatedByFullName()
     {
         return hasCreatedBy() && getCreatedBy().hasFullName();
@@ -603,6 +643,40 @@ public abstract class MyUserActivationBase
     public boolean hasCreatedByFullName(String e)
     {
         return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# tenant
+    //##################################################
+
+    public MyTenant getTenant()
+    {
+        return tenant;
+    }
+
+    public void setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void _setTenant(MyTenant e)
+    {
+        tenant = e;
+    }
+
+    public void clearTenant()
+    {
+        setTenant(null);
+    }
+
+    public boolean hasTenant()
+    {
+        return getTenant() != null;
+    }
+
+    public boolean hasTenant(MyTenant e)
+    {
+        return Kmu.isEqual(getTenant(), e);
     }
 
     //##################################################
@@ -646,6 +720,11 @@ public abstract class MyUserActivationBase
         return null;
     }
 
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
+    }
+
     public boolean hasUpdatedByFullName()
     {
         return hasUpdatedBy() && getUpdatedBy().hasFullName();
@@ -656,60 +735,21 @@ public abstract class MyUserActivationBase
         return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
     }
 
-    //##################################################
-    //# tenant
-    //##################################################
-
-    public MyTenant getTenant()
-    {
-        return tenant;
-    }
-
-    public void setTenant(MyTenant e)
-    {
-        tenant = e;
-    }
-
-    public void _setTenant(MyTenant e)
-    {
-        tenant = e;
-    }
-
-    public void clearTenant()
-    {
-        setTenant(null);
-    }
-
-    public boolean hasTenant()
-    {
-        return getTenant() != null;
-    }
-
-    public boolean hasTenant(MyTenant e)
-    {
-        return Kmu.isEqual(getTenant(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyUserActivationValidator getValidator()
     {
-        Validator.validate((MyUserActivation)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyUserActivation asSubclass()
     {
-        Validator.validateWarn((MyUserActivation)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyUserActivation)this);
+        return (MyUserActivation)this;
     }
 
     //##################################################
@@ -738,13 +778,37 @@ public abstract class MyUserActivationBase
     {
         MyUserActivation e;
         e = new MyUserActivation();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setUpdatedUtcTs(getUpdatedUtcTs());
-        e.setEmail(getEmail());
-        e.setToken(getToken());
-        e.setExpirationUtcTs(getExpirationUtcTs());
+        applyEditableFieldsTo(e);
         resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyUserActivation e)
+    {
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setEmail(getEmail());
+        e.setExpirationUtcTs(getExpirationUtcTs());
+        e.setToken(getToken());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyUserActivation e)
+    {
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setEmail(e.getEmail());
+        setExpirationUtcTs(e.getExpirationUtcTs());
+        setToken(e.getToken());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -775,25 +839,27 @@ public abstract class MyUserActivationBase
 
     public boolean isSameIgnoringKey(MyUserActivation e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
-        if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
         if ( !Kmu.isEqual(getExpirationUtcTs(), e.getExpirationUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalTs(), e.getExpirationLocalTs()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalTsMessage(), e.getExpirationLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalDate(), e.getExpirationLocalDate()) ) return false;
         if ( !Kmu.isEqual(getExpirationLocalTime(), e.getExpirationLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -827,12 +893,12 @@ public abstract class MyUserActivationBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    Email = " + email);
-        System.out.println("    Token = " + token);
         System.out.println("    ExpirationUtcTs = " + expirationUtcTs);
+        System.out.println("    Token = " + token);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

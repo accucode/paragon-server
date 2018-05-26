@@ -1,7 +1,8 @@
 package com.kodemore.proto;
 
 import com.kodemore.collection.KmBlob;
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.type.KmhBlobType;
 import com.kodemore.meta.KmMetaBlobProperty;
 import com.kodemore.validator.KmBlobValidator;
@@ -22,10 +23,9 @@ public class KmProtoBlob
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType f)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        // int n = f.getMaximumLength();
-        return "mediumblob";
+        return singleColumn("mediumblob");
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.servlet.variable.ScLocalOptionList;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
@@ -48,13 +47,25 @@ public abstract class ScAbstractSelectField<T>
     //# variables
     //##################################################
 
-    private ScLocal<T>           _value;
+    /**
+     * The ID of the outer html element.
+     */
+    private ScLocalString _htmlId;
 
-    private ScLocalOptionList<T> _options;
-    private ScLocalString        _nullPrefix;
+    private ScLocal<T> _value;
 
-    private ScLocalBoolean       _disabled;
-    private ScAction             _onChangeAction;
+    private ScLocalString _nullPrefix;
+
+    /**
+     * If disabled, the field will not be editable.
+     * However, a disabled <select> is generally NOT
+     * included in a form post. So, when disabled,
+     * we render and additional hidden field so that
+     * the value will be included in the post.
+     */
+    private ScLocalBoolean _disabled;
+
+    private ScAction _onChangeAction;
 
     //##################################################
     //# constructor
@@ -62,8 +73,8 @@ public abstract class ScAbstractSelectField<T>
 
     public ScAbstractSelectField()
     {
+        _htmlId = new ScLocalString(getKeyToken());
         _value = new ScLocal<>();
-        _options = new ScLocalOptionList<>();
         _disabled = new ScLocalBoolean(false);
         _nullPrefix = new ScLocalString();
     }
@@ -75,26 +86,36 @@ public abstract class ScAbstractSelectField<T>
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return _htmlId.getValue();
+    }
+
+    public final void setHtmlId(String e)
+    {
+        _htmlId.setValue(e);
     }
 
     //==================================================
-    //= list
+    //= input
     //==================================================
 
-    private String getListHtmlId()
+    protected String getListHtmlId()
     {
         return getHtmlId() + "-list";
     }
 
-    private String getListHtmlName()
+    protected String getListHtmlName()
     {
         return getListHtmlId();
     }
 
-    private String getListSelector()
+    protected String getListSelector()
     {
         return ScJquery.formatIdSelector(getListHtmlId());
+    }
+
+    protected String getListReference()
+    {
+        return ScJquery.formatIdReference(getListHtmlId());
     }
 
     private ScHtmlIdAjax getListAjax()
@@ -106,49 +127,36 @@ public abstract class ScAbstractSelectField<T>
     //# options
     //##################################################
 
-    public KmList<ScOption<T>> getOptions()
-    {
-        return _options.getValue();
-    }
-
-    public void addOption(T value, String label)
-    {
-        _options.add(value, label);
-    }
-
-    public void addOption(T value)
-    {
-        String label = Kmu.toDisplayString(value);
-        addOption(value, label);
-    }
-
-    public void clearOptions()
-    {
-        _options.clear();
-    }
-
-    public void setOptions(KmList<T> v)
-    {
-        clearOptions();
-        addOptions(v);
-    }
-
-    public void addOptions(KmList<T> v)
-    {
-        if ( v == null )
-            return;
-
-        for ( T e : v )
-            addOption(e);
-    }
+    /**
+     * Return the options to select from.
+     *
+     * Note that the prefix option is NOT included in this list
+     * and is managed separately.
+     */
+    public abstract KmList<ScOption<T>> getOptions();
 
     //##################################################
     //# prefixes
     //##################################################
 
+    public String getNullPrefix()
+    {
+        return _nullPrefix.getValue();
+    }
+
+    public boolean hasNullPrefix()
+    {
+        return _nullPrefix.hasValue();
+    }
+
     public void setNullPrefix(String label)
     {
         _nullPrefix.setValue(label);
+    }
+
+    public void setNullBlankPrefix()
+    {
+        setNullPrefix(ScConstantsIF.NULL_PREFIX_BLANK);
     }
 
     public void setNullAllPrefix()
@@ -233,11 +241,29 @@ public abstract class ScAbstractSelectField<T>
     {
         T value = getValue();
 
-        for ( ScOption<T> e : _options )
+        for ( ScOption<T> e : getOptions() )
             if ( e.hasValue(value) )
                 return true;
 
         return false;
+    }
+
+    public void selectFirstOption()
+    {
+        ScOption<T> e = getOptions().getFirstSafe();
+        if ( e == null )
+            clearValue();
+        else
+            setValue(e.getValue());
+    }
+
+    public void selectSingleOption()
+    {
+        KmList<ScOption<T>> v = getOptions();
+        if ( v.isSingleton() )
+            setValue(v.getFirst().getValue());
+        else
+            clearValue();
     }
 
     //##################################################
@@ -288,11 +314,6 @@ public abstract class ScAbstractSelectField<T>
         _onChangeAction = e;
     }
 
-    public void onChange(Runnable e)
-    {
-        onChange(newCheckedAction(e));
-    }
-
     private String formatOnChange()
     {
         if ( _onChangeAction == null )
@@ -321,10 +342,10 @@ public abstract class ScAbstractSelectField<T>
         KmCssDefaultBuilder css = newCssBuilder();
         KmStyleBuilder style = newStyleBuilder();
 
-        if ( !getVisible() )
+        if ( !isVisible() )
             style.hide();
 
-        applyLayoutTo(css, style);
+        applyWrapperLayoutTo(css, style);
 
         out.openDiv();
         out.printAttribute("id", getHtmlId());
@@ -334,11 +355,12 @@ public abstract class ScAbstractSelectField<T>
 
         renderHelpOn(out);
         renderSelectOn(out);
+        renderHiddenFieldOn(out);
 
         out.endDiv();
     }
 
-    protected abstract void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style);
+    protected abstract void applyWrapperLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style);
 
     private void renderHelpOn(KmHtmlBuilder out)
     {
@@ -352,6 +374,7 @@ public abstract class ScAbstractSelectField<T>
         out.printAttribute("name", getListHtmlName());
         out.printAttribute("size", getSelectSize());
         out.printAttribute("onchange", formatOnChange());
+        out.printAttribute(formatSelectStyle());
 
         if ( isDisabled() )
             out.printAttribute("disabled", "disabled");
@@ -364,6 +387,11 @@ public abstract class ScAbstractSelectField<T>
         out.end("select");
     }
 
+    protected KmStyleBuilder formatSelectStyle()
+    {
+        return null;
+    }
+
     private void renderOptionsOn(KmHtmlBuilder out)
     {
         boolean alreadySelected = false;
@@ -374,7 +402,7 @@ public abstract class ScAbstractSelectField<T>
             alreadySelected = alreadySelected || selected;
         }
 
-        for ( ScOption<T> e : _options )
+        for ( ScOption<T> e : getOptions() )
         {
             boolean selected = renderOptionOn(out, e.getValue(), e.getText(), alreadySelected);
             alreadySelected = alreadySelected || selected;
@@ -405,6 +433,21 @@ public abstract class ScAbstractSelectField<T>
         return selected;
     }
 
+    /**
+     * If disabled, we render the hidden field so that the
+     * value is included in the form post.
+     */
+    private void renderHiddenFieldOn(KmHtmlBuilder out)
+    {
+        if ( isEnabled() )
+            return;
+
+        String name = getListHtmlName();
+        String value = encode(getValue());
+
+        out.printHiddenField(name, value);
+    }
+
     //##################################################
     //# parameters
     //##################################################
@@ -426,7 +469,7 @@ public abstract class ScAbstractSelectField<T>
     //##################################################
 
     @Override
-    public void ajaxSetFieldValue(T e)
+    public final void ajaxSetFieldValue(T e)
     {
         ajaxSetFieldValue(e, getChangeTracking());
     }
@@ -442,6 +485,8 @@ public abstract class ScAbstractSelectField<T>
 
         if ( updateOldValue )
             ajax.setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, htmlValue);
+
+        _postAjaxUpdate();
     }
 
     /**
@@ -450,14 +495,16 @@ public abstract class ScAbstractSelectField<T>
     public void ajaxSetOptions(KmJsonArray options)
     {
         getRootScript().run("Kmu.setSelectOptions(%s,%s);", json(getListSelector()), options);
+
+        _postAjaxUpdate();
     }
 
-    public void ajaxSetOptions(KmList<ScOption<T>> options)
+    public final void ajaxSetOptions(KmList<ScOption<T>> options)
     {
         ajaxSetOptions(getJsonListFrom(options));
     }
 
-    public void ajaxUpdateOptions()
+    public final void ajaxUpdateOptions()
     {
         KmList<ScOption<T>> v;
         v = new KmList<>();
@@ -466,7 +513,7 @@ public abstract class ScAbstractSelectField<T>
         ajaxUpdateOptions(v);
     }
 
-    public void ajaxUpdateOptions(KmList<ScOption<T>> v)
+    public final void ajaxUpdateOptions(KmList<ScOption<T>> v)
     {
         ajaxSetOptions(v);
     }
@@ -489,11 +536,25 @@ public abstract class ScAbstractSelectField<T>
             json(getListSelector()),
             json(text),
             json(encode(value)));
+
+        _postAjaxUpdate();
     }
 
-    public void ajaxClearOptions()
+    protected void _postAjaxUpdate()
+    {
+        // subclass
+    }
+
+    public final void ajaxClearOptions()
     {
         getRootScript().run("Kmu.clearSelectOptions(%s);", json(getListSelector()));
+
+        _postAjaxUpdate();
+    }
+
+    public void ajaxFireChanged()
+    {
+        getListAjax().fireChanged();
     }
 
     //##################################################

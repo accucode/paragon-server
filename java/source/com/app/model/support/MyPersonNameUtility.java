@@ -17,10 +17,8 @@ import com.kodemore.utility.Kmu;
 public abstract class MyPersonNameUtility
 {
     //##################################################
-    //# constants
+    //# testing
     //##################################################
-
-    private static final String ANONYMOUS = "<anonymous>";
 
     /**
      * Ideally, this should never return false, but is included
@@ -33,6 +31,10 @@ public abstract class MyPersonNameUtility
             || Kmu.hasValue(e.getNickname());
     }
 
+    //##################################################
+    //# accessing
+    //##################################################
+
     /**
      * Usually joins the first and last names.
      * Return the nickname if the first/last are both null.
@@ -41,7 +43,7 @@ public abstract class MyPersonNameUtility
     public static String getFullName(MyPersonNameIF e)
     {
         if ( !hasName(e) )
-            return ANONYMOUS;
+            return null;
 
         KmList<String> v;
         v = new KmList<>();
@@ -61,7 +63,7 @@ public abstract class MyPersonNameUtility
     public static String getFormalName(MyPersonNameIF e)
     {
         if ( !hasName(e) )
-            return ANONYMOUS;
+            return null;
 
         KmList<String> v;
         v = new KmList<>();
@@ -81,7 +83,7 @@ public abstract class MyPersonNameUtility
     public static String getShortName(MyPersonNameIF e)
     {
         if ( !hasName(e) )
-            return ANONYMOUS;
+            return null;
 
         if ( Kmu.hasValue(e.getNickname()) )
             return e.getNickname();
@@ -99,7 +101,7 @@ public abstract class MyPersonNameUtility
     public static String getLongName(MyPersonNameIF e)
     {
         if ( !hasName(e) )
-            return ANONYMOUS;
+            return null;
 
         String first = e.getFirstName();
         String last = e.getLastName();

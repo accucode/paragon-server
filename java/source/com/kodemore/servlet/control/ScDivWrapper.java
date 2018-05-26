@@ -44,13 +44,13 @@ public class ScDivWrapper
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        out.render(_inner);
+        out.render(getInner());
     }
 
     @Override
     public final KmList<ScControl> getChildren()
     {
-        return KmList.createWith(_inner);
+        return KmList.createWith(getInner());
     }
 
     //##################################################
@@ -60,13 +60,13 @@ public class ScDivWrapper
     @Override
     public KmCssDefaultBuilder css()
     {
-        return _inner.css();
+        return getInner().css();
     }
 
     @Override
     public KmStyleBuilder style()
     {
-        return _inner.style();
+        return getInner().style();
     }
 
     //##################################################
@@ -77,6 +77,11 @@ public class ScDivWrapper
     public String getHtmlId()
     {
         return getInner().getHtmlId();
+    }
+
+    public void setHtmlId(String e)
+    {
+        getInner().setHtmlId(e);
     }
 
     @Override
@@ -102,12 +107,12 @@ public class ScDivWrapper
     @Override
     public final void setVisible(boolean e)
     {
-        _inner.setVisible(e);
+        getInner().setVisible(e);
     }
 
     @Override
-    public final boolean getVisible()
+    public final boolean isVisible()
     {
-        return _inner.getVisible();
+        return getInner().isVisible();
     }
 }

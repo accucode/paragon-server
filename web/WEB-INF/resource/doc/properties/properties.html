@@ -10,963 +10,859 @@
 
 <html>
 <head>
-  <title>Paragon Properties</title>
+  <title>Kodemore Properties</title>
   <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 <body>
 
-<h1>Paragon Properties</h1>
+<h1>Kodemore Properties</h1>
 
-<h2>production</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>environment&nbsp;</td>
-        <td>Indicates the deployment environment.  Valid options are: development, stage, production.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>development&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>bootstrap</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>bootstrapSystemHostname&nbsp;</td>
+            <td>This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>system.localhost&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>accountSetup</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>defaultAdminPassword&nbsp;</td>
-        <td>The password to be used for the initial admin user on all new accounts.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>admin123&nbsp;</td>
-      </tr>
-      <tr>
-        <td>minimumPasswordLength&nbsp;</td>
-        <td>The minimum number of characters required for a valid password.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>paths</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>sharedPersistentPath&nbsp;</td>
-        <td>The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>/temp/shared/persistent&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sharedTransientPath&nbsp;</td>
-        <td>The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>/temp/shared/transient&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>chores</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>applicationLogFlusherChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>applicationLogFlusherChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>applicationLogFlusherChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>clearThemeCacheChoreActiveSeconds&nbsp;</td>
+            <td>The active frequency of the chore.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>300&nbsp;</td>
+        </tr>
+        <tr>
+            <td>clearThemeCacheChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>clearThemeCacheChoreIdleSeconds&nbsp;</td>
+            <td>The idle frequency of the chore.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>300&nbsp;</td>
+        </tr>
+        <tr>
+            <td>log4jReloaderChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>log4jReloaderChoreEnabled&nbsp;</td>
+            <td>Control whether the log4j config file is automatically reloaded during runtime.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>log4jReloaderChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>maintenanceChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>60&nbsp;</td>
+        </tr>
+        <tr>
+            <td>maintenanceChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>maintenanceChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>60&nbsp;</td>
+        </tr>
+        <tr>
+            <td>monitorChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>600&nbsp;</td>
+        </tr>
+        <tr>
+            <td>monitorChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>monitorChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>600&nbsp;</td>
+        </tr>
+        <tr>
+            <td>overridesReloaderChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>overridesReloaderChoreEnabled&nbsp;</td>
+            <td>Control whether the Overrides file is automatically reloaded during runtime.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>overridesReloaderChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>performanceLogFlusherChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>performanceLogFlusherChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>performanceLogFlusherChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>monitoring</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>contextFormatterEnabled&nbsp;</td>
-        <td>Determines if the context registry is enabled. If enabled various instances, e.g.: KmCommand, ScAction will store the context (call stack) that the constructs each instance. This can be fairly expensive, but is extremely valuable in debugging the context of slow commands.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>contextFormatterLines&nbsp;</td>
-        <td>The number of lines to include in each context. If set to a value less than or equal to 0 (e.g.: -1), the full context will be stored.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>20&nbsp;</td>
-      </tr>
-      <tr>
-        <td>daoCommandWarningThresholdMs&nbsp;</td>
-        <td>Dao commands requests that exceed this threshold will be logged as a warning. A value of 0 disables logging.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>2000&nbsp;</td>
-      </tr>
-      <tr>
-        <td>jobPerformanceLogEnabled&nbsp;</td>
-        <td>When enabled each job's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java job class can override this to force enablement.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sqlWarningThresholdMs&nbsp;</td>
-        <td>Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>1000&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>emailJob</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>sendEmailBatch&nbsp;</td>
-        <td>The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailEnabled&nbsp;</td>
-        <td>If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>databaseConnection</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>databaseDriver&nbsp;</td>
+            <td>Database connection.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>databasePassword&nbsp;</td>
+            <td>Database connection.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>databaseSchema&nbsp;</td>
+            <td>Database connection.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>databaseUri&nbsp;</td>
+            <td>Database connection.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>databaseUser&nbsp;</td>
+            <td>Database connection.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>emailSupport</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>sendEmailFromAddress&nbsp;</td>
-        <td>The address that will be listed as the 'from' address.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>admin@example.com&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailMethod&nbsp;</td>
-        <td>The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>print&nbsp;</td>
-      </tr>
-      <tr>
-        <td>sendEmailOverrideTo&nbsp;</td>
-        <td>If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>emailGoogleMail</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>gmailHost&nbsp;</td>
-        <td>Connecting to gmail.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>smtp.gmail.com&nbsp;</td>
-      </tr>
-      <tr>
-        <td>gmailPassword&nbsp;</td>
-        <td>Connecting to gmail.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>gmailPort&nbsp;</td>
-        <td>Connecting to gmail.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>465&nbsp;</td>
-      </tr>
-      <tr>
-        <td>gmailScheme&nbsp;</td>
-        <td>Connecting to gmail.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>https&nbsp;</td>
-      </tr>
-      <tr>
-        <td>gmailUser&nbsp;</td>
-        <td>Connecting to gmail.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>databasePatch</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>databaseSyncOnStartup&nbsp;</td>
+            <td>The application normally synchronizes the database patches upon startup. The patch tool uses an a pessimistic database lock to ensure single threaded operation even across multiple concurrent JVMs. This is typically enabled in production and provides for the standard way to deploy database migration scripts.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>emailSmtp</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>smtpHost&nbsp;</td>
-        <td>Connecting to smtp.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>smtp&nbsp;</td>
-      </tr>
-      <tr>
-        <td>smtpPassword&nbsp;</td>
-        <td>Connecting to smtp.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>smtpPort&nbsp;</td>
-        <td>Connecting to smtp.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>25&nbsp;</td>
-      </tr>
-      <tr>
-        <td>smtpScheme&nbsp;</td>
-        <td>Connecting to smtp.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>smtp&nbsp;</td>
-      </tr>
-      <tr>
-        <td>smtpUseSsl&nbsp;</td>
-        <td>Use SSL when connecting to smtp.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>smtpUser&nbsp;</td>
-        <td>Connecting to smtp.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>servlet</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>bootstrapSystemHostname&nbsp;</td>
-        <td>This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>system.4work.expert&nbsp;</td>
-      </tr>
-      <tr>
-        <td>marketingUrl&nbsp;</td>
-        <td>The url used to redirect people to the marketing website.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>http://www.4work.expert&nbsp;</td>
-      </tr>
-      <tr>
-        <td>servletSslRedirect&nbsp;</td>
-        <td>If true, requests to the main application servlet will be redirected as an SSL request.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>supportUrl&nbsp;</td>
-        <td>The url used to redirect people to the general support team and/or help desk.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>http://www.4work.expert&nbsp;</td>
-      </tr>
-      <tr>
-        <td>writeLastServletResults&nbsp;</td>
-        <td>If true, the servlet results are written to the web root directory.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>writeLastServletResultsCounter&nbsp;</td>
-        <td>If true, a counter is appended to the file name so that the results are not overwritten each time.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>debug</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>ajaxLogDeleteOnStart&nbsp;</td>
+            <td>If true, the ajax log file is deleted when tomcat starts.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ajaxLogEnabled&nbsp;</td>
+            <td>If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>autoLoginEmail&nbsp;</td>
+            <td>Used in development to enable automatic login.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>contextFormatterEnabled&nbsp;</td>
+            <td>Determines if the context registry is enabled. If enabled, various instances such as KmCommand will store the additional details about the call stack that constructs the original instance. This can be fairly expensive, but is valuable in debugging the context of slow commands.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>contextFormatterLines&nbsp;</td>
+            <td>The number of lines to include in each context. If set to a value less than or equal to 0 (e.g.: -1), the full context will be stored.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>20&nbsp;</td>
+        </tr>
+        <tr>
+            <td>deleteThreadTopicsOnStart&nbsp;</td>
+            <td>If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>printAjaxTime&nbsp;</td>
+            <td>If true, the time spent on each ajax call is logged.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>printAuditLog&nbsp;</td>
+            <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>printPerformanceLog&nbsp;</td>
+            <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>renderDebugDomComments&nbsp;</td>
+            <td>If true, render an html comment into the dom that identifies the class name of the page and various controls.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>showHibernateSql&nbsp;</td>
+            <td>Tell hibernate to show sql. Requires a restart to take effect.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>serverSession</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>serverSessionSecure&nbsp;</td>
-        <td>Indicates if the cookie should be set to require secure transmission (https/ssl).&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>serverSessionTimeoutSeconds&nbsp;</td>
-        <td>The length of time that a session may be idle before it is considered to be automatically stale.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>3600&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>debug</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>allowEmptyUserPasswords&nbsp;</td>
-        <td>Determines if empty/blank passwords should be allowed.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>printAuditLog&nbsp;</td>
-        <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>printPerformanceLog&nbsp;</td>
-        <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>servletShowStackTrace&nbsp;</td>
-        <td>Determines if the stack trace should be displayed upon errors. Normally, this is 'false' and the trace is hidden in a comment. For debugging this is usually enabled.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>emailChore</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>sendEmailBatch&nbsp;</td>
+            <td>The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch to fail.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>10&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailChoreActiveSeconds&nbsp;</td>
+            <td>The active frequency of the chore.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>5&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailChoreEnabled&nbsp;</td>
+            <td>Indicates if the chore should be run. Note even if the chore is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailChoreIdleSeconds&nbsp;</td>
+            <td>The idle frequency of the chore.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>60&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailEnabled&nbsp;</td>
+            <td>If false, email sending is completely disabled. The sendEmail chore may still run, no email will be sent, and no emails will be marked as sent.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>databaseConnection</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>databaseDriver&nbsp;</td>
-        <td>Database connection.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databasePassword&nbsp;</td>
-        <td>Database connection.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseSchema&nbsp;</td>
-        <td>Database connection.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseUri&nbsp;</td>
-        <td>Database connection.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseUser&nbsp;</td>
-        <td>Database connection.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>hibernateSecondLevelCache</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>hibernateCacheProvider&nbsp;</td>
-        <td>Hibernate cache provider class.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>hibernateCacheTimeSeconds&nbsp;</td>
-        <td>How long items should remain in the second level cache.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>300&nbsp;</td>
-      </tr>
-      <tr>
-        <td>hibernateMemcachedServers&nbsp;</td>
-        <td>Names of the Memcached Servers, format is <hostname>:<port>&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>hibernateUseSecondLevelCache&nbsp;</td>
-        <td>Use Hibernate second level caching.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>emailGoogleMail</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>gmailHost&nbsp;</td>
+            <td>Connecting to gmail.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>smtp.gmail.com&nbsp;</td>
+        </tr>
+        <tr>
+            <td>gmailPassword&nbsp;</td>
+            <td>Connecting to gmail.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>gmailPort&nbsp;</td>
+            <td>Connecting to gmail.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>465&nbsp;</td>
+        </tr>
+        <tr>
+            <td>gmailScheme&nbsp;</td>
+            <td>Connecting to gmail.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>https&nbsp;</td>
+        </tr>
+        <tr>
+            <td>gmailUser&nbsp;</td>
+            <td>Connecting to gmail.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>databaseOther</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>databaseAesPassword&nbsp;</td>
-        <td>The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>databasePassword&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseBatchInsertGroupSize&nbsp;</td>
-        <td>The number of records that should be inserted at a time when performing batch inserts. The framework provides convenience methods for inserting a list of models. However there are certain database limits on the maximum size of a statement. This parameter automatically takes a batch of arbitrary size and splits it into chunks that the database can handle.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>100&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databasePoolingDelayMs&nbsp;</td>
-        <td>The number of milliseconds between retries when attempting to create a new pooled connection.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>100&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databasePoolingEnabled&nbsp;</td>
-        <td>Determines if local database pooling is enabled. When available, it is better to disable this pooling and use more robust pooling provided by an application server. However, this pooling should still be robust enough for production use.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databasePoolingRetryCount&nbsp;</td>
-        <td>This is the number of times that the pooling manager will attempt to create a new connection before throwing an exception.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseRowLockFailureRetryCount&nbsp;</td>
-        <td>The maximum number of times that the system should retry to get a lock.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>0&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseRowLockFailureRetryMs&nbsp;</td>
-        <td>The amount of time to wait between retries.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>50&nbsp;</td>
-      </tr>
-      <tr>
-        <td>databaseSyncOnStartup&nbsp;</td>
-        <td>Normally the application will sync the database patches upon startup.  Set this to false to disable.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>jobs</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>applicationLogFlusherJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>applicationLogFlusherJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>applicationLogFlusherJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>clearThemeCacheJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>300&nbsp;</td>
-      </tr>
-      <tr>
-        <td>clearThemeCacheJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>clearThemeCacheJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>300&nbsp;</td>
-      </tr>
-      <tr>
-        <td>csvUploadProcessorJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>csvUploadProcessorJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>csvUploadProcessorJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>dataProcessorJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
-      <tr>
-        <td>dataProcessorJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>dataProcessorJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>ftpSendToNotifierJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>ftpSendToNotifierJobEnabled&nbsp;</td>
-        <td>Notify (via ftp) other depots that a device has been 'sent' to them.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>ftpSendToNotifierJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>log4jReloaderJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>log4jReloaderJobEnabled&nbsp;</td>
-        <td>Control whether the log4j config file is automatically reloaded during runtime.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>log4jReloaderJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>maintenanceJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>maintenanceJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>maintenanceJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>monitorJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>600&nbsp;</td>
-      </tr>
-      <tr>
-        <td>monitorJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>monitorJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>600&nbsp;</td>
-      </tr>
-      <tr>
-        <td>overridesReloaderJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>overridesReloaderJobEnabled&nbsp;</td>
-        <td>Control whether the Overrides file is automatically reloaded during runtime.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>overridesReloaderJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>performanceLogFlusherJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>performanceLogFlusherJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>performanceLogFlusherJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>10&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskReleaseHoldJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>1&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskReleaseHoldJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskReleaseHoldJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskSchedulerJobActiveSeconds&nbsp;</td>
-        <td>The active frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskSchedulerJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>taskSchedulerJobIdleSeconds&nbsp;</td>
-        <td>The idle frquency of the job.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>5&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>emailMethod</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>sendEmailFromAddress&nbsp;</td>
+            <td>The address that will be listed as the 'from' address.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>doNotReply@example.net&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailMethod&nbsp;</td>
+            <td>The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production.
+ [gmail] : Send emails using the gmail passthrough. [print] : Use System.out.print to display the contents of the email. [noop]  : No action is take (but the email will still be marked as sent.
+ If you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>print&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sendEmailOverrideTo&nbsp;</td>
+            <td>If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>miscellaneous</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>ajaxLogDeleteOnStart&nbsp;</td>
-        <td>If true, the ajax log file is deleted when tomcat starts.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>ajaxLogEnabled&nbsp;</td>
-        <td>If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>autoLoginEmail&nbsp;</td>
-        <td>Used in development to enable automatic login.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>checkRecommendedBrowser&nbsp;</td>
-        <td>If true, a warning will be display on login if the user is NOT using the recommended browser (firefox).&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>defaultTimeZoneCode&nbsp;</td>
-        <td>The default time zone used for new users.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>EST-D&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteThreadTopicsOnStart&nbsp;</td>
-        <td>If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>fileUploadRefreshMs&nbsp;</td>
-        <td>Determines how often the progress bar should update when uploading files.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>1000&nbsp;</td>
-      </tr>
-      <tr>
-        <td>ftpEnabled&nbsp;</td>
-        <td>When disabled, the details of the message will be logged instead of being sent.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>maintenancePeriodEndHour&nbsp;</td>
-        <td>The end of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>6&nbsp;</td>
-      </tr>
-      <tr>
-        <td>maintenancePeriodStartHour&nbsp;</td>
-        <td>The start of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>6&nbsp;</td>
-      </tr>
-      <tr>
-        <td>memoryLeakLoopEnabled&nbsp;</td>
-        <td>Allows you to turn the looping on and off without leaving the page.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>memoryLeakLoopSpeedMs&nbsp;</td>
-        <td>The speed of the memory leak test page.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>0&nbsp;</td>
-      </tr>
-      <tr>
-        <td>printAjaxTime&nbsp;</td>
-        <td>If true, the time spent on each ajax call is logged.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>renderDebugDomComments&nbsp;</td>
-        <td>If true, render an html comment into the dom that identifies the class name of the page and various controls.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>showHibernateSql&nbsp;</td>
-        <td>Tell hibernate to show sql. Requires a restart to take effect.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>synchronizeServletsBySession&nbsp;</td>
-        <td>This is used to synchronize servlet threads by session.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>webResourceVersioning&nbsp;</td>
-        <td>This is used to automatically version css and javascript files. none   - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev    - used in development to change the path each time the app is restarted.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>static&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>googleChart</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>googleChartHost&nbsp;</td>
-        <td>Configure the google chart url.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>chart.apis.google.com&nbsp;</td>
-      </tr>
-      <tr>
-        <td>googleChartPath&nbsp;</td>
-        <td>Configure the google chart url.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>chart&nbsp;</td>
-      </tr>
-      <tr>
-        <td>googleChartPort&nbsp;</td>
-        <td>Configure the google chart url.&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>80&nbsp;</td>
-      </tr>
-      <tr>
-        <td>googleChartScheme&nbsp;</td>
-        <td>Configure the google chart url.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>http&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>emailSmtp</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>smtpHost&nbsp;</td>
+            <td>Connecting to smtp.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>smtp&nbsp;</td>
+        </tr>
+        <tr>
+            <td>smtpPassword&nbsp;</td>
+            <td>Connecting to smtp.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>smtpPort&nbsp;</td>
+            <td>Connecting to smtp.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>25&nbsp;</td>
+        </tr>
+        <tr>
+            <td>smtpScheme&nbsp;</td>
+            <td>Connecting to smtp.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>smtp&nbsp;</td>
+        </tr>
+        <tr>
+            <td>smtpUseSsl&nbsp;</td>
+            <td>Use SSL when connecting to smtp.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>smtpUser&nbsp;</td>
+            <td>Connecting to smtp.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
     <br>
-
-<h2>bootstrap</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>rootUserEmail&nbsp;</td>
-        <td>If set, the system will create a default user when bootstrapping the initial database installation.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
     <br>
 
-<h2>oneAll</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>oneAllEnabled&nbsp;</td>
-        <td>Determine if the oneAll login is enabled. This is disabled by default, and can only be enabled in a hosting environment that has a routable domain name.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
-      </tr>
-      <tr>
-        <td>oneAllHost&nbsp;</td>
-        <td>The oneAll uri used to host our authentication service. This is provided by oneAll. E.g.: ourApplication.api.oneall.com&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>oneAllPrivateKey&nbsp;</td>
-        <td>The private key provided by OneAll.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>oneAllPublicKey&nbsp;</td>
-        <td>The public key provided by OneAll.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>ftp</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>ftpEnabled&nbsp;</td>
+            <td>When disabled, the details of the message will be logged instead of being sent.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ftpSendToNotifierChoreActiveSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>60&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ftpSendToNotifierChoreEnabled&nbsp;</td>
+            <td>Notify (via ftp) other depots that a device has been 'sent' to them.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ftpSendToNotifierChoreIdleSeconds&nbsp;</td>
+            <td>x&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>60&nbsp;</td>
+        </tr>
     </table>
     <br>
+    <br>
 
-<h2>intacct</h2>
-    <table cellspacing=0 cellpadding=3 border=1>
-      <tr>
-        <th>Property</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Default</th>
-      </tr>
-      <tr>
-        <td>intacctSenderId&nbsp;</td>
-        <td>The senderId and password are used to establish a connection with Intacct Web Services, but NOT with any specific company/account. Access to company data is controlled through the user authentication details which may be configured for a particular tenant.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>Accu2015&nbsp;</td>
-      </tr>
-      <tr>
-        <td>intacctSenderPassword&nbsp;</td>
-        <td>See intacctSenderId.&nbsp;</td>
-        <td>string&nbsp;</td>
-        <td>C78k06P1M5&nbsp;</td>
-      </tr>
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>googleChart</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>googleChartHost&nbsp;</td>
+            <td>Configure the google chart url.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>chart.apis.google.com&nbsp;</td>
+        </tr>
+        <tr>
+            <td>googleChartPath&nbsp;</td>
+            <td>Configure the google chart url.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>chart&nbsp;</td>
+        </tr>
+        <tr>
+            <td>googleChartPort&nbsp;</td>
+            <td>Configure the google chart url.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>80&nbsp;</td>
+        </tr>
+        <tr>
+            <td>googleChartScheme&nbsp;</td>
+            <td>Configure the google chart url.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>http&nbsp;</td>
+        </tr>
     </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>googleMaps</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>googleMapsApiKey&nbsp;</td>
+            <td>The private/secret api key for google maps api. The default key can be used for lightweight development and testing, but a different key should be used for production due to volume and licensing restrictions.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>AIzaSyD_WTy8rgoCU_yoGesX86t7tfpDyGsQWjw&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>hibernateSecondLevelCache</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>hibernateCacheProvider&nbsp;</td>
+            <td>Hibernate cache provider class.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>hibernateCacheTimeSeconds&nbsp;</td>
+            <td>How long items should remain in the second level cache.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>300&nbsp;</td>
+        </tr>
+        <tr>
+            <td>hibernateMemcachedServers&nbsp;</td>
+            <td>Names of the Memcached Servers, format is <hostname>:<port>&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>hibernateUseSecondLevelCache&nbsp;</td>
+            <td>Use Hibernate second level caching.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>maintenance</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>maintenancePeriodEndHour&nbsp;</td>
+            <td>The end of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>6&nbsp;</td>
+        </tr>
+        <tr>
+            <td>maintenancePeriodStartHour&nbsp;</td>
+            <td>The start of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>6&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>monitoring</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>chorePerformanceLogEnabled&nbsp;</td>
+            <td>When enabled each chore's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java chore class can override this to force enablement.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>true&nbsp;</td>
+        </tr>
+        <tr>
+            <td>daoCommandWarningThresholdMs&nbsp;</td>
+            <td>Dao commands requests that exceed this threshold will be logged as a warning. A value of 0 disables logging.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>2000&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sqlWarningThresholdMs&nbsp;</td>
+            <td>Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>1000&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>oneAll</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>oneAllEnabled&nbsp;</td>
+            <td>Determine if the oneAll login is enabled. This is disabled by default, and can only be enabled in a hosting environment that has a routable domain name.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>oneAllHost&nbsp;</td>
+            <td>The oneAll uri used to host our authentication service. This is provided by oneAll. E.g.: ourApplication.api.oneall.com&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>oneAllPrivateKey&nbsp;</td>
+            <td>The private key provided by OneAll.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>oneAllPublicKey&nbsp;</td>
+            <td>The public key provided by OneAll.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>paths</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>sharedPersistentPath&nbsp;</td>
+            <td>The path to work files that persist across deployment. Use this path for files like ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>/temp/shared/persistent&nbsp;</td>
+        </tr>
+        <tr>
+            <td>sharedTransientPath&nbsp;</td>
+            <td>The path to work files that persist across deployment. Use this path for files like ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>/temp/shared/transient&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>production</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>developerEmailCsv&nbsp;</td>
+            <td>The email address(es) used when the system needs to send a message to the development staff. This may be used for things like unhandled exceptions and feedback. The values should be a comma separated list of email addresses.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>environment&nbsp;</td>
+            <td>Indicates the deployment environment. Valid options are: development, stage, production.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>development&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>serverSession</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>serverSessionSecure&nbsp;</td>
+            <td>Indicates if the cookie should be set to require secure transmission (https/ssl).&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>serverSessionTimeoutSeconds&nbsp;</td>
+            <td>The length of time that a session may be idle before it is considered to be automatically stale.&nbsp;</td>
+            <td>integer&nbsp;</td>
+            <td>3600&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>servlet</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>servletSslRedirect&nbsp;</td>
+            <td>If true, requests to the main application servlet will be redirected as an SSL request.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>webResourceVersioning&nbsp;</td>
+            <td>This is used to automatically version css and javascript files. none   - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev    - used in development; changes the path when the app is started.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>static&nbsp;</td>
+        </tr>
+        <tr>
+            <td>writeLastServletResults&nbsp;</td>
+            <td>If true, the servlet results are written to the web root directory.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+        <tr>
+            <td>writeLastServletResultsCounter&nbsp;</td>
+            <td>If true, a counter is appended to the file name so that the results are not overwritten each time.&nbsp;</td>
+            <td>boolean&nbsp;</td>
+            <td>false&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class='attributeTable'>
+        <tr>
+            <th class='header' colspan='4'>urls</th>
+        </tr>
+        <tr>
+            <th>property</th>
+            <th>description</th>
+            <th>type</th>
+            <th>default</th>
+        </tr>
+        <tr>
+            <td>marketingUrl&nbsp;</td>
+            <td>The url used to redirect people to the marketing website.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>http://www.example.net&nbsp;</td>
+        </tr>
+        <tr>
+            <td>supportUrl&nbsp;</td>
+            <td>The url used to redirect people to the general support team and/or help desk.&nbsp;</td>
+            <td>string&nbsp;</td>
+            <td>http://www.example.net&nbsp;</td>
+        </tr>
+    </table>
+    <br>
     <br>
 
 

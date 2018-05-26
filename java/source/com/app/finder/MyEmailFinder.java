@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyEmailFinder
+public final class MyEmailFinder
     implements KmKeyFinderIF<MyEmail,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyEmail staticFind(String key)
-    {
-        return new MyEmailFinder().find(key);
-    }
+    public static final MyEmailFinder instance = new MyEmailFinder();
 
-    public static MyEmail staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyEmailFinder()
     {
-        return new MyEmailFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyEmailFinder
 
     public MyEmail findDao(String key)
     {
-        MyDaoKeyFinder<MyEmail,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

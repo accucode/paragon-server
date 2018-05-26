@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -44,21 +44,21 @@ public abstract class KmSqlStatement
     /**
      * The database adaptor used to translate values.
      */
-    private KmSqlAdaptor          _adaptor;
+    private KmSqlAdaptor _adaptor;
 
     /**
      * The expected update count.  By default the expected count is
      * ignored but it can be set to a value that is compared against
      * the actual update count.  This is ignored for select statements.
     //     */
-    private KmSqlExpectedCount    _expectedCount;
+    private KmSqlExpectedCount _expectedCount;
 
     /**
      * Any statements with a time >= this threshold will be printed
      * as a warning.  A threshold of 0 disables the warnings.  If
      * not set (null), then the default threshold will be used.
      */
-    private Integer               _slowSqlThresholdMs;
+    private Integer _slowSqlThresholdMs;
 
     //##################################################
     //# constructor

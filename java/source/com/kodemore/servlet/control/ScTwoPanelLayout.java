@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -66,8 +66,8 @@ public class ScTwoPanelLayout
         root.css().relative();
 
         ScDiv row;
-        row = root.addFlexRow();
-        row.css().fill();
+        row = root.addDiv();
+        row.css().flexRow().fill();
 
         installLeftOn(row);
         installGapOn(row);
@@ -78,7 +78,7 @@ public class ScTwoPanelLayout
     {
         ScGroup group;
         group = row.addGroup();
-        group.setFlavorSecondary();
+        group.setFlavorList();
         group.css().flexChildBasis0().flexChildFiller();
 
         ScDiv box;
@@ -98,7 +98,7 @@ public class ScTwoPanelLayout
     {
         ScGroup group;
         group = row.addGroup();
-        group.setFlavorTertiary();
+        group.setFlavorSummary();
         group.css().flexChildBasis0().flexChildFiller();
 
         ScDiv box;

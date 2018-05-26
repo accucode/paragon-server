@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MyServerSessionToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaServerSession Meta = MyServerSession.Meta;
 
     public ScDomainDropdownField<MyServerSession,String> newDomainDropdown()
@@ -39,10 +46,10 @@ public abstract class MyServerSessionToolsBase
         ScDomainDropdownField<MyServerSession,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MyServerSessionFilter());
-        e.setFinder(new MyServerSessionFinder());
+        e.setFinder(MyServerSession.Finder);
+        e.setOptionSupplier(new MyServerSessionFilter().toSupplier());
         e.setOptionKeyFunction(Meta.Uid);
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

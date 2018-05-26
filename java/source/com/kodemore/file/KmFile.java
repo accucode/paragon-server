@@ -12,7 +12,9 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.ScCharsets;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -28,7 +30,7 @@ public class KmFile
     /**
      * Create a new instance for the current working folder.
      */
-    public static KmFile workingFolder()
+    public static KmFile createWorkingFolder()
     {
         return new KmFile(Kmu.getWorkingFolder());
     }
@@ -323,7 +325,7 @@ public class KmFile
         File file = getRealFile();
 
         if ( createMissingParents )
-            return Kmu.createFolder(file);
+            return KmFiles.createFolder(file);
 
         return file.mkdir();
     }
@@ -345,17 +347,17 @@ public class KmFile
 
     public byte[] readBytes()
     {
-        return Kmu.readFileBytes(_realPath);
+        return KmFiles.readBytes(_realPath);
     }
 
-    public void write(String data)
+    public void write(CharSequence data)
     {
-        write(data.getBytes());
+        write(data.toString().getBytes(ScCharsets.UTF_8));
     }
 
     public void write(byte[] data)
     {
-        Kmu.writeFile(getRealFile(), data);
+        KmFiles.writeBytes(getRealFile(), data);
     }
 
     public void replaceAll(String search, String replace)
@@ -476,7 +478,8 @@ public class KmFile
         try (BufferedInputStream in = getBufferedInputStream();)
         {
             // Do NOT put in try-resource.
-            // We don't want to close it (just flush it).
+            // Do NOT close it.
+            @SuppressWarnings("resource")
             BufferedOutputStream buf = Kmu.toBufferedOutputStream(out);
 
             while ( true )

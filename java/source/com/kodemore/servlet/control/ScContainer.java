@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,26 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Supplier;
+
 import com.kodemore.adaptor.KmAdaptorIF;
+import com.kodemore.domain.KmUidDomainIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.ScPageIF;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.layout.ScLayout;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
-import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScDropdownMenu;
+import com.kodemore.servlet.field.ScDynamicDropdownField;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScPasswordField;
+import com.kodemore.servlet.field.ScStaticDropdownField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScResetScript;
@@ -181,9 +185,14 @@ public abstract class ScContainer
         return e;
     }
 
-    public <E> ScDropdownField<E> addDropdown()
+    public <E> ScStaticDropdownField<E> addStaticDropdown()
     {
-        return add(new ScDropdownField<E>());
+        return add(new ScStaticDropdownField<E>());
+    }
+
+    public <E> ScDynamicDropdownField<E> addDynamicDropdown()
+    {
+        return add(new ScDynamicDropdownField<E>());
     }
 
     public ScDropdownMenu addDropdownMenu()
@@ -211,14 +220,19 @@ public abstract class ScContainer
         return add(e);
     }
 
+    public ScJqueryNotebook addJqueryNotebook()
+    {
+        return add(new ScJqueryNotebook());
+    }
+
     public ScNotebook addNotebook()
     {
         return add(new ScNotebook());
     }
 
-    public ScTabBook addTabBook()
+    public <D extends KmUidDomainIF> ScDomainNotebook<D> addDomainNotebook()
     {
-        return add(new ScTabBook());
+        return add(new ScDomainNotebook<D>());
     }
 
     //##################################################
@@ -265,22 +279,12 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScLink addLink(String title, Runnable r)
-    {
-        ScAction action = newCheckedAction(r);
-
-        ScLink e;
-        e = addLink(title);
-        e.setAction(action);
-        return e;
-    }
-
-    public ScAbstractLink addLink(ScPageIF e)
+    public ScAbstractLink addLink(ScPage e)
     {
         return addLink(e.getTitle(), e);
     }
 
-    public ScAbstractLink addLink(String text, ScPageIF e)
+    public ScAbstractLink addLink(String text, ScPage e)
     {
         ScPageLink link;
         link = new ScPageLink();
@@ -300,14 +304,6 @@ public abstract class ScContainer
     }
 
     public ScLink addLink(String title, ScAction action, Object arg)
-    {
-        ScLink e;
-        e = addLink(title, action);
-        e.setArgument(arg);
-        return e;
-    }
-
-    public ScLink addLink(String title, Runnable action, Object arg)
     {
         ScLink e;
         e = addLink(title, action);
@@ -380,19 +376,11 @@ public abstract class ScContainer
         return b;
     }
 
-    public ScActionButton addButton(final Runnable r)
+    public ScActionButton addButton(ScAction action)
     {
         ScActionButton b;
         b = addButton();
-        b.setAction(r);
-        return b;
-    }
-
-    public ScActionButton addButton(String text, final Runnable r)
-    {
-        ScActionButton b;
-        b = addButton(text);
-        b.setAction(r);
+        b.setAction(action);
         return b;
     }
 
@@ -401,15 +389,6 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton(text);
         e.setAction(action);
-        e.setArgument(arg);
-        return e;
-    }
-
-    public ScActionButton addButton(String text, Runnable runnable, KmMetaProperty<?,?> arg)
-    {
-        ScActionButton e;
-        e = addButton(text);
-        e.setAction(runnable);
         e.setArgument(arg);
         return e;
     }
@@ -423,22 +402,16 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScActionButton addButton(String text, Runnable runnable, String arg)
-    {
-        ScActionButton e;
-        e = addButton(text);
-        e.setAction(runnable);
-        e.setArgument(arg);
-        return e;
-    }
-
     //==================================================
     //= buttons :: common actions
     //==================================================
 
-    public ScActionButton addEditButton(Runnable r)
+    public ScActionButton addEditButton(String text, ScAction action)
     {
-        return addEditButton(newCheckedAction(r));
+        ScActionButton e;
+        e = addButton(text, action);
+        e.setIcon().nameEdit();
+        return e;
     }
 
     public ScActionButton addEditButton(ScAction action)
@@ -446,24 +419,9 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton("", action);
         e.setFlavorIcon();
-        e.setImage(getUrls().getEditButtonUrl());
+        e.setIcon().nameEdit();
         e.setHoverText("Edit");
         return e;
-    }
-
-    public ScActionButton addAuditLogButton(Runnable r)
-    {
-        ScActionButton e;
-        e = addButton("", newCheckedAction(r));
-        e.setFlavorIcon();
-        e.setImage(getUrls().getAuditButtonUrl());
-        e.setHoverText("Log");
-        return e;
-    }
-
-    public ScActionButton addBackButton(Runnable r)
-    {
-        return addBackButton(newCheckedAction(r));
     }
 
     public ScActionButton addBackButton(ScAction action)
@@ -471,14 +429,9 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton("", action);
         e.setFlavorIcon();
-        e.setImage(getUrls().getBackButtonUrl());
+        e.setIcon().nameArrowBack();
         e.setHoverText("Back");
         return e;
-    }
-
-    public ScActionButton addCloseButton(Runnable r)
-    {
-        return addCloseButton(newCheckedAction(r));
     }
 
     public ScActionButton addCloseButton(ScAction action)
@@ -494,22 +447,12 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScActionButton addCancelButton(Runnable r)
-    {
-        return addCancelButton("Cancel", r);
-    }
-
-    public ScActionButton addCancelButton(String text, Runnable r)
+    public ScActionButton addCancelButton(String text, ScAction action)
     {
         ScActionButton e;
-        e = addButton(text, newUncheckedAction(r));
+        e = addButton(text, action);
         e.applyNegativeFlavor();
         return e;
-    }
-
-    public ScActionButton addRefreshButton(Runnable r)
-    {
-        return addRefreshButton(newCheckedAction(r));
     }
 
     public ScActionButton addRefreshButton(ScAction action)
@@ -519,21 +462,8 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton(title, action);
         e.setFlavorIcon();
-        e.setImage(getUrls().getRefreshButtonUrl());
+        e.setIcon().nameRefresh();
         e.setHoverText("Refresh");
-        return e;
-    }
-
-    public ScActionButton addAddButton(Runnable r)
-    {
-        return addAddButton(newCheckedAction(r));
-    }
-
-    public ScActionButton addAddButton(String text, Runnable r)
-    {
-        ScActionButton e;
-        e = addAddButton(newCheckedAction(r));
-        e.setText(text);
         return e;
     }
 
@@ -544,7 +474,20 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton(title, action);
         e.setFlavorIcon();
-        e.setImage(getUrls().getAddButtonUrl());
+        e.setIcon().nameAddCircleOutline();
+        e.setHoverText("Add");
+        return e;
+    }
+
+    public ScActionButton addAddButton(String text, ScAction action)
+    {
+        String title = null;
+
+        ScActionButton e;
+        e = addButton(title, action);
+        e.setText(text);
+        e.setFlavorPositive();
+        e.setIcon().nameAddCircleOutline();
         e.setHoverText("Add");
         return e;
     }
@@ -553,12 +496,12 @@ public abstract class ScContainer
      * This button is used to permanently delete data from the system.
      * @see #addDeleteMaybeButton
      */
-    public ScActionButton addDeleteButton(Runnable r)
+    public ScActionButton addDeleteButton(ScAction action)
     {
         ScActionButton e;
-        e = addButton("DELETE!", r);
+        e = addButton("DELETE!", action);
         e.applyDeleteFlavor();
-        e.setImage(getUrls().getDeleteButtonUrl());
+        e.setIcon().nameDeleteForever();
         return e;
     }
 
@@ -568,67 +511,60 @@ public abstract class ScContainer
      *
      * @see #addDeleteButton
      */
-    public ScActionButton addDeleteMaybeButton(Runnable r)
+    public ScActionButton addDeleteMaybeButton(ScAction action)
     {
         ScActionButton e;
-        e = addButton("", r);
+        e = addButton("", action);
         e.setFlavorIcon();
         e.setHoverText("Delete?");
-        e.setImage(getUrls().getDeleteMaybeButtonUrl());
+        e.setIcon().nameDelete();
         return e;
     }
 
     /**
      * This button is used to soft-delete data from the system.
      */
-    public ScActionButton addRemoveButton(Runnable r)
+    public ScActionButton addRemoveButton(ScAction action)
     {
         ScActionButton e;
-        e = addButton("Remove", r);
+        e = addButton("Remove", action);
         e.applyDeleteFlavor();
-        e.setImage(getUrls().getDeleteButtonUrl());
+        e.setIcon().nameRemoveCircleOutline();
         return e;
-    }
-
-    public ScActionButton addUpButton(Runnable r)
-    {
-        return addUpButton(newCheckedAction(r));
     }
 
     public ScActionButton addUpButton(ScAction action)
     {
         ScActionButton e;
         e = addButton("", action);
-        e.setImage(getUrls().getUpButtonUrl());
+        e.setIcon().nameArrowUpward();
         e.setHoverText("Up");
         return e;
-    }
-
-    public ScActionButton addDownButton(Runnable r)
-    {
-        return addDownButton(newCheckedAction(r));
     }
 
     public ScActionButton addDownButton(ScAction action)
     {
         ScActionButton e;
         e = addButton("", action);
-        e.setImage(getUrls().getDownButtonUrl());
+        e.setIcon().nameArrowDownward();
         e.setHoverText("Down");
         return e;
-    }
-
-    public ScActionButton addPopoutButton(Runnable r)
-    {
-        return addPopoutButton(newCheckedAction(r));
     }
 
     public ScActionButton addPopoutButton(ScAction action)
     {
         ScActionButton e;
         e = addButton("", action);
-        e.setImage(getUrls().getPopoutButtonUrl());
+        e.setIcon().nameOpenInNew();
         e.setHoverText("Popout");
+        return e;
+    }
+
+    public ScActionButton addPopoutButton(ScAction action, Object arg)
+    {
+        ScActionButton e;
+        e = addPopoutButton(action);
+        e.setArgument(arg);
         return e;
     }
 
@@ -641,12 +577,28 @@ public abstract class ScContainer
         return add(new ScScriptButton());
     }
 
+    public ScScriptButton addScriptButton(String text)
+    {
+        ScScriptButton e;
+        e = addScriptButton();
+        e.setText(text);
+        return e;
+    }
+
     public ScScriptButton addScriptButton(String text, ScScriptIF script)
     {
         ScScriptButton e;
         e = addScriptButton();
         e.setText(text);
         e.setScript(script);
+        return e;
+    }
+
+    public ScScriptButton addScriptButton(String text, final Supplier<String> supplier)
+    {
+        ScScriptButton e;
+        e = addScriptButton(text);
+        e.setScript(supplier);
         return e;
     }
 
@@ -715,8 +667,9 @@ public abstract class ScContainer
 
     public ScSubmitButton addSearchButton()
     {
-        ScSubmitButton e = addSubmitButton("Search");
-        e.setImage(getUrls().getSearchButtonUrl());
+        ScSubmitButton e;
+        e = addSubmitButton("Search");
+        e.setIcon().nameSearch();
         return e;
     }
 
@@ -782,28 +735,6 @@ public abstract class ScContainer
     //##################################################
 
     /**
-     * Add a FLEXBOX defaulted to a block-row layout.
-     */
-    public ScDiv addFlexRow()
-    {
-        ScDiv e;
-        e = addDiv();
-        e.css().flexRow();
-        return e;
-    }
-
-    /**
-     * Add a FLEXBOX defaulted to a block-column layout.
-     */
-    public ScDiv addFlexColumn()
-    {
-        ScDiv e;
-        e = addDiv();
-        e.css().flexColumn();
-        return e;
-    }
-
-    /**
      * Add a child set to both grow and shrink within is flex parent.
      * The parent MUST be a flexbox.
      * Athough content can be added to the returned filler, this is
@@ -813,7 +744,7 @@ public abstract class ScContainer
     {
         ScDiv e;
         e = addDiv();
-        e.css().flexChildFiller();
+        e.css().flexChildFiller0();
         return e;
     }
 
@@ -1139,6 +1070,14 @@ public abstract class ScContainer
         return add(new ScWrapper());
     }
 
+    public ScWrapper addWrapper(ScControl child)
+    {
+        ScWrapper w;
+        w = addWrapper();
+        w.setChild(child);
+        return w;
+    }
+
     public ScInternalFrame addInternalFrame()
     {
         return add(new ScInternalFrame());
@@ -1236,6 +1175,11 @@ public abstract class ScContainer
         return add(new ScImage());
     }
 
+    public ScIcon addIcon()
+    {
+        return add(new ScIcon());
+    }
+
     public ScErrorWrapper addErrorWrapper()
     {
         return add(new ScErrorWrapper());
@@ -1243,10 +1187,8 @@ public abstract class ScContainer
 
     public ScErrorWrapper addErrorWrapperWith(ScControl child)
     {
-        ScErrorWrapper e;
-        e = addErrorWrapper();
-        e.setChild(child);
-        return e;
+        ScErrorWrapper e = new ScErrorWrapper(child);
+        return add(e);
     }
 
     public ScDiv addDiv()
@@ -1287,16 +1229,6 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScBareDialog addBareDialog()
-    {
-        return add(new ScBareDialog());
-    }
-
-    public ScDialog addDialog()
-    {
-        return add(new ScDialog());
-    }
-
     public ScRule addRule()
     {
         return add(new ScRule());
@@ -1310,6 +1242,11 @@ public abstract class ScContainer
     public ScFieldTable addFieldTable()
     {
         return add(new ScFieldTable());
+    }
+
+    public ScFieldTable addFullWidthFieldTable()
+    {
+        return add(new ScFullWidthFieldTable());
     }
 
     public ScFieldLayout addFieldLayout()
@@ -1374,5 +1311,10 @@ public abstract class ScContainer
     public ScSplitter addSplitter()
     {
         return add(new ScSplitter());
+    }
+
+    public ScLayout addLayout()
+    {
+        return add(new ScLayout());
     }
 }

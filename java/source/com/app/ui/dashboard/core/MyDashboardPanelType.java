@@ -4,7 +4,6 @@ import java.util.EnumSet;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.exception.KmEnumException;
 import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.Kmu;
 
@@ -12,11 +11,17 @@ import com.app.ui.dashboard.MyEmptyPanel;
 import com.app.ui.dashboard.MyWelcomePanel;
 
 public enum MyDashboardPanelType
-                implements KmEnumIF
+    implements KmEnumIF
 {
     //##################################################
     //# values
     //##################################################
+
+    // !!! WARNING !!!
+    // !!!
+    // !!! codes are used in database
+    // !!!
+    // !!! WARNING !!!
 
     Welcome("Welcome", "Welcome"),
     Empty("Empty", "Empty");
@@ -96,7 +101,7 @@ public enum MyDashboardPanelType
                 return new MyEmptyPanel();
         }
 
-        throw new KmEnumException(this);
+        throw Kmu.newEnumError(this);
     }
 
     public boolean isPublic()

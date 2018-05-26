@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyFeedback"
+        table="feedback"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <property
+            name="closedDate"
+            column="closedDate"
+            type="com.kodemore.hibernate.type.KmhDateType"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="description"
+            column="description"
+            type="string"
+            />
+
+        <property
+            name="notes"
+            column="notes"
+            type="string"
+            />
+
+        <property
+            name="open"
+            column="open"
+            type="yes_no"
+            />
+
+        <property
+            name="pageKey"
+            column="pageKey"
+            type="string"
+            />
+
+        <property
+            name="queryString"
+            column="queryString"
+            type="string"
+            />
+
+        <property
+            name="requestUrl"
+            column="requestUrl"
+            type="string"
+            />
+
+        <property
+            name="statusCode"
+            column="statusCode"
+            type="string"
+            />
+
+        <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="windowLocation"
+            column="windowLocation"
+            type="string"
+            />
+
+        <many-to-one
+            name="closedBy"
+            column="closedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="tenant"
+            column="tenantUid"
+            class="com.app.model.MyTenant"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

@@ -1,20 +1,16 @@
 package com.app.model.core;
 
 import com.app.model.MyProject;
+import com.app.model.MyTenant;
 
 /**
  * Used to identify domain models that are associated with a particular project.
  *
  * The project must be NON-NULL.
- * However, the project is NOT required to remain the same.
  *
- * For example, a Sales Order must be associated with a project. But it is feasible
- * for the sales order to be transferred (reassigned) to another project.
- *
- * All domain models should implement one of:
- *      MyProjectDomainIF
- *      MyTenantDomainIF
- *      MySystemDomainIF
+ * We do NOT support moving a model from one project to another.
+ * For example, if Job 123 is part of project A then it will always
+ * be part of project A.
  *
  * @see MyProjectDomainIF
  * @see MyTenantDomainIF
@@ -22,5 +18,32 @@ import com.app.model.MyProject;
  */
 public interface MyProjectDomainIF
 {
+    //##################################################
+    //# tenant
+    //##################################################
+
+    MyTenant getTenant();
+
+    default String getTenantName()
+    {
+        MyTenant e = getTenant();
+        return e == null
+            ? null
+            : e.getName();
+    }
+
+    //##################################################
+    //# project
+    //##################################################
+
     MyProject getProject();
+
+    default String getProjectName()
+    {
+        MyProject e = getProject();
+        return e == null
+            ? null
+            : e.getName();
+    }
+
 }

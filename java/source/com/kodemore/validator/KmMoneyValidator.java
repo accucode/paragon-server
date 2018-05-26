@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,70 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.types.KmMoney;
 
 public class KmMoneyValidator
     extends KmValidator<KmMoney>
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    private KmMoney _minimumValue;
+    private KmMoney _maximumValue;
+
+    //##################################################
+    //# minimum value
+    //##################################################
+
+    public KmMoney getMinimumValue()
+    {
+        return _minimumValue;
+    }
+
+    public void setMinimumValue(KmMoney e)
+    {
+        _minimumValue = e;
+    }
+
+    //##################################################
+    //# maximum value
+    //##################################################
+
+    public KmMoney getMaximumValue()
+    {
+        return _maximumValue;
+    }
+
+    public void setMaximumValue(KmMoney e)
+    {
+        _maximumValue = e;
+    }
+
+    //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validateModel(KmMoney value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmMoney value, KmErrorList errors)
     {
-        //
+        validateMinimumValue(value, errors);
+        validateMaximumValue(value, errors);
+    }
+
+    private void validateMinimumValue(KmMoney value, KmErrorList errors)
+    {
+        KmMoney min = getMinimumValue();
+        if ( min != null && value.isLessThan(min) )
+            errors.addMinimumValue(this, min.format());
+    }
+
+    private void validateMaximumValue(KmMoney value, KmErrorList errors)
+    {
+        KmMoney max = getMaximumValue();
+        if ( max != null && value.isGreaterThan(max) )
+            errors.addMaximumValue(this, max.format());
     }
 
     //##################################################

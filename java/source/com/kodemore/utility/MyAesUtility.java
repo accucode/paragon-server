@@ -15,10 +15,10 @@ public class MyAesUtility
     //# variables
     //##################################################
 
-    private byte[]                   _key;
-    private SecretKeySpec            _keySpec;
-    private Cipher                   _encryptCypher;
-    private Cipher                   _decryptCipher;
+    private byte[]        _key;
+    private SecretKeySpec _keySpec;
+    private Cipher        _encryptCypher;
+    private Cipher        _decryptCipher;
 
     //##################################################
     //# constructor
@@ -116,9 +116,10 @@ public class MyAesUtility
             System.out.printf("Original: %s (%s)\n", original, original.length());
             System.out.printf("Hex:      %s (%s)\n", hex, hex.length());
             System.out.printf("Result:   %s\n", result);
-            System.out.println(original.equals(result)
-                ? "ok"
-                : "FAILED");
+            System.out.println(
+                original.equals(result)
+                    ? "ok"
+                    : "FAILED");
         }
 
     }

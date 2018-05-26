@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -43,9 +43,9 @@ public class KmaEtchedBorder
     //# variables
     //##################################################
 
-    private int             _etchType;
-    private Color           _highlight;
-    private Color           _shadow;
+    private int   _etchType;
+    private Color _highlight;
+    private Color _shadow;
 
     //##################################################
     //# constructor
@@ -85,15 +85,17 @@ public class KmaEtchedBorder
 
         g.translate(x, y);
 
-        g.setColor(_etchType == LOWERED
-            ? getShadowColor(c)
-            : getHighlightColor(c));
+        g.setColor(
+            _etchType == LOWERED
+                ? getShadowColor(c)
+                : getHighlightColor(c));
 
         g.drawRect(0, 0, w - 2, h - 2);
 
-        g.setColor(_etchType == LOWERED
-            ? getHighlightColor(c)
-            : getShadowColor(c));
+        g.setColor(
+            _etchType == LOWERED
+                ? getHighlightColor(c)
+                : getShadowColor(c));
 
         g.drawLine(1, h - 3, 1, 1);
         g.drawLine(1, 1, w - 3, 1);

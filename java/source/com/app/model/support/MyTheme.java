@@ -7,13 +7,14 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.utility.KmEnumIF;
 
 public enum MyTheme
-                implements KmEnumIF
+    implements KmEnumIF
 {
     //##################################################
     //# values
     //##################################################
 
     Default("default", "Default"),
+    Print("print", "Print"),
     Blue("blue", "Blue");
 
     //##################################################
@@ -80,7 +81,7 @@ public enum MyTheme
      *
      * 2) Copy the 'default' folder.
      *      The new folder should match the enum's code.
-     *      /4Work/web/static/version/app/theme/default/**
+     *      $project/web/static/version/app/theme/default/**
      *
      * 3) Update the Eclipse Builder.
      *      Menu > project > properties...
@@ -100,6 +101,7 @@ public enum MyTheme
         switch ( this )
         {
             case Blue:
+            case Print:
             case Default:
                 // see method comment
                 break;

@@ -3,9 +3,14 @@ package com.app.ui.layout;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScTextSpan;
+import com.kodemore.utility.Kmu;
+
+import com.app.ui.dialog.MyDialogs;
+import com.app.ui.page.MyPage;
 
 public class MyPageTitle
     extends ScDiv
@@ -16,9 +21,11 @@ public class MyPageTitle
 
     private ScDiv      _left;
     private ScTextSpan _nameText;
+    private ScTextSpan _pageModuleName;
 
-    private ScDiv      _right;
-    private ScImage    _helpImage;
+    private ScDiv          _right;
+    private ScActionButton _feedbackButton;
+    private ScImage        _helpImage;
 
     //##################################################
     //# constructor
@@ -34,11 +41,20 @@ public class MyPageTitle
         _nameText = _left.addTextSpan();
         _nameText.css().title_nameText();
 
+        _pageModuleName = _left.addTextSpan();
+        _pageModuleName.css().title_pageModuleName();
+
         _right = addDiv();
         _right.css().title_right();
 
+        _feedbackButton = _right.addButton();
+        _feedbackButton.setAction(newUncheckedAction(this::handleFeedback));
+        _feedbackButton.setFlavorIcon();
+        _feedbackButton.setIcon().nameFeedback().styleDark();
+        _feedbackButton.setHoverText("Report a problem");
+
         _helpImage = _right.addImage();
-        _helpImage.css().title_help();
+        _helpImage.css().title_help().helpTooltip();
         _helpImage.style().hide();
     }
 
@@ -61,6 +77,9 @@ public class MyPageTitle
     private void _ajaxRefreshTitleFor(ScPage page)
     {
         _nameText.ajaxSetContents(formatNameHtml(page));
+
+        preRenderModuleName(page);
+        _pageModuleName.ajaxReplace();
     }
 
     private KmHtmlBuilder formatNameHtml(ScPage page)
@@ -69,6 +88,23 @@ public class MyPageTitle
         out = new KmHtmlBuilder();
         out.print(page.getTitle());
         return out;
+    }
+
+    private void preRenderModuleName(ScPage page)
+    {
+        _pageModuleName.clearValue();
+
+        if ( page instanceof MyPage )
+        {
+            MyPage e = (MyPage)page;
+
+            String name = e.hasModuleName()
+                ? Kmu.formatMetaValue(e.getModuleName())
+                : null;
+
+            _pageModuleName.setValue(name);
+            _pageModuleName.setHoverText(e.getModuleHelp());
+        }
     }
 
     private void _ajaxRefreshHelpFor(ScPage page)
@@ -81,5 +117,14 @@ public class MyPageTitle
 
         _helpImage.ajaxSetAttribute("title", page.getHelpMessage());
         _helpImage.ajaxShow();
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleFeedback()
+    {
+        MyDialogs.getFeedbackDialog().ajaxOpen();
     }
 }

@@ -19,7 +19,7 @@ var KmClock = {};
  * This determines how often the background timer updates
  * all pages elements.
  */
-KmClock.UPDATE_FREQUENCY_SECONDS = 1;
+KmClock.UPDATE_FREQUENCY_SECONDS = 10;
 
 /**
  * The default format.

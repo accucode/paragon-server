@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.wiki;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 public class KmWikiTest
@@ -33,7 +34,8 @@ public class KmWikiTest
 
     public static void main(String[] args)
     {
-        new KmWikiTest().runForever();
+        // new KmWikiTest().runForever();
+        new KmWikiTest().runOnce();
     }
 
     //##################################################
@@ -78,9 +80,7 @@ public class KmWikiTest
      */
     private String getSource()
     {
-        String file = "wikiSample.txt";
-        String path = "com/kodemore/wiki/" + file;
-        return Kmu.readResourceString(path);
+        return Kmu.readResourceString(getClass(), "wikiSample.txt");
     }
 
     /**
@@ -104,6 +104,6 @@ public class KmWikiTest
 
         out.endHtml();
 
-        Kmu.writeFile("/temp/test.html", out.toString());
+        KmFiles.writeString("/temp/test.html", out.toString());
     }
 }

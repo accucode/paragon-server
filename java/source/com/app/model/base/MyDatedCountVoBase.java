@@ -8,35 +8,44 @@
 
 package com.app.model.base;
 
-import com.kodemore.time.KmDate;
-import com.kodemore.utility.Kmu;
+import java.util.*;
 
-import com.app.model.MyDatedCountVo;
-import com.app.model.MyDatedCountVoTools;
-import com.app.model.MyDatedCountVoValidator;
-import com.app.model.core.MyAbstractValueDomain;
-import com.app.model.core.MyDomainIF;
-import com.app.model.meta.MyMetaDatedCountVo;
+import com.kodemore.collection.*;
+import com.kodemore.domain.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.finder.*;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
+import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyDatedCountVoBase
-    extends MyAbstractValueDomain
-    implements MyDomainIF
+    extends MyAbstractValueDomain<MyDatedCountVo>
+    implements KmDomainIF
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaDatedCountVo      Meta      = MyMetaDatedCountVo.instance;
-    public static final MyDatedCountVoTools     Tools     = MyDatedCountVoTools.instance;
+    public static final MyMetaDatedCountVo Meta = MyMetaDatedCountVo.instance;
+    public static final MyDatedCountVoTools Tools = MyDatedCountVoTools.instance;
     public static final MyDatedCountVoValidator Validator = MyDatedCountVoValidator.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private KmDate                              date;
-    private Integer                             count;
+    private Integer count;
+    private KmDate date;
 
     //##################################################
     //# constructor
@@ -48,33 +57,19 @@ public abstract class MyDatedCountVoBase
     }
 
     //##################################################
-    //# field (date)
+    //# field (auditLogTitle)
     //##################################################
 
-    public KmDate getDate()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return date;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setDate(KmDate e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getDateValidator().convertOnly(e);
-        date = e;
-    }
-
-    public void clearDate()
-    {
-        setDate(null);
-    }
-
-    public boolean hasDate()
-    {
-        return getDate() != null;
-    }
-
-    public boolean hasDate(KmDate e)
-    {
-        return Kmu.isEqual(getDate(), e);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -88,7 +83,7 @@ public abstract class MyDatedCountVoBase
 
     public void setCount(Integer e)
     {
-        e = Validator.getCountValidator().convertOnly(e);
+        e = Validator.getCountValidator().convert(e);
         count = e;
     }
 
@@ -108,40 +103,82 @@ public abstract class MyDatedCountVoBase
     }
 
     //##################################################
-    //# field (displayString)
+    //# field (date)
     //##################################################
 
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
+    public KmDate getDate()
     {
-        return Kmu.hasValue(getDisplayString());
+        return date;
     }
 
-    public boolean hasDisplayString(String e)
+    public void setDate(KmDate e)
     {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+        e = Validator.getDateValidator().convert(e);
+        date = e;
     }
+
+    public void clearDate()
+    {
+        setDate(null);
+    }
+
+    public boolean hasDate()
+    {
+        return getDate() != null;
+    }
+
+    public boolean hasDate(KmDate e)
+    {
+        return Kmu.isEqual(getDate(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyDatedCountVoValidator getValidator()
     {
-        Validator.validate((MyDatedCountVo)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyDatedCountVo asSubclass()
     {
-        Validator.validateWarn((MyDatedCountVo)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyDatedCountVo)this);
+        return (MyDatedCountVo)this;
     }
 
     //##################################################
@@ -158,7 +195,6 @@ public abstract class MyDatedCountVoBase
     public void postCopy()
     {
         super.postCopy();
-        date = null;
     }
 
     /**
@@ -170,43 +206,48 @@ public abstract class MyDatedCountVoBase
     {
         MyDatedCountVo e;
         e = new MyDatedCountVo();
-        e.setCount(getCount());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyDatedCountVo e)
+    {
+        e.setCount(getCount());
+        e.setDate(getDate());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyDatedCountVo e)
+    {
+        setCount(e.getCount());
+        setDate(e.getDate());
     }
 
     //##################################################
     //# compare
     //##################################################
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if ( !(o instanceof MyDatedCountVoBase) )
-            return false;
-
-        MyDatedCountVoBase e = (MyDatedCountVoBase)o;
-        return Kmu.isEqual(getDate(), e.getDate());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Kmu.getHashCode(getDate());
-    }
-
     public boolean isSame(MyDatedCountVo e)
     {
-        if ( !Kmu.isEqual(getDate(), e.getDate()) )
-            return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyDatedCountVo e)
     {
-        if ( !Kmu.isEqual(getCount(), e.getCount()) )
-            return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) )
-            return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
+        if ( !Kmu.isEqual(getDate(), e.getDate()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         return true;
     }
 
@@ -231,8 +272,6 @@ public abstract class MyDatedCountVoBase
         out = new StringBuilder();
         out.append("MyDatedCountVo");
         out.append("(");
-        out.append("Date=");
-        out.append(date);
         out.append(")");
         return out.toString();
     }
@@ -240,9 +279,10 @@ public abstract class MyDatedCountVoBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Date = " + date);
         System.out.println("    Count = " + count);
+        System.out.println("    Date = " + date);
     }
+
 
     //##################################################
     //# convenience

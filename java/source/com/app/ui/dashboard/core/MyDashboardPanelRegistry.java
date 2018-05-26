@@ -22,12 +22,11 @@ public abstract class MyDashboardPanelRegistry
         {
             MyDashboardPanel panel = type.createPanel();
             if ( panel.hasType(type) )
+            {
                 _panels.put(type, panel);
-            else
-                throw Kmu.newFatal(
-                    "Type mismatch, expected(%s), found(%s).",
-                    type,
-                    panel.getType());
+                continue;
+            }
+            throw Kmu.newFatal("Type mismatch, expected(%s), found(%s).", type, panel.getType());
         }
     }
 

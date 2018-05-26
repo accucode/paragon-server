@@ -59,7 +59,7 @@ public abstract class KmWikiContainer
         out.indent();
         for ( KmWikiElement e : getChildren() )
             e.printTreeOn(out);
-        out.undent();
+        out.outdent();
     }
 
 }

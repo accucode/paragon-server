@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmOrderedMap;
-import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmValueHolderIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -46,6 +46,22 @@ import com.kodemore.utility.Kmu;
  */
 public class ScParameterList
 {
+    //##################################################
+    //# main
+    //##################################################
+
+    /**
+     * A simple example of usage.
+     */
+    public static void main(String[] args)
+    {
+        ScParameterList e;
+        e = new ScParameterList();
+        e.setString("hello", "world");
+        e.setInteger("value", 1);
+        System.out.println(e);
+    }
+
     //##################################################
     //# instance creation
     //##################################################
@@ -93,15 +109,15 @@ public class ScParameterList
     }
 
     //##################################################
-    //# single values
+    //# string
     //##################################################
 
-    public String getValue(String key)
+    public String getString(String key)
     {
-        return getValue(key, null);
+        return getString(key, null);
     }
 
-    public String getValue(String key, String def)
+    public String getString(String key, String def)
     {
         if ( !_map.containsKey(key) )
             return def;
@@ -113,15 +129,15 @@ public class ScParameterList
         return v.getFirst();
     }
 
-    public void setValue(String key, ScLocalString value)
+    public void setString(String key, KmValueHolderIF<String> value)
     {
         if ( value == null )
-            setValue(key, (String)null);
+            setString(key, (String)null);
         else
-            setValue(key, value.getValue());
+            setString(key, value.getValue());
     }
 
-    public void setValue(String key, String value)
+    public void setString(String key, String value)
     {
         if ( value == null )
         {
@@ -129,30 +145,63 @@ public class ScParameterList
             return;
         }
 
-        //        if ( hasKey(key) )
-        //            KmLog.warnTrace("Duplicate key '%s', old value is overwritten.", key);
-
         KmList<String> v = KmList.createWith(value);
         _map.put(key, v);
     }
 
-    public boolean hasValue(String key)
+    //##################################################
+    //# boolean
+    //##################################################
+
+    public Boolean getBoolean(String key)
     {
-        return Kmu.hasValue(getValue(key));
+        return getBoolean(key, null);
+    }
+
+    public Boolean getBoolean(String key, Boolean def)
+    {
+        String value = getString(key);
+        return Kmu.parseBoolean(value, def);
+    }
+
+    public void setBoolean(String key, Boolean e)
+    {
+        String value = Kmu.formatBoolean(e, "Y", "N", null);
+        setString(key, value);
+    }
+
+    public void setBoolean(String key, KmValueHolderIF<Boolean> holder)
+    {
+        setBoolean(key, holder.getValue());
     }
 
     //##################################################
-    //# parse single values
+    //# integer
     //##################################################
 
-    public Boolean parseValue(String key, Boolean def)
+    public Integer getInteger(String key)
     {
-        return Kmu.parseBoolean(getValue(key), def);
+        return getInteger(key, null);
     }
 
-    public Integer parseValue(String key, Integer def)
+    public Integer getInteger(String key, Integer def)
     {
-        return Kmu.parseInteger(getValue(key), def);
+        String value = getString(key);
+        return Kmu.parseInteger(value, def);
+    }
+
+    public void setInteger(String key, Integer e)
+    {
+        String value = e == null
+            ? null
+            : e.toString();
+
+        setString(key, value);
+    }
+
+    public void setInteger(String key, KmValueHolderIF<Integer> holder)
+    {
+        setInteger(key, holder.getValue());
     }
 
     //##################################################
@@ -241,7 +290,12 @@ public class ScParameterList
         }
     }
 
-    public String formatUrl()
+    /**
+     * Format a url query string.
+     * The keys and values are encoded.
+     * The result is in the form: ?key1=value1&key2=value2...
+     */
+    public String formatQueryString()
     {
         if ( isEmpty() )
             return "";
@@ -275,6 +329,19 @@ public class ScParameterList
     {
         KmList<String> keys = getKeys();
         for ( String key : keys )
-            System.out.printf("    %s => %s%n", key, getValue(key));
+            System.out.printf("    %s => %s%n", key, getString(key));
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    /**
+     * Return the formatted query string, compatible with URIs.
+     */
+    @Override
+    public String toString()
+    {
+        return formatQueryString();
     }
 }

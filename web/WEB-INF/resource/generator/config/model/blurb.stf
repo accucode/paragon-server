@@ -1,0 +1,126 @@
+model
+: name      = blurb
+: help...
+    ---
+    Blurbs are used to compose messages for display on screen. These can be used
+    for a variety of information, e.g.: phone scripts, cancellation policies,
+    promotional material, etc.
+
+    Blurbs support basic formattings (e.g.: bold, italics) and allow
+    for a number of predefined variables which are automatically substituted
+    when the real message is displayed.
+
+    Blurbs can be defined for different domain contexts such as
+    Job, Site, or Visit; and the specific variables that are available
+    vary depending on the context.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = project
+    : on        = createdUtcTs
+
+    index
+    : name      = projectName
+    : unique    = true
+    : on        = project
+    : on        = name
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project that contains this template.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** fields
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help...
+        ---
+        The display name used to identify this template within a project.
+        ---
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** owner type
+    //*****************************************************
+
+
+    field
+    : name      = ownerTypeCode
+    : help      = The type of element that owns this note.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Project)
+            value(#Site)
+
+
+    //*****************************************************
+    //** message
+    //*****************************************************
+
+
+    field
+    : name      = messageHtml
+    : label     = Message
+    : help...
+        ---
+        The html template for the message.  This supports basic html formatting
+        such as bold and italics; and also supports a number of variable
+        substitutions.
+        ---
+    : type      = bigText
+    : required  = false
+
+
+    //*****************************************************
+    //** samples
+    //*****************************************************
+
+
+    abstractField
+    : name      = sampleMessageHtml
+    : label     = Sample Message
+    : help      = An example of the body html using default sample data.
+    : type      = calculated

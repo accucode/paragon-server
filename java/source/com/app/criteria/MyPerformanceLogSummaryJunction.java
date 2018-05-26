@@ -38,44 +38,44 @@ public class MyPerformanceLogSummaryJunction
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhIntegerCondition whereAverageMs()
     {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
-    public KmhDateCondition whereUtcDate()
-    {
-        return new KmhDateCondition(context(), fullName(UTC_DATE));
-    }
-
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhIntegerCondition(context(), alias(), AVERAGE_MS);
     }
 
     public KmhIntegerCondition whereCount()
     {
-        return new KmhIntegerCondition(context(), fullName(COUNT));
-    }
-
-    public KmhIntegerCondition whereMinimumMs()
-    {
-        return new KmhIntegerCondition(context(), fullName(MINIMUM_MS));
+        return new KmhIntegerCondition(context(), alias(), COUNT);
     }
 
     public KmhIntegerCondition whereMaximumMs()
     {
-        return new KmhIntegerCondition(context(), fullName(MAXIMUM_MS));
+        return new KmhIntegerCondition(context(), alias(), MAXIMUM_MS);
     }
 
-    public KmhIntegerCondition whereAverageMs()
+    public KmhIntegerCondition whereMinimumMs()
     {
-        return new KmhIntegerCondition(context(), fullName(AVERAGE_MS));
+        return new KmhIntegerCondition(context(), alias(), MINIMUM_MS);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhIntegerCondition whereTotalMs()
     {
-        return new KmhIntegerCondition(context(), fullName(TOTAL_MS));
+        return new KmhIntegerCondition(context(), alias(), TOTAL_MS);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhDateCondition whereUtcDate()
+    {
+        return new KmhDateCondition(context(), alias(), UTC_DATE);
     }
 
     //##################################################

@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyHibernateCacheTestBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyHibernateCacheTest>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,13 +39,14 @@ public abstract class MyHibernateCacheTestBase
     public static final MyMetaHibernateCacheTest Meta = MyMetaHibernateCacheTest.instance;
     public static final MyHibernateCacheTestTools Tools = MyHibernateCacheTestTools.instance;
     public static final MyHibernateCacheTestValidator Validator = MyHibernateCacheTestValidator.instance;
+    public static final MyHibernateCacheTestFinder Finder = MyHibernateCacheTestFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private String data;
+    private String uid;
     private Integer lockVersion;
 
     //##################################################
@@ -58,43 +61,19 @@ public abstract class MyHibernateCacheTestBase
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
-    }
-
-    public void clearUid()
-    {
-        setUid(null);
-    }
-
-    public boolean hasUid()
-    {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -108,7 +87,7 @@ public abstract class MyHibernateCacheTestBase
 
     public void setData(String e)
     {
-        e = Validator.getDataValidator().convertOnly(e);
+        e = Validator.getDataValidator().convert(e);
         data = e;
     }
 
@@ -138,6 +117,78 @@ public abstract class MyHibernateCacheTestBase
     }
 
     //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (uid)
+    //##################################################
+
+    public String getUid()
+    {
+        return uid;
+    }
+
+    public void setUid(String e)
+    {
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
+    }
+
+    public void clearUid()
+    {
+        setUid(null);
+    }
+
+    public boolean hasUid()
+    {
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -148,7 +199,7 @@ public abstract class MyHibernateCacheTestBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -167,42 +218,21 @@ public abstract class MyHibernateCacheTestBase
         return Kmu.isEqual(getLockVersion(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyHibernateCacheTestValidator getValidator()
     {
-        Validator.validate((MyHibernateCacheTest)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyHibernateCacheTest asSubclass()
     {
-        Validator.validateWarn((MyHibernateCacheTest)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyHibernateCacheTest)this);
+        return (MyHibernateCacheTest)this;
     }
 
     //##################################################
@@ -231,8 +261,28 @@ public abstract class MyHibernateCacheTestBase
     {
         MyHibernateCacheTest e;
         e = new MyHibernateCacheTest();
-        e.setData(getData());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyHibernateCacheTest e)
+    {
+        e.setData(getData());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyHibernateCacheTest e)
+    {
+        setData(e.getData());
     }
 
     //##################################################
@@ -263,9 +313,11 @@ public abstract class MyHibernateCacheTestBase
 
     public boolean isSameIgnoringKey(MyHibernateCacheTest e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 
@@ -299,8 +351,8 @@ public abstract class MyHibernateCacheTestBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    Data = " + data);
+        System.out.println("    Uid = " + uid);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

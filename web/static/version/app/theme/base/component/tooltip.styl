@@ -7,8 +7,7 @@
  * using the custom jquery tooltip popup.
  */
 .helpTooltip
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
 
 /**
  * The styling to be used for popup help text that relies on the
@@ -34,4 +33,5 @@ img.helpTriangle
     height:     $tooltip-triangleSize                       if $tooltip-triangleSize
     width:      $tooltip-triangleSize                       if $tooltip-triangleSize
     cursor:     help
+    z-index:    1
 

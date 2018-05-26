@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
@@ -35,11 +34,11 @@ import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
-import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.Kmu;
 
 public abstract class ScContainerElement
     extends ScContainer
-    implements ScHtmlIdIF, ScStyledControlIF
+    implements ScStyledHtmlIdIF
 {
     //##################################################
     //# variables
@@ -53,12 +52,12 @@ public abstract class ScContainerElement
     /**
      * The css classes.
      */
-    private ScLocalCss    _css;
+    private ScLocalCss _css;
 
     /**
      * The inline css style.
      */
-    private ScLocalStyle  _style;
+    private ScLocalStyle _style;
 
     /**
      * A script to run when this control is clicked.
@@ -68,7 +67,7 @@ public abstract class ScContainerElement
     /**
      * Text that appears when hovering over an object.
      */
-    private ScLocalString _hoverText;
+    private String _hoverText;
 
     //##################################################
     //# constructor
@@ -76,11 +75,10 @@ public abstract class ScContainerElement
 
     public ScContainerElement()
     {
-        _htmlId = new ScLocalString(getKey());
+        _htmlId = new ScLocalString(getKeyToken());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
         _onClick = new ScLocalString();
-        _hoverText = new ScLocalString();
     }
 
     //##################################################
@@ -121,7 +119,7 @@ public abstract class ScContainerElement
     }
 
     @Override
-    public final KmCssDefaultBuilder css()
+    public KmCssDefaultBuilder css()
     {
         return _css.toDefaultBuilder();
     }
@@ -188,6 +186,11 @@ public abstract class ScContainerElement
         _htmlIdAjax().hideAllErrors();
     }
 
+    public ScHtmlIdAjax createDetachedAjax()
+    {
+        return ScHtmlIdAjax.createDetached(this);
+    }
+
     //##################################################
     //# on control-enter
     //##################################################
@@ -197,15 +200,9 @@ public abstract class ScContainerElement
         return getPostDomScript().onControlEnter(this);
     }
 
-    public final void onControlEnter(Runnable r)
+    public final void onControlEnter(ScAction e)
     {
-        ScAction action = newCheckedAction(r);
-        onControlEnter(action);
-    }
-
-    public final void onControlEnter(ScAction action)
-    {
-        onControlEnter().run(action);
+        onControlEnter().run(e);
     }
 
     //##################################################
@@ -250,32 +247,23 @@ public abstract class ScContainerElement
         setOnClick(script);
     }
 
-    public final void setOnClickPush(ScPage e)
-    {
-        ScBlockScript script;
-        script = ScBlockScript.create();
-        script.enterPage(e);
-
-        setOnClick(script);
-    }
-
     //##################################################
     //# hover text
     //##################################################
 
     public final void setHoverText(String e)
     {
-        _hoverText.setValue(e);
+        _hoverText = e;
     }
 
     public final String getHoverText()
     {
-        return _hoverText.getValue();
+        return _hoverText;
     }
 
     public final boolean hasHoverText()
     {
-        return _hoverText.hasValue();
+        return Kmu.hasValue(getHoverText());
     }
 
     //##################################################
@@ -287,9 +275,9 @@ public abstract class ScContainerElement
         return getPostDomScript().onEscape(this);
     }
 
-    public final void setEscapeAction(Runnable r)
+    public final void setEscapeAction(ScAction e)
     {
-        onEscape().run(newUncheckedAction(r), findFormWrapper());
+        onEscape().run(e, findFormWrapper());
     }
 
     //##################################################
@@ -306,27 +294,14 @@ public abstract class ScContainerElement
     }
 
     //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-
-        _htmlId.compressMemory();
-        _css.compressMemory();
-        _style.compressMemory();
-        _onClick.compressMemory();
-        _hoverText.compressMemory();
-    }
-
-    //##################################################
     //# visibility
     //##################################################
+
+    @Override
+    public final boolean isVisible()
+    {
+        return !style().hasHide();
+    }
 
     @Override
     public final void setVisible(boolean e)
@@ -334,9 +309,4 @@ public abstract class ScContainerElement
         style().show(e);
     }
 
-    @Override
-    public final boolean getVisible()
-    {
-        return !style().hasHide();
-    }
 }

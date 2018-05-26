@@ -28,13 +28,27 @@ $utility.protocol("constructor")
         super(parent);
     }
 
+#if ( $model.isSinglePrimaryKey() )
+$utility.protocol("primary key")
+
+    public void where${model.primaryKeyField.f_Name}Is($model.f_Type e)
+    {
+        where${model.primaryKeyField.f_Name}().is(e.get${model.primaryKeyField.f_Name}());
+    }
+
+    public void where${model.primaryKeyField.f_Name}IsNot($model.f_Type e)
+    {
+        where${model.primaryKeyField.f_Name}().isNot(e.get${model.primaryKeyField.f_Name}());
+    }
+
+#end
 $utility.protocol("properties")
 
 #foreach ( $field in $model.fields )
 #if ( $field.isDaoProperty() )
     public ${field.f_CriteriaClass} where${field.f_Name}()
     {
-        return new ${field.f_CriteriaClass_NoGeneric}(context(), fullName(${field.f_NAME}));
+        return new ${field.f_CriteriaClass_NoGeneric}(context(), alias(), ${field.f_NAME});
     }
 
 #if ( $field.hasEnum() )
@@ -82,7 +96,7 @@ $utility.protocol("enum (${enum.f_Name})")
 
     public ${enum.f_CodeCriteriaClass} where${enum.f_NameCode}()
     {
-        return new ${enum.f_CodeCriteriaClass}(context(), fullName(${enum.f_NAME_CODE}));
+        return new ${enum.f_CodeCriteriaClass}(context(), alias(), ${enum.f_NAME_CODE});
     }
 
     public void where${enum.f_Name}Is(${enum.f_Type} e)
@@ -181,6 +195,16 @@ $utility.protocol("association (${ass.f_Name})")
         select(${ass.f_PK_NAME});
     }
 
+    public void selectCountDistinct${ass.f_PkName}()
+    {
+        selectCountDistinct(${ass.f_PK_NAME});
+    }
+    
+    public void selectDistinct${ass.f_PkName}()
+    {
+        selectDistinct(${ass.f_PK_NAME});
+    }
+
     public void selectMinimum${ass.f_PkName}()
     {
         selectMinimum(${ass.f_PK_NAME});
@@ -208,7 +232,7 @@ $utility.protocol("association (${ass.f_Name})")
 
     public ${ass.modelReference.primaryKeyField.f_CriteriaClass} where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}()
     {
-        return new ${ass.modelReference.primaryKeyField.f_CriteriaClass}(parent(), fullName(${ass.f_PK_NAME}));
+        return new ${ass.modelReference.primaryKeyField.f_CriteriaClass}(parent(), alias(), ${ass.f_PK_NAME});
     }
 
     public void where${ass.f_Name}Is(${ass.modelReference.f_Class} e)
@@ -217,6 +241,14 @@ $utility.protocol("association (${ass.f_Name})")
             where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNull();
         else
             where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().is(e.${ass.modelReference.primaryKeyField.f_getMethod}());
+    }
+
+    public void where${ass.f_Name}IsNot(${ass.modelReference.f_Class} e)
+    {
+        if ( e == null )
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNotNull();
+        else
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNot(e.${ass.modelReference.primaryKeyField.f_getMethod}());
     }
 
 #end

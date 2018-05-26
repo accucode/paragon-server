@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyHibernateCacheTestFinder
+public final class MyHibernateCacheTestFinder
     implements KmKeyFinderIF<MyHibernateCacheTest,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyHibernateCacheTest staticFind(String key)
-    {
-        return new MyHibernateCacheTestFinder().find(key);
-    }
+    public static final MyHibernateCacheTestFinder instance = new MyHibernateCacheTestFinder();
 
-    public static MyHibernateCacheTest staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyHibernateCacheTestFinder()
     {
-        return new MyHibernateCacheTestFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyHibernateCacheTestFinder
 
     public MyHibernateCacheTest findDao(String key)
     {
-        MyDaoKeyFinder<MyHibernateCacheTest,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

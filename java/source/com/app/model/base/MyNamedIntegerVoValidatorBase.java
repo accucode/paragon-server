@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -71,16 +72,16 @@ public class MyNamedIntegerVoValidatorBase
     public void convertOnly(MyNamedIntegerVo value)
     {
         // fields...
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setValue(valueValidator.convertOnly(value.getValue()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setValue(valueValidator.convert(value.getValue()));
     }
 
     @Override
-    public void validateOnly(MyNamedIntegerVo value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyNamedIntegerVo value, KmErrorList errors)
     {
         // fields...
-        nameValidator.validateOnly(value.getName(), errors);
-        valueValidator.validateOnly(value.getValue(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        valueValidator.validateOn(value.getValue(), errors);
         // required associations...
     }
 
@@ -94,8 +95,8 @@ public class MyNamedIntegerVoValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(100);
         e.setAllowsPrintable(true);
-        e.setModel("namedIntegerVo");
-        e.setField("name");
+        e.setModelName("namedIntegerVo");
+        e.setFieldName("name");
         return e;
     }
 
@@ -103,8 +104,8 @@ public class MyNamedIntegerVoValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("namedIntegerVo");
-        e.setField("value");
+        e.setModelName("namedIntegerVo");
+        e.setFieldName("value");
         return e;
     }
 

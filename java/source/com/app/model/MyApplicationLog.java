@@ -23,13 +23,19 @@ public class MyApplicationLog
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getMessage();
     }
 
     @Override
-    public String getLevelCodeName()
+    public String getDomainTitle()
+    {
+        return getMessage();
+    }
+
+    @Override
+    public String getDomainSubtitle()
     {
         return Kmu.format("%s (%s)", getLevelName(), getLevelCode());
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmCompressMemoryIF;
 
 public class ScImage
     extends ScElement
@@ -139,21 +138,4 @@ public class ScImage
         out.printAttribute("alt", getAlt());
         out.printAttribute("onclick", getOnClick());
     }
-
-    //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory()
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-
-        _source.compressMemory();
-        _alt.compressMemory();
-    }
-
 }

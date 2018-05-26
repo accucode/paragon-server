@@ -7,7 +7,7 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.utility.KmEnumIF;
 
 public enum MyDashboardOrientationType
-                implements KmEnumIF
+    implements KmEnumIF
 {
     //##################################################
     //# values

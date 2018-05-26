@@ -146,18 +146,13 @@ public class KmDatabaseTool
         if ( s.length() == 0 )
             return 0;
 
-        Statement st = createStatement();
-        try
+        try (Statement st = createStatement())
         {
             return st.executeUpdate(s);
         }
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(st);
         }
     }
 
@@ -229,23 +224,14 @@ public class KmDatabaseTool
      */
     public Integer getSingleInteger(String sql)
     {
-        Statement st = null;
-        ResultSet rs = null;
-        try
+        try (Statement st = createStatement(); ResultSet rs = st.executeQuery(sql);)
         {
-            st = createStatement();
-            rs = st.executeQuery(sql);
             rs.next();
             return rs.getInt(1);
         }
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(rs);
-            closeSafely(st);
         }
     }
 
@@ -255,13 +241,8 @@ public class KmDatabaseTool
      */
     public KmList<String> getStringResults(String sql)
     {
-        Statement st = null;
-        ResultSet rs = null;
-        try
+        try (Statement st = createStatement(); ResultSet rs = st.executeQuery(sql);)
         {
-            st = createStatement();
-            rs = st.executeQuery(sql);
-
             KmList<String> v = new KmList<>();
             while ( rs.next() )
                 v.add(rs.getString(1));
@@ -270,11 +251,6 @@ public class KmDatabaseTool
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(rs);
-            closeSafely(st);
         }
     }
 
@@ -394,35 +370,23 @@ public class KmDatabaseTool
 
     private Integer _executeLockCommand(String sql)
     {
-        Statement st = null;
-        try
+        try (Statement st = createStatement())
         {
-            st = getConnection().createStatement();
             boolean isResultSet = st.execute(sql);
             if ( !isResultSet )
                 throw Kmu.newFatal("Locking error; no result set for: %s", sql);
 
-            ResultSet rs = st.getResultSet();
-            if ( !rs.next() )
-                throw Kmu.newFatal("Locking error; empty result set for: %s", sql);
+            try (ResultSet rs = st.getResultSet())
+            {
+                if ( !rs.next() )
+                    throw Kmu.newFatal("Locking error; empty result set for: %s", sql);
 
-            return rs.getInt(1);
+                return rs.getInt(1);
+            }
         }
         catch ( Exception ex )
         {
             throw Kmu.newFatal(ex, "Locking error; %s", sql);
-        }
-        finally
-        {
-            try
-            {
-                if ( st != null )
-                    st.close();
-            }
-            catch ( Exception ex )
-            {
-                KmLog.error(ex, "Unable to close connection, continuing...");
-            }
         }
     }
 

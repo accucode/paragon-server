@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ public class ScFileResult
     /**
      * Set during applyTo.
      */
-    private int    _length;
+    private int _length;
 
     //##################################################
     //# accessing
@@ -64,10 +64,8 @@ public class ScFileResult
     //##################################################
 
     @Override
-    public void applyTo(ScServletData data)
+    public void applyContentTo(ScServletData data)
     {
-        data.setContentType(getContentType());
-
         KmFile file = new KmFile(_fileName);
         if ( isAttachment() )
             data.writeAttachmentFile(getAttachmentName(), file);

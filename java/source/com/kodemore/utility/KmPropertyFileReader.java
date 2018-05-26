@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -93,7 +93,7 @@ public class KmPropertyFileReader
 
     public KmMap<String,String> readFile(String path)
     {
-        String s = Kmu.readFileString(path);
+        String s = KmFiles.readString(path);
         return readText(s);
     }
 
@@ -105,9 +105,11 @@ public class KmPropertyFileReader
             s = s.trim();
             if ( isComment(s) )
                 continue;
+
             int x = s.indexOf("=");
             if ( x < 0 )
                 continue;
+
             String key = s.substring(0, x).trim();
             String value = s.substring(x + 1).trim();
             m.put(key, value);

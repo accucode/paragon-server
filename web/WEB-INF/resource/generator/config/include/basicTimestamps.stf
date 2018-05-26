@@ -9,43 +9,43 @@
     : name      = createdUtcTs
     : help      = The time this record was originally created.
     : type      = timestamp
-    : required  = true
     : default   = nowUtc()
+    : required  = true
     : auditLog  = false
 
 
     association
-    : name          = createdBy
-    : help          = The user that originally created this record, if known.
-    : modelName     = user
-    : relation      = reference
-    : required      = false
-    : default       = MyGlobals.getCurrentUser()
-    : auditLog      = false
+    : name      = createdBy
+    : help      = The user that originally created this record, if known.
+    : modelName = user
+    : relation  = reference
+    : default   = MyGlobals.getCurrentUser()
+    : required  = false
+    : auditLog  = false
 
         delegate
-        : field     = fullName
-        : label     = Created By
+        : field = fullName
+        : label = Created By
 
 
     field
     : name      = updatedUtcTs
     : help      = The time this record was last updated.
     : type      = timestamp
-    : required  = true
     : default   = nowUtc()
+    : required  = true
     : auditLog  = false
 
 
     association
-    : name          = updatedBy
-    : help          = The user that last updated this record, if known.
-    : modelName     = user
-    : relation      = reference
-    : required      = false
-    : default       = MyGlobals.getCurrentUser()
-    : auditLog      = false
+    : name      = updatedBy
+    : help      = The user that last updated this record, if known.
+    : modelName = user
+    : relation  = reference
+    : default   = MyGlobals.getCurrentUser()
+    : required  = false
+    : auditLog  = false
 
         delegate
-        : field     = fullName
-        : label     = Updated By
+        : field = fullName
+        : label = Updated By

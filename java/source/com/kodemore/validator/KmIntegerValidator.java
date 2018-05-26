@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,69 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 
 public class KmIntegerValidator
     extends KmValidator<Integer>
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    private Integer _minimumValue;
+    private Integer _maximumValue;
+
+    //##################################################
+    //# minimum value
+    //##################################################
+
+    public Integer getMinimumValue()
+    {
+        return _minimumValue;
+    }
+
+    public void setMinimumValue(Integer e)
+    {
+        _minimumValue = e;
+    }
+
+    //##################################################
+    //# maximum value
+    //##################################################
+
+    public Integer getMaximumValue()
+    {
+        return _maximumValue;
+    }
+
+    public void setMaximumValue(Integer e)
+    {
+        _maximumValue = e;
+    }
+
+    //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validateModel(Integer value, KmList<KmErrorIF> errors)
+    public void validateValueOn(Integer value, KmErrorList errors)
     {
-        //
+        validateMinimumValue(value, errors);
+        validateMaximumValue(value, errors);
+    }
+
+    private void validateMinimumValue(Integer value, KmErrorList errors)
+    {
+        Integer min = getMinimumValue();
+        if ( min != null && value < min )
+            errors.addMinimumValue(this, min + "");
+    }
+
+    private void validateMaximumValue(Integer value, KmErrorList errors)
+    {
+        Integer max = getMaximumValue();
+        if ( max != null && value > max )
+            errors.addMaximumValue(this, max + "");
     }
 
     //##################################################

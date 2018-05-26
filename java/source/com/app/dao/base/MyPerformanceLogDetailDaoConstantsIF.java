@@ -17,11 +17,13 @@ public interface MyPerformanceLogDetailDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CREATED_UTC_TS = "createdUtcTs";
-    String NAME = "name";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String DURATION_MS = "durationMs";
-    String DISPLAY_STRING = "displayString";
+    String NAME = "name";
+    String UID = "uid";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

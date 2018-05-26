@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,7 @@ import com.kodemore.comparator.KmComparator;
 import com.kodemore.comparator.KmCompositeComparator;
 import com.kodemore.comparator.KmUncheckedComparator;
 import com.kodemore.filter.KmFilter;
+import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmIntegerIdIF;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSequenceIF;
@@ -370,6 +371,26 @@ public class KmList<T>
         swap(i, j);
     }
 
+    //##################################################
+    //# move
+    //##################################################
+
+    public void move(T e, boolean up)
+    {
+        if ( up )
+            moveUp(e);
+        else
+            moveDown(e);
+    }
+
+    public void moveSafe(T e, boolean up)
+    {
+        if ( up )
+            moveUpSafe(e);
+        else
+            moveDownSafe(e);
+    }
+
     public void moveUp(T e)
     {
         int i = indexOf(e);
@@ -567,10 +588,9 @@ public class KmList<T>
 
     public boolean addDistinct(T e)
     {
-        if ( contains(e) )
-            return false;
-
-        return add(e);
+        return contains(e)
+            ? false
+            : add(e);
     }
 
     public boolean addAllDistinct(Collection<? extends T> v)
@@ -709,6 +729,18 @@ public class KmList<T>
         return v;
     }
 
+    /**
+     * Return a NEW list, containing the elements identified by the provided keys.
+     * The result will be same size as the list of keys.
+     * If a key cannot be found, the list will contain null.
+     * If multiple elements share the same key, the result is undetermined.
+     */
+    public <K> KmList<T> toOrderedList(KmList<K> keys, Function<T,K> keyFn)
+    {
+        KmMap<K,T> map = toMap(keyFn);
+        return keys.collect(e -> map.get(e));
+    }
+
     //==================================================
     //= sort (comparators)
     //==================================================
@@ -771,17 +803,12 @@ public class KmList<T>
     }
 
     //##################################################
-    //# min / max
+    //# minimum
     //##################################################
 
     public T getMinimum()
     {
         return getMinimum(new KmUncheckedComparator<T>());
-    }
-
-    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
-    {
-        return getMinimum(Kmu.toComparator(fn));
     }
 
     public T getMinimum(Comparator<T> c)
@@ -792,13 +819,30 @@ public class KmList<T>
         if ( isSingleton() )
             return getFirst();
 
-        T smallest = getFirst();
+        T min = getFirst();
         for ( T e : this )
-            if ( c.compare(e, smallest) < 0 )
-                smallest = e;
+            if ( c.compare(e, min) < 0 )
+                min = e;
 
-        return smallest;
+        return min;
     }
+
+    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
+    {
+        return getMinimum(Kmu.toNullLastComparator(fn));
+    }
+
+    public <E extends Comparable<E>> E getMinimumValue(Function<T,E> fn)
+    {
+        T e = getMinimum(fn);
+        return e == null
+            ? null
+            : fn.apply(e);
+    }
+
+    //##################################################
+    //# maximum
+    //##################################################
 
     public T getMaximum()
     {
@@ -813,12 +857,25 @@ public class KmList<T>
         if ( size() == 1 )
             return getFirst();
 
-        T largest = getFirst();
+        T max = getFirst();
         for ( T e : this )
-            if ( c.compare(e, largest) > 0 )
-                largest = e;
+            if ( c.compare(e, max) > 0 )
+                max = e;
 
-        return largest;
+        return max;
+    }
+
+    public <E extends Comparable<E>> T getMaximum(Function<T,E> fn)
+    {
+        return getMaximum(Kmu.toNullFirstComparator(fn));
+    }
+
+    public <E extends Comparable<E>> E getMaximumValue(Function<T,E> fn)
+    {
+        T e = getMaximum(fn);
+        return e == null
+            ? null
+            : fn.apply(e);
     }
 
     //##################################################
@@ -1124,7 +1181,7 @@ public class KmList<T>
 
         for ( T e : this )
             if ( !set.add(e) )
-                v.add(e);
+                v.addDistinct(e);
 
         return v;
     }
@@ -1157,6 +1214,15 @@ public class KmList<T>
             if ( !values.add(e) )
                 set(i, null);
         }
+    }
+
+    /**
+     * Remove duplicates, based on the values returned by the function.
+     * Does NOT preserve the original sequence.
+     */
+    public void removeDuplicates(Function<T,?> fn)
+    {
+        replaceAll(toMap(fn).getValues());
     }
 
     //##################################################
@@ -1200,6 +1266,11 @@ public class KmList<T>
         return Kmu.joinLines(this, fn);
     }
 
+    public String concatentate()
+    {
+        return join("");
+    }
+
     //##################################################
     //# system.out
     //##################################################
@@ -1207,6 +1278,11 @@ public class KmList<T>
     public void print()
     {
         System.out.println(join());
+    }
+
+    public void print(Function<T,?> fn)
+    {
+        System.out.println(join(fn));
     }
 
     public void printLines()
@@ -1244,6 +1320,29 @@ public class KmList<T>
     public KmList<T> getSerializedCopy()
     {
         return KmUnchecked.getSerializedCopy(this);
+    }
+
+    public KmList<T> withoutNulls()
+    {
+        KmList<T> v;
+        v = getShallowCopy();
+        v.removeNulls();
+        return v;
+    }
+
+    /**
+     * Return a NEW list, without any of the excluded values.
+     * The order of the original list is preserved.
+     */
+    public KmList<T> without(Collection<T> exclude)
+    {
+        KmList<T> v = createEmpty();
+
+        for ( T e : this )
+            if ( !exclude.contains(e) )
+                v.add(e);
+
+        return v;
     }
 
     //##################################################
@@ -1328,9 +1427,14 @@ public class KmList<T>
     //# sequence
     //##################################################
 
-    public void updateSequence()
+    public void updateSequences()
     {
-        int i = 1;
+        updateSequences(1);
+    }
+
+    public void updateSequences(int startingAt)
+    {
+        int i = startingAt;
         for ( T e : this )
             ((KmSequenceIF)e).setSequence(i++);
     }
@@ -1347,8 +1451,19 @@ public class KmList<T>
     public KmSet<T> toSet()
     {
         KmSetImpl<T> v = new KmSetImpl<>();
+
         for ( T e : this )
             v.add(e);
+
+        return v;
+    }
+
+    public <E> KmSet<E> toSet(Function<T,E> fn)
+    {
+        KmSetImpl<E> v = new KmSetImpl<>();
+
+        for ( T e : this )
+            v.add(fn.apply(e));
 
         return v;
     }
@@ -1494,10 +1609,15 @@ public class KmList<T>
         return null;
     }
 
+    public T selectLast(Predicate<? super T> p)
+    {
+        return getReverse().selectFirst(p);
+    }
+
     /**
      * Return a NEW list containing only the elements that do NOT match the predicate.
      */
-    public KmList<T> rejectIf(Predicate<? super T> p)
+    public KmList<T> reject(Predicate<? super T> p)
     {
         return select(p.negate());
     }
@@ -1648,6 +1768,17 @@ public class KmList<T>
         return containsIf(e -> e == null);
     }
 
+    public int countIf(Predicate<? super T> p)
+    {
+        int n = 0;
+
+        for ( T e : this )
+            if ( p.test(e) )
+                n++;
+
+        return n;
+    }
+
     //##################################################
     //# reduce
     //##################################################
@@ -1662,9 +1793,53 @@ public class KmList<T>
         return result;
     }
 
-    public Integer reduceInt(BiFunction<Integer,T,Integer> fn)
+    public int reduceInt(BiFunction<Integer,T,Integer> fn)
     {
         return reduce(0, fn);
+    }
+
+    public <E> KmList<E> reduceList(Function<T,KmList<E>> fn)
+    {
+        KmList<E> v = new KmList<>();
+
+        for ( T t : this )
+            v.addAll(fn.apply(t));
+
+        return v;
+    }
+
+    //##################################################
+    //# sum
+    //##################################################
+
+    public int sumInt(Function<T,Integer> fn)
+    {
+        int total = 0;
+
+        for ( T e : this )
+            total += fn.apply(e);
+
+        return total;
+    }
+
+    public double sumDouble(Function<T,Double> fn)
+    {
+        double total = 0;
+
+        for ( T e : this )
+            total += fn.apply(e);
+
+        return total;
+    }
+
+    public KmMoney sumMoney(Function<T,KmMoney> fn)
+    {
+        KmMoney total = KmMoney.ZERO;
+
+        for ( T e : this )
+            total = total.add(fn.apply(e));
+
+        return total;
     }
 
 }

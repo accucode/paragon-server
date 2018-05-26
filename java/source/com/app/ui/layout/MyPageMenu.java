@@ -5,14 +5,16 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScAutoCompleteField;
-import com.kodemore.utility.Kmu;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScBlockScript;
 
-import com.app.ui.page.MyMenuRegistry;
 import com.app.ui.page.MyPageRegistry;
+import com.app.ui.page.menu.MyMenuRegistry;
 
 public class MyPageMenu
     extends ScDiv
@@ -21,8 +23,9 @@ public class MyPageMenu
     //# variables
     //##################################################
 
-    private ScForm              _pageForm;
-    private ScAutoCompleteField _pageField;
+    private ScForm        _pageForm;
+    private MyJumpToField _jumpToField;
+    private ScAction      _pageAction;
 
     //##################################################
     //# constructor
@@ -32,6 +35,7 @@ public class MyPageMenu
     {
         setHtmlId(KmCssDefaultConstantsIF.ID_menu);
         installPageForm();
+        _pageAction = newCheckedAction(this::handlePage);
     }
 
     //##################################################
@@ -42,31 +46,19 @@ public class MyPageMenu
     {
         ScForm form;
         form = new ScForm();
-        form.setSubmitAction(this::handlePageFieldSubmit);
-        form.add(createPageField());
+        form.onSubmit(newUncheckedAction(this::handlePageFieldSubmit));
+        form.add(createJumpToField());
         form.css().flexRow().flexCrossAlignCenter().rowSpacer5().padRight5();
-
-        ScSubmitButton button;
-        button = form.addSubmitButton("go");
-        button.setFlavorNormal();
-        button.style().height(24).minWidth(20).padTop(2).padLeft(5);
-        button.clearImages();
-        button.hide();
+        form.addSubmitButton("go").hide();
 
         _pageForm = form;
     }
 
-    private ScAutoCompleteField createPageField()
+    private ScAutoCompleteField createJumpToField()
     {
-        ScAutoCompleteField e;
-        e = new ScAutoCompleteField();
-        e.setPlaceholder("Jump to... (alt-/)");
-        e.setHelp(""
-            + "Use this field to quickly jump to any page that you have access to. "
-            + "You can also use the hotkey alt-/.");
-        e.setSelectAction(this::handlePageFieldSelect);
-        e.disableChangeTracking();
-        _pageField = e;
+        MyJumpToField e;
+        e = new MyJumpToField();
+        _jumpToField = e;
         return e;
     }
 
@@ -76,7 +68,7 @@ public class MyPageMenu
 
     public String getPageMenuFieldId()
     {
-        return _pageField.getInputHtmlId();
+        return _jumpToField.getInputHtmlId();
     }
 
     //##################################################
@@ -110,7 +102,7 @@ public class MyPageMenu
         renderMenuOn(out, left, false);
         renderFillerOn(out);
         renderMenuOn(out, right, true);
-        renderPageFieldOn(out);
+        renderJumpToFieldOn(out);
 
         return out;
     }
@@ -156,7 +148,7 @@ public class MyPageMenu
     private void renderTopItemTextOn(KmHtmlBuilder out, MyMenuItem e)
     {
         out.openDiv();
-        out.printAttribute("onclick", e.getClickScript().formatScript());
+        out.printAttribute("onclick", formatPageScript(e));
         out.close();
         out.print(e.getTitle());
         out.endDiv();
@@ -177,11 +169,20 @@ public class MyPageMenu
     private void renderSubItemOn(KmHtmlBuilder out, MyMenuItem e)
     {
         out.open("li");
-        out.printAttribute("onclick", e.getClickScript().formatScript());
+        out.printAttribute("onclick", formatPageScript(e));
         out.printAttribute(getSubItemCssFor(e));
         out.close();
         out.print(e.getTitle());
         out.end("li");
+    }
+
+    private String formatPageScript(MyMenuItem e)
+    {
+        ScActionScript s;
+        s = new ScActionScript();
+        s.setAction(_pageAction);
+        s.setArgument(e.getPageKey());
+        return s.formatScript();
     }
 
     private KmCssDefaultBuilder getSubItemCssFor(MyMenuItem e)
@@ -218,11 +219,8 @@ public class MyPageMenu
     //= render :: page field
     //==================================================
 
-    private void renderPageFieldOn(KmHtmlBuilder out)
+    private void renderJumpToFieldOn(KmHtmlBuilder out)
     {
-        KmList<String> titles = getAvailablePages().collect(e -> e.getTitle());
-        _pageField.addOptions(titles);
-
         out.render(_pageForm);
     }
 
@@ -232,14 +230,27 @@ public class MyPageMenu
 
     private void handlePageFieldSubmit()
     {
-        String title = _pageField.getValue();
-        ajaxGotoPageTitle(title);
+        _jumpToField.jumpTo();
     }
 
-    private void handlePageFieldSelect()
+    private void handlePage()
     {
-        String title = getData().getExtraParameter();
-        ajaxGotoPageTitle(title);
+        ScServletData data = getData();
+
+        ScBlockScript ajax;
+        ajax = data.ajax();
+        ajax.run("Kmu.closeMenu();");
+
+        String pageKey = data.getStringArgument();
+        ScPage page = MyPageRegistry.getInstance().findKey(pageKey);
+
+        if ( page == null )
+        {
+            ajax.toast("Invalid menu selection.");
+            return;
+        }
+
+        page.ajaxEnterFresh();
     }
 
     //##################################################
@@ -250,44 +261,4 @@ public class MyPageMenu
     {
         return MyMenuRegistry.getInstance();
     }
-
-    private KmList<ScPage> getAllPages()
-    {
-        return MyPageRegistry.getInstance().getPages();
-    }
-
-    private KmList<ScPage> getAvailablePages()
-    {
-        return getAllPages().select(e -> isAvailable(e));
-    }
-
-    private boolean isAvailable(ScPage e)
-    {
-        return e.checkSecuritySilently();
-    }
-
-    private void ajaxGotoPageTitle(String title)
-    {
-        if ( Kmu.isEmpty(title) )
-            return;
-
-        ScPage page = getAllPages().selectFirst(e -> e.hasTitleIgnoreCase(title));
-        if ( page == null )
-        {
-            ajaxToast("No such page.");
-            return;
-        }
-
-        if ( !isAvailable(page) )
-        {
-            ajaxToast("No access to page.");
-            return;
-        }
-
-        _pageField.clearValue();
-        _pageField.ajaxUpdateFieldValues();
-
-        page.ajaxEnter();
-    }
-
 }

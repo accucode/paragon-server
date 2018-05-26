@@ -1,7 +1,6 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
@@ -51,17 +50,17 @@ public final class MyDevEmailsPage
     //# variables
     //##################################################
 
-    private ScLocalString           _emailUid;
+    private ScLocalString _emailUid;
 
     private ScFilterBox             _filterBox;
     private ScDateField             _createdStartField;
     private ScDateField             _createdEndField;
     private ScDropdownField<String> _statusField;
 
-    private ScGrid<MyEmail>         _grid;
+    private ScGrid<MyEmail> _grid;
 
-    private ScCardFrame             _emailFrame;
-    private ScCard                  _emailViewCard;
+    private ScCardFrame _emailFrame;
+    private ScCard      _emailViewCard;
 
     //##################################################
     //# settings
@@ -71,22 +70,6 @@ public final class MyDevEmailsPage
     public final MySecurityLevel getSecurityLevel()
     {
         return MySecurityLevel.developer;
-    }
-
-    //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -103,8 +86,8 @@ public final class MyDevEmailsPage
         installFilterOn(root);
 
         ScDiv row;
-        row = root.addFlexRow();
-        row.css().flexChildFiller().rowSpacer10();
+        row = root.addDiv();
+        row.css().flexRow().rowSpacer10().flexChildFiller();
 
         installGridOn(row);
         installFrameOn(row);
@@ -129,7 +112,7 @@ public final class MyDevEmailsPage
         _filterBox.getFormWrapper().css().flexChildStatic();
 
         ScFieldTable fields;
-        fields = _filterBox.addFieldTable();
+        fields = _filterBox.addFullWidthFieldTable();
         fields.add(_statusField);
         fields.add(_createdStartField);
         fields.add(_createdEndField);
@@ -152,7 +135,7 @@ public final class MyDevEmailsPage
         _grid.trackAll(_filterBox);
 
         ScGridColumn<MyEmail> link;
-        link = _grid.addLinkColumn("View", this::handleView, MyEmail::getUid);
+        link = _grid.addLinkColumn("View", newCheckedAction(this::handleView), MyEmail::getUid);
         link.setWidth(50);
 
         _grid.addColumn(x.StatusName, 50);
@@ -166,8 +149,8 @@ public final class MyDevEmailsPage
 
         ScDiv buttons;
         buttons = footer.addButtonBox();
-        buttons.addButton("Resend All Pending", this::handleResendAllPending);
-        buttons.addButton("Resend All Errors", this::handleResendAllErrors);
+        buttons.addButton("Resend All Pending", newCheckedAction(this::handleResendAllPending));
+        buttons.addButton("Resend All Errors", newCheckedAction(this::handleResendAllErrors));
     }
 
     //==================================================
@@ -193,7 +176,7 @@ public final class MyDevEmailsPage
         body = group.getBody();
 
         ScFieldTable fields;
-        fields = body.addFieldTable();
+        fields = body.addFullWidthFieldTable();
         fields.addFieldText(x.Subject);
         fields.addFieldText(x.ToAddressesLabel);
         fields.addFieldText(x.CcAddressesLabel);
@@ -215,12 +198,12 @@ public final class MyDevEmailsPage
 
         ScDiv buttons;
         buttons = footer.addButtonBox();
-        buttons.addButton("Re-Send", this::handleResend, x.Uid);
-        buttons.addButton("Ignore", this::handleIgnore, x.Uid);
+        buttons.addButton("Re-Send", newCheckedAction(this::handleResend), x.Uid);
+        buttons.addButton("Ignore", newCheckedAction(this::handleIgnore), x.Uid);
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -259,7 +242,7 @@ public final class MyDevEmailsPage
 
     private void handleView()
     {
-        String uid = getStringArgument();
+        String uid = getData().getStringArgument();
         _emailUid.setValue(uid);
 
         refresh();

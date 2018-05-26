@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -14,6 +15,7 @@ public class MyTrackingNumberUtility
     //##################################################
 
     public enum Carrier
+        implements KmEnumIF
     {
         FEDEX,
         UPS;
@@ -30,8 +32,8 @@ public class MyTrackingNumberUtility
     //# variables
     //##################################################
 
-    private Carrier             _carrier;
-    private String              _trackingNumber;
+    private Carrier _carrier;
+    private String  _trackingNumber;
 
     //##################################################
     //# accessing
@@ -91,7 +93,7 @@ public class MyTrackingNumberUtility
                 return UPS_URL_TEMPLATE;
         }
 
-        throw Kmu.newFatal("Unhandled Carrier: %s", carrier);
+        throw Kmu.newEnumError(carrier);
     }
 
     //##################################################

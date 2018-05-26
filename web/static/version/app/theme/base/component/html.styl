@@ -1,6 +1,6 @@
-/*****************************
- ** html
- *****************************/
+//******************************
+//* html
+//******************************
 
 /*
  * This is a cross-browser hack that allows us to specify
@@ -12,26 +12,37 @@ html
     font-size:      62.5%; /* 10px */
     line-height:    1.2;
 
+
+//******************************
+//* body
+//******************************
+
+
 body
-    overflow:       hidden
     font:           $body-font
     color:          $body-color
     background:     $body-background
 
 
-/*******************************************************************
- ** environment
- **
- ** These styles are applied to the top level 'body' element and
- ** are primarily used by the header to indicate when a developer
- ** is accessing the stage/production environments.
- *******************************************************************/
-
-.environmentStage
-    /* noop - prevent compression */
-    content: normal
+body.body-normal
+    overflow:       hidden
 
 
-.environmentProduction
-    /* noop - prevent compression */
-    content: normal
+body.body-print
+    overflow:       auto
+
+
+//*******************************************************************
+//** environment
+//**
+//** These styles are applied to the top level 'body' element and
+//** are primarily used by the header to indicate when a developer
+//** is accessing the stage/production environments.
+//*******************************************************************
+
+body.environmentStage
+    content: normal // prevent stylus compression
+
+
+body.environmentProduction
+    content: normal // prevent stylus compression

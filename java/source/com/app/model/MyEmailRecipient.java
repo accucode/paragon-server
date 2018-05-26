@@ -23,8 +23,20 @@ public class MyEmailRecipient
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getTypeName() + " " + getAddress();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getTypeName() + " " + getAddress();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 }

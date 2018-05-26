@@ -43,6 +43,17 @@ ${xmlAutoGenerationComment}
             />
 
 #end
+#foreach ( $field in $model.multiColumnFields )
+        <property
+            name="${field.f_name}"
+            type="${field.f_hibernateType}"
+            >
+#foreach ( $col in $field.sqlColumns )
+                <column name="${field.f_sqlColumn}${col.f_Suffix}"/>
+#end
+        </property>
+
+#end
 #foreach ( $association in $model.editableAssociations )
         <many-to-one
             name="${association.f_name}"

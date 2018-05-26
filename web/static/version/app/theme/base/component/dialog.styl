@@ -1,44 +1,61 @@
-/*****************************
- ** dialog
- *****************************/
+//******************************
+//* dialog
+//******************************
 
 
+//******************************
+//* jquery overrides
+//******************************
 
-/*****************************
- ** jquery overrides
- *****************************/
 
 .ui-widget-overlay
     opacity:        $dialog-overlayOpacity                  if $dialog-overlayOpacity
 
+
 .ui-dialog
-    border:         none !important
+    border:         $dialog-border                          if $dialog-border
     box-shadow:     $dialog-shadow                          if $dialog-shadow
     padding:        0
+    overflow:       visible
+
 
 .ui-dialog-titlebar
     background:     $dialog-titleBackground                 if $dialog-titleBackground
-    border-bottom:  $dialog-titleBorder                     if $dialog-titleBorder
+    border:         none
+    border-bottom:  $dialog-border                          if $dialog-border
+
 
 .ui-dialog-title
     font:           $dialog-titleFont                       if $dialog-titleFont
 
+
 .dialogNoClose .ui-dialog-titlebar-close
     /* optionally hide the default close button */
-    display: none;
+    display: none
 
-/*****************************
- ** app
- *****************************/
+
+//******************************
+//* app
+//******************************
+
 
 .dialog-header
-    background:     $dialog-headerBackground                if $dialog-headerBackground
-    border-bottom:  $dialog-headerBorder                    if $dialog-headerBorder
+    background:         $dialog-headerBackground                if $dialog-headerBackground
+    border-bottom:      $dialog-border                          if $dialog-border
 
-.dialog-body
-    background:     $dialog-bodyBackground                  if $dialog-bodyBackground
-    
+
+.dialog-bodyNormal
+    background-color:   #fff
+
+
+.dialog-bodyCaution
+    background-color:   #ffe;
+
+
+.dialog-bodyAlert
+    background-color:   #fee
+
 
 .dialog-footer
-    background:     $dialog-footerBackground                if $dialog-footerBackground
-    border-top:     $dialog-footerBorder                    if $dialog-footerBorder
+    background:         $dialog-footerBackground                if $dialog-footerBackground
+    border-top:         $dialog-border                          if $dialog-border

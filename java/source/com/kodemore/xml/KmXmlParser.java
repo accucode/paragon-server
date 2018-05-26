@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXParseException;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.servlet.ScCharsets;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
  * Parse xml into a simple model.  I do not attempt to parse everything,
  * but instead provide a simplified model that is easy to use for the
- * common cases.  Additional parse can easily be added as it is deemed
- * useful.
+ * common cases. Additional parsing can easily be added as needed.
  */
 public class KmXmlParser
 {
@@ -55,14 +55,14 @@ public class KmXmlParser
     public static KmXmlDocument parseFile(File f)
     {
         String name = f.getName();
-        String xml = Kmu.readFileString(f);
+        String xml = KmFiles.readString(f);
         return parse(name, xml);
     }
 
     public static KmXmlDocument parseFileUnicode(String path)
     {
         String name = path;
-        String xml = Kmu.readFileUnicode(path);
+        String xml = KmFiles.readString(path);
         return parse(name, xml);
     }
 
@@ -76,11 +76,12 @@ public class KmXmlParser
         try
         {
             xml = xml.trim();
+            String charset = ScCharsets.UTF_8.name();
 
             InputSource is;
             is = new InputSource();
-            is.setEncoding(KmConstantsIF.UTF_16);
-            is.setByteStream(new ByteArrayInputStream(xml.getBytes(KmConstantsIF.UTF_16)));
+            is.setEncoding(charset);
+            is.setByteStream(new ByteArrayInputStream(xml.getBytes(charset)));
 
             SAXParserFactory f;
             f = SAXParserFactory.newInstance();

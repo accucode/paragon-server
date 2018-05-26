@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import com.kodemore.servlet.renderer.ScControlRenderer;
 import com.kodemore.servlet.renderer.ScFunctionRenderer;
 import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.renderer.ScValueRenderer;
-import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.Kmu;
 
 public class ScLocalRenderer
     extends ScAbstractLocal<ScRenderer>
@@ -52,7 +52,7 @@ public class ScLocalRenderer
 
     public void setValue(CharSequence e)
     {
-        if ( e == null )
+        if ( Kmu.isEmpty(e) )
         {
             clearValue();
             return;
@@ -123,6 +123,28 @@ public class ScLocalRenderer
     }
 
     //##################################################
+    //# empty text
+    //##################################################
+
+    public void setEmptyText(String e)
+    {
+        if ( hasValue() )
+            getValue().setEmptyText(e);
+    }
+
+    public void setEmptyTextNone()
+    {
+        if ( hasValue() )
+            getValue().setEmptyTextNone();
+    }
+
+    public void setEmptyTextAny()
+    {
+        if ( hasValue() )
+            getValue().setEmptyTextAny();
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -130,22 +152,6 @@ public class ScLocalRenderer
     {
         if ( hasValue() )
             getValue().renderOn(out, parent, model);
-    }
-
-    //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-
-        if ( hasValue() )
-            getValue().compressMemory();
     }
 
 }

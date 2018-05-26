@@ -15,6 +15,11 @@ public class MyDaoSessionManager
         KmDaoSessionManager.install(new MyDaoSessionManager());
     }
 
+    public static MyDaoSessionManager getInstance()
+    {
+        return (MyDaoSessionManager)KmDaoSessionManager.getInstance();
+    }
+
     //##################################################
     //# constructor
     //##################################################
@@ -29,8 +34,15 @@ public class MyDaoSessionManager
     //##################################################
 
     @Override
+    public MyDaoSession getDaoSession()
+    {
+        return (MyDaoSession)super.getDaoSession();
+    }
+
+    @Override
     protected KmDaoSession newSession()
     {
         return new MyDaoSession();
     }
+
 }

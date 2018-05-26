@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhBooleanCondition;
 import com.kodemore.meta.KmMetaBooleanProperty;
 import com.kodemore.servlet.field.ScCheckboxField;
@@ -22,9 +23,9 @@ public class KmProtoBoolean
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "char(1)";
+        return singleColumn("char(1)");
     }
 
     @Override

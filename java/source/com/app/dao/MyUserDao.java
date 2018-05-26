@@ -9,7 +9,7 @@ public class MyUserDao
     extends MyUserDaoBase
 {
     //##################################################
-    //# email
+    //# find email
     //##################################################
 
     public MyUser findEmail(MyTenant tenant, String email)
@@ -21,4 +21,26 @@ public class MyUserDao
         return c.findUnique();
     }
 
+    //##################################################
+    //# duplicate email
+    //##################################################
+
+    public boolean isDuplicateEmail(MyTenant tenant, String email)
+    {
+        MyUserCriteria c;
+        c = createCriteria();
+        c.whereTenantIs(tenant);
+        c.whereEmail().is(email);
+        return c.exists();
+    }
+
+    public boolean isDuplicateEmail(MyUser user, String email)
+    {
+        MyUserCriteria c;
+        c = createCriteria();
+        c.whereTenantIs(user.getTenant());
+        c.whereEmail().is(email);
+        c.whereUidIsNot(user);
+        return c.exists();
+    }
 }

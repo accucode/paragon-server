@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,24 @@
 
 package com.kodemore.servlet.utility;
 
-import com.kodemore.collection.KmList;
+import java.util.Arrays;
+import java.util.Collection;
+
 import com.kodemore.collection.KmMap;
-import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScSessionTimeoutException;
-import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.thread.KmThreadLocalManager;
+import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.Kmu;
 
 public class ScControlRegistry
     implements ScConstantsIF
 {
     //##################################################
-    //# static
+    //# install
     //##################################################
 
     private static ScControlRegistry _instance;
@@ -59,14 +61,39 @@ public class ScControlRegistry
     }
 
     //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * The maximum number of persistent controls that can be installed.
+     * This affects the install/setup process. The value can be increased
+     * as needed. Note that once the initial setup is complete, the array
+     * is resized based on actual usage.
+     */
+    private static final int MAXIMUM_CONTROL_COUNT = 1000000;
+
+    /**
+     * We start the key at 1 (instead of 0). This means that
+     * controls[0] will always be null. This isn't a problem since
+     * no one will ever reference it. This avoid certain edge cases
+     * in javascript related to the value 0.
+     */
+    private static final int FIRST_PERSISTENT_KEY = 1;
+
+    //##################################################
     //# variables
     //##################################################
 
-    private int                                _nextPersistentId;
-    private KmMap<String,ScKeyIF>              _persistentValues;
+    private ScControl[] _persistentControls;
+    private int         _persistentControlCount;
 
-    private boolean                            _locked;
-    private ThreadLocal<KmMap<String,ScKeyIF>> _transientValues;
+    /**
+     * Transient keys are genereated as random negative integers.
+     * This generally avoids collision between different http requests.
+     */
+    private ThreadLocal<KmMap<Integer,ScControl>> _transientControls;
+
+    private boolean _locked;
 
     //##################################################
     //# constructor
@@ -74,201 +101,147 @@ public class ScControlRegistry
 
     private ScControlRegistry()
     {
-        // singleton
-        _nextPersistentId = 0;
-        _persistentValues = new KmMap<>();
+        _persistentControls = new ScControl[MAXIMUM_CONTROL_COUNT];
+        _persistentControlCount = FIRST_PERSISTENT_KEY;
 
         _locked = false;
-        _transientValues = KmThreadLocalManager.newLocal();
+        _transientControls = KmThreadLocalManager.newLocal();
     }
 
     //##################################################
     //# setup
     //##################################################
 
-    public void register(ScKeyIF e)
+    public void register(ScControl e)
     {
         if ( _locked )
-            register(getTransientValues(), e);
+            registerTransient(e);
         else
-            register(getPersistentValues(), e);
+            registerPersistent(e);
     }
 
-    public void unregister(ScKeyIF e)
+    private void registerPersistent(ScControl e)
     {
-        if ( _locked )
-            unregister(getTransientValues(), e);
-        else
-            unregister(getPersistentValues(), e);
+        e.registerKey(_persistentControlCount);
+        _persistentControls[_persistentControlCount] = e;
+        _persistentControlCount++;
     }
 
-    public String getNextKey()
+    private void registerTransient(ScControl e)
     {
-        if ( _locked )
-            return getNextTransientKey();
+        int key = KmRandom.getInstance().getNegativeInteger();
+        e.registerKey(key);
 
-        return _getNextPersistentKey();
+        KmMap<Integer,ScControl> map;
+        map = getTransientControls();
+        map.put(key, e);
     }
 
-    public String getNextPersistentKey()
+    public int getPersistentControlCount()
     {
-        if ( _locked )
-            throw new RuntimeException("Registry is locked; cannot get persistent key.");
-
-        return _getNextPersistentKey();
+        return _persistentControlCount;
     }
 
-    public void setLocked()
+    public int getPersistentButtonCount()
+    {
+        int n = 0;
+
+        for ( ScControl e : _persistentControls )
+            if ( e instanceof ScButton )
+                n++;
+
+        return n;
+    }
+
+    //##################################################
+    //# lock
+    //##################################################
+
+    public void lock()
     {
         _locked = true;
+        _persistentControls = Arrays.copyOf(_persistentControls, _persistentControlCount);
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public ScAction getAction(String key)
+    public ScControl findKey(int key)
     {
-        Object e = findKey(key);
-
-        if ( e instanceof ScAction )
-            return (ScAction)e;
-
-        throw newTimeout("Unknown Action: %s.", key);
+        return key >= 0
+            ? _persistentControls[key]
+            : getTransientControls().get(key);
     }
 
-    public ScControl getControl(String key)
+    public ScControl findToken(String token)
     {
-        Object e = findKey(key);
-        if ( e instanceof ScControl )
-            return (ScControl)e;
-
-        throw newTimeout("Unknown Control: %s.", key);
+        Integer key = ScControlKeys.tokenToKey(token);
+        return findKey(key);
     }
+
+    //##################################################
+    //# find htmlm id
+    //##################################################
 
     public ScHtmlIdIF findHtmlId(String id)
     {
-        KmList<ScKeyIF> v;
+        ScHtmlIdIF e;
 
-        v = _persistentValues.getValues();
-        for ( ScKeyIF e : v )
-            if ( e instanceof ScHtmlIdIF )
-                if ( ((ScHtmlIdIF)e).getHtmlId().equals(id) )
-                    return (ScHtmlIdIF)e;
-
-        v = _transientValues.get().getValues();
-        for ( ScKeyIF e : v )
-            if ( e instanceof ScHtmlIdIF )
-                if ( ((ScHtmlIdIF)e).getHtmlId().equals(id) )
-                    return (ScHtmlIdIF)e;
-
-        throw newTimeout("Unknown Html ID: %s.", id);
-    }
-
-    //##################################################
-    //# private (keys)
-    //##################################################
-
-    private String _getNextPersistentKey()
-    {
-        return PERSISTENT_KEY_PREFIX + getNextPersistentId();
-    }
-
-    private String getNextPersistentId()
-    {
-        return formatId(_nextPersistentId++);
-    }
-
-    private KmMap<String,ScKeyIF> getPersistentValues()
-    {
-        return _persistentValues;
-    }
-
-    //##################################################
-    //# private (transient)
-    //##################################################
-
-    private String getNextTransientKey()
-    {
-        return TRANSIENT_KEY_PREFIX + getNextTransientId();
-    }
-
-    private String getNextTransientId()
-    {
-        return Kmu.newUid();
-    }
-
-    private KmMap<String,ScKeyIF> getTransientValues()
-    {
-        KmMap<String,ScKeyIF> m = _transientValues.get();
-        if ( m == null )
-        {
-            m = new KmMap<>();
-            _transientValues.set(m);
-        }
-        return m;
-    }
-
-    //##################################################
-    //# private (support)
-    //##################################################
-
-    private <E extends ScKeyIF> void register(KmMap<String,E> m, E e)
-    {
-        String key = e.getKey();
-        if ( key == null )
-        {
-            KmLog.errorTrace("Attempt to register control with null key.");
-            return;
-        }
-
-        if ( m.containsKey(key) )
-        {
-            KmLog.errorTrace("Attempt to register control with duplicate key (%s).", key);
-            return;
-        }
-
-        m.put(key, e);
-    }
-
-    private void unregister(KmMap<String,ScKeyIF> m, ScKeyIF e)
-    {
-        String key = e.getKey();
-        if ( key == null )
-        {
-            KmLog.errorTrace("Attempt to unregister control with null key.");
-            return;
-        }
-
-        if ( !m.containsKey(key) )
-        {
-            KmLog.errorTrace("Attempt to unregister control with unknown key (%s).", key);
-            return;
-        }
-
-        m.remove(key);
-    }
-
-    private ScKeyIF findKey(String key)
-    {
-        ScKeyIF e = getPersistentValues().get(key);
+        e = findPersistentHtmlId(id);
         if ( e != null )
             return e;
 
-        return getTransientValues().get(key);
+        e = findTransientHtmlId(id);
+        if ( e != null )
+            return e;
+
+        throw new ScSessionTimeoutException("Unknown Html ID: " + id);
     }
 
-    private String formatId(Integer id)
+    private ScHtmlIdIF findPersistentHtmlId(String id)
     {
-        // Cannot use base62 since html "names" are sometimes
-        // NOT case-sensitive.
-        return Kmu.formatBase36(id);
+        ScControl[] arr = _persistentControls;
+        int start = FIRST_PERSISTENT_KEY;
+        int n = arr.length;
+
+        for ( int i = start; i < n; i++ )
+        {
+            ScControl e = arr[i];
+            if ( e.isHtmlId(id) )
+                return e.asHtmlId();
+        }
+
+        return null;
     }
 
-    private ScSessionTimeoutException newTimeout(String msg, Object... args)
+    private ScHtmlIdIF findTransientHtmlId(String id)
     {
-        String s = Kmu.format(msg, args);
-        return new ScSessionTimeoutException(s);
+        KmMap<Integer,ScControl> map = _transientControls.get();
+        if ( map == null )
+            return null;
+
+        Collection<ScControl> list = map.values();
+        for ( ScControl e : list )
+            if ( e.isHtmlId(id) )
+                return e.asHtmlId();
+
+        return null;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private KmMap<Integer,ScControl> getTransientControls()
+    {
+        KmMap<Integer,ScControl> map = _transientControls.get();
+        if ( map == null )
+        {
+            map = new KmMap<>();
+            _transientControls.set(map);
+        }
+        return map;
     }
 
 }

@@ -206,6 +206,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.accordionOpenTab);
     }
 
+    public KmCssDefaultBuilder active_result()
+    {
+        return apply(KmCssDefaultConstantsIF.active_result);
+    }
+
     public KmCssDefaultBuilder activeTask_divider()
     {
         return apply(KmCssDefaultConstantsIF.activeTask_divider);
@@ -221,9 +226,14 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.alertText);
     }
 
-    public KmCssDefaultBuilder appContentInner()
+    public KmCssDefaultBuilder alternatingGrays()
     {
-        return apply(KmCssDefaultConstantsIF.appContentInner);
+        return apply(KmCssDefaultConstantsIF.alternatingGrays);
+    }
+
+    public KmCssDefaultBuilder attachmentImage()
+    {
+        return apply(KmCssDefaultConstantsIF.attachmentImage);
     }
 
     public KmCssDefaultBuilder auto()
@@ -244,6 +254,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder autoCompleteField_readonly()
     {
         return apply(KmCssDefaultConstantsIF.autoCompleteField_readonly);
+    }
+
+    public KmCssDefaultBuilder autoRun()
+    {
+        return apply(KmCssDefaultConstantsIF.autoRun);
     }
 
     public KmCssDefaultBuilder autoX()
@@ -561,6 +576,16 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.blockMsg);
     }
 
+    public KmCssDefaultBuilder body_normal()
+    {
+        return apply(KmCssDefaultConstantsIF.body_normal);
+    }
+
+    public KmCssDefaultBuilder body_print()
+    {
+        return apply(KmCssDefaultConstantsIF.body_print);
+    }
+
     public KmCssDefaultBuilder bold()
     {
         return apply(KmCssDefaultConstantsIF.bold);
@@ -876,11 +901,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.button);
     }
 
-    public KmCssDefaultBuilder button_delete()
-    {
-        return apply(KmCssDefaultConstantsIF.button_delete);
-    }
-
     public KmCssDefaultBuilder button_disabled()
     {
         return apply(KmCssDefaultConstantsIF.button_disabled);
@@ -911,6 +931,16 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.button_primary);
     }
 
+    public KmCssDefaultBuilder button_smallIcon()
+    {
+        return apply(KmCssDefaultConstantsIF.button_smallIcon);
+    }
+
+    public KmCssDefaultBuilder button_warn()
+    {
+        return apply(KmCssDefaultConstantsIF.button_warn);
+    }
+
     public KmCssDefaultBuilder buttonBox()
     {
         return apply(KmCssDefaultConstantsIF.buttonBox);
@@ -926,6 +956,16 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.buttonGap);
     }
 
+    public KmCssDefaultBuilder buttonImage()
+    {
+        return apply(KmCssDefaultConstantsIF.buttonImage);
+    }
+
+    public KmCssDefaultBuilder calendar_clickable()
+    {
+        return apply(KmCssDefaultConstantsIF.calendar_clickable);
+    }
+
     public KmCssDefaultBuilder calendar_eventA()
     {
         return apply(KmCssDefaultConstantsIF.calendar_eventA);
@@ -939,6 +979,21 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder calendar_eventC()
     {
         return apply(KmCssDefaultConstantsIF.calendar_eventC);
+    }
+
+    public KmCssDefaultBuilder calendar_eventD()
+    {
+        return apply(KmCssDefaultConstantsIF.calendar_eventD);
+    }
+
+    public KmCssDefaultBuilder calendar_eventE()
+    {
+        return apply(KmCssDefaultConstantsIF.calendar_eventE);
+    }
+
+    public KmCssDefaultBuilder calendar_eventF()
+    {
+        return apply(KmCssDefaultConstantsIF.calendar_eventF);
     }
 
     public KmCssDefaultBuilder calendar_eventHoliday()
@@ -1016,9 +1071,24 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.choiceFieldFocus);
     }
 
+    public KmCssDefaultBuilder chosenResults()
+    {
+        return apply(KmCssDefaultConstantsIF.chosenResults);
+    }
+
     public KmCssDefaultBuilder clip()
     {
         return apply(KmCssDefaultConstantsIF.clip);
+    }
+
+    public KmCssDefaultBuilder clipX()
+    {
+        return apply(KmCssDefaultConstantsIF.clipX);
+    }
+
+    public KmCssDefaultBuilder clipY()
+    {
+        return apply(KmCssDefaultConstantsIF.clipY);
     }
 
     public KmCssDefaultBuilder colorBlack()
@@ -1081,9 +1151,24 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.content_pageRoot);
     }
 
+    public KmCssDefaultBuilder content_print()
+    {
+        return apply(KmCssDefaultConstantsIF.content_print);
+    }
+
     public KmCssDefaultBuilder crud_footerErrorBox()
     {
         return apply(KmCssDefaultConstantsIF.crud_footerErrorBox);
+    }
+
+    public KmCssDefaultBuilder crud_frame()
+    {
+        return apply(KmCssDefaultConstantsIF.crud_frame);
+    }
+
+    public KmCssDefaultBuilder crud_search()
+    {
+        return apply(KmCssDefaultConstantsIF.crud_search);
     }
 
     public KmCssDefaultBuilder crud_viewCardBox()
@@ -1186,9 +1271,24 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.dashboard_samplePortrait);
     }
 
-    public KmCssDefaultBuilder dialog_body()
+    public KmCssDefaultBuilder dataTable()
     {
-        return apply(KmCssDefaultConstantsIF.dialog_body);
+        return apply(KmCssDefaultConstantsIF.dataTable);
+    }
+
+    public KmCssDefaultBuilder dialog_bodyAlert()
+    {
+        return apply(KmCssDefaultConstantsIF.dialog_bodyAlert);
+    }
+
+    public KmCssDefaultBuilder dialog_bodyCaution()
+    {
+        return apply(KmCssDefaultConstantsIF.dialog_bodyCaution);
+    }
+
+    public KmCssDefaultBuilder dialog_bodyNormal()
+    {
+        return apply(KmCssDefaultConstantsIF.dialog_bodyNormal);
     }
 
     public KmCssDefaultBuilder dialog_footer()
@@ -1301,6 +1401,21 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.dropdownField);
     }
 
+    public KmCssDefaultBuilder dropdownFieldBlock()
+    {
+        return apply(KmCssDefaultConstantsIF.dropdownFieldBlock);
+    }
+
+    public KmCssDefaultBuilder dropdownFieldFlexFiller()
+    {
+        return apply(KmCssDefaultConstantsIF.dropdownFieldFlexFiller);
+    }
+
+    public KmCssDefaultBuilder dropdownFieldInline()
+    {
+        return apply(KmCssDefaultConstantsIF.dropdownFieldInline);
+    }
+
     public KmCssDefaultBuilder dropdownMenu()
     {
         return apply(KmCssDefaultConstantsIF.dropdownMenu);
@@ -1309,6 +1424,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder dropdownMenuTitle()
     {
         return apply(KmCssDefaultConstantsIF.dropdownMenuTitle);
+    }
+
+    public KmCssDefaultBuilder ellipsis()
+    {
+        return apply(KmCssDefaultConstantsIF.ellipsis);
     }
 
     public KmCssDefaultBuilder environmentProduction()
@@ -1329,6 +1449,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder error_attachedBox()
     {
         return apply(KmCssDefaultConstantsIF.error_attachedBox);
+    }
+
+    public KmCssDefaultBuilder error_box()
+    {
+        return apply(KmCssDefaultConstantsIF.error_box);
     }
 
     public KmCssDefaultBuilder error_detachedBox()
@@ -1416,9 +1541,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.fieldset_body_default);
     }
 
+    public KmCssDefaultBuilder fieldset_body_warning()
+    {
+        return apply(KmCssDefaultConstantsIF.fieldset_body_warning);
+    }
+
     public KmCssDefaultBuilder fieldset_legend_default()
     {
         return apply(KmCssDefaultConstantsIF.fieldset_legend_default);
+    }
+
+    public KmCssDefaultBuilder fieldset_legend_warning()
+    {
+        return apply(KmCssDefaultConstantsIF.fieldset_legend_warning);
     }
 
     public KmCssDefaultBuilder fieldsetFill()
@@ -1449,6 +1584,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder fillOffset20()
     {
         return apply(KmCssDefaultConstantsIF.fillOffset20);
+    }
+
+    public KmCssDefaultBuilder fillOffset40()
+    {
+        return apply(KmCssDefaultConstantsIF.fillOffset40);
     }
 
     public KmCssDefaultBuilder fillOffset5()
@@ -1539,6 +1679,56 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder flexChildNoShrink()
     {
         return apply(KmCssDefaultConstantsIF.flexChildNoShrink);
+    }
+
+    public KmCssDefaultBuilder flexChildParts10()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts10);
+    }
+
+    public KmCssDefaultBuilder flexChildParts100()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts100);
+    }
+
+    public KmCssDefaultBuilder flexChildParts20()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts20);
+    }
+
+    public KmCssDefaultBuilder flexChildParts30()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts30);
+    }
+
+    public KmCssDefaultBuilder flexChildParts40()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts40);
+    }
+
+    public KmCssDefaultBuilder flexChildParts50()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts50);
+    }
+
+    public KmCssDefaultBuilder flexChildParts60()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts60);
+    }
+
+    public KmCssDefaultBuilder flexChildParts70()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts70);
+    }
+
+    public KmCssDefaultBuilder flexChildParts80()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts80);
+    }
+
+    public KmCssDefaultBuilder flexChildParts90()
+    {
+        return apply(KmCssDefaultConstantsIF.flexChildParts90);
     }
 
     public KmCssDefaultBuilder flexChildPhiLarge()
@@ -1701,9 +1891,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.font100);
     }
 
+    public KmCssDefaultBuilder font10r()
+    {
+        return apply(KmCssDefaultConstantsIF.font10r);
+    }
+
     public KmCssDefaultBuilder font12()
     {
         return apply(KmCssDefaultConstantsIF.font12);
+    }
+
+    public KmCssDefaultBuilder font12r()
+    {
+        return apply(KmCssDefaultConstantsIF.font12r);
     }
 
     public KmCssDefaultBuilder font14()
@@ -1716,9 +1916,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.font16);
     }
 
+    public KmCssDefaultBuilder font16r()
+    {
+        return apply(KmCssDefaultConstantsIF.font16r);
+    }
+
     public KmCssDefaultBuilder font18()
     {
         return apply(KmCssDefaultConstantsIF.font18);
+    }
+
+    public KmCssDefaultBuilder font18r()
+    {
+        return apply(KmCssDefaultConstantsIF.font18r);
     }
 
     public KmCssDefaultBuilder font20()
@@ -1731,14 +1941,29 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.font24);
     }
 
+    public KmCssDefaultBuilder font24r()
+    {
+        return apply(KmCssDefaultConstantsIF.font24r);
+    }
+
     public KmCssDefaultBuilder font36()
     {
         return apply(KmCssDefaultConstantsIF.font36);
     }
 
+    public KmCssDefaultBuilder font36r()
+    {
+        return apply(KmCssDefaultConstantsIF.font36r);
+    }
+
     public KmCssDefaultBuilder font48()
     {
         return apply(KmCssDefaultConstantsIF.font48);
+    }
+
+    public KmCssDefaultBuilder font48r()
+    {
+        return apply(KmCssDefaultConstantsIF.font48r);
     }
 
     public KmCssDefaultBuilder font60()
@@ -1779,21 +2004,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder formBanner()
     {
         return apply(KmCssDefaultConstantsIF.formBanner);
-    }
-
-    public KmCssDefaultBuilder formBody()
-    {
-        return apply(KmCssDefaultConstantsIF.formBody);
-    }
-
-    public KmCssDefaultBuilder formBodyAlert()
-    {
-        return apply(KmCssDefaultConstantsIF.formBodyAlert);
-    }
-
-    public KmCssDefaultBuilder formBodyCaution()
-    {
-        return apply(KmCssDefaultConstantsIF.formBodyCaution);
     }
 
     public KmCssDefaultBuilder formEmpty()
@@ -1851,6 +2061,291 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.formTitle);
     }
 
+    public KmCssDefaultBuilder ganttChart()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart);
+    }
+
+    public KmCssDefaultBuilder ganttChart_bgGray()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_bgGray);
+    }
+
+    public KmCssDefaultBuilder ganttChart_chartContent()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_chartContent);
+    }
+
+    public KmCssDefaultBuilder ganttChart_chartWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_chartWrapper);
+    }
+
+    public KmCssDefaultBuilder ganttChart_contentWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_contentWrapper);
+    }
+
+    public KmCssDefaultBuilder ganttChart_header()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_header);
+    }
+
+    public KmCssDefaultBuilder ganttChart_item()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_item);
+    }
+
+    public KmCssDefaultBuilder ganttChart_item_endsAfter()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_item_endsAfter);
+    }
+
+    public KmCssDefaultBuilder ganttChart_item_startsBefore()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_item_startsBefore);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue1()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue1);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue2()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue2);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue3()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue3);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue4()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue4);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue5()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue5);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemBlue6()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemBlue6);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemCyan()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemCyan);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray1()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray1);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray2()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray2);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray3()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray3);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray4()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray4);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray5()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray5);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGray6()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGray6);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemGreen()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemGreen);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemLabel()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemLabel);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange1()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange1);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange2()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange2);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange3()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange3);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange4()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange4);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange5()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange5);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemOrange6()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemOrange6);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple1()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple1);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple2()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple2);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple3()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple3);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple4()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple4);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple5()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple5);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemPurple6()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemPurple6);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemRed()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemRed);
+    }
+
+    public KmCssDefaultBuilder ganttChart_itemYellow()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_itemYellow);
+    }
+
+    public KmCssDefaultBuilder ganttChart_labelContent()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_labelContent);
+    }
+
+    public KmCssDefaultBuilder ganttChart_leftColumn()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_leftColumn);
+    }
+
+    public KmCssDefaultBuilder ganttChart_now()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_now);
+    }
+
+    public KmCssDefaultBuilder ganttChart_rightColumn()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_rightColumn);
+    }
+
+    public KmCssDefaultBuilder ganttChart_rightHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_rightHeader);
+    }
+
+    public KmCssDefaultBuilder ganttChart_row()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_row);
+    }
+
+    public KmCssDefaultBuilder ganttChart_rowLabel()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_rowLabel);
+    }
+
+    public KmCssDefaultBuilder ganttChart_rowLabelWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_rowLabelWrapper);
+    }
+
+    public KmCssDefaultBuilder ganttChart_set()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_set);
+    }
+
+    public KmCssDefaultBuilder ganttChart_setContent()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_setContent);
+    }
+
+    public KmCssDefaultBuilder ganttChart_setLabel()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_setLabel);
+    }
+
+    public KmCssDefaultBuilder ganttChart_title()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_title);
+    }
+
+    public KmCssDefaultBuilder ganttChart_topAxis()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_topAxis);
+    }
+
+    public KmCssDefaultBuilder ganttChart_topAxisItem()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_topAxisItem);
+    }
+
+    public KmCssDefaultBuilder ganttChart_topAxisWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.ganttChart_topAxisWrapper);
+    }
+
     public KmCssDefaultBuilder gap()
     {
         return apply(KmCssDefaultConstantsIF.gap);
@@ -1874,6 +2369,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder gap20()
     {
         return apply(KmCssDefaultConstantsIF.gap20);
+    }
+
+    public KmCssDefaultBuilder gap20x40()
+    {
+        return apply(KmCssDefaultConstantsIF.gap20x40);
     }
 
     public KmCssDefaultBuilder gap20x5()
@@ -1986,6 +2486,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.group);
     }
 
+    public KmCssDefaultBuilder groupAccent()
+    {
+        return apply(KmCssDefaultConstantsIF.groupAccent);
+    }
+
     public KmCssDefaultBuilder groupAlert()
     {
         return apply(KmCssDefaultConstantsIF.groupAlert);
@@ -2021,6 +2526,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.groupDetached);
     }
 
+    public KmCssDefaultBuilder groupDetail()
+    {
+        return apply(KmCssDefaultConstantsIF.groupDetail);
+    }
+
     public KmCssDefaultBuilder groupDivider()
     {
         return apply(KmCssDefaultConstantsIF.groupDivider);
@@ -2041,24 +2551,24 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.groupInline);
     }
 
+    public KmCssDefaultBuilder groupList()
+    {
+        return apply(KmCssDefaultConstantsIF.groupList);
+    }
+
+    public KmCssDefaultBuilder groupMinor()
+    {
+        return apply(KmCssDefaultConstantsIF.groupMinor);
+    }
+
     public KmCssDefaultBuilder groupNormal()
     {
         return apply(KmCssDefaultConstantsIF.groupNormal);
     }
 
-    public KmCssDefaultBuilder groupPrimary()
+    public KmCssDefaultBuilder groupSummary()
     {
-        return apply(KmCssDefaultConstantsIF.groupPrimary);
-    }
-
-    public KmCssDefaultBuilder groupSecondary()
-    {
-        return apply(KmCssDefaultConstantsIF.groupSecondary);
-    }
-
-    public KmCssDefaultBuilder groupTertiary()
-    {
-        return apply(KmCssDefaultConstantsIF.groupTertiary);
+        return apply(KmCssDefaultConstantsIF.groupSummary);
     }
 
     public KmCssDefaultBuilder groupTitle()
@@ -2074,11 +2584,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder header_clock()
     {
         return apply(KmCssDefaultConstantsIF.header_clock);
-    }
-
-    public KmCssDefaultBuilder header_depot()
-    {
-        return apply(KmCssDefaultConstantsIF.header_depot);
     }
 
     public KmCssDefaultBuilder header_left()
@@ -2226,6 +2731,41 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.hide);
     }
 
+    public KmCssDefaultBuilder iconSizeButton()
+    {
+        return apply(KmCssDefaultConstantsIF.iconSizeButton);
+    }
+
+    public KmCssDefaultBuilder iconStyleDark()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStyleDark);
+    }
+
+    public KmCssDefaultBuilder iconStyleError()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStyleError);
+    }
+
+    public KmCssDefaultBuilder iconStyleLight()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStyleLight);
+    }
+
+    public KmCssDefaultBuilder iconStyleNegative()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStyleNegative);
+    }
+
+    public KmCssDefaultBuilder iconStylePositive()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStylePositive);
+    }
+
+    public KmCssDefaultBuilder iconStyleWarning()
+    {
+        return apply(KmCssDefaultConstantsIF.iconStyleWarning);
+    }
+
     public KmCssDefaultBuilder importantText()
     {
         return apply(KmCssDefaultConstantsIF.importantText);
@@ -2286,6 +2826,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.listField);
     }
 
+    public KmCssDefaultBuilder loginAppName()
+    {
+        return apply(KmCssDefaultConstantsIF.loginAppName);
+    }
+
     public KmCssDefaultBuilder margin()
     {
         return apply(KmCssDefaultConstantsIF.margin);
@@ -2331,6 +2876,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.margin5);
     }
 
+    public KmCssDefaultBuilder margin50()
+    {
+        return apply(KmCssDefaultConstantsIF.margin50);
+    }
+
     public KmCssDefaultBuilder marginBottom()
     {
         return apply(KmCssDefaultConstantsIF.marginBottom);
@@ -2349,6 +2899,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder marginBottom5()
     {
         return apply(KmCssDefaultConstantsIF.marginBottom5);
+    }
+
+    public KmCssDefaultBuilder marginBottom50()
+    {
+        return apply(KmCssDefaultConstantsIF.marginBottom50);
     }
 
     public KmCssDefaultBuilder marginBottomChildren5()
@@ -2381,6 +2936,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.marginLeft5);
     }
 
+    public KmCssDefaultBuilder marginLeft50()
+    {
+        return apply(KmCssDefaultConstantsIF.marginLeft50);
+    }
+
     public KmCssDefaultBuilder marginLeftChildren5()
     {
         return apply(KmCssDefaultConstantsIF.marginLeftChildren5);
@@ -2404,6 +2964,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder marginRight5()
     {
         return apply(KmCssDefaultConstantsIF.marginRight5);
+    }
+
+    public KmCssDefaultBuilder marginRight50()
+    {
+        return apply(KmCssDefaultConstantsIF.marginRight50);
     }
 
     public KmCssDefaultBuilder marginRightChildren5()
@@ -2431,9 +2996,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.marginTop5);
     }
 
+    public KmCssDefaultBuilder marginTop50()
+    {
+        return apply(KmCssDefaultConstantsIF.marginTop50);
+    }
+
     public KmCssDefaultBuilder marginTopChildren5()
     {
         return apply(KmCssDefaultConstantsIF.marginTopChildren5);
+    }
+
+    public KmCssDefaultBuilder maxHeight100()
+    {
+        return apply(KmCssDefaultConstantsIF.maxHeight100);
     }
 
     public KmCssDefaultBuilder menu()
@@ -2466,14 +3041,54 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.middle);
     }
 
+    public KmCssDefaultBuilder minWidth300()
+    {
+        return apply(KmCssDefaultConstantsIF.minWidth300);
+    }
+
     public KmCssDefaultBuilder modelList()
     {
         return apply(KmCssDefaultConstantsIF.modelList);
     }
 
+    public KmCssDefaultBuilder modelList_basicFilterContainer()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_basicFilterContainer);
+    }
+
+    public KmCssDefaultBuilder modelList_extendedFilterContainer()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_extendedFilterContainer);
+    }
+
+    public KmCssDefaultBuilder modelList_extendedMessageContainer()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_extendedMessageContainer);
+    }
+
+    public KmCssDefaultBuilder modelList_extendedMessageText()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_extendedMessageText);
+    }
+
+    public KmCssDefaultBuilder modelList_filter()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_filter);
+    }
+
+    public KmCssDefaultBuilder modelList_filterActions()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_filterActions);
+    }
+
     public KmCssDefaultBuilder modelList_item()
     {
         return apply(KmCssDefaultConstantsIF.modelList_item);
+    }
+
+    public KmCssDefaultBuilder modelList_itemDragHandle()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_itemDragHandle);
     }
 
     public KmCssDefaultBuilder modelList_itemErrorBox()
@@ -2514,6 +3129,16 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder modelList_itemTitle()
     {
         return apply(KmCssDefaultConstantsIF.modelList_itemTitle);
+    }
+
+    public KmCssDefaultBuilder modelList_navigation()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_navigation);
+    }
+
+    public KmCssDefaultBuilder modelList_pageText()
+    {
+        return apply(KmCssDefaultConstantsIF.modelList_pageText);
     }
 
     public KmCssDefaultBuilder modelList_taskDesignerItem()
@@ -2631,6 +3256,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.noBorder);
     }
 
+    public KmCssDefaultBuilder noPageBreak()
+    {
+        return apply(KmCssDefaultConstantsIF.noPageBreak);
+    }
+
     public KmCssDefaultBuilder noScroll()
     {
         return apply(KmCssDefaultConstantsIF.noScroll);
@@ -2659,6 +3289,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder notebookTabFlexFill()
     {
         return apply(KmCssDefaultConstantsIF.notebookTabFlexFill);
+    }
+
+    public KmCssDefaultBuilder notificationItem()
+    {
+        return apply(KmCssDefaultConstantsIF.notificationItem);
     }
 
     public KmCssDefaultBuilder open()
@@ -2971,6 +3606,36 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.postMargin20);
     }
 
+    public KmCssDefaultBuilder progressView_box()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_box);
+    }
+
+    public KmCssDefaultBuilder progressView_due()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_due);
+    }
+
+    public KmCssDefaultBuilder progressView_progress()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_progress);
+    }
+
+    public KmCssDefaultBuilder progressView_today()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_today);
+    }
+
+    public KmCssDefaultBuilder progressView_today_after()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_today_after);
+    }
+
+    public KmCssDefaultBuilder progressView_today_before()
+    {
+        return apply(KmCssDefaultConstantsIF.progressView_today_before);
+    }
+
     public KmCssDefaultBuilder radioField()
     {
         return apply(KmCssDefaultConstantsIF.radioField);
@@ -3066,9 +3731,29 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.right5);
     }
 
+    public KmCssDefaultBuilder roadmapItem()
+    {
+        return apply(KmCssDefaultConstantsIF.roadmapItem);
+    }
+
+    public KmCssDefaultBuilder roadmapItemQuickAction()
+    {
+        return apply(KmCssDefaultConstantsIF.roadmapItemQuickAction);
+    }
+
+    public KmCssDefaultBuilder roadmapStatusIcon()
+    {
+        return apply(KmCssDefaultConstantsIF.roadmapStatusIcon);
+    }
+
     public KmCssDefaultBuilder rotate90()
     {
         return apply(KmCssDefaultConstantsIF.rotate90);
+    }
+
+    public KmCssDefaultBuilder rowHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.rowHeader);
     }
 
     public KmCssDefaultBuilder rowSpacer10()
@@ -3084,6 +3769,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder rowSpacer20r()
     {
         return apply(KmCssDefaultConstantsIF.rowSpacer20r);
+    }
+
+    public KmCssDefaultBuilder rowSpacer40()
+    {
+        return apply(KmCssDefaultConstantsIF.rowSpacer40);
     }
 
     public KmCssDefaultBuilder rowSpacer5()
@@ -3134,6 +3824,91 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder serif()
     {
         return apply(KmCssDefaultConstantsIF.serif);
+    }
+
+    public KmCssDefaultBuilder setupGroupCatalog()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGroupCatalog);
+    }
+
+    public KmCssDefaultBuilder setupGroupElement()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGroupElement);
+    }
+
+    public KmCssDefaultBuilder setupGroupProcess()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGroupProcess);
+    }
+
+    public KmCssDefaultBuilder setupGroupProject()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGroupProject);
+    }
+
+    public KmCssDefaultBuilder setupGuideCatalogItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideCatalogItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideElementItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideElementItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideEmptyCard()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideEmptyCard);
+    }
+
+    public KmCssDefaultBuilder setupGuideHomeItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideHomeItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideItemBlue()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideItemBlue);
+    }
+
+    public KmCssDefaultBuilder setupGuideItemGray()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideItemGray);
+    }
+
+    public KmCssDefaultBuilder setupGuideItemGreen()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideItemGreen);
+    }
+
+    public KmCssDefaultBuilder setupGuideProcessItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideProcessItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideProjectItem()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideProjectItem);
+    }
+
+    public KmCssDefaultBuilder setupGuideProjectType()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideProjectType);
+    }
+
+    public KmCssDefaultBuilder setupGuideProjectTypeSelected()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideProjectTypeSelected);
+    }
+
+    public KmCssDefaultBuilder setupGuideSection()
+    {
+        return apply(KmCssDefaultConstantsIF.setupGuideSection);
     }
 
     public KmCssDefaultBuilder shadow_aaa()
@@ -3346,9 +4121,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.sqlResultValue);
     }
 
+    public KmCssDefaultBuilder sqlRollbackMessage()
+    {
+        return apply(KmCssDefaultConstantsIF.sqlRollbackMessage);
+    }
+
     public KmCssDefaultBuilder strike()
     {
         return apply(KmCssDefaultConstantsIF.strike);
+    }
+
+    public KmCssDefaultBuilder subtitleText()
+    {
+        return apply(KmCssDefaultConstantsIF.subtitleText);
     }
 
     public KmCssDefaultBuilder summaryView()
@@ -3384,6 +4169,41 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder tabx()
     {
         return apply(KmCssDefaultConstantsIF.tabx);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewBottomView()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewBottomView);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewFooter()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewFooter);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewHeader);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewLeftColumn()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewLeftColumn);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewRightColumn()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewRightColumn);
+    }
+
+    public KmCssDefaultBuilder taskDesigner_previewTopView()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesigner_previewTopView);
+    }
+
+    public KmCssDefaultBuilder taskDesignerAlertBox()
+    {
+        return apply(KmCssDefaultConstantsIF.taskDesignerAlertBox);
     }
 
     public KmCssDefaultBuilder taskDesignerItems()
@@ -3451,6 +4271,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.textField_readonly);
     }
 
+    public KmCssDefaultBuilder title_alert()
+    {
+        return apply(KmCssDefaultConstantsIF.title_alert);
+    }
+
     public KmCssDefaultBuilder title_bare()
     {
         return apply(KmCssDefaultConstantsIF.title_bare);
@@ -3459,6 +4284,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder title_basic()
     {
         return apply(KmCssDefaultConstantsIF.title_basic);
+    }
+
+    public KmCssDefaultBuilder title_center()
+    {
+        return apply(KmCssDefaultConstantsIF.title_center);
     }
 
     public KmCssDefaultBuilder title_help()
@@ -3481,9 +4311,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.title_normal);
     }
 
+    public KmCssDefaultBuilder title_pageModuleName()
+    {
+        return apply(KmCssDefaultConstantsIF.title_pageModuleName);
+    }
+
     public KmCssDefaultBuilder title_right()
     {
         return apply(KmCssDefaultConstantsIF.title_right);
+    }
+
+    public KmCssDefaultBuilder titleText()
+    {
+        return apply(KmCssDefaultConstantsIF.titleText);
     }
 
     public KmCssDefaultBuilder top()
@@ -3491,9 +4331,29 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.top);
     }
 
+    public KmCssDefaultBuilder ui_accordion()
+    {
+        return apply(KmCssDefaultConstantsIF.ui_accordion);
+    }
+
+    public KmCssDefaultBuilder ui_accordion_content()
+    {
+        return apply(KmCssDefaultConstantsIF.ui_accordion_content);
+    }
+
+    public KmCssDefaultBuilder ui_accordion_header_active()
+    {
+        return apply(KmCssDefaultConstantsIF.ui_accordion_header_active);
+    }
+
     public KmCssDefaultBuilder ui_autocomplete()
     {
         return apply(KmCssDefaultConstantsIF.ui_autocomplete);
+    }
+
+    public KmCssDefaultBuilder ui_buttonset()
+    {
+        return apply(KmCssDefaultConstantsIF.ui_buttonset);
     }
 
     public KmCssDefaultBuilder ui_dialog()
@@ -3514,6 +4374,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder ui_dialog_titlebar_close()
     {
         return apply(KmCssDefaultConstantsIF.ui_dialog_titlebar_close);
+    }
+
+    public KmCssDefaultBuilder ui_state_active()
+    {
+        return apply(KmCssDefaultConstantsIF.ui_state_active);
     }
 
     public KmCssDefaultBuilder ui_state_default()
@@ -3684,6 +4549,21 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder wordWrapNormal()
     {
         return apply(KmCssDefaultConstantsIF.wordWrapNormal);
+    }
+
+    public KmCssDefaultBuilder xtd()
+    {
+        return apply(KmCssDefaultConstantsIF.xtd);
+    }
+
+    public KmCssDefaultBuilder zIndex1()
+    {
+        return apply(KmCssDefaultConstantsIF.zIndex1);
+    }
+
+    public KmCssDefaultBuilder zIndexAuto()
+    {
+        return apply(KmCssDefaultConstantsIF.zIndexAuto);
     }
 
 }

@@ -3,6 +3,7 @@ package com.kodemore.hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.filter.KmCriteriaFilter;
 import com.kodemore.hibernate.basic.KmhCriteria;
 import com.kodemore.hibernate.basic.KmhElement;
 import com.kodemore.hibernate.basic.KmhJoin;
@@ -10,6 +11,8 @@ import com.kodemore.hibernate.basic.KmhRootCriteria;
 import com.kodemore.meta.KmMetaDaoPropertyIF;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.types.KmMoney;
+import com.kodemore.types.KmQuantity;
 
 public abstract class KmhModelCriteria<T>
 {
@@ -46,34 +49,34 @@ public abstract class KmhModelCriteria<T>
     //# where
     //##################################################
 
-    public <E> KmhPropertyCondition<E> whereProperty(KmMetaDaoPropertyIF<T,E> e)
+    public <E> KmhPropertyCondition<E> whereProperty(KmMetaDaoPropertyIF<T,E> attr)
     {
-        return new KmhPropertyCondition<>(context(), fullName(e.getDaoPropertyName()));
+        return new KmhPropertyCondition<>(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhStringCondition whereString(KmMetaDaoPropertyIF<T,String> attr)
     {
-        return new KmhStringCondition(context(), fullName(attr.getDaoPropertyName()));
+        return new KmhStringCondition(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhIntegerCondition whereInteger(KmMetaDaoPropertyIF<T,Integer> attr)
     {
-        return new KmhIntegerCondition(context(), fullName(attr.getDaoPropertyName()));
+        return new KmhIntegerCondition(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhBooleanCondition whereBoolean(KmMetaDaoPropertyIF<T,Boolean> attr)
     {
-        return new KmhBooleanCondition(context(), fullName(attr.getDaoPropertyName()));
+        return new KmhBooleanCondition(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhDateCondition whereDate(KmMetaDaoPropertyIF<T,KmDate> attr)
     {
-        return new KmhDateCondition(context(), fullName(attr.getDaoPropertyName()));
+        return new KmhDateCondition(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhTimestampCondition whereTimestamp(KmMetaDaoPropertyIF<T,KmTimestamp> attr)
     {
-        return new KmhTimestampCondition(context(), fullName(attr.getDaoPropertyName()));
+        return new KmhTimestampCondition(context(), alias(), attr.getDaoPropertyName());
     }
 
     public KmhSubqueryCondition whereSubquery(KmhModelCriteria<?> c)
@@ -110,6 +113,11 @@ public abstract class KmhModelCriteria<T>
         return parent().leftJoinTo(property);
     }
 
+    protected String alias()
+    {
+        return parent().getAlias();
+    }
+
     protected String fullName(String property)
     {
         return parent().getFullName(property);
@@ -137,6 +145,11 @@ public abstract class KmhModelCriteria<T>
     public void setMaxResults(int count)
     {
         root().setMaxResults(count);
+    }
+
+    public void setRowLimit(int count)
+    {
+        setMaxResults(count);
     }
 
     public void clearMaxResults()
@@ -193,6 +206,58 @@ public abstract class KmhModelCriteria<T>
         parent().groupBy(name);
     }
 
+    //==================================================
+    //= group by :: fn
+    //==================================================
+
+    protected void groupByYear(String name)
+    {
+        parent().groupByYear(name);
+    }
+
+    protected void groupByMonth(String name)
+    {
+        parent().groupByMonth(name);
+    }
+
+    protected void groupBySqlDate(String name)
+    {
+        parent().groupBySqlDate(name);
+    }
+
+    //==================================================
+    //= group by :: timestamp fn
+    //==================================================
+
+    public void groupByTimestampYear(KmMetaDaoPropertyIF<?,KmTimestamp> e)
+    {
+        groupByYear(e.getDaoPropertyName());
+    }
+
+    public void groupByTimestampMonth(KmMetaDaoPropertyIF<?,KmTimestamp> e)
+    {
+        groupByMonth(e.getDaoPropertyName());
+    }
+
+    public void groupByTimestampSqlDate(KmMetaDaoPropertyIF<?,KmTimestamp> e)
+    {
+        groupBySqlDate(e.getDaoPropertyName());
+    }
+
+    //==================================================
+    //= group by :: date fn
+    //==================================================
+
+    public void groupByDateYear(KmMetaDaoPropertyIF<?,KmDate> e)
+    {
+        groupByYear(e.getDaoPropertyName());
+    }
+
+    public void groupByDateMonth(KmMetaDaoPropertyIF<?,KmDate> e)
+    {
+        groupByMonth(e.getDaoPropertyName());
+    }
+
     //##################################################
     //# projection (results)
     //##################################################
@@ -217,6 +282,12 @@ public abstract class KmhModelCriteria<T>
         return root().findStrings();
     }
 
+    public KmList<String> findStrings(int limit)
+    {
+        setMaxResults(limit);
+        return root().findStrings();
+    }
+
     public Integer findInteger()
     {
         return root().findInteger();
@@ -235,6 +306,26 @@ public abstract class KmhModelCriteria<T>
     public KmList<Double> findDoubles()
     {
         return root().findDoubles();
+    }
+
+    public KmQuantity findQuantity()
+    {
+        return root().findQuantity();
+    }
+
+    public KmList<KmQuantity> findQuantities()
+    {
+        return root().findQuantities();
+    }
+
+    public KmMoney findMoney()
+    {
+        return root().findMoney();
+    }
+
+    public KmList<KmMoney> findMonies()
+    {
+        return root().findMonies();
     }
 
     public KmDate findDate()
@@ -256,7 +347,7 @@ public abstract class KmhModelCriteria<T>
     //# projection (convenience)
     //##################################################
 
-    public Integer findRowCount()
+    public int findRowCount()
     {
         return root().findRowCount();
     }
@@ -273,8 +364,13 @@ public abstract class KmhModelCriteria<T>
 
     public T findFirst()
     {
-        setMaxResults(1);
-        return findAll().getFirstSafe();
+        return findFirst(1).getFirstSafe();
+    }
+
+    public KmList<T> findFirst(int n)
+    {
+        setMaxResults(n);
+        return findAll().getFirstSafe(n);
     }
 
     @SuppressWarnings("unchecked")
@@ -288,4 +384,12 @@ public abstract class KmhModelCriteria<T>
         return findFirst() != null;
     }
 
+    //##################################################
+    //# conversion
+    //##################################################
+
+    public KmCriteriaFilter<T> toFilter()
+    {
+        return new KmCriteriaFilter<>(this);
+    }
 }

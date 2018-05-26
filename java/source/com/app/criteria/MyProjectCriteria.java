@@ -37,148 +37,223 @@ public class MyProjectCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyProject e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyProject e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhBooleanCondition whereAutoSiteNumberEnabled()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhBooleanCondition(context(), alias(), AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public KmhTimestampCondition whereCreatedUtcTs()
+    public KmhIntegerCondition whereAutoSiteNumberPadding()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhIntegerCondition(context(), alias(), AUTO_SITE_NUMBER_PADDING);
     }
 
-    public KmhTimestampCondition whereUpdatedUtcTs()
+    public KmhStringCondition whereAutoSiteNumberPrefix()
     {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
-    }
-
-    public KmhStringCondition whereCode()
-    {
-        return new KmhStringCondition(context(), fullName(CODE));
-    }
-
-    public KmhStringCondition whereCompanyName()
-    {
-        return new KmhStringCondition(context(), fullName(COMPANY_NAME));
-    }
-
-    public KmhStringCondition whereSendEmailFrom()
-    {
-        return new KmhStringCondition(context(), fullName(SEND_EMAIL_FROM));
-    }
-
-    public KmhBooleanCondition whereActive()
-    {
-        return new KmhBooleanCondition(context(), fullName(ACTIVE));
-    }
-
-    public KmhIntegerCondition whereCatalogVersion()
-    {
-        return new KmhIntegerCondition(context(), fullName(CATALOG_VERSION));
+        return new KmhStringCondition(context(), alias(), AUTO_SITE_NUMBER_PREFIX);
     }
 
     public KmhPropertyCondition<KmDayFrequency> whereBusinessDays()
     {
-        return new KmhPropertyCondition<>(context(), fullName(BUSINESS_DAYS));
-    }
-
-    public KmhTimeCondition whereBusinessStartTime()
-    {
-        return new KmhTimeCondition(context(), fullName(BUSINESS_START_TIME));
+        return new KmhPropertyCondition<>(context(), alias(), BUSINESS_DAYS);
     }
 
     public KmhTimeCondition whereBusinessEndTime()
     {
-        return new KmhTimeCondition(context(), fullName(BUSINESS_END_TIME));
+        return new KmhTimeCondition(context(), alias(), BUSINESS_END_TIME);
+    }
+
+    public KmhTimeCondition whereBusinessStartTime()
+    {
+        return new KmhTimeCondition(context(), alias(), BUSINESS_START_TIME);
+    }
+
+    public KmhStringCondition whereCode()
+    {
+        return new KmhStringCondition(context(), alias(), CODE);
+    }
+
+    public KmhStringCondition whereCompanyName()
+    {
+        return new KmhStringCondition(context(), alias(), COMPANY_NAME);
+    }
+
+    public KmhTimestampCondition whereCreatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
+    }
+
+    public KmhStringCondition whereDescription()
+    {
+        return new KmhStringCondition(context(), alias(), DESCRIPTION);
+    }
+
+    public KmhBooleanCondition whereEnabled()
+    {
+        return new KmhBooleanCondition(context(), alias(), ENABLED);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
+    }
+
+    public KmhIntegerCondition whereNextAutoSiteNumber()
+    {
+        return new KmhIntegerCondition(context(), alias(), NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public KmhStringCondition whereSendEmailFrom()
+    {
+        return new KmhStringCondition(context(), alias(), SEND_EMAIL_FROM);
+    }
+
+    public KmhStringCondition whereTimeZoneCode()
+    {
+        return new KmhStringCondition(context(), alias(), TIME_ZONE_CODE);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnAutoSiteNumberEnabled()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnAutoSiteNumberEnabledDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnAutoSiteNumberEnabled(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnAutoSiteNumberEnabled();
         else
-            sortOnUidDescending();
+            sortOnAutoSiteNumberEnabledDescending();
     }
 
-    public void sortOnCreatedUtcTs()
+    public void sortOnAutoSiteNumberPadding()
     {
-        parent().sortAscending(CREATED_UTC_TS);
+        parent().sortAscending(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void sortOnCreatedUtcTsDescending()
+    public void sortOnAutoSiteNumberPaddingDescending()
     {
-        parent().sortDescending(CREATED_UTC_TS);
+        parent().sortDescending(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void sortOnCreatedUtcTs(boolean asc)
+    public void sortOnAutoSiteNumberPadding(boolean asc)
     {
         if ( asc )
-            sortOnCreatedUtcTs();
+            sortOnAutoSiteNumberPadding();
         else
-            sortOnCreatedUtcTsDescending();
+            sortOnAutoSiteNumberPaddingDescending();
     }
 
-    public void sortOnUpdatedUtcTs()
+    public void sortOnAutoSiteNumberPrefix()
     {
-        parent().sortAscending(UPDATED_UTC_TS);
+        parent().sortAscending(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void sortOnUpdatedUtcTsDescending()
+    public void sortOnAutoSiteNumberPrefixDescending()
     {
-        parent().sortDescending(UPDATED_UTC_TS);
+        parent().sortDescending(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void sortOnUpdatedUtcTs(boolean asc)
+    public void sortOnAutoSiteNumberPrefix(boolean asc)
     {
         if ( asc )
-            sortOnUpdatedUtcTs();
+            sortOnAutoSiteNumberPrefix();
         else
-            sortOnUpdatedUtcTsDescending();
+            sortOnAutoSiteNumberPrefixDescending();
     }
 
-    public void sortOnName()
+    public void sortOnBusinessDays()
     {
-        parent().sortAscending(NAME);
+        parent().sortAscending(BUSINESS_DAYS);
     }
 
-    public void sortOnNameDescending()
+    public void sortOnBusinessDaysDescending()
     {
-        parent().sortDescending(NAME);
+        parent().sortDescending(BUSINESS_DAYS);
     }
 
-    public void sortOnName(boolean asc)
+    public void sortOnBusinessDays(boolean asc)
     {
         if ( asc )
-            sortOnName();
+            sortOnBusinessDays();
         else
-            sortOnNameDescending();
+            sortOnBusinessDaysDescending();
+    }
+
+    public void sortOnBusinessEndTime()
+    {
+        parent().sortAscending(BUSINESS_END_TIME);
+    }
+
+    public void sortOnBusinessEndTimeDescending()
+    {
+        parent().sortDescending(BUSINESS_END_TIME);
+    }
+
+    public void sortOnBusinessEndTime(boolean asc)
+    {
+        if ( asc )
+            sortOnBusinessEndTime();
+        else
+            sortOnBusinessEndTimeDescending();
+    }
+
+    public void sortOnBusinessStartTime()
+    {
+        parent().sortAscending(BUSINESS_START_TIME);
+    }
+
+    public void sortOnBusinessStartTimeDescending()
+    {
+        parent().sortDescending(BUSINESS_START_TIME);
+    }
+
+    public void sortOnBusinessStartTime(boolean asc)
+    {
+        if ( asc )
+            sortOnBusinessStartTime();
+        else
+            sortOnBusinessStartTimeDescending();
     }
 
     public void sortOnCode()
@@ -217,6 +292,96 @@ public class MyProjectCriteria
             sortOnCompanyNameDescending();
     }
 
+    public void sortOnCreatedUtcTs()
+    {
+        parent().sortAscending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTsDescending()
+    {
+        parent().sortDescending(CREATED_UTC_TS);
+    }
+
+    public void sortOnCreatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnCreatedUtcTs();
+        else
+            sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnDescription()
+    {
+        parent().sortAscending(DESCRIPTION);
+    }
+
+    public void sortOnDescriptionDescending()
+    {
+        parent().sortDescending(DESCRIPTION);
+    }
+
+    public void sortOnDescription(boolean asc)
+    {
+        if ( asc )
+            sortOnDescription();
+        else
+            sortOnDescriptionDescending();
+    }
+
+    public void sortOnEnabled()
+    {
+        parent().sortAscending(ENABLED);
+    }
+
+    public void sortOnEnabledDescending()
+    {
+        parent().sortDescending(ENABLED);
+    }
+
+    public void sortOnEnabled(boolean asc)
+    {
+        if ( asc )
+            sortOnEnabled();
+        else
+            sortOnEnabledDescending();
+    }
+
+    public void sortOnName()
+    {
+        parent().sortAscending(NAME);
+    }
+
+    public void sortOnNameDescending()
+    {
+        parent().sortDescending(NAME);
+    }
+
+    public void sortOnName(boolean asc)
+    {
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
+    }
+
+    public void sortOnNextAutoSiteNumber()
+    {
+        parent().sortAscending(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void sortOnNextAutoSiteNumberDescending()
+    {
+        parent().sortDescending(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void sortOnNextAutoSiteNumber(boolean asc)
+    {
+        if ( asc )
+            sortOnNextAutoSiteNumber();
+        else
+            sortOnNextAutoSiteNumberDescending();
+    }
+
     public void sortOnSendEmailFrom()
     {
         parent().sortAscending(SEND_EMAIL_FROM);
@@ -235,94 +400,58 @@ public class MyProjectCriteria
             sortOnSendEmailFromDescending();
     }
 
-    public void sortOnActive()
+    public void sortOnTimeZoneCode()
     {
-        parent().sortAscending(ACTIVE);
+        parent().sortAscending(TIME_ZONE_CODE);
     }
 
-    public void sortOnActiveDescending()
+    public void sortOnTimeZoneCodeDescending()
     {
-        parent().sortDescending(ACTIVE);
+        parent().sortDescending(TIME_ZONE_CODE);
     }
 
-    public void sortOnActive(boolean asc)
+    public void sortOnTimeZoneCode(boolean asc)
     {
         if ( asc )
-            sortOnActive();
+            sortOnTimeZoneCode();
         else
-            sortOnActiveDescending();
+            sortOnTimeZoneCodeDescending();
     }
 
-    public void sortOnCatalogVersion()
+    public void sortOnUid()
     {
-        parent().sortAscending(CATALOG_VERSION);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnCatalogVersionDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(CATALOG_VERSION);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnCatalogVersion(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnCatalogVersion();
+            sortOnUid();
         else
-            sortOnCatalogVersionDescending();
+            sortOnUidDescending();
     }
 
-    public void sortOnBusinessDays()
+    public void sortOnUpdatedUtcTs()
     {
-        parent().sortAscending(BUSINESS_DAYS);
+        parent().sortAscending(UPDATED_UTC_TS);
     }
 
-    public void sortOnBusinessDaysDescending()
+    public void sortOnUpdatedUtcTsDescending()
     {
-        parent().sortDescending(BUSINESS_DAYS);
+        parent().sortDescending(UPDATED_UTC_TS);
     }
 
-    public void sortOnBusinessDays(boolean asc)
+    public void sortOnUpdatedUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnBusinessDays();
+            sortOnUpdatedUtcTs();
         else
-            sortOnBusinessDaysDescending();
-    }
-
-    public void sortOnBusinessStartTime()
-    {
-        parent().sortAscending(BUSINESS_START_TIME);
-    }
-
-    public void sortOnBusinessStartTimeDescending()
-    {
-        parent().sortDescending(BUSINESS_START_TIME);
-    }
-
-    public void sortOnBusinessStartTime(boolean asc)
-    {
-        if ( asc )
-            sortOnBusinessStartTime();
-        else
-            sortOnBusinessStartTimeDescending();
-    }
-
-    public void sortOnBusinessEndTime()
-    {
-        parent().sortAscending(BUSINESS_END_TIME);
-    }
-
-    public void sortOnBusinessEndTimeDescending()
-    {
-        parent().sortDescending(BUSINESS_END_TIME);
-    }
-
-    public void sortOnBusinessEndTime(boolean asc)
-    {
-        if ( asc )
-            sortOnBusinessEndTime();
-        else
-            sortOnBusinessEndTimeDescending();
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -344,179 +473,267 @@ public class MyProjectCriteria
     }
 
     //##################################################
-    //# projections (uid)
+    //# projections (autoSiteNumberEnabled)
     //##################################################
 
-    public void selectUid()
+    public void selectAutoSiteNumberEnabled()
     {
-        select(UID);
+        select(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctAutoSiteNumberEnabled()
     {
-        selectDistinct(UID);
+        selectDistinct(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctAutoSiteNumberEnabled()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumAutoSiteNumberEnabled()
     {
-        selectMinimum(UID);
+        selectMinimum(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumAutoSiteNumberEnabled()
     {
-        selectMaximum(UID);
+        selectMaximum(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectAverageUid()
+    public void selectAverageAutoSiteNumberEnabled()
     {
-        selectAverage(UID);
+        selectAverage(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void selectSumUid()
+    public void selectSumAutoSiteNumberEnabled()
     {
-        selectSum(UID);
+        selectSum(AUTO_SITE_NUMBER_ENABLED);
     }
 
-    public void groupByUid()
+    public void groupByAutoSiteNumberEnabled()
     {
-        groupBy(UID);
-    }
-
-    //##################################################
-    //# projections (createdUtcTs)
-    //##################################################
-
-    public void selectCreatedUtcTs()
-    {
-        select(CREATED_UTC_TS);
-    }
-
-    public void selectDistinctCreatedUtcTs()
-    {
-        selectDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectCountDistinctCreatedUtcTs()
-    {
-        selectCountDistinct(CREATED_UTC_TS);
-    }
-
-    public void selectMinimumCreatedUtcTs()
-    {
-        selectMinimum(CREATED_UTC_TS);
-    }
-
-    public void selectMaximumCreatedUtcTs()
-    {
-        selectMaximum(CREATED_UTC_TS);
-    }
-
-    public void selectAverageCreatedUtcTs()
-    {
-        selectAverage(CREATED_UTC_TS);
-    }
-
-    public void selectSumCreatedUtcTs()
-    {
-        selectSum(CREATED_UTC_TS);
-    }
-
-    public void groupByCreatedUtcTs()
-    {
-        groupBy(CREATED_UTC_TS);
+        groupBy(AUTO_SITE_NUMBER_ENABLED);
     }
 
     //##################################################
-    //# projections (updatedUtcTs)
+    //# projections (autoSiteNumberPadding)
     //##################################################
 
-    public void selectUpdatedUtcTs()
+    public void selectAutoSiteNumberPadding()
     {
-        select(UPDATED_UTC_TS);
+        select(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectDistinctUpdatedUtcTs()
+    public void selectDistinctAutoSiteNumberPadding()
     {
-        selectDistinct(UPDATED_UTC_TS);
+        selectDistinct(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectCountDistinctUpdatedUtcTs()
+    public void selectCountDistinctAutoSiteNumberPadding()
     {
-        selectCountDistinct(UPDATED_UTC_TS);
+        selectCountDistinct(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectMinimumUpdatedUtcTs()
+    public void selectMinimumAutoSiteNumberPadding()
     {
-        selectMinimum(UPDATED_UTC_TS);
+        selectMinimum(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectMaximumUpdatedUtcTs()
+    public void selectMaximumAutoSiteNumberPadding()
     {
-        selectMaximum(UPDATED_UTC_TS);
+        selectMaximum(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectAverageUpdatedUtcTs()
+    public void selectAverageAutoSiteNumberPadding()
     {
-        selectAverage(UPDATED_UTC_TS);
+        selectAverage(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void selectSumUpdatedUtcTs()
+    public void selectSumAutoSiteNumberPadding()
     {
-        selectSum(UPDATED_UTC_TS);
+        selectSum(AUTO_SITE_NUMBER_PADDING);
     }
 
-    public void groupByUpdatedUtcTs()
+    public void groupByAutoSiteNumberPadding()
     {
-        groupBy(UPDATED_UTC_TS);
+        groupBy(AUTO_SITE_NUMBER_PADDING);
     }
 
     //##################################################
-    //# projections (name)
+    //# projections (autoSiteNumberPrefix)
     //##################################################
 
-    public void selectName()
+    public void selectAutoSiteNumberPrefix()
     {
-        select(NAME);
+        select(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectDistinctName()
+    public void selectDistinctAutoSiteNumberPrefix()
     {
-        selectDistinct(NAME);
+        selectDistinct(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectCountDistinctName()
+    public void selectCountDistinctAutoSiteNumberPrefix()
     {
-        selectCountDistinct(NAME);
+        selectCountDistinct(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectMinimumName()
+    public void selectMinimumAutoSiteNumberPrefix()
     {
-        selectMinimum(NAME);
+        selectMinimum(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectMaximumName()
+    public void selectMaximumAutoSiteNumberPrefix()
     {
-        selectMaximum(NAME);
+        selectMaximum(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectAverageName()
+    public void selectAverageAutoSiteNumberPrefix()
     {
-        selectAverage(NAME);
+        selectAverage(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void selectSumName()
+    public void selectSumAutoSiteNumberPrefix()
     {
-        selectSum(NAME);
+        selectSum(AUTO_SITE_NUMBER_PREFIX);
     }
 
-    public void groupByName()
+    public void groupByAutoSiteNumberPrefix()
     {
-        groupBy(NAME);
+        groupBy(AUTO_SITE_NUMBER_PREFIX);
+    }
+
+    //##################################################
+    //# projections (businessDays)
+    //##################################################
+
+    public void selectBusinessDays()
+    {
+        select(BUSINESS_DAYS);
+    }
+
+    public void selectDistinctBusinessDays()
+    {
+        selectDistinct(BUSINESS_DAYS);
+    }
+
+    public void selectCountDistinctBusinessDays()
+    {
+        selectCountDistinct(BUSINESS_DAYS);
+    }
+
+    public void selectMinimumBusinessDays()
+    {
+        selectMinimum(BUSINESS_DAYS);
+    }
+
+    public void selectMaximumBusinessDays()
+    {
+        selectMaximum(BUSINESS_DAYS);
+    }
+
+    public void selectAverageBusinessDays()
+    {
+        selectAverage(BUSINESS_DAYS);
+    }
+
+    public void selectSumBusinessDays()
+    {
+        selectSum(BUSINESS_DAYS);
+    }
+
+    public void groupByBusinessDays()
+    {
+        groupBy(BUSINESS_DAYS);
+    }
+
+    //##################################################
+    //# projections (businessEndTime)
+    //##################################################
+
+    public void selectBusinessEndTime()
+    {
+        select(BUSINESS_END_TIME);
+    }
+
+    public void selectDistinctBusinessEndTime()
+    {
+        selectDistinct(BUSINESS_END_TIME);
+    }
+
+    public void selectCountDistinctBusinessEndTime()
+    {
+        selectCountDistinct(BUSINESS_END_TIME);
+    }
+
+    public void selectMinimumBusinessEndTime()
+    {
+        selectMinimum(BUSINESS_END_TIME);
+    }
+
+    public void selectMaximumBusinessEndTime()
+    {
+        selectMaximum(BUSINESS_END_TIME);
+    }
+
+    public void selectAverageBusinessEndTime()
+    {
+        selectAverage(BUSINESS_END_TIME);
+    }
+
+    public void selectSumBusinessEndTime()
+    {
+        selectSum(BUSINESS_END_TIME);
+    }
+
+    public void groupByBusinessEndTime()
+    {
+        groupBy(BUSINESS_END_TIME);
+    }
+
+    //##################################################
+    //# projections (businessStartTime)
+    //##################################################
+
+    public void selectBusinessStartTime()
+    {
+        select(BUSINESS_START_TIME);
+    }
+
+    public void selectDistinctBusinessStartTime()
+    {
+        selectDistinct(BUSINESS_START_TIME);
+    }
+
+    public void selectCountDistinctBusinessStartTime()
+    {
+        selectCountDistinct(BUSINESS_START_TIME);
+    }
+
+    public void selectMinimumBusinessStartTime()
+    {
+        selectMinimum(BUSINESS_START_TIME);
+    }
+
+    public void selectMaximumBusinessStartTime()
+    {
+        selectMaximum(BUSINESS_START_TIME);
+    }
+
+    public void selectAverageBusinessStartTime()
+    {
+        selectAverage(BUSINESS_START_TIME);
+    }
+
+    public void selectSumBusinessStartTime()
+    {
+        selectSum(BUSINESS_START_TIME);
+    }
+
+    public void groupByBusinessStartTime()
+    {
+        groupBy(BUSINESS_START_TIME);
     }
 
     //##################################################
@@ -608,6 +825,226 @@ public class MyProjectCriteria
     }
 
     //##################################################
+    //# projections (createdUtcTs)
+    //##################################################
+
+    public void selectCreatedUtcTs()
+    {
+        select(CREATED_UTC_TS);
+    }
+
+    public void selectDistinctCreatedUtcTs()
+    {
+        selectDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectCountDistinctCreatedUtcTs()
+    {
+        selectCountDistinct(CREATED_UTC_TS);
+    }
+
+    public void selectMinimumCreatedUtcTs()
+    {
+        selectMinimum(CREATED_UTC_TS);
+    }
+
+    public void selectMaximumCreatedUtcTs()
+    {
+        selectMaximum(CREATED_UTC_TS);
+    }
+
+    public void selectAverageCreatedUtcTs()
+    {
+        selectAverage(CREATED_UTC_TS);
+    }
+
+    public void selectSumCreatedUtcTs()
+    {
+        selectSum(CREATED_UTC_TS);
+    }
+
+    public void groupByCreatedUtcTs()
+    {
+        groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (description)
+    //##################################################
+
+    public void selectDescription()
+    {
+        select(DESCRIPTION);
+    }
+
+    public void selectDistinctDescription()
+    {
+        selectDistinct(DESCRIPTION);
+    }
+
+    public void selectCountDistinctDescription()
+    {
+        selectCountDistinct(DESCRIPTION);
+    }
+
+    public void selectMinimumDescription()
+    {
+        selectMinimum(DESCRIPTION);
+    }
+
+    public void selectMaximumDescription()
+    {
+        selectMaximum(DESCRIPTION);
+    }
+
+    public void selectAverageDescription()
+    {
+        selectAverage(DESCRIPTION);
+    }
+
+    public void selectSumDescription()
+    {
+        selectSum(DESCRIPTION);
+    }
+
+    public void groupByDescription()
+    {
+        groupBy(DESCRIPTION);
+    }
+
+    //##################################################
+    //# projections (enabled)
+    //##################################################
+
+    public void selectEnabled()
+    {
+        select(ENABLED);
+    }
+
+    public void selectDistinctEnabled()
+    {
+        selectDistinct(ENABLED);
+    }
+
+    public void selectCountDistinctEnabled()
+    {
+        selectCountDistinct(ENABLED);
+    }
+
+    public void selectMinimumEnabled()
+    {
+        selectMinimum(ENABLED);
+    }
+
+    public void selectMaximumEnabled()
+    {
+        selectMaximum(ENABLED);
+    }
+
+    public void selectAverageEnabled()
+    {
+        selectAverage(ENABLED);
+    }
+
+    public void selectSumEnabled()
+    {
+        selectSum(ENABLED);
+    }
+
+    public void groupByEnabled()
+    {
+        groupBy(ENABLED);
+    }
+
+    //##################################################
+    //# projections (name)
+    //##################################################
+
+    public void selectName()
+    {
+        select(NAME);
+    }
+
+    public void selectDistinctName()
+    {
+        selectDistinct(NAME);
+    }
+
+    public void selectCountDistinctName()
+    {
+        selectCountDistinct(NAME);
+    }
+
+    public void selectMinimumName()
+    {
+        selectMinimum(NAME);
+    }
+
+    public void selectMaximumName()
+    {
+        selectMaximum(NAME);
+    }
+
+    public void selectAverageName()
+    {
+        selectAverage(NAME);
+    }
+
+    public void selectSumName()
+    {
+        selectSum(NAME);
+    }
+
+    public void groupByName()
+    {
+        groupBy(NAME);
+    }
+
+    //##################################################
+    //# projections (nextAutoSiteNumber)
+    //##################################################
+
+    public void selectNextAutoSiteNumber()
+    {
+        select(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectDistinctNextAutoSiteNumber()
+    {
+        selectDistinct(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectCountDistinctNextAutoSiteNumber()
+    {
+        selectCountDistinct(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectMinimumNextAutoSiteNumber()
+    {
+        selectMinimum(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectMaximumNextAutoSiteNumber()
+    {
+        selectMaximum(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectAverageNextAutoSiteNumber()
+    {
+        selectAverage(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void selectSumNextAutoSiteNumber()
+    {
+        selectSum(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    public void groupByNextAutoSiteNumber()
+    {
+        groupBy(NEXT_AUTO_SITE_NUMBER);
+    }
+
+    //##################################################
     //# projections (sendEmailFrom)
     //##################################################
 
@@ -652,223 +1089,135 @@ public class MyProjectCriteria
     }
 
     //##################################################
-    //# projections (active)
+    //# projections (timeZoneCode)
     //##################################################
 
-    public void selectActive()
+    public void selectTimeZoneCode()
     {
-        select(ACTIVE);
+        select(TIME_ZONE_CODE);
     }
 
-    public void selectDistinctActive()
+    public void selectDistinctTimeZoneCode()
     {
-        selectDistinct(ACTIVE);
+        selectDistinct(TIME_ZONE_CODE);
     }
 
-    public void selectCountDistinctActive()
+    public void selectCountDistinctTimeZoneCode()
     {
-        selectCountDistinct(ACTIVE);
+        selectCountDistinct(TIME_ZONE_CODE);
     }
 
-    public void selectMinimumActive()
+    public void selectMinimumTimeZoneCode()
     {
-        selectMinimum(ACTIVE);
+        selectMinimum(TIME_ZONE_CODE);
     }
 
-    public void selectMaximumActive()
+    public void selectMaximumTimeZoneCode()
     {
-        selectMaximum(ACTIVE);
+        selectMaximum(TIME_ZONE_CODE);
     }
 
-    public void selectAverageActive()
+    public void selectAverageTimeZoneCode()
     {
-        selectAverage(ACTIVE);
+        selectAverage(TIME_ZONE_CODE);
     }
 
-    public void selectSumActive()
+    public void selectSumTimeZoneCode()
     {
-        selectSum(ACTIVE);
+        selectSum(TIME_ZONE_CODE);
     }
 
-    public void groupByActive()
+    public void groupByTimeZoneCode()
     {
-        groupBy(ACTIVE);
-    }
-
-    //##################################################
-    //# projections (catalogVersion)
-    //##################################################
-
-    public void selectCatalogVersion()
-    {
-        select(CATALOG_VERSION);
-    }
-
-    public void selectDistinctCatalogVersion()
-    {
-        selectDistinct(CATALOG_VERSION);
-    }
-
-    public void selectCountDistinctCatalogVersion()
-    {
-        selectCountDistinct(CATALOG_VERSION);
-    }
-
-    public void selectMinimumCatalogVersion()
-    {
-        selectMinimum(CATALOG_VERSION);
-    }
-
-    public void selectMaximumCatalogVersion()
-    {
-        selectMaximum(CATALOG_VERSION);
-    }
-
-    public void selectAverageCatalogVersion()
-    {
-        selectAverage(CATALOG_VERSION);
-    }
-
-    public void selectSumCatalogVersion()
-    {
-        selectSum(CATALOG_VERSION);
-    }
-
-    public void groupByCatalogVersion()
-    {
-        groupBy(CATALOG_VERSION);
+        groupBy(TIME_ZONE_CODE);
     }
 
     //##################################################
-    //# projections (businessDays)
+    //# projections (uid)
     //##################################################
 
-    public void selectBusinessDays()
+    public void selectUid()
     {
-        select(BUSINESS_DAYS);
+        select(UID);
     }
 
-    public void selectDistinctBusinessDays()
+    public void selectDistinctUid()
     {
-        selectDistinct(BUSINESS_DAYS);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctBusinessDays()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(BUSINESS_DAYS);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumBusinessDays()
+    public void selectMinimumUid()
     {
-        selectMinimum(BUSINESS_DAYS);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumBusinessDays()
+    public void selectMaximumUid()
     {
-        selectMaximum(BUSINESS_DAYS);
+        selectMaximum(UID);
     }
 
-    public void selectAverageBusinessDays()
+    public void selectAverageUid()
     {
-        selectAverage(BUSINESS_DAYS);
+        selectAverage(UID);
     }
 
-    public void selectSumBusinessDays()
+    public void selectSumUid()
     {
-        selectSum(BUSINESS_DAYS);
+        selectSum(UID);
     }
 
-    public void groupByBusinessDays()
+    public void groupByUid()
     {
-        groupBy(BUSINESS_DAYS);
-    }
-
-    //##################################################
-    //# projections (businessStartTime)
-    //##################################################
-
-    public void selectBusinessStartTime()
-    {
-        select(BUSINESS_START_TIME);
-    }
-
-    public void selectDistinctBusinessStartTime()
-    {
-        selectDistinct(BUSINESS_START_TIME);
-    }
-
-    public void selectCountDistinctBusinessStartTime()
-    {
-        selectCountDistinct(BUSINESS_START_TIME);
-    }
-
-    public void selectMinimumBusinessStartTime()
-    {
-        selectMinimum(BUSINESS_START_TIME);
-    }
-
-    public void selectMaximumBusinessStartTime()
-    {
-        selectMaximum(BUSINESS_START_TIME);
-    }
-
-    public void selectAverageBusinessStartTime()
-    {
-        selectAverage(BUSINESS_START_TIME);
-    }
-
-    public void selectSumBusinessStartTime()
-    {
-        selectSum(BUSINESS_START_TIME);
-    }
-
-    public void groupByBusinessStartTime()
-    {
-        groupBy(BUSINESS_START_TIME);
+        groupBy(UID);
     }
 
     //##################################################
-    //# projections (businessEndTime)
+    //# projections (updatedUtcTs)
     //##################################################
 
-    public void selectBusinessEndTime()
+    public void selectUpdatedUtcTs()
     {
-        select(BUSINESS_END_TIME);
+        select(UPDATED_UTC_TS);
     }
 
-    public void selectDistinctBusinessEndTime()
+    public void selectDistinctUpdatedUtcTs()
     {
-        selectDistinct(BUSINESS_END_TIME);
+        selectDistinct(UPDATED_UTC_TS);
     }
 
-    public void selectCountDistinctBusinessEndTime()
+    public void selectCountDistinctUpdatedUtcTs()
     {
-        selectCountDistinct(BUSINESS_END_TIME);
+        selectCountDistinct(UPDATED_UTC_TS);
     }
 
-    public void selectMinimumBusinessEndTime()
+    public void selectMinimumUpdatedUtcTs()
     {
-        selectMinimum(BUSINESS_END_TIME);
+        selectMinimum(UPDATED_UTC_TS);
     }
 
-    public void selectMaximumBusinessEndTime()
+    public void selectMaximumUpdatedUtcTs()
     {
-        selectMaximum(BUSINESS_END_TIME);
+        selectMaximum(UPDATED_UTC_TS);
     }
 
-    public void selectAverageBusinessEndTime()
+    public void selectAverageUpdatedUtcTs()
     {
-        selectAverage(BUSINESS_END_TIME);
+        selectAverage(UPDATED_UTC_TS);
     }
 
-    public void selectSumBusinessEndTime()
+    public void selectSumUpdatedUtcTs()
     {
-        selectSum(BUSINESS_END_TIME);
+        selectSum(UPDATED_UTC_TS);
     }
 
-    public void groupByBusinessEndTime()
+    public void groupByUpdatedUtcTs()
     {
-        groupBy(BUSINESS_END_TIME);
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -924,6 +1273,16 @@ public class MyProjectCriteria
         select(CREATED_BY_UID);
     }
 
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
     public void selectMinimumCreatedByUid()
     {
         selectMinimum(CREATED_BY_UID);
@@ -951,7 +1310,7 @@ public class MyProjectCriteria
 
     public KmhStringCondition whereCreatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
     }
 
     public void whereCreatedByIs(MyUser e)
@@ -962,51 +1321,207 @@ public class MyProjectCriteria
             whereCreatedByUid().is(e.getUid());
     }
 
-    //##################################################
-    //# association (UpdatedBy)
-    //##################################################
-
-    public void selectUpdatedByUid()
-    {
-        select(UPDATED_BY_UID);
-    }
-
-    public void selectMinimumUpdatedByUid()
-    {
-        selectMinimum(UPDATED_BY_UID);
-    }
-
-    public void selectMaximumUpdatedByUid()
-    {
-        selectMaximum(UPDATED_BY_UID);
-    }
-
-    public void groupByUpdatedByUid()
-    {
-        groupBy(UPDATED_BY_UID);
-    }
-
-    public MyUserCriteria joinToUpdatedBy()
-    {
-        return new MyUserCriteria(joinTo(UPDATED_BY));
-    }
-
-    public MyUserCriteria leftJoinToUpdatedBy()
-    {
-        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
-    }
-
-    public KmhStringCondition whereUpdatedByUid()
-    {
-        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
-    }
-
-    public void whereUpdatedByIs(MyUser e)
+    public void whereCreatedByIsNot(MyUser e)
     {
         if ( e == null )
-            whereUpdatedByUid().isNull();
+            whereCreatedByUid().isNotNull();
         else
-            whereUpdatedByUid().is(e.getUid());
+            whereCreatedByUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (DefaultPriority)
+    //##################################################
+
+    public void selectDefaultPriorityUid()
+    {
+        select(DEFAULT_PRIORITY_UID);
+    }
+
+    public void selectCountDistinctDefaultPriorityUid()
+    {
+        selectCountDistinct(DEFAULT_PRIORITY_UID);
+    }
+    
+    public void selectDistinctDefaultPriorityUid()
+    {
+        selectDistinct(DEFAULT_PRIORITY_UID);
+    }
+
+    public void selectMinimumDefaultPriorityUid()
+    {
+        selectMinimum(DEFAULT_PRIORITY_UID);
+    }
+
+    public void selectMaximumDefaultPriorityUid()
+    {
+        selectMaximum(DEFAULT_PRIORITY_UID);
+    }
+
+    public void groupByDefaultPriorityUid()
+    {
+        groupBy(DEFAULT_PRIORITY_UID);
+    }
+
+    public MyPriorityCriteria joinToDefaultPriority()
+    {
+        return new MyPriorityCriteria(joinTo(DEFAULT_PRIORITY));
+    }
+
+    public MyPriorityCriteria leftJoinToDefaultPriority()
+    {
+        return new MyPriorityCriteria(leftJoinTo(DEFAULT_PRIORITY));
+    }
+
+    public KmhStringCondition whereDefaultPriorityUid()
+    {
+        return new KmhStringCondition(parent(), alias(), DEFAULT_PRIORITY_UID);
+    }
+
+    public void whereDefaultPriorityIs(MyPriority e)
+    {
+        if ( e == null )
+            whereDefaultPriorityUid().isNull();
+        else
+            whereDefaultPriorityUid().is(e.getUid());
+    }
+
+    public void whereDefaultPriorityIsNot(MyPriority e)
+    {
+        if ( e == null )
+            whereDefaultPriorityUid().isNotNull();
+        else
+            whereDefaultPriorityUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (Supervisor)
+    //##################################################
+
+    public void selectSupervisorUid()
+    {
+        select(SUPERVISOR_UID);
+    }
+
+    public void selectCountDistinctSupervisorUid()
+    {
+        selectCountDistinct(SUPERVISOR_UID);
+    }
+    
+    public void selectDistinctSupervisorUid()
+    {
+        selectDistinct(SUPERVISOR_UID);
+    }
+
+    public void selectMinimumSupervisorUid()
+    {
+        selectMinimum(SUPERVISOR_UID);
+    }
+
+    public void selectMaximumSupervisorUid()
+    {
+        selectMaximum(SUPERVISOR_UID);
+    }
+
+    public void groupBySupervisorUid()
+    {
+        groupBy(SUPERVISOR_UID);
+    }
+
+    public MyUserCriteria joinToSupervisor()
+    {
+        return new MyUserCriteria(joinTo(SUPERVISOR));
+    }
+
+    public MyUserCriteria leftJoinToSupervisor()
+    {
+        return new MyUserCriteria(leftJoinTo(SUPERVISOR));
+    }
+
+    public KmhStringCondition whereSupervisorUid()
+    {
+        return new KmhStringCondition(parent(), alias(), SUPERVISOR_UID);
+    }
+
+    public void whereSupervisorIs(MyUser e)
+    {
+        if ( e == null )
+            whereSupervisorUid().isNull();
+        else
+            whereSupervisorUid().is(e.getUid());
+    }
+
+    public void whereSupervisorIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereSupervisorUid().isNotNull();
+        else
+            whereSupervisorUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (SupportContact)
+    //##################################################
+
+    public void selectSupportContactUid()
+    {
+        select(SUPPORT_CONTACT_UID);
+    }
+
+    public void selectCountDistinctSupportContactUid()
+    {
+        selectCountDistinct(SUPPORT_CONTACT_UID);
+    }
+    
+    public void selectDistinctSupportContactUid()
+    {
+        selectDistinct(SUPPORT_CONTACT_UID);
+    }
+
+    public void selectMinimumSupportContactUid()
+    {
+        selectMinimum(SUPPORT_CONTACT_UID);
+    }
+
+    public void selectMaximumSupportContactUid()
+    {
+        selectMaximum(SUPPORT_CONTACT_UID);
+    }
+
+    public void groupBySupportContactUid()
+    {
+        groupBy(SUPPORT_CONTACT_UID);
+    }
+
+    public MyProjectContactCriteria joinToSupportContact()
+    {
+        return new MyProjectContactCriteria(joinTo(SUPPORT_CONTACT));
+    }
+
+    public MyProjectContactCriteria leftJoinToSupportContact()
+    {
+        return new MyProjectContactCriteria(leftJoinTo(SUPPORT_CONTACT));
+    }
+
+    public KmhStringCondition whereSupportContactUid()
+    {
+        return new KmhStringCondition(parent(), alias(), SUPPORT_CONTACT_UID);
+    }
+
+    public void whereSupportContactIs(MyProjectContact e)
+    {
+        if ( e == null )
+            whereSupportContactUid().isNull();
+        else
+            whereSupportContactUid().is(e.getUid());
+    }
+
+    public void whereSupportContactIsNot(MyProjectContact e)
+    {
+        if ( e == null )
+            whereSupportContactUid().isNotNull();
+        else
+            whereSupportContactUid().isNot(e.getUid());
     }
 
     //##################################################
@@ -1016,6 +1531,16 @@ public class MyProjectCriteria
     public void selectTenantUid()
     {
         select(TENANT_UID);
+    }
+
+    public void selectCountDistinctTenantUid()
+    {
+        selectCountDistinct(TENANT_UID);
+    }
+    
+    public void selectDistinctTenantUid()
+    {
+        selectDistinct(TENANT_UID);
     }
 
     public void selectMinimumTenantUid()
@@ -1045,7 +1570,7 @@ public class MyProjectCriteria
 
     public KmhStringCondition whereTenantUid()
     {
-        return new KmhStringCondition(parent(), fullName(TENANT_UID));
+        return new KmhStringCondition(parent(), alias(), TENANT_UID);
     }
 
     public void whereTenantIs(MyTenant e)
@@ -1054,6 +1579,177 @@ public class MyProjectCriteria
             whereTenantUid().isNull();
         else
             whereTenantUid().is(e.getUid());
+    }
+
+    public void whereTenantIsNot(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNotNull();
+        else
+            whereTenantUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# collection (Blurbs)
+    //##################################################
+
+    public MyBlurbCriteria joinToBlurbs()
+    {
+        return new MyBlurbCriteria(joinTo(BLURBS));
+    }
+
+    public MyBlurbCriteria leftJoinToBlurbs()
+    {
+        return new MyBlurbCriteria(leftJoinTo(BLURBS));
+    }
+
+    //##################################################
+    //# collection (Contacts)
+    //##################################################
+
+    public MyProjectContactCriteria joinToContacts()
+    {
+        return new MyProjectContactCriteria(joinTo(CONTACTS));
+    }
+
+    public MyProjectContactCriteria leftJoinToContacts()
+    {
+        return new MyProjectContactCriteria(leftJoinTo(CONTACTS));
+    }
+
+    //##################################################
+    //# collection (Customers)
+    //##################################################
+
+    public MyCustomerCriteria joinToCustomers()
+    {
+        return new MyCustomerCriteria(joinTo(CUSTOMERS));
+    }
+
+    public MyCustomerCriteria leftJoinToCustomers()
+    {
+        return new MyCustomerCriteria(leftJoinTo(CUSTOMERS));
+    }
+
+    //##################################################
+    //# collection (EmailTemplates)
+    //##################################################
+
+    public MyEmailTemplateCriteria joinToEmailTemplates()
+    {
+        return new MyEmailTemplateCriteria(joinTo(EMAIL_TEMPLATES));
+    }
+
+    public MyEmailTemplateCriteria leftJoinToEmailTemplates()
+    {
+        return new MyEmailTemplateCriteria(leftJoinTo(EMAIL_TEMPLATES));
+    }
+
+    //##################################################
+    //# collection (Holidays)
+    //##################################################
+
+    public MyHolidayCriteria joinToHolidays()
+    {
+        return new MyHolidayCriteria(joinTo(HOLIDAYS));
+    }
+
+    public MyHolidayCriteria leftJoinToHolidays()
+    {
+        return new MyHolidayCriteria(leftJoinTo(HOLIDAYS));
+    }
+
+    //##################################################
+    //# collection (Members)
+    //##################################################
+
+    public MyMemberCriteria joinToMembers()
+    {
+        return new MyMemberCriteria(joinTo(MEMBERS));
+    }
+
+    public MyMemberCriteria leftJoinToMembers()
+    {
+        return new MyMemberCriteria(leftJoinTo(MEMBERS));
+    }
+
+    //##################################################
+    //# collection (Vendors)
+    //##################################################
+
+    public MyVendorCriteria joinToVendors()
+    {
+        return new MyVendorCriteria(joinTo(VENDORS));
+    }
+
+    public MyVendorCriteria leftJoinToVendors()
+    {
+        return new MyVendorCriteria(leftJoinTo(VENDORS));
     }
 
     //##################################################

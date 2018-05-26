@@ -24,17 +24,17 @@ public class MyAuditLogFilter
     //# variables
     //##################################################
 
-    private Sort        _sort;
-    private boolean     _ascending;
+    private Sort    _sort;
+    private boolean _ascending;
 
-    private String      _typeCode;
-    private boolean     _usesTypeCode;
+    private String  _typeCode;
+    private boolean _usesTypeCode;
 
-    private String      _domainType;
-    private boolean     _usesDomainType;
+    private String  _domainType;
+    private boolean _usesDomainType;
 
-    private MyUser      _user;
-    private boolean     _usesUser;
+    private MyUser  _user;
+    private boolean _usesUser;
 
     private KmTimestamp _minimumCreatedUtcTs;
     private boolean     _usesMinimumCreatedUtcTs;

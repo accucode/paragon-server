@@ -7,7 +7,7 @@ import org.apache.log4j.spi.ThrowableInformation;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
-import com.app.job.application.MyApplicationLogFlusherJob;
+import com.app.chore.application.MyApplicationLogFlusherChore;
 import com.app.model.MyApplicationLog;
 import com.app.model.MyApplicationLogBuffer;
 
@@ -29,7 +29,7 @@ import com.app.model.MyApplicationLogBuffer;
  * to the database from a background job.
  *
  * @see MyApplicationLogBuffer
- * @see MyApplicationLogFlusherJob
+ * @see MyApplicationLogFlusherChore
  */
 public class MyLog4jDaoAppender
     extends AppenderSkeleton
@@ -41,7 +41,7 @@ public class MyLog4jDaoAppender
     @Override
     protected void append(LoggingEvent ev)
     {
-        boolean enabled = MyGlobals.getProperties().getApplicationLogFlusherJobEnabled();
+        boolean enabled = MyGlobals.getProperties().getApplicationLogFlusherChoreEnabled();
         if ( !enabled )
             return;
 

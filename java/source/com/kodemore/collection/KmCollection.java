@@ -128,7 +128,7 @@ public class KmCollection<T>
 
         for ( T e : this )
             if ( !set.add(e) )
-                v.add(e);
+                v.addDistinct(e);
 
         return v;
     }
@@ -197,11 +197,6 @@ public class KmCollection<T>
         return getMinimum(new KmUncheckedComparator<T>());
     }
 
-    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
-    {
-        return getMinimum(Kmu.toComparator(fn));
-    }
-
     public T getMinimum(Comparator<T> c)
     {
         T min = null;
@@ -218,6 +213,19 @@ public class KmCollection<T>
                     min = e;
         }
         return min;
+    }
+
+    public <E extends Comparable<E>> T getMinimum(Function<T,E> fn)
+    {
+        return getMinimum(Kmu.toNullLastComparator(fn));
+    }
+
+    public <E extends Comparable<E>> E getMinimumValue(Function<T,E> fn)
+    {
+        T e = getMinimum(fn);
+        return e == null
+            ? null
+            : fn.apply(e);
     }
 
     //##################################################
@@ -245,6 +253,19 @@ public class KmCollection<T>
                     max = e;
         }
         return max;
+    }
+
+    public <E extends Comparable<E>> T getMaximum(Function<T,E> fn)
+    {
+        return getMaximum(Kmu.toNullFirstComparator(fn));
+    }
+
+    public <E extends Comparable<E>> E getMaximumValue(Function<T,E> fn)
+    {
+        T e = getMaximum(fn);
+        return e == null
+            ? null
+            : fn.apply(e);
     }
 
     //##################################################
@@ -469,6 +490,14 @@ public class KmCollection<T>
         return KmUnchecked.getSerializedCopy(this);
     }
 
+    public KmCollection<T> withoutNulls()
+    {
+        KmCollection<T> v;
+        v = getShallowCopy();
+        v.removeNulls();
+        return v;
+    }
+
     //##################################################
     //# comparators
     //##################################################
@@ -590,6 +619,14 @@ public class KmCollection<T>
     public KmList<T> toList()
     {
         return new KmList<>(this);
+    }
+
+    public KmList<T> toSortedList()
+    {
+        KmList<T> v;
+        v = toList();
+        v.sort();
+        return v;
     }
 
     public KmList<T> toDistinctList()
@@ -783,5 +820,4 @@ public class KmCollection<T>
     {
         return select(e -> !v.contains(e));
     }
-
 }

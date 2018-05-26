@@ -1,6 +1,7 @@
-/*******************************************************************
- ** clearfix
- *******************************************************************/
+//******************************
+//** clearfix
+//******************************
+
 
 /**
  * This is the clear fix hack.
@@ -9,31 +10,31 @@
  * with flexbox layouts. Discuss with technical lead before using.
  */
 ._clearfix:after
-{
-    content: ".";
-    clear: both;
-    display: block;
-    visibility: hidden;
-    height: 0;
-    font-size: 0;
-    line-height: 0;
-}
+    content:        "."
+    clear:          both
+    display:        block
+    visibility:     hidden
+    height:         0
+    font-size:      0
+    line-height:    0
 
-/*******************************************************************
- ** no space
- *******************************************************************/
+
+//****************************** 
+//** no space
+//******************************
+
 
 .noSpace
-{
-    margin: 0;
-    padding: 0;
-    border-collapse: 0;
-    border-spacing: 0;
-}
+    margin:             0
+    padding:            0
+    border-collapse:    0
+    border-spacing:     0
 
-/*******************************************************************
- ** width
- *******************************************************************/
+
+//******************************
+//** width
+//******************************
+
 
 .width20p   { width: 20%;   }
 .width25p   { width: 25%;   }
@@ -55,9 +56,12 @@
 .width400   { width: 400px; }
 .width500   { width: 500px; }
 
-/*******************************************************************
- ** height
- *******************************************************************/
+.minWidth300 { min-width: 300px; }
+
+//******************************
+//** height
+//******************************
+
 
 .height10   { height: 10px;     }
 .height20   { height: 20px;     }
@@ -73,9 +77,13 @@
 .heightFull { height: 100% }
 .heightNone { height: 0; font-size: 0; line-height: 0; }
 
-/*******************************************************************
- ** size
- *******************************************************************/
+.maxHeight100 { max-height: 100px; }
+
+
+//******************************
+//** size
+//******************************
+
 
 .size16     { width: 16px;  height: 16px;   }
 .size24     { width: 24px;  height: 24px;   }
@@ -88,17 +96,21 @@
 .size300    { width: 300px; height: 300px;  }
 .size400    { width: 400px; height: 400px;  }
 
-/*******************************************************************
- ** right
- *******************************************************************/
+
+//******************************
+//** right
+//******************************
+
 
 .right0     { right: 0;     }
 .right5     { right: 5px;   }
 .right10    { right: 10px;  }
 
-/*******************************************************************
- ** borders
- *******************************************************************/
+
+//******************************
+//** borders
+//******************************
+
 
 .noBorder       { border: none; }
 
@@ -146,91 +158,89 @@
 .outsetLeft     { border-left:   1px outset #fff }
 .outsetRight    { border-right:  1px outset #fff }
 
+
 .outsetVertical
-{
-    border-top:    1px outset #fff;
-    border-bottom: 1px outset #fff;
-}
+    border-top:     1px outset #fff
+    border-bottom:  1px outset #fff
+
 
 .outsetHorizontal
-{
-    border-left:   1px outset #fff;
-    border-right:  1px outset #fff;
-}
+    border-left:    1px outset #fff
+    border-right:   1px outset #fff
+
 
 .insetTop       { border-top:    1px inset #fff }
 .insetBottom    { border-bottom: 1px inset #fff }
 .insetLeft      { border-left:   1px inset #fff }
 .insetRight     { border-right:  1px inset #fff }
 
-/*******************************************************************
- ** border collapse
- *******************************************************************/
+
+//******************************
+//** border collapse
+//******************************
+
 
 .borderCollapse { border-collapse: collapse;    }
 .borderSeparate { border-collapse: separate;    }
 
-/*******************************************************************
- ** border rounded
- *******************************************************************/
+
+//******************************
+//** border rounded
+//******************************
+
 
 .borderRounded
-{
-    -moz-border-radius:                 5px;
-    -webkit-border-radius:              5px;
-    border-radius:                      5px;
-}
+    -moz-border-radius:                 5px
+    -webkit-border-radius:              5px
+    border-radius:                      5px
+
 
 .borderRoundedTop
-{
-    -moz-border-radius-topleft:         5px;
-    -moz-border-radius-topright:        5px;
-    -webkit-border-radius-topleft:      5px;
-    -webkit-border-radius-topright:     5px;
-    border-top-left-radius:             5px;
-    border-top-right-radius:            5px;
-}
+    -moz-border-radius-topleft:         5px
+    -moz-border-radius-topright:        5px
+    -webkit-border-radius-topleft:      5px
+    -webkit-border-radius-topright:     5px
+    border-top-left-radius:             5px
+    border-top-right-radius:            5px
+
 
 .borderRoundedBottom
-{
-    -moz-border-radius-bottomleft:      5px;
-    -moz-border-radius-bottomright:     5px;
-    -webkit-border-radius-bottomleft:   5px;
-    -webkit-border-radius-bottomright:  5px;
-    border-bottom-left-radius:          5px;
-    border-bottom-right-radius:         5px;
-}
+    -moz-border-radius-bottomleft:      5px
+    -moz-border-radius-bottomright:     5px
+    -webkit-border-radius-bottomleft:   5px
+    -webkit-border-radius-bottomright:  5px
+    border-bottom-left-radius:          5px
+    border-bottom-right-radius:         5px
+
 
 .borderRounded10
-{
-    -moz-border-radius:                 10px;
-    -webkit-border-radius:              10px;
-    border-radius:                      10px;
-}
+    -moz-border-radius:                 10px
+    -webkit-border-radius:              10px
+    border-radius:                      10px
+
 
 .borderRoundedTop10
-{
-    -moz-border-radius-topleft:         10px;
-    -moz-border-radius-topright:        10px;
-    -webkit-border-radius-topleft:      10px;
-    -webkit-border-radius-topright:     10px;
-    border-top-left-radius:             10px;
-    border-top-right-radius:            10px;
-}
+    -moz-border-radius-topleft:         10px
+    -moz-border-radius-topright:        10px
+    -webkit-border-radius-topleft:      10px
+    -webkit-border-radius-topright:     10px
+    border-top-left-radius:             10px
+    border-top-right-radius:            10px
+
 
 .borderRoundedBottom10
-{
-    -moz-border-radius-bottomleft:      10px;
-    -moz-border-radius-bottomright:     10px;
-    -webkit-border-radius-bottomleft:   10px;
-    -webkit-border-radius-bottomright:  10px;
-    border-bottom-left-radius:          10px;
-    border-bottom-right-radius:         10px;
-}
+    -moz-border-radius-bottomleft:      10px
+    -moz-border-radius-bottomright:     10px
+    -webkit-border-radius-bottomleft:   10px
+    -webkit-border-radius-bottomright:  10px
+    border-bottom-left-radius:          10px
+    border-bottom-right-radius:         10px
 
-/*******************************************************************
- ** padding
- *******************************************************************/
+
+//******************************
+//** padding
+//******************************
+
 
 .pad0       { padding: 0px;         }
 .pad1       { padding: 1px;         }
@@ -254,9 +264,10 @@
 .pad5x2       { padding: 2px 5px 2px 5px; }
 
 
-/*******************************************************************
- ** margin
- *******************************************************************/
+//******************************
+//** margin
+//******************************
+
 
 .margin0        { margin: 0px;          }
 .margin1        { margin: 1px;          }
@@ -282,6 +293,12 @@
 .marginTop20    { margin-top: 20px;     }
 .marginBottom20 { margin-bottom: 20px;  }
 
+.margin50       { margin:        50px;  }
+.marginLeft50   { margin-left:   50px;  }
+.marginRight50  { margin-right:  50px;  }
+.marginTop50    { margin-top:    50px;  }
+.marginBottom50 { margin-bottom: 50px;  }
+
 .centerMargins  { margin-left: auto; margin-right: auto; }
 .marginCenter   { margin-left: auto; margin-right: auto; }
 
@@ -290,9 +307,11 @@
 .marginLeftChildren5   > *   { margin-left:   5px; }
 .marginRightChildren5  > *   { margin-right:  5px; }
 
-/*******************************************************************
- ** spaced
- *******************************************************************/
+
+//******************************
+//** spaced
+//******************************
+
 
 .spaced5  > *   { margin-bottom:  5px; margin-right:  5px;  }
 .spaced10 > *   { margin-bottom: 10px; margin-right: 10px;  }
@@ -310,9 +329,11 @@
 .spacedLeft10 > *  { margin-left: 10px; }
 .spacedLeft20 > *  { margin-left: 20px; }
 
-/*******************************************************************
- ** gapOuter
- *******************************************************************/
+
+//******************************
+//** gap outer
+//******************************
+
 
 .gapOuter5         { padding:  5px  0px  0px  5px }
 .gapOuter10        { padding: 10px  0px  0px 10px }
@@ -322,9 +343,10 @@
 .gapOuter20x5      { padding: 20px 15px 15px 20px }
 
 
-/*******************************************************************
- ** gapInner
- *******************************************************************/
+//******************************
+//** gap inner
+//******************************
+
 
 .gapInner5      > * { margin:   0px  5px  5px  0px }
 .gapInner10     > * { margin:   0px 10px 10px  0px }
@@ -334,9 +356,10 @@
 .gapInner20x5   > * { margin:   0px  5px  5px  0px }
 
 
-/*******************************************************************
- ** gap (full, both inner and outer)
- *******************************************************************/
+//******************************
+//** gap (full, both inner and outer)
+//******************************
+
 
 .gap5         { padding: 5px   0px  0px  5px }
 .gap5 > *     { margin:  0px   5px  5px  0px }
@@ -356,9 +379,15 @@
 .gap20x5      { padding: 20px 15px 15px 20px }
 .gap20x5 > *  { margin:   0px  5px  5px  0px }
 
-/*******************************************************************
- ** row spacer (gap BETWEEN row items)
- *******************************************************************/
+.gap20x40                   { padding: 20px  0px  0px 20px }
+.gap20x40 > *               { margin:   0px 40px 20px  0px }
+.gap20x40 > *:last-child    { margin:   0px 20px 20px  0px }
+
+
+//******************************
+//** row spacer (gap BETWEEN row items)
+//******************************
+
 
 .rowSpacer5 > *              { margin-left: 5px  }
 .rowSpacer5 > *:first-child  { margin-left: 0px  }
@@ -372,10 +401,14 @@
 .rowSpacer20r > *             { margin-right: 20px }
 .rowSpacer20r > *:last-child  { margin-right: 0px  }
 
+.rowSpacer40 > *             { margin-left: 40px }
+.rowSpacer40 > *:first-child { margin-left: 0px  }
 
-/*******************************************************************
- ** column spacer (gap BETWEEN row items)
- *******************************************************************/
+
+//******************************
+//** column spacer (gap BETWEEN row items)
+//******************************
+
 
 .columnSpacer5 > *              { margin-top: 5px  }
 .columnSpacer5 > *:first-child  { margin-top: 0px  }
@@ -386,17 +419,20 @@
 .columnSpacer20 > *             { margin-top: 20px }
 .columnSpacer20 > *:first-child { margin-top: 0px  }
 
-/*******************************************************************
- ** post margin (add a bottom/right margin to children)
- *******************************************************************/
+
+//******************************
+//** post margin (add a bottom/right margin to children)
+//******************************
+
 
 .postMargin10 > *   { margin:   0px 10px 10px  0px }
 .postMargin20 > *   { margin:   0px 20px 20px  0px }
 
 
-/*******************************************************************
- ** display
- *******************************************************************/
+//******************************
+//** display
+//******************************
+
 
 .displayNone    { display: none;            }
 .displayBlock   { display: block;           }
@@ -411,9 +447,11 @@
 .inline         { display: inline;          }
 .inlineBlock    { display: inline-block;    }
 
-/*******************************************************************
- ** visible
- *******************************************************************/
+
+//******************************
+//** visible
+//******************************
+
 
 .visible            { visibility: visible;  }
 .invisible          { visibility: hidden;   }
@@ -421,9 +459,11 @@
 .visibilityVisible  { visibility: visible;  }
 .visibilityHidden   { visibility: hidden;   }
 
-/*******************************************************************
- ** float
- *******************************************************************/
+
+//******************************
+//** float
+//******************************
+
 
 ._floatLeft              { float: left;  }
 ._floatLeftChildren > *  { float: left;  }
@@ -442,9 +482,10 @@
 ._clearNone              { clear: none;  }
 
 
-/*******************************************************************
- ** overflow
- *******************************************************************/
+//******************************
+//** overflow
+//******************************
+
 
 .auto               { overflow:   auto;     }
 .autoX              { overflow-x: auto;     }
@@ -454,13 +495,16 @@
 .scrollX            { overflow-x: scroll;   }
 .scrollY            { overflow-y: scroll;   }
 
-.noScroll           { overflow: hidden;     }
-.clip               { overflow: hidden;     }
+.noScroll           { overflow:   hidden;   }
 
-.overflowAuto       { overflow: auto;       }
-.overflowScroll     { overflow: scroll;     }
-.overflowVisible    { overflow: visible;    }
-.overflowHidden     { overflow: hidden;     }
+.clip               { overflow:   hidden;   }
+.clipX              { overflow-x: hidden;   }
+.clipY              { overflow-y: hidden;   }
+
+.overflowAuto       { overflow:   auto;     }
+.overflowScroll     { overflow:   scroll;   }
+.overflowVisible    { overflow:   visible;  }
+.overflowHidden     { overflow:   hidden;   }
 
 .overflowAutoY      { overflow-y: auto;     }
 .overflowScrollY    { overflow-y: scroll;   }
@@ -472,9 +516,16 @@
 .overflowVisibleX   { overflow-x: visible;  }
 .overflowHiddenX    { overflow-x: hidden;   }
 
-/*******************************************************************
- ** text - white space
- *******************************************************************/
+.ellipsis
+    white-space:    nowrap
+    overflow:       hidden
+    text-overflow:  ellipsis
+
+
+//******************************
+//** text - white space
+//******************************
+
 
 .centerText         { text-align: center;   }
 .textAlignCenter    { text-align: center;   }
@@ -482,17 +533,16 @@
 .textAlignLeft      { text-align: left;     }
 .textAlignRight     { text-align: right;    }
 
-/*******************************************************************
- ** text - white space
- *******************************************************************/
 
 .noWrap             { white-space: nowrap;  }
 .whiteSpaceNoWrap   { white-space: nowrap;  }
 .whiteSpaceNormal   { white-space: normal;  }
 
-/*******************************************************************
- ** text - words
- *******************************************************************/
+
+//******************************
+//** text - words
+//******************************
+
 
 .wordWrapNormal     { word-wrap: normal;        }
 .wordWrapBreak      { word-wrap: break-word;    }
@@ -501,9 +551,11 @@
 .wordBreakAll       { word-break: break-all;    }
 .wordBreakKeep      { word-break: keep-all;     }
 
-/*******************************************************************
- ** text - rotate
- *******************************************************************/
+
+//******************************
+//** text - rotate
+//******************************
+
 
 .rotate90
     -webkit-transform:  rotate(90deg)
@@ -512,9 +564,11 @@
     -o-transform:       rotate(90deg)
     transform:          rotate(90deg)
 
-/*******************************************************************
- ** color
- *******************************************************************/
+
+//******************************
+//** color
+//******************************
+
 
 .colorBlack         { color: black;     }
 .colorBlue          { color: blue;      }
@@ -522,9 +576,11 @@
 .colorRed           { color: red;       }
 .colorWhite         { color: white;     }
 
-/*******************************************************************
- ** background
- *******************************************************************/
+
+//******************************
+//** background
+//******************************
+
 
 .backgroundBlack         { background-color: black;     }
 .backgroundBlue          { background-color: blue;      }
@@ -590,18 +646,21 @@
 .backgroundGrayFF        { background-color: #FFFFFF;   }
 
 
-/*******************************************************************
- ** resize
- *******************************************************************/
+//******************************
+//** resize
+//******************************
+
 
 .resizeNone         { resize: none;         }
 .resizeBoth         { resize: both;         }
 .resizeHorizontal   { resize: horizontal;   }
 .resizeVertical     { resize: vertical;     }
 
-/*******************************************************************
- ** font
- *******************************************************************/
+
+//******************************
+//** text
+//******************************
+
 
 .bold       { font-weight: bold;                }
 .italic     { font-style: italic;               }
@@ -623,14 +682,24 @@
 .font60     { font-size: 60px;                  }
 .font100    { font-size: 100px;                 }
 
+.font10r    { font-size: 1.0rem;                }
+.font12r    { font-size: 1.2rem;                }
+.font16r    { font-size: 1.6rem;                }
+.font18r    { font-size: 1.8rem;                }
+.font24r    { font-size: 2.4rem;                }
+.font36r    { font-size: 3.6rem;                }
+.font48r    { font-size: 4.8rem;                }
+
 .fontPlain  { font-family: sans-serif;          }
 .fontSans   { font-family: sans-serif;          }
 .fontSerif  { font-family: serif;               }
 .fontMono   { font-family: monospace;           }
 
-/*******************************************************************
- ** vertical align
- *******************************************************************/
+
+//******************************
+//** vertical align
+//******************************
+
 
 .top        { vertical-align: top;      }
 .middle     { vertical-align: middle;   }
@@ -638,9 +707,10 @@
 .baseline   { vertical-align: baseline; }
 
 
-/*******************************************************************
- ** cursor
- *******************************************************************/
+//******************************
+//** cursor
+//******************************
+
 
 .cursorAuto         { cursor: auto      }
 .cursorCrosshair    { cursor: crosshair }
@@ -652,198 +722,142 @@
 .cursorWait         { cursor: wait      }
 
 
-/*******************************************************************
- ** easy boxes (border, background)
- *******************************************************************/
+//******************************
+//** boxes
+//******************************
 
 .box
-{
-    border: thin solid black;
-    background-color: white;
-}
+    border:             thin solid black
+    background-color:   white
+
 
 .boxBlue
-{
-    border: thin solid blue;
-    background-color: lightblue;
-}
+    border:             thin solid blue
+    background-color:   lightblue
+
 
 .boxGreen
-{
-    border: thin solid green;
-    background-color: lightgreen;
-}
+    border:             thin solid green
+    background-color:   lightgreen
+
 
 .boxRed
-{
-    border: thin solid red;
-    background-color: pink;
-}
+    border:             thin solid red
+    background-color:   pink
+
 
 .boxYellow
-{
-    border: thin solid yellow;
-    background-color: lightyellow;
-}
+    border:             thin solid yellow
+    background-color:   lightyellow
+
 
 .boxGray
-{
-    border: thin solid #ccc;
-    background-color: #eee;
-}
+    border:             thin solid #ccc
+    background-color:   #eee
+
 
 .boxDarkGray
-{
-    border: thin solid #aaa;
-    background-color: #ccc;
-}
+    border:             thin solid #aaa
+    background-color:   #ccc
+
 
 .boxWhite
-{
-    border: thin solid #ddd;
-    background-color: #fff;
-}
+    border:             thin solid #ddd
+    background-color:   #fff
+
 
 .boxPurple
-{
-    border: thin solid purple;
-    background-color: mediumpurple;
-}
+    border:             thin solid purple
+    background-color:   mediumpurple
+
 
 .boxBrown
-{
-    border: thin solid saddlebrown;
-    background-color: sandybrown;
-}
+    border:             thin solid saddlebrown
+    background-color:   sandybrown
 
-/*******************************************************************
- ** box-sizing
- *******************************************************************/
+
+//******************************
+//** box sizing
+//******************************
+
 
 /* The default; padding and borders ADD to the element width. */
 .boxSizingContent
-{
-    box-sizing:      content-box;
-    -moz-box-sizing: content-box;
-}
+    box-sizing:      content-box
+    -moz-box-sizing: content-box
+
 
 /* CSS3 woot; element width remains constant, padding and border are inside the width. */
 .boxSizingBorder
-{
-    box-sizing:      border-box;
-    -moz-box-sizing: border-box;
-}
+    box-sizing:      border-box
+    -moz-box-sizing: border-box
 
-/*******************************************************************
- ** shadow
- *******************************************************************/
+
+//******************************
+//** shadow
+//******************************
+
 
 .shadow_aaa
-{
-    box-shadow: 5px 5px 5px #aaa;
-}
+    box-shadow: 5px 5px 5px #aaa
 
-/*******************************************************************
- ** position
- *******************************************************************/
+
+//******************************
+//** position
+//******************************
+
 
 .absolute   { position: absolute; }
 .relative   { position: relative; }
 
+
 .fill
-{
-    position: absolute;
+    position:   absolute
+    left:       0
+    right:      0
+    width:      auto
+    top:        0
+    bottom:     0
+    height:     auto
 
-    left:   0;
-    right:  0;
-    width:  auto;
-
-    top:    0;
-    bottom: 0;
-    height: auto;
-}
 
 .fillOffset5
-{
-    position: absolute;
+    position:   absolute
+    left:       5px
+    right:      5px
+    width:      auto
+    top:        5px
+    bottom:     5px
+    height:     auto
 
-    left:   5px;
-    right:  5px;
-    width:  auto;
-
-    top:    5px;
-    bottom: 5px;
-    height: auto;
-}
 
 .fillOffset10
-{
-    position: absolute;
+    position:   absolute
+    left:       10px
+    right:      10px
+    width:      auto
+    top:        10px
+    bottom:     10px
+    height:     auto
 
-    left:   10px;
-    right:  10px;
-    width:  auto;
-
-    top:    10px;
-    bottom: 10px;
-    height: auto;
-}
 
 .fillOffset20
-{
-    position: absolute;
+    position:   absolute
+    left:       20px
+    right:      20px
+    width:      auto
+    top:        20px
+    bottom:     20px
+    height:     auto
 
-    left:   20px;
-    right:  20px;
-    width:  auto;
-
-    top:    20px;
-    bottom: 20px;
-    height: auto;
-}
-
-/*******************************************************************
- ** position (for fieldsets)
- *******************************************************************/
-
-.fieldsetFill
-{
-    position: absolute;
-
-    left:   0;
-    right:  0;
-    width:  auto;
-
-    top:    10px;
-    bottom: 0;
-    height: auto;
-}
-
-.fieldsetFillOffset10
-{
-    position: absolute;
-
-    left:   10px;
-    right:  10px;
-    width:  auto;
-
-    top:    30px;
-    bottom: 10px;
-    height: auto;
-}
-
-.fieldsetFillOffset20
-{
-    position: absolute;
-
-    left:   20px;
-    right:  20px;
-    width:  auto;
-
-    top:    40px;
-    bottom: 20px;
-    height: auto;
-}
+.fillOffset40
+    position:   absolute
+    left:       40px
+    right:      40px
+    width:      auto
+    top:        40px
+    bottom:     40px
+    height:     auto
 
 
 /*******************************************************************
@@ -853,17 +867,20 @@
  ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
  *******************************************************************/
 
+
 /* the style (BLOCK) and direction (row/column) */
 .flexRow            { display: flex; flex-direction: row;              }
 .flexRowReverse     { display: flex; flex-direction: row-reverse;      }
 .flexColumn         { display: flex; flex-direction: column;           }
 .flexColumnReverse  { display: flex; flex-direction: column-reverse;   }
 
+
 /* the style (INLINE) and direction (row/column) */
 .flexInlineRow            { display: inline-flex; flex-direction: row;              }
 .flexInlineRowReverse     { display: inline-flex; flex-direction: row-reverse;      }
 .flexInlineColumn         { display: inline-flex; flex-direction: column;           }
 .flexInlineColumnReverse  { display: inline-flex; flex-direction: column-reverse;   }
+
 
 /* distribute items along MAIN axis, default is START */
 .flexAlignStart         { justify-content: flex-start;      }
@@ -872,6 +889,7 @@
 .flexAlignSpaced        { justify-content: space-between;   }
 .flexAlignSpacedAround  { justify-content: space-around;    }
 
+
 /* distribute items along the CROSS axis, default is START */
 .flexCrossAlignStretch  { align-items: stretch;     }
 .flexCrossAlignStart    { align-items: flex-start;  }
@@ -879,10 +897,12 @@
 .flexCrossAlignCenter   { align-items: center;      }
 .flexCrossAlignBaseline { align-items: baseline;    }
 
+
 /* allow wrapping; default is NONE */
 .flexNoWrap         { flex-wrap: none;          }
 .flexWrap           { flex-wrap: wrap;          }
 .flexWrapReverse    { flex-wrap: wrap-reverse;  }
+
 
 /* distribute lines along the CROSS axis, ONLY if wrapping is enabled */
 .flexWrapAlignStretch       { align-content: stretch;       }
@@ -892,6 +912,7 @@
 .flexWrapAlignSpaced        { align-content: space-between; }
 .flexWrapAlignSpacedAround  { align-content: space-around;  }
 
+
  /*******************************************************************
  ** flexbox :: child
  **
@@ -899,27 +920,6 @@
  ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
  *******************************************************************/
 
-/* can the item grow; default is NO GROW */
-.flexChildGrow      { flex-grow: 1; }
-.flexChildNoGrow    { flex-grow: 0; }
-
-/* can the item shrink, default is SHRINK */
-.flexChildShrink    { flex-shrink: 1; }
-.flexChildNoShrink  { flex-shrink: 0; }
-
-/* convenience for grow and shrink */
-.flexChildStatic    { flex-grow:0; flex-shrink:0; }
-.flexChildFiller    { flex-grow:1; flex-shrink:1; }
-.flexChildFiller0   { flex-grow:1; flex-shrink:1; flex-basis: 0px; }
-
-.flexChildPhiLarge  { flex-grow:8; flex-shrink:8; }
-.flexChildPhiSmall  { flex-grow:5; flex-shrink:5; }
-
-.flexChildPhiLarge0 { flex-grow:8; flex-shrink:8; flex-basis: 0px; }
-.flexChildPhiSmall0 { flex-grow:5; flex-shrink:5; flex-basis: 0px; }
-
-.flexChildSmall  { flex-grow:3; flex-shrink:5; }
-.flexChildSmall0  { flex-grow:3; flex-shrink:5; flex-basis: 0px;}
 
 /* override the item alignment on the CROSS axis, default is AUTO */
 .flexChildCrossOverrideAuto      { align-self: auto;         }
@@ -929,4 +929,68 @@
 .flexChildCrossOverrideBaseline  { align-self: baseline;     }
 .flexChildCrossOverrideStretch   { align-self: stretch;      }
 
+
 .flexChildBasis0 { flex-basis: 0px; }
+
+
+/* can the item grow; default is NO GROW */
+.flexChildGrow      { flex-grow: 1; }
+.flexChildNoGrow    { flex-grow: 0; }
+
+
+/* can the item shrink, default is SHRINK */
+.flexChildShrink    { flex-shrink: 1; }
+.flexChildNoShrink  { flex-shrink: 0; }
+
+
+/* convenience for grow and shrink */
+.flexChildStatic    { flex-grow:0; flex-shrink:0; }
+.flexChildFiller    { flex-grow:1; flex-shrink:1; }
+.flexChildFiller0   { flex-grow:1; flex-shrink:1; flex-basis: 0px; }
+
+
+.flexChildPhiLarge  { flex-grow:8; flex-shrink:8; }
+.flexChildPhiSmall  { flex-grow:5; flex-shrink:5; }
+
+
+.flexChildPhiLarge0 { flex-grow:8; flex-shrink:8; flex-basis: 0px; }
+.flexChildPhiSmall0 { flex-grow:5; flex-shrink:5; flex-basis: 0px; }
+
+
+.flexChildSmall     { flex-grow:3; flex-shrink:5; }
+.flexChildSmall0    { flex-grow:3; flex-shrink:5; flex-basis: 0px;}
+
+
+//******************************
+//** flex child :: parts
+//******************************
+
+
+.flexChildParts10   { flex-grow:10;  flex-shrink:10;  flex-basis: 0px; }
+.flexChildParts20   { flex-grow:20;  flex-shrink:20;  flex-basis: 0px; }
+.flexChildParts30   { flex-grow:30;  flex-shrink:30;  flex-basis: 0px; }
+.flexChildParts40   { flex-grow:40;  flex-shrink:40;  flex-basis: 0px; }
+.flexChildParts50   { flex-grow:50;  flex-shrink:50;  flex-basis: 0px; }
+.flexChildParts60   { flex-grow:60;  flex-shrink:60;  flex-basis: 0px; }
+.flexChildParts70   { flex-grow:70;  flex-shrink:70;  flex-basis: 0px; }
+.flexChildParts80   { flex-grow:80;  flex-shrink:80;  flex-basis: 0px; }
+.flexChildParts90   { flex-grow:90;  flex-shrink:90;  flex-basis: 0px; }
+.flexChildParts100  { flex-grow:100; flex-shrink:100; flex-basis: 0px; }
+
+
+//******************************
+//** z-index
+//******************************
+
+.zIndexAuto     { z-index: auto }
+.zIndex1        { z-index: 1    }
+
+
+//******************************
+//** page breaks
+//******************************
+
+// Works in IE and Chrome.
+// Does not apply to content wrapped in a flex-column layout.
+.noPageBreak
+    break-inside: avoid

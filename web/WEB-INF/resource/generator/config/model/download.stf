@@ -2,13 +2,14 @@ model
 : name      = download
 : help...
     ---
-    I am used to manage file downloads to the client browser.  When a client requests a file
-    the server returns a token (url) that redirects the user to the page where the download
-    can actually occur.  This helps avoid the problem of download interferring with the current
-    user interface, especially with the single page ajax ui we now use.  However, this also
-    means that additional security is needed to ensure that users cannot access someone else's
-    download.  Only the "user" identified in this record is allowed to download the specified
-    file.
+    I am used to manage file downloads to the client browser. When the client
+    requests a download, the server first prepares and saves the requested 
+    download. The client is then shown a dialog and prompted to download 
+    the file.
+
+    The mechanism for downloading files through the browser is not directly
+    compatible with our AJAX approach to a single page application, but this
+    two part approach lets us manage it fairly cleanly.
     ---
 
 
@@ -30,14 +31,15 @@ attributes
 
 
     #include basicUid.stf
+    #include basicDisplay.stf
 
 
     field
     : name      = createdUtcTs
     : help      = The time this record was originally created.
     : type      = timestamp
-    : required  = true
     : default   = nowUtc()
+    : required  = true
 
 
     //*****************************************************
@@ -90,10 +92,10 @@ attributes
         ---
     : type      = longEnumCode
     : required  = true
-    : default   = MyUserRole.Other.getCode()
 
         enum
             value(#File)
+            value(#Attachment)
             value(#Bytes)
 
 
@@ -110,6 +112,18 @@ attributes
         This is only used if the type is File.
         ---
     : type      = name
+
+
+    association
+    : name      = attachment
+    : help...
+        ---
+        The attachment to be downloaded.
+        This is only used if the type is attachment.
+        The binary content is provided by the attachment record.
+        ---
+    : modelName = attachment
+    : relation  = reference
 
 
     field

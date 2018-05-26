@@ -37,47 +37,61 @@ public class MyThreadTopicCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereCodeIs(MyThreadTopic e)
+    {
+        whereCode().is(e.getCode());
+    }
+
+    public void whereCodeIsNot(MyThreadTopic e)
+    {
+        whereCode().isNot(e.getCode());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
     public KmhStringCondition whereCode()
     {
-        return new KmhStringCondition(context(), fullName(CODE));
-    }
-
-    public KmhStringCondition whereOwnerUid()
-    {
-        return new KmhStringCondition(context(), fullName(OWNER_UID));
-    }
-
-    public KmhStringCondition whereHostName()
-    {
-        return new KmhStringCondition(context(), fullName(HOST_NAME));
+        return new KmhStringCondition(context(), alias(), CODE);
     }
 
     public KmhStringCondition whereHostAddress()
     {
-        return new KmhStringCondition(context(), fullName(HOST_ADDRESS));
+        return new KmhStringCondition(context(), alias(), HOST_ADDRESS);
     }
 
-    public KmhTimestampCondition whereLastStartUtcTs()
+    public KmhStringCondition whereHostName()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_START_UTC_TS));
+        return new KmhStringCondition(context(), alias(), HOST_NAME);
     }
 
     public KmhTimestampCondition whereLastEndUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_END_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_END_UTC_TS);
+    }
+
+    public KmhTimestampCondition whereLastStartUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), LAST_START_UTC_TS);
     }
 
     public KmhTimestampCondition whereLastTouchUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_TOUCH_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_TOUCH_UTC_TS);
+    }
+
+    public KmhStringCondition whereOwnerUid()
+    {
+        return new KmhStringCondition(context(), alias(), OWNER_UID);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
@@ -102,22 +116,22 @@ public class MyThreadTopicCriteria
             sortOnCodeDescending();
     }
 
-    public void sortOnOwnerUid()
+    public void sortOnHostAddress()
     {
-        parent().sortAscending(OWNER_UID);
+        parent().sortAscending(HOST_ADDRESS);
     }
 
-    public void sortOnOwnerUidDescending()
+    public void sortOnHostAddressDescending()
     {
-        parent().sortDescending(OWNER_UID);
+        parent().sortDescending(HOST_ADDRESS);
     }
 
-    public void sortOnOwnerUid(boolean asc)
+    public void sortOnHostAddress(boolean asc)
     {
         if ( asc )
-            sortOnOwnerUid();
+            sortOnHostAddress();
         else
-            sortOnOwnerUidDescending();
+            sortOnHostAddressDescending();
     }
 
     public void sortOnHostName()
@@ -138,22 +152,22 @@ public class MyThreadTopicCriteria
             sortOnHostNameDescending();
     }
 
-    public void sortOnHostAddress()
+    public void sortOnLastEndUtcTs()
     {
-        parent().sortAscending(HOST_ADDRESS);
+        parent().sortAscending(LAST_END_UTC_TS);
     }
 
-    public void sortOnHostAddressDescending()
+    public void sortOnLastEndUtcTsDescending()
     {
-        parent().sortDescending(HOST_ADDRESS);
+        parent().sortDescending(LAST_END_UTC_TS);
     }
 
-    public void sortOnHostAddress(boolean asc)
+    public void sortOnLastEndUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnHostAddress();
+            sortOnLastEndUtcTs();
         else
-            sortOnHostAddressDescending();
+            sortOnLastEndUtcTsDescending();
     }
 
     public void sortOnLastStartUtcTs()
@@ -174,24 +188,6 @@ public class MyThreadTopicCriteria
             sortOnLastStartUtcTsDescending();
     }
 
-    public void sortOnLastEndUtcTs()
-    {
-        parent().sortAscending(LAST_END_UTC_TS);
-    }
-
-    public void sortOnLastEndUtcTsDescending()
-    {
-        parent().sortDescending(LAST_END_UTC_TS);
-    }
-
-    public void sortOnLastEndUtcTs(boolean asc)
-    {
-        if ( asc )
-            sortOnLastEndUtcTs();
-        else
-            sortOnLastEndUtcTsDescending();
-    }
-
     public void sortOnLastTouchUtcTs()
     {
         parent().sortAscending(LAST_TOUCH_UTC_TS);
@@ -208,6 +204,24 @@ public class MyThreadTopicCriteria
             sortOnLastTouchUtcTs();
         else
             sortOnLastTouchUtcTsDescending();
+    }
+
+    public void sortOnOwnerUid()
+    {
+        parent().sortAscending(OWNER_UID);
+    }
+
+    public void sortOnOwnerUidDescending()
+    {
+        parent().sortDescending(OWNER_UID);
+    }
+
+    public void sortOnOwnerUid(boolean asc)
+    {
+        if ( asc )
+            sortOnOwnerUid();
+        else
+            sortOnOwnerUidDescending();
     }
 
     public void sortOnLockVersion()
@@ -273,47 +287,47 @@ public class MyThreadTopicCriteria
     }
 
     //##################################################
-    //# projections (ownerUid)
+    //# projections (hostAddress)
     //##################################################
 
-    public void selectOwnerUid()
+    public void selectHostAddress()
     {
-        select(OWNER_UID);
+        select(HOST_ADDRESS);
     }
 
-    public void selectDistinctOwnerUid()
+    public void selectDistinctHostAddress()
     {
-        selectDistinct(OWNER_UID);
+        selectDistinct(HOST_ADDRESS);
     }
 
-    public void selectCountDistinctOwnerUid()
+    public void selectCountDistinctHostAddress()
     {
-        selectCountDistinct(OWNER_UID);
+        selectCountDistinct(HOST_ADDRESS);
     }
 
-    public void selectMinimumOwnerUid()
+    public void selectMinimumHostAddress()
     {
-        selectMinimum(OWNER_UID);
+        selectMinimum(HOST_ADDRESS);
     }
 
-    public void selectMaximumOwnerUid()
+    public void selectMaximumHostAddress()
     {
-        selectMaximum(OWNER_UID);
+        selectMaximum(HOST_ADDRESS);
     }
 
-    public void selectAverageOwnerUid()
+    public void selectAverageHostAddress()
     {
-        selectAverage(OWNER_UID);
+        selectAverage(HOST_ADDRESS);
     }
 
-    public void selectSumOwnerUid()
+    public void selectSumHostAddress()
     {
-        selectSum(OWNER_UID);
+        selectSum(HOST_ADDRESS);
     }
 
-    public void groupByOwnerUid()
+    public void groupByHostAddress()
     {
-        groupBy(OWNER_UID);
+        groupBy(HOST_ADDRESS);
     }
 
     //##################################################
@@ -361,47 +375,47 @@ public class MyThreadTopicCriteria
     }
 
     //##################################################
-    //# projections (hostAddress)
+    //# projections (lastEndUtcTs)
     //##################################################
 
-    public void selectHostAddress()
+    public void selectLastEndUtcTs()
     {
-        select(HOST_ADDRESS);
+        select(LAST_END_UTC_TS);
     }
 
-    public void selectDistinctHostAddress()
+    public void selectDistinctLastEndUtcTs()
     {
-        selectDistinct(HOST_ADDRESS);
+        selectDistinct(LAST_END_UTC_TS);
     }
 
-    public void selectCountDistinctHostAddress()
+    public void selectCountDistinctLastEndUtcTs()
     {
-        selectCountDistinct(HOST_ADDRESS);
+        selectCountDistinct(LAST_END_UTC_TS);
     }
 
-    public void selectMinimumHostAddress()
+    public void selectMinimumLastEndUtcTs()
     {
-        selectMinimum(HOST_ADDRESS);
+        selectMinimum(LAST_END_UTC_TS);
     }
 
-    public void selectMaximumHostAddress()
+    public void selectMaximumLastEndUtcTs()
     {
-        selectMaximum(HOST_ADDRESS);
+        selectMaximum(LAST_END_UTC_TS);
     }
 
-    public void selectAverageHostAddress()
+    public void selectAverageLastEndUtcTs()
     {
-        selectAverage(HOST_ADDRESS);
+        selectAverage(LAST_END_UTC_TS);
     }
 
-    public void selectSumHostAddress()
+    public void selectSumLastEndUtcTs()
     {
-        selectSum(HOST_ADDRESS);
+        selectSum(LAST_END_UTC_TS);
     }
 
-    public void groupByHostAddress()
+    public void groupByLastEndUtcTs()
     {
-        groupBy(HOST_ADDRESS);
+        groupBy(LAST_END_UTC_TS);
     }
 
     //##################################################
@@ -449,50 +463,6 @@ public class MyThreadTopicCriteria
     }
 
     //##################################################
-    //# projections (lastEndUtcTs)
-    //##################################################
-
-    public void selectLastEndUtcTs()
-    {
-        select(LAST_END_UTC_TS);
-    }
-
-    public void selectDistinctLastEndUtcTs()
-    {
-        selectDistinct(LAST_END_UTC_TS);
-    }
-
-    public void selectCountDistinctLastEndUtcTs()
-    {
-        selectCountDistinct(LAST_END_UTC_TS);
-    }
-
-    public void selectMinimumLastEndUtcTs()
-    {
-        selectMinimum(LAST_END_UTC_TS);
-    }
-
-    public void selectMaximumLastEndUtcTs()
-    {
-        selectMaximum(LAST_END_UTC_TS);
-    }
-
-    public void selectAverageLastEndUtcTs()
-    {
-        selectAverage(LAST_END_UTC_TS);
-    }
-
-    public void selectSumLastEndUtcTs()
-    {
-        selectSum(LAST_END_UTC_TS);
-    }
-
-    public void groupByLastEndUtcTs()
-    {
-        groupBy(LAST_END_UTC_TS);
-    }
-
-    //##################################################
     //# projections (lastTouchUtcTs)
     //##################################################
 
@@ -534,6 +504,50 @@ public class MyThreadTopicCriteria
     public void groupByLastTouchUtcTs()
     {
         groupBy(LAST_TOUCH_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (ownerUid)
+    //##################################################
+
+    public void selectOwnerUid()
+    {
+        select(OWNER_UID);
+    }
+
+    public void selectDistinctOwnerUid()
+    {
+        selectDistinct(OWNER_UID);
+    }
+
+    public void selectCountDistinctOwnerUid()
+    {
+        selectCountDistinct(OWNER_UID);
+    }
+
+    public void selectMinimumOwnerUid()
+    {
+        selectMinimum(OWNER_UID);
+    }
+
+    public void selectMaximumOwnerUid()
+    {
+        selectMaximum(OWNER_UID);
+    }
+
+    public void selectAverageOwnerUid()
+    {
+        selectAverage(OWNER_UID);
+    }
+
+    public void selectSumOwnerUid()
+    {
+        selectSum(OWNER_UID);
+    }
+
+    public void groupByOwnerUid()
+    {
+        groupBy(OWNER_UID);
     }
 
     //##################################################

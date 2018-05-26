@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -47,9 +48,9 @@ public class KmPhoneticRuleParser
     /**
      * parse a resource from the class loader.
      */
-    public KmList<KmPhoneticRule> parseResource(String path)
+    public KmList<KmPhoneticRule> parseResource(Class<?> klass, String path)
     {
-        KmList<String> lines = Kmu.readResourceLines(path);
+        KmList<String> lines = Kmu.readResourceLines(klass, path);
         return parseLines(lines);
     }
 
@@ -58,7 +59,7 @@ public class KmPhoneticRuleParser
      */
     public KmList<KmPhoneticRule> parseFile(String path)
     {
-        KmList<String> lines = Kmu.readFileLines(path);
+        KmList<String> lines = KmFiles.readLines(path);
         return parseLines(lines);
     }
 

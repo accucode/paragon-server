@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +36,9 @@ public class KmSimpleLineChartGroup
     //##################################################
 
     /**
-     * The display name.  
+     * The display name.
      */
-    private String               _name;
+    private String _name;
 
     /**
      * The X,Y values.
@@ -50,12 +50,12 @@ public class KmSimpleLineChartGroup
     /**
      * If true (default), show a shape at each point.
      */
-    private boolean              _showsShapes;
+    private boolean _showsShapes;
 
     /**
      * If true (default), show a line connecting each point.
      */
-    private boolean              _showsLines;
+    private boolean _showsLines;
 
     //##################################################
     //# constructor

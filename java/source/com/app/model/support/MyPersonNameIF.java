@@ -1,5 +1,7 @@
 package com.app.model.support;
 
+import com.kodemore.utility.Kmu;
+
 /**
  * A common interface for dealing with person names.
  *
@@ -13,13 +15,7 @@ package com.app.model.support;
 public interface MyPersonNameIF
 {
     //##################################################
-    //# constants
-    //##################################################
-
-    public static final String ANONYMOUS = "<anonymous>";
-
-    //##################################################
-    //# basic fields
+    //# first name
     //##################################################
 
     /**
@@ -28,17 +24,36 @@ public interface MyPersonNameIF
      */
     String getFirstName();
 
+    void setFirstName(String e);
+
+    //##################################################
+    //# last name
+    //##################################################
+
     /**
      * The last name, may be null.
      * E.g.: Smith.
      */
     String getLastName();
 
+    void setLastName(String e);
+
+    //##################################################
+    //# nickname
+    //##################################################
+
     /**
      * The nickname, may be null.
      * E.g.: Smitty.
      */
     String getNickname();
+
+    void setNickname(String e);
+
+    default boolean hasNickname()
+    {
+        return Kmu.hasValue(getNickname());
+    }
 
     //##################################################
     //# calculated values (not null)

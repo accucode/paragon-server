@@ -25,35 +25,61 @@ public class MyPropertyDefinitions
     //# group and keys
     //##################################################
 
-    public static final String GROUP_PRODUCTION = "production";
-    public static final String PROPERTY_ENVIRONMENT = "environment";
+    public static final String GROUP_BOOTSTRAP = "bootstrap";
+    public static final String PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME = "bootstrapSystemHostname";
 
-    public static final String GROUP_ACCOUNT_SETUP = "accountSetup";
-    public static final String PROPERTY_DEFAULT_ADMIN_PASSWORD = "defaultAdminPassword";
-    public static final String PROPERTY_MINIMUM_PASSWORD_LENGTH = "minimumPasswordLength";
+    public static final String GROUP_CHORES = "chores";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ACTIVE_SECONDS = "applicationLogFlusherChoreActiveSeconds";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ENABLED = "applicationLogFlusherChoreEnabled";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_IDLE_SECONDS = "applicationLogFlusherChoreIdleSeconds";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_CHORE_ACTIVE_SECONDS = "clearThemeCacheChoreActiveSeconds";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_CHORE_ENABLED = "clearThemeCacheChoreEnabled";
+    public static final String PROPERTY_CLEAR_THEME_CACHE_CHORE_IDLE_SECONDS = "clearThemeCacheChoreIdleSeconds";
+    public static final String PROPERTY_LOGJ_RELOADER_CHORE_ACTIVE_SECONDS = "log4jReloaderChoreActiveSeconds";
+    public static final String PROPERTY_LOGJ_RELOADER_CHORE_ENABLED = "log4jReloaderChoreEnabled";
+    public static final String PROPERTY_LOGJ_RELOADER_CHORE_IDLE_SECONDS = "log4jReloaderChoreIdleSeconds";
+    public static final String PROPERTY_MAINTENANCE_CHORE_ACTIVE_SECONDS = "maintenanceChoreActiveSeconds";
+    public static final String PROPERTY_MAINTENANCE_CHORE_ENABLED = "maintenanceChoreEnabled";
+    public static final String PROPERTY_MAINTENANCE_CHORE_IDLE_SECONDS = "maintenanceChoreIdleSeconds";
+    public static final String PROPERTY_MONITOR_CHORE_ACTIVE_SECONDS = "monitorChoreActiveSeconds";
+    public static final String PROPERTY_MONITOR_CHORE_ENABLED = "monitorChoreEnabled";
+    public static final String PROPERTY_MONITOR_CHORE_IDLE_SECONDS = "monitorChoreIdleSeconds";
+    public static final String PROPERTY_OVERRIDES_RELOADER_CHORE_ACTIVE_SECONDS = "overridesReloaderChoreActiveSeconds";
+    public static final String PROPERTY_OVERRIDES_RELOADER_CHORE_ENABLED = "overridesReloaderChoreEnabled";
+    public static final String PROPERTY_OVERRIDES_RELOADER_CHORE_IDLE_SECONDS = "overridesReloaderChoreIdleSeconds";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ACTIVE_SECONDS = "performanceLogFlusherChoreActiveSeconds";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ENABLED = "performanceLogFlusherChoreEnabled";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_IDLE_SECONDS = "performanceLogFlusherChoreIdleSeconds";
 
-    public static final String GROUP_PATHS = "paths";
-    public static final String PROPERTY_SHARED_PERSISTENT_PATH = "sharedPersistentPath";
-    public static final String PROPERTY_SHARED_TRANSIENT_PATH = "sharedTransientPath";
+    public static final String GROUP_DATABASE_CONNECTION = "databaseConnection";
+    public static final String PROPERTY_DATABASE_DRIVER = "databaseDriver";
+    public static final String PROPERTY_DATABASE_PASSWORD = "databasePassword";
+    public static final String PROPERTY_DATABASE_SCHEMA = "databaseSchema";
+    public static final String PROPERTY_DATABASE_URI = "databaseUri";
+    public static final String PROPERTY_DATABASE_USER = "databaseUser";
 
-    public static final String GROUP_MONITORING = "monitoring";
+    public static final String GROUP_DATABASE_PATCH = "databasePatch";
+    public static final String PROPERTY_DATABASE_SYNC_ON_STARTUP = "databaseSyncOnStartup";
+
+    public static final String GROUP_DEBUG = "debug";
+    public static final String PROPERTY_AJAX_LOG_DELETE_ON_START = "ajaxLogDeleteOnStart";
+    public static final String PROPERTY_AJAX_LOG_ENABLED = "ajaxLogEnabled";
+    public static final String PROPERTY_AUTO_LOGIN_EMAIL = "autoLoginEmail";
     public static final String PROPERTY_CONTEXT_FORMATTER_ENABLED = "contextFormatterEnabled";
     public static final String PROPERTY_CONTEXT_FORMATTER_LINES = "contextFormatterLines";
-    public static final String PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS = "daoCommandWarningThresholdMs";
-    public static final String PROPERTY_JOB_PERFORMANCE_LOG_ENABLED = "jobPerformanceLogEnabled";
-    public static final String PROPERTY_SQL_WARNING_THRESHOLD_MS = "sqlWarningThresholdMs";
+    public static final String PROPERTY_DELETE_THREAD_TOPICS_ON_START = "deleteThreadTopicsOnStart";
+    public static final String PROPERTY_PRINT_AJAX_TIME = "printAjaxTime";
+    public static final String PROPERTY_PRINT_AUDIT_LOG = "printAuditLog";
+    public static final String PROPERTY_PRINT_PERFORMANCE_LOG = "printPerformanceLog";
+    public static final String PROPERTY_RENDER_DEBUG_DOM_COMMENTS = "renderDebugDomComments";
+    public static final String PROPERTY_SHOW_HIBERNATE_SQL = "showHibernateSql";
 
-    public static final String GROUP_EMAIL_JOB = "emailJob";
+    public static final String GROUP_EMAIL_CHORE = "emailChore";
     public static final String PROPERTY_SEND_EMAIL_BATCH = "sendEmailBatch";
+    public static final String PROPERTY_SEND_EMAIL_CHORE_ACTIVE_SECONDS = "sendEmailChoreActiveSeconds";
+    public static final String PROPERTY_SEND_EMAIL_CHORE_ENABLED = "sendEmailChoreEnabled";
+    public static final String PROPERTY_SEND_EMAIL_CHORE_IDLE_SECONDS = "sendEmailChoreIdleSeconds";
     public static final String PROPERTY_SEND_EMAIL_ENABLED = "sendEmailEnabled";
-    public static final String PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS = "sendEmailJobActiveSeconds";
-    public static final String PROPERTY_SEND_EMAIL_JOB_ENABLED = "sendEmailJobEnabled";
-    public static final String PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS = "sendEmailJobIdleSeconds";
-
-    public static final String GROUP_EMAIL_SUPPORT = "emailSupport";
-    public static final String PROPERTY_SEND_EMAIL_FROM_ADDRESS = "sendEmailFromAddress";
-    public static final String PROPERTY_SEND_EMAIL_METHOD = "sendEmailMethod";
-    public static final String PROPERTY_SEND_EMAIL_OVERRIDE_TO = "sendEmailOverrideTo";
 
     public static final String GROUP_EMAIL_GOOGLE_MAIL = "emailGoogleMail";
     public static final String PROPERTY_GMAIL_HOST = "gmailHost";
@@ -61,6 +87,11 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_GMAIL_PORT = "gmailPort";
     public static final String PROPERTY_GMAIL_SCHEME = "gmailScheme";
     public static final String PROPERTY_GMAIL_USER = "gmailUser";
+
+    public static final String GROUP_EMAIL_METHOD = "emailMethod";
+    public static final String PROPERTY_SEND_EMAIL_FROM_ADDRESS = "sendEmailFromAddress";
+    public static final String PROPERTY_SEND_EMAIL_METHOD = "sendEmailMethod";
+    public static final String PROPERTY_SEND_EMAIL_OVERRIDE_TO = "sendEmailOverrideTo";
 
     public static final String GROUP_EMAIL_SMTP = "emailSmtp";
     public static final String PROPERTY_SMTP_HOST = "smtpHost";
@@ -70,103 +101,11 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_SMTP_USE_SSL = "smtpUseSsl";
     public static final String PROPERTY_SMTP_USER = "smtpUser";
 
-    public static final String GROUP_SERVLET = "servlet";
-    public static final String PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME = "bootstrapSystemHostname";
-    public static final String PROPERTY_MARKETING_URL = "marketingUrl";
-    public static final String PROPERTY_SERVLET_SSL_REDIRECT = "servletSslRedirect";
-    public static final String PROPERTY_SUPPORT_URL = "supportUrl";
-    public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS = "writeLastServletResults";
-    public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER = "writeLastServletResultsCounter";
-
-    public static final String GROUP_SERVER_SESSION = "serverSession";
-    public static final String PROPERTY_SERVER_SESSION_SECURE = "serverSessionSecure";
-    public static final String PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS = "serverSessionTimeoutSeconds";
-
-    public static final String GROUP_DEBUG = "debug";
-    public static final String PROPERTY_ALLOW_EMPTY_USER_PASSWORDS = "allowEmptyUserPasswords";
-    public static final String PROPERTY_PRINT_AUDIT_LOG = "printAuditLog";
-    public static final String PROPERTY_PRINT_PERFORMANCE_LOG = "printPerformanceLog";
-    public static final String PROPERTY_SERVLET_SHOW_STACK_TRACE = "servletShowStackTrace";
-
-    public static final String GROUP_DATABASE_CONNECTION = "databaseConnection";
-    public static final String PROPERTY_DATABASE_DRIVER = "databaseDriver";
-    public static final String PROPERTY_DATABASE_PASSWORD = "databasePassword";
-    public static final String PROPERTY_DATABASE_SCHEMA = "databaseSchema";
-    public static final String PROPERTY_DATABASE_URI = "databaseUri";
-    public static final String PROPERTY_DATABASE_USER = "databaseUser";
-
-    public static final String GROUP_HIBERNATE_SECOND_LEVEL_CACHE = "hibernateSecondLevelCache";
-    public static final String PROPERTY_HIBERNATE_CACHE_PROVIDER = "hibernateCacheProvider";
-    public static final String PROPERTY_HIBERNATE_CACHE_TIME_SECONDS = "hibernateCacheTimeSeconds";
-    public static final String PROPERTY_HIBERNATE_MEMCACHED_SERVERS = "hibernateMemcachedServers";
-    public static final String PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE = "hibernateUseSecondLevelCache";
-
-    public static final String GROUP_DATABASE_OTHER = "databaseOther";
-    public static final String PROPERTY_DATABASE_AES_PASSWORD = "databaseAesPassword";
-    public static final String PROPERTY_DATABASE_BATCH_INSERT_GROUP_SIZE = "databaseBatchInsertGroupSize";
-    public static final String PROPERTY_DATABASE_POOLING_DELAY_MS = "databasePoolingDelayMs";
-    public static final String PROPERTY_DATABASE_POOLING_ENABLED = "databasePoolingEnabled";
-    public static final String PROPERTY_DATABASE_POOLING_RETRY_COUNT = "databasePoolingRetryCount";
-    public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_COUNT = "databaseRowLockFailureRetryCount";
-    public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS = "databaseRowLockFailureRetryMs";
-    public static final String PROPERTY_DATABASE_SYNC_ON_STARTUP = "databaseSyncOnStartup";
-
-    public static final String GROUP_JOBS = "jobs";
-    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "applicationLogFlusherJobActiveSeconds";
-    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED = "applicationLogFlusherJobEnabled";
-    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS = "applicationLogFlusherJobIdleSeconds";
-    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS = "clearThemeCacheJobActiveSeconds";
-    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED = "clearThemeCacheJobEnabled";
-    public static final String PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS = "clearThemeCacheJobIdleSeconds";
-    public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS = "csvUploadProcessorJobActiveSeconds";
-    public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ENABLED = "csvUploadProcessorJobEnabled";
-    public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_IDLE_SECONDS = "csvUploadProcessorJobIdleSeconds";
-    public static final String PROPERTY_DATA_PROCESSOR_JOB_ACTIVE_SECONDS = "dataProcessorJobActiveSeconds";
-    public static final String PROPERTY_DATA_PROCESSOR_JOB_ENABLED = "dataProcessorJobEnabled";
-    public static final String PROPERTY_DATA_PROCESSOR_JOB_IDLE_SECONDS = "dataProcessorJobIdleSeconds";
-    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ACTIVE_SECONDS = "ftpSendToNotifierJobActiveSeconds";
-    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ENABLED = "ftpSendToNotifierJobEnabled";
-    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_IDLE_SECONDS = "ftpSendToNotifierJobIdleSeconds";
-    public static final String PROPERTY_LOGJ_RELOADER_JOB_ACTIVE_SECONDS = "log4jReloaderJobActiveSeconds";
-    public static final String PROPERTY_LOGJ_RELOADER_JOB_ENABLED = "log4jReloaderJobEnabled";
-    public static final String PROPERTY_LOGJ_RELOADER_JOB_IDLE_SECONDS = "log4jReloaderJobIdleSeconds";
-    public static final String PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS = "maintenanceJobActiveSeconds";
-    public static final String PROPERTY_MAINTENANCE_JOB_ENABLED = "maintenanceJobEnabled";
-    public static final String PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS = "maintenanceJobIdleSeconds";
-    public static final String PROPERTY_MONITOR_JOB_ACTIVE_SECONDS = "monitorJobActiveSeconds";
-    public static final String PROPERTY_MONITOR_JOB_ENABLED = "monitorJobEnabled";
-    public static final String PROPERTY_MONITOR_JOB_IDLE_SECONDS = "monitorJobIdleSeconds";
-    public static final String PROPERTY_OVERRIDES_RELOADER_JOB_ACTIVE_SECONDS = "overridesReloaderJobActiveSeconds";
-    public static final String PROPERTY_OVERRIDES_RELOADER_JOB_ENABLED = "overridesReloaderJobEnabled";
-    public static final String PROPERTY_OVERRIDES_RELOADER_JOB_IDLE_SECONDS = "overridesReloaderJobIdleSeconds";
-    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "performanceLogFlusherJobActiveSeconds";
-    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED = "performanceLogFlusherJobEnabled";
-    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS = "performanceLogFlusherJobIdleSeconds";
-    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS = "taskReleaseHoldJobActiveSeconds";
-    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED = "taskReleaseHoldJobEnabled";
-    public static final String PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS = "taskReleaseHoldJobIdleSeconds";
-    public static final String PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS = "taskSchedulerJobActiveSeconds";
-    public static final String PROPERTY_TASK_SCHEDULER_JOB_ENABLED = "taskSchedulerJobEnabled";
-    public static final String PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS = "taskSchedulerJobIdleSeconds";
-
-    public static final String GROUP_MISCELLANEOUS = "miscellaneous";
-    public static final String PROPERTY_AJAX_LOG_DELETE_ON_START = "ajaxLogDeleteOnStart";
-    public static final String PROPERTY_AJAX_LOG_ENABLED = "ajaxLogEnabled";
-    public static final String PROPERTY_AUTO_LOGIN_EMAIL = "autoLoginEmail";
-    public static final String PROPERTY_CHECK_RECOMMENDED_BROWSER = "checkRecommendedBrowser";
-    public static final String PROPERTY_DEFAULT_TIME_ZONE_CODE = "defaultTimeZoneCode";
-    public static final String PROPERTY_DELETE_THREAD_TOPICS_ON_START = "deleteThreadTopicsOnStart";
-    public static final String PROPERTY_FILE_UPLOAD_REFRESH_MS = "fileUploadRefreshMs";
+    public static final String GROUP_FTP = "ftp";
     public static final String PROPERTY_FTP_ENABLED = "ftpEnabled";
-    public static final String PROPERTY_MAINTENANCE_PERIOD_END_HOUR = "maintenancePeriodEndHour";
-    public static final String PROPERTY_MAINTENANCE_PERIOD_START_HOUR = "maintenancePeriodStartHour";
-    public static final String PROPERTY_MEMORY_LEAK_LOOP_ENABLED = "memoryLeakLoopEnabled";
-    public static final String PROPERTY_MEMORY_LEAK_LOOP_SPEED_MS = "memoryLeakLoopSpeedMs";
-    public static final String PROPERTY_PRINT_AJAX_TIME = "printAjaxTime";
-    public static final String PROPERTY_RENDER_DEBUG_DOM_COMMENTS = "renderDebugDomComments";
-    public static final String PROPERTY_SHOW_HIBERNATE_SQL = "showHibernateSql";
-    public static final String PROPERTY_SYNCHRONIZE_SERVLETS_BY_SESSION = "synchronizeServletsBySession";
-    public static final String PROPERTY_WEB_RESOURCE_VERSIONING = "webResourceVersioning";
+    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ACTIVE_SECONDS = "ftpSendToNotifierChoreActiveSeconds";
+    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ENABLED = "ftpSendToNotifierChoreEnabled";
+    public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_IDLE_SECONDS = "ftpSendToNotifierChoreIdleSeconds";
 
     public static final String GROUP_GOOGLE_CHART = "googleChart";
     public static final String PROPERTY_GOOGLE_CHART_HOST = "googleChartHost";
@@ -174,8 +113,23 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_GOOGLE_CHART_PORT = "googleChartPort";
     public static final String PROPERTY_GOOGLE_CHART_SCHEME = "googleChartScheme";
 
-    public static final String GROUP_BOOTSTRAP = "bootstrap";
-    public static final String PROPERTY_ROOT_USER_EMAIL = "rootUserEmail";
+    public static final String GROUP_GOOGLE_MAPS = "googleMaps";
+    public static final String PROPERTY_GOOGLE_MAPS_API_KEY = "googleMapsApiKey";
+
+    public static final String GROUP_HIBERNATE_SECOND_LEVEL_CACHE = "hibernateSecondLevelCache";
+    public static final String PROPERTY_HIBERNATE_CACHE_PROVIDER = "hibernateCacheProvider";
+    public static final String PROPERTY_HIBERNATE_CACHE_TIME_SECONDS = "hibernateCacheTimeSeconds";
+    public static final String PROPERTY_HIBERNATE_MEMCACHED_SERVERS = "hibernateMemcachedServers";
+    public static final String PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE = "hibernateUseSecondLevelCache";
+
+    public static final String GROUP_MAINTENANCE = "maintenance";
+    public static final String PROPERTY_MAINTENANCE_PERIOD_END_HOUR = "maintenancePeriodEndHour";
+    public static final String PROPERTY_MAINTENANCE_PERIOD_START_HOUR = "maintenancePeriodStartHour";
+
+    public static final String GROUP_MONITORING = "monitoring";
+    public static final String PROPERTY_CHORE_PERFORMANCE_LOG_ENABLED = "chorePerformanceLogEnabled";
+    public static final String PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS = "daoCommandWarningThresholdMs";
+    public static final String PROPERTY_SQL_WARNING_THRESHOLD_MS = "sqlWarningThresholdMs";
 
     public static final String GROUP_ONE_ALL = "oneAll";
     public static final String PROPERTY_ONE_ALL_ENABLED = "oneAllEnabled";
@@ -183,9 +137,27 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_ONE_ALL_PRIVATE_KEY = "oneAllPrivateKey";
     public static final String PROPERTY_ONE_ALL_PUBLIC_KEY = "oneAllPublicKey";
 
-    public static final String GROUP_INTACCT = "intacct";
-    public static final String PROPERTY_INTACCT_SENDER_ID = "intacctSenderId";
-    public static final String PROPERTY_INTACCT_SENDER_PASSWORD = "intacctSenderPassword";
+    public static final String GROUP_PATHS = "paths";
+    public static final String PROPERTY_SHARED_PERSISTENT_PATH = "sharedPersistentPath";
+    public static final String PROPERTY_SHARED_TRANSIENT_PATH = "sharedTransientPath";
+
+    public static final String GROUP_PRODUCTION = "production";
+    public static final String PROPERTY_DEVELOPER_EMAIL_CSV = "developerEmailCsv";
+    public static final String PROPERTY_ENVIRONMENT = "environment";
+
+    public static final String GROUP_SERVER_SESSION = "serverSession";
+    public static final String PROPERTY_SERVER_SESSION_SECURE = "serverSessionSecure";
+    public static final String PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS = "serverSessionTimeoutSeconds";
+
+    public static final String GROUP_SERVLET = "servlet";
+    public static final String PROPERTY_SERVLET_SSL_REDIRECT = "servletSslRedirect";
+    public static final String PROPERTY_WEB_RESOURCE_VERSIONING = "webResourceVersioning";
+    public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS = "writeLastServletResults";
+    public static final String PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER = "writeLastServletResultsCounter";
+
+    public static final String GROUP_URLS = "urls";
+    public static final String PROPERTY_MARKETING_URL = "marketingUrl";
+    public static final String PROPERTY_SUPPORT_URL = "supportUrl";
 
 
     //##################################################
@@ -197,35 +169,61 @@ public class MyPropertyDefinitions
         KmMap<String,MyPropertyDefinition> m;
         m = new KmMap<>();
 
-        // production
-        install(m, newEnvironment());
+        // bootstrap
+        install(m, newBootstrapSystemHostname());
 
-        // accountSetup
-        install(m, newDefaultAdminPassword());
-        install(m, newMinimumPasswordLength());
+        // chores
+        install(m, newApplicationLogFlusherChoreActiveSeconds());
+        install(m, newApplicationLogFlusherChoreEnabled());
+        install(m, newApplicationLogFlusherChoreIdleSeconds());
+        install(m, newClearThemeCacheChoreActiveSeconds());
+        install(m, newClearThemeCacheChoreEnabled());
+        install(m, newClearThemeCacheChoreIdleSeconds());
+        install(m, newLog4jReloaderChoreActiveSeconds());
+        install(m, newLog4jReloaderChoreEnabled());
+        install(m, newLog4jReloaderChoreIdleSeconds());
+        install(m, newMaintenanceChoreActiveSeconds());
+        install(m, newMaintenanceChoreEnabled());
+        install(m, newMaintenanceChoreIdleSeconds());
+        install(m, newMonitorChoreActiveSeconds());
+        install(m, newMonitorChoreEnabled());
+        install(m, newMonitorChoreIdleSeconds());
+        install(m, newOverridesReloaderChoreActiveSeconds());
+        install(m, newOverridesReloaderChoreEnabled());
+        install(m, newOverridesReloaderChoreIdleSeconds());
+        install(m, newPerformanceLogFlusherChoreActiveSeconds());
+        install(m, newPerformanceLogFlusherChoreEnabled());
+        install(m, newPerformanceLogFlusherChoreIdleSeconds());
 
-        // paths
-        install(m, newSharedPersistentPath());
-        install(m, newSharedTransientPath());
+        // databaseConnection
+        install(m, newDatabaseDriver());
+        install(m, newDatabasePassword());
+        install(m, newDatabaseSchema());
+        install(m, newDatabaseUri());
+        install(m, newDatabaseUser());
 
-        // monitoring
+        // databasePatch
+        install(m, newDatabaseSyncOnStartup());
+
+        // debug
+        install(m, newAjaxLogDeleteOnStart());
+        install(m, newAjaxLogEnabled());
+        install(m, newAutoLoginEmail());
         install(m, newContextFormatterEnabled());
         install(m, newContextFormatterLines());
-        install(m, newDaoCommandWarningThresholdMs());
-        install(m, newJobPerformanceLogEnabled());
-        install(m, newSqlWarningThresholdMs());
+        install(m, newDeleteThreadTopicsOnStart());
+        install(m, newPrintAjaxTime());
+        install(m, newPrintAuditLog());
+        install(m, newPrintPerformanceLog());
+        install(m, newRenderDebugDomComments());
+        install(m, newShowHibernateSql());
 
-        // emailJob
+        // emailChore
         install(m, newSendEmailBatch());
+        install(m, newSendEmailChoreActiveSeconds());
+        install(m, newSendEmailChoreEnabled());
+        install(m, newSendEmailChoreIdleSeconds());
         install(m, newSendEmailEnabled());
-        install(m, newSendEmailJobActiveSeconds());
-        install(m, newSendEmailJobEnabled());
-        install(m, newSendEmailJobIdleSeconds());
-
-        // emailSupport
-        install(m, newSendEmailFromAddress());
-        install(m, newSendEmailMethod());
-        install(m, newSendEmailOverrideTo());
 
         // emailGoogleMail
         install(m, newGmailHost());
@@ -233,6 +231,11 @@ public class MyPropertyDefinitions
         install(m, newGmailPort());
         install(m, newGmailScheme());
         install(m, newGmailUser());
+
+        // emailMethod
+        install(m, newSendEmailFromAddress());
+        install(m, newSendEmailMethod());
+        install(m, newSendEmailOverrideTo());
 
         // emailSmtp
         install(m, newSmtpHost());
@@ -242,103 +245,11 @@ public class MyPropertyDefinitions
         install(m, newSmtpUseSsl());
         install(m, newSmtpUser());
 
-        // servlet
-        install(m, newBootstrapSystemHostname());
-        install(m, newMarketingUrl());
-        install(m, newServletSslRedirect());
-        install(m, newSupportUrl());
-        install(m, newWriteLastServletResults());
-        install(m, newWriteLastServletResultsCounter());
-
-        // serverSession
-        install(m, newServerSessionSecure());
-        install(m, newServerSessionTimeoutSeconds());
-
-        // debug
-        install(m, newAllowEmptyUserPasswords());
-        install(m, newPrintAuditLog());
-        install(m, newPrintPerformanceLog());
-        install(m, newServletShowStackTrace());
-
-        // databaseConnection
-        install(m, newDatabaseDriver());
-        install(m, newDatabasePassword());
-        install(m, newDatabaseSchema());
-        install(m, newDatabaseUri());
-        install(m, newDatabaseUser());
-
-        // hibernateSecondLevelCache
-        install(m, newHibernateCacheProvider());
-        install(m, newHibernateCacheTimeSeconds());
-        install(m, newHibernateMemcachedServers());
-        install(m, newHibernateUseSecondLevelCache());
-
-        // databaseOther
-        install(m, newDatabaseAesPassword());
-        install(m, newDatabaseBatchInsertGroupSize());
-        install(m, newDatabasePoolingDelayMs());
-        install(m, newDatabasePoolingEnabled());
-        install(m, newDatabasePoolingRetryCount());
-        install(m, newDatabaseRowLockFailureRetryCount());
-        install(m, newDatabaseRowLockFailureRetryMs());
-        install(m, newDatabaseSyncOnStartup());
-
-        // jobs
-        install(m, newApplicationLogFlusherJobActiveSeconds());
-        install(m, newApplicationLogFlusherJobEnabled());
-        install(m, newApplicationLogFlusherJobIdleSeconds());
-        install(m, newClearThemeCacheJobActiveSeconds());
-        install(m, newClearThemeCacheJobEnabled());
-        install(m, newClearThemeCacheJobIdleSeconds());
-        install(m, newCsvUploadProcessorJobActiveSeconds());
-        install(m, newCsvUploadProcessorJobEnabled());
-        install(m, newCsvUploadProcessorJobIdleSeconds());
-        install(m, newDataProcessorJobActiveSeconds());
-        install(m, newDataProcessorJobEnabled());
-        install(m, newDataProcessorJobIdleSeconds());
-        install(m, newFtpSendToNotifierJobActiveSeconds());
-        install(m, newFtpSendToNotifierJobEnabled());
-        install(m, newFtpSendToNotifierJobIdleSeconds());
-        install(m, newLog4jReloaderJobActiveSeconds());
-        install(m, newLog4jReloaderJobEnabled());
-        install(m, newLog4jReloaderJobIdleSeconds());
-        install(m, newMaintenanceJobActiveSeconds());
-        install(m, newMaintenanceJobEnabled());
-        install(m, newMaintenanceJobIdleSeconds());
-        install(m, newMonitorJobActiveSeconds());
-        install(m, newMonitorJobEnabled());
-        install(m, newMonitorJobIdleSeconds());
-        install(m, newOverridesReloaderJobActiveSeconds());
-        install(m, newOverridesReloaderJobEnabled());
-        install(m, newOverridesReloaderJobIdleSeconds());
-        install(m, newPerformanceLogFlusherJobActiveSeconds());
-        install(m, newPerformanceLogFlusherJobEnabled());
-        install(m, newPerformanceLogFlusherJobIdleSeconds());
-        install(m, newTaskReleaseHoldJobActiveSeconds());
-        install(m, newTaskReleaseHoldJobEnabled());
-        install(m, newTaskReleaseHoldJobIdleSeconds());
-        install(m, newTaskSchedulerJobActiveSeconds());
-        install(m, newTaskSchedulerJobEnabled());
-        install(m, newTaskSchedulerJobIdleSeconds());
-
-        // miscellaneous
-        install(m, newAjaxLogDeleteOnStart());
-        install(m, newAjaxLogEnabled());
-        install(m, newAutoLoginEmail());
-        install(m, newCheckRecommendedBrowser());
-        install(m, newDefaultTimeZoneCode());
-        install(m, newDeleteThreadTopicsOnStart());
-        install(m, newFileUploadRefreshMs());
+        // ftp
         install(m, newFtpEnabled());
-        install(m, newMaintenancePeriodEndHour());
-        install(m, newMaintenancePeriodStartHour());
-        install(m, newMemoryLeakLoopEnabled());
-        install(m, newMemoryLeakLoopSpeedMs());
-        install(m, newPrintAjaxTime());
-        install(m, newRenderDebugDomComments());
-        install(m, newShowHibernateSql());
-        install(m, newSynchronizeServletsBySession());
-        install(m, newWebResourceVersioning());
+        install(m, newFtpSendToNotifierChoreActiveSeconds());
+        install(m, newFtpSendToNotifierChoreEnabled());
+        install(m, newFtpSendToNotifierChoreIdleSeconds());
 
         // googleChart
         install(m, newGoogleChartHost());
@@ -346,8 +257,23 @@ public class MyPropertyDefinitions
         install(m, newGoogleChartPort());
         install(m, newGoogleChartScheme());
 
-        // bootstrap
-        install(m, newRootUserEmail());
+        // googleMaps
+        install(m, newGoogleMapsApiKey());
+
+        // hibernateSecondLevelCache
+        install(m, newHibernateCacheProvider());
+        install(m, newHibernateCacheTimeSeconds());
+        install(m, newHibernateMemcachedServers());
+        install(m, newHibernateUseSecondLevelCache());
+
+        // maintenance
+        install(m, newMaintenancePeriodEndHour());
+        install(m, newMaintenancePeriodStartHour());
+
+        // monitoring
+        install(m, newChorePerformanceLogEnabled());
+        install(m, newDaoCommandWarningThresholdMs());
+        install(m, newSqlWarningThresholdMs());
 
         // oneAll
         install(m, newOneAllEnabled());
@@ -355,9 +281,27 @@ public class MyPropertyDefinitions
         install(m, newOneAllPrivateKey());
         install(m, newOneAllPublicKey());
 
-        // intacct
-        install(m, newIntacctSenderId());
-        install(m, newIntacctSenderPassword());
+        // paths
+        install(m, newSharedPersistentPath());
+        install(m, newSharedTransientPath());
+
+        // production
+        install(m, newDeveloperEmailCsv());
+        install(m, newEnvironment());
+
+        // serverSession
+        install(m, newServerSessionSecure());
+        install(m, newServerSessionTimeoutSeconds());
+
+        // servlet
+        install(m, newServletSslRedirect());
+        install(m, newWebResourceVersioning());
+        install(m, newWriteLastServletResults());
+        install(m, newWriteLastServletResultsCounter());
+
+        // urls
+        install(m, newMarketingUrl());
+        install(m, newSupportUrl());
 
         return m;
     }
@@ -384,93 +328,435 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
-    //# install (production)
+    //# install (bootstrap)
     //##################################################
 
-    private static MyPropertyDefinition newEnvironment()
+    private static MyPropertyDefinition newBootstrapSystemHostname()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_PRODUCTION);
-        e.setKey(PROPERTY_ENVIRONMENT);
-        e.setComment("Indicates the deployment environment. Valid options are: development, stage, production.");
+        e.setGroup(GROUP_BOOTSTRAP);
+        e.setKey(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
+        e.setComment("This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("development");
+        e.setDefaultValue("system.localhost");
         e.postInstall();
         return e;
     }
 
     //##################################################
-    //# install (accountSetup)
+    //# install (chores)
     //##################################################
 
-    private static MyPropertyDefinition newDefaultAdminPassword()
+    private static MyPropertyDefinition newApplicationLogFlusherChoreActiveSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_ACCOUNT_SETUP);
-        e.setKey(PROPERTY_DEFAULT_ADMIN_PASSWORD);
-        e.setComment("The password to be used for the initial admin user on all new accounts.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("admin123");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMinimumPasswordLength()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_ACCOUNT_SETUP);
-        e.setKey(PROPERTY_MINIMUM_PASSWORD_LENGTH);
-        e.setComment("The minimum number of characters required for a valid password.");
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("5");
+        e.setDefaultValue("10");
         e.postInstall();
         return e;
     }
 
-    //##################################################
-    //# install (paths)
-    //##################################################
-
-    private static MyPropertyDefinition newSharedPersistentPath()
+    private static MyPropertyDefinition newApplicationLogFlusherChoreEnabled()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_PATHS);
-        e.setKey(PROPERTY_SHARED_PERSISTENT_PATH);
-        e.setComment("The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("/temp/shared/persistent");
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newSharedTransientPath()
+    private static MyPropertyDefinition newApplicationLogFlusherChoreIdleSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_PATHS);
-        e.setKey(PROPERTY_SHARED_TRANSIENT_PATH);
-        e.setComment("The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("/temp/shared/transient");
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newClearThemeCacheChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_CHORE_ACTIVE_SECONDS);
+        e.setComment("The active frequency of the chore.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newClearThemeCacheChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newClearThemeCacheChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_CLEAR_THEME_CACHE_CHORE_IDLE_SECONDS);
+        e.setComment("The idle frequency of the chore.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newLog4jReloaderChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_LOGJ_RELOADER_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newLog4jReloaderChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_LOGJ_RELOADER_CHORE_ENABLED);
+        e.setComment("Control whether the log4j config file is automatically reloaded during runtime.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newLog4jReloaderChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_LOGJ_RELOADER_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenanceChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MAINTENANCE_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenanceChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MAINTENANCE_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenanceChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MAINTENANCE_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMonitorChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MONITOR_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("600");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMonitorChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MONITOR_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMonitorChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_MONITOR_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("600");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOverridesReloaderChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_OVERRIDES_RELOADER_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOverridesReloaderChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_OVERRIDES_RELOADER_CHORE_ENABLED);
+        e.setComment("Control whether the Overrides file is automatically reloaded during runtime.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newOverridesReloaderChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_OVERRIDES_RELOADER_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPerformanceLogFlusherChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPerformanceLogFlusherChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPerformanceLogFlusherChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_CHORES);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
         e.postInstall();
         return e;
     }
 
     //##################################################
-    //# install (monitoring)
+    //# install (databaseConnection)
     //##################################################
+
+    private static MyPropertyDefinition newDatabaseDriver()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_CONNECTION);
+        e.setKey(PROPERTY_DATABASE_DRIVER);
+        e.setComment("Database connection.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDatabasePassword()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_CONNECTION);
+        e.setKey(PROPERTY_DATABASE_PASSWORD);
+        e.setComment("Database connection.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDatabaseSchema()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_CONNECTION);
+        e.setKey(PROPERTY_DATABASE_SCHEMA);
+        e.setComment("Database connection.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDatabaseUri()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_CONNECTION);
+        e.setKey(PROPERTY_DATABASE_URI);
+        e.setComment("Database connection.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDatabaseUser()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_CONNECTION);
+        e.setKey(PROPERTY_DATABASE_USER);
+        e.setComment("Database connection.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (databasePatch)
+    //##################################################
+
+    private static MyPropertyDefinition newDatabaseSyncOnStartup()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_PATCH);
+        e.setKey(PROPERTY_DATABASE_SYNC_ON_STARTUP);
+        e.setComment("The application normally synchronizes the database patches upon startup. The patch tool uses an a pessimistic database lock to ensure single threaded operation even across multiple concurrent JVMs. This is typically enabled in production and provides for the standard way to deploy database migration scripts.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (debug)
+    //##################################################
+
+    private static MyPropertyDefinition newAjaxLogDeleteOnStart()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_AJAX_LOG_DELETE_ON_START);
+        e.setComment("If true, the ajax log file is deleted when tomcat starts.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newAjaxLogEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_AJAX_LOG_ENABLED);
+        e.setComment("If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newAutoLoginEmail()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_AUTO_LOGIN_EMAIL);
+        e.setComment("Used in development to enable automatic login.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
 
     private static MyPropertyDefinition newContextFormatterEnabled()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MONITORING);
+        e.setGroup(GROUP_DEBUG);
         e.setKey(PROPERTY_CONTEXT_FORMATTER_ENABLED);
-        e.setComment("Determines if the context registry is enabled. If enabled various instances, e.g.: KmCommand, ScAction will store the context (call stack) that the constructs each instance. This can be fairly expensive, but is extremely valuable in debugging the context of slow commands.");
+        e.setComment("Determines if the context registry is enabled. If enabled, various instances such as KmCommand will store the additional details about the call stack that constructs the original instance. This can be fairly expensive, but is valuable in debugging the context of slow commands.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("false");
         e.postInstall();
@@ -481,7 +767,7 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MONITORING);
+        e.setGroup(GROUP_DEBUG);
         e.setKey(PROPERTY_CONTEXT_FORMATTER_LINES);
         e.setComment("The number of lines to include in each context. If set to a value less than or equal to 0 (e.g.: -1), the full context will be stored.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
@@ -490,58 +776,136 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newDaoCommandWarningThresholdMs()
+    private static MyPropertyDefinition newDeleteThreadTopicsOnStart()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MONITORING);
-        e.setKey(PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS);
-        e.setComment("Dao commands requests that exceed this threshold will be logged as a warning. A value of 0 disables logging.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("2000");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newJobPerformanceLogEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MONITORING);
-        e.setKey(PROPERTY_JOB_PERFORMANCE_LOG_ENABLED);
-        e.setComment("When enabled each job's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java job class can override this to force enablement.");
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
+        e.setComment("If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newSqlWarningThresholdMs()
+    private static MyPropertyDefinition newPrintAjaxTime()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MONITORING);
-        e.setKey(PROPERTY_SQL_WARNING_THRESHOLD_MS);
-        e.setComment("Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("1000");
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_PRINT_AJAX_TIME);
+        e.setComment("If true, the time spent on each ajax call is logged.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPrintAuditLog()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_PRINT_AUDIT_LOG);
+        e.setComment("If true, logs are echoed to the console (log4j).");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPrintPerformanceLog()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_PRINT_PERFORMANCE_LOG);
+        e.setComment("If true, logs are echoed to the console (log4j).");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newRenderDebugDomComments()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
+        e.setComment("If true, render an html comment into the dom that identifies the class name of the page and various controls.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newShowHibernateSql()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_SHOW_HIBERNATE_SQL);
+        e.setComment("Tell hibernate to show sql. Requires a restart to take effect.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
 
     //##################################################
-    //# install (emailJob)
+    //# install (emailChore)
     //##################################################
 
     private static MyPropertyDefinition newSendEmailBatch()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_JOB);
+        e.setGroup(GROUP_EMAIL_CHORE);
         e.setKey(PROPERTY_SEND_EMAIL_BATCH);
-        e.setComment("The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.");
+        e.setComment("The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch to fail.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSendEmailChoreActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_CHORE);
+        e.setKey(PROPERTY_SEND_EMAIL_CHORE_ACTIVE_SECONDS);
+        e.setComment("The active frequency of the chore.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("5");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSendEmailChoreEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_CHORE);
+        e.setKey(PROPERTY_SEND_EMAIL_CHORE_ENABLED);
+        e.setComment("Indicates if the chore should be run. Note even if the chore is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSendEmailChoreIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_CHORE);
+        e.setKey(PROPERTY_SEND_EMAIL_CHORE_IDLE_SECONDS);
+        e.setComment("The idle frequency of the chore.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
         e.postInstall();
         return e;
     }
@@ -550,93 +914,11 @@ public class MyPropertyDefinitions
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_JOB);
+        e.setGroup(GROUP_EMAIL_CHORE);
         e.setKey(PROPERTY_SEND_EMAIL_ENABLED);
-        e.setComment("If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.");
+        e.setComment("If false, email sending is completely disabled. The sendEmail chore may still run, no email will be sent, and no emails will be marked as sent.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSendEmailJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_JOB);
-        e.setKey(PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS);
-        e.setComment("The active frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("5");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSendEmailJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_JOB);
-        e.setKey(PROPERTY_SEND_EMAIL_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSendEmailJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_JOB);
-        e.setKey(PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS);
-        e.setComment("The idle frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (emailSupport)
-    //##################################################
-
-    private static MyPropertyDefinition newSendEmailFromAddress()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_SUPPORT);
-        e.setKey(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
-        e.setComment("The address that will be listed as the 'from' address.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("admin@example.com");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSendEmailMethod()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_SUPPORT);
-        e.setKey(PROPERTY_SEND_EMAIL_METHOD);
-        e.setComment("The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("print");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSendEmailOverrideTo()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_EMAIL_SUPPORT);
-        e.setKey(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
-        e.setComment("If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
         e.postInstall();
         return e;
     }
@@ -704,6 +986,49 @@ public class MyPropertyDefinitions
         e.setGroup(GROUP_EMAIL_GOOGLE_MAIL);
         e.setKey(PROPERTY_GMAIL_USER);
         e.setComment("Connecting to gmail.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (emailMethod)
+    //##################################################
+
+    private static MyPropertyDefinition newSendEmailFromAddress()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_METHOD);
+        e.setKey(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
+        e.setComment("The address that will be listed as the 'from' address.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("doNotReply@example.net");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSendEmailMethod()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_METHOD);
+        e.setKey(PROPERTY_SEND_EMAIL_METHOD);
+        e.setComment("The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production.\n [gmail] : Send emails using the gmail passthrough. [print] : Use System.out.print to display the contents of the email. [noop] : No action is take (but the email will still be marked as sent.\n If you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("print");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSendEmailOverrideTo()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL_METHOD);
+        e.setKey(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
+        e.setComment("If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("");
         e.postInstall();
@@ -793,978 +1118,14 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
-    //# install (servlet)
+    //# install (ftp)
     //##################################################
-
-    private static MyPropertyDefinition newBootstrapSystemHostname()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
-        e.setComment("This is primarily used when bootstraping the initial 'system' tenant. After the initial bootstrap, the application should rely on the hostname configured in the tenant database and identified by the 'system' uid in case the hostname is reconfigured in the live system.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("system.4work.expert");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMarketingUrl()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_MARKETING_URL);
-        e.setComment("The url used to redirect people to the marketing website.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("http://www.4work.expert");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newServletSslRedirect()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SERVLET_SSL_REDIRECT);
-        e.setComment("If true, requests to the main application servlet will be redirected as an SSL request.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSupportUrl()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_SUPPORT_URL);
-        e.setComment("The url used to redirect people to the general support team and/or help desk.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("http://www.4work.expert");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newWriteLastServletResults()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_WRITE_LAST_SERVLET_RESULTS);
-        e.setComment("If true, the servlet results are written to the web root directory.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newWriteLastServletResultsCounter()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVLET);
-        e.setKey(PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER);
-        e.setComment("If true, a counter is appended to the file name so that the results are not overwritten each time.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (serverSession)
-    //##################################################
-
-    private static MyPropertyDefinition newServerSessionSecure()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVER_SESSION);
-        e.setKey(PROPERTY_SERVER_SESSION_SECURE);
-        e.setComment("Indicates if the cookie should be set to require secure transmission (https/ssl).");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newServerSessionTimeoutSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_SERVER_SESSION);
-        e.setKey(PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS);
-        e.setComment("The length of time that a session may be idle before it is considered to be automatically stale.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("3600");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (debug)
-    //##################################################
-
-    private static MyPropertyDefinition newAllowEmptyUserPasswords()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DEBUG);
-        e.setKey(PROPERTY_ALLOW_EMPTY_USER_PASSWORDS);
-        e.setComment("Determines if empty/blank passwords should be allowed.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPrintAuditLog()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DEBUG);
-        e.setKey(PROPERTY_PRINT_AUDIT_LOG);
-        e.setComment("If true, logs are echoed to the console (log4j).");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPrintPerformanceLog()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DEBUG);
-        e.setKey(PROPERTY_PRINT_PERFORMANCE_LOG);
-        e.setComment("If true, logs are echoed to the console (log4j).");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newServletShowStackTrace()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DEBUG);
-        e.setKey(PROPERTY_SERVLET_SHOW_STACK_TRACE);
-        e.setComment("Determines if the stack trace should be displayed upon errors. Normally, this is 'false' and the trace is hidden in a comment. For debugging this is usually enabled.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (databaseConnection)
-    //##################################################
-
-    private static MyPropertyDefinition newDatabaseDriver()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_CONNECTION);
-        e.setKey(PROPERTY_DATABASE_DRIVER);
-        e.setComment("Database connection.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabasePassword()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_CONNECTION);
-        e.setKey(PROPERTY_DATABASE_PASSWORD);
-        e.setComment("Database connection.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseSchema()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_CONNECTION);
-        e.setKey(PROPERTY_DATABASE_SCHEMA);
-        e.setComment("Database connection.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseUri()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_CONNECTION);
-        e.setKey(PROPERTY_DATABASE_URI);
-        e.setComment("Database connection.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseUser()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_CONNECTION);
-        e.setKey(PROPERTY_DATABASE_USER);
-        e.setComment("Database connection.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (hibernateSecondLevelCache)
-    //##################################################
-
-    private static MyPropertyDefinition newHibernateCacheProvider()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
-        e.setKey(PROPERTY_HIBERNATE_CACHE_PROVIDER);
-        e.setComment("Hibernate cache provider class.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newHibernateCacheTimeSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
-        e.setKey(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
-        e.setComment("How long items should remain in the second level cache.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("300");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newHibernateMemcachedServers()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
-        e.setKey(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
-        e.setComment("Names of the Memcached Servers, format is <hostname>:<port>");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newHibernateUseSecondLevelCache()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
-        e.setKey(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
-        e.setComment("Use Hibernate second level caching.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (databaseOther)
-    //##################################################
-
-    private static MyPropertyDefinition newDatabaseAesPassword()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_AES_PASSWORD);
-        e.setComment("The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("databasePassword");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseBatchInsertGroupSize()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_BATCH_INSERT_GROUP_SIZE);
-        e.setComment("The number of records that should be inserted at a time when performing batch inserts. The framework provides convenience methods for inserting a list of models. However there are certain database limits on the maximum size of a statement. This parameter automatically takes a batch of arbitrary size and splits it into chunks that the database can handle.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("100");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabasePoolingDelayMs()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_POOLING_DELAY_MS);
-        e.setComment("The number of milliseconds between retries when attempting to create a new pooled connection.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("100");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabasePoolingEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_POOLING_ENABLED);
-        e.setComment("Determines if local database pooling is enabled. When available, it is better to disable this pooling and use more robust pooling provided by an application server. However, this pooling should still be robust enough for production use.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabasePoolingRetryCount()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_POOLING_RETRY_COUNT);
-        e.setComment("This is the number of times that the pooling manager will attempt to create a new connection before throwing an exception.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("5");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseRowLockFailureRetryCount()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_COUNT);
-        e.setComment("The maximum number of times that the system should retry to get a lock.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("0");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseRowLockFailureRetryMs()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS);
-        e.setComment("The amount of time to wait between retries.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("50");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDatabaseSyncOnStartup()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_DATABASE_SYNC_ON_STARTUP);
-        e.setComment("Normally the application will sync the database patches upon startup. Set this to false to disable.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (jobs)
-    //##################################################
-
-    private static MyPropertyDefinition newApplicationLogFlusherJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newApplicationLogFlusherJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newApplicationLogFlusherJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newClearThemeCacheJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS);
-        e.setComment("The active frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("300");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newClearThemeCacheJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newClearThemeCacheJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS);
-        e.setComment("The idle frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("300");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newCsvUploadProcessorJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newCsvUploadProcessorJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newCsvUploadProcessorJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDataProcessorJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DATA_PROCESSOR_JOB_ACTIVE_SECONDS);
-        e.setComment("The active frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("5");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDataProcessorJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DATA_PROCESSOR_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDataProcessorJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DATA_PROCESSOR_JOB_IDLE_SECONDS);
-        e.setComment("The idle frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newFtpSendToNotifierJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newFtpSendToNotifierJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ENABLED);
-        e.setComment("Notify (via ftp) other depots that a device has been 'sent' to them.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newFtpSendToNotifierJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newLog4jReloaderJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_LOGJ_RELOADER_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newLog4jReloaderJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_LOGJ_RELOADER_JOB_ENABLED);
-        e.setComment("Control whether the log4j config file is automatically reloaded during runtime.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newLog4jReloaderJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_LOGJ_RELOADER_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMaintenanceJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMaintenanceJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MAINTENANCE_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMaintenanceJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMonitorJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MONITOR_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("600");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMonitorJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MONITOR_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMonitorJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_MONITOR_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("600");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newOverridesReloaderJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_OVERRIDES_RELOADER_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newOverridesReloaderJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_OVERRIDES_RELOADER_JOB_ENABLED);
-        e.setComment("Control whether the Overrides file is automatically reloaded during runtime.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newOverridesReloaderJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_OVERRIDES_RELOADER_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPerformanceLogFlusherJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPerformanceLogFlusherJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPerformanceLogFlusherJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("10");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskReleaseHoldJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS);
-        e.setComment("The active frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("1");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskReleaseHoldJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskReleaseHoldJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS);
-        e.setComment("The idle frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskSchedulerJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS);
-        e.setComment("The active frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskSchedulerJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newTaskSchedulerJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS);
-        e.setComment("The idle frquency of the job.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("5");
-        e.postInstall();
-        return e;
-    }
-
-    //##################################################
-    //# install (miscellaneous)
-    //##################################################
-
-    private static MyPropertyDefinition newAjaxLogDeleteOnStart()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_AJAX_LOG_DELETE_ON_START);
-        e.setComment("If true, the ajax log file is deleted when tomcat starts.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newAjaxLogEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_AJAX_LOG_ENABLED);
-        e.setComment("If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newAutoLoginEmail()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_AUTO_LOGIN_EMAIL);
-        e.setComment("Used in development to enable automatic login.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newCheckRecommendedBrowser()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_CHECK_RECOMMENDED_BROWSER);
-        e.setComment("If true, a warning will be display on login if the user is NOT using the recommended browser (firefox).");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDefaultTimeZoneCode()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_DEFAULT_TIME_ZONE_CODE);
-        e.setComment("The default time zone used for new users.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("EST-D");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteThreadTopicsOnStart()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
-        e.setComment("If true, all thread topics are deleted upon application start up. This is useful for simpler testing in development when we are GUARANTEED that there will be only a single JVM running at a time. This should NOT be enabled in stage or prod.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newFileUploadRefreshMs()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_FILE_UPLOAD_REFRESH_MS);
-        e.setComment("Determines how often the progress bar should update when uploading files.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("1000");
-        e.postInstall();
-        return e;
-    }
 
     private static MyPropertyDefinition newFtpEnabled()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
+        e.setGroup(GROUP_FTP);
         e.setKey(PROPERTY_FTP_ENABLED);
         e.setComment("When disabled, the details of the message will be logged instead of being sent.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
@@ -1773,119 +1134,41 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newMaintenancePeriodEndHour()
+    private static MyPropertyDefinition newFtpSendToNotifierChoreActiveSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_MAINTENANCE_PERIOD_END_HOUR);
-        e.setComment("The end of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.");
+        e.setGroup(GROUP_FTP);
+        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ACTIVE_SECONDS);
+        e.setComment("x");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("6");
+        e.setDefaultValue("60");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newMaintenancePeriodStartHour()
+    private static MyPropertyDefinition newFtpSendToNotifierChoreEnabled()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_MAINTENANCE_PERIOD_START_HOUR);
-        e.setComment("The start of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("6");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newMemoryLeakLoopEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_MEMORY_LEAK_LOOP_ENABLED);
-        e.setComment("Allows you to turn the looping on and off without leaving the page.");
+        e.setGroup(GROUP_FTP);
+        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ENABLED);
+        e.setComment("Notify (via ftp) other depots that a device has been 'sent' to them.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newMemoryLeakLoopSpeedMs()
+    private static MyPropertyDefinition newFtpSendToNotifierChoreIdleSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_MEMORY_LEAK_LOOP_SPEED_MS);
-        e.setComment("The speed of the memory leak test page.");
+        e.setGroup(GROUP_FTP);
+        e.setKey(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_IDLE_SECONDS);
+        e.setComment("x");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("0");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newPrintAjaxTime()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_PRINT_AJAX_TIME);
-        e.setComment("If true, the time spent on each ajax call is logged.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newRenderDebugDomComments()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
-        e.setComment("If true, render an html comment into the dom that identifies the class name of the page and various controls.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newShowHibernateSql()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_SHOW_HIBERNATE_SQL);
-        e.setComment("Tell hibernate to show sql. Requires a restart to take effect.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newSynchronizeServletsBySession()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_SYNCHRONIZE_SERVLETS_BY_SESSION);
-        e.setComment("This is used to synchronize servlet threads by session.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newWebResourceVersioning()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_MISCELLANEOUS);
-        e.setKey(PROPERTY_WEB_RESOURCE_VERSIONING);
-        e.setComment("This is used to automatically version css and javascript files. none - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev - used in development to change the path each time the app is restarted.");
-        e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("static");
+        e.setDefaultValue("60");
         e.postInstall();
         return e;
     }
@@ -1947,18 +1230,147 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
-    //# install (bootstrap)
+    //# install (googleMaps)
     //##################################################
 
-    private static MyPropertyDefinition newRootUserEmail()
+    private static MyPropertyDefinition newGoogleMapsApiKey()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_BOOTSTRAP);
-        e.setKey(PROPERTY_ROOT_USER_EMAIL);
-        e.setComment("If set, the system will create a default user when bootstrapping the initial database installation.");
+        e.setGroup(GROUP_GOOGLE_MAPS);
+        e.setKey(PROPERTY_GOOGLE_MAPS_API_KEY);
+        e.setComment("The private/secret api key for google maps api. The default key can be used for lightweight development and testing, but a different key should be used for production due to volume and licensing restrictions.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("AIzaSyD_WTy8rgoCU_yoGesX86t7tfpDyGsQWjw");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (hibernateSecondLevelCache)
+    //##################################################
+
+    private static MyPropertyDefinition newHibernateCacheProvider()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_CACHE_PROVIDER);
+        e.setComment("Hibernate cache provider class.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateCacheTimeSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
+        e.setComment("How long items should remain in the second level cache.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateMemcachedServers()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
+        e.setComment("Names of the Memcached Servers, format is <hostname>:<port>");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateUseSecondLevelCache()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
+        e.setComment("Use Hibernate second level caching.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (maintenance)
+    //##################################################
+
+    private static MyPropertyDefinition newMaintenancePeriodEndHour()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MAINTENANCE);
+        e.setKey(PROPERTY_MAINTENANCE_PERIOD_END_HOUR);
+        e.setComment("The end of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("6");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenancePeriodStartHour()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MAINTENANCE);
+        e.setKey(PROPERTY_MAINTENANCE_PERIOD_START_HOUR);
+        e.setComment("The start of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("6");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (monitoring)
+    //##################################################
+
+    private static MyPropertyDefinition newChorePerformanceLogEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MONITORING);
+        e.setKey(PROPERTY_CHORE_PERFORMANCE_LOG_ENABLED);
+        e.setComment("When enabled each chore's performance (ms) is logged. This is enabled by default for production, but it is sometimes useful to temporarily disable this, especially in development. Each java chore class can override this to force enablement.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newDaoCommandWarningThresholdMs()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MONITORING);
+        e.setKey(PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS);
+        e.setComment("Dao commands requests that exceed this threshold will be logged as a warning. A value of 0 disables logging.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("2000");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSqlWarningThresholdMs()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MONITORING);
+        e.setKey(PROPERTY_SQL_WARNING_THRESHOLD_MS);
+        e.setComment("Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("1000");
         e.postInstall();
         return e;
     }
@@ -2020,31 +1432,177 @@ public class MyPropertyDefinitions
     }
 
     //##################################################
-    //# install (intacct)
+    //# install (paths)
     //##################################################
 
-    private static MyPropertyDefinition newIntacctSenderId()
+    private static MyPropertyDefinition newSharedPersistentPath()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_INTACCT);
-        e.setKey(PROPERTY_INTACCT_SENDER_ID);
-        e.setComment("The senderId and password are used to establish a connection with Intacct Web Services, but NOT with any specific company/account. Access to company data is controlled through the user authentication details which may be configured for a particular tenant.");
+        e.setGroup(GROUP_PATHS);
+        e.setKey(PROPERTY_SHARED_PERSISTENT_PATH);
+        e.setComment("The path to work files that persist across deployment. Use this path for files like ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("Accu2015");
+        e.setDefaultValue("/temp/shared/persistent");
         e.postInstall();
         return e;
     }
 
-    private static MyPropertyDefinition newIntacctSenderPassword()
+    private static MyPropertyDefinition newSharedTransientPath()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
-        e.setGroup(GROUP_INTACCT);
-        e.setKey(PROPERTY_INTACCT_SENDER_PASSWORD);
-        e.setComment("See intacctSenderId.");
+        e.setGroup(GROUP_PATHS);
+        e.setKey(PROPERTY_SHARED_TRANSIENT_PATH);
+        e.setComment("The path to work files that persist across deployment. Use this path for files like ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("C78k06P1M5");
+        e.setDefaultValue("/temp/shared/transient");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (production)
+    //##################################################
+
+    private static MyPropertyDefinition newDeveloperEmailCsv()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_PRODUCTION);
+        e.setKey(PROPERTY_DEVELOPER_EMAIL_CSV);
+        e.setComment("The email address(es) used when the system needs to send a message to the development staff. This may be used for things like unhandled exceptions and feedback. The values should be a comma separated list of email addresses.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newEnvironment()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_PRODUCTION);
+        e.setKey(PROPERTY_ENVIRONMENT);
+        e.setComment("Indicates the deployment environment. Valid options are: development, stage, production.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("development");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (serverSession)
+    //##################################################
+
+    private static MyPropertyDefinition newServerSessionSecure()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVER_SESSION);
+        e.setKey(PROPERTY_SERVER_SESSION_SECURE);
+        e.setComment("Indicates if the cookie should be set to require secure transmission (https/ssl).");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newServerSessionTimeoutSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVER_SESSION);
+        e.setKey(PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS);
+        e.setComment("The length of time that a session may be idle before it is considered to be automatically stale.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("3600");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (servlet)
+    //##################################################
+
+    private static MyPropertyDefinition newServletSslRedirect()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVLET);
+        e.setKey(PROPERTY_SERVLET_SSL_REDIRECT);
+        e.setComment("If true, requests to the main application servlet will be redirected as an SSL request.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newWebResourceVersioning()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVLET);
+        e.setKey(PROPERTY_WEB_RESOURCE_VERSIONING);
+        e.setComment("This is used to automatically version css and javascript files. none - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev - used in development; changes the path when the app is started.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("static");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newWriteLastServletResults()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVLET);
+        e.setKey(PROPERTY_WRITE_LAST_SERVLET_RESULTS);
+        e.setComment("If true, the servlet results are written to the web root directory.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newWriteLastServletResultsCounter()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_SERVLET);
+        e.setKey(PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER);
+        e.setComment("If true, a counter is appended to the file name so that the results are not overwritten each time.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (urls)
+    //##################################################
+
+    private static MyPropertyDefinition newMarketingUrl()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_URLS);
+        e.setKey(PROPERTY_MARKETING_URL);
+        e.setComment("The url used to redirect people to the marketing website.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("http://www.example.net");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSupportUrl()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_URLS);
+        e.setKey(PROPERTY_SUPPORT_URL);
+        e.setComment("The url used to redirect people to the general support team and/or help desk.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("http://www.example.net");
         e.postInstall();
         return e;
     }
@@ -2095,29 +1653,159 @@ public class MyPropertyDefinitions
     //# accessing
     //##################################################
 
-    public static MyPropertyDefinition getEnvironment()
+    public static MyPropertyDefinition getBootstrapSystemHostname()
     {
-        return get(PROPERTY_ENVIRONMENT);
+        return get(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
     }
 
-    public static MyPropertyDefinition getDefaultAdminPassword()
+    public static MyPropertyDefinition getApplicationLogFlusherChoreActiveSeconds()
     {
-        return get(PROPERTY_DEFAULT_ADMIN_PASSWORD);
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ACTIVE_SECONDS);
     }
 
-    public static MyPropertyDefinition getMinimumPasswordLength()
+    public static MyPropertyDefinition getApplicationLogFlusherChoreEnabled()
     {
-        return get(PROPERTY_MINIMUM_PASSWORD_LENGTH);
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_ENABLED);
     }
 
-    public static MyPropertyDefinition getSharedPersistentPath()
+    public static MyPropertyDefinition getApplicationLogFlusherChoreIdleSeconds()
     {
-        return get(PROPERTY_SHARED_PERSISTENT_PATH);
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_CHORE_IDLE_SECONDS);
     }
 
-    public static MyPropertyDefinition getSharedTransientPath()
+    public static MyPropertyDefinition getClearThemeCacheChoreActiveSeconds()
     {
-        return get(PROPERTY_SHARED_TRANSIENT_PATH);
+        return get(PROPERTY_CLEAR_THEME_CACHE_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getClearThemeCacheChoreEnabled()
+    {
+        return get(PROPERTY_CLEAR_THEME_CACHE_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getClearThemeCacheChoreIdleSeconds()
+    {
+        return get(PROPERTY_CLEAR_THEME_CACHE_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getLog4jReloaderChoreActiveSeconds()
+    {
+        return get(PROPERTY_LOGJ_RELOADER_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getLog4jReloaderChoreEnabled()
+    {
+        return get(PROPERTY_LOGJ_RELOADER_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getLog4jReloaderChoreIdleSeconds()
+    {
+        return get(PROPERTY_LOGJ_RELOADER_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getMaintenanceChoreActiveSeconds()
+    {
+        return get(PROPERTY_MAINTENANCE_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getMaintenanceChoreEnabled()
+    {
+        return get(PROPERTY_MAINTENANCE_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getMaintenanceChoreIdleSeconds()
+    {
+        return get(PROPERTY_MAINTENANCE_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getMonitorChoreActiveSeconds()
+    {
+        return get(PROPERTY_MONITOR_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getMonitorChoreEnabled()
+    {
+        return get(PROPERTY_MONITOR_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getMonitorChoreIdleSeconds()
+    {
+        return get(PROPERTY_MONITOR_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getOverridesReloaderChoreActiveSeconds()
+    {
+        return get(PROPERTY_OVERRIDES_RELOADER_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getOverridesReloaderChoreEnabled()
+    {
+        return get(PROPERTY_OVERRIDES_RELOADER_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getOverridesReloaderChoreIdleSeconds()
+    {
+        return get(PROPERTY_OVERRIDES_RELOADER_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getPerformanceLogFlusherChoreActiveSeconds()
+    {
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getPerformanceLogFlusherChoreEnabled()
+    {
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getPerformanceLogFlusherChoreIdleSeconds()
+    {
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_CHORE_IDLE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getDatabaseDriver()
+    {
+        return get(PROPERTY_DATABASE_DRIVER);
+    }
+
+    public static MyPropertyDefinition getDatabasePassword()
+    {
+        return get(PROPERTY_DATABASE_PASSWORD);
+    }
+
+    public static MyPropertyDefinition getDatabaseSchema()
+    {
+        return get(PROPERTY_DATABASE_SCHEMA);
+    }
+
+    public static MyPropertyDefinition getDatabaseUri()
+    {
+        return get(PROPERTY_DATABASE_URI);
+    }
+
+    public static MyPropertyDefinition getDatabaseUser()
+    {
+        return get(PROPERTY_DATABASE_USER);
+    }
+
+    public static MyPropertyDefinition getDatabaseSyncOnStartup()
+    {
+        return get(PROPERTY_DATABASE_SYNC_ON_STARTUP);
+    }
+
+    public static MyPropertyDefinition getAjaxLogDeleteOnStart()
+    {
+        return get(PROPERTY_AJAX_LOG_DELETE_ON_START);
+    }
+
+    public static MyPropertyDefinition getAjaxLogEnabled()
+    {
+        return get(PROPERTY_AJAX_LOG_ENABLED);
+    }
+
+    public static MyPropertyDefinition getAutoLoginEmail()
+    {
+        return get(PROPERTY_AUTO_LOGIN_EMAIL);
     }
 
     public static MyPropertyDefinition getContextFormatterEnabled()
@@ -2130,19 +1818,34 @@ public class MyPropertyDefinitions
         return get(PROPERTY_CONTEXT_FORMATTER_LINES);
     }
 
-    public static MyPropertyDefinition getDaoCommandWarningThresholdMs()
+    public static MyPropertyDefinition getDeleteThreadTopicsOnStart()
     {
-        return get(PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS);
+        return get(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
     }
 
-    public static MyPropertyDefinition getJobPerformanceLogEnabled()
+    public static MyPropertyDefinition getPrintAjaxTime()
     {
-        return get(PROPERTY_JOB_PERFORMANCE_LOG_ENABLED);
+        return get(PROPERTY_PRINT_AJAX_TIME);
     }
 
-    public static MyPropertyDefinition getSqlWarningThresholdMs()
+    public static MyPropertyDefinition getPrintAuditLog()
     {
-        return get(PROPERTY_SQL_WARNING_THRESHOLD_MS);
+        return get(PROPERTY_PRINT_AUDIT_LOG);
+    }
+
+    public static MyPropertyDefinition getPrintPerformanceLog()
+    {
+        return get(PROPERTY_PRINT_PERFORMANCE_LOG);
+    }
+
+    public static MyPropertyDefinition getRenderDebugDomComments()
+    {
+        return get(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
+    }
+
+    public static MyPropertyDefinition getShowHibernateSql()
+    {
+        return get(PROPERTY_SHOW_HIBERNATE_SQL);
     }
 
     public static MyPropertyDefinition getSendEmailBatch()
@@ -2150,39 +1853,24 @@ public class MyPropertyDefinitions
         return get(PROPERTY_SEND_EMAIL_BATCH);
     }
 
+    public static MyPropertyDefinition getSendEmailChoreActiveSeconds()
+    {
+        return get(PROPERTY_SEND_EMAIL_CHORE_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getSendEmailChoreEnabled()
+    {
+        return get(PROPERTY_SEND_EMAIL_CHORE_ENABLED);
+    }
+
+    public static MyPropertyDefinition getSendEmailChoreIdleSeconds()
+    {
+        return get(PROPERTY_SEND_EMAIL_CHORE_IDLE_SECONDS);
+    }
+
     public static MyPropertyDefinition getSendEmailEnabled()
     {
         return get(PROPERTY_SEND_EMAIL_ENABLED);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobActiveSeconds()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobEnabled()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getSendEmailJobIdleSeconds()
-    {
-        return get(PROPERTY_SEND_EMAIL_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getSendEmailFromAddress()
-    {
-        return get(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
-    }
-
-    public static MyPropertyDefinition getSendEmailMethod()
-    {
-        return get(PROPERTY_SEND_EMAIL_METHOD);
-    }
-
-    public static MyPropertyDefinition getSendEmailOverrideTo()
-    {
-        return get(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
     }
 
     public static MyPropertyDefinition getGmailHost()
@@ -2208,6 +1896,21 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getGmailUser()
     {
         return get(PROPERTY_GMAIL_USER);
+    }
+
+    public static MyPropertyDefinition getSendEmailFromAddress()
+    {
+        return get(PROPERTY_SEND_EMAIL_FROM_ADDRESS);
+    }
+
+    public static MyPropertyDefinition getSendEmailMethod()
+    {
+        return get(PROPERTY_SEND_EMAIL_METHOD);
+    }
+
+    public static MyPropertyDefinition getSendEmailOverrideTo()
+    {
+        return get(PROPERTY_SEND_EMAIL_OVERRIDE_TO);
     }
 
     public static MyPropertyDefinition getSmtpHost()
@@ -2240,414 +1943,24 @@ public class MyPropertyDefinitions
         return get(PROPERTY_SMTP_USER);
     }
 
-    public static MyPropertyDefinition getBootstrapSystemHostname()
-    {
-        return get(PROPERTY_BOOTSTRAP_SYSTEM_HOSTNAME);
-    }
-
-    public static MyPropertyDefinition getMarketingUrl()
-    {
-        return get(PROPERTY_MARKETING_URL);
-    }
-
-    public static MyPropertyDefinition getServletSslRedirect()
-    {
-        return get(PROPERTY_SERVLET_SSL_REDIRECT);
-    }
-
-    public static MyPropertyDefinition getSupportUrl()
-    {
-        return get(PROPERTY_SUPPORT_URL);
-    }
-
-    public static MyPropertyDefinition getWriteLastServletResults()
-    {
-        return get(PROPERTY_WRITE_LAST_SERVLET_RESULTS);
-    }
-
-    public static MyPropertyDefinition getWriteLastServletResultsCounter()
-    {
-        return get(PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER);
-    }
-
-    public static MyPropertyDefinition getServerSessionSecure()
-    {
-        return get(PROPERTY_SERVER_SESSION_SECURE);
-    }
-
-    public static MyPropertyDefinition getServerSessionTimeoutSeconds()
-    {
-        return get(PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS);
-    }
-
-    public static MyPropertyDefinition getAllowEmptyUserPasswords()
-    {
-        return get(PROPERTY_ALLOW_EMPTY_USER_PASSWORDS);
-    }
-
-    public static MyPropertyDefinition getPrintAuditLog()
-    {
-        return get(PROPERTY_PRINT_AUDIT_LOG);
-    }
-
-    public static MyPropertyDefinition getPrintPerformanceLog()
-    {
-        return get(PROPERTY_PRINT_PERFORMANCE_LOG);
-    }
-
-    public static MyPropertyDefinition getServletShowStackTrace()
-    {
-        return get(PROPERTY_SERVLET_SHOW_STACK_TRACE);
-    }
-
-    public static MyPropertyDefinition getDatabaseDriver()
-    {
-        return get(PROPERTY_DATABASE_DRIVER);
-    }
-
-    public static MyPropertyDefinition getDatabasePassword()
-    {
-        return get(PROPERTY_DATABASE_PASSWORD);
-    }
-
-    public static MyPropertyDefinition getDatabaseSchema()
-    {
-        return get(PROPERTY_DATABASE_SCHEMA);
-    }
-
-    public static MyPropertyDefinition getDatabaseUri()
-    {
-        return get(PROPERTY_DATABASE_URI);
-    }
-
-    public static MyPropertyDefinition getDatabaseUser()
-    {
-        return get(PROPERTY_DATABASE_USER);
-    }
-
-    public static MyPropertyDefinition getHibernateCacheProvider()
-    {
-        return get(PROPERTY_HIBERNATE_CACHE_PROVIDER);
-    }
-
-    public static MyPropertyDefinition getHibernateCacheTimeSeconds()
-    {
-        return get(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
-    }
-
-    public static MyPropertyDefinition getHibernateMemcachedServers()
-    {
-        return get(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
-    }
-
-    public static MyPropertyDefinition getHibernateUseSecondLevelCache()
-    {
-        return get(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
-    }
-
-    public static MyPropertyDefinition getDatabaseAesPassword()
-    {
-        return get(PROPERTY_DATABASE_AES_PASSWORD);
-    }
-
-    public static MyPropertyDefinition getDatabaseBatchInsertGroupSize()
-    {
-        return get(PROPERTY_DATABASE_BATCH_INSERT_GROUP_SIZE);
-    }
-
-    public static MyPropertyDefinition getDatabasePoolingDelayMs()
-    {
-        return get(PROPERTY_DATABASE_POOLING_DELAY_MS);
-    }
-
-    public static MyPropertyDefinition getDatabasePoolingEnabled()
-    {
-        return get(PROPERTY_DATABASE_POOLING_ENABLED);
-    }
-
-    public static MyPropertyDefinition getDatabasePoolingRetryCount()
-    {
-        return get(PROPERTY_DATABASE_POOLING_RETRY_COUNT);
-    }
-
-    public static MyPropertyDefinition getDatabaseRowLockFailureRetryCount()
-    {
-        return get(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_COUNT);
-    }
-
-    public static MyPropertyDefinition getDatabaseRowLockFailureRetryMs()
-    {
-        return get(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS);
-    }
-
-    public static MyPropertyDefinition getDatabaseSyncOnStartup()
-    {
-        return get(PROPERTY_DATABASE_SYNC_ON_STARTUP);
-    }
-
-    public static MyPropertyDefinition getApplicationLogFlusherJobActiveSeconds()
-    {
-        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getApplicationLogFlusherJobEnabled()
-    {
-        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getApplicationLogFlusherJobIdleSeconds()
-    {
-        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getClearThemeCacheJobActiveSeconds()
-    {
-        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getClearThemeCacheJobEnabled()
-    {
-        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getClearThemeCacheJobIdleSeconds()
-    {
-        return get(PROPERTY_CLEAR_THEME_CACHE_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getCsvUploadProcessorJobActiveSeconds()
-    {
-        return get(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getCsvUploadProcessorJobEnabled()
-    {
-        return get(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getCsvUploadProcessorJobIdleSeconds()
-    {
-        return get(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDataProcessorJobActiveSeconds()
-    {
-        return get(PROPERTY_DATA_PROCESSOR_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDataProcessorJobEnabled()
-    {
-        return get(PROPERTY_DATA_PROCESSOR_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getDataProcessorJobIdleSeconds()
-    {
-        return get(PROPERTY_DATA_PROCESSOR_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getFtpSendToNotifierJobActiveSeconds()
-    {
-        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getFtpSendToNotifierJobEnabled()
-    {
-        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getFtpSendToNotifierJobIdleSeconds()
-    {
-        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getLog4jReloaderJobActiveSeconds()
-    {
-        return get(PROPERTY_LOGJ_RELOADER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getLog4jReloaderJobEnabled()
-    {
-        return get(PROPERTY_LOGJ_RELOADER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getLog4jReloaderJobIdleSeconds()
-    {
-        return get(PROPERTY_LOGJ_RELOADER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getMaintenanceJobActiveSeconds()
-    {
-        return get(PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getMaintenanceJobEnabled()
-    {
-        return get(PROPERTY_MAINTENANCE_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getMaintenanceJobIdleSeconds()
-    {
-        return get(PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getMonitorJobActiveSeconds()
-    {
-        return get(PROPERTY_MONITOR_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getMonitorJobEnabled()
-    {
-        return get(PROPERTY_MONITOR_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getMonitorJobIdleSeconds()
-    {
-        return get(PROPERTY_MONITOR_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getOverridesReloaderJobActiveSeconds()
-    {
-        return get(PROPERTY_OVERRIDES_RELOADER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getOverridesReloaderJobEnabled()
-    {
-        return get(PROPERTY_OVERRIDES_RELOADER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getOverridesReloaderJobIdleSeconds()
-    {
-        return get(PROPERTY_OVERRIDES_RELOADER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getPerformanceLogFlusherJobActiveSeconds()
-    {
-        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getPerformanceLogFlusherJobEnabled()
-    {
-        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getPerformanceLogFlusherJobIdleSeconds()
-    {
-        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getTaskReleaseHoldJobActiveSeconds()
-    {
-        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getTaskReleaseHoldJobEnabled()
-    {
-        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getTaskReleaseHoldJobIdleSeconds()
-    {
-        return get(PROPERTY_TASK_RELEASE_HOLD_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getTaskSchedulerJobActiveSeconds()
-    {
-        return get(PROPERTY_TASK_SCHEDULER_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getTaskSchedulerJobEnabled()
-    {
-        return get(PROPERTY_TASK_SCHEDULER_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getTaskSchedulerJobIdleSeconds()
-    {
-        return get(PROPERTY_TASK_SCHEDULER_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getAjaxLogDeleteOnStart()
-    {
-        return get(PROPERTY_AJAX_LOG_DELETE_ON_START);
-    }
-
-    public static MyPropertyDefinition getAjaxLogEnabled()
-    {
-        return get(PROPERTY_AJAX_LOG_ENABLED);
-    }
-
-    public static MyPropertyDefinition getAutoLoginEmail()
-    {
-        return get(PROPERTY_AUTO_LOGIN_EMAIL);
-    }
-
-    public static MyPropertyDefinition getCheckRecommendedBrowser()
-    {
-        return get(PROPERTY_CHECK_RECOMMENDED_BROWSER);
-    }
-
-    public static MyPropertyDefinition getDefaultTimeZoneCode()
-    {
-        return get(PROPERTY_DEFAULT_TIME_ZONE_CODE);
-    }
-
-    public static MyPropertyDefinition getDeleteThreadTopicsOnStart()
-    {
-        return get(PROPERTY_DELETE_THREAD_TOPICS_ON_START);
-    }
-
-    public static MyPropertyDefinition getFileUploadRefreshMs()
-    {
-        return get(PROPERTY_FILE_UPLOAD_REFRESH_MS);
-    }
-
     public static MyPropertyDefinition getFtpEnabled()
     {
         return get(PROPERTY_FTP_ENABLED);
     }
 
-    public static MyPropertyDefinition getMaintenancePeriodEndHour()
+    public static MyPropertyDefinition getFtpSendToNotifierChoreActiveSeconds()
     {
-        return get(PROPERTY_MAINTENANCE_PERIOD_END_HOUR);
+        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ACTIVE_SECONDS);
     }
 
-    public static MyPropertyDefinition getMaintenancePeriodStartHour()
+    public static MyPropertyDefinition getFtpSendToNotifierChoreEnabled()
     {
-        return get(PROPERTY_MAINTENANCE_PERIOD_START_HOUR);
+        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_ENABLED);
     }
 
-    public static MyPropertyDefinition getMemoryLeakLoopEnabled()
+    public static MyPropertyDefinition getFtpSendToNotifierChoreIdleSeconds()
     {
-        return get(PROPERTY_MEMORY_LEAK_LOOP_ENABLED);
-    }
-
-    public static MyPropertyDefinition getMemoryLeakLoopSpeedMs()
-    {
-        return get(PROPERTY_MEMORY_LEAK_LOOP_SPEED_MS);
-    }
-
-    public static MyPropertyDefinition getPrintAjaxTime()
-    {
-        return get(PROPERTY_PRINT_AJAX_TIME);
-    }
-
-    public static MyPropertyDefinition getRenderDebugDomComments()
-    {
-        return get(PROPERTY_RENDER_DEBUG_DOM_COMMENTS);
-    }
-
-    public static MyPropertyDefinition getShowHibernateSql()
-    {
-        return get(PROPERTY_SHOW_HIBERNATE_SQL);
-    }
-
-    public static MyPropertyDefinition getSynchronizeServletsBySession()
-    {
-        return get(PROPERTY_SYNCHRONIZE_SERVLETS_BY_SESSION);
-    }
-
-    public static MyPropertyDefinition getWebResourceVersioning()
-    {
-        return get(PROPERTY_WEB_RESOURCE_VERSIONING);
+        return get(PROPERTY_FTP_SEND_TO_NOTIFIER_CHORE_IDLE_SECONDS);
     }
 
     public static MyPropertyDefinition getGoogleChartHost()
@@ -2670,9 +1983,54 @@ public class MyPropertyDefinitions
         return get(PROPERTY_GOOGLE_CHART_SCHEME);
     }
 
-    public static MyPropertyDefinition getRootUserEmail()
+    public static MyPropertyDefinition getGoogleMapsApiKey()
     {
-        return get(PROPERTY_ROOT_USER_EMAIL);
+        return get(PROPERTY_GOOGLE_MAPS_API_KEY);
+    }
+
+    public static MyPropertyDefinition getHibernateCacheProvider()
+    {
+        return get(PROPERTY_HIBERNATE_CACHE_PROVIDER);
+    }
+
+    public static MyPropertyDefinition getHibernateCacheTimeSeconds()
+    {
+        return get(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
+    }
+
+    public static MyPropertyDefinition getHibernateMemcachedServers()
+    {
+        return get(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
+    }
+
+    public static MyPropertyDefinition getHibernateUseSecondLevelCache()
+    {
+        return get(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
+    }
+
+    public static MyPropertyDefinition getMaintenancePeriodEndHour()
+    {
+        return get(PROPERTY_MAINTENANCE_PERIOD_END_HOUR);
+    }
+
+    public static MyPropertyDefinition getMaintenancePeriodStartHour()
+    {
+        return get(PROPERTY_MAINTENANCE_PERIOD_START_HOUR);
+    }
+
+    public static MyPropertyDefinition getChorePerformanceLogEnabled()
+    {
+        return get(PROPERTY_CHORE_PERFORMANCE_LOG_ENABLED);
+    }
+
+    public static MyPropertyDefinition getDaoCommandWarningThresholdMs()
+    {
+        return get(PROPERTY_DAO_COMMAND_WARNING_THRESHOLD_MS);
+    }
+
+    public static MyPropertyDefinition getSqlWarningThresholdMs()
+    {
+        return get(PROPERTY_SQL_WARNING_THRESHOLD_MS);
     }
 
     public static MyPropertyDefinition getOneAllEnabled()
@@ -2695,14 +2053,64 @@ public class MyPropertyDefinitions
         return get(PROPERTY_ONE_ALL_PUBLIC_KEY);
     }
 
-    public static MyPropertyDefinition getIntacctSenderId()
+    public static MyPropertyDefinition getSharedPersistentPath()
     {
-        return get(PROPERTY_INTACCT_SENDER_ID);
+        return get(PROPERTY_SHARED_PERSISTENT_PATH);
     }
 
-    public static MyPropertyDefinition getIntacctSenderPassword()
+    public static MyPropertyDefinition getSharedTransientPath()
     {
-        return get(PROPERTY_INTACCT_SENDER_PASSWORD);
+        return get(PROPERTY_SHARED_TRANSIENT_PATH);
+    }
+
+    public static MyPropertyDefinition getDeveloperEmailCsv()
+    {
+        return get(PROPERTY_DEVELOPER_EMAIL_CSV);
+    }
+
+    public static MyPropertyDefinition getEnvironment()
+    {
+        return get(PROPERTY_ENVIRONMENT);
+    }
+
+    public static MyPropertyDefinition getServerSessionSecure()
+    {
+        return get(PROPERTY_SERVER_SESSION_SECURE);
+    }
+
+    public static MyPropertyDefinition getServerSessionTimeoutSeconds()
+    {
+        return get(PROPERTY_SERVER_SESSION_TIMEOUT_SECONDS);
+    }
+
+    public static MyPropertyDefinition getServletSslRedirect()
+    {
+        return get(PROPERTY_SERVLET_SSL_REDIRECT);
+    }
+
+    public static MyPropertyDefinition getWebResourceVersioning()
+    {
+        return get(PROPERTY_WEB_RESOURCE_VERSIONING);
+    }
+
+    public static MyPropertyDefinition getWriteLastServletResults()
+    {
+        return get(PROPERTY_WRITE_LAST_SERVLET_RESULTS);
+    }
+
+    public static MyPropertyDefinition getWriteLastServletResultsCounter()
+    {
+        return get(PROPERTY_WRITE_LAST_SERVLET_RESULTS_COUNTER);
+    }
+
+    public static MyPropertyDefinition getMarketingUrl()
+    {
+        return get(PROPERTY_MARKETING_URL);
+    }
+
+    public static MyPropertyDefinition getSupportUrl()
+    {
+        return get(PROPERTY_SUPPORT_URL);
     }
 
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,12 @@ package com.kodemore.aws.s3;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.util.StringInputStream;
 
@@ -78,15 +78,13 @@ public class KmS3Uploader
      */
     public void upload(String bucketName, String toPath, String fromSource)
     {
-        StringInputStream is = null;
-        try
+        try (StringInputStream in = new StringInputStream(fromSource))
         {
-            is = new StringInputStream(fromSource);
-            upload(bucketName, toPath, is);
+            upload(bucketName, toPath, in);
         }
-        catch ( UnsupportedEncodingException ex )
+        catch ( Exception ex )
         {
-            Kmu.closeSafely(is);
+            throw Kmu.toRuntime(ex);
         }
     }
 
@@ -118,10 +116,15 @@ public class KmS3Uploader
     //# private
     //##################################################
 
-    private AmazonS3Client createClient()
+    private AmazonS3 createClient()
     {
-        AWSCredentials creds = new BasicAWSCredentials(_accessKeyId, _secretKey);
-        return new AmazonS3Client(creds);
+        AWSCredentials credentials = new BasicAWSCredentials(_accessKeyId, _secretKey);
+        AWSStaticCredentialsProvider provider = new AWSStaticCredentialsProvider(credentials);
+
+        AmazonS3ClientBuilder builder;
+        builder = AmazonS3ClientBuilder.standard();
+        builder.setCredentials(provider);
+        return builder.build();
     }
 
     //##################################################

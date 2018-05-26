@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,7 @@ import com.kodemore.servlet.variable.ScLocalTime;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTime;
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmWeekDay;
 import com.kodemore.types.KmHtmlColor;
@@ -68,22 +69,22 @@ public abstract class ScCalendar
     //# constants
     //##################################################
 
-    private static final String    KEY_EVENT_UID              = "eventUid";
-    private static final String    KEY_EVENT_TITLE            = "eventTitle";
-    private static final String    KEY_EVENT_START            = "eventStart";
-    private static final String    KEY_EVENT_END              = "eventEnd";
-    private static final String    KEY_EVENT_ALL_DAY          = "eventAllDay";
+    private static final String KEY_EVENT_UID     = "eventUid";
+    private static final String KEY_EVENT_TITLE   = "eventTitle";
+    private static final String KEY_EVENT_START   = "eventStart";
+    private static final String KEY_EVENT_END     = "eventEnd";
+    private static final String KEY_EVENT_ALL_DAY = "eventAllDay";
 
-    private static final String    KEY_EVENT_CSS_NAME         = "eventCssName";
-    private static final String    KEY_EVENT_TEXT_COLOR       = "eventTextColor";
-    private static final String    KEY_EVENT_BACKGROUND_COLOR = "eventBackgroundColor";
-    private static final String    KEY_EVENT_BORDER_COLOR     = "eventBorderColor";
+    private static final String KEY_EVENT_CSS_NAME         = "eventCssName";
+    private static final String KEY_EVENT_TEXT_COLOR       = "eventTextColor";
+    private static final String KEY_EVENT_BACKGROUND_COLOR = "eventBackgroundColor";
+    private static final String KEY_EVENT_BORDER_COLOR     = "eventBorderColor";
 
-    private static final String    VIEW_MONTH                 = "month";
-    private static final String    VIEW_BASIC_WEEK            = "basicWeek";
-    private static final String    VIEW_BASIC_DAY             = "basicDay";
-    private static final String    VIEW_AGENDA_WEEK           = "agendaWeek";
-    private static final String    VIEW_AGENDA_DAY            = "agendaDay";
+    private static final String VIEW_MONTH       = "month";
+    private static final String VIEW_BASIC_WEEK  = "basicWeek";
+    private static final String VIEW_BASIC_DAY   = "basicDay";
+    private static final String VIEW_AGENDA_WEEK = "agendaWeek";
+    private static final String VIEW_AGENDA_DAY  = "agendaDay";
 
     //##################################################
     //# variables
@@ -92,84 +93,115 @@ public abstract class ScCalendar
     /**
      * If the user is allowed to drag or resize events on the calendar.
      */
-    private ScLocalBoolean         _editable;
+    private ScLocalBoolean _editable;
 
     /**
      * If true, days with many events will only display the first few with
      * a "+n more" link at the bottom to view the rest.
      */
-    private ScLocalBoolean         _collapseEvents;
+    private ScLocalBoolean _collapseEvents;
 
     /**
      * If true the user may select a day/time or day/time span on the calendar.
      * A callback action can be set for this using setOnSelectAction().
      */
-    private ScLocalBoolean         _selectable;
+    private ScLocalBoolean _selectable;
+
+    /**
+     * The timeZone associated with this calendar.
+     * Event times are specified in UTC but are converted to
+     * this time for display on the calendar. The timeZone
+     * defaults to UTC.
+     */
+    private ScLocalString _timeZoneCode;
+
+    /**
+     * If set, the calendar will display this date when loaded.
+     * If not set, the calendar will initially display the current date.
+     */
+    private ScLocalDate _defaultDate;
+
+    /**
+     * If set open this view by default.
+     */
+    private ScLocalString _defaultView;
+
+    //==================================================
+    //= variables :: business hours
+    //==================================================
 
     /**
      * If true, the calendar will highlight business hours and days. Business hours
      * must be set up for this to work, either by manually specifying business days
      * and hours, or by calling setStandardBusinessHours();
      */
-    private ScLocalBoolean         _showBusinessHours;
-
-    /**
-     * If set, the calendar will display this date when loaded.
-     * If not set, the calendar will initially display the current date.
-     */
-    private ScLocalDate            _defaultDate;
-
-    /**
-     * If set open this view by default.
-     */
-    private ScLocalString          _defaultView;
+    private ScLocalBoolean _showBusinessHours;
 
     /**
      * The optional business days.
      * If set, these are displayed in a different color.
+     *
+     * TIMEZONE: the business hours should be set relative to the
+     * calendar's timezone.
      */
     private ScLocalList<KmWeekDay> _businessDays;
 
     /**
      * The optional start of the business day.
      * If set, the business hours are displayed in a different color.
+     *
+     * TIMEZONE: the business hours should be set relative to the
+     * calendar's timezone. That is, if the calendar's time zone
+     * is US/Eastern, then a start time of 5am means 5am Eastern.
      */
-    private ScLocalTime            _businessHoursStart;
+    private ScLocalTime _businessHoursStart;
 
     /**
      * The optional end of the business day.
      * If set, the business hours are displayed in a different color.
+     *
+     * TIMEZONE: the business hours should be set relative to the
+     * calendar's timezone. That is, if the calendar's time zone
+     * is US/Eastern, then an end time of 5am means 5am Eastern.
      */
-    private ScLocalTime            _businessHoursEnd;
+    private ScLocalTime _businessHoursEnd;
+
+    //==================================================
+    //= variables :: min/max time
+    //==================================================
 
     /**
      * The minimum time to be displayed.
      * Defaults to midnight at the start of day, 00:00:00.
      */
-    private ScLocalTime            _minimumTime;
+    private ScLocalTime _minimumTime;
 
     /**
      * The maximum time to display.
      * Defaults to midnight at end of day, 24:00:00;
      */
-    private ScLocalTime            _maximumTime;
+    private ScLocalTime _maximumTime;
 
     /**
      * The time of day that the view is initially scrolled to.
      * The user can still scroll up to the minimum time (or midnight).
      */
-    private ScLocalTime            _scrollTime;
+    private ScLocalTime _scrollTime;
+
+    //==================================================
+    //= variables :: other
+    //==================================================
 
     /**
      * If true, show the header for the All Day events.
      * Default is true.
      */
-    private ScLocalBoolean         _showsAllDay;
+    private ScLocalBoolean _showsAllDay;
 
     /**
      * Used to manage visibility (show/hide) but not exposed to client code.
      */
-    private ScLocalStyle           _style;
+    private ScLocalStyle _style;
 
     //==================================================
     //= actions
@@ -181,21 +213,21 @@ public abstract class ScCalendar
      *
      * NOTE: the calendar uses the 'extra' attribute internally.
      */
-    private ScLocalAction          _selectAction;
+    private ScLocalAction _selectAction;
 
     /**
      * Called when the user clicks on an existing event.
      *
      * NOTE: the calendar uses the 'extra' attribute internally.
      */
-    private ScLocalAction          _clickAction;
+    private ScLocalAction _clickAction;
 
     /**
      * Called when the user moves or resizes an existing event.
      *
      * NOTE: the calendar uses the 'extra' attribute internally.
      */
-    private ScLocalAction          _editAction;
+    private ScLocalAction _editAction;
 
     //##################################################
     //# constructor
@@ -207,6 +239,8 @@ public abstract class ScCalendar
         _collapseEvents = new ScLocalBoolean(false);
         _selectable = new ScLocalBoolean(false);
         _showBusinessHours = new ScLocalBoolean(false);
+
+        _timeZoneCode = new ScLocalString(KmTimeZone.UTC.getCode());
 
         _defaultDate = new ScLocalDate();
         _defaultView = new ScLocalString();
@@ -235,7 +269,7 @@ public abstract class ScCalendar
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     @Override
@@ -388,6 +422,22 @@ public abstract class ScCalendar
     }
 
     //==================================================
+    //= time zone
+    //==================================================
+
+    public KmTimeZone getTimeZone()
+    {
+        String code = _timeZoneCode.getValue();
+        return KmTimeZone.findCode(code);
+    }
+
+    public void setTimeZone(KmTimeZone e)
+    {
+        String code = KmTimeZone.getCodeFor(e);
+        _timeZoneCode.setValue(code);
+    }
+
+    //==================================================
     //= business days
     //==================================================
 
@@ -531,7 +581,7 @@ public abstract class ScCalendar
     }
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
         return !style().hasHide();
     }
@@ -566,11 +616,6 @@ public abstract class ScCalendar
         setSelectAction(e);
     }
 
-    public void onSelect(Runnable e)
-    {
-        setSelectAction(newCheckedAction(e));
-    }
-
     //##################################################
     //# click action
     //##################################################
@@ -595,11 +640,6 @@ public abstract class ScCalendar
         setClickAction(e);
     }
 
-    public void onClick(Runnable e)
-    {
-        setClickAction(newCheckedAction(e));
-    }
-
     //##################################################
     //# edit action
     //##################################################
@@ -622,11 +662,6 @@ public abstract class ScCalendar
     public void onEdit(ScAction e)
     {
         setEditAction(e);
-    }
-
-    public void onEdit(Runnable e)
-    {
-        setEditAction(newCheckedAction(e));
     }
 
     //##################################################
@@ -881,13 +916,13 @@ public abstract class ScCalendar
         Long start = extra.getLong(KEY_EVENT_START);
         Long end = extra.getLong(KEY_EVENT_END);
 
-        KmTimestamp startUtcTs = KmTimestamp.fromEpochMs(start);
-        KmTimestamp endUtcTs = KmTimestamp.fromEpochMs(end);
+        KmTimestamp startTs = KmTimestamp.fromEpochMs(start);
+        KmTimestamp endTs = KmTimestamp.fromEpochMs(end);
 
         ScCalendarEvent e;
         e = new ScCalendarEvent();
-        e.setStartUtcTs(startUtcTs);
-        e.setEndUtcTs(endUtcTs);
+        e.setStartTs(startTs);
+        e.setEndTs(endTs);
         return e;
     }
 
@@ -923,18 +958,18 @@ public abstract class ScCalendar
         String backgroundColor = extra.getString(KEY_EVENT_BACKGROUND_COLOR);
         String borderColor = extra.getString(KEY_EVENT_BORDER_COLOR);
 
-        KmTimestamp startUtcTs = KmTimestamp.fromEpochMs(start);
+        KmTimestamp startTs = KmTimestamp.fromEpochMs(start);
 
-        KmTimestamp endUtcTs = null;
-        if ( end != null )
-            endUtcTs = KmTimestamp.fromEpochMs(end);
+        KmTimestamp endTs = end == null
+            ? null
+            : KmTimestamp.fromEpochMs(end);
 
         ScCalendarEvent e;
         e = new ScCalendarEvent();
         e.setUid(uid);
         e.setTitle(title);
-        e.setStartUtcTs(startUtcTs);
-        e.setEndUtcTs(endUtcTs);
+        e.setStartTs(startTs);
+        e.setEndTs(endTs);
         e.setAllDay(Kmu.isTrue(allDay));
 
         if ( cssArray.isNotEmpty() )

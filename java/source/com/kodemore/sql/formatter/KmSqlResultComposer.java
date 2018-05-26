@@ -15,9 +15,12 @@ public class KmSqlResultComposer
     //##################################################
 
     /**
-     * When false, all changed will be rolled back instead of committed.
+     * When false, all changes will be rolled back instead of committed.
      */
-    private boolean              _allowUpdates;
+    private boolean _allowsCommit;
+
+    private boolean _useBlanksForNull;
+    private boolean _hideSqlData;
 
     private KmList<String>       _schemas;
     private KmList<String>       _sqlStatements;
@@ -30,7 +33,7 @@ public class KmSqlResultComposer
 
     public KmSqlResultComposer()
     {
-        _allowUpdates = true;
+        _allowsCommit = true;
         _schemas = new KmList<>();
         _sqlStatements = new KmList<>();
         formatCsvNormal();
@@ -40,19 +43,57 @@ public class KmSqlResultComposer
     //# allow updates
     //##################################################
 
-    public boolean allowsUpdates()
+    public boolean allowsCommit()
     {
-        return _allowUpdates;
+        return _allowsCommit;
     }
 
     private boolean isRollback()
     {
-        return !allowsUpdates();
+        return !allowsCommit();
     }
 
-    public void setAllowUpdates(boolean e)
+    public void setAllowCommit(boolean e)
     {
-        _allowUpdates = e;
+        _allowsCommit = e;
+    }
+
+    //##################################################
+    //# format nulls
+    //##################################################
+
+    public void useBlanksForNull(boolean e)
+    {
+        _useBlanksForNull = e;
+    }
+
+    public void useBlanksForNull()
+    {
+        useBlanksForNull(true);
+    }
+
+    private boolean usesBlanksForNull()
+    {
+        return _useBlanksForNull;
+    }
+
+    //##################################################
+    //# sql data
+    //##################################################
+
+    public void hideSqlData(boolean e)
+    {
+        _hideSqlData = e;
+    }
+
+    public void hideSqlData()
+    {
+        hideSqlData(true);
+    }
+
+    protected boolean isSqlDataHidden()
+    {
+        return _hideSqlData;
     }
 
     //##################################################
@@ -126,12 +167,24 @@ public class KmSqlResultComposer
         setFormatter(new KmSqlResultFormatterCsvSimple());
     }
 
+    public void formatExcelNormal()
+    {
+        setFormatter(new KmSqlResultFormatterExcelNormal());
+    }
+
+    public void formatExcelSimple()
+    {
+        setFormatter(new KmSqlResultFormatterExcelSimple());
+    }
+
     //##################################################
     //# run
     //##################################################
 
     public String run()
     {
+        _formatter.useBlanksForNull(usesBlanksForNull());
+        _formatter.hideSqlData(isSqlDataHidden());
         _formatter.begin(this);
         processSchemas();
         return _formatter.end();
@@ -155,7 +208,7 @@ public class KmSqlResultComposer
             _connection = openConnection(schema);
             processStatements(schema);
 
-            if ( allowsUpdates() )
+            if ( allowsCommit() )
                 _connection.commit();
         }
         finally

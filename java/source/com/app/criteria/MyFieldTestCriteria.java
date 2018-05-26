@@ -37,109 +37,123 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyFieldTest e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyFieldTest e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhBooleanCondition whereBooleanTest()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhBooleanCondition(context(), alias(), BOOLEAN_TEST);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhTimestampCondition whereUpdatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereNameValue()
-    {
-        return new KmhStringCondition(context(), fullName(NAME_VALUE));
-    }
-
-    public KmhIntegerCondition whereIntegerValue()
-    {
-        return new KmhIntegerCondition(context(), fullName(INTEGER_VALUE));
-    }
-
-    public KmhPropertyCondition<Long> whereLongTest()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(LONG_TEST));
-    }
-
-    public KmhPropertyCondition<Double> whereDoubleTest()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(DOUBLE_TEST));
-    }
-
-    public KmhPropertyCondition<KmMoney> whereMoneyTest()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(MONEY_TEST));
-    }
-
-    public KmhBooleanCondition whereBooleanTest()
-    {
-        return new KmhBooleanCondition(context(), fullName(BOOLEAN_TEST));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhDateCondition whereDateTest()
     {
-        return new KmhDateCondition(context(), fullName(DATE_TEST));
-    }
-
-    public KmhTimestampCondition whereTimestampTest()
-    {
-        return new KmhTimestampCondition(context(), fullName(TIMESTAMP_TEST));
-    }
-
-    public KmhStringCondition wherePinNumber1()
-    {
-        return new KmhStringCondition(context(), fullName(PIN_NUMBER_1));
-    }
-
-    public KmhStringCondition wherePinNumber2()
-    {
-        return new KmhStringCondition(context(), fullName(PIN_NUMBER_2));
-    }
-
-    public KmhDurationCondition whereDuration()
-    {
-        return new KmhDurationCondition(context(), fullName(DURATION));
+        return new KmhDateCondition(context(), alias(), DATE_TEST);
     }
 
     public KmhPropertyCondition<KmDayFrequency> whereDayFrequency()
     {
-        return new KmhPropertyCondition<>(context(), fullName(DAY_FREQUENCY));
+        return new KmhPropertyCondition<>(context(), alias(), DAY_FREQUENCY);
+    }
+
+    public KmhPropertyCondition<Double> whereDoubleTest()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), DOUBLE_TEST);
+    }
+
+    public KmhDurationCondition whereDuration()
+    {
+        return new KmhDurationCondition(context(), alias(), DURATION);
+    }
+
+    public KmhIntegerCondition whereIntegerValue()
+    {
+        return new KmhIntegerCondition(context(), alias(), INTEGER_VALUE);
+    }
+
+    public KmhPropertyCondition<Long> whereLongTest()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), LONG_TEST);
+    }
+
+    public KmhPropertyCondition<KmMoney> whereMoneyTest()
+    {
+        return new KmhPropertyCondition<>(context(), alias(), MONEY_TEST);
+    }
+
+    public KmhStringCondition whereNameValue()
+    {
+        return new KmhStringCondition(context(), alias(), NAME_VALUE);
+    }
+
+    public KmhStringCondition wherePinNumber1()
+    {
+        return new KmhStringCondition(context(), alias(), PIN_NUMBER_1);
+    }
+
+    public KmhStringCondition wherePinNumber2()
+    {
+        return new KmhStringCondition(context(), alias(), PIN_NUMBER_2);
+    }
+
+    public KmhTimestampCondition whereTimestampTest()
+    {
+        return new KmhTimestampCondition(context(), alias(), TIMESTAMP_TEST);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhTimestampCondition whereUpdatedUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnBooleanTest()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(BOOLEAN_TEST);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnBooleanTestDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(BOOLEAN_TEST);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnBooleanTest(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnBooleanTest();
         else
-            sortOnUidDescending();
+            sortOnBooleanTestDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -160,40 +174,76 @@ public class MyFieldTestCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnUpdatedUtcTs()
+    public void sortOnDateTest()
     {
-        parent().sortAscending(UPDATED_UTC_TS);
+        parent().sortAscending(DATE_TEST);
     }
 
-    public void sortOnUpdatedUtcTsDescending()
+    public void sortOnDateTestDescending()
     {
-        parent().sortDescending(UPDATED_UTC_TS);
+        parent().sortDescending(DATE_TEST);
     }
 
-    public void sortOnUpdatedUtcTs(boolean asc)
+    public void sortOnDateTest(boolean asc)
     {
         if ( asc )
-            sortOnUpdatedUtcTs();
+            sortOnDateTest();
         else
-            sortOnUpdatedUtcTsDescending();
+            sortOnDateTestDescending();
     }
 
-    public void sortOnNameValue()
+    public void sortOnDayFrequency()
     {
-        parent().sortAscending(NAME_VALUE);
+        parent().sortAscending(DAY_FREQUENCY);
     }
 
-    public void sortOnNameValueDescending()
+    public void sortOnDayFrequencyDescending()
     {
-        parent().sortDescending(NAME_VALUE);
+        parent().sortDescending(DAY_FREQUENCY);
     }
 
-    public void sortOnNameValue(boolean asc)
+    public void sortOnDayFrequency(boolean asc)
     {
         if ( asc )
-            sortOnNameValue();
+            sortOnDayFrequency();
         else
-            sortOnNameValueDescending();
+            sortOnDayFrequencyDescending();
+    }
+
+    public void sortOnDoubleTest()
+    {
+        parent().sortAscending(DOUBLE_TEST);
+    }
+
+    public void sortOnDoubleTestDescending()
+    {
+        parent().sortDescending(DOUBLE_TEST);
+    }
+
+    public void sortOnDoubleTest(boolean asc)
+    {
+        if ( asc )
+            sortOnDoubleTest();
+        else
+            sortOnDoubleTestDescending();
+    }
+
+    public void sortOnDuration()
+    {
+        parent().sortAscending(DURATION);
+    }
+
+    public void sortOnDurationDescending()
+    {
+        parent().sortDescending(DURATION);
+    }
+
+    public void sortOnDuration(boolean asc)
+    {
+        if ( asc )
+            sortOnDuration();
+        else
+            sortOnDurationDescending();
     }
 
     public void sortOnIntegerValue()
@@ -232,24 +282,6 @@ public class MyFieldTestCriteria
             sortOnLongTestDescending();
     }
 
-    public void sortOnDoubleTest()
-    {
-        parent().sortAscending(DOUBLE_TEST);
-    }
-
-    public void sortOnDoubleTestDescending()
-    {
-        parent().sortDescending(DOUBLE_TEST);
-    }
-
-    public void sortOnDoubleTest(boolean asc)
-    {
-        if ( asc )
-            sortOnDoubleTest();
-        else
-            sortOnDoubleTestDescending();
-    }
-
     public void sortOnMoneyTest()
     {
         parent().sortAscending(MONEY_TEST);
@@ -268,58 +300,22 @@ public class MyFieldTestCriteria
             sortOnMoneyTestDescending();
     }
 
-    public void sortOnBooleanTest()
+    public void sortOnNameValue()
     {
-        parent().sortAscending(BOOLEAN_TEST);
+        parent().sortAscending(NAME_VALUE);
     }
 
-    public void sortOnBooleanTestDescending()
+    public void sortOnNameValueDescending()
     {
-        parent().sortDescending(BOOLEAN_TEST);
+        parent().sortDescending(NAME_VALUE);
     }
 
-    public void sortOnBooleanTest(boolean asc)
+    public void sortOnNameValue(boolean asc)
     {
         if ( asc )
-            sortOnBooleanTest();
+            sortOnNameValue();
         else
-            sortOnBooleanTestDescending();
-    }
-
-    public void sortOnDateTest()
-    {
-        parent().sortAscending(DATE_TEST);
-    }
-
-    public void sortOnDateTestDescending()
-    {
-        parent().sortDescending(DATE_TEST);
-    }
-
-    public void sortOnDateTest(boolean asc)
-    {
-        if ( asc )
-            sortOnDateTest();
-        else
-            sortOnDateTestDescending();
-    }
-
-    public void sortOnTimestampTest()
-    {
-        parent().sortAscending(TIMESTAMP_TEST);
-    }
-
-    public void sortOnTimestampTestDescending()
-    {
-        parent().sortDescending(TIMESTAMP_TEST);
-    }
-
-    public void sortOnTimestampTest(boolean asc)
-    {
-        if ( asc )
-            sortOnTimestampTest();
-        else
-            sortOnTimestampTestDescending();
+            sortOnNameValueDescending();
     }
 
     public void sortOnPinNumber1()
@@ -358,40 +354,58 @@ public class MyFieldTestCriteria
             sortOnPinNumber2Descending();
     }
 
-    public void sortOnDuration()
+    public void sortOnTimestampTest()
     {
-        parent().sortAscending(DURATION);
+        parent().sortAscending(TIMESTAMP_TEST);
     }
 
-    public void sortOnDurationDescending()
+    public void sortOnTimestampTestDescending()
     {
-        parent().sortDescending(DURATION);
+        parent().sortDescending(TIMESTAMP_TEST);
     }
 
-    public void sortOnDuration(boolean asc)
+    public void sortOnTimestampTest(boolean asc)
     {
         if ( asc )
-            sortOnDuration();
+            sortOnTimestampTest();
         else
-            sortOnDurationDescending();
+            sortOnTimestampTestDescending();
     }
 
-    public void sortOnDayFrequency()
+    public void sortOnUid()
     {
-        parent().sortAscending(DAY_FREQUENCY);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnDayFrequencyDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(DAY_FREQUENCY);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnDayFrequency(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnDayFrequency();
+            sortOnUid();
         else
-            sortOnDayFrequencyDescending();
+            sortOnUidDescending();
+    }
+
+    public void sortOnUpdatedUtcTs()
+    {
+        parent().sortAscending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTsDescending()
+    {
+        parent().sortDescending(UPDATED_UTC_TS);
+    }
+
+    public void sortOnUpdatedUtcTs(boolean asc)
+    {
+        if ( asc )
+            sortOnUpdatedUtcTs();
+        else
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -413,47 +427,47 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# projections (uid)
+    //# projections (booleanTest)
     //##################################################
 
-    public void selectUid()
+    public void selectBooleanTest()
     {
-        select(UID);
+        select(BOOLEAN_TEST);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctBooleanTest()
     {
-        selectDistinct(UID);
+        selectDistinct(BOOLEAN_TEST);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctBooleanTest()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(BOOLEAN_TEST);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumBooleanTest()
     {
-        selectMinimum(UID);
+        selectMinimum(BOOLEAN_TEST);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumBooleanTest()
     {
-        selectMaximum(UID);
+        selectMaximum(BOOLEAN_TEST);
     }
 
-    public void selectAverageUid()
+    public void selectAverageBooleanTest()
     {
-        selectAverage(UID);
+        selectAverage(BOOLEAN_TEST);
     }
 
-    public void selectSumUid()
+    public void selectSumBooleanTest()
     {
-        selectSum(UID);
+        selectSum(BOOLEAN_TEST);
     }
 
-    public void groupByUid()
+    public void groupByBooleanTest()
     {
-        groupBy(UID);
+        groupBy(BOOLEAN_TEST);
     }
 
     //##################################################
@@ -501,91 +515,179 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# projections (updatedUtcTs)
+    //# projections (dateTest)
     //##################################################
 
-    public void selectUpdatedUtcTs()
+    public void selectDateTest()
     {
-        select(UPDATED_UTC_TS);
+        select(DATE_TEST);
     }
 
-    public void selectDistinctUpdatedUtcTs()
+    public void selectDistinctDateTest()
     {
-        selectDistinct(UPDATED_UTC_TS);
+        selectDistinct(DATE_TEST);
     }
 
-    public void selectCountDistinctUpdatedUtcTs()
+    public void selectCountDistinctDateTest()
     {
-        selectCountDistinct(UPDATED_UTC_TS);
+        selectCountDistinct(DATE_TEST);
     }
 
-    public void selectMinimumUpdatedUtcTs()
+    public void selectMinimumDateTest()
     {
-        selectMinimum(UPDATED_UTC_TS);
+        selectMinimum(DATE_TEST);
     }
 
-    public void selectMaximumUpdatedUtcTs()
+    public void selectMaximumDateTest()
     {
-        selectMaximum(UPDATED_UTC_TS);
+        selectMaximum(DATE_TEST);
     }
 
-    public void selectAverageUpdatedUtcTs()
+    public void selectAverageDateTest()
     {
-        selectAverage(UPDATED_UTC_TS);
+        selectAverage(DATE_TEST);
     }
 
-    public void selectSumUpdatedUtcTs()
+    public void selectSumDateTest()
     {
-        selectSum(UPDATED_UTC_TS);
+        selectSum(DATE_TEST);
     }
 
-    public void groupByUpdatedUtcTs()
+    public void groupByDateTest()
     {
-        groupBy(UPDATED_UTC_TS);
+        groupBy(DATE_TEST);
     }
 
     //##################################################
-    //# projections (nameValue)
+    //# projections (dayFrequency)
     //##################################################
 
-    public void selectNameValue()
+    public void selectDayFrequency()
     {
-        select(NAME_VALUE);
+        select(DAY_FREQUENCY);
     }
 
-    public void selectDistinctNameValue()
+    public void selectDistinctDayFrequency()
     {
-        selectDistinct(NAME_VALUE);
+        selectDistinct(DAY_FREQUENCY);
     }
 
-    public void selectCountDistinctNameValue()
+    public void selectCountDistinctDayFrequency()
     {
-        selectCountDistinct(NAME_VALUE);
+        selectCountDistinct(DAY_FREQUENCY);
     }
 
-    public void selectMinimumNameValue()
+    public void selectMinimumDayFrequency()
     {
-        selectMinimum(NAME_VALUE);
+        selectMinimum(DAY_FREQUENCY);
     }
 
-    public void selectMaximumNameValue()
+    public void selectMaximumDayFrequency()
     {
-        selectMaximum(NAME_VALUE);
+        selectMaximum(DAY_FREQUENCY);
     }
 
-    public void selectAverageNameValue()
+    public void selectAverageDayFrequency()
     {
-        selectAverage(NAME_VALUE);
+        selectAverage(DAY_FREQUENCY);
     }
 
-    public void selectSumNameValue()
+    public void selectSumDayFrequency()
     {
-        selectSum(NAME_VALUE);
+        selectSum(DAY_FREQUENCY);
     }
 
-    public void groupByNameValue()
+    public void groupByDayFrequency()
     {
-        groupBy(NAME_VALUE);
+        groupBy(DAY_FREQUENCY);
+    }
+
+    //##################################################
+    //# projections (doubleTest)
+    //##################################################
+
+    public void selectDoubleTest()
+    {
+        select(DOUBLE_TEST);
+    }
+
+    public void selectDistinctDoubleTest()
+    {
+        selectDistinct(DOUBLE_TEST);
+    }
+
+    public void selectCountDistinctDoubleTest()
+    {
+        selectCountDistinct(DOUBLE_TEST);
+    }
+
+    public void selectMinimumDoubleTest()
+    {
+        selectMinimum(DOUBLE_TEST);
+    }
+
+    public void selectMaximumDoubleTest()
+    {
+        selectMaximum(DOUBLE_TEST);
+    }
+
+    public void selectAverageDoubleTest()
+    {
+        selectAverage(DOUBLE_TEST);
+    }
+
+    public void selectSumDoubleTest()
+    {
+        selectSum(DOUBLE_TEST);
+    }
+
+    public void groupByDoubleTest()
+    {
+        groupBy(DOUBLE_TEST);
+    }
+
+    //##################################################
+    //# projections (duration)
+    //##################################################
+
+    public void selectDuration()
+    {
+        select(DURATION);
+    }
+
+    public void selectDistinctDuration()
+    {
+        selectDistinct(DURATION);
+    }
+
+    public void selectCountDistinctDuration()
+    {
+        selectCountDistinct(DURATION);
+    }
+
+    public void selectMinimumDuration()
+    {
+        selectMinimum(DURATION);
+    }
+
+    public void selectMaximumDuration()
+    {
+        selectMaximum(DURATION);
+    }
+
+    public void selectAverageDuration()
+    {
+        selectAverage(DURATION);
+    }
+
+    public void selectSumDuration()
+    {
+        selectSum(DURATION);
+    }
+
+    public void groupByDuration()
+    {
+        groupBy(DURATION);
     }
 
     //##################################################
@@ -677,50 +779,6 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# projections (doubleTest)
-    //##################################################
-
-    public void selectDoubleTest()
-    {
-        select(DOUBLE_TEST);
-    }
-
-    public void selectDistinctDoubleTest()
-    {
-        selectDistinct(DOUBLE_TEST);
-    }
-
-    public void selectCountDistinctDoubleTest()
-    {
-        selectCountDistinct(DOUBLE_TEST);
-    }
-
-    public void selectMinimumDoubleTest()
-    {
-        selectMinimum(DOUBLE_TEST);
-    }
-
-    public void selectMaximumDoubleTest()
-    {
-        selectMaximum(DOUBLE_TEST);
-    }
-
-    public void selectAverageDoubleTest()
-    {
-        selectAverage(DOUBLE_TEST);
-    }
-
-    public void selectSumDoubleTest()
-    {
-        selectSum(DOUBLE_TEST);
-    }
-
-    public void groupByDoubleTest()
-    {
-        groupBy(DOUBLE_TEST);
-    }
-
-    //##################################################
     //# projections (moneyTest)
     //##################################################
 
@@ -765,135 +823,47 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# projections (booleanTest)
+    //# projections (nameValue)
     //##################################################
 
-    public void selectBooleanTest()
+    public void selectNameValue()
     {
-        select(BOOLEAN_TEST);
+        select(NAME_VALUE);
     }
 
-    public void selectDistinctBooleanTest()
+    public void selectDistinctNameValue()
     {
-        selectDistinct(BOOLEAN_TEST);
+        selectDistinct(NAME_VALUE);
     }
 
-    public void selectCountDistinctBooleanTest()
+    public void selectCountDistinctNameValue()
     {
-        selectCountDistinct(BOOLEAN_TEST);
+        selectCountDistinct(NAME_VALUE);
     }
 
-    public void selectMinimumBooleanTest()
+    public void selectMinimumNameValue()
     {
-        selectMinimum(BOOLEAN_TEST);
+        selectMinimum(NAME_VALUE);
     }
 
-    public void selectMaximumBooleanTest()
+    public void selectMaximumNameValue()
     {
-        selectMaximum(BOOLEAN_TEST);
+        selectMaximum(NAME_VALUE);
     }
 
-    public void selectAverageBooleanTest()
+    public void selectAverageNameValue()
     {
-        selectAverage(BOOLEAN_TEST);
+        selectAverage(NAME_VALUE);
     }
 
-    public void selectSumBooleanTest()
+    public void selectSumNameValue()
     {
-        selectSum(BOOLEAN_TEST);
+        selectSum(NAME_VALUE);
     }
 
-    public void groupByBooleanTest()
+    public void groupByNameValue()
     {
-        groupBy(BOOLEAN_TEST);
-    }
-
-    //##################################################
-    //# projections (dateTest)
-    //##################################################
-
-    public void selectDateTest()
-    {
-        select(DATE_TEST);
-    }
-
-    public void selectDistinctDateTest()
-    {
-        selectDistinct(DATE_TEST);
-    }
-
-    public void selectCountDistinctDateTest()
-    {
-        selectCountDistinct(DATE_TEST);
-    }
-
-    public void selectMinimumDateTest()
-    {
-        selectMinimum(DATE_TEST);
-    }
-
-    public void selectMaximumDateTest()
-    {
-        selectMaximum(DATE_TEST);
-    }
-
-    public void selectAverageDateTest()
-    {
-        selectAverage(DATE_TEST);
-    }
-
-    public void selectSumDateTest()
-    {
-        selectSum(DATE_TEST);
-    }
-
-    public void groupByDateTest()
-    {
-        groupBy(DATE_TEST);
-    }
-
-    //##################################################
-    //# projections (timestampTest)
-    //##################################################
-
-    public void selectTimestampTest()
-    {
-        select(TIMESTAMP_TEST);
-    }
-
-    public void selectDistinctTimestampTest()
-    {
-        selectDistinct(TIMESTAMP_TEST);
-    }
-
-    public void selectCountDistinctTimestampTest()
-    {
-        selectCountDistinct(TIMESTAMP_TEST);
-    }
-
-    public void selectMinimumTimestampTest()
-    {
-        selectMinimum(TIMESTAMP_TEST);
-    }
-
-    public void selectMaximumTimestampTest()
-    {
-        selectMaximum(TIMESTAMP_TEST);
-    }
-
-    public void selectAverageTimestampTest()
-    {
-        selectAverage(TIMESTAMP_TEST);
-    }
-
-    public void selectSumTimestampTest()
-    {
-        selectSum(TIMESTAMP_TEST);
-    }
-
-    public void groupByTimestampTest()
-    {
-        groupBy(TIMESTAMP_TEST);
+        groupBy(NAME_VALUE);
     }
 
     //##################################################
@@ -985,91 +955,135 @@ public class MyFieldTestCriteria
     }
 
     //##################################################
-    //# projections (duration)
+    //# projections (timestampTest)
     //##################################################
 
-    public void selectDuration()
+    public void selectTimestampTest()
     {
-        select(DURATION);
+        select(TIMESTAMP_TEST);
     }
 
-    public void selectDistinctDuration()
+    public void selectDistinctTimestampTest()
     {
-        selectDistinct(DURATION);
+        selectDistinct(TIMESTAMP_TEST);
     }
 
-    public void selectCountDistinctDuration()
+    public void selectCountDistinctTimestampTest()
     {
-        selectCountDistinct(DURATION);
+        selectCountDistinct(TIMESTAMP_TEST);
     }
 
-    public void selectMinimumDuration()
+    public void selectMinimumTimestampTest()
     {
-        selectMinimum(DURATION);
+        selectMinimum(TIMESTAMP_TEST);
     }
 
-    public void selectMaximumDuration()
+    public void selectMaximumTimestampTest()
     {
-        selectMaximum(DURATION);
+        selectMaximum(TIMESTAMP_TEST);
     }
 
-    public void selectAverageDuration()
+    public void selectAverageTimestampTest()
     {
-        selectAverage(DURATION);
+        selectAverage(TIMESTAMP_TEST);
     }
 
-    public void selectSumDuration()
+    public void selectSumTimestampTest()
     {
-        selectSum(DURATION);
+        selectSum(TIMESTAMP_TEST);
     }
 
-    public void groupByDuration()
+    public void groupByTimestampTest()
     {
-        groupBy(DURATION);
+        groupBy(TIMESTAMP_TEST);
     }
 
     //##################################################
-    //# projections (dayFrequency)
+    //# projections (uid)
     //##################################################
 
-    public void selectDayFrequency()
+    public void selectUid()
     {
-        select(DAY_FREQUENCY);
+        select(UID);
     }
 
-    public void selectDistinctDayFrequency()
+    public void selectDistinctUid()
     {
-        selectDistinct(DAY_FREQUENCY);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctDayFrequency()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(DAY_FREQUENCY);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumDayFrequency()
+    public void selectMinimumUid()
     {
-        selectMinimum(DAY_FREQUENCY);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumDayFrequency()
+    public void selectMaximumUid()
     {
-        selectMaximum(DAY_FREQUENCY);
+        selectMaximum(UID);
     }
 
-    public void selectAverageDayFrequency()
+    public void selectAverageUid()
     {
-        selectAverage(DAY_FREQUENCY);
+        selectAverage(UID);
     }
 
-    public void selectSumDayFrequency()
+    public void selectSumUid()
     {
-        selectSum(DAY_FREQUENCY);
+        selectSum(UID);
     }
 
-    public void groupByDayFrequency()
+    public void groupByUid()
     {
-        groupBy(DAY_FREQUENCY);
+        groupBy(UID);
+    }
+
+    //##################################################
+    //# projections (updatedUtcTs)
+    //##################################################
+
+    public void selectUpdatedUtcTs()
+    {
+        select(UPDATED_UTC_TS);
+    }
+
+    public void selectDistinctUpdatedUtcTs()
+    {
+        selectDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectCountDistinctUpdatedUtcTs()
+    {
+        selectCountDistinct(UPDATED_UTC_TS);
+    }
+
+    public void selectMinimumUpdatedUtcTs()
+    {
+        selectMinimum(UPDATED_UTC_TS);
+    }
+
+    public void selectMaximumUpdatedUtcTs()
+    {
+        selectMaximum(UPDATED_UTC_TS);
+    }
+
+    public void selectAverageUpdatedUtcTs()
+    {
+        selectAverage(UPDATED_UTC_TS);
+    }
+
+    public void selectSumUpdatedUtcTs()
+    {
+        selectSum(UPDATED_UTC_TS);
+    }
+
+    public void groupByUpdatedUtcTs()
+    {
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -1125,6 +1139,16 @@ public class MyFieldTestCriteria
         select(CREATED_BY_UID);
     }
 
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
     public void selectMinimumCreatedByUid()
     {
         selectMinimum(CREATED_BY_UID);
@@ -1152,7 +1176,7 @@ public class MyFieldTestCriteria
 
     public KmhStringCondition whereCreatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
     }
 
     public void whereCreatedByIs(MyUser e)
@@ -1163,6 +1187,14 @@ public class MyFieldTestCriteria
             whereCreatedByUid().is(e.getUid());
     }
 
+    public void whereCreatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNotNull();
+        else
+            whereCreatedByUid().isNot(e.getUid());
+    }
+
     //##################################################
     //# association (UpdatedBy)
     //##################################################
@@ -1170,6 +1202,16 @@ public class MyFieldTestCriteria
     public void selectUpdatedByUid()
     {
         select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
     }
 
     public void selectMinimumUpdatedByUid()
@@ -1199,7 +1241,7 @@ public class MyFieldTestCriteria
 
     public KmhStringCondition whereUpdatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
     }
 
     public void whereUpdatedByIs(MyUser e)
@@ -1210,6 +1252,14 @@ public class MyFieldTestCriteria
             whereUpdatedByUid().is(e.getUid());
     }
 
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
+    }
+
     //##################################################
     //# association (UserTest)
     //##################################################
@@ -1217,6 +1267,16 @@ public class MyFieldTestCriteria
     public void selectUserTestUid()
     {
         select(USER_TEST_UID);
+    }
+
+    public void selectCountDistinctUserTestUid()
+    {
+        selectCountDistinct(USER_TEST_UID);
+    }
+    
+    public void selectDistinctUserTestUid()
+    {
+        selectDistinct(USER_TEST_UID);
     }
 
     public void selectMinimumUserTestUid()
@@ -1246,7 +1306,7 @@ public class MyFieldTestCriteria
 
     public KmhStringCondition whereUserTestUid()
     {
-        return new KmhStringCondition(parent(), fullName(USER_TEST_UID));
+        return new KmhStringCondition(parent(), alias(), USER_TEST_UID);
     }
 
     public void whereUserTestIs(MyUser e)
@@ -1255,6 +1315,14 @@ public class MyFieldTestCriteria
             whereUserTestUid().isNull();
         else
             whereUserTestUid().is(e.getUid());
+    }
+
+    public void whereUserTestIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUserTestUid().isNotNull();
+        else
+            whereUserTestUid().isNot(e.getUid());
     }
 
     //##################################################

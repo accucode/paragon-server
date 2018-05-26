@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,18 +36,23 @@ public class MyProjectValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
-    private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator updatedUtcTsValidator;
-    private KmStringValidator nameValidator;
+    private KmBooleanValidator autoSiteNumberEnabledValidator;
+    private KmIntegerValidator autoSiteNumberPaddingValidator;
+    private KmStringValidator autoSiteNumberPrefixValidator;
+    private KmDayFrequencyValidator businessDaysValidator;
+    private KmTimeValidator businessEndTimeValidator;
+    private KmTimeValidator businessStartTimeValidator;
     private KmStringValidator codeValidator;
     private KmStringValidator companyNameValidator;
+    private KmTimestampValidator createdUtcTsValidator;
+    private KmStringValidator descriptionValidator;
+    private KmBooleanValidator enabledValidator;
+    private KmStringValidator nameValidator;
+    private KmIntegerValidator nextAutoSiteNumberValidator;
     private KmStringValidator sendEmailFromValidator;
-    private KmBooleanValidator activeValidator;
-    private KmIntegerValidator catalogVersionValidator;
-    private KmDayFrequencyValidator businessDaysValidator;
-    private KmTimeValidator businessStartTimeValidator;
-    private KmTimeValidator businessEndTimeValidator;
+    private KmStringValidator timeZoneCodeValidator;
+    private KmStringValidator uidValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -56,18 +62,23 @@ public class MyProjectValidatorBase
     protected MyProjectValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
-        createdUtcTsValidator = newCreatedUtcTsValidator();
-        updatedUtcTsValidator = newUpdatedUtcTsValidator();
-        nameValidator = newNameValidator();
+        autoSiteNumberEnabledValidator = newAutoSiteNumberEnabledValidator();
+        autoSiteNumberPaddingValidator = newAutoSiteNumberPaddingValidator();
+        autoSiteNumberPrefixValidator = newAutoSiteNumberPrefixValidator();
+        businessDaysValidator = newBusinessDaysValidator();
+        businessEndTimeValidator = newBusinessEndTimeValidator();
+        businessStartTimeValidator = newBusinessStartTimeValidator();
         codeValidator = newCodeValidator();
         companyNameValidator = newCompanyNameValidator();
+        createdUtcTsValidator = newCreatedUtcTsValidator();
+        descriptionValidator = newDescriptionValidator();
+        enabledValidator = newEnabledValidator();
+        nameValidator = newNameValidator();
+        nextAutoSiteNumberValidator = newNextAutoSiteNumberValidator();
         sendEmailFromValidator = newSendEmailFromValidator();
-        activeValidator = newActiveValidator();
-        catalogVersionValidator = newCatalogVersionValidator();
-        businessDaysValidator = newBusinessDaysValidator();
-        businessStartTimeValidator = newBusinessStartTimeValidator();
-        businessEndTimeValidator = newBusinessEndTimeValidator();
+        timeZoneCodeValidator = newTimeZoneCodeValidator();
+        uidValidator = newUidValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -75,24 +86,34 @@ public class MyProjectValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmBooleanValidator getAutoSiteNumberEnabledValidator()
     {
-        return uidValidator;
+        return autoSiteNumberEnabledValidator;
     }
 
-    public KmTimestampValidator getCreatedUtcTsValidator()
+    public KmIntegerValidator getAutoSiteNumberPaddingValidator()
     {
-        return createdUtcTsValidator;
+        return autoSiteNumberPaddingValidator;
     }
 
-    public KmTimestampValidator getUpdatedUtcTsValidator()
+    public KmStringValidator getAutoSiteNumberPrefixValidator()
     {
-        return updatedUtcTsValidator;
+        return autoSiteNumberPrefixValidator;
     }
 
-    public KmStringValidator getNameValidator()
+    public KmDayFrequencyValidator getBusinessDaysValidator()
     {
-        return nameValidator;
+        return businessDaysValidator;
+    }
+
+    public KmTimeValidator getBusinessEndTimeValidator()
+    {
+        return businessEndTimeValidator;
+    }
+
+    public KmTimeValidator getBusinessStartTimeValidator()
+    {
+        return businessStartTimeValidator;
     }
 
     public KmStringValidator getCodeValidator()
@@ -105,34 +126,49 @@ public class MyProjectValidatorBase
         return companyNameValidator;
     }
 
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
+    public KmStringValidator getDescriptionValidator()
+    {
+        return descriptionValidator;
+    }
+
+    public KmBooleanValidator getEnabledValidator()
+    {
+        return enabledValidator;
+    }
+
+    public KmStringValidator getNameValidator()
+    {
+        return nameValidator;
+    }
+
+    public KmIntegerValidator getNextAutoSiteNumberValidator()
+    {
+        return nextAutoSiteNumberValidator;
+    }
+
     public KmStringValidator getSendEmailFromValidator()
     {
         return sendEmailFromValidator;
     }
 
-    public KmBooleanValidator getActiveValidator()
+    public KmStringValidator getTimeZoneCodeValidator()
     {
-        return activeValidator;
+        return timeZoneCodeValidator;
     }
 
-    public KmIntegerValidator getCatalogVersionValidator()
+    public KmStringValidator getUidValidator()
     {
-        return catalogVersionValidator;
+        return uidValidator;
     }
 
-    public KmDayFrequencyValidator getBusinessDaysValidator()
+    public KmTimestampValidator getUpdatedUtcTsValidator()
     {
-        return businessDaysValidator;
-    }
-
-    public KmTimeValidator getBusinessStartTimeValidator()
-    {
-        return businessStartTimeValidator;
-    }
-
-    public KmTimeValidator getBusinessEndTimeValidator()
-    {
-        return businessEndTimeValidator;
+        return updatedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -148,87 +184,118 @@ public class MyProjectValidatorBase
     public void convertOnly(MyProject value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setCode(codeValidator.convertOnly(value.getCode()));
-        value.setCompanyName(companyNameValidator.convertOnly(value.getCompanyName()));
-        value.setSendEmailFrom(sendEmailFromValidator.convertOnly(value.getSendEmailFrom()));
-        value.setActive(activeValidator.convertOnly(value.getActive()));
-        value.setCatalogVersion(catalogVersionValidator.convertOnly(value.getCatalogVersion()));
-        value.setBusinessDays(businessDaysValidator.convertOnly(value.getBusinessDays()));
-        value.setBusinessStartTime(businessStartTimeValidator.convertOnly(value.getBusinessStartTime()));
-        value.setBusinessEndTime(businessEndTimeValidator.convertOnly(value.getBusinessEndTime()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setAutoSiteNumberEnabled(autoSiteNumberEnabledValidator.convert(value.getAutoSiteNumberEnabled()));
+        value.setAutoSiteNumberPadding(autoSiteNumberPaddingValidator.convert(value.getAutoSiteNumberPadding()));
+        value.setAutoSiteNumberPrefix(autoSiteNumberPrefixValidator.convert(value.getAutoSiteNumberPrefix()));
+        value.setBusinessDays(businessDaysValidator.convert(value.getBusinessDays()));
+        value.setBusinessEndTime(businessEndTimeValidator.convert(value.getBusinessEndTime()));
+        value.setBusinessStartTime(businessStartTimeValidator.convert(value.getBusinessStartTime()));
+        value.setCode(codeValidator.convert(value.getCode()));
+        value.setCompanyName(companyNameValidator.convert(value.getCompanyName()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setDescription(descriptionValidator.convert(value.getDescription()));
+        value.setEnabled(enabledValidator.convert(value.getEnabled()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setNextAutoSiteNumber(nextAutoSiteNumberValidator.convert(value.getNextAutoSiteNumber()));
+        value.setSendEmailFrom(sendEmailFromValidator.convert(value.getSendEmailFrom()));
+        value.setTimeZoneCode(timeZoneCodeValidator.convert(value.getTimeZoneCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convert(value.getUpdatedUtcTs()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyProject value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyProject value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
-        codeValidator.validateOnly(value.getCode(), errors);
-        companyNameValidator.validateOnly(value.getCompanyName(), errors);
-        sendEmailFromValidator.validateOnly(value.getSendEmailFrom(), errors);
-        activeValidator.validateOnly(value.getActive(), errors);
-        catalogVersionValidator.validateOnly(value.getCatalogVersion(), errors);
-        businessDaysValidator.validateOnly(value.getBusinessDays(), errors);
-        businessStartTimeValidator.validateOnly(value.getBusinessStartTime(), errors);
-        businessEndTimeValidator.validateOnly(value.getBusinessEndTime(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        autoSiteNumberEnabledValidator.validateOn(value.getAutoSiteNumberEnabled(), errors);
+        autoSiteNumberPaddingValidator.validateOn(value.getAutoSiteNumberPadding(), errors);
+        autoSiteNumberPrefixValidator.validateOn(value.getAutoSiteNumberPrefix(), errors);
+        businessDaysValidator.validateOn(value.getBusinessDays(), errors);
+        businessEndTimeValidator.validateOn(value.getBusinessEndTime(), errors);
+        businessStartTimeValidator.validateOn(value.getBusinessStartTime(), errors);
+        codeValidator.validateOn(value.getCode(), errors);
+        companyNameValidator.validateOn(value.getCompanyName(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        descriptionValidator.validateOn(value.getDescription(), errors);
+        enabledValidator.validateOn(value.getEnabled(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        nextAutoSiteNumberValidator.validateOn(value.getNextAutoSiteNumber(), errors);
+        sendEmailFromValidator.validateOn(value.getSendEmailFrom(), errors);
+        timeZoneCodeValidator.validateOn(value.getTimeZoneCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        updatedUtcTsValidator.validateOn(value.getUpdatedUtcTs(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
+        if ( !value.hasDefaultPriority() )
+            errors.addRequiredField("project", "defaultPriority");
+        if ( !value.hasSupervisor() )
+            errors.addRequiredField("project", "supervisor");
         if ( !value.hasTenant() )
-            errors.add(new KmRequiredValidationError("project", "tenant"));
+            errors.addRequiredField("project", "tenant");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmBooleanValidator newAutoSiteNumberEnabledValidator()
+    {
+        KmBooleanValidator e;
+        e = new KmBooleanValidator();
+        e.setModelName("project");
+        e.setFieldName("autoSiteNumberEnabled");
+        e.setRequired();
+        return e;
+    }
+
+    public KmIntegerValidator newAutoSiteNumberPaddingValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setMinimumValue(0);
+        e.setModelName("project");
+        e.setFieldName("autoSiteNumberPadding");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newAutoSiteNumberPrefixValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(5);
         e.setAllowsPrintable(true);
-        e.setModel("project");
-        e.setField("uid");
+        e.setModelName("project");
+        e.setFieldName("autoSiteNumberPrefix");
+        return e;
+    }
+
+    public KmDayFrequencyValidator newBusinessDaysValidator()
+    {
+        KmDayFrequencyValidator e;
+        e = new KmDayFrequencyValidator();
+        e.setModelName("project");
+        e.setFieldName("businessDays");
+        return e;
+    }
+
+    public KmTimeValidator newBusinessEndTimeValidator()
+    {
+        KmTimeValidator e;
+        e = new KmTimeValidator();
+        e.setModelName("project");
+        e.setFieldName("businessEndTime");
         e.setRequired();
         return e;
     }
 
-    public KmTimestampValidator newCreatedUtcTsValidator()
+    public KmTimeValidator newBusinessStartTimeValidator()
     {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("project");
-        e.setField("createdUtcTs");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimestampValidator newUpdatedUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("project");
-        e.setField("updatedUtcTs");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("project");
-        e.setField("name");
+        KmTimeValidator e;
+        e = new KmTimeValidator();
+        e.setModelName("project");
+        e.setFieldName("businessStartTime");
         e.setRequired();
         return e;
     }
@@ -242,8 +309,8 @@ public class MyProjectValidatorBase
         e.setAllowsDigits(true);
         e.setForcesUpperCase(true);
         e.setStripsAllSpaces(true);
-        e.setModel("project");
-        e.setField("code");
+        e.setModelName("project");
+        e.setFieldName("code");
         e.setRequired();
         return e;
     }
@@ -254,8 +321,62 @@ public class MyProjectValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("project");
-        e.setField("companyName");
+        e.setModelName("project");
+        e.setFieldName("companyName");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("project");
+        e.setFieldName("createdUtcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newDescriptionValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1000);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("project");
+        e.setFieldName("description");
+        return e;
+    }
+
+    public KmBooleanValidator newEnabledValidator()
+    {
+        KmBooleanValidator e;
+        e = new KmBooleanValidator();
+        e.setModelName("project");
+        e.setFieldName("enabled");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("project");
+        e.setFieldName("name");
+        e.setRequired();
+        return e;
+    }
+
+    public KmIntegerValidator newNextAutoSiteNumberValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("project");
+        e.setFieldName("nextAutoSiteNumber");
         e.setRequired();
         return e;
     }
@@ -265,58 +386,45 @@ public class MyProjectValidatorBase
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(50);
+        e.setAllowsLetters(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
+        e.setModelName("project");
+        e.setFieldName("sendEmailFrom");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newTimeZoneCodeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(40);
         e.setAllowsPrintable(true);
-        e.setModel("project");
-        e.setField("sendEmailFrom");
+        e.setModelName("project");
+        e.setFieldName("timeZoneCode");
         e.setRequired();
         return e;
     }
 
-    public KmBooleanValidator newActiveValidator()
+    public KmStringValidator newUidValidator()
     {
-        KmBooleanValidator e;
-        e = new KmBooleanValidator();
-        e.setModel("project");
-        e.setField("active");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("project");
+        e.setFieldName("uid");
         e.setRequired();
         return e;
     }
 
-    public KmIntegerValidator newCatalogVersionValidator()
+    public KmTimestampValidator newUpdatedUtcTsValidator()
     {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("project");
-        e.setField("catalogVersion");
-        e.setRequired();
-        return e;
-    }
-
-    public KmDayFrequencyValidator newBusinessDaysValidator()
-    {
-        KmDayFrequencyValidator e;
-        e = new KmDayFrequencyValidator();
-        e.setModel("project");
-        e.setField("businessDays");
-        return e;
-    }
-
-    public KmTimeValidator newBusinessStartTimeValidator()
-    {
-        KmTimeValidator e;
-        e = new KmTimeValidator();
-        e.setModel("project");
-        e.setField("businessStartTime");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimeValidator newBusinessEndTimeValidator()
-    {
-        KmTimeValidator e;
-        e = new KmTimeValidator();
-        e.setModel("project");
-        e.setField("businessEndTime");
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("project");
+        e.setFieldName("updatedUtcTs");
         e.setRequired();
         return e;
     }
@@ -325,8 +433,9 @@ public class MyProjectValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("project");
-        e.setField("lockVersion");
+        e.setModelName("project");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

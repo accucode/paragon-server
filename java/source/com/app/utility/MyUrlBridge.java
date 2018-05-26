@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -205,98 +205,38 @@ public class MyUrlBridge
         return getTheme("image/error.png");
     }
 
+    @Override
+    public String getWarnUrl()
+    {
+        return getTheme("image/warn.png");
+    }
+
     //##################################################
     //# buttons
     //##################################################
 
     @Override
-    public String getEditButtonUrl()
-    {
-        return MyButtonUrls.edit();
-    }
-
-    @Override
-    public String getAddButtonUrl()
-    {
-        return MyButtonUrls.add();
-    }
-
-    @Override
-    public String getRemoveButtonUrl()
-    {
-        return MyButtonUrls.delete();
-    }
-
-    @Override
-    public String getDeleteButtonUrl()
-    {
-        return MyButtonUrls.delete();
-    }
-
-    @Override
-    public String getDeleteMaybeButtonUrl()
-    {
-        return MyButtonUrls.deleteMaybe();
-    }
-
-    @Override
-    public String getRefreshButtonUrl()
-    {
-        return MyButtonUrls.refresh();
-    }
-
-    @Override
-    public String getAuditButtonUrl()
-    {
-        return MyButtonUrls.auditLog();
-    }
-
-    @Override
-    public String getBackButtonUrl()
-    {
-        return MyButtonUrls.back();
-    }
-
-    @Override
-    public String getSearchButtonUrl()
-    {
-        return MyButtonUrls.search();
-    }
-
-    @Override
-    public String getHelpIndicatorUrl()
+    public String getHelpTriangleUrl()
     {
         return ScUrls.getThemeImage("helpTriangle.png");
     }
 
     @Override
-    public String getUpButtonUrl()
+    public String getBarcodeButtonUrl()
     {
-        return MyButtonUrls.up();
+        return MyButtonUrls.barcode();
     }
 
     @Override
-    public String getDownButtonUrl()
+    public String getMenuBlackIcon()
     {
-        return MyButtonUrls.down();
+        return MyButtonUrls.menuBlack();
     }
 
     @Override
-    public String getPopoutButtonUrl()
+    public String getMenuWhiteIcon()
     {
-        return MyButtonUrls.popout();
-    }
-
-    @Override
-    public String getExpandButtonUrl()
-    {
-        return MyButtonUrls.expand();
-    }
-
-    @Override
-    public String getShrinkButtonUrl()
-    {
-        return MyButtonUrls.shrink();
+        return MyButtonUrls.menuWhite();
     }
 
     //##################################################

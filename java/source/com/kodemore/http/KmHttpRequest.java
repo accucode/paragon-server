@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,10 +50,10 @@ public abstract class KmHttpRequest
     private KmOrderedMap<String,String> _parameters;
     private boolean                     _https;
 
-    private URL                         _url;
-    private HttpURLConnection           _connection;
-    private byte[]                      _responseValue;
-    private Exception                   _exception;
+    private URL               _url;
+    private HttpURLConnection _connection;
+    private byte[]            _responseValue;
+    private Exception         _exception;
 
     //##################################################
     //# constructor
@@ -265,7 +265,6 @@ public abstract class KmHttpRequest
     public void setContentTypeFormPost()
     {
         setContentType("application/x-www-form-urlencoded");
-
     }
 
     public void setContentTypeJson()

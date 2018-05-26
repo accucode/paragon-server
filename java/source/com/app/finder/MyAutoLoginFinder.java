@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyAutoLoginFinder
+public final class MyAutoLoginFinder
     implements KmKeyFinderIF<MyAutoLogin,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyAutoLogin staticFind(String key)
-    {
-        return new MyAutoLoginFinder().find(key);
-    }
+    public static final MyAutoLoginFinder instance = new MyAutoLoginFinder();
 
-    public static MyAutoLogin staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyAutoLoginFinder()
     {
-        return new MyAutoLoginFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyAutoLoginFinder
 
     public MyAutoLogin findDao(String key)
     {
-        MyDaoKeyFinder<MyAutoLogin,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

@@ -37,27 +37,46 @@ public class MyDownloadCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyDownload e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyDownload e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhPropertyCondition<KmBlob> whereBytes()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhPropertyCondition<>(context(), alias(), BYTES);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
+    }
+
+    public KmhStringCondition whereFileName()
+    {
+        return new KmhStringCondition(context(), alias(), FILE_NAME);
     }
 
     public KmhStringCondition whereName()
     {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhStringCondition whereTypeCode()
     {
-        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), alias(), TYPE_CODE);
     }
 
     public void whereTypeIs(MyDownloadType e)
@@ -94,6 +113,24 @@ public class MyDownloadCriteria
             whereTypeIsNotFile();
     }
 
+    public void whereTypeIsAttachment()
+    {
+        whereTypeIs(MyDownloadType.Attachment);
+    }
+
+    public void whereTypeIsNotAttachment()
+    {
+        whereTypeIsNot(MyDownloadType.Attachment);
+    }
+
+    public void whereTypeIsAttachment(boolean e)
+    {
+        if ( e )
+            whereTypeIsAttachment();
+        else
+            whereTypeIsNotAttachment();
+    }
+
     public void whereTypeIsBytes()
     {
         whereTypeIs(MyDownloadType.Bytes);
@@ -112,41 +149,36 @@ public class MyDownloadCriteria
             whereTypeIsNotBytes();
     }
 
-    public KmhStringCondition whereFileName()
+    public KmhStringCondition whereUid()
     {
-        return new KmhStringCondition(context(), fullName(FILE_NAME));
-    }
-
-    public KmhPropertyCondition<KmBlob> whereBytes()
-    {
-        return new KmhPropertyCondition<>(context(), fullName(BYTES));
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnBytes()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(BYTES);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnBytesDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(BYTES);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnBytes(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnBytes();
         else
-            sortOnUidDescending();
+            sortOnBytesDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -165,6 +197,24 @@ public class MyDownloadCriteria
             sortOnCreatedUtcTs();
         else
             sortOnCreatedUtcTsDescending();
+    }
+
+    public void sortOnFileName()
+    {
+        parent().sortAscending(FILE_NAME);
+    }
+
+    public void sortOnFileNameDescending()
+    {
+        parent().sortDescending(FILE_NAME);
+    }
+
+    public void sortOnFileName(boolean asc)
+    {
+        if ( asc )
+            sortOnFileName();
+        else
+            sortOnFileNameDescending();
     }
 
     public void sortOnName()
@@ -203,40 +253,22 @@ public class MyDownloadCriteria
             sortOnTypeCodeDescending();
     }
 
-    public void sortOnFileName()
+    public void sortOnUid()
     {
-        parent().sortAscending(FILE_NAME);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnFileNameDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(FILE_NAME);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnFileName(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnFileName();
+            sortOnUid();
         else
-            sortOnFileNameDescending();
-    }
-
-    public void sortOnBytes()
-    {
-        parent().sortAscending(BYTES);
-    }
-
-    public void sortOnBytesDescending()
-    {
-        parent().sortDescending(BYTES);
-    }
-
-    public void sortOnBytes(boolean asc)
-    {
-        if ( asc )
-            sortOnBytes();
-        else
-            sortOnBytesDescending();
+            sortOnUidDescending();
     }
 
     public void sortOnLockVersion()
@@ -258,47 +290,47 @@ public class MyDownloadCriteria
     }
 
     //##################################################
-    //# projections (uid)
+    //# projections (bytes)
     //##################################################
 
-    public void selectUid()
+    public void selectBytes()
     {
-        select(UID);
+        select(BYTES);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctBytes()
     {
-        selectDistinct(UID);
+        selectDistinct(BYTES);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctBytes()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(BYTES);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumBytes()
     {
-        selectMinimum(UID);
+        selectMinimum(BYTES);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumBytes()
     {
-        selectMaximum(UID);
+        selectMaximum(BYTES);
     }
 
-    public void selectAverageUid()
+    public void selectAverageBytes()
     {
-        selectAverage(UID);
+        selectAverage(BYTES);
     }
 
-    public void selectSumUid()
+    public void selectSumBytes()
     {
-        selectSum(UID);
+        selectSum(BYTES);
     }
 
-    public void groupByUid()
+    public void groupByBytes()
     {
-        groupBy(UID);
+        groupBy(BYTES);
     }
 
     //##################################################
@@ -343,6 +375,50 @@ public class MyDownloadCriteria
     public void groupByCreatedUtcTs()
     {
         groupBy(CREATED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (fileName)
+    //##################################################
+
+    public void selectFileName()
+    {
+        select(FILE_NAME);
+    }
+
+    public void selectDistinctFileName()
+    {
+        selectDistinct(FILE_NAME);
+    }
+
+    public void selectCountDistinctFileName()
+    {
+        selectCountDistinct(FILE_NAME);
+    }
+
+    public void selectMinimumFileName()
+    {
+        selectMinimum(FILE_NAME);
+    }
+
+    public void selectMaximumFileName()
+    {
+        selectMaximum(FILE_NAME);
+    }
+
+    public void selectAverageFileName()
+    {
+        selectAverage(FILE_NAME);
+    }
+
+    public void selectSumFileName()
+    {
+        selectSum(FILE_NAME);
+    }
+
+    public void groupByFileName()
+    {
+        groupBy(FILE_NAME);
     }
 
     //##################################################
@@ -434,91 +510,47 @@ public class MyDownloadCriteria
     }
 
     //##################################################
-    //# projections (fileName)
+    //# projections (uid)
     //##################################################
 
-    public void selectFileName()
+    public void selectUid()
     {
-        select(FILE_NAME);
+        select(UID);
     }
 
-    public void selectDistinctFileName()
+    public void selectDistinctUid()
     {
-        selectDistinct(FILE_NAME);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctFileName()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(FILE_NAME);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumFileName()
+    public void selectMinimumUid()
     {
-        selectMinimum(FILE_NAME);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumFileName()
+    public void selectMaximumUid()
     {
-        selectMaximum(FILE_NAME);
+        selectMaximum(UID);
     }
 
-    public void selectAverageFileName()
+    public void selectAverageUid()
     {
-        selectAverage(FILE_NAME);
+        selectAverage(UID);
     }
 
-    public void selectSumFileName()
+    public void selectSumUid()
     {
-        selectSum(FILE_NAME);
+        selectSum(UID);
     }
 
-    public void groupByFileName()
+    public void groupByUid()
     {
-        groupBy(FILE_NAME);
-    }
-
-    //##################################################
-    //# projections (bytes)
-    //##################################################
-
-    public void selectBytes()
-    {
-        select(BYTES);
-    }
-
-    public void selectDistinctBytes()
-    {
-        selectDistinct(BYTES);
-    }
-
-    public void selectCountDistinctBytes()
-    {
-        selectCountDistinct(BYTES);
-    }
-
-    public void selectMinimumBytes()
-    {
-        selectMinimum(BYTES);
-    }
-
-    public void selectMaximumBytes()
-    {
-        selectMaximum(BYTES);
-    }
-
-    public void selectAverageBytes()
-    {
-        selectAverage(BYTES);
-    }
-
-    public void selectSumBytes()
-    {
-        selectSum(BYTES);
-    }
-
-    public void groupByBytes()
-    {
-        groupBy(BYTES);
+        groupBy(UID);
     }
 
     //##################################################
@@ -566,12 +598,87 @@ public class MyDownloadCriteria
     }
 
     //##################################################
+    //# association (Attachment)
+    //##################################################
+
+    public void selectAttachmentUid()
+    {
+        select(ATTACHMENT_UID);
+    }
+
+    public void selectCountDistinctAttachmentUid()
+    {
+        selectCountDistinct(ATTACHMENT_UID);
+    }
+    
+    public void selectDistinctAttachmentUid()
+    {
+        selectDistinct(ATTACHMENT_UID);
+    }
+
+    public void selectMinimumAttachmentUid()
+    {
+        selectMinimum(ATTACHMENT_UID);
+    }
+
+    public void selectMaximumAttachmentUid()
+    {
+        selectMaximum(ATTACHMENT_UID);
+    }
+
+    public void groupByAttachmentUid()
+    {
+        groupBy(ATTACHMENT_UID);
+    }
+
+    public MyAttachmentCriteria joinToAttachment()
+    {
+        return new MyAttachmentCriteria(joinTo(ATTACHMENT));
+    }
+
+    public MyAttachmentCriteria leftJoinToAttachment()
+    {
+        return new MyAttachmentCriteria(leftJoinTo(ATTACHMENT));
+    }
+
+    public KmhStringCondition whereAttachmentUid()
+    {
+        return new KmhStringCondition(parent(), alias(), ATTACHMENT_UID);
+    }
+
+    public void whereAttachmentIs(MyAttachment e)
+    {
+        if ( e == null )
+            whereAttachmentUid().isNull();
+        else
+            whereAttachmentUid().is(e.getUid());
+    }
+
+    public void whereAttachmentIsNot(MyAttachment e)
+    {
+        if ( e == null )
+            whereAttachmentUid().isNotNull();
+        else
+            whereAttachmentUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# association (User)
     //##################################################
 
     public void selectUserUid()
     {
         select(USER_UID);
+    }
+
+    public void selectCountDistinctUserUid()
+    {
+        selectCountDistinct(USER_UID);
+    }
+    
+    public void selectDistinctUserUid()
+    {
+        selectDistinct(USER_UID);
     }
 
     public void selectMinimumUserUid()
@@ -601,7 +708,7 @@ public class MyDownloadCriteria
 
     public KmhStringCondition whereUserUid()
     {
-        return new KmhStringCondition(parent(), fullName(USER_UID));
+        return new KmhStringCondition(parent(), alias(), USER_UID);
     }
 
     public void whereUserIs(MyUser e)
@@ -610,6 +717,14 @@ public class MyDownloadCriteria
             whereUserUid().isNull();
         else
             whereUserUid().is(e.getUid());
+    }
+
+    public void whereUserIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUserUid().isNotNull();
+        else
+            whereUserUid().isNot(e.getUid());
     }
 
     //##################################################

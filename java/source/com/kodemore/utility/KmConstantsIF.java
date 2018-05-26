@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,109 +31,108 @@ public interface KmConstantsIF
     //# general
     //##################################################
 
-    int    UNDEFINED_INT         = Integer.MIN_VALUE;
-    long   UNDEFINED_LONG        = Long.MIN_VALUE;
+    int  UNDEFINED_INT  = Integer.MIN_VALUE;
+    long UNDEFINED_LONG = Long.MIN_VALUE;
 
     //##################################################
     //# day of week
     //##################################################
 
-    char   DOW_CHAR_MONDAY       = 'M';
-    char   DOW_CHAR_TUESDAY      = 'T';
-    char   DOW_CHAR_WEDNESDAY    = 'W';
-    char   DOW_CHAR_THURSDAY     = 'H';
-    char   DOW_CHAR_FRIDAY       = 'F';
-    char   DOW_CHAR_SATURDAY     = 'S';
-    char   DOW_CHAR_SUNDAY       = 'U';
+    char DOW_CHAR_MONDAY    = 'M';
+    char DOW_CHAR_TUESDAY   = 'T';
+    char DOW_CHAR_WEDNESDAY = 'W';
+    char DOW_CHAR_THURSDAY  = 'H';
+    char DOW_CHAR_FRIDAY    = 'F';
+    char DOW_CHAR_SATURDAY  = 'S';
+    char DOW_CHAR_SUNDAY    = 'U';
 
-    char   DOW_INT_MONDAY        = '1';
-    char   DOW_INT_TUESDAY       = '2';
-    char   DOW_INT_WEDNESDAY     = '3';
-    char   DOW_INT_THURSDAY      = '4';
-    char   DOW_INT_FRIDAY        = '5';
-    char   DOW_INT_SATURDAY      = '6';
-    char   DOW_INT_SUNDAY        = '7';
+    char DOW_INT_MONDAY    = '1';
+    char DOW_INT_TUESDAY   = '2';
+    char DOW_INT_WEDNESDAY = '3';
+    char DOW_INT_THURSDAY  = '4';
+    char DOW_INT_FRIDAY    = '5';
+    char DOW_INT_SATURDAY  = '6';
+    char DOW_INT_SUNDAY    = '7';
 
-    String DOW_MONDAY            = "" + DOW_CHAR_MONDAY;
-    String DOW_TUESDAY           = "" + DOW_CHAR_TUESDAY;
-    String DOW_WEDNESDAY         = "" + DOW_CHAR_WEDNESDAY;
-    String DOW_THURSDAY          = "" + DOW_CHAR_THURSDAY;
-    String DOW_FRIDAY            = "" + DOW_CHAR_FRIDAY;
-    String DOW_SATURDAY          = "" + DOW_CHAR_SATURDAY;
-    String DOW_SUNDAY            = "" + DOW_CHAR_SUNDAY;
+    String DOW_MONDAY    = "" + DOW_CHAR_MONDAY;
+    String DOW_TUESDAY   = "" + DOW_CHAR_TUESDAY;
+    String DOW_WEDNESDAY = "" + DOW_CHAR_WEDNESDAY;
+    String DOW_THURSDAY  = "" + DOW_CHAR_THURSDAY;
+    String DOW_FRIDAY    = "" + DOW_CHAR_FRIDAY;
+    String DOW_SATURDAY  = "" + DOW_CHAR_SATURDAY;
+    String DOW_SUNDAY    = "" + DOW_CHAR_SUNDAY;
 
     //##################################################
     //# characters
     //##################################################
 
-    char   CHAR_NULL             = 0;
-    char   CHAR_SPACE            = ' ';
-    char   CHAR_FF               = '\f';
-    char   CHAR_CR               = '\r';
-    char   CHAR_LF               = '\n';
-    char   CHAR_TAB              = '\t';
-    char   CHAR_BACKSLASH        = '\\';
+    char CHAR_NULL      = 0;
+    char CHAR_SPACE     = ' ';
+    char CHAR_FF        = '\f';
+    char CHAR_CR        = '\r';
+    char CHAR_LF        = '\n';
+    char CHAR_TAB       = '\t';
+    char CHAR_BACKSLASH = '\\';
 
-    char   CHAR_TICK             = '\'';
-    char   CHAR_LEFT_TICK        = '\u2018';
-    char   CHAR_RIGHT_TICK       = '\u2019';
+    char CHAR_TICK       = '\'';
+    char CHAR_LEFT_TICK  = '\u2018';
+    char CHAR_RIGHT_TICK = '\u2019';
 
-    char   CHAR_QUOTE            = '\"';
-    char   CHAR_LEFT_QUOTE       = '\u201C';
-    char   CHAR_RIGHT_QUOTE      = '\u201D';
+    char CHAR_QUOTE              = '\"';
+    char CHAR_LEFT_QUOTE         = '\u201C';
+    char CHAR_RIGHT_QUOTE        = '\u201D';
+    char CHAR_NON_BREAKING_SPACE = '\u00A0';
 
-    char   CHAR_OPEN_BRACE       = '{';
-    char   CHAR_CLOSE_BRACE      = '}';
-    char   CHAR_OPEN_PAREN       = '(';
-    char   CHAR_CLOSE_PAREN      = ')';
-    char   CHAR_COMMA            = ',';
-    char   CHAR_SEMICOLON        = ';';
-    char   CHAR_COLON            = ':';
-    char   CHAR_EQUAL            = '=';
-    char   CHAR_DASH             = '-';
-    char   CHAR_SLASH            = '/';
-    char   CHAR_UNDERSCORE       = '_';
+    char CHAR_OPEN_BRACE  = '{';
+    char CHAR_CLOSE_BRACE = '}';
+    char CHAR_OPEN_PAREN  = '(';
+    char CHAR_CLOSE_PAREN = ')';
+    char CHAR_COMMA       = ',';
+    char CHAR_SEMICOLON   = ';';
+    char CHAR_COLON       = ':';
+    char CHAR_EQUAL       = '=';
+    char CHAR_DASH        = '-';
+    char CHAR_SLASH       = '/';
+    char CHAR_UNDERSCORE  = '_';
 
-    char   CHAR_PERIOD           = '.';
-    char   CHAR_DOT              = CHAR_PERIOD;
+    char CHAR_PERIOD = '.';
+    char CHAR_DOT    = CHAR_PERIOD;
 
-    char   CHAR_ZERO             = '0';
-    char   CHAR_A                = 'A';
+    char CHAR_ZERO = '0';
+    char CHAR_A    = 'A';
 
-    String FF                    = "" + CHAR_FF;
-    String CR                    = "" + CHAR_CR;
-    String LF                    = "" + CHAR_LF;
-    String CRLF                  = CR + LF;
-    String UNDERSCORE            = "" + CHAR_UNDERSCORE;
-    String SPACE                 = "" + CHAR_SPACE;
-    String TAB                   = "" + CHAR_TAB;
-    String SLASH                 = "" + CHAR_SLASH;
-    String BACKSLASH             = "" + CHAR_BACKSLASH;
-    String DOT                   = "" + CHAR_DOT;
-    String OPEN_PAREN            = "" + CHAR_OPEN_PAREN;
-    String CLOSE_PAREN           = "" + CHAR_CLOSE_PAREN;
+    String FF          = "" + CHAR_FF;
+    String CR          = "" + CHAR_CR;
+    String LF          = "" + CHAR_LF;
+    String CRLF        = CR + LF;
+    String UNDERSCORE  = "" + CHAR_UNDERSCORE;
+    String SPACE       = "" + CHAR_SPACE;
+    String TAB         = "" + CHAR_TAB;
+    String SLASH       = "" + CHAR_SLASH;
+    String BACKSLASH   = "" + CHAR_BACKSLASH;
+    String DOT         = "" + CHAR_DOT;
+    String OPEN_PAREN  = "" + CHAR_OPEN_PAREN;
+    String CLOSE_PAREN = "" + CHAR_CLOSE_PAREN;
 
-    String TICK                  = "" + CHAR_TICK;
-    String LEFT_TICK             = "" + CHAR_LEFT_TICK;
-    String RIGHT_TICK            = "" + CHAR_RIGHT_TICK;
+    String TICK       = "" + CHAR_TICK;
+    String LEFT_TICK  = "" + CHAR_LEFT_TICK;
+    String RIGHT_TICK = "" + CHAR_RIGHT_TICK;
 
-    String QUOTE                 = "" + CHAR_QUOTE;
-    String LEFT_QUOTE            = "" + CHAR_LEFT_QUOTE;
-    String RIGHT_QUOTE           = "" + CHAR_RIGHT_QUOTE;
-
-    //##################################################
-    //# weight conversion
-    //##################################################
-
-    double KILOGRAMS_PER_POUND   = 0.4535924;
-    double POUNDS_PER_KILOGRAM   = 1 / KILOGRAMS_PER_POUND;
+    String QUOTE              = "" + CHAR_QUOTE;
+    String LEFT_QUOTE         = "" + CHAR_LEFT_QUOTE;
+    String RIGHT_QUOTE        = "" + CHAR_RIGHT_QUOTE;
+    String NON_BREAKING_SPACE = "" + CHAR_NON_BREAKING_SPACE;
 
     //##################################################
     //# weight conversion
     //##################################################
 
-    String UTF_16                = "UTF-16";
-    String UTF_16_LITTLE_ENDIAN  = "UTF-16LE";
-    String UNICODE_PAGE_ENCODING = UTF_16_LITTLE_ENDIAN;
+    double KILOGRAMS_PER_POUND = 0.4535924;
+    double POUNDS_PER_KILOGRAM = 1 / KILOGRAMS_PER_POUND;
 
+    //##################################################
+    //# message
+    //##################################################
+
+    String NONE = Kmu.formatMetaValue("none");
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,10 @@ package com.kodemore.servlet.script;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+/**
+ * Run client-side javascript. The script can be configured
+ * to run after a brief delay and/or when the browser is 'ready.'.
+ */
 public class ScDelayedScript
     extends ScAbstractScript
 {
@@ -34,8 +38,8 @@ public class ScDelayedScript
 
     private ScBlockScript _script;
 
-    private boolean       _onReady;
-    private int           _delayMs;
+    private boolean _onReady;
+    private int     _delayMs;
 
     //##################################################
     //# constructor

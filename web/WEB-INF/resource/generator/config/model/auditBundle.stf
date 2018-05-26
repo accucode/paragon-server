@@ -1,0 +1,148 @@
+model
+: name      = auditBundle
+: help...
+    ---
+    Each bundle identifies a group of related audit logs for a particular domain
+    model. In some cases, there may be multiple domain bundles for the same
+    domain object within a given transaction.
+    ---
+
+database
+: auditLog  = false
+: locking   = false
+
+
+//    index
+//    : name      = domainType
+//    : unique    = false
+//    : on        = domainType
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicDisplay.stf
+
+
+    field
+    : name      = createdUtcTs
+    : help      = The time this change was made.
+    : type      = timestamp
+    : default   = nowUtc()
+    : required  = true
+
+
+    //*****************************************************
+    //** transaction
+    //*****************************************************
+
+
+    field
+    : name          = transactionUid
+    : help          = This is used to identify all bundles within a given transaction.
+    : type          = uid
+    : required      = true
+
+
+    //*****************************************************
+    //** user
+    //*****************************************************
+
+
+    association
+    : name      = user
+    : help      = The user that made this change.  May be null for automated updates.
+    : modelName = user
+    : relation  = reference
+    : required  = false
+
+
+    field
+    : name      = userName
+    : help      = The user's name (denormalized).
+    : type      = name
+    : required  = false
+
+        dependsOn
+        : value = user
+
+
+    //*****************************************************
+    //** change type
+    //*****************************************************
+
+
+    field
+    : name      = changeTypeCode
+    : label     = Change
+    : help      = The type of change.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Add)
+            value(#Update)
+            value(#Delete)
+
+
+    //*****************************************************
+    //** domain
+    //*****************************************************
+
+
+    field
+    : name      = domainType
+    : help      = The type of domain; e.g.: project, job, depot, etc.
+    : type      = name
+    : required  = true
+
+
+    abstractField
+    : name      = domainTypeLabel
+    : label     = Domain Type
+    : help...
+        ---
+        A more friendly format of the domain type.
+        E.g.: project => Project; jobLine => Job Line; etc.
+        ---
+    : type      = calculated
+
+
+    field
+    : name      = domainUid
+    : help      = The unique id of the domain model.
+    : type      = uid
+    : required  = true
+
+
+    field
+    : name      = domainName
+    : help...
+        ---
+        The common, but non-unique name of the domain.
+        Models generally rely on long UIDs as their unique identifier so
+        we also store a domain's display string as a 'name'. Although this name
+        is not guaranteed to be unique, it is generally human-readable and is usually
+        sufficient to identify which domain was affected.
+        ---
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** collections
+    //*****************************************************
+
+
+    collection
+    : name          = log
+    : comment       = The detailed logs for each bundle.
+    : relation      = children
+    : elementModel  = auditLog
+    : elementField  = bundle

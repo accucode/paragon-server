@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +48,6 @@ import org.apache.commons.io.FileCleaningTracker;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObjectIF;
@@ -56,13 +56,15 @@ import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.ajax.ScAjaxResult;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.encoder.ScDecoder;
+import com.kodemore.servlet.result.ScByteResult;
 import com.kodemore.servlet.result.ScResultIF;
-import com.kodemore.servlet.result.ScSimpleResult;
+import com.kodemore.servlet.result.ScStringResult;
 import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.thread.KmThreadLocalManager;
 import com.kodemore.time.KmDate;
-import com.kodemore.utility.KmGeneralError;
+import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -73,7 +75,7 @@ import com.kodemore.utility.Kmu;
  * when applying a thread safe implementation of servlets and page handlers.
  */
 public class ScServletData
-    implements ScConstantsIF
+    implements ScConstantsIF, KmConstantsIF
 {
     //##################################################
     //# static
@@ -95,9 +97,9 @@ public class ScServletData
     //# variables (delgates)
     //##################################################
 
-    private HttpServlet          _servlet;
-    private HttpServletRequest   _request;
-    private HttpServletResponse  _response;
+    private HttpServlet         _servlet;
+    private HttpServletRequest  _request;
+    private HttpServletResponse _response;
 
     //##################################################
     //# variables (setup)
@@ -106,7 +108,7 @@ public class ScServletData
     /**
      * The time when I was created.  Used for logging.
      */
-    private long                 _creationTimeNanos;
+    private long _creationTimeNanos;
 
     /**
      * Determines if parameters values should be normalized.
@@ -115,13 +117,13 @@ public class ScServletData
      * desireable as it helps avoid a large number of potential
      * problems.
      */
-    private boolean              _normalizeParameterValues;
+    private boolean _normalizeParameterValues;
 
     /**
      * The list of parameters extracted from the http request so that
      * values can be overridden during processing.
      */
-    private ScParameterList      _parameters;
+    private ScParameterList _parameters;
 
     /**
      * This is the value submitted in the form's argument parameter.
@@ -130,7 +132,7 @@ public class ScServletData
      * If the argument cannot be parsed it is set to null and an warning
      * is logged.
      */
-    private Object               _argument;
+    private Object _argument;
 
     /**
      * The persistent session information that is propogated through
@@ -138,17 +140,11 @@ public class ScServletData
      * server side http session.  Most session information should
      * be stored here.
      */
-    private ScPageSession        _pageSession;
+    private ScPageSession _pageSession;
 
     //##################################################
     //# variables (response)
     //##################################################
-
-    /**
-     * A list of application error messages that we intend to display
-     * to the user.
-     */
-    private KmList<KmErrorIF>    _errors;
 
     /**
      * The result that we intend to write to the http response.
@@ -156,14 +152,14 @@ public class ScServletData
      * writing the http response until after we have confirmed
      * that the database transaction successfully committed.
      */
-    private ScResultIF           _result;
+    private ScResultIF _result;
 
     /**
      * The number of bytes written to the http response.
      * This value is only set when the http response is written.
      * Setting the "result" does not immediately affect this value.
      */
-    private int                  _responseSize;
+    private int _responseSize;
 
     /**
      * I provide a copy of the cookies that are set into the response.
@@ -206,7 +202,6 @@ public class ScServletData
     private void installVariables()
     {
         _setCookies = new KmMap<>();
-        _errors = new KmList<>();
         _result = null;
     }
 
@@ -249,12 +244,12 @@ public class ScServletData
 
     private void installForm()
     {
-        String key = getParameter(PARAMETER_FORM_KEY);
-        if ( Kmu.isEmpty(key) )
+        String token = getParameter(PARAMETER_FORM_TOKEN);
+        if ( Kmu.isEmpty(token) )
             return;
 
         ScControl c;
-        c = ScControlRegistry.getInstance().getControl(key);
+        c = ScControlRegistry.getInstance().findToken(token);
         c.readParameters();
     }
 
@@ -585,7 +580,7 @@ public class ScServletData
 
     public String getParameter(String key)
     {
-        return _parameters.getValue(key);
+        return _parameters.getString(key);
     }
 
     public boolean hasParameters()
@@ -610,7 +605,7 @@ public class ScServletData
 
     public void setParameter(String key, String value)
     {
-        _parameters.setValue(key, value);
+        _parameters.setString(key, value);
     }
 
     public void clearParameter(String key)
@@ -643,7 +638,7 @@ public class ScServletData
 
     public String formatParametersAsQueryString()
     {
-        return getParameterList().formatUrl();
+        return getParameterList().formatQueryString();
     }
 
     //##################################################
@@ -673,7 +668,7 @@ public class ScServletData
         System.out.println("Parameters: " + keys.size());
         for ( String key : keys )
         {
-            KmList<String> values = getParameters(key).collect(e -> Kmu.formatHexString(e));
+            KmList<String> values = getParameters(key).collect(e -> Kmu.formatHexDisplayString(e));
             System.out.printf("    %s = %s%n", key, values.join());
         }
     }
@@ -685,7 +680,7 @@ public class ScServletData
         Cookie[] arr = _getRequest().getCookies();
         if ( arr == null )
         {
-            System.out.println("    <none>");
+            System.out.println("    " + KmConstantsIF.NONE);
             return;
         }
 
@@ -870,49 +865,14 @@ public class ScServletData
     //# response
     //##################################################
 
-    public void setHtmlContentType()
+    public void setContentType(ScContentType e)
     {
-        setContentType(CONTENT_TYPE_HTML);
+        _getResponse().setContentType(e.getHttpValue());
     }
 
-    public void setTextContentType()
+    public void setCharset(Charset e)
     {
-        setContentType(CONTENT_TYPE_TEXT);
-    }
-
-    public void setXmlContentType()
-    {
-        setContentType(CONTENT_TYPE_XML);
-    }
-
-    public void setPdfContentType()
-    {
-        setContentType(CONTENT_TYPE_PDF);
-    }
-
-    public void setOctetContentType()
-    {
-        setContentType(CONTENT_TYPE_OCTET);
-    }
-
-    public void setSerializedContentType()
-    {
-        setContentType(CONTENT_TYPE_SERIALIZED);
-    }
-
-    public void setJpegContentType()
-    {
-        setContentType(CONTENT_TYPE_JPEG);
-    }
-
-    public void setBinaryContentType()
-    {
-        setContentType(CONTENT_TYPE_BINARY);
-    }
-
-    public void setContentType(String s)
-    {
-        _getResponse().setContentType(s);
+        _getResponse().setCharacterEncoding(e.name());
     }
 
     public void setContentLength(int i)
@@ -920,10 +880,59 @@ public class ScServletData
         _getResponse().setContentLength(i);
     }
 
+    //==================================================
+    //= response :: headers
+    //==================================================
+
+    public void setHeader(String key, String value)
+    {
+        _getResponse().setHeader(key, value);
+    }
+
+    public void setHeader(String key, int value)
+    {
+        _getResponse().setIntHeader(key, value);
+    }
+
     public void setNoCacheHeaders()
     {
-        _getResponse().setHeader("Cache-Control", "no-cache");
-        _getResponse().setIntHeader("Expires", 0);
+        setHeader("Cache-Control", "no-cache");
+        setHeader("Expires", 0);
+    }
+
+    //==================================================
+    //= response :: frame options
+    //==================================================
+
+    /**
+     * The X-Frame-Options HTTP response header can be used to indicate
+     * whether or not a browser should be allowed to render a page in a
+     * <frame>, <iframe> or <object> . Sites can use this to avoid
+     * clickjacking attacks, by ensuring that their content is not embedded
+     * into other sites.
+     */
+    public void setFrameOptions(String value)
+    {
+        setHeader("X-Frame-Options", value);
+    }
+
+    public void setFrameOptionsDeny()
+    {
+        setFrameOptions("DENY");
+    }
+
+    public void setFrameOptionsSameOrigin()
+    {
+        setFrameOptions("SAMEORIGIN");
+    }
+
+    //==================================================
+    //= response :: disposition
+    //==================================================
+
+    public void setContentDisposition(String s)
+    {
+        setHeader("content-disposition", s);
     }
 
     public void setAttachmentDisposition(String name)
@@ -931,15 +940,9 @@ public class ScServletData
         setContentDisposition("attachment;filename=" + name);
     }
 
-    public void setContentDisposition(String s)
-    {
-        setHeader("content-disposition", s);
-    }
-
-    public void setHeader(String key, String value)
-    {
-        _getResponse().setHeader(key, value);
-    }
+    //==================================================
+    //= response :: writer/stream
+    //==================================================
 
     public PrintWriter getWriter()
     {
@@ -1000,118 +1003,119 @@ public class ScServletData
     //# results (convenience)
     //##################################################
 
-    public void setHtmlResult(KmHtmlBuilder out)
-    {
-        String html = out.toString();
-        setHtmlResult(html);
-    }
-
-    public void setHtmlResult(String value)
+    public final void setHtmlResult(CharSequence value)
     {
         boolean noCache = false;
         setHtmlResult(value, noCache);
     }
 
-    public void setHtmlResult(String value, boolean noCache)
+    public final void setHtmlResult(CharSequence value, boolean noCache)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
         r.setHttpNoCache(noCache);
-        r.setContentTypeHtml();
+        r.setContentType(ScContentType.Html);
 
         setResult(r);
+        writeLastResults(value, "css");
     }
 
-    public void setEmptyHtmlResult()
+    public final void setEmptyHtmlResult()
     {
         setHtmlResult("");
     }
 
-    public void setTextResult(String value)
+    public final void setTextResult(CharSequence value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
-        r.setContentTypeText();
+        r.setContentType(ScContentType.Text);
+
         setResult(r);
+        writeLastResults(value, "txt");
     }
 
-    public void setCssResult(String value)
+    public final void setCssResult(CharSequence value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
-        r.setContentTypeCss();
+        r.setContentType(ScContentType.Css);
+
         setResult(r);
+        writeLastResults(value, "css");
     }
 
-    public void setXmlResult(String value)
+    public final void setXmlResult(CharSequence value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
-        r.setContentTypeXml();
+        r.setContentType(ScContentType.Xml);
         setResult(r);
+
+        writeLastResults(value, "xml");
     }
 
-    public void setOctetResult(String value)
-    {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
-        r.setValue(value);
-        r.setContentTypeOctet();
-        setResult(r);
-    }
-
-    public void setOctetResult(byte[] value)
-    {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
-        r.setValue(value);
-        r.setContentTypeOctet();
-        setResult(r);
-    }
-
-    public void setPdfResult(byte[] value)
-    {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
-        r.setValue(value);
-        r.setContentTypePdf();
-        setResult(r);
-    }
-
-    public void setJsonResult(KmJsonObjectIF e)
+    public final void setJsonResult(KmJsonObjectIF e)
     {
         setJsonResult(e.formatJson());
     }
 
-    public void setJsonResult(String value)
+    public final void setJsonResult(CharSequence value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
-        r.setContentTypeJson();
+        r.setContentType(ScContentType.Json);
         setResult(r);
     }
 
-    public void setAttachmentResult(String name, String value)
+    public final void setOctetResult(byte[] value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScByteResult r;
+        r = new ScByteResult();
+        r.setValue(value);
+        r.setContentType(ScContentType.Octet);
+        setResult(r);
+    }
+
+    public final void setPdfResult(byte[] value)
+    {
+        ScByteResult r;
+        r = new ScByteResult();
+        r.setValue(value);
+        r.setContentType(ScContentType.Pdf);
+        setResult(r);
+    }
+
+    public final void setAttachmentResult(String name, String value)
+    {
+        ScStringResult r;
+        r = new ScStringResult();
         r.setValue(value);
         r.setAttachmentName(name);
         setResult(r);
     }
 
-    public void setAttachmentResult(String name, byte[] value)
+    public final void setAttachmentResult(String name, byte[] value)
     {
-        ScSimpleResult r;
-        r = new ScSimpleResult();
+        ScByteResult r;
+        r = new ScByteResult();
         r.setAttachmentName(name);
         r.setValue(value);
         setResult(r);
+    }
+
+    /**
+     * @param value The value written to the response.
+     * @param ext The file type/extension.
+     */
+    protected void writeLastResults(CharSequence value, String ext)
+    {
+        // subclass
     }
 
     //##################################################
@@ -1134,6 +1138,11 @@ public class ScServletData
     //##################################################
     //# redirect
     //##################################################
+
+    public void redirectTo(ScBookmark b)
+    {
+        redirectTo(b.formatQueryString());
+    }
 
     public void redirectTo(String url)
     {
@@ -1171,9 +1180,9 @@ public class ScServletData
         out.beginHtml();
 
         out.beginHead();
-        out.printMetaCharsetUtf8();
+        out.printMetaContentTypeHtml();
         out.printMetaNoCache();
-        out.printTitle("Loading...");
+        out.printTitle(getLoadingTabTitle());
         out.endHead();
 
         out.openBody();
@@ -1241,90 +1250,6 @@ public class ScServletData
         {
             throw Kmu.toRuntime(ex);
         }
-    }
-
-    //##################################################
-    //# errors
-    //##################################################
-
-    public KmList<KmErrorIF> getErrors()
-    {
-        return _errors;
-    }
-
-    public KmList<String> getErrorMessages()
-    {
-        KmList<String> v = new KmList<>();
-        for ( KmErrorIF e : getErrors() )
-            v.add(e.formatMessage());
-
-        return v;
-    }
-
-    public void setError(String msg, Object... args)
-    {
-        clearErrors();
-        addError(msg, args);
-    }
-
-    public void addError(String msg, Object... args)
-    {
-        KmGeneralError e = new KmGeneralError(msg, args);
-        _errors.add(e);
-    }
-
-    public void addErrorMessages(KmList<String> v)
-    {
-        for ( String s : v )
-            addError(s);
-    }
-
-    public void addErrors(KmList<KmErrorIF> v)
-    {
-        _errors.addAll(v);
-    }
-
-    public boolean isOk()
-    {
-        return _errors.isEmpty();
-    }
-
-    public boolean hasErrors()
-    {
-        return !isOk();
-    }
-
-    public void printErrors()
-    {
-        Iterator<KmErrorIF> i = getErrors().iterator();
-        while ( i.hasNext() )
-            System.out.println(i.next().formatMessage());
-    }
-
-    public KmErrorIF getError(String code)
-    {
-        for ( KmErrorIF e : getErrors() )
-            if ( e.hasCode(code) )
-                return e;
-        return null;
-    }
-
-    public boolean hasError(String code)
-    {
-        return getError(code) != null;
-    }
-
-    public void removeError(String code)
-    {
-        Iterator<KmErrorIF> i = getErrors().iterator();
-        while ( i.hasNext() )
-            if ( i.next().hasCode(code) )
-                i.remove();
-    }
-
-    public void clearErrors()
-    {
-        _errors.clear();
     }
 
     //##################################################
@@ -1424,23 +1349,11 @@ public class ScServletData
     //# private
     //##################################################
 
-    public String _normalize(String s)
+    private String _normalize(String s)
     {
-        if ( !_normalizeParameterValues )
-            return s;
-
-        if ( s == null )
-            return null;
-
-        s = Kmu.replaceAll(s, CRLF, LF);
-        s = Kmu.replaceAll(s, CR, LF);
-        s = Kmu.replaceAll(s, LEFT_QUOTE, QUOTE);
-        s = Kmu.replaceAll(s, RIGHT_QUOTE, QUOTE);
-        s = Kmu.replaceAll(s, LEFT_TICK, TICK);
-        s = Kmu.replaceAll(s, RIGHT_TICK, TICK);
-        s = Kmu.stripNonFormPostable(s);
-        s = s.trim();
-        return s;
+        return _normalizeParameterValues
+            ? ScCharsets.normalizeMultiLineString(s)
+            : s;
     }
 
     //##################################################
@@ -1454,10 +1367,8 @@ public class ScServletData
 
     private void installPageSession()
     {
-        String gs = getParameter(PARAMETER_GLOBAL_SESSION);
         String ps = getParameter(PARAMETER_PAGE_SESSION);
-
-        _pageSession = new ScPageSession(gs, ps);
+        _pageSession = new ScPageSession(ps);
     }
 
     //##################################################
@@ -1480,15 +1391,29 @@ public class ScServletData
     }
 
     //##################################################
+    //# current page
+    //##################################################
+
+    public ScPage getRequestedPage()
+    {
+        String key = getRequestedPageKey();
+
+        if ( Kmu.isEmpty(key) )
+            return null;
+
+        return ScPageRegistry.getInstance().findKey(key);
+    }
+
+    public String getRequestedPageKey()
+    {
+        return getWindowParameters().getString(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY);
+    }
+
+    //##################################################
     //# action
     //##################################################
 
-    public String getActionKey()
-    {
-        return _getActionParameter();
-    }
-
-    public String _getActionParameter()
+    public String getActionParameter()
     {
         return getParameter(PARAMETER_ACTION);
     }
@@ -1505,6 +1430,19 @@ public class ScServletData
     public boolean hasArgument()
     {
         return _argument != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public KmList<String> getStringListArgument()
+    {
+        try
+        {
+            return (KmList<String>)_argument;
+        }
+        catch ( Exception ex )
+        {
+            throw newArgumentCastException(ex, "KmList<String>");
+        }
     }
 
     public String getStringArgument()
@@ -1571,6 +1509,11 @@ public class ScServletData
     //##################################################
     //# window location
     //##################################################
+
+    public String getApplicationVersion()
+    {
+        return getParameter(PARAMETER_APPLICATION_VERSION);
+    }
 
     /**
      * Return the window's location url.  For ajax, this is frequently
@@ -1722,7 +1665,7 @@ public class ScServletData
     {
         return Kmu.newFatal(
             ex,
-            "Cannot cast argument(%s) to (%s).  Argument parameter was(%s).",
+            "Cannot cast argument(%s) to (%s). Argument parameter was(%s).",
             _argument,
             type,
             _getArgumentParameter());
@@ -1736,6 +1679,15 @@ public class ScServletData
     //##################################################
     //# write
     //##################################################
+
+    public void writeString(String value)
+    {
+        // Do NOT setContentLength(), it is handled by write().
+        // Also, value.length() is NOT correct for multi-byte UTF-8 encoding.
+        // setContentLength(value.length());
+
+        getWriter().write(value);
+    }
 
     public void writeBytes(byte[] value)
     {
@@ -1782,5 +1734,10 @@ public class ScServletData
     public boolean supportsCopy()
     {
         return isUserAgentInternetExplorer();
+    }
+
+    private String getLoadingTabTitle()
+    {
+        return ScBridge.getInstance().getLoadingTabTitle();
     }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ package com.kodemore.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
 
 /**
  * I implement a simple utility to count the number of lines in a
@@ -34,51 +36,42 @@ public class KmLineCounter
     extends KmFileTraverser
 {
     //##################################################
-    //# static
-    //##################################################
-
-    public static void countLines(KmFile file, String suffix)
-    {
-        countLines(file.getRealPath(), suffix);
-    }
-
-    public static void countLines(String root, String suffix)
-    {
-        System.out.println("Counting lines");
-        System.out.println("  Root:   " + root);
-        System.out.println("  Suffix: " + suffix);
-        KmLineCounter e = new KmLineCounter();
-        e.setSuffix(suffix);
-
-        e.addIgnoredPrefix("package");
-        e.addIgnoredPrefix("import");
-
-        e.processAll(root);
-        System.out.printf("  total bytes:  %,10d%n", e.getTotalBytes());
-        System.out.printf("  total lines:  %,10d%n", e.getLines());
-        System.out.printf("  blank lines:  %,10d%n", e.getBlankLines());
-        System.out.printf("  1-char lines: %,10d%n", e.getSingleCharacterLines());
-        System.out.printf("  prefix lines: %,10d%n", e.getIgnoredPrefixLines());
-        System.out.printf("  comment lines:%,10d%n", e.getCommentLines());
-
-    }
-
-    //##################################################
     //# variables
     //##################################################
 
     private KmList<String> _ignoredPrefixes = new KmList<>();
+    private String         _prefix;
     private String         _suffix;
 
-    private int            _lines;
-    private int            _blankLines;
-    private int            _singleCharacterLines;
-    private int            _commentLines;
-    private int            _ignoredPrefixLines;
-    private int            _totalBytes;
+    private KmFile _root;
+    private int    _lines;
+    private int    _blankLines;
+    private int    _singleCharacterLines;
+    private int    _commentLines;
+    private int    _ignoredPrefixLines;
+    private int    _totalBytes;
 
     //##################################################
-    //# accessing
+    //# prefix
+    //##################################################
+
+    public String getPrefix()
+    {
+        return _prefix;
+    }
+
+    public void setPrefix(String e)
+    {
+        _prefix = e;
+    }
+
+    public boolean hasPrefix()
+    {
+        return Kmu.hasValue(getPrefix());
+    }
+
+    //##################################################
+    //# suffix
     //##################################################
 
     public String getSuffix()
@@ -90,6 +83,15 @@ public class KmLineCounter
     {
         _suffix = e;
     }
+
+    public boolean hasSuffix()
+    {
+        return Kmu.hasValue(getSuffix());
+    }
+
+    //##################################################
+    //# lines
+    //##################################################
 
     public int getLines()
     {
@@ -126,6 +128,37 @@ public class KmLineCounter
         _ignoredPrefixes.add(s);
     }
 
+    public int getInterestingLines()
+    {
+        return getLines()
+            - getBlankLines()
+            - getSingleCharacterLines()
+            - getIgnoredPrefixLines()
+            - getCommentLines();
+    }
+
+    //##################################################
+    //# count
+    //##################################################
+
+    public void printResults()
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printfln("Counting lines");
+        out.printfln("    Root:   %s", _root);
+        out.printfln("    Prefix: %s", getPrefix());
+        out.printfln("    Suffix: %s", getSuffix());
+        out.printfln("    total bytes:     %,12d", getTotalBytes());
+        out.printfln("    total lines:     %,12d", getLines());
+        out.printfln("    - blank lines:   %,12d", getBlankLines());
+        out.printfln("    - 1-char lines:  %,12d", getSingleCharacterLines());
+        out.printfln("    - prefix lines:  %,12d", getIgnoredPrefixLines());
+        out.printfln("    - comment lines: %,12d", getCommentLines());
+        out.printfln("    = app lines:     %,12d", getInterestingLines());
+        System.out.println(out);
+    }
+
     //##################################################
     //# actions
     //##################################################
@@ -142,10 +175,22 @@ public class KmLineCounter
     }
 
     @Override
+    public void processAll(KmFile root)
+    {
+        _root = root;
+        super.processAll(root);
+    }
+
+    @Override
     public void processFile(KmFile f)
     {
-        if ( !f.getName().endsWith(_suffix) )
-            return;
+        if ( hasPrefix() )
+            if ( !f.getName().startsWith(getPrefix()) )
+                return;
+
+        if ( hasSuffix() )
+            if ( !f.getName().endsWith(getSuffix()) )
+                return;
 
         _totalBytes += f.getLength();
         KmList<String> v = f.readLines();
@@ -158,36 +203,41 @@ public class KmLineCounter
             n = s.trim().length();
 
             if ( n == 0 )
+            {
                 _blankLines++;
+                continue;
+            }
 
             if ( n == 1 )
+            {
                 _singleCharacterLines++;
+                continue;
+            }
 
             if ( s.startsWith("//") )
+            {
                 _commentLines++;
+                continue;
+            }
 
             if ( s.startsWith("/*") )
+            {
                 _commentLines++;
+                continue;
+            }
 
             if ( s.startsWith("*") )
+            {
                 _commentLines++;
+                continue;
+            }
 
-            if ( _ignoredPrefixes.isNotEmpty() )
-                for ( String prefix : _ignoredPrefixes )
-                    if ( s.startsWith(prefix) )
-                    {
-                        _ignoredPrefixLines++;
-                        break;
-                    }
+            for ( String prefix : _ignoredPrefixes )
+                if ( s.startsWith(prefix) )
+                {
+                    _ignoredPrefixLines++;
+                    break;
+                }
         }
-    }
-
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String args[])
-    {
-        KmLineCounter.countLines("c:/projects/kodemore/java/source", ".java");
     }
 }

@@ -2,9 +2,12 @@ package com.app.dao.core;
 
 import org.hibernate.Session;
 
+import com.kodemore.collection.KmSet;
+import com.kodemore.collection.KmSetImpl;
 import com.kodemore.dao.KmDaoSession;
 
 import com.app.hibernate.MyHibernateConfiguration;
+import com.app.utility.MyBasicTimestampsIF;
 
 public class MyDaoSession
     extends KmDaoSession
@@ -15,12 +18,23 @@ public class MyDaoSession
 
     private MyDaoSessionCache _cache;
 
+    private KmSet<MyBasicTimestampsIF> _disabledTimestamps;
+
     //##################################################
-    //# creation
+    //# constructor
+    //##################################################
+
+    public MyDaoSession()
+    {
+        _disabledTimestamps = new KmSetImpl<>();
+    }
+
+    //##################################################
+    //# inner
     //##################################################
 
     @Override
-    protected Session newSession()
+    protected Session newInnerSession()
     {
         return MyHibernateConfiguration.getInstance().newSession();
     }
@@ -41,6 +55,20 @@ public class MyDaoSession
     protected void clearCache()
     {
         _cache = null;
+    }
+
+    //##################################################
+    //# basic timestamps
+    //##################################################
+
+    public void disableBasicTimestampsFor(MyBasicTimestampsIF e)
+    {
+        _disabledTimestamps.add(e);
+    }
+
+    public boolean areBasicTimestampsEnabledFor(MyBasicTimestampsIF e)
+    {
+        return !_disabledTimestamps.contains(e);
     }
 
 }

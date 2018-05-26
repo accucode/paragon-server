@@ -3,14 +3,14 @@
 /*
 ##################################################
 #
-# Accucode modified this file per the author's
-# instructions.  See tags below for more details
+# We modified this file per the author's
+# instructions. See tags below for more details
 #
 ##################################################
 */
 
 .dropzone,
-.dropzone *,
+.dropzone *, 
 .dropzone-previews,
 .dropzone-previews * {
   -webkit-box-sizing: border-box;
@@ -179,7 +179,7 @@
   -o-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-
+  
 /*
 ##################################################
 # The line below was modified to:
@@ -281,7 +281,7 @@
   -o-transition: opacity 0.4s ease-in-out;
   -ms-transition: opacity 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out;
-
+    
 /*
 ##################################################
 # The line below was modified to:
@@ -290,7 +290,7 @@
 #     background-image: url("../images/spritemap.png");
 ##################################################
 */
-
+  
   background-image: url("spritemap.png");
   background-repeat: no-repeat;
 }
@@ -308,7 +308,7 @@
 #     background-image: url("../images/spritemap@2x.png");
 ##################################################
 */
-
+  
     background-image: url("spritemap@2x.png");
     -webkit-background-size: 428px 406px;
     -moz-background-size: 428px 406px;
@@ -348,7 +348,7 @@
   left: 0;
   width: 0%;
   height: 100%;
-
+   
 /*
 ##################################################
 # The line below was modified to:
@@ -357,7 +357,7 @@
 #     background-image: url("../images/spritemap.png");
 ##################################################
 */
-
+  
   background-image: url("spritemap.png");
   background-repeat: repeat-x;
   background-position: 0px -400px;
@@ -374,7 +374,7 @@
 #     background-image: url("../images/spritemap@2x.png");
 ##################################################
 */
-
+  
     background-image: url("spritemap@2x.png");
     -webkit-background-size: 428px 406px;
     -moz-background-size: 428px 406px;

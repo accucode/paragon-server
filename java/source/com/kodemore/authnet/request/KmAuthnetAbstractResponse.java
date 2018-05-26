@@ -16,14 +16,14 @@ public class KmAuthnetAbstractResponse
     //# constants
     //##################################################
 
-    public static final String               RESULT_CODE_OK             = "Ok";
-    public static final String               RESULT_CODE_DECLINED       = "Declined";
-    public static final String               RESULT_CODE_ERROR          = "Error";
+    public static final String RESULT_CODE_OK       = "Ok";
+    public static final String RESULT_CODE_DECLINED = "Declined";
+    public static final String RESULT_CODE_ERROR    = "Error";
 
     /**
      * Used for error codes generated in the application rather than by authnet.
      */
-    public static final String               RESULT_CODE_INTERNAL_ERROR = "Internal";
+    public static final String RESULT_CODE_INTERNAL_ERROR = "Internal";
 
     //##################################################
     //# variables
@@ -33,8 +33,8 @@ public class KmAuthnetAbstractResponse
     private String                           _resultCode;
     private KmList<KmAuthnetResponseMessage> _responseMessages;
 
-    private String                           _xmlSource;
-    private KmXmlDocument                    _xmlDocument;
+    private String        _xmlSource;
+    private KmXmlDocument _xmlDocument;
 
     //##################################################
     //# constructor

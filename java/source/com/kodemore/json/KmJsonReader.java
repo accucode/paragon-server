@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -20,13 +21,13 @@ public abstract class KmJsonReader
 
     public static KmJsonMap readJsonMap(String file)
     {
-        String json = Kmu.readFileString(file);
+        String json = KmFiles.readString(file);
         return parseJsonMap(json);
     }
 
     public static KmJsonArray readJsonArray(String file)
     {
-        String json = Kmu.readFileString(file);
+        String json = KmFiles.readString(file);
         return parseJsonArray(json);
     }
 

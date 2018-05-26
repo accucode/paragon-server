@@ -1,18 +1,32 @@
 package com.app.model.core;
 
 import com.kodemore.hibernate.KmhDaoDomainIF;
+import com.kodemore.servlet.field.ScOption;
 
 import com.app.dao.base.MyDaoAccess;
 import com.app.dao.core.MyDaoSession;
 import com.app.dao.core.MyDaoSessionCache;
 import com.app.utility.MyGlobals;
 
-public abstract class MyAbstractDaoDomain
-    extends MyAbstractDomain
+/**
+ * I am the parent of the domain classes that are stored
+ * in the database.
+ *
+ * I have a primaryKey and various convenience methods for
+ * accessing the hibernate dao interface.
+ */
+public abstract class MyAbstractDaoDomain<T extends MyAbstractDomain<?>>
+    extends MyAbstractDomain<T>
     implements KmhDaoDomainIF
 {
     //##################################################
-    //# convenience
+    //# key
+    //##################################################
+
+    public abstract String formatPrimaryKey();
+
+    //##################################################
+    //# session
     //##################################################
 
     protected final MyDaoSession getDaoSession()
@@ -25,9 +39,9 @@ public abstract class MyAbstractDaoDomain
         return getDaoSession().getCache();
     }
 
-    protected final MyDaoAccess getAccess()
+    protected final MyDaoAccess getDaoRegistry()
     {
-        return MyGlobals.getAccess();
+        return MyDaoAccess.getInstance();
     }
 
     //==================================================
@@ -57,11 +71,12 @@ public abstract class MyAbstractDaoDomain
     @Override
     public final void daoAttach()
     {
+        validateAndCheck();
+
         boolean attached = daoIsAttached();
         if ( attached )
             return;
 
-        validate();
         daoPreAttach();
         getDaoSession()._attach(this);
         daoPostAttach();
@@ -143,6 +158,9 @@ public abstract class MyAbstractDaoDomain
         getDaoSession().evict(this);
     }
 
+    /**
+     * This executes a fetch and then an evict.
+     */
     @Override
     public final void daoDetach()
     {
@@ -151,5 +169,31 @@ public abstract class MyAbstractDaoDomain
 
         daoFetch();
         daoEvict();
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public abstract String getDomainTitle();
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected final MyDaoAccess getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+
+    protected ScOption<String> toOption()
+    {
+        ScOption<String> e;
+        e = new ScOption<>();
+        e.setValue(formatPrimaryKey());
+        e.setText(getDomainTitle());
+        return e;
     }
 }

@@ -2,13 +2,12 @@ package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.field.ScListField;
+import com.kodemore.servlet.field.ScStaticListField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
 
@@ -44,9 +43,9 @@ public final class MyDevSharedFileBrowserPage
     //# variables
     //##################################################
 
-    private ScTextField         _directoryField;
-    private ScListField<String> _folderList;
-    private ScListField<String> _fileList;
+    private ScTextField               _directoryField;
+    private ScStaticListField<String> _folderList;
+    private ScStaticListField<String> _fileList;
 
     //##################################################
     //# settings
@@ -56,22 +55,6 @@ public final class MyDevSharedFileBrowserPage
     public final MySecurityLevel getSecurityLevel()
     {
         return MySecurityLevel.developer;
-    }
-
-    //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -85,7 +68,7 @@ public final class MyDevSharedFileBrowserPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleFind);
+        form.onSubmit(newUncheckedAction(this::handleFind));
 
         installPath(form);
         installFolders(form);
@@ -106,17 +89,18 @@ public final class MyDevSharedFileBrowserPage
         body = group.getBody().addPad();
 
         ScDiv row;
-        row = body.addFlexRow();
+        row = body.addDiv();
+        row.css().flexRow();
         row.add(_directoryField);
         row.addNonBreakingSpace();
         row.addSubmitButton("Open");
 
-        body.addLink("Create", this::handleCreatePath);
+        body.addLink("Create", newCheckedAction(this::handleCreatePath));
     }
 
     private void installFolders(ScContainer root)
     {
-        _folderList = new ScListField<>();
+        _folderList = new ScStaticListField<>();
         _folderList.disableChangeTracking();
 
         ScGroup group;
@@ -125,12 +109,12 @@ public final class MyDevSharedFileBrowserPage
         ScDiv body;
         body = group.getBody().addPad();
         body.add(_folderList);
-        body.addLink("Open", this::handleOpenFolder);
+        body.addLink("Open", newCheckedAction(this::handleOpenFolder));
     }
 
     private void installFiles(ScContainer root)
     {
-        _fileList = new ScListField<>();
+        _fileList = new ScStaticListField<>();
         _fileList.disableChangeTracking();
 
         ScGroup group;
@@ -139,15 +123,15 @@ public final class MyDevSharedFileBrowserPage
         ScDiv body;
         body = group.getBody().addPad();
         body.add(_fileList);
-        body.addLink("Get", this::handleGetFile);
+        body.addLink("Get", newCheckedAction(this::handleGetFile));
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         preRenderFolders();
         preRenderFiles();
@@ -192,13 +176,12 @@ public final class MyDevSharedFileBrowserPage
         KmFile dir = getDirectory();
 
         if ( dir.exists() )
-            _directoryField.error("Already exists.");
+            _directoryField.addErrorAndCheck("Already exists.");
 
         if ( dir.createFolder() )
-            _directoryField.error("Cannot create directory.");
-        Object[] args = {};
+            _directoryField.addErrorAndCheck("Cannot create directory.");
 
-        ajax().toast("Created Directory: " + dir, args);
+        ajax().toast("Created Directory: %s.", dir);
         ajaxPrint();
     }
 

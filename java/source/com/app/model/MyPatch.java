@@ -21,9 +21,23 @@ public class MyPatch
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return hasInstalledUtcTs()
+            ? "installed at " + getInstalledUtcTs().formatLocal()
+            : "not installed";
     }
 
 }

@@ -1,0 +1,82 @@
+model
+: name      = filterTemplateItem
+: help...
+    ---
+    A single item within a filter template. For example city=Denver.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = template
+    : unique    = false
+    : on        = template
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = template
+    : help      = The template that contains this item.
+    : modelName = filterTemplate
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** attribute code
+    //*****************************************************
+
+
+    field
+    : name      = attributeCode
+    : help...
+        ---
+        Identify a specific attribute within the template.
+        ---
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** value
+    //*****************************************************
+
+
+    field
+    : name      = used
+    : help...
+        ---
+        Indicates if this item is used in the filter. Setting this
+        to true/false is simpler than inserting/deleting the entire record.
+        ---
+    : type      = boolean
+    : required  = true
+
+
+    field
+    : name      = value
+    : help...
+        ---
+        The encoded value for this item. The value is always stored as a string,
+        and the format will vary depending on the type of value being stored.
+        ---
+    : type      = text100

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +36,11 @@ public class ScGridGroup<T>
     //# variables
     //##################################################
 
-    private ScGroup       _group;
-    private ScLocalString _title;
-    private ScGrid<T>     _grid;
+    private ScGroup        _group;
+    private ScLocalString  _title;
+    private ScLocalString  _footerText;
+    private ScTransientDiv _footerContent;
+    private ScGrid<T>      _grid;
 
     //##################################################
     //# constructor
@@ -47,9 +49,13 @@ public class ScGridGroup<T>
     public ScGridGroup()
     {
         _title = new ScLocalString("Grid");
+        _footerText = new ScLocalString();
 
         _group = new ScGroup();
         _group.setParent(this);
+
+        _footerContent = _group.getFooter().addTransientDiv();
+        _footerContent.css().pad10();
 
         ScDiv right;
         right = _group.getBanner().getRight();
@@ -62,9 +68,9 @@ public class ScGridGroup<T>
         ScPopupMenu e;
         e = new ScPopupMenu();
         e.setColorWhite();
-        e.addItem("export csv", this::handleExportCsv);
-        e.addItem("export html", this::handleExportHtml);
-        e.addItem("export excel", this::handleExportExcel);
+        e.addItem("export csv", e.newCheckedAction(this::handleExportCsv));
+        e.addItem("export html", e.newCheckedAction(this::handleExportHtml));
+        e.addItem("export excel", e.newCheckedAction(this::handleExportExcel));
         return e;
     }
 
@@ -85,6 +91,15 @@ public class ScGridGroup<T>
     public ScDiv showHeader()
     {
         return _group.showHeader();
+    }
+
+    //==================================================
+    //= accessing :: group footer
+    //==================================================
+
+    public void setFooterText(String e)
+    {
+        _footerText.setValue(e);
     }
 
     //==================================================
@@ -152,6 +167,7 @@ public class ScGridGroup<T>
         super.preRender();
 
         preRenderTitle();
+        preRenderFooter();
     }
 
     private void preRenderTitle()
@@ -162,6 +178,20 @@ public class ScGridGroup<T>
         int count = _grid.getTotalCount();
         String title = Kmu.format("%s (%,d)", _title.getValue(), count);
         _group.setTitle(title);
+    }
+
+    private void preRenderFooter()
+    {
+        if ( _footerText.hasValue() )
+        {
+            _group.showFooter();
+            _footerContent.clear();
+            _footerContent.addBold(_footerText.getValue());
+            return;
+        }
+
+        _footerContent.clear();
+        _group.getFooter().hide();
     }
 
     @Override
@@ -239,5 +269,11 @@ public class ScGridGroup<T>
     {
         preRenderTitle();
         _group.getBanner().ajaxReplace();
+    }
+
+    public void ajaxRefreshFoorter()
+    {
+        preRenderFooter();
+        _group.getFooter().ajaxReplace();
     }
 }

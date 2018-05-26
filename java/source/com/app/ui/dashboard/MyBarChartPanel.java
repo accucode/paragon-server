@@ -4,15 +4,21 @@ import java.util.function.Function;
 
 import com.kodemore.collection.KmBag;
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.control.ScBarChart;
+import com.kodemore.collection.KmSet;
+import com.kodemore.servlet.control.ScChartAxis;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScTransientDiv;
+import com.kodemore.servlet.control.ScVerticalBarChart;
+import com.kodemore.servlet.control.nvd3.ScBarChartPoint;
+import com.kodemore.servlet.control.nvd3.ScBarChartSet;
 import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
-import com.kodemore.time.KmDateInterval;
-import com.kodemore.types.KmHtmlColor;
+import com.kodemore.time.KmDateRange;
+import com.kodemore.time.KmMonth;
+import com.kodemore.time.KmMonthRange;
 
 import com.app.model.MyDatedCountVo;
+import com.app.model.MyMonthlyCountVo;
 import com.app.ui.dashboard.core.MyDashboardPanel;
 
 public abstract class MyBarChartPanel
@@ -49,27 +55,36 @@ public abstract class MyBarChartPanel
     //# chart
     //##################################################
 
-    private ScBarChart createChart()
+    private ScVerticalBarChart createChart()
     {
-        ScBarChart e;
-        e = new ScBarChart();
-        e.css().fill();
-        e.setXAxisLabel("Date");
-        e.setYAxisLabel(getCountLabel());
-        e.staggerLabels();
-        addDataTo(e);
-        return e;
+        ScVerticalBarChart chart;
+        chart = new ScVerticalBarChart();
+        chart.css().fill();
+
+        ScChartAxis labelAxis;
+        labelAxis = chart.getLabelAxis();
+        labelAxis.setLabel("Date");
+        labelAxis.setLabelDegrees(60);
+
+        ScChartAxis valueAxis;
+        valueAxis = chart.getValueAxis();
+        valueAxis.setLabel(getCountLabel());
+
+        addDataTo(chart);
+        return chart;
     }
 
-    private void addDataTo(ScBarChart chart)
+    private void addDataTo(ScVerticalBarChart chart)
     {
-        KmHtmlColor color = KmHtmlColor.createBlack();
+        ScBarChartSet set = chart.addDataSet();
 
-        for ( MyDatedCountVo e : findResults() )
+        for ( MyBarChartValue e : findValues() )
         {
-            String date = format(e.getDate());
-            Integer count = e.getCount();
-            chart.addBar(date, count, color);
+            ScBarChartPoint bar;
+            bar = set.addPoint();
+            bar.setLabel(e.getName());
+            bar.setValue(e.getCount());
+            bar.setColor(e.getColor());
         }
     }
 
@@ -78,27 +93,120 @@ public abstract class MyBarChartPanel
      */
     protected abstract String getCountLabel();
 
-    protected abstract KmList<MyDatedCountVo> findResults();
+    protected abstract KmList<MyBarChartValue> findValues();
 
     //##################################################
-    //# format
+    //# dated values
     //##################################################
+
+    protected KmList<MyBarChartValue> toDatedBarChartValues(KmList<MyDatedCountVo> v)
+    {
+        return v.collect(e -> toBarChartValue(e));
+    }
+
+    protected MyBarChartValue toBarChartValue(MyDatedCountVo in)
+    {
+        MyBarChartValue out;
+        out = new MyBarChartValue();
+        out.setName(formatDate(in.getDate()));
+        out.setCount(in.getCount());
+        return out;
+    }
+
+    protected String formatDate(KmDate e)
+    {
+        return e.format_m_d_yy();
+    }
+
+    protected void normalizeDatedCounts(KmList<MyDatedCountVo> v)
+    {
+        KmDate min = v.getMinimumValue(e -> e.getDate());
+        KmDate max = v.getMaximumValue(e -> e.getDate());
+        KmDateRange range = KmDateRange.create(min, max);
+
+        normalizeDatedCounts(v, range);
+    }
 
     /**
-     * Subclasses can optionally override this to format the date differently.
+     * Ensure that all of the dates in the range are represented,
+     * and sort the results by date.
      */
-    protected String format(KmDate e)
+    protected void normalizeDatedCounts(KmList<MyDatedCountVo> v, KmDateRange range)
     {
-        return e.format_m_d();
+        KmSet<KmDate> dates = v.toSet(e -> e.getDate());
+
+        for ( KmDate date : range )
+        {
+            if ( dates.contains(date) )
+                continue;
+
+            MyDatedCountVo e;
+            e = new MyDatedCountVo();
+            e.setDate(date);
+            e.setCount(0);
+            v.add(e);
+        }
+
+        v.sortOn(e -> e.getDate());
     }
 
     //##################################################
-    //# support
+    //# monthly values
+    //##################################################
+
+    protected KmList<MyBarChartValue> toMonthlyBarChartValues(KmList<MyMonthlyCountVo> v)
+    {
+        return v.collect(e -> toBarChartValue(e));
+    }
+
+    protected MyBarChartValue toBarChartValue(MyMonthlyCountVo in)
+    {
+        MyBarChartValue out;
+        out = new MyBarChartValue();
+        out.setName(in.getMonth().format_m_yy());
+        out.setCount(in.getCount());
+        return out;
+    }
+
+    protected void normalizeMonthlyCounts(KmList<MyMonthlyCountVo> v)
+    {
+        KmMonth min = v.getMinimumValue(e -> e.getMonth());
+        KmMonth max = v.getMaximumValue(e -> e.getMonth());
+        KmMonthRange range = KmMonthRange.create(min, max);
+
+        normalizeMonthlyCounts(v, range);
+    }
+
+    /**
+     * Ensure that all of the dates in the range are represented,
+     * and sort the results by date.
+     */
+    protected void normalizeMonthlyCounts(KmList<MyMonthlyCountVo> v, KmMonthRange range)
+    {
+        KmSet<KmMonth> months = v.toSet(e -> e.getMonth());
+
+        for ( KmMonth month : range )
+        {
+            if ( months.contains(month) )
+                continue;
+
+            MyMonthlyCountVo e;
+            e = new MyMonthlyCountVo();
+            e.setMonth(month);
+            e.setCount(0);
+            v.add(e);
+        }
+
+        v.sortOn(e -> e.getMonth());
+    }
+
+    //##################################################
+    //# dated counts
     //##################################################
 
     protected <T> KmList<MyDatedCountVo> toDatedCounts(
         KmList<T> models,
-        KmDateInterval dates,
+        KmDateRange dates,
         Function<T,KmDate> fn)
     {
         KmBag<KmDate> counts = countDates(models, fn);
@@ -122,10 +230,23 @@ public abstract class MyBarChartPanel
         return counts;
     }
 
-    protected KmDateInterval getRecentDaysInterval(int days)
+    //##################################################
+    //# recent date ranges
+    //##################################################
+
+    protected KmDateRange getRecentDaysRange(int days)
     {
         KmDate end = KmClock.getLocalDate();
         KmDate start = end.subtractDays(days);
-        return KmDateInterval.create(start, end);
+        return KmDateRange.create(start, end);
     }
+
+    protected KmDateRange getRecentMonthsRange(int months)
+    {
+        KmDate today = KmClock.getLocalDate();
+        KmDate start = today.getStartOfMonth().subtractMonths(months - 1);
+        KmDate end = today.getEndOfMonth();
+        return KmDateRange.create(start, end);
+    }
+
 }

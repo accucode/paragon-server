@@ -32,26 +32,14 @@
         </id>
 
         <property
-            name="utcDate"
-            column="utcDate"
-            type="com.kodemore.hibernate.type.KmhDateType"
-            />
-
-        <property
-            name="name"
-            column="name"
-            type="string"
+            name="averageMs"
+            column="averageMs"
+            type="integer"
             />
 
         <property
             name="count"
             column="count"
-            type="integer"
-            />
-
-        <property
-            name="minimumMs"
-            column="minimumMs"
             type="integer"
             />
 
@@ -62,15 +50,27 @@
             />
 
         <property
-            name="averageMs"
-            column="averageMs"
+            name="minimumMs"
+            column="minimumMs"
             type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
             />
 
         <property
             name="totalMs"
             column="totalMs"
             type="integer"
+            />
+
+        <property
+            name="utcDate"
+            column="utcDate"
+            type="com.kodemore.hibernate.type.KmhDateType"
             />
 
     </class>

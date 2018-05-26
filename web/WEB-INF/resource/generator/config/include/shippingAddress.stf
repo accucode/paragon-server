@@ -6,43 +6,43 @@
     field
     : name      = shippingStreet1
     : help      = The first line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = shippingStreet2
     : help      = The second line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = shippingCity
     : help      = The name of the city.
-    : type      = name
+    : type      = addressCity
 
 
     field
     : name      = shippingRegion
     : help      = The name or abbreviation of the of the region (or state).
-    : type      = name
+    : type      = addressRegion
 
 
     field
     : name      = shippingPostalCode
     : help      = The zip/postal code.
-    : type      = postalCode
+    : type      = addressPostalCode
 
 
     field
     : name      = shippingCountry
     : help      = The name or abbreviation of the country.
-    : type      = name
+    : type      = addressCountry
 
 
     field
     : name      = shippingAttention
     : help      = The attention line of the address.
-    : type      = name
+    : type      = addressAttention
 
 
     field

@@ -15,7 +15,7 @@ public class MyUserFilter
     //##################################################
 
     public static enum Sort
-                    implements KmEnumIF
+        implements KmEnumIF
     {
         Uid,
         Name,
@@ -26,20 +26,23 @@ public class MyUserFilter
     //# variables
     //##################################################
 
-    private Sort     _sort;
-    private boolean  _ascending;
+    private Sort    _sort;
+    private boolean _ascending;
 
     private MyTenant _tenant;
     private boolean  _usesTenant;
 
-    private String   _email;
-    private boolean  _usesEmail;
+    private String  _email;
+    private boolean _usesEmail;
 
-    private String   _emailSubstring;
-    private boolean  _usesEmailSubstring;
+    private String  _emailSubstring;
+    private boolean _usesEmailSubstring;
 
-    private String   _looseName;
-    private boolean  _usesLooseName;
+    private String  _looseName;
+    private boolean _usesLooseName;
+
+    private Boolean _enabled;
+    private boolean _usesEnabled;
 
     //##################################################
     //# constructor
@@ -199,6 +202,26 @@ public class MyUserFilter
     }
 
     //##################################################
+    //# enabled
+    //##################################################
+
+    public Boolean getEnabled()
+    {
+        return _enabled;
+    }
+
+    public void setEnabled(Boolean e)
+    {
+        _enabled = e;
+        _usesEnabled = true;
+    }
+
+    public boolean usesEnabled()
+    {
+        return _usesEnabled;
+    }
+
+    //##################################################
     //# filter
     //##################################################
 
@@ -225,6 +248,9 @@ public class MyUserFilter
             or.whereLastName().hasSubstring(s);
             or.whereNickname().hasSubstring(s);
         }
+
+        if ( usesEnabled() )
+            c.whereEnabled().is(getEnabled());
     }
 
     @Override

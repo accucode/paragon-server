@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,8 @@ package com.kodemore.collection;
 
 import java.util.Collection;
 
+import com.kodemore.types.KmTuple;
+
 /**
  * I am like a set except that I count how many times each singleton was added.
  */
@@ -44,24 +46,6 @@ public class KmBag<E>
         return _map.getKeys();
     }
 
-    public Integer getCount(E e)
-    {
-        Integer i = _map.get(e);
-
-        if ( i == null )
-            return 0;
-
-        return i;
-    }
-
-    public Integer getTotalCount()
-    {
-        int n = 0;
-        for ( E e : getKeys() )
-            n += getCount(e);
-        return n;
-    }
-
     public int size()
     {
         return _map.size();
@@ -75,6 +59,33 @@ public class KmBag<E>
     public boolean isNotEmpty()
     {
         return !isEmpty();
+    }
+
+    //##################################################
+    //# counts
+    //##################################################
+
+    public Integer getCount(E e)
+    {
+        Integer i = _map.get(e);
+
+        if ( i == null )
+            return 0;
+
+        return i;
+    }
+
+    public KmList<KmTuple<E,Integer>> getCounts()
+    {
+        return _map.getTuples();
+    }
+
+    public Integer getTotalCount()
+    {
+        int n = 0;
+        for ( E e : getKeys() )
+            n += getCount(e);
+        return n;
     }
 
     //##################################################
@@ -129,17 +140,31 @@ public class KmBag<E>
     }
 
     //##################################################
-    //# convenience
+    //# key range
     //##################################################
 
-    public E getMinimum()
+    public E getMinimumKey()
     {
         return getKeys().getMinimum();
     }
 
-    public E getMaximum()
+    public E getMaximumKey()
     {
         return getKeys().getMaximum();
+    }
+
+    //##################################################
+    //# count range
+    //##################################################
+
+    public Integer getMinimumCount()
+    {
+        return _map.getValues().getMinimum();
+    }
+
+    public Integer getMaximumCount()
+    {
+        return _map.getValues().getMaximum();
     }
 
     //##################################################

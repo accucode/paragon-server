@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package com.kodemore.collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kodemore.utility.KmAssociation;
+import com.kodemore.types.KmTuple;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -124,12 +124,12 @@ public class KmMap<K, V>
         return m;
     }
 
-    public KmList<KmAssociation<K,V>> getAssociations()
+    public KmList<KmTuple<K,V>> getTuples()
     {
-        KmList<KmAssociation<K,V>> v = new KmList<>();
+        KmList<KmTuple<K,V>> v = new KmList<>();
 
         for ( Map.Entry<K,V> e : entrySet() )
-            v.add(new KmAssociation<>(e.getKey(), e.getValue()));
+            v.add(KmTuple.create(e.getKey(), e.getValue()));
 
         return v;
     }

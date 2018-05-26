@@ -18,6 +18,7 @@ attributes
 
 
     #include basicUid.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************

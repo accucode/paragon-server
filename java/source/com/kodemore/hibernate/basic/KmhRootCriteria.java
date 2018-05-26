@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,8 @@ import com.kodemore.hibernate.proxy.KmhCriteriaProxy;
 import com.kodemore.hibernate.proxy.KmhProxy;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.types.KmMoney;
+import com.kodemore.types.KmQuantity;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -58,14 +60,14 @@ public class KmhRootCriteria
     //# variables
     //##################################################
 
-    private int                   _aliasIndex;
+    private int _aliasIndex;
 
     /**
      * Entity name -> criteria
      */
     private KmMap<String,KmhJoin> _joins;
 
-    private ProjectionList        _projections;
+    private ProjectionList _projections;
 
     //##################################################
     //# constructor
@@ -196,6 +198,10 @@ public class KmhRootCriteria
         return new KmhProjectionResult(findRawResults());
     }
 
+    //==================================================
+    //= find :: string
+    //==================================================
+
     /**
      * Return the single string property for the projection results.
      * Assumes a projection with exactly one String property.
@@ -215,6 +221,10 @@ public class KmhRootCriteria
     {
         return (KmList<String>)findAll();
     }
+
+    //==================================================
+    //= find :: integer
+    //==================================================
 
     /**
      * Return the single Integer property for the projection results.
@@ -236,6 +246,10 @@ public class KmhRootCriteria
         return (KmList<Integer>)findAll();
     }
 
+    //==================================================
+    //= find :: double
+    //==================================================
+
     /**
      * Return the single Double property for the projection results.
      * Assumes a projection with exactly one Double property.
@@ -256,6 +270,58 @@ public class KmhRootCriteria
         return (KmList<Double>)findAll();
     }
 
+    //==================================================
+    //= find :: quantity
+    //==================================================
+
+    /**
+     * Return the single property for the projection results.
+     * Assumes a projection with exactly one property.
+     * Assumes a projection with exactly one result row.
+     */
+    public KmQuantity findQuantity()
+    {
+        return (KmQuantity)findUnique();
+    }
+
+    /**
+     * Return the single quantity property for the projection results.
+     * Assumes a projection with exactly one property.
+     */
+    @SuppressWarnings("unchecked")
+    public KmList<KmQuantity> findQuantities()
+    {
+        return (KmList<KmQuantity>)findAll();
+    }
+
+    //==================================================
+    //= find :: money
+    //==================================================
+
+    /**
+     * Return the single property for the projection results.
+     * Assumes a projection with exactly one property.
+     * Assumes a projection with exactly one result row.
+     */
+    public KmMoney findMoney()
+    {
+        return (KmMoney)findUnique();
+    }
+
+    /**
+     * Return the single money property for the projection results.
+     * Assumes a projection with exactly one property.
+     */
+    @SuppressWarnings("unchecked")
+    public KmList<KmMoney> findMonies()
+    {
+        return (KmList<KmMoney>)findAll();
+    }
+
+    //==================================================
+    //= find :: date
+    //==================================================
+
     /**
      * Return the single property for the projection results.
      * Assumes a projection with exactly one property.
@@ -265,6 +331,20 @@ public class KmhRootCriteria
     {
         return (KmDate)findUnique();
     }
+
+    /**
+     * Return the single date property for the projection results.
+     * Assumes a projection with exactly one date property.
+     */
+    @SuppressWarnings("unchecked")
+    public KmList<KmDate> findDates()
+    {
+        return (KmList<KmDate>)findAll();
+    }
+
+    //==================================================
+    //= find :: timestamps
+    //==================================================
 
     /**
      * Return the single property for the projection results.

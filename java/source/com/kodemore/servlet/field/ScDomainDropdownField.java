@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.meta.KmMetaAssociation;
+import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
@@ -41,7 +41,9 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalFunction;
+import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEnumIF;
 import com.kodemore.utility.KmKeyFinderIF;
 import com.kodemore.utility.Kmu;
 
@@ -63,6 +65,12 @@ public class ScDomainDropdownField<T, K>
     extends ScField<T>
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final Integer DEFAULT_INLINE_WIDTH = 200;
+
+    //##################################################
     //# static :: layout enum
     //##################################################
 
@@ -70,6 +78,7 @@ public class ScDomainDropdownField<T, K>
      * The various layout options.
      */
     private static enum Layout
+        implements KmEnumIF
     {
         /**
          * Treat the control as an inline element, with a fixed width.
@@ -99,48 +108,52 @@ public class ScDomainDropdownField<T, K>
      * Note that the dropdown's value is typically a domain model, e.g.: Customer.
      * But the key is typically a string such as the Customer's uid.
      */
-    private ScLocal<K>                _valueKey;
+    private ScLocal<K> _valueKey;
 
     private ScLocalFunction<T,K>      _optionKeyFunction;
     private ScLocalFunction<T,String> _optionLabelFunction;
 
-    private ScLocalString             _nullPrefix;
+    private ScLocalString _nullPrefix;
 
-    private ScLocalBoolean            _disabled;
+    private ScLocalBoolean _disabled;
 
     /**
      * Used to find the list of options to be displayed.
      * The list is not cached; it is refetched during preRender.
-     * Clients should set either the filter or filterFactory; NOT both.
-     *
-     * @see #_filterFactory
      */
-    private KmFilterIF<T>             _filter;
-
-    /**
-     * Used to specify a dynamic filter.
-     * This could be configured to incorporate the current time, or the currently
-     * selected user, or other factors that may be different eacy time we fill
-     * the options.
-     * Clients should set either the filter or filterFactory; NOT both.
-     * @see #_filter
-     */
-    private KmFilterFactoryIF<T>      _filterFactory;
+    private Supplier<KmList<T>> _optionSupplier;
 
     /**
      * Find a model by its key.  This lookup is independent of
      * the filter.  In practice, the value returned should be
      * a value from the filter, but this is not guaranteed or validated.
      */
-    private KmKeyFinderIF<T,K>        _finder;
+    private KmKeyFinderIF<T,K> _finder;
 
     /**
      * If set, this action will be called each time the user changes the
      * dropdown selection.
      */
-    private ScAction                  _onChangeAction;
+    private ScAction _onChangeAction;
 
-    private Layout                    _layout;
+    /**
+     * The layout is used to coordinate the styling of the outer wrapper
+     * with the inner select so that the multiple parts are work together.
+     */
+    private Layout _layout;
+
+    /**
+     * The width of the dropdown, in pixels.
+     * If null, the size of the dropdown is determined by its widest option.
+     */
+    private ScLocalInteger _maximumInlineWidth;
+
+    /**
+     * The 'name' used by the html 'input' element. This is
+     * normally defaulted to a unique value. Clients only need
+     * to set this when dynamically creating complex layouts.
+     */
+    private ScLocalString _htmlName;
 
     //##################################################
     //# constructor
@@ -149,13 +162,13 @@ public class ScDomainDropdownField<T, K>
     public ScDomainDropdownField()
     {
         _valueKey = new ScLocal<>();
-
         _optionKeyFunction = new ScLocalFunction<>();
         _optionLabelFunction = new ScLocalFunction<>();
-
         _disabled = new ScLocalBoolean(false);
-
         _nullPrefix = new ScLocalString();
+        _maximumInlineWidth = new ScLocalInteger();
+        _htmlName = new ScLocalString(getSelectHtmlId());
+
         layoutInline();
     }
 
@@ -166,7 +179,7 @@ public class ScDomainDropdownField<T, K>
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     private String getSelectHtmlId()
@@ -174,9 +187,18 @@ public class ScDomainDropdownField<T, K>
         return getKey() + "-select";
     }
 
+    //##################################################
+    //# html name
+    //##################################################
+
+    public void setHtmlName(String e)
+    {
+        _htmlName.setValue(e);
+    }
+
     private String getSelectHtmlName()
     {
-        return getSelectHtmlId();
+        return _htmlName.getValue();
     }
 
     //##################################################
@@ -186,7 +208,7 @@ public class ScDomainDropdownField<T, K>
     @Override
     public Object getEncodableValue()
     {
-        return getKeyFor(getValue());
+        return getValueKey();
     }
 
     @SuppressWarnings("unchecked")
@@ -194,65 +216,32 @@ public class ScDomainDropdownField<T, K>
     public void setEncodableValue(Object e)
     {
         K key = (K)e;
-        setValue(findValue(key));
+        setValueKey(key);
     }
 
     //##################################################
-    //# filter
+    //# option supplier
     //##################################################
 
-    public KmFilterIF<T> getFilter()
+    public Supplier<KmList<T>> getOptionSupplier()
     {
-        return _filter;
+        return _optionSupplier;
     }
 
-    public void setFilter(KmFilterIF<T> e)
+    public void setOptionSupplier(Supplier<KmList<T>> e)
     {
-        _filter = e;
-        _filterFactory = null;
-    }
-
-    //==================================================
-    //= filter factory
-    //==================================================
-
-    public KmFilterFactoryIF<T> getFilterFactory()
-    {
-        return _filterFactory;
-    }
-
-    public void setFilterFactory(KmFilterFactoryIF<T> e)
-    {
-        _filter = null;
-        _filterFactory = e;
-    }
-
-    public void setFilterFactoryWith(Supplier<KmFilterIF<T>> sup)
-    {
-        KmFilterFactoryIF<T> ff = new KmFilterFactoryIF<T>()
-        {
-            @Override
-            public KmFilterIF<T> createFilter()
-            {
-                return sup.get();
-            }
-        };
-        setFilterFactory(ff);
+        _optionSupplier = e;
     }
 
     //==================================================
     //= filter :: options
     //==================================================
 
-    private KmList<T> getOptions()
+    public KmList<T> getOptions()
     {
-        if ( _filter != null )
-            return _filter.findAll();
-
-        if ( _filterFactory != null )
-            return _filterFactory.createFilter().findAll();
-
-        return new KmList<>();
+        return _optionSupplier == null
+            ? KmList.createEmpty()
+            : _optionSupplier.get();
     }
 
     //##################################################
@@ -275,6 +264,32 @@ public class ScDomainDropdownField<T, K>
             return null;
 
         return _finder.find(key);
+    }
+
+    //##################################################
+    //# meta
+    //##################################################
+
+    @Override
+    public void setMeta(KmMetaAssociation<?,T> x)
+    {
+        super.setMeta(x);
+
+        if ( x.isRequired() )
+            setNullSelectPrefix();
+        else
+            setNullNonePrefix();
+    }
+
+    @Override
+    public void setMeta(KmMetaProperty<?,T> x)
+    {
+        super.setMeta(x);
+
+        if ( x.isRequired() )
+            setNullSelectPrefix();
+        else
+            setNullNonePrefix();
     }
 
     //##################################################
@@ -323,11 +338,6 @@ public class ScDomainDropdownField<T, K>
     public void onChange(ScAction e)
     {
         _onChangeAction = e;
-    }
-
-    public void onChange(Runnable e)
-    {
-        onChange(newCheckedAction(e));
     }
 
     private String formatOnChange()
@@ -423,6 +433,22 @@ public class ScDomainDropdownField<T, K>
         return true;
     }
 
+    public void selectFirstValue()
+    {
+        T value = getOptions().getFirstSafe();
+        setValue(value);
+    }
+
+    public void selectSingleValue()
+    {
+        KmList<T> v = getOptions();
+        if ( v.isSingleton() )
+        {
+            T value = v.getFirstSafe();
+            setValue(value);
+        }
+    }
+
     //==================================================
     //= value :: save
     //==================================================
@@ -443,9 +469,19 @@ public class ScDomainDropdownField<T, K>
     //= value :: key
     //==================================================
 
-    private K getValueKey()
+    public final K getValueKey()
     {
         return _valueKey.getValue();
+    }
+
+    private void setValueKey(K e)
+    {
+        _valueKey.setValue(e);
+    }
+
+    public final boolean hasValueKey()
+    {
+        return getValueKey() != null;
     }
 
     //##################################################
@@ -480,6 +516,19 @@ public class ScDomainDropdownField<T, K>
     public void layoutInline()
     {
         _layout = Layout.inline;
+        _maximumInlineWidth.setValue(DEFAULT_INLINE_WIDTH);
+    }
+
+    public void layoutInlineDefault()
+    {
+        _layout = Layout.inline;
+        _maximumInlineWidth.clearValue();
+    }
+
+    public void layoutInline(int width)
+    {
+        _layout = Layout.inline;
+        _maximumInlineWidth.setValue(width);
     }
 
     public void layoutBlock()
@@ -520,16 +569,15 @@ public class ScDomainDropdownField<T, K>
         switch ( _layout )
         {
             case inline:
-                css.flexInlineRow();
+                css.dropdownFieldInline();
                 break;
 
             case block:
-                css.flexRow();
+                css.dropdownFieldBlock();
                 break;
 
             case flexFiller:
-                css.flexInlineRow();
-                css.flexChildFiller();
+                css.dropdownFieldFlexFiller();
                 break;
         }
         return css;
@@ -537,7 +585,7 @@ public class ScDomainDropdownField<T, K>
 
     private KmStyleBuilder getStyle()
     {
-        return getVisible()
+        return isVisible()
             ? null
             : newStyleBuilder().hide();
     }
@@ -561,12 +609,34 @@ public class ScDomainDropdownField<T, K>
         if ( getChangeTracking() )
             printOldValueAttributeOn(out, encode(getValueKey()));
 
+        out.printAttribute(getSelectStyle());
+
         out.close();
 
         renderNullPrefix(out);
-        renderOptions(out, getOptions());
+        renderOptionsOn(out);
 
         out.end("select");
+    }
+
+    private KmStyleBuilder getSelectStyle()
+    {
+        switch ( _layout )
+        {
+            case block:
+            case flexFiller:
+                return null;
+
+            case inline:
+                if ( !_maximumInlineWidth.hasValue() )
+                    return null;
+
+                KmStyleBuilder style;
+                style = new KmStyleBuilder();
+                style.maxWidth(_maximumInlineWidth.getValue());
+                return style;
+        }
+        throw Kmu.newEnumError(_layout);
     }
 
     private void renderNullPrefix(KmHtmlBuilder out)
@@ -575,8 +645,17 @@ public class ScDomainDropdownField<T, K>
             renderOption(out, null, null, _nullPrefix.getValue());
     }
 
-    private void renderOptions(KmHtmlBuilder out, List<T> v)
+    private void renderOptionsOn(KmHtmlBuilder out)
     {
+        renderOptionsOn(out, getOptions());
+    }
+
+    private void renderOptionsOn(KmHtmlBuilder out, List<T> v)
+    {
+        if ( hasValue() )
+            if ( !v.contains(getValue()) )
+                renderOption(out, getValue());
+
         if ( v != null )
             for ( T e : v )
                 renderOption(out, e);

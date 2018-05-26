@@ -1,0 +1,40 @@
+    // 'Include' this in model definitions for common
+    // abstract display values. This does NOT include any
+    // persistent fields.
+
+
+    //*****************************************************
+    //** display
+    //*****************************************************
+
+
+    abstractField
+    : name      = auditLogTitle
+    : help...
+        ---
+        This is used a the title in auditLogs.
+        This should NEVER be null.
+        ---
+    : type      = calculated
+
+
+    abstractField
+    : name      = domainTitle
+    : help...
+        ---
+        The title commonly used for rows in a list or dropdown field.
+        This should NEVER be null.
+        ---
+    : type      = calculated
+
+
+    abstractField
+    : name      = domainSubtitle
+    : help...
+        ---
+        The subtitle commonly used for rows in a list.
+        This MAY be null, if there is not subtitle.
+        ---
+    : type      = calculated
+
+

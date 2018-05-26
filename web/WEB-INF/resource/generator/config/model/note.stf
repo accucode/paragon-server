@@ -1,0 +1,141 @@
+model
+: name      = note
+: help...
+    ---
+    Users can record ad hoc notes that relate back to various contexts.
+    Notes for projects, customers, etc.
+
+    Notes are handled as historical logs.
+    Once entered, they cannot be modified or removed.
+
+    Notes may be created manually by a user, or automatically by the system.
+    System notes may often entered on behalf of the current user, 
+    but are clearly marked to indicate they were auto-generated.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = project
+    : on        = createdUtcTs
+
+    index
+    : name      = customer
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = customer
+    : on        = createdUtcTs
+
+    index
+    : name      = site
+    : unique    = false
+    : on        = ownerTypeCode
+    : on        = site
+    : on        = createdUtcTs
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** project
+    //*****************************************************
+
+
+    association
+    : name      = tenant
+    : help      = The tenant that contains this note.
+    : modelName = tenant
+    : relation  = reference
+    : required  = true
+    
+
+    association
+    : name      = project
+    : help      = The project that contains this note.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+
+
+    //*****************************************************
+    //** owner
+    //*****************************************************
+
+
+    field
+    : name      = ownerTypeCode
+    : help      = The type of element that owns this note.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Project)
+            value(#Customer)
+            value(#Site)
+
+
+    association
+    : name      = customer
+    : help      = The customer that owns this note.
+    : modelName = customer 
+    : relation  = reference
+    : required  = false
+
+
+    association
+    : name      = site
+    : help      = The site that owns this note.
+    : modelName = site
+    : relation  = reference
+    : required  = false
+
+
+    abstractField
+    : name      = ownerTitle
+    : label     = Owner
+    : help      = A summary of the note's owner.
+    : type      = calculated
+    
+    
+    //*****************************************************
+    //** source
+    //*****************************************************
+
+
+    field
+    : name      = sourceTypeCode
+    : label     = Source
+    : help      = The source of note, e.g.: User or System.
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#User)
+            value(#System)
+
+
+    //*****************************************************
+    //** message
+    //*****************************************************
+
+
+    field
+    : name      = message
+    : help      = The multiline message.
+    : type      = notes
+    : required  = true

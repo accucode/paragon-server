@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.kodemore.types.KmStringTuple;
+
 public class KmEmail
     implements KmEmailIF
 {
@@ -33,14 +35,15 @@ public class KmEmail
     //# variables
     //##################################################
 
-    private Object              _key;
-    private String              _subject;
-    private String              _from;
+    private Object _key;
+    private String _subject;
+    private String _from;
 
-    private List<String>        _toList;
-    private List<String>        _ccList;
-    private List<String>        _bccList;
+    private List<String> _toList;
+    private List<String> _ccList;
+    private List<String> _bccList;
 
+    private List<KmStringTuple> _headers;
     private List<KmEmailPartIF> _parts;
 
     //##################################################
@@ -52,6 +55,7 @@ public class KmEmail
         _toList = new ArrayList<>();
         _ccList = new ArrayList<>();
         _bccList = new ArrayList<>();
+        _headers = new ArrayList<>();
         _parts = new ArrayList<>();
     }
 
@@ -173,6 +177,21 @@ public class KmEmail
     public void addBccs(Collection<String> v)
     {
         getBccList().addAll(v);
+    }
+
+    //##################################################
+    //# headers
+    //##################################################
+
+    @Override
+    public List<KmStringTuple> getHeaders()
+    {
+        return _headers;
+    }
+
+    public void addHeader(String key, String value)
+    {
+        _headers.add(KmStringTuple.createStrings(key, value));
     }
 
     //##################################################

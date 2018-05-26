@@ -7,11 +7,15 @@ model
 
 attributes
 
+
+    #include basicDisplay.stf
+
+
     field
-    : name          = name
-    : help          = The display name.
-    : type          = text100
-    : primaryKey    = true
+    : name      = name
+    : help      = The display name.
+    : type      = text100
+
 
     field
     : name      = value

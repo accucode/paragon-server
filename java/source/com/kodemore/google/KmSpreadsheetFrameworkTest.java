@@ -1,6 +1,7 @@
 package com.kodemore.google;
 
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -60,6 +61,6 @@ public class KmSpreadsheetFrameworkTest
             out.println();
         }
 
-        Kmu.writeFile("/temp/out.txt", out.toString());
+        KmFiles.writeString("/temp/out.txt", out.toString());
     }
 }

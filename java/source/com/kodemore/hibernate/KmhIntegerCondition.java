@@ -9,8 +9,8 @@ public class KmhIntegerCondition
     //# constructor
     //##################################################
 
-    public KmhIntegerCondition(KmhElement context, String property)
+    public KmhIntegerCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 }

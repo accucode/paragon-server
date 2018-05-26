@@ -44,14 +44,26 @@
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="email"
+            column="email"
+            type="string"
+            />
+
+        <property
+            name="enabled"
+            column="enabled"
+            type="yes_no"
             />
 
         <property
             name="firstName"
             column="firstName"
+            type="string"
+            />
+
+        <property
+            name="fullName"
+            column="fullName"
             type="string"
             />
 
@@ -62,20 +74,14 @@
             />
 
         <property
+            name="memo"
+            column="memo"
+            type="string"
+            />
+
+        <property
             name="nickname"
             column="nickname"
-            type="string"
-            />
-
-        <property
-            name="email"
-            column="email"
-            type="string"
-            />
-
-        <property
-            name="passwordSalt"
-            column="passwordSalt"
             type="string"
             />
 
@@ -86,20 +92,14 @@
             />
 
         <property
-            name="phone"
-            column="phone"
+            name="passwordSalt"
+            column="passwordSalt"
             type="string"
             />
 
         <property
-            name="active"
-            column="active"
-            type="yes_no"
-            />
-
-        <property
-            name="timeZoneCode"
-            column="timeZoneCode"
+            name="phone"
+            column="phone"
             type="string"
             />
 
@@ -110,75 +110,20 @@
             />
 
         <property
-            name="dashboardOrientationTypeCode"
-            column="dashboardOrientationTypeCode"
+            name="timeZoneCode"
+            column="timeZoneCode"
             type="string"
             />
 
         <property
-            name="dashboardLineCount1"
-            column="dashboardLineCount1"
-            type="integer"
-            />
-
-        <property
-            name="dashboardLineCount2"
-            column="dashboardLineCount2"
-            type="integer"
-            />
-
-        <property
-            name="dashboardPanelCodeA"
-            column="dashboardPanelCodeA"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeB"
-            column="dashboardPanelCodeB"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeC"
-            column="dashboardPanelCodeC"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeD"
-            column="dashboardPanelCodeD"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeE"
-            column="dashboardPanelCodeE"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeF"
-            column="dashboardPanelCodeF"
-            type="string"
-            />
-
-        <property
-            name="dashboardPanelCodeG"
-            column="dashboardPanelCodeG"
-            type="string"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <many-to-one
             name="createdBy"
             column="createdByUid"
-            class="com.app.model.MyUser"
-            cascade="none"
-            />
-
-        <many-to-one
-            name="updatedBy"
-            column="updatedByUid"
             class="com.app.model.MyUser"
             cascade="none"
             />
@@ -191,9 +136,9 @@
             />
 
         <many-to-one
-            name="lastProject"
-            column="lastProjectUid"
-            class="com.app.model.MyProject"
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
             cascade="none"
             />
 

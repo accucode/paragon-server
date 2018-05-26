@@ -1,12 +1,11 @@
-/*****************************
- ** summaryView
- *****************************/
+//****************************
+//* summary view
+//****************************
 
 
-
-/*****************************
- ** variables
- *****************************/
+//****************************
+//* variables
+//****************************
 
 $summaryView-color      = #444
 $summaryView-background = #f8f8f8
@@ -18,13 +17,13 @@ $summaryView-border     = ()
 
 
 
-/*****************************
- ** css
- *****************************/
+//****************************
+//* css
+//****************************
 
 .summaryView
-    box-sizing: border-box
-    height: 50px
+    box-sizing:         border-box
+    height:             5rem
 
     color:              $summaryView-color              if $summaryView-color
     background-color:   $summaryView-background         if $summaryView-background
@@ -32,19 +31,23 @@ $summaryView-border     = ()
     padding:            10px
     overflow:           hidden
 
+
 .summaryView-title
     font:               bold 1.6rem $fontFamily
     white-space:        nowrap
     overflow:           hidden
+    text-overflow:      ellipsis
+
 
 .summaryView-subtitle
     font:               italic 1.2rem $fontFamily
     white-space:        nowrap
     overflow:           hidden
+    text-overflow:      ellipsis
+
 
 .summaryView.groupHeader
     border-top:         1px solid #aaa
     border-right:       0px
     border-left:        0px
     border-bottom:      0px
-

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,16 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Supplier;
+
+import com.kodemore.servlet.ScBookmark;
+import com.kodemore.servlet.script.ScAbstractScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScOpenWindowScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.script.ScSimpleScript;
 import com.kodemore.servlet.variable.ScLocal;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -75,6 +82,35 @@ public class ScScriptButton
         _script.setValue(e);
     }
 
+    public ScHtmlIdAjax setDetachedScript()
+    {
+        ScHtmlIdAjax e;
+        e = createDetachedAjax();
+        setScript(e);
+        return e;
+    }
+
+    public void setScript(Supplier<String> supplier)
+    {
+        ScScriptIF script = new ScAbstractScript()
+        {
+            @Override
+            public void formatScriptOn(KmStringBuilder out)
+            {
+                out.print(supplier.get());
+            }
+        };
+        setScript(script);
+    }
+
+    public void setScriptOpenWindow(ScBookmark bookmark)
+    {
+        ScOpenWindowScript e;
+        e = new ScOpenWindowScript();
+        e.setUrl(bookmark);
+        setScript(e);
+    }
+
     public void clearScript()
     {
         _script.clearValue();
@@ -109,7 +145,7 @@ public class ScScriptButton
     //##################################################
 
     @Override
-    protected String formatOnClick()
+    protected String formatEnabledOnClick()
     {
         return _script.hasValue()
             ? _script.getValue().formatScript()

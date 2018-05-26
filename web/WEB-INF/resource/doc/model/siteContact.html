@@ -1,0 +1,809 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>siteContact</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>siteContact</h1>
+
+
+<!--
+********************
+** Summary
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header'>Summary</th>
+</tr>
+<tr>
+  <td>The contacts associated with a particular site. These contacts are primarily used for notifications related to a site.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<!--
+********************
+** Fields
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Fields</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>auditLogTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    This is used a the title in auditLogs&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainSubtitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The subtitle commonly used for rows in a list&#46; This MAY be null&#44; if there is not subtitle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The title commonly used for rows in a list or dropdown field&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveInstallContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s effective install contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveRequesterContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s effective requester contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveSalesContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s effective sales contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveSchedulingContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s effective scheduling contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveTechnicalContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s effective technical contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>email&nbsp;</td>
+
+  <td>email
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The person&#39;s email address&#46;  E&#46;g&#46;&#58; john&#46;doe&#64;example&#46;net&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>enabled&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    Disable to hide this on various screens&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>enabledStatus&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Disable to hide this on various screens&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>firstName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s first name&#59; e&#46;g&#46;&#58; John&#44; Jane&#46; This may be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>formalName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The first and last name together&#59; e&#46;g&#46;&#58; Smith&#44; John&#46; Use the nickname if the first and last names are both empty&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>fullName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The first and last name together&#59; e&#46;g&#46;&#58; John Smith&#46; Use the nickname if the first and last names are both empty&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>installContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s install contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lastName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s last name&#59; e&#46;g&#46;&#58; Smith&#44; Jones&#46; This may be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>longName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Return the first name&#44; last name&#44; and nick name&#44; formatted for display on screen&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>mainContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s main contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>nickname&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s short nickname&#44; for informal use&#46; This may be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>phone&nbsp;</td>
+
+  <td>phone
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The person&#39;s phone number&#46;  E&#46;g&#46;&#58; 303&#46;555&#46;1234&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>requesterContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s requester contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>salesContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s sales contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>schedulingContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s scheduling contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>shortName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Return a single name&#44; preferably the nickname or first name&#46; This should never be blank&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>summaryMultiline&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The contact&#39;s name&#44; phone&#44; and email formatted into a multiline summary&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>technicalContact&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Indicates if this is the site&#39;s technical contact&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>title&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The person&#39;s business title&#46;  E&#46;g&#46;&#58; Director of Sales&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Associations
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Associations</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>createdBy&nbsp;</td>
+
+  <td>user</td>
+
+  <td>
+                   <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The user that originally created this record&#44; if known&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>site&nbsp;</td>
+
+  <td>site</td>
+
+  <td>
+                      <nobr>required</nobr><br>                   &nbsp;
+  </td>
+
+  <td>
+    The job to which this contact belongs&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedBy&nbsp;</td>
+
+  <td>user</td>
+
+  <td>
+                   <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The user that last updated this record&#44; if known&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Collections
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='3'>Collections</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Comment</th>
+</tr>
+</table>
+
+</body>
+</html>

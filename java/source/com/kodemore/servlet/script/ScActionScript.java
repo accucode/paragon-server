@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -65,13 +65,13 @@ public class ScActionScript
      * The primary attribute; the action to run.  If null
      * the resulting script will be null as well.
      */
-    private ScAction   _action;
+    private ScAction _action;
 
     /**
      * The optional form.  This needs to be set in order for
      * field values to be submitted.
      */
-    private ScForm     _form;
+    private ScForm _form;
 
     /**
      * The optional argument; this value is encoded to a string
@@ -80,13 +80,13 @@ public class ScActionScript
      * action may be applied to one of many different items.
      */
     @SuppressWarnings("rawtypes")
-    private Function   _argument;
+    private Function _argument;
 
     /**
      * The optional model.  This is used for arguments that dynamically
      * evaluate their value based on a model.
      */
-    private Object     _model;
+    private Object _model;
 
     /**
      * If set, the client will block the target element prior
@@ -99,20 +99,20 @@ public class ScActionScript
      * along with the action and the argument; but this extra value
      * is NOT encoded or evaluated using the model.
      */
-    private String     _extra;
+    private String _extra;
 
     /**
      * If true, extra's value is set to a literal javascript expression
      * rather than a string.  Setting this to true allow the embedding of
      * contextual client-side variables.
      */
-    private boolean    _extraLiteral;
+    private boolean _extraLiteral;
 
     /**
      * The optional confirmation message.  If set, the browser will prompt
      * the user with an ok/cancel dialog before submitting the request.
      */
-    private String     _confirmationMessage;
+    private String _confirmationMessage;
 
     //##################################################
     //# constructor
@@ -283,7 +283,7 @@ public class ScActionScript
 
         KmJsonMap args;
         args = new KmJsonMap();
-        args.setString("action", action.getKey());
+        args.setInteger("action", action.getKey());
 
         Object arg = evalArgument();
         if ( arg != null )
@@ -296,7 +296,10 @@ public class ScActionScript
                 args.setString("extra", getExtra());
 
         if ( hasForm() )
-            args.setString("form", getForm().getKey());
+        {
+            args.setString("formId", getForm().getHtmlId());
+            args.setString("formToken", getForm().getKeyToken());
+        }
 
         if ( hasBlockTarget() )
             args.setString("block", getBlockTarget().getJquerySelector());

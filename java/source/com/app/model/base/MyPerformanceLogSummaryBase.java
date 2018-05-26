@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyPerformanceLogSummaryBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyPerformanceLogSummary>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,19 +39,20 @@ public abstract class MyPerformanceLogSummaryBase
     public static final MyMetaPerformanceLogSummary Meta = MyMetaPerformanceLogSummary.instance;
     public static final MyPerformanceLogSummaryTools Tools = MyPerformanceLogSummaryTools.instance;
     public static final MyPerformanceLogSummaryValidator Validator = MyPerformanceLogSummaryValidator.instance;
+    public static final MyPerformanceLogSummaryFinder Finder = MyPerformanceLogSummaryFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
+    private Integer averageMs;
+    private Integer count;
+    private Integer maximumMs;
+    private Integer minimumMs;
+    private String name;
+    private Integer totalMs;
     private String uid;
     private KmDate utcDate;
-    private String name;
-    private Integer count;
-    private Integer minimumMs;
-    private Integer maximumMs;
-    private Integer averageMs;
-    private Integer totalMs;
 
     //##################################################
     //# constructor
@@ -59,6 +62,244 @@ public abstract class MyPerformanceLogSummaryBase
     {
         super();
         setUid(newUid());
+    }
+
+    //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (averageMs)
+    //##################################################
+
+    public Integer getAverageMs()
+    {
+        return averageMs;
+    }
+
+    public void setAverageMs(Integer e)
+    {
+        e = Validator.getAverageMsValidator().convert(e);
+        averageMs = e;
+    }
+
+    public void clearAverageMs()
+    {
+        setAverageMs(null);
+    }
+
+    public boolean hasAverageMs()
+    {
+        return getAverageMs() != null;
+    }
+
+    public boolean hasAverageMs(Integer e)
+    {
+        return Kmu.isEqual(getAverageMs(), e);
+    }
+
+    //##################################################
+    //# field (count)
+    //##################################################
+
+    public Integer getCount()
+    {
+        return count;
+    }
+
+    public void setCount(Integer e)
+    {
+        e = Validator.getCountValidator().convert(e);
+        count = e;
+    }
+
+    public void clearCount()
+    {
+        setCount(null);
+    }
+
+    public boolean hasCount()
+    {
+        return getCount() != null;
+    }
+
+    public boolean hasCount(Integer e)
+    {
+        return Kmu.isEqual(getCount(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (maximumMs)
+    //##################################################
+
+    public Integer getMaximumMs()
+    {
+        return maximumMs;
+    }
+
+    public void setMaximumMs(Integer e)
+    {
+        e = Validator.getMaximumMsValidator().convert(e);
+        maximumMs = e;
+    }
+
+    public void clearMaximumMs()
+    {
+        setMaximumMs(null);
+    }
+
+    public boolean hasMaximumMs()
+    {
+        return getMaximumMs() != null;
+    }
+
+    public boolean hasMaximumMs(Integer e)
+    {
+        return Kmu.isEqual(getMaximumMs(), e);
+    }
+
+    //##################################################
+    //# field (minimumMs)
+    //##################################################
+
+    public Integer getMinimumMs()
+    {
+        return minimumMs;
+    }
+
+    public void setMinimumMs(Integer e)
+    {
+        e = Validator.getMinimumMsValidator().convert(e);
+        minimumMs = e;
+    }
+
+    public void clearMinimumMs()
+    {
+        setMinimumMs(null);
+    }
+
+    public boolean hasMinimumMs()
+    {
+        return getMinimumMs() != null;
+    }
+
+    public boolean hasMinimumMs(Integer e)
+    {
+        return Kmu.isEqual(getMinimumMs(), e);
+    }
+
+    //##################################################
+    //# field (name)
+    //##################################################
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String e)
+    {
+        e = Validator.getNameValidator().convert(e);
+        name = e;
+    }
+
+    public void clearName()
+    {
+        setName(null);
+    }
+
+    public boolean hasName()
+    {
+        return Kmu.hasValue(getName());
+    }
+
+    public boolean hasName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getName(), e);
+    }
+
+    public void truncateName()
+    {
+        truncateName(false);
+    }
+
+    public void truncateName(boolean ellipses)
+    {
+        name = Kmu.truncate(name, 100, ellipses);
+    }
+
+    //##################################################
+    //# field (totalMs)
+    //##################################################
+
+    public Integer getTotalMs()
+    {
+        return totalMs;
+    }
+
+    public void setTotalMs(Integer e)
+    {
+        e = Validator.getTotalMsValidator().convert(e);
+        totalMs = e;
+    }
+
+    public void clearTotalMs()
+    {
+        setTotalMs(null);
+    }
+
+    public boolean hasTotalMs()
+    {
+        return getTotalMs() != null;
+    }
+
+    public boolean hasTotalMs(Integer e)
+    {
+        return Kmu.isEqual(getTotalMs(), e);
     }
 
     //##################################################
@@ -72,7 +313,7 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setUid(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
+        e = Validator.getUidValidator().convert(e);
         uid = e;
     }
 
@@ -112,7 +353,7 @@ public abstract class MyPerformanceLogSummaryBase
 
     public void setUtcDate(KmDate e)
     {
-        e = Validator.getUtcDateValidator().convertOnly(e);
+        e = Validator.getUtcDateValidator().convert(e);
         utcDate = e;
     }
 
@@ -131,232 +372,21 @@ public abstract class MyPerformanceLogSummaryBase
         return Kmu.isEqual(getUtcDate(), e);
     }
 
-    //##################################################
-    //# field (name)
-    //##################################################
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String e)
-    {
-        e = Validator.getNameValidator().convertOnly(e);
-        name = e;
-    }
-
-    public void clearName()
-    {
-        setName(null);
-    }
-
-    public boolean hasName()
-    {
-        return Kmu.hasValue(getName());
-    }
-
-    public boolean hasName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getName(), e);
-    }
-
-    public void truncateName()
-    {
-        truncateName(false);
-    }
-
-    public void truncateName(boolean ellipses)
-    {
-        name = Kmu.truncate(name, 100, ellipses);
-    }
-
-    //##################################################
-    //# field (count)
-    //##################################################
-
-    public Integer getCount()
-    {
-        return count;
-    }
-
-    public void setCount(Integer e)
-    {
-        e = Validator.getCountValidator().convertOnly(e);
-        count = e;
-    }
-
-    public void clearCount()
-    {
-        setCount(null);
-    }
-
-    public boolean hasCount()
-    {
-        return getCount() != null;
-    }
-
-    public boolean hasCount(Integer e)
-    {
-        return Kmu.isEqual(getCount(), e);
-    }
-
-    //##################################################
-    //# field (minimumMs)
-    //##################################################
-
-    public Integer getMinimumMs()
-    {
-        return minimumMs;
-    }
-
-    public void setMinimumMs(Integer e)
-    {
-        e = Validator.getMinimumMsValidator().convertOnly(e);
-        minimumMs = e;
-    }
-
-    public void clearMinimumMs()
-    {
-        setMinimumMs(null);
-    }
-
-    public boolean hasMinimumMs()
-    {
-        return getMinimumMs() != null;
-    }
-
-    public boolean hasMinimumMs(Integer e)
-    {
-        return Kmu.isEqual(getMinimumMs(), e);
-    }
-
-    //##################################################
-    //# field (maximumMs)
-    //##################################################
-
-    public Integer getMaximumMs()
-    {
-        return maximumMs;
-    }
-
-    public void setMaximumMs(Integer e)
-    {
-        e = Validator.getMaximumMsValidator().convertOnly(e);
-        maximumMs = e;
-    }
-
-    public void clearMaximumMs()
-    {
-        setMaximumMs(null);
-    }
-
-    public boolean hasMaximumMs()
-    {
-        return getMaximumMs() != null;
-    }
-
-    public boolean hasMaximumMs(Integer e)
-    {
-        return Kmu.isEqual(getMaximumMs(), e);
-    }
-
-    //##################################################
-    //# field (averageMs)
-    //##################################################
-
-    public Integer getAverageMs()
-    {
-        return averageMs;
-    }
-
-    public void setAverageMs(Integer e)
-    {
-        e = Validator.getAverageMsValidator().convertOnly(e);
-        averageMs = e;
-    }
-
-    public void clearAverageMs()
-    {
-        setAverageMs(null);
-    }
-
-    public boolean hasAverageMs()
-    {
-        return getAverageMs() != null;
-    }
-
-    public boolean hasAverageMs(Integer e)
-    {
-        return Kmu.isEqual(getAverageMs(), e);
-    }
-
-    //##################################################
-    //# field (totalMs)
-    //##################################################
-
-    public Integer getTotalMs()
-    {
-        return totalMs;
-    }
-
-    public void setTotalMs(Integer e)
-    {
-        e = Validator.getTotalMsValidator().convertOnly(e);
-        totalMs = e;
-    }
-
-    public void clearTotalMs()
-    {
-        setTotalMs(null);
-    }
-
-    public boolean hasTotalMs()
-    {
-        return getTotalMs() != null;
-    }
-
-    public boolean hasTotalMs(Integer e)
-    {
-        return Kmu.isEqual(getTotalMs(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyPerformanceLogSummaryValidator getValidator()
     {
-        Validator.validate((MyPerformanceLogSummary)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyPerformanceLogSummary asSubclass()
     {
-        Validator.validateWarn((MyPerformanceLogSummary)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyPerformanceLogSummary)this);
+        return (MyPerformanceLogSummary)this;
     }
 
     //##################################################
@@ -385,14 +415,40 @@ public abstract class MyPerformanceLogSummaryBase
     {
         MyPerformanceLogSummary e;
         e = new MyPerformanceLogSummary();
-        e.setUtcDate(getUtcDate());
-        e.setName(getName());
-        e.setCount(getCount());
-        e.setMinimumMs(getMinimumMs());
-        e.setMaximumMs(getMaximumMs());
-        e.setAverageMs(getAverageMs());
-        e.setTotalMs(getTotalMs());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyPerformanceLogSummary e)
+    {
+        e.setAverageMs(getAverageMs());
+        e.setCount(getCount());
+        e.setMaximumMs(getMaximumMs());
+        e.setMinimumMs(getMinimumMs());
+        e.setName(getName());
+        e.setTotalMs(getTotalMs());
+        e.setUtcDate(getUtcDate());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyPerformanceLogSummary e)
+    {
+        setAverageMs(e.getAverageMs());
+        setCount(e.getCount());
+        setMaximumMs(e.getMaximumMs());
+        setMinimumMs(e.getMinimumMs());
+        setName(e.getName());
+        setTotalMs(e.getTotalMs());
+        setUtcDate(e.getUtcDate());
     }
 
     //##################################################
@@ -423,14 +479,16 @@ public abstract class MyPerformanceLogSummaryBase
 
     public boolean isSameIgnoringKey(MyPerformanceLogSummary e)
     {
-        if ( !Kmu.isEqual(getUtcDate(), e.getUtcDate()) ) return false;
-        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
-        if ( !Kmu.isEqual(getMinimumMs(), e.getMinimumMs()) ) return false;
-        if ( !Kmu.isEqual(getMaximumMs(), e.getMaximumMs()) ) return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getAverageMs(), e.getAverageMs()) ) return false;
+        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getMaximumMs(), e.getMaximumMs()) ) return false;
+        if ( !Kmu.isEqual(getMinimumMs(), e.getMinimumMs()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getTotalMs(), e.getTotalMs()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getUtcDate(), e.getUtcDate()) ) return false;
         return true;
     }
 
@@ -464,14 +522,14 @@ public abstract class MyPerformanceLogSummaryBase
     public void printFields()
     {
         System.out.println(this);
+        System.out.println("    AverageMs = " + averageMs);
+        System.out.println("    Count = " + count);
+        System.out.println("    MaximumMs = " + maximumMs);
+        System.out.println("    MinimumMs = " + minimumMs);
+        System.out.println("    Name = " + name);
+        System.out.println("    TotalMs = " + totalMs);
         System.out.println("    Uid = " + uid);
         System.out.println("    UtcDate = " + utcDate);
-        System.out.println("    Name = " + name);
-        System.out.println("    Count = " + count);
-        System.out.println("    MinimumMs = " + minimumMs);
-        System.out.println("    MaximumMs = " + maximumMs);
-        System.out.println("    AverageMs = " + averageMs);
-        System.out.println("    TotalMs = " + totalMs);
     }
 
     /**

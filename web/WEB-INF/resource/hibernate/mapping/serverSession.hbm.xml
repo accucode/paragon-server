@@ -44,14 +44,14 @@
             />
 
         <property
-            name="createdUtcTs"
-            column="createdUtcTs"
+            name="closedUtcTs"
+            column="closedUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="closedUtcTs"
-            column="closedUtcTs"
+            name="createdUtcTs"
+            column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
@@ -68,6 +68,13 @@
             />
 
         <many-to-one
+            name="autoLogin"
+            column="autoLoginUid"
+            class="com.app.model.MyAutoLogin"
+            cascade="none"
+            />
+
+        <many-to-one
             name="tenant"
             column="tenantUid"
             class="com.app.model.MyTenant"
@@ -78,13 +85,6 @@
             name="user"
             column="userUid"
             class="com.app.model.MyUser"
-            cascade="none"
-            />
-
-        <many-to-one
-            name="autoLogin"
-            column="autoLoginUid"
-            class="com.app.model.MyAutoLogin"
             cascade="none"
             />
 

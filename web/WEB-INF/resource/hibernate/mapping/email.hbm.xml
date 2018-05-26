@@ -44,20 +44,8 @@
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
-            />
-
-        <property
-            name="sentUtcTs"
-            column="sentUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
-            />
-
-        <property
-            name="subject"
-            column="subject"
+            name="errorNotes"
+            column="errorNotes"
             type="string"
             />
 
@@ -68,15 +56,27 @@
             />
 
         <property
+            name="sentUtcTs"
+            column="sentUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
             name="statusCode"
             column="statusCode"
             type="string"
             />
 
         <property
-            name="errorNotes"
-            column="errorNotes"
+            name="subject"
+            column="subject"
             type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <many-to-one
@@ -94,16 +94,6 @@
             />
 
         <bag
-            name="recipients"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="emailUid"/>
-                <one-to-many class="com.app.model.MyEmailRecipient"/>
-        </bag>
-
-        <bag
             name="parts"
             inverse="false"
             cascade="all-delete-orphan"
@@ -111,6 +101,16 @@
                 <cache usage="read-write"/>
                 <key column="emailUid"/>
                 <one-to-many class="com.app.model.MyEmailPart"/>
+        </bag>
+
+        <bag
+            name="recipients"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="emailUid"/>
+                <one-to-many class="com.app.model.MyEmailRecipient"/>
         </bag>
 
     </class>

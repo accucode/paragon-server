@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,13 +32,6 @@ package com.kodemore.utility;
 public class KmResult<T>
 {
     //##################################################
-    //# constants
-    //##################################################
-
-    public static final KmResult<Boolean> TRUE  = KmResult.createValue(true);
-    public static final KmResult<Boolean> FALSE = KmResult.createValue(false);
-
-    //##################################################
     //# instance creation
     //##################################################
 
@@ -56,6 +49,12 @@ public class KmResult<T>
         e = new KmResult<>();
         e._error = error;
         return e;
+    }
+
+    public static <T> KmResult<T> createError(String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+        return createError(s);
     }
 
     //##################################################
@@ -92,9 +91,20 @@ public class KmResult<T>
         return _value;
     }
 
+    public T getCheckedValue()
+    {
+        checkError();
+        return getValue();
+    }
+
     public boolean hasValue()
     {
-        return getValue() != null;
+        return isOk() && getValue() != null;
+    }
+
+    public boolean hasValue(T e)
+    {
+        return isOk() && Kmu.isEqual(getValue(), e);
     }
 
     //##################################################
@@ -109,6 +119,16 @@ public class KmResult<T>
     public boolean hasError()
     {
         return getError() != null;
+    }
+
+    //##################################################
+    //# check
+    //##################################################
+
+    public void checkError()
+    {
+        if ( hasError() )
+            throw Kmu.newError(getError());
     }
 
     //##################################################

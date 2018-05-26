@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,12 @@ import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScImage;
+import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScTypeWatchScript;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -44,6 +48,13 @@ import com.kodemore.utility.Kmu;
 public class ScTextArea
     extends ScField<String>
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final int DEFAULT_WIDTH  = 300;
+    private static final int DEFAULT_HEIGHT = 150;
+
     //##################################################
     //# enum :: layout
     //##################################################
@@ -84,6 +95,11 @@ public class ScTextArea
     //# variables
     //##################################################
 
+    /**
+     * The ID of the outer html element.
+     */
+    private ScLocalString _htmlId;
+
     private ScLocalString  _text;
     private ScLocalBoolean _readOnly;
 
@@ -91,21 +107,41 @@ public class ScTextArea
      * The layout to coordinate with my parent.
      * The use of width and height depend on the selected layout.
      */
-    private Layout         _layout;
-    private Integer        _width;
-    private Integer        _height;
+    private Layout  _layout;
+    private Integer _width;
+    private Integer _height;
 
     /**
      * Clients are not allowed directly access to the css since that will likely
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss     _cssMargin;
+    private ScLocalCss _cssMargin;
 
     /**
      * Enable/disable spellchecking. Enabled by default.
      */
     private ScLocalBoolean _spellCheck;
+
+    /**
+     * Additional styling for the inner textarea tag. Clients are generally
+     * not allowed to access this directly since it is easy to corrupt the layout.
+     */
+    private ScLocalCss _textAreaCss;
+
+    /**
+     * If set, run this script when the field's input changes.
+     * This uses the field's "oninput" attribute.
+     */
+    private ScAction _onInputAction;
+
+    /**
+     * If set, install the typeWatch script to notify the server when
+     * the user stops typing.
+     */
+    private ScAction _typeWatchAction;
+
+    private int _typeWatchDelayMs;
 
     //##################################################
     //# constructor
@@ -113,10 +149,12 @@ public class ScTextArea
 
     public ScTextArea()
     {
+        _htmlId = new ScLocalString(getKeyToken());
         _text = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
         _cssMargin = new ScLocalCss();
         _spellCheck = new ScLocalBoolean(true);
+        _textAreaCss = new ScLocalCss();
         layoutInline();
     }
 
@@ -127,12 +165,22 @@ public class ScTextArea
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return _htmlId.getValue();
+    }
+
+    public void setHtmlId(String e)
+    {
+        _htmlId.setValue(e);
     }
 
     private String getAreaHtmlId()
     {
         return getHtmlId() + "-a";
+    }
+
+    private String getAreaSelector()
+    {
+        return ScJquery.formatIdSelector(getAreaHtmlId());
     }
 
     private String getAreaHtmlName()
@@ -146,7 +194,7 @@ public class ScTextArea
 
     public void layoutInline()
     {
-        layoutInline(300, 100);
+        layoutInline(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     public void layoutInline(int w, int h)
@@ -154,6 +202,11 @@ public class ScTextArea
         _layout = Layout.inline;
         _width = w;
         _height = h;
+    }
+
+    public void layoutBlock()
+    {
+        layoutBlock(DEFAULT_HEIGHT);
     }
 
     public void layoutBlock(int h)
@@ -190,6 +243,23 @@ public class ScTextArea
     public KmCssMarginBuilder cssMargin()
     {
         return _cssMargin.toMarginBuilder();
+    }
+
+    //##################################################
+    //# text area css
+    //##################################################
+
+    /**
+     * PRIVATE. Clients should genrally not access this directly.
+     */
+    private KmCssDefaultBuilder textAreaCss()
+    {
+        return _textAreaCss.toBuilder();
+    }
+
+    public void noWrap()
+    {
+        textAreaCss().noWrap();
     }
 
     //##################################################
@@ -301,6 +371,60 @@ public class ScTextArea
     }
 
     //##################################################
+    //# on input
+    //##################################################
+
+    public void onInput(ScAction e)
+    {
+        setOnInputAction(e);
+    }
+
+    public void setOnInputAction(ScAction e)
+    {
+        _onInputAction = e;
+    }
+
+    public ScAction getOnInputAction()
+    {
+        return _onInputAction;
+    }
+
+    public boolean hasOnInputAction()
+    {
+        return _onInputAction != null;
+    }
+
+    //##################################################
+    //# on type watch
+    //##################################################
+
+    public void onTypeWatch(ScAction e)
+    {
+        onTypeWatch(e, 350);
+    }
+
+    public void onTypeWatch(ScAction action, int delayMs)
+    {
+        _typeWatchAction = action;
+        _typeWatchDelayMs = delayMs;
+    }
+
+    public ScAction getTypeWatchAction()
+    {
+        return _typeWatchAction;
+    }
+
+    public boolean hasTypeWatchAction()
+    {
+        return _typeWatchAction != null;
+    }
+
+    public int getTypeWatchDelayMs()
+    {
+        return _typeWatchDelayMs;
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -310,7 +434,7 @@ public class ScTextArea
         KmCssDefaultBuilder css = getCss();
         KmStyleBuilder style = new KmStyleBuilder();
 
-        if ( !getVisible() )
+        if ( !isVisible() )
             style.hide();
 
         applyLayoutTo(css, style);
@@ -335,7 +459,7 @@ public class ScTextArea
         ScImage e;
         e = new ScImage();
         e.css().helpTriangle().helpTooltip();
-        e.setSource(getUrls().getHelpIndicatorUrl());
+        e.setSource(getUrls().getHelpTriangleUrl());
         e.setHoverText(getHelp());
         e.renderOn(out);
     }
@@ -345,6 +469,7 @@ public class ScTextArea
         out.open("textarea");
         out.printAttribute("id", getAreaHtmlId());
         out.printAttribute("name", getAreaHtmlName());
+        out.printAttribute(textAreaCss());
 
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
@@ -355,9 +480,36 @@ public class ScTextArea
         if ( !getSpellCheck() )
             out.printAttribute("spellcheck", false);
 
+        if ( hasOnInputAction() )
+        {
+            ScActionScript s;
+            s = new ScActionScript();
+            s.setAction(getOnInputAction());
+            s.setForm(findFormWrapper());
+            s.setBlockTarget(findBlockWrapper());
+            out.printAttribute("oninput", s.formatScript());
+        }
+
         out.close();
         out.printWithoutBreaks(getValue());
         out.end("textarea");
+
+        if ( hasTypeWatchAction() )
+        {
+            ScActionScript action;
+            action = new ScActionScript();
+            action.setAction(getTypeWatchAction());
+            action.setForm(findFormWrapper());
+            action.setBlockTarget(findBlockWrapper());
+
+            ScTypeWatchScript watch;
+            watch = new ScTypeWatchScript();
+            watch.setSelector(getAreaSelector());
+            watch.setCallback(action.formatScript());
+            watch.setDelayMs(getTypeWatchDelayMs());
+
+            out.getPostDom().run(watch);
+        }
     }
 
     //==================================================

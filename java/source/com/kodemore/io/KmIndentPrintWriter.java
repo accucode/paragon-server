@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -61,6 +61,7 @@ public class KmIndentPrintWriter
         this(e, false);
     }
 
+    @SuppressWarnings("resource")
     public KmIndentPrintWriter(Writer e, boolean autoFlush)
     {
         this(new KmIndentWriter(e), autoFlush);
@@ -102,9 +103,9 @@ public class KmIndentPrintWriter
         getIndentWriter().indent();
     }
 
-    public void undent()
+    public void outdent()
     {
-        getIndentWriter().undent();
+        getIndentWriter().outdent();
     }
 
     public void setIndentString(String s)

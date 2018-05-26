@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.dao.*;
 
 import com.app.dao.*;
+import com.app.dao.core.*;
 import com.app.model.*;
 import com.app.model.meta.*;
 import com.app.utility.*;
@@ -38,28 +39,46 @@ public class MyDaoAccess
         KmList<KmAbstractDao<?,?>> v;
         v = new KmList<>();
         v.add(getApplicationLogDao());
+        v.add(getAttachmentDao());
+        v.add(getAuditBundleDao());
         v.add(getAuditLogDao());
         v.add(getAutoLoginDao());
+        v.add(getBlurbDao());
+        v.add(getChoiceDao());
+        v.add(getCustomerDao());
+        v.add(getCustomerContactDao());
+        v.add(getDefaultRecipientDao());
         v.add(getDownloadDao());
         v.add(getEmailDao());
         v.add(getEmailPartDao());
         v.add(getEmailRecipientDao());
+        v.add(getEmailTemplateDao());
+        v.add(getFeedbackDao());
         v.add(getFieldTestDao());
-        v.add(getFileDao());
+        v.add(getFilterTemplateDao());
+        v.add(getFilterTemplateItemDao());
         v.add(getHibernateCacheTestDao());
-        v.add(getInvitationDao());
+        v.add(getHolidayDao());
+        v.add(getMemberDao());
+        v.add(getNoteDao());
         v.add(getOptimisticLockDao());
         v.add(getPasswordResetDao());
         v.add(getPatchDao());
         v.add(getPerformanceLogDetailDao());
         v.add(getPerformanceLogSummaryDao());
+        v.add(getPriorityDao());
         v.add(getProjectDao());
+        v.add(getProjectContactDao());
         v.add(getServerSessionDao());
         v.add(getSettingsDao());
+        v.add(getSiteDao());
+        v.add(getSiteContactDao());
         v.add(getTenantDao());
         v.add(getThreadTopicDao());
         v.add(getUserDao());
         v.add(getUserActivationDao());
+        v.add(getUserRecentProjectDao());
+        v.add(getVendorDao());
         return v;
     }
 
@@ -80,6 +99,44 @@ public class MyDaoAccess
     public MyApplicationLog findApplicationLogUid(String e)
     {
         return getApplicationLogDao().findUid(e);
+    }
+
+    //##################################################
+    //# attachment
+    //##################################################
+
+    public MyAttachmentDao getAttachmentDao()
+    {
+        return new MyAttachmentDao();
+    }
+
+    public KmList<MyAttachment> findAllAttachments()
+    {
+        return getAttachmentDao().findAll();
+    }
+
+    public MyAttachment findAttachmentUid(String e)
+    {
+        return getAttachmentDao().findUid(e);
+    }
+
+    //##################################################
+    //# auditBundle
+    //##################################################
+
+    public MyAuditBundleDao getAuditBundleDao()
+    {
+        return new MyAuditBundleDao();
+    }
+
+    public KmList<MyAuditBundle> findAllAuditBundles()
+    {
+        return getAuditBundleDao().findAll();
+    }
+
+    public MyAuditBundle findAuditBundleUid(String e)
+    {
+        return getAuditBundleDao().findUid(e);
     }
 
     //##################################################
@@ -118,6 +175,101 @@ public class MyDaoAccess
     public MyAutoLogin findAutoLoginUid(String e)
     {
         return getAutoLoginDao().findUid(e);
+    }
+
+    //##################################################
+    //# blurb
+    //##################################################
+
+    public MyBlurbDao getBlurbDao()
+    {
+        return new MyBlurbDao();
+    }
+
+    public KmList<MyBlurb> findAllBlurbs()
+    {
+        return getBlurbDao().findAll();
+    }
+
+    public MyBlurb findBlurbUid(String e)
+    {
+        return getBlurbDao().findUid(e);
+    }
+
+    //##################################################
+    //# choice
+    //##################################################
+
+    public MyChoiceDao getChoiceDao()
+    {
+        return new MyChoiceDao();
+    }
+
+    public KmList<MyChoice> findAllChoices()
+    {
+        return getChoiceDao().findAll();
+    }
+
+    public MyChoice findChoiceUid(String e)
+    {
+        return getChoiceDao().findUid(e);
+    }
+
+    //##################################################
+    //# customer
+    //##################################################
+
+    public MyCustomerDao getCustomerDao()
+    {
+        return new MyCustomerDao();
+    }
+
+    public KmList<MyCustomer> findAllCustomers()
+    {
+        return getCustomerDao().findAll();
+    }
+
+    public MyCustomer findCustomerUid(String e)
+    {
+        return getCustomerDao().findUid(e);
+    }
+
+    //##################################################
+    //# customerContact
+    //##################################################
+
+    public MyCustomerContactDao getCustomerContactDao()
+    {
+        return new MyCustomerContactDao();
+    }
+
+    public KmList<MyCustomerContact> findAllCustomerContacts()
+    {
+        return getCustomerContactDao().findAll();
+    }
+
+    public MyCustomerContact findCustomerContactUid(String e)
+    {
+        return getCustomerContactDao().findUid(e);
+    }
+
+    //##################################################
+    //# defaultRecipient
+    //##################################################
+
+    public MyDefaultRecipientDao getDefaultRecipientDao()
+    {
+        return new MyDefaultRecipientDao();
+    }
+
+    public KmList<MyDefaultRecipient> findAllDefaultRecipients()
+    {
+        return getDefaultRecipientDao().findAll();
+    }
+
+    public MyDefaultRecipient findDefaultRecipientUid(String e)
+    {
+        return getDefaultRecipientDao().findUid(e);
     }
 
     //##################################################
@@ -197,6 +349,44 @@ public class MyDaoAccess
     }
 
     //##################################################
+    //# emailTemplate
+    //##################################################
+
+    public MyEmailTemplateDao getEmailTemplateDao()
+    {
+        return new MyEmailTemplateDao();
+    }
+
+    public KmList<MyEmailTemplate> findAllEmailTemplates()
+    {
+        return getEmailTemplateDao().findAll();
+    }
+
+    public MyEmailTemplate findEmailTemplateUid(String e)
+    {
+        return getEmailTemplateDao().findUid(e);
+    }
+
+    //##################################################
+    //# feedback
+    //##################################################
+
+    public MyFeedbackDao getFeedbackDao()
+    {
+        return new MyFeedbackDao();
+    }
+
+    public KmList<MyFeedback> findAllFeedbacks()
+    {
+        return getFeedbackDao().findAll();
+    }
+
+    public MyFeedback findFeedbackUid(String e)
+    {
+        return getFeedbackDao().findUid(e);
+    }
+
+    //##################################################
     //# fieldTest
     //##################################################
 
@@ -216,22 +406,41 @@ public class MyDaoAccess
     }
 
     //##################################################
-    //# file
+    //# filterTemplate
     //##################################################
 
-    public MyFileDao getFileDao()
+    public MyFilterTemplateDao getFilterTemplateDao()
     {
-        return new MyFileDao();
+        return new MyFilterTemplateDao();
     }
 
-    public KmList<MyFile> findAllFiles()
+    public KmList<MyFilterTemplate> findAllFilterTemplates()
     {
-        return getFileDao().findAll();
+        return getFilterTemplateDao().findAll();
     }
 
-    public MyFile findFileUid(String e)
+    public MyFilterTemplate findFilterTemplateUid(String e)
     {
-        return getFileDao().findUid(e);
+        return getFilterTemplateDao().findUid(e);
+    }
+
+    //##################################################
+    //# filterTemplateItem
+    //##################################################
+
+    public MyFilterTemplateItemDao getFilterTemplateItemDao()
+    {
+        return new MyFilterTemplateItemDao();
+    }
+
+    public KmList<MyFilterTemplateItem> findAllFilterTemplateItems()
+    {
+        return getFilterTemplateItemDao().findAll();
+    }
+
+    public MyFilterTemplateItem findFilterTemplateItemUid(String e)
+    {
+        return getFilterTemplateItemDao().findUid(e);
     }
 
     //##################################################
@@ -254,22 +463,60 @@ public class MyDaoAccess
     }
 
     //##################################################
-    //# invitation
+    //# holiday
     //##################################################
 
-    public MyInvitationDao getInvitationDao()
+    public MyHolidayDao getHolidayDao()
     {
-        return new MyInvitationDao();
+        return new MyHolidayDao();
     }
 
-    public KmList<MyInvitation> findAllInvitations()
+    public KmList<MyHoliday> findAllHolidays()
     {
-        return getInvitationDao().findAll();
+        return getHolidayDao().findAll();
     }
 
-    public MyInvitation findInvitationUid(String e)
+    public MyHoliday findHolidayUid(String e)
     {
-        return getInvitationDao().findUid(e);
+        return getHolidayDao().findUid(e);
+    }
+
+    //##################################################
+    //# member
+    //##################################################
+
+    public MyMemberDao getMemberDao()
+    {
+        return new MyMemberDao();
+    }
+
+    public KmList<MyMember> findAllMembers()
+    {
+        return getMemberDao().findAll();
+    }
+
+    public MyMember findMemberUid(String e)
+    {
+        return getMemberDao().findUid(e);
+    }
+
+    //##################################################
+    //# note
+    //##################################################
+
+    public MyNoteDao getNoteDao()
+    {
+        return new MyNoteDao();
+    }
+
+    public KmList<MyNote> findAllNotes()
+    {
+        return getNoteDao().findAll();
+    }
+
+    public MyNote findNoteUid(String e)
+    {
+        return getNoteDao().findUid(e);
     }
 
     //##################################################
@@ -368,6 +615,25 @@ public class MyDaoAccess
     }
 
     //##################################################
+    //# priority
+    //##################################################
+
+    public MyPriorityDao getPriorityDao()
+    {
+        return new MyPriorityDao();
+    }
+
+    public KmList<MyPriority> findAllPriorities()
+    {
+        return getPriorityDao().findAll();
+    }
+
+    public MyPriority findPriorityUid(String e)
+    {
+        return getPriorityDao().findUid(e);
+    }
+
+    //##################################################
     //# project
     //##################################################
 
@@ -384,6 +650,25 @@ public class MyDaoAccess
     public MyProject findProjectUid(String e)
     {
         return getProjectDao().findUid(e);
+    }
+
+    //##################################################
+    //# projectContact
+    //##################################################
+
+    public MyProjectContactDao getProjectContactDao()
+    {
+        return new MyProjectContactDao();
+    }
+
+    public KmList<MyProjectContact> findAllProjectContacts()
+    {
+        return getProjectContactDao().findAll();
+    }
+
+    public MyProjectContact findProjectContactUid(String e)
+    {
+        return getProjectContactDao().findUid(e);
     }
 
     //##################################################
@@ -422,6 +707,44 @@ public class MyDaoAccess
     public MySettings findSettingsCode(Integer e)
     {
         return getSettingsDao().findCode(e);
+    }
+
+    //##################################################
+    //# site
+    //##################################################
+
+    public MySiteDao getSiteDao()
+    {
+        return new MySiteDao();
+    }
+
+    public KmList<MySite> findAllSites()
+    {
+        return getSiteDao().findAll();
+    }
+
+    public MySite findSiteUid(String e)
+    {
+        return getSiteDao().findUid(e);
+    }
+
+    //##################################################
+    //# siteContact
+    //##################################################
+
+    public MySiteContactDao getSiteContactDao()
+    {
+        return new MySiteContactDao();
+    }
+
+    public KmList<MySiteContact> findAllSiteContacts()
+    {
+        return getSiteContactDao().findAll();
+    }
+
+    public MySiteContact findSiteContactUid(String e)
+    {
+        return getSiteContactDao().findUid(e);
     }
 
     //##################################################
@@ -500,6 +823,44 @@ public class MyDaoAccess
         return getUserActivationDao().findUid(e);
     }
 
+    //##################################################
+    //# userRecentProject
+    //##################################################
+
+    public MyUserRecentProjectDao getUserRecentProjectDao()
+    {
+        return new MyUserRecentProjectDao();
+    }
+
+    public KmList<MyUserRecentProject> findAllUserRecentProjects()
+    {
+        return getUserRecentProjectDao().findAll();
+    }
+
+    public MyUserRecentProject findUserRecentProjectUid(String e)
+    {
+        return getUserRecentProjectDao().findUid(e);
+    }
+
+    //##################################################
+    //# vendor
+    //##################################################
+
+    public MyVendorDao getVendorDao()
+    {
+        return new MyVendorDao();
+    }
+
+    public KmList<MyVendor> findAllVendors()
+    {
+        return getVendorDao().findAll();
+    }
+
+    public MyVendor findVendorUid(String e)
+    {
+        return getVendorDao().findUid(e);
+    }
+
 
     //##################################################
     //# convenience
@@ -507,12 +868,21 @@ public class MyDaoAccess
 
     public void flush()
     {
-        MyGlobals.getDaoSession().flush();
+        getSession().flush();
     }
 
     public boolean tryFlush()
     {
-        return MyGlobals.getDaoSession().tryFlush();
+        return getSession().tryFlush();
     }
 
+    public void disableBasicTimestampsFor(MyBasicTimestampsIF e)
+    {
+        getSession().disableBasicTimestampsFor(e);
+    }
+
+    private MyDaoSession getSession()
+    {
+        return MyGlobals.getDaoSession();
+    }
 }

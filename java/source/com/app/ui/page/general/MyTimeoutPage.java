@@ -1,6 +1,5 @@
 package com.app.ui.page.general;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -52,22 +51,6 @@ public final class MyTimeoutPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -87,8 +70,8 @@ public final class MyTimeoutPage
         body.addText("Please log back in.");
 
         ScDiv buttons;
-        buttons = body.addFlexRow();
-        buttons.css().flexAlignEnd();
+        buttons = body.addDiv();
+        buttons.css().flexRow().flexAlignEnd();
 
         ScScriptButton button;
         button = buttons.addScriptButton();
@@ -97,13 +80,13 @@ public final class MyTimeoutPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
     protected void preRender()
     {
-        String url = MyUrls.getEntryUrl();
+        String url = MyUrls.formatEntryUrl();
         _loginButton.setScriptHref(url);
     }
 

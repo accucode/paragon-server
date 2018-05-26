@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,11 +36,11 @@ public class MyServerSessionValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
     private KmBooleanValidator activeValidator;
-    private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
+    private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator lastTouchedUtcTsValidator;
+    private KmStringValidator uidValidator;
     private KmStringValidator versionValidator;
     private KmIntegerValidator lockVersionValidator;
 
@@ -50,11 +51,11 @@ public class MyServerSessionValidatorBase
     protected MyServerSessionValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
         activeValidator = newActiveValidator();
-        createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
+        createdUtcTsValidator = newCreatedUtcTsValidator();
         lastTouchedUtcTsValidator = newLastTouchedUtcTsValidator();
+        uidValidator = newUidValidator();
         versionValidator = newVersionValidator();
         lockVersionValidator = newLockVersionValidator();
     }
@@ -63,19 +64,9 @@ public class MyServerSessionValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
-    {
-        return uidValidator;
-    }
-
     public KmBooleanValidator getActiveValidator()
     {
         return activeValidator;
-    }
-
-    public KmTimestampValidator getCreatedUtcTsValidator()
-    {
-        return createdUtcTsValidator;
     }
 
     public KmTimestampValidator getClosedUtcTsValidator()
@@ -83,9 +74,19 @@ public class MyServerSessionValidatorBase
         return closedUtcTsValidator;
     }
 
+    public KmTimestampValidator getCreatedUtcTsValidator()
+    {
+        return createdUtcTsValidator;
+    }
+
     public KmTimestampValidator getLastTouchedUtcTsValidator()
     {
         return lastTouchedUtcTsValidator;
+    }
+
+    public KmStringValidator getUidValidator()
+    {
+        return uidValidator;
     }
 
     public KmStringValidator getVersionValidator()
@@ -106,63 +107,41 @@ public class MyServerSessionValidatorBase
     public void convertOnly(MyServerSession value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setActive(activeValidator.convertOnly(value.getActive()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
-        value.setLastTouchedUtcTs(lastTouchedUtcTsValidator.convertOnly(value.getLastTouchedUtcTs()));
-        value.setVersion(versionValidator.convertOnly(value.getVersion()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setActive(activeValidator.convert(value.getActive()));
+        value.setClosedUtcTs(closedUtcTsValidator.convert(value.getClosedUtcTs()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setLastTouchedUtcTs(lastTouchedUtcTsValidator.convert(value.getLastTouchedUtcTs()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setVersion(versionValidator.convert(value.getVersion()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyServerSession value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyServerSession value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        activeValidator.validateOnly(value.getActive(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
-        lastTouchedUtcTsValidator.validateOnly(value.getLastTouchedUtcTs(), errors);
-        versionValidator.validateOnly(value.getVersion(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        activeValidator.validateOn(value.getActive(), errors);
+        closedUtcTsValidator.validateOn(value.getClosedUtcTs(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        lastTouchedUtcTsValidator.validateOn(value.getLastTouchedUtcTs(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        versionValidator.validateOn(value.getVersion(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasTenant() )
-            errors.add(new KmRequiredValidationError("serverSession", "tenant"));
+            errors.addRequiredField("serverSession", "tenant");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("serverSession");
-        e.setField("uid");
-        e.setRequired();
-        return e;
-    }
-
     public KmBooleanValidator newActiveValidator()
     {
         KmBooleanValidator e;
         e = new KmBooleanValidator();
-        e.setModel("serverSession");
-        e.setField("active");
-        e.setRequired();
-        return e;
-    }
-
-    public KmTimestampValidator newCreatedUtcTsValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("serverSession");
-        e.setField("createdUtcTs");
+        e.setModelName("serverSession");
+        e.setFieldName("active");
         e.setRequired();
         return e;
     }
@@ -171,8 +150,18 @@ public class MyServerSessionValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("serverSession");
-        e.setField("closedUtcTs");
+        e.setModelName("serverSession");
+        e.setFieldName("closedUtcTs");
+        return e;
+    }
+
+    public KmTimestampValidator newCreatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("serverSession");
+        e.setFieldName("createdUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -180,8 +169,20 @@ public class MyServerSessionValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("serverSession");
-        e.setField("lastTouchedUtcTs");
+        e.setModelName("serverSession");
+        e.setFieldName("lastTouchedUtcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newUidValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("serverSession");
+        e.setFieldName("uid");
         e.setRequired();
         return e;
     }
@@ -192,8 +193,8 @@ public class MyServerSessionValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("serverSession");
-        e.setField("version");
+        e.setModelName("serverSession");
+        e.setFieldName("version");
         e.setRequired();
         return e;
     }
@@ -202,8 +203,9 @@ public class MyServerSessionValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("serverSession");
-        e.setField("lockVersion");
+        e.setModelName("serverSession");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

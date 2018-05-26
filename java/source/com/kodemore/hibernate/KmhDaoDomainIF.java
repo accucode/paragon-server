@@ -6,16 +6,6 @@ package com.kodemore.hibernate;
  */
 public interface KmhDaoDomainIF
 {
-    //##################################################
-    //# format
-    //##################################################
-
-    String formatPrimaryKey();
-
-    //##################################################
-    //# persistence
-    //##################################################
-
     void daoAttach();
 
     void daoDetach();

@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyAutoLoginBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyAutoLogin>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,14 +39,15 @@ public abstract class MyAutoLoginBase
     public static final MyMetaAutoLogin Meta = MyMetaAutoLogin.instance;
     public static final MyAutoLoginTools Tools = MyAutoLoginTools.instance;
     public static final MyAutoLoginValidator Validator = MyAutoLoginValidator.instance;
+    public static final MyAutoLoginFinder Finder = MyAutoLoginFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private KmTimestamp createdUtcTs;
     private KmTimestamp lastTouchedUtcTs;
+    private String uid;
     private Integer lockVersion;
     private MyUser user;
 
@@ -55,10 +58,118 @@ public abstract class MyAutoLoginBase
     public MyAutoLoginBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
         setLastTouchedUtcTs(nowUtc());
+        setUid(newUid());
         setLockVersion(0);
+    }
+
+    //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (createdUtcTs)
+    //##################################################
+
+    public KmTimestamp getCreatedUtcTs()
+    {
+        return createdUtcTs;
+    }
+
+    public void setCreatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getCreatedUtcTsValidator().convert(e);
+        createdUtcTs = e;
+    }
+
+    public void clearCreatedUtcTs()
+    {
+        setCreatedUtcTs(null);
+    }
+
+    public boolean hasCreatedUtcTs()
+    {
+        return getCreatedUtcTs() != null;
+    }
+
+    public boolean hasCreatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getCreatedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (lastTouchedUtcTs)
+    //##################################################
+
+    public KmTimestamp getLastTouchedUtcTs()
+    {
+        return lastTouchedUtcTs;
+    }
+
+    public void setLastTouchedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getLastTouchedUtcTsValidator().convert(e);
+        lastTouchedUtcTs = e;
+    }
+
+    public void clearLastTouchedUtcTs()
+    {
+        setLastTouchedUtcTs(null);
+    }
+
+    public boolean hasLastTouchedUtcTs()
+    {
+        return getLastTouchedUtcTs() != null;
+    }
+
+    public boolean hasLastTouchedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getLastTouchedUtcTs(), e);
     }
 
     //##################################################
@@ -72,7 +183,7 @@ public abstract class MyAutoLoginBase
 
     public void setUid(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
+        e = Validator.getUidValidator().convert(e);
         uid = e;
     }
 
@@ -102,66 +213,6 @@ public abstract class MyAutoLoginBase
     }
 
     //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
-    //# field (lastTouchedUtcTs)
-    //##################################################
-
-    public KmTimestamp getLastTouchedUtcTs()
-    {
-        return lastTouchedUtcTs;
-    }
-
-    public void setLastTouchedUtcTs(KmTimestamp e)
-    {
-        e = Validator.getLastTouchedUtcTsValidator().convertOnly(e);
-        lastTouchedUtcTs = e;
-    }
-
-    public void clearLastTouchedUtcTs()
-    {
-        setLastTouchedUtcTs(null);
-    }
-
-    public boolean hasLastTouchedUtcTs()
-    {
-        return getLastTouchedUtcTs() != null;
-    }
-
-    public boolean hasLastTouchedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getLastTouchedUtcTs(), e);
-    }
-
-    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -172,7 +223,7 @@ public abstract class MyAutoLoginBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -189,22 +240,6 @@ public abstract class MyAutoLoginBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -400,6 +435,11 @@ public abstract class MyAutoLoginBase
         return null;
     }
 
+    public void setUserFullName(String e)
+    {
+        getUser().setFullName(e);
+    }
+
     public boolean hasUserFullName()
     {
         return hasUser() && getUser().hasFullName();
@@ -438,20 +478,15 @@ public abstract class MyAutoLoginBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyAutoLoginValidator getValidator()
     {
-        Validator.validate((MyAutoLogin)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyAutoLogin asSubclass()
     {
-        Validator.validateWarn((MyAutoLogin)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyAutoLogin)this);
+        return (MyAutoLogin)this;
     }
 
     //##################################################
@@ -480,9 +515,30 @@ public abstract class MyAutoLoginBase
     {
         MyAutoLogin e;
         e = new MyAutoLogin();
+        applyEditableFieldsTo(e);
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyAutoLogin e)
+    {
         e.setCreatedUtcTs(getCreatedUtcTs());
         e.setLastTouchedUtcTs(getLastTouchedUtcTs());
-        return e;
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyAutoLogin e)
+    {
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setLastTouchedUtcTs(e.getLastTouchedUtcTs());
     }
 
     //##################################################
@@ -513,10 +569,12 @@ public abstract class MyAutoLoginBase
 
     public boolean isSameIgnoringKey(MyAutoLogin e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getLastTouchedUtcTs(), e.getLastTouchedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -558,9 +616,9 @@ public abstract class MyAutoLoginBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    LastTouchedUtcTs = " + lastTouchedUtcTs);
+        System.out.println("    Uid = " + uid);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

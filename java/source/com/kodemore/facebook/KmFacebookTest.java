@@ -11,15 +11,15 @@ public class KmFacebookTest
     public static void main(String[] args)
     {
         /**
-         *  this expires after about an hour, to generate a new one
-         *  go to https://developers.facebook.com/tools/explorer
+         * To generate a temporary token, go to:
+         * https://developers.facebook.com/tools/explorer
          */
-        String accessToken = "CAACEdEose0cBAMSZCMCqtyMXJuD44SHErCQOQHnatOzypJuDHZCE0cLnxUbMCOyo4e2ElZCZBUYEwmzyhIIwZAGIzZAZBKybLFSiY07ZBwfudhOBcIpE3N84z4REZAZBwIOXnT0Os41YhbxghK9H4fOqAMZCafRbWbai8uyGsxcDhNF6erXUN8AQcuygQ4cwf0uF7YZD";
+        String accessToken = "TOKEN";
 
         //  search request, requires access token
         //        KmFacebookUserSearchRequest req;
         //        req = new KmFacebookUserSearchRequest();
-        //        req.setSearch("aaron ledbetter");
+        //        req.setSearch("john smith");
         //
         //        req.setAccessToken(accessToken);
         //        req.submit();
@@ -65,7 +65,7 @@ public class KmFacebookTest
 
         KmFacebookIdRequest req;
         req = new KmFacebookIdRequest();
-        req.setQuery("steveganado12");
+        req.setQuery("xxx");
         req.setAccessToken(accessToken);
 
         KmFacebookUser u = req.findUser();

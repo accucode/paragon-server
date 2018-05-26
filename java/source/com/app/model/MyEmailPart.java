@@ -26,7 +26,7 @@ public class MyEmailPart
     {
         KmBlob e;
         e = new KmBlob();
-        e.setValue(s);
+        e.setUtfValue(s);
         setData(e);
     }
 
@@ -43,8 +43,20 @@ public class MyEmailPart
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getTypeName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getTypeName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 }

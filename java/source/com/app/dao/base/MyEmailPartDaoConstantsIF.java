@@ -17,15 +17,17 @@ public interface MyEmailPartDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String ATTACHMENT_NAME = "attachmentName";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
+    String DATA = "data";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String SEQUENCE = "sequence";
     String TYPE_CODE = "typeCode";
-    String ATTACHMENT_NAME = "attachmentName";
-    String DATA = "data";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String TYPE_NAME = "typeName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
@@ -43,10 +45,10 @@ public interface MyEmailPartDaoConstantsIF
     String CREATED_BY = "createdBy";
     String CREATED_BY_UID = "createdBy.uid";
 
-    String UPDATED_BY = "updatedBy";
-    String UPDATED_BY_UID = "updatedBy.uid";
-
     String EMAIL = "email";
     String EMAIL_UID = "email.uid";
+
+    String UPDATED_BY = "updatedBy";
+    String UPDATED_BY_UID = "updatedBy.uid";
 
 }

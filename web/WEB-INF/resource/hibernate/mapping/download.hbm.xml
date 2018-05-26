@@ -38,9 +38,21 @@
             />
 
         <property
+            name="bytes"
+            column="bytes"
+            type="com.kodemore.hibernate.type.KmhBlobType"
+            />
+
+        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="fileName"
+            column="fileName"
+            type="string"
             />
 
         <property
@@ -55,16 +67,11 @@
             type="string"
             />
 
-        <property
-            name="fileName"
-            column="fileName"
-            type="string"
-            />
-
-        <property
-            name="bytes"
-            column="bytes"
-            type="com.kodemore.hibernate.type.KmhBlobType"
+        <many-to-one
+            name="attachment"
+            column="attachmentUid"
+            class="com.app.model.MyAttachment"
+            cascade="none"
             />
 
         <many-to-one

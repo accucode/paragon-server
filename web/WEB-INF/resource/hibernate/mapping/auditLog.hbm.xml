@@ -32,26 +32,26 @@
         </id>
 
         <property
+            name="booleanValue"
+            column="booleanValue"
+            type="yes_no"
+            />
+
+        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="transactionUid"
-            column="transactionUid"
-            type="string"
+            name="dateValue"
+            column="dateValue"
+            type="com.kodemore.hibernate.type.KmhDateType"
             />
 
         <property
-            name="userName"
-            column="userName"
-            type="string"
-            />
-
-        <property
-            name="typeCode"
-            column="typeCode"
+            name="domainName"
+            column="domainName"
             type="string"
             />
 
@@ -62,27 +62,39 @@
             />
 
         <property
-            name="domainName"
-            column="domainName"
-            type="string"
-            />
-
-        <property
             name="domainUid"
             column="domainUid"
             type="string"
             />
 
         <property
-            name="domainBundleUid"
-            column="domainBundleUid"
-            type="string"
+            name="doubleValue"
+            column="doubleValue"
+            type="double"
             />
 
         <property
             name="fieldName"
             column="fieldName"
             type="string"
+            />
+
+        <property
+            name="integerValue"
+            column="integerValue"
+            type="integer"
+            />
+
+        <property
+            name="longValue"
+            column="longValue"
+            type="long"
+            />
+
+        <property
+            name="moneyValue"
+            column="moneyValue"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
             />
 
         <property
@@ -104,51 +116,40 @@
             />
 
         <property
-            name="integerValue"
-            column="integerValue"
-            type="integer"
-            />
-
-        <property
-            name="longValue"
-            column="longValue"
-            type="long"
-            />
-
-        <property
-            name="doubleValue"
-            column="doubleValue"
-            type="double"
-            />
-
-        <property
-            name="moneyValue"
-            column="moneyValue"
-            type="com.kodemore.hibernate.type.KmhMoneyType"
-            />
-
-        <property
-            name="booleanValue"
-            column="booleanValue"
-            type="yes_no"
-            />
-
-        <property
-            name="dateValue"
-            column="dateValue"
-            type="com.kodemore.hibernate.type.KmhDateType"
-            />
-
-        <property
             name="timestampValue"
             column="timestampValue"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
+            name="transactionUid"
+            column="transactionUid"
+            type="string"
+            />
+
+        <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
             name="uidValue"
             column="uidValue"
             type="string"
+            />
+
+        <property
+            name="userName"
+            column="userName"
+            type="string"
+            />
+
+        <many-to-one
+            name="bundle"
+            column="bundleUid"
+            class="com.app.model.MyAuditBundle"
+            cascade="none"
             />
 
         <many-to-one

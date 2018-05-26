@@ -56,22 +56,6 @@ public final class MyDevEnvironmentVariablesPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -92,7 +76,7 @@ public final class MyDevEnvironmentVariablesPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

@@ -14,18 +14,18 @@ public abstract class KmMetaTimeProperty<T>
     @Override
     public ScTimeField newField()
     {
-        return newField(getLabel());
+        ScTimeField e;
+        e = new ScTimeField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScTimeField newField(String label)
     {
         ScTimeField e;
-        e = new ScTimeField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
-        e.setValidator(getValidator());
         return e;
     }
 

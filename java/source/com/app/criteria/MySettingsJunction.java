@@ -40,17 +40,17 @@ public class MySettingsJunction
 
     public KmhIntegerCondition whereCode()
     {
-        return new KmhIntegerCondition(context(), fullName(CODE));
+        return new KmhIntegerCondition(context(), alias(), CODE);
     }
 
     public KmhStringCondition whereSomeMessage()
     {
-        return new KmhStringCondition(context(), fullName(SOME_MESSAGE));
+        return new KmhStringCondition(context(), alias(), SOME_MESSAGE);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################

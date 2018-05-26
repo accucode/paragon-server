@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -52,14 +52,14 @@ public class ScOption<T>
 
     public ScOption()
     {
-        _value = null;
-        _text = "";
+        this(null, "");
+
     }
 
     public ScOption(T value, String text)
     {
-        _value = value;
-        _text = text;
+        setValue(value);
+        setText(text);
     }
 
     //##################################################
@@ -104,5 +104,4 @@ public class ScOption<T>
     {
         return Kmu.isEqual(getText(), e);
     }
-
 }

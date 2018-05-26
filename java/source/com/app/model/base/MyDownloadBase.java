@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyDownloadBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyDownload>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,18 +39,20 @@ public abstract class MyDownloadBase
     public static final MyMetaDownload Meta = MyMetaDownload.instance;
     public static final MyDownloadTools Tools = MyDownloadTools.instance;
     public static final MyDownloadValidator Validator = MyDownloadValidator.instance;
+    public static final MyDownloadFinder Finder = MyDownloadFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
+    private KmBlob bytes;
     private KmTimestamp createdUtcTs;
+    private String fileName;
     private String name;
     private String typeCode;
-    private String fileName;
-    private KmBlob bytes;
+    private String uid;
     private Integer lockVersion;
+    private MyAttachment attachment;
     private MyUser user;
 
     //##################################################
@@ -58,50 +62,55 @@ public abstract class MyDownloadBase
     public MyDownloadBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
-        setTypeCode(MyUserRole.Other.getCode());
+        setUid(newUid());
         setLockVersion(0);
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
-    public void clearUid()
+    //##################################################
+    //# field (bytes)
+    //##################################################
+
+    public KmBlob getBytes()
     {
-        setUid(null);
+        return bytes;
     }
 
-    public boolean hasUid()
+    public void setBytes(KmBlob e)
     {
-        return Kmu.hasValue(getUid());
+        e = Validator.getBytesValidator().convert(e);
+        bytes = e;
     }
 
-    public boolean hasUid(String e)
+    public void clearBytes()
     {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
+        setBytes(null);
     }
 
-    public void truncateUid()
+    public boolean hasBytes()
     {
-        truncateUid(false);
+        return getBytes() != null;
     }
 
-    public void truncateUid(boolean ellipses)
+    public boolean hasBytes(KmBlob e)
     {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqual(getBytes(), e);
     }
 
     //##################################################
@@ -115,7 +124,7 @@ public abstract class MyDownloadBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -135,6 +144,78 @@ public abstract class MyDownloadBase
     }
 
     //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (fileName)
+    //##################################################
+
+    public String getFileName()
+    {
+        return fileName;
+    }
+
+    public void setFileName(String e)
+    {
+        e = Validator.getFileNameValidator().convert(e);
+        fileName = e;
+    }
+
+    public void clearFileName()
+    {
+        setFileName(null);
+    }
+
+    public boolean hasFileName()
+    {
+        return Kmu.hasValue(getFileName());
+    }
+
+    public boolean hasFileName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFileName(), e);
+    }
+
+    public void truncateFileName()
+    {
+        truncateFileName(false);
+    }
+
+    public void truncateFileName(boolean ellipses)
+    {
+        fileName = Kmu.truncate(fileName, 50, ellipses);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -145,7 +226,7 @@ public abstract class MyDownloadBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -171,7 +252,7 @@ public abstract class MyDownloadBase
 
     public void truncateName(boolean ellipses)
     {
-        name = Kmu.truncate(name, 200, ellipses);
+        name = Kmu.truncate(name, 255, ellipses);
     }
 
     //##################################################
@@ -185,7 +266,7 @@ public abstract class MyDownloadBase
 
     public void setTypeCode(String e)
     {
-        e = Validator.getTypeCodeValidator().convertOnly(e);
+        e = Validator.getTypeCodeValidator().convert(e);
         typeCode = e;
     }
 
@@ -247,9 +328,14 @@ public abstract class MyDownloadBase
         return hasType(MyDownloadType.File);
     }
 
-    public boolean isNotTypeFile()
+    public void setTypeAttachment()
     {
-        return !isTypeFile();
+        setType(MyDownloadType.Attachment);
+    }
+
+    public boolean isTypeAttachment()
+    {
+        return hasType(MyDownloadType.Attachment);
     }
 
     public void setTypeBytes()
@@ -262,79 +348,44 @@ public abstract class MyDownloadBase
         return hasType(MyDownloadType.Bytes);
     }
 
-    public boolean isNotTypeBytes()
-    {
-        return !isTypeBytes();
-    }
-
     //##################################################
-    //# field (fileName)
+    //# field (uid)
     //##################################################
 
-    public String getFileName()
+    public String getUid()
     {
-        return fileName;
+        return uid;
     }
 
-    public void setFileName(String e)
+    public void setUid(String e)
     {
-        e = Validator.getFileNameValidator().convertOnly(e);
-        fileName = e;
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    public void clearFileName()
+    public void clearUid()
     {
-        setFileName(null);
+        setUid(null);
     }
 
-    public boolean hasFileName()
+    public boolean hasUid()
     {
-        return Kmu.hasValue(getFileName());
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasFileName(String e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqualIgnoreCase(getFileName(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
-    public void truncateFileName()
+    public void truncateUid()
     {
-        truncateFileName(false);
+        truncateUid(false);
     }
 
-    public void truncateFileName(boolean ellipses)
+    public void truncateUid(boolean ellipses)
     {
-        fileName = Kmu.truncate(fileName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (bytes)
-    //##################################################
-
-    public KmBlob getBytes()
-    {
-        return bytes;
-    }
-
-    public void setBytes(KmBlob e)
-    {
-        e = Validator.getBytesValidator().convertOnly(e);
-        bytes = e;
-    }
-
-    public void clearBytes()
-    {
-        setBytes(null);
-    }
-
-    public boolean hasBytes()
-    {
-        return getBytes() != null;
-    }
-
-    public boolean hasBytes(KmBlob e)
-    {
-        return Kmu.isEqual(getBytes(), e);
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -348,7 +399,7 @@ public abstract class MyDownloadBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -365,22 +416,6 @@ public abstract class MyDownloadBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -479,6 +514,40 @@ public abstract class MyDownloadBase
     }
 
     //##################################################
+    //# attachment
+    //##################################################
+
+    public MyAttachment getAttachment()
+    {
+        return attachment;
+    }
+
+    public void setAttachment(MyAttachment e)
+    {
+        attachment = e;
+    }
+
+    public void _setAttachment(MyAttachment e)
+    {
+        attachment = e;
+    }
+
+    public void clearAttachment()
+    {
+        setAttachment(null);
+    }
+
+    public boolean hasAttachment()
+    {
+        return getAttachment() != null;
+    }
+
+    public boolean hasAttachment(MyAttachment e)
+    {
+        return Kmu.isEqual(getAttachment(), e);
+    }
+
+    //##################################################
     //# user
     //##################################################
 
@@ -518,20 +587,15 @@ public abstract class MyDownloadBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyDownloadValidator getValidator()
     {
-        Validator.validate((MyDownload)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyDownload asSubclass()
     {
-        Validator.validateWarn((MyDownload)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyDownload)this);
+        return (MyDownload)this;
     }
 
     //##################################################
@@ -560,12 +624,36 @@ public abstract class MyDownloadBase
     {
         MyDownload e;
         e = new MyDownload();
+        applyEditableFieldsTo(e);
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyDownload e)
+    {
+        e.setBytes(getBytes());
         e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setFileName(getFileName());
         e.setName(getName());
         e.setTypeCode(getTypeCode());
-        e.setFileName(getFileName());
-        e.setBytes(getBytes());
-        return e;
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyDownload e)
+    {
+        setBytes(e.getBytes());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setFileName(e.getFileName());
+        setName(e.getName());
+        setTypeCode(e.getTypeCode());
     }
 
     //##################################################
@@ -596,13 +684,15 @@ public abstract class MyDownloadBase
 
     public boolean isSameIgnoringKey(MyDownload e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getBytes(), e.getBytes()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getFileName(), e.getFileName()) ) return false;
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getFileName(), e.getFileName()) ) return false;
-        if ( !Kmu.isEqual(getBytes(), e.getBytes()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
@@ -641,12 +731,12 @@ public abstract class MyDownloadBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
+        System.out.println("    Bytes = " + bytes);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
+        System.out.println("    FileName = " + fileName);
         System.out.println("    Name = " + name);
         System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    FileName = " + fileName);
-        System.out.println("    Bytes = " + bytes);
+        System.out.println("    Uid = " + uid);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

@@ -13,16 +13,18 @@ import java.util.*;
 import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
+import com.app.model.*;
+
 public enum MyUserRole
-    implements KmEnumIF
+    implements MyUserRoleIF
 {
     //##################################################
     //# values
     //##################################################
 
     Developer("Developer", "Developer"),
-    Admin("Admin", "Admin"),
-    Other("Other", "Other"),
+    TenantAdmin("TenantAdmin", "Tenant Admin"),
+    ProjectMember("ProjectMember", "Project Member"),
     ;
 
     //##################################################
@@ -94,14 +96,14 @@ public enum MyUserRole
         return this == Developer;
     }
 
-    public boolean isAdmin()
+    public boolean isTenantAdmin()
     {
-        return this == Admin;
+        return this == TenantAdmin;
     }
 
-    public boolean isOther()
+    public boolean isProjectMember()
     {
-        return this == Other;
+        return this == ProjectMember;
     }
 
     //##################################################

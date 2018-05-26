@@ -1,0 +1,431 @@
+//******************************
+//* gantt chart
+//******************************
+
+//******************************
+//* variables
+//******************************
+
+$ganttChart-border              = 1px solid #888
+$ganttChart-shadow              = 1px 1px 2px #aaa
+                                
+$ganttChart-rowBorder           = 1px solid #aaa
+                                
+$ganttChart-item-shadow         = $ganttChart-shadow
+$ganttChart-item-margin         = 3px
+                                
+$ganttChart-now-border          = 1px solid #333
+$ganttChart-now-shadow          = 1px 0px 1px #777
+
+$ganttChart-topAxisItem-padding = 20px
+$ganttChart-content-padding     = 100px
+
+//******************************
+//* css
+//******************************
+
+
+.ganttChart
+    display:            flex
+    flex-direction:     row
+    flex-grow:          1 
+    flex-shrink:        0 
+    border:             $ganttChart-border
+    box-shadow:         $ganttChart-shadow
+                        
+                        
+.ganttChart-bgGray      
+    background:         #eee
+                        
+                        
+.ganttChart-header      
+    height:             50px
+    flex-shrink:        0
+
+
+//******************************
+//* left column
+//******************************
+     
+
+.ganttChart-leftColumn
+    display:            flex
+    flex-grow:          0 
+    flex-shrink:        0
+    flex-direction:     column
+    overflow:           hidden
+    border-right:       $ganttChart-border
+
+
+.ganttChart-labelContent
+    overflow:           hidden
+    border-top:         $ganttChart-border
+    padding-bottom:     $ganttChart-content-padding
+                        
+                        
+.ganttChart-set         
+    height:             30px
+                        
+                        
+.ganttChart-row         
+    border-bottom:      $ganttChart-rowBorder
+    padding-top:        10px
+    padding-bottom:     10px
+    overflow:           hidden
+
+
+.ganttChart-rowLabelWrapper
+    display:            flex
+    flex-direction:     row
+                        
+                        
+.ganttChart-rowLabel    
+    padding:            0px 5px
+    font-size:          16px
+    font-weight:        bold
+    display:            flex
+    flex-grow:          1
+    flex-shrink:        1
+    align-items:        center
+                        
+                        
+.ganttChart-setLabel    
+    padding:            0px 5px
+    font-size:          14px
+    font-weight:        bold
+    display:            flex
+    flex-direction:     row-reverse
+    align-items:        center
+    
+
+//******************************
+//* right column
+//******************************
+
+
+.ganttChart-rightColumn
+    display:            flex
+    flex-grow:          1 
+    flex-shrink:        1
+    flex-direction:     column
+    overflow:           hidden
+
+
+.ganttChart-rightHeader
+    display:            flex
+    flex-grow:          0 
+    flex-shrink:        0
+    flex-direction:     column
+    overflow:           hidden
+    border-bottom:      $ganttChart-border
+                        
+                        
+.ganttChart-title       
+    flex-grow:          1 
+    flex-shrink:        1
+    text-align:         center
+    font-size:          24px
+    font-weight:        bold
+
+
+.ganttChart-topAxisWrapper
+    overflow:           hidden
+                        
+                        
+.ganttChart-topAxis     
+    position:           relative
+    display:            flex
+    flex-direction:     row
+    flex-grow:          0
+    flex-shrink:        0
+    height:             20px
+    padding-right:      $ganttChart-content-padding
+
+
+.ganttChart-topAxisItem
+    position:           absolute
+    text-align:         center
+    font-size:          16px
+    font-weight:        bold
+    padding:            0px 2px
+    border-left:        $ganttChart-rowBorder
+
+
+.ganttChart-topAxisItem:first-child
+    text-align:         left
+    left:               0px
+
+
+.ganttChart-topAxisItem:last-child
+    text-align:         right
+    padding-left:       $ganttChart-topAxisItem-padding
+    background-image:   linear-gradient(to right,transparent, #eee $ganttChart-topAxisItem-padding / 2)
+    right:              $ganttChart-content-padding
+    border-left:        none
+    border-right:       $ganttChart-rowBorder
+
+
+.ganttChart-contentWrapper
+    display:            flex
+    flex-direction:     column
+    flex-grow:          1 
+    flex-shrink:        0 
+
+
+//******************************
+//* chart
+//******************************
+ 
+
+.ganttChart-contentWrapper
+    display:            flex
+    flex-direction:     column
+    flex-grow:          1 
+    flex-shrink:        0 
+
+
+.ganttChart-chartWrapper
+    flex-grow:          1 
+    flex-shrink:        1 
+    overflow:           auto
+
+
+.ganttChart-chartContent
+    position:           relative
+    border-right:       $ganttChart-rowBorder
+
+
+.ganttChart-setContent
+    position:           relative
+
+
+//******************************
+//* now
+//******************************
+
+
+.ganttChart-now
+    position:           absolute
+    margin-left:        -1px
+    border:             $ganttChart-now-border
+    width:              0px
+    top:                0px
+    bottom:             0px
+    box-shadow:         $ganttChart-now-shadow
+
+
+//******************************
+//* items
+//******************************
+
+.ganttChart-item
+    margin-left:        $ganttChart-item-margin
+    margin-right:       $ganttChart-item-margin
+    padding:            0px 5px
+    top:                2px
+    bottom:             2px
+    position:           absolute
+    display:            flex
+    flex-direction:     row
+    align-items:        center
+    box-shadow:         $ganttChart-item-shadow
+    overflow:           hidden
+
+.ganttChart-item-startsBefore
+    left:              -( $ganttChart-item-margin + 1 )
+
+.ganttChart-item-endsAfter
+    right:             -( $ganttChart-item-margin + 1 )
+
+.ganttChart-itemLabel
+    flex-grow:          1
+    flex-shrink:        1
+    text-align:         center
+    overflow:           hidden
+    text-overflow:      ellipsis
+    white-space:        nowrap
+
+//******************************
+//* item colors
+//******************************
+
+.ganttChart-itemRed
+    border:             1px solid red
+    background-color:   pink
+
+
+.ganttChart-itemOrange
+    border:             1px solid orange
+    background-color:   #ffd588
+
+
+.ganttChart-itemYellow
+    border:             1px solid #fd0
+    background-color:   #ffb
+
+
+.ganttChart-itemGreen
+    border:             1px solid green
+    background-color:   lightGreen
+
+
+.ganttChart-itemCyan
+    border:             1px solid cyan
+    background-color:   #cff
+
+
+.ganttChart-itemBlue
+    border:             1px solid blue
+    background-color:   lightBlue
+
+
+.ganttChart-itemPurple
+    border:             1px solid purple
+    background-color:   #fcf
+
+
+.ganttChart-itemGray
+    border:             1px solid gray
+    background-color:   lightGray
+
+
+//******************************
+//* items :: blue theme
+//******************************
+
+
+.ganttChart-itemBlue1
+    border:             1px solid #4378C0
+    background-color:   #6596D9
+
+    
+.ganttChart-itemBlue2
+    border:             1px solid #4378C0
+    background-color:   #8CB4EB
+
+
+.ganttChart-itemBlue3
+    border:             1px solid #4378C0
+    background-color:   #B9D3F7
+
+
+.ganttChart-itemBlue4
+    border:             1px solid #38A8B8
+    background-color:   #5AC6D4
+
+    
+.ganttChart-itemBlue5
+    border:             1px solid #38A8B8
+    background-color:   #83DCE8
+
+    
+.ganttChart-itemBlue6
+    border:             1px solid #38A8B8
+    background-color:   #B4EEF6
+
+
+//******************************
+//* items :: purple theme
+//******************************
+
+
+.ganttChart-itemPurple1
+    border:             1px solid #8E60D9
+    background-color:   #9C75DB
+
+    
+.ganttChart-itemPurple2
+    border:             1px solid #8E60D9
+    background-color:   #AD8EE0
+
+    
+.ganttChart-itemPurple3
+    border:             1px solid #8E60D9
+    background-color:   #C2ABE7
+
+
+.ganttChart-itemPurple4
+    border:             1px solid #C655D6
+    background-color:   #CB6CD9
+
+    
+.ganttChart-itemPurple5
+    border:             1px solid #C655D6
+    background-color:   #D386DE
+
+    
+.ganttChart-itemPurple6
+    border:             1px solid #C655D6
+    background-color:   #DDA5E5
+
+
+//******************************
+//* items :: orange theme
+//******************************
+
+    
+.ganttChart-itemOrange1
+    border:             1px solid #F28E4B
+    background-color:   #F4A067
+
+    
+.ganttChart-itemOrange2
+    border:             1px solid #F28E4B
+    background-color:   #FFBC8E
+
+    
+.ganttChart-itemOrange3
+    border:             1px solid #F28E4B
+    background-color:   #FFD5B9
+
+    
+.ganttChart-itemOrange4
+    border:             1px solid #F2B54B
+    background-color:   #F4C167
+
+    
+.ganttChart-itemOrange5
+    border:             1px solid #F2B54B
+    background-color:   #FFD68E
+
+    
+.ganttChart-itemOrange6
+    border:             1px solid #F2B54B
+    background-color:   #FFE6B9
+
+
+//******************************
+//* items :: gray theme
+//******************************
+
+    
+.ganttChart-itemGray1
+    border:             1px solid #706E74
+    background-color:   #85818A
+
+    
+.ganttChart-itemGray2
+    border:             1px solid #706E74
+    background-color:   #9A979F
+
+    
+.ganttChart-itemGray3
+    border:             1px solid #706E74
+    background-color:   #B7B4BB
+
+
+.ganttChart-itemGray4
+    border:             1px solid #676B6E
+    background-color:   #797E81
+
+    
+.ganttChart-itemGray5
+    border:             1px solid #898989
+    background-color:   #8E9396
+
+    
+.ganttChart-itemGray6
+    border:             1px solid #898989
+    background-color:   #ACB0B2
+
+    

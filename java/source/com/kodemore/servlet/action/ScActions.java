@@ -33,7 +33,7 @@ public class ScActions
     /**
      * A global noop (Non Operation).
      */
-    private ScAction         _noopAction;
+    private ScAction _noopAction;
 
     //##################################################
     //# constructor

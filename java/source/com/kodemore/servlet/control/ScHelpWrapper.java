@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -40,8 +40,8 @@ public class ScHelpWrapper
     private ScDiv          _wrapperBox;
     private ScLocalControl _child;
 
-    private ScLocalCss     _css;
-    private ScLocalStyle   _style;
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
 
     //##################################################
     //# constructor
@@ -167,13 +167,12 @@ public class ScHelpWrapper
 
     private void renderHelpImageOn(KmHtmlBuilder out)
     {
-        ScImage helpImage;
-        helpImage = new ScImage();
-        helpImage.css().helpTriangle().helpTooltip();
-        helpImage.setSource(getUrls().getHelpIndicatorUrl());
-        helpImage.setHoverText(getHelp());
-
-        out.render(helpImage);
+        ScImage e;
+        e = new ScImage();
+        e.css().helpTriangle().helpTooltip();
+        e.setSource(getUrls().getHelpTriangleUrl());
+        e.setHoverText(getHelp());
+        e.renderOn(out);
     }
 
     protected void renderChildOn(KmHtmlBuilder out)

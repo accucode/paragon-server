@@ -33,14 +33,8 @@ public class MyAuditLog
     }
 
     //##################################################
-    //# display
+    //# labels
     //##################################################
-
-    @Override
-    public String getDisplayString()
-    {
-        return getDomainName() + "." + getFieldName();
-    }
 
     @Override
     public String getDomainTypeLabel()
@@ -52,6 +46,37 @@ public class MyAuditLog
     public String getFieldNameLabel()
     {
         return Kmu.formatAsCapitalizedNames(getFieldName());
+    }
+
+    //##################################################
+    //# full name
+    //##################################################
+
+    public String getDomainFieldName()
+    {
+        return getDomainName() + "." + getFieldName();
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getAuditLogTitle()
+    {
+        return getDomainFieldName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getDomainFieldName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return Kmu.format("%s, %s", formatUserName(), getCreatedLocalTs().formatLocal());
     }
 
     //##################################################
@@ -84,40 +109,52 @@ public class MyAuditLog
     {
         return Kmu.format(
             "%s added %s %s; set %s = [%s].",
-            formatMessageUserName(),
+            formatUserName(),
             getDomainType(),
             getDomainName(),
             getFieldName(),
-            getNewValue());
+            formatLongNewValue());
     }
 
     private String formatUpdateMessage()
     {
         return Kmu.format(
             "%s updated %s %s; changed %s from [%s] to [%s].",
-            formatMessageUserName(),
+            formatUserName(),
             getDomainType(),
             getDomainName(),
             getFieldName(),
             getOldValue(),
-            getNewValue());
+            formatLongNewValue());
     }
 
     private String formatDeleteMessage()
     {
         return Kmu.format(
             "%s deleted %s %s; %s was [%s].",
-            formatMessageUserName(),
+            formatUserName(),
             getDomainType(),
             getDomainName(),
             getFieldName(),
             getOldValue());
     }
 
-    public String formatMessageUserName()
+    public String formatUserName()
     {
         return hasUser()
             ? getUserName()
             : MyUser.SYSTEM_NAME;
     }
+
+    public String formatLongNewValue()
+    {
+        return hasStringValue()
+            ? getStringValue()
+            : getNewValue();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
 }

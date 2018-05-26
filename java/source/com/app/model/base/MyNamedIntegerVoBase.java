@@ -8,34 +8,44 @@
 
 package com.app.model.base;
 
-import com.kodemore.utility.Kmu;
+import java.util.*;
 
-import com.app.model.MyNamedIntegerVo;
-import com.app.model.MyNamedIntegerVoTools;
-import com.app.model.MyNamedIntegerVoValidator;
-import com.app.model.core.MyAbstractValueDomain;
-import com.app.model.core.MyDomainIF;
-import com.app.model.meta.MyMetaNamedIntegerVo;
+import com.kodemore.collection.*;
+import com.kodemore.domain.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.finder.*;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.model.support.*;
+import com.app.ui.dashboard.core.*;
+import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyNamedIntegerVoBase
-    extends MyAbstractValueDomain
-    implements MyDomainIF
+    extends MyAbstractValueDomain<MyNamedIntegerVo>
+    implements KmDomainIF
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaNamedIntegerVo      Meta      = MyMetaNamedIntegerVo.instance;
-    public static final MyNamedIntegerVoTools     Tools     = MyNamedIntegerVoTools.instance;
+    public static final MyMetaNamedIntegerVo Meta = MyMetaNamedIntegerVo.instance;
+    public static final MyNamedIntegerVoTools Tools = MyNamedIntegerVoTools.instance;
     public static final MyNamedIntegerVoValidator Validator = MyNamedIntegerVoValidator.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String                                name;
-    private Integer                               value;
+    private String name;
+    private Integer value;
 
     //##################################################
     //# constructor
@@ -44,6 +54,54 @@ public abstract class MyNamedIntegerVoBase
     public MyNamedIntegerVoBase()
     {
         super();
+    }
+
+    //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -57,7 +115,7 @@ public abstract class MyNamedIntegerVoBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -97,7 +155,7 @@ public abstract class MyNamedIntegerVoBase
 
     public void setValue(Integer e)
     {
-        e = Validator.getValueValidator().convertOnly(e);
+        e = Validator.getValueValidator().convert(e);
         value = e;
     }
 
@@ -116,41 +174,21 @@ public abstract class MyNamedIntegerVoBase
         return Kmu.isEqual(getValue(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyNamedIntegerVoValidator getValidator()
     {
-        Validator.validate((MyNamedIntegerVo)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyNamedIntegerVo asSubclass()
     {
-        Validator.validateWarn((MyNamedIntegerVo)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyNamedIntegerVo)this);
+        return (MyNamedIntegerVo)this;
     }
 
     //##################################################
@@ -167,7 +205,6 @@ public abstract class MyNamedIntegerVoBase
     public void postCopy()
     {
         super.postCopy();
-        name = null;
     }
 
     /**
@@ -179,43 +216,48 @@ public abstract class MyNamedIntegerVoBase
     {
         MyNamedIntegerVo e;
         e = new MyNamedIntegerVo();
-        e.setValue(getValue());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyNamedIntegerVo e)
+    {
+        e.setName(getName());
+        e.setValue(getValue());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyNamedIntegerVo e)
+    {
+        setName(e.getName());
+        setValue(e.getValue());
     }
 
     //##################################################
     //# compare
     //##################################################
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if ( !(o instanceof MyNamedIntegerVoBase) )
-            return false;
-
-        MyNamedIntegerVoBase e = (MyNamedIntegerVoBase)o;
-        return Kmu.isEqual(getName(), e.getName());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Kmu.getHashCode(getName());
-    }
-
     public boolean isSame(MyNamedIntegerVo e)
     {
-        if ( !Kmu.isEqual(getName(), e.getName()) )
-            return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyNamedIntegerVo e)
     {
-        if ( !Kmu.isEqual(getValue(), e.getValue()) )
-            return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) )
-            return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getValue(), e.getValue()) ) return false;
         return true;
     }
 
@@ -240,8 +282,6 @@ public abstract class MyNamedIntegerVoBase
         out = new StringBuilder();
         out.append("MyNamedIntegerVo");
         out.append("(");
-        out.append("Name=");
-        out.append(name);
         out.append(")");
         return out.toString();
     }
@@ -252,6 +292,7 @@ public abstract class MyNamedIntegerVoBase
         System.out.println("    Name = " + name);
         System.out.println("    Value = " + value);
     }
+
 
     //##################################################
     //# convenience

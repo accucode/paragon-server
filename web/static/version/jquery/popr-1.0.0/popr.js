@@ -1,21 +1,19 @@
-/**
- * Popr 1.0 (modded by Wyatt Love)
- * Copyright (c) 2015 Tipue
- * popr is released under the MIT License
- * http://www.tipue.com/popr
- *
- *
- * Wyatt Love, 9/14/2016
- * Copyright (c) 2016 Accucode Inc.
- * MIT License
- * Modified the javascript and css to work correctly when used
- * inside nested relative/absolute layout. The popup is now
- * attached to the outermost html 'body' instead of attaching
- * to the original menu target. This allows the popup to be
- * correctly positioned, and also ensures that it is not clipped
- * by its container. The z-index is still hardcoded to 1000 in
- * the css but this can be adjusted as needed.
- */
+/*
+Popr 1.0 (modded by Wyatt Love)
+Copyright (c) 2015 Tipue
+popr is released under the MIT License
+http://www.tipue.com/popr
+
+Wyatt Love, 9/14/2016
+MIT License
+Modified the javascript and css to work correctly when used
+inside nested relative/absolute layout. The popup is now
+attached to the outermost html 'body' instead of attaching
+to the original menu target. This allows the popup to be
+correctly positioned, and also ensures that it is not clipped
+by its container. The z-index is still hardcoded to 1000 in
+the css but this can be adjusted as needed.
+*/
 
 (function($) {
 

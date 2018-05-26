@@ -40,4 +40,15 @@ public class MyPageRegistry
         return MyDashboardPage.getInstance();
     }
 
+    public void add(MyPage e)
+    {
+        super.add(e);
+    }
+
+    @Override
+    public MyPage findKey(String key)
+    {
+        return (MyPage)super.findKey(key);
+    }
+
 }

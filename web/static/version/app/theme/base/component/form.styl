@@ -1,160 +1,166 @@
-/*******************************************************************
- ** form area
- *******************************************************************/
+//******************************
+//** form
+//******************************
 
+
+/*
+ * The section that contains the filter,
+ * as well as the refresh and add buttons.
+ */
 .formFilter
-{
-    /*
-     * The section that contains the filter,
-     * as well as the refresh and add buttons.
-     */
+    box-sizing:         border-box
+    height:             50px
+    background-color:   $formFilterLineBackgroundColor
+    border:             1px solid $formFilterLineBorderColor
 
-    box-sizing: border-box;
-    height: 50px;
 
-    background-color: $formFilterLineBackgroundColor;
-    border: 1px solid $formFilterLineBorderColor;
-}
+//******************************
+//** banner
+//******************************
 
+/*
+ * The top section used to display a selected value.
+ * This contains the title and subtitle text, and the edit button(s).
+ */
 .formBanner
-{
-    /*
-     * The top section used to display a selected value.
-     * This contains the title and subtitle text, and the edit button(s).
-     */
+    box-sizing:         border-box
+    height:             50px
 
-    box-sizing: border-box;
-    height: 50px;
+    display:            flex
+    align-items:        center
 
-    display: flex;
-    align-items: center;
+    background-color:   #bdc
+    background-image:   linear-gradient(to bottom, #ced, #bdc)
+    border:             1px outset #fff
 
-    background-color: #bdc;
-    background-image: linear-gradient(to bottom, #ced, #bdc);
-    border: 1px outset #fff;
-}
 
+//******************************
+//** title
+//******************************
+
+/*
+ * The title text, displayed inside the banner.
+ */
 .formTitle
-{
-    /* The title text, displayed inside the banner. */
-    font: bold 1.6rem $fontFamily;
-}
+    font:               bold 1.6rem $fontFamily
 
+
+//******************************
+//** sub title
+//******************************
+
+/*
+ * The subtitle text, displayed inside the banner.
+ */
 .formSubtitle
-{
-    /* The subtitle text, displayed inside the banner. */
-    font: italic 1.2rem $fontFamily;
-}
+    font:               italic 1.2rem $fontFamily
 
+
+//******************************
+//** error
+//******************************
+
+
+/*
+ * May be used to display error messages.
+ */
 .formError
-{
-    /* May be used to display error messages. */
+    box-sizing:         border-box
 
-    box-sizing: border-box;
-
-    display: flex;
-    align-items: center;
+    display:            flex
+    align-items:        center
 
     color: #f00;
-    background-color: #fff;
-    border: 1px outset #f00;
+    background-color:   #fff
+    border:             1px outset #f00
+    padding:            10px
 
-    padding: 10px;
-}
 
+
+//******************************
+//** header
+//******************************
+
+
+/*
+ * Displayed below the banner.
+ */
 .formHeader
-{
-    /* Displayed below the banner. */
+    box-sizing:         border-box
+    height:             50px
 
-    box-sizing: border-box;
-    height: 50px;
+    display:            flex
+    align-items:        center
 
-    display: flex;
-    align-items: center;
+    background-color:   #eed
+    border:             1px outset #fff
 
-    background-color: #eed;
-    border: 1px outset #fff;
-}
 
 .formHeaderText
-{
-    /* Text displayed inside the banner. */
-    font: italic 1.8rem $fontFamily;
-}
+    font: italic 1.8rem $fontFamily
+
+
+//******************************
+//** footer
+//******************************
+
 
 .formFooter
-{
-    /* Displayed at the bottom, repeats the save/cancel buttons. */
+    box-sizing:         border-box
+    height:             50px
 
-    box-sizing: border-box;
-    height: 50px;
+    display:            flex
+    align-items:        center
 
-    display: flex;
-    align-items: center;
+    background-color:   #eed
+    border:             1px outset #fff
 
-    background-color: #eed;
-    border: 1px outset #fff;
-}
 
-.formBody
-{
-    /* The main center section where fields are displayed and edited. */
+//******************************
+//** section
+//******************************
 
-    border: 1px outset #fff;
-    background-color: #fff;
-}
-
-.formBodyCaution
-{
-    /* The main center section where fields are displayed and edited. */
-    background-color: #ffe;
-    border: 1px outset #fff;
-}
-
-.formBodyAlert
-{
-    /* The main center section where fields are displayed and edited. */
-    background-color: #fee;
-    border: 1px outset #fff;
-}
 
 .formSectionLeft
-{
-    flex-grow:   1;
-    flex-shrink: 1;
+    flex-grow:      1
+    flex-shrink:    1
+    white-space:    nowrap
+    overflow:       hidden
+    padding:        10px
 
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 10px;
-}
 
 .formSectionRight
-{
-    flex-grow:   0;
-    flex-shrink: 0;
+    flex-grow:      0
+    flex-shrink:    0
+    white-space:    nowrap
+    overflow:       hidden
+    padding:        10px
 
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 10px;
-}
+
+//******************************
+//** empty
+//******************************
+
 
 .formEmpty
-{
-    background-color: #ffe;
-    font: normal 1.4rem $fontFamily;
-    padding: 10px;
-}
+    background-color:   #ffe
+    font:               normal 1.4rem $fontFamily
+    padding:            10px
+
+
+//******************************
+//** help
+//******************************
+
 
 .formHelp
-{
-    box-sizing: border-box;
+    box-sizing:     border-box
 
-    height:       11px;
-    width:        11px;
-    padding-left: 11px; /* equal to width */
+    height:         11px
+    width:          11px
+    padding-left:   11px /* equal to width */
 
-    cursor: help;
-    vertical-align: middle;
-    background:     url(../image/fieldHelp11.png) no-repeat;
-}
+    cursor:         help
+    vertical-align: middle
+    background:     url(../image/fieldHelp11.png) no-repeat
 

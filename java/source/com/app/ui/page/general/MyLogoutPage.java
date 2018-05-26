@@ -1,6 +1,5 @@
 package com.app.ui.page.general;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -12,8 +11,9 @@ import com.kodemore.utility.Kmu;
 import com.app.ui.layout.MyPageLayoutType;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
+import com.app.ui.page.login.MyLoginPage;
+import com.app.ui.page.login.MyLoginUtility;
 import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public final class MyLogoutPage
     extends MyPage
@@ -63,20 +63,10 @@ public final class MyLogoutPage
         return MyPageLayoutType.basic;
     }
 
-    //##################################################
-    //# bookmark
-    //##################################################
-
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    public boolean allowsJumpTo()
     {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
+        return false;
     }
 
     //##################################################
@@ -137,13 +127,16 @@ public final class MyLogoutPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
     protected void preRender()
     {
-        _signInLink.setHref(MyUrls.getEntryUrl());
+        MyLoginUtility.logout();
+
+        String query = MyLoginPage.getInstance().formatQueryString();
+        _signInLink.setHref(query);
     }
 
 }

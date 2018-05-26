@@ -1,0 +1,24 @@
+model
+: name      = namedMoneyVo
+: help...
+    ---
+    This is a non-persistent domain model; it is NOT stored in the database.
+    ---
+
+attributes
+
+
+    #include basicDisplay.stf
+
+
+    field
+    : name      = name
+    : help      = The display name.
+    : type      = text100
+
+
+    field
+    : name      = value
+    : comment   = The value.
+    : type      = money
+

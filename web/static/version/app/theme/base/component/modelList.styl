@@ -1,15 +1,68 @@
-/*****************************
- ** model list
- *****************************/
+//****************************
+//* model list
+//****************************
+
 
 .modelList
     overflow-x:         hidden;
     overflow-y:         auto;
     background:         $modelList-background               if $modelList-background
 
-/*****************************
- ** item
- *****************************/
+
+//****************************
+//* paginated search
+//****************************
+
+
+.modelList-filter
+    padding:            10px
+
+
+.modelList-basicFilterContainer
+    padding-bottom:     10px
+
+
+.modelList-extendedFilterContainer
+    padding-bottom:     10px
+
+
+.modelList-extendedMessageContainer
+    display:            flex
+    flex-direction:     row
+    align-items:        center
+    padding-bottom:     10px
+
+
+.modelList-extendedMessageText
+    font:               normal 1.4rem sans-serif
+
+
+.modelList-filterActions
+    padding:            0px
+
+
+//****************************
+//* paginated navigation
+//****************************
+
+
+.modelList-navigation
+    display:            flex
+    flex-direction:     row
+    align-items:        center
+    padding:            5px
+
+
+.modelList-pageText
+    font:               bold 1.6rem sans-serif
+    color:              black
+    white-space:        nowrap
+
+
+//****************************
+//* item
+//****************************
+
 
 .modelList-item
     position:           relative
@@ -19,8 +72,9 @@
 
     margin:             $modelList-itemMargin               if $modelList-itemMargin
 
-    display:            flex;
-    align-items:        center;
+    display:            flex
+    flex-direction:     row
+    align-items:        stretch
 
     color:              $modelList-itemColor                if $modelList-itemColor
     background-color:   $modelList-itemBackground           if $modelList-itemBackground
@@ -30,16 +84,19 @@
     border-style:       $modelList-itemBorderStyle          if $modelList-itemBorderStyle
     border-color:       $modelList-itemBorderColor          if $modelList-itemBorderColor
 
+
 .modelList-item:hover
     background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
 
+
 .modelList-itemInactive
-    color:              $modelList-itemColor-inactive
-    background:         $modelList-itemBackground-inactive
+    color:              $modelList-itemColor-inactive       if $modelList-itemColor-inactive
+    background:         $modelList-itemBackground-inactive  if $modelList-itemBackground-inactive
     border-width:       $modelList-itemBorderWidth-inactive if $modelList-itemBorderWidth-inactive
     border-style:       $modelList-itemBorderStyle-inactive if $modelList-itemBorderStyle-inactive
     border-color:       $modelList-itemBorderColor-inactive if $modelList-itemBorderColor-inactive
     text-decoration:    line-through
+
 
 .modelList-itemSelected
     background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
@@ -47,22 +104,25 @@
     border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
     border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
 
+
 .modelList-itemSelected:hover
-    background:         $modelList-itemBackground-select    if $modelList-itemBackground-select
-    border-width:       $modelList-itemBorderWidth-select   if $modelList-itemBorderWidth-select
-    border-style:       $modelList-itemBorderStyle-select   if $modelList-itemBorderStyle-select
-    border-color:       $modelList-itemBorderColor-select   if $modelList-itemBorderColor-select
+    background:         $modelList-itemBackground-selectHover if $modelList-itemBackground-selectHover
 
 
-/*****************************
- ** task designer
- *****************************/
+.modelList-itemDragHandle
+    align-self:     center
+    flex-grow:      0
+    flex-shrink:    0
+    margin-left:    5px
+
+
+//****************************
+//* task designer
+//****************************
 
 .modelList-taskDesignerItem
     position:           relative
-
     box-sizing:         border-box
-
     margin:             $modelList-itemMargin               if $modelList-itemMargin
 
     display:            flex
@@ -76,62 +136,106 @@
     border-style:       $modelList-itemBorderStyle          if $modelList-itemBorderStyle
     border-color:       $modelList-itemBorderColor          if $modelList-itemBorderColor
 
+
 .modelList-taskDesignerItem:hover
     background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover
+
 
 .modelList-taskDesignerItem > div > button
     min-width:          200px;
 
 
-/*****************************
- ** error box
- *****************************/
+//****************************
+//* error box
+//****************************
+
 
 .modelList-itemErrorBox
+    display:            flex
+    flex-direction:     column
+    justify-content:    center
+
     flex-grow:          0
     flex-shrink:        0
     overflow:           hidden
     padding-left:       5px
 
-/*****************************
- ** messageBox
- *****************************/
+
+//****************************
+//* messageBox
+//****************************
+
 
 .modelList-itemMessageBox
+    display:            flex
+    flex-direction:     column
+    justify-content:    center
+
     flex-grow:          1
     flex-shrink:        1
     overflow:           hidden
     padding:            $modelList-itemMessageBoxPadding    if $modelList-itemMessageBoxPadding
 
-/*****************************
- ** title
- *****************************/
+
+//****************************
+//* title
+//****************************
+
 
 .modelList-itemTitle
     font:               $modelList-itemTitleFont            if $modelList-itemTitleFont
     color:              $modelList-itemTitleColor           if $modelList-itemTitleColor
     white-space:        nowrap
 
+
 .modelList-itemSubtitle
     font:               $modelList-itemSubtitleFont         if $modelList-itemSubtitleFont
     color:              $modelList-itemSubtitleColor        if $modelList-itemSubtitleColor
     white-space:        nowrap
 
-/*****************************
- ** menu box
- *****************************/
+
+//****************************
+//* title
+//****************************
+
+
+.modelList-itemTitle
+    font:               $modelList-itemTitleFont            if $modelList-itemTitleFont
+    color:              $modelList-itemTitleColor           if $modelList-itemTitleColor
+    white-space:        nowrap
+
+
+.modelList-itemSubtitle
+    font:               $modelList-itemSubtitleFont         if $modelList-itemSubtitleFont
+    color:              $modelList-itemSubtitleColor        if $modelList-itemSubtitleColor
+    white-space:        nowrap
+
+
+.modelList-itemInactive .modelList-itemSubtitle,
+.modelList-itemInactive .modelList-itemTitle
+    font-style:         italic
+
+
+//****************************
+//* menu box
+//****************************
+
 
 .modelList-itemMenuBoxRow
     display:            flex
     flex-direction:     row
     flex-shrink:        0
+    align-items:        center
     padding:            $modelList-itemMenuBoxPadding      if $modelList-itemMenuBoxPadding
+
 
 .modelList-itemMenuBoxRow > *
     margin-left:        5px
 
+
 .modelList-item:hover .modelList-itemMenuBoxRow
     visibility:         visible
+
 
 .modelList-itemMenuBoxColumn
     display:            flex
@@ -140,15 +244,19 @@
     padding:            5px
     margin-right:       10px
 
+
 .modelList-itemMenuBoxColumn > *
     margin-left:        5px
+
 
 .modelList-item:hover .modelList-itemMenuBoxColumn
     visibility:         visible
 
-/*****************************
- ** indicator
- *****************************/
+
+//****************************
+//* indicator
+//****************************
+
 
 .modelListItemIndicator
     if $modelList-indicatorVisible
@@ -158,21 +266,26 @@
     else
         display:        none
 
+
 .modelList-item .modelListItemIndicator
     border-color:   $formFilterIndicatorColorOff
+
 
 .modelList-itemSelected .modelListItemIndicator
     border-color:   $formFilterIndicatorColorOn
     box-shadow:     -6px 1px 17px 2px $formFilterIndicatorColorOn
 
-/*******************************************************************
- ** secondary group
- *******************************************************************/
 
-.groupSecondary .modelListItemIndicator
+//****************************
+//* list group
+//****************************
+
+
+.groupList .modelListItemIndicator
     border-color:   #FFCD1C;
 
-.groupSecondary .modelList-itemSelected .modelListItemIndicator
+
+.groupList .modelList-itemSelected .modelListItemIndicator
     border-color:   #27D1E9;
     box-shadow:     -6px 1px 17px 2px #27D1E9;
 

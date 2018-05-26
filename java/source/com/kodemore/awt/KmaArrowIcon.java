@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,11 +37,11 @@ public class KmaArrowIcon
     //# constants
     //##################################################
 
-    public static final int ARROW_NONE    = 0;
-    public static final int ARROW_UP      = 1;
-    public static final int ARROW_DOWN    = 2;
-    public static final int ARROW_LEFT    = 3;
-    public static final int ARROW_RIGHT   = 4;
+    public static final int ARROW_NONE  = 0;
+    public static final int ARROW_UP    = 1;
+    public static final int ARROW_DOWN  = 2;
+    public static final int ARROW_LEFT  = 3;
+    public static final int ARROW_RIGHT = 4;
 
     public static final int ARROW_FILL    = 0;
     public static final int ARROW_OUTLINE = 1;
@@ -50,12 +50,12 @@ public class KmaArrowIcon
     //# variables
     //##################################################
 
-    private int             _arrow;
-    private int             _width;
-    private int             _height;
-    private Insets          _insets;
-    private Color           _color;
-    private int             _drawMode;
+    private int    _arrow;
+    private int    _width;
+    private int    _height;
+    private Insets _insets;
+    private Color  _color;
+    private int    _drawMode;
 
     //##################################################
     //# constructor

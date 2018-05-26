@@ -20,5 +20,17 @@ import com.app.model.MyTenant;
  */
 public interface MyTenantDomainIF
 {
+    //##################################################
+    //# tenant
+    //##################################################
+
     MyTenant getTenant();
+
+    default String getTenantName()
+    {
+        MyTenant e = getTenant();
+        return e == null
+            ? null
+            : e.getName();
+    }
 }

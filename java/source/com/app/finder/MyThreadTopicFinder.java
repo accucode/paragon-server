@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyThreadTopicFinder
+public final class MyThreadTopicFinder
     implements KmKeyFinderIF<MyThreadTopic,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyThreadTopic staticFind(String key)
-    {
-        return new MyThreadTopicFinder().find(key);
-    }
+    public static final MyThreadTopicFinder instance = new MyThreadTopicFinder();
 
-    public static MyThreadTopic staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyThreadTopicFinder()
     {
-        return new MyThreadTopicFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyThreadTopicFinder
 
     public MyThreadTopic findDao(String key)
     {
-        MyDaoKeyFinder<MyThreadTopic,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

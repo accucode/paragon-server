@@ -21,8 +21,20 @@ public class MyFieldTest
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getUid();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getUid();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return getNameValue();
     }
 }

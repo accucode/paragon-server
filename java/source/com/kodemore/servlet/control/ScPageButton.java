@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,9 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScEnterPageScript;
 
 /**
  * A button to navigate to an page.
@@ -70,17 +71,24 @@ public class ScPageButton
         _page = e;
     }
 
+    public ScBookmark getBookmark()
+    {
+        return _page == null
+            ? null
+            : _page.newBookmark();
+    }
+
     //##################################################
     //# on click
     //##################################################
 
     @Override
-    protected String formatOnClick()
+    protected String formatEnabledOnClick()
     {
-        ScBlockScript s;
-        s = ScBlockScript.create();
-        s.enterPage(getPage());
-        return s.formatScript();
+        ScEnterPageScript e;
+        e = new ScEnterPageScript();
+        e.setUrl(getBookmark());
+        return e.formatScript();
     }
 
 }

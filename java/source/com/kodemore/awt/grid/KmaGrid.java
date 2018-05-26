@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -63,17 +63,17 @@ public class KmaGrid
     private KmaGridMouseModel       _mouseModel;
     private KmaGridActionModel      _actionModel;
 
-    private KmaGridHeaderIF         _rowHeader;
-    private KmaGridHeaderIF         _columnHeader;
+    private KmaGridHeaderIF _rowHeader;
+    private KmaGridHeaderIF _columnHeader;
 
-    private KmaGridCellRendererIF   _cellRenderer;
-    private CellRendererPane        _cellRendererPane;
+    private KmaGridCellRendererIF _cellRenderer;
+    private CellRendererPane      _cellRendererPane;
 
-    private JScrollBar              _horizontalScrollBar;
-    private JScrollBar              _verticalScrollBar;
+    private JScrollBar _horizontalScrollBar;
+    private JScrollBar _verticalScrollBar;
 
-    private boolean                 _hasGridLines;
-    private Color                   _gridLineColor;
+    private boolean _hasGridLines;
+    private Color   _gridLineColor;
 
     //##################################################
     //# constructors

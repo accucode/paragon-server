@@ -1,18 +1,35 @@
-/*******************************************************************
- ** menu
- **
- ** The top level menu.
- ** This is a relatively simple two-level css menu.
- *******************************************************************/
+//*******************************************************************
+//** menu
+//**
+//** The top level menu.
+//** This is a relatively simple two-level css menu.
+//*******************************************************************
 
 
-/*******************************************************************
- ** layout section
- *******************************************************************/
+//******************************
+//* variables
+//******************************
+
+/**
+ * The manual z-index serves two purposes.
+ *
+ * 1) It raises the menu above certain third party widgets.
+ *    For examples, the Calendar view.
+ *
+ * 2) It forces the top menu bar to display on top of the
+ *    popup menu. This simplifies the layout and styling.
+ */
+$menu-zIndex    = 50
+
+
+//******************************
+//* layout
+//******************************
+
 
 #menu
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
+
 
 .menu
     box-sizing:         border-box
@@ -29,62 +46,70 @@
     background:         $menu-background
     padding-left:       10px
 
-/*******************************************************************
- ** box
- *******************************************************************/
+
+//******************************
+//* box
+//******************************
+
 
 /*
  * The outer div that contains menu.
  * This is simple menu that relies solely on CSS (no javascript).
  */
 .menu-bar
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
+
 
 /*
  * The outer div that contains menu, used when the menu is on the right.
  */
 .menu-rightBar
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
 
-/*******************************************************************
- ** outer AND inner
- *******************************************************************/
+
+//******************************
+//* outer AND inner
+//******************************
+
 
 /*
  * Basic styling for BOTH the outer and inner menus.
  */
 .menu-bar ul
-    padding: 0
-    margin:  0
-    list-style-type: none
+    padding:            0
+    margin:             0
+    list-style-type:    none
+
 
 /*
  * Basic styling for BOTH the outer and inner menus.
  */
 .menu-bar li
-    padding: 0
-    margin:  0
-    cursor:  pointer
+    padding:            0
+    margin:             0
+    cursor:             pointer
 
-/*******************************************************************
- ** outer
- *******************************************************************/
+
+//******************************
+//* outer
+//******************************
+
 
 /*
  * Styling for the outer/top menu.
  */
 .menu-bar > ul
-    white-space: nowrap
+    white-space:        nowrap
+
 
 /*
  * The outer menu items.
  * These are always visible and are displayed in a horizontal row.
  */
 .menu-bar > ul > li
-    position: relative
-    display:  inline-block
+    position:           relative
+    display:            inline-block
+
 
 /*
  * The outer menu item text.
@@ -101,12 +126,13 @@
     line-height:                $menu-topLineHeight
     height:                     $menu-topHeight
     padding:                    $menu-topPadding
-    z-index:                    100
+    z-index:                    $menu-zIndex
 
     border:                     $menu-borderSize solid transparent
     border-bottom:              none
     border-top-left-radius:     $menu-borderRadius
     border-top-right-radius:    $menu-borderRadius
+
 
 /*
  * The outer menu item text.
@@ -118,12 +144,15 @@
     border:         $menu-borderSize solid $menu-borderColor
     border-bottom:  none
 
+
 .menu-bar > ul > li:hover > div:hover
     background:     $menu-background-hover
 
-/*******************************************************************
- ** inner
- *******************************************************************/
+
+//******************************
+//* inner
+//******************************
+
 
 /*
  * The nested sub menu.
@@ -139,17 +168,22 @@
     border-top-left-radius:     0
     border-top-right-radius:    $menu-borderRadius
     box-shadow:                 $menu-shadow
+    z-index:                    $menu-zIndex - 1
+
 
 .menu-rightBar ul ul
-    right:                      0px
+    right:                      0
     border-top-left-radius:     $menu-borderRadius
     border-top-right-radius:    0
+    z-index:                    $menu-zIndex - 1
+
 
 /*
  * Make the inner menu visible when the user hovers over the outer menu item.
  */
 .menu-bar ul li:hover ul
     visibility: visible
+
 
 /*
  * Styling for the inner menu items.
@@ -161,15 +195,18 @@
     width:      $menu-subWidth
     padding:    $menu-subPadding
 
+
 /*
  * Update the style when the user hovers over a specific sub-item.
  */
 .menu-bar ul ul li:hover
     background: $menu-background-hover
 
-/*****************************
- ** dividers
- *****************************/
+
+//******************************
+//* dividers
+//******************************
+
 
 /*
  * This may be applied to an inner menu item (li) to display a divider
@@ -177,6 +214,7 @@
  */
 .menu-topDivider
     border-top: $menu-subDividerBorder
+
 
 /*
  * This may be applied to an inner menu item (li) to display a divider

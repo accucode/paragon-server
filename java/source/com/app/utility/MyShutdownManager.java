@@ -11,8 +11,8 @@ import com.kodemore.log.KmLog;
 import com.kodemore.thread.KmThreadLocalCleaner;
 import com.kodemore.thread.KmThreadLocalManager;
 
+import com.app.chore.MyMasterChoreManager;
 import com.app.hibernate.MyHibernateConfiguration;
-import com.app.job.MyMasterJobManager;
 
 /**
  * I coordinate the process of UN-deploying the application in a
@@ -54,7 +54,7 @@ public class MyShutdownManager
      */
     private static void shutdownJobs()
     {
-        MyMasterJobManager.getInstance().stop();
+        MyMasterChoreManager.getInstance().stop();
     }
 
     /**

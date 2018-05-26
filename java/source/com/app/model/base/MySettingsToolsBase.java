@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MySettingsToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaSettings Meta = MySettings.Meta;
 
     public ScDomainDropdownField<MySettings,Integer> newDomainDropdown()
@@ -39,10 +46,10 @@ public abstract class MySettingsToolsBase
         ScDomainDropdownField<MySettings,Integer> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MySettingsFilter());
-        e.setFinder(new MySettingsFinder());
+        e.setFinder(MySettings.Finder);
+        e.setOptionSupplier(new MySettingsFilter().toSupplier());
         e.setOptionKeyFunction(Meta.Code);
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

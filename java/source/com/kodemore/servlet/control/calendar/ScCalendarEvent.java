@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,16 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDuration;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.time.KmTimestampInterval;
+import com.kodemore.time.KmTimestampRange;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.Kmu;
 
 /**
  * An event for display in a ScCalendar.
+ *
+ * @see ScCalendar
+ * @see ScListCalendar
+ * @see ScAjaxCalendar
  */
 public class ScCalendarEvent
 {
@@ -40,33 +44,69 @@ public class ScCalendarEvent
     //# constants
     //##################################################
 
-    public static final String  ID               = "id";
-    public static final String  TITLE            = "title";
-    public static final String  START            = "start";
-    public static final String  END              = "end";
-    public static final String  ALL_DAY          = "allDay";
-    public static final String  EDITABLE         = "editable";
+    public static final String ID       = "id";
+    public static final String TITLE    = "title";
+    public static final String START    = "start";
+    public static final String END      = "end";
+    public static final String ALL_DAY  = "allDay";
+    public static final String EDITABLE = "editable";
 
-    public static final String  CSS_NAME         = "className";
-    public static final String  TEXT_COLOR       = "textColor";
-    public static final String  BACKGROUND_COLOR = "backgroundColor";
-    public static final String  BORDER_COLOR     = "borderColor";
+    public static final String CSS_NAME         = "className";
+    public static final String TEXT_COLOR       = "textColor";
+    public static final String BACKGROUND_COLOR = "backgroundColor";
+    public static final String BORDER_COLOR     = "borderColor";
+    public static final String RENDERING        = "rendering";
 
     //##################################################
     //# variables
     //##################################################
 
-    private String              _uid;
-    private String              _title;
-    private KmTimestamp         _startUtcTs;
-    private KmTimestamp         _endUtcTs;
-    private boolean             _allDay;
+    /**
+     * The unique value that identifies a particular event.
+     */
+    private String _uid;
+
+    /**
+     * The title displayed at the top of the calendar.
+     */
+    private String _title;
 
     /**
      * Determine if this event is editable.
      * If null, the default rule is determined by the calendar.
      */
-    private Boolean             _editable;
+    private Boolean _editable;
+
+    //==================================================
+    //= variables :: time
+    //==================================================
+
+    /**
+     * The zone-less time at which this event starts.
+     *
+     * It is the clients responsibility to ensure that the calendar
+     * and all of its events use a consistent time zone. If this is
+     * set to 2:30am, the event will be displayed at 2:30am on the
+     * calendar - the calendar does not apply any timezone offsets.
+     *
+     * If allDay is true, this is used to determine the date
+     * of the event.
+     */
+    private KmTimestamp _startTs;
+
+    /**
+     * The zone-less time at which this event ends.
+     *
+     * See _startTs for details on timezone.
+     * This is left null for allDay events.
+     */
+    private KmTimestamp _endTs;
+
+    /**
+     * Set to true for all day events.
+     * If true, the startTs is used to determine the date.
+     */
+    private boolean _allDay;
 
     //==================================================
     //= variables :: style
@@ -78,9 +118,21 @@ public class ScCalendarEvent
      */
     private KmCssDefaultBuilder _css;
 
-    private KmHtmlColor         _backgroundColor;
-    private KmHtmlColor         _textColor;
-    private KmHtmlColor         _borderColor;
+    private KmHtmlColor _backgroundColor;
+    private KmHtmlColor _textColor;
+    private KmHtmlColor _borderColor;
+
+    /**
+     * If set to "background", the event will be rendered as a non-clickable
+     * highlight in the background, rather than a floating event in the foreground.
+     *
+     * For example, this provides an alternate mechanism for rendering the
+     * business hours. This is a more flexible approach, particularlly if
+     * the business hours span from one day to the next.
+     *
+     * https://fullcalendar.io/docs/event_rendering/Background_Events/
+     */
+    private String _rendering;
 
     //##################################################
     //# constructors
@@ -133,38 +185,38 @@ public class ScCalendarEvent
     //= start
     //==================================================
 
-    public KmTimestamp getStartUtcTs()
+    public KmTimestamp getStartTs()
     {
-        return _startUtcTs;
+        return _startTs;
     }
 
-    public void setStartUtcTs(KmTimestamp e)
+    public void setStartTs(KmTimestamp e)
     {
-        _startUtcTs = e;
+        _startTs = e;
     }
 
-    public boolean hasStartUtcTs()
+    public boolean hasStartTs()
     {
-        return getStartUtcTs() != null;
+        return getStartTs() != null;
     }
 
     //==================================================
     //= end
     //==================================================
 
-    public KmTimestamp getEndUtcTs()
+    public KmTimestamp getEndTs()
     {
-        return _endUtcTs;
+        return _endTs;
     }
 
-    public void setEndUtcTs(KmTimestamp e)
+    public void setEndTs(KmTimestamp e)
     {
-        _endUtcTs = e;
+        _endTs = e;
     }
 
-    public boolean hasEndUtcTs()
+    public boolean hasEndTs()
     {
-        return getEndUtcTs() != null;
+        return getEndTs() != null;
     }
 
     //==================================================
@@ -205,6 +257,11 @@ public class ScCalendarEvent
         css().setValue(e);
     }
 
+    public boolean hasCss()
+    {
+        return _css.hasValue();
+    }
+
     private KmCssDefaultBuilder css()
     {
         return _css;
@@ -233,6 +290,26 @@ public class ScCalendarEvent
     public void setCssStyleC()
     {
         css().clear().calendar_eventC();
+    }
+
+    public void setCssStyleD()
+    {
+        css().clear().calendar_eventD();
+    }
+
+    public void setCssStyleE()
+    {
+        css().clear().calendar_eventE();
+    }
+
+    public void setCssStyleF()
+    {
+        css().clear().calendar_eventF();
+    }
+
+    public void addCssClickable()
+    {
+        css().calendar_clickable();
     }
 
     //==================================================
@@ -311,60 +388,84 @@ public class ScCalendarEvent
         return _editable != null;
     }
 
+    //==================================================
+    //= rendering
+    //==================================================
+
+    public String getRenderingMode()
+    {
+        return _rendering;
+    }
+
+    public void setRenderingMode(String e)
+    {
+        _rendering = e;
+    }
+
+    public void setRenderingBackground()
+    {
+        setRenderingMode("background");
+    }
+
+    public boolean hasRenderingMode()
+    {
+        return Kmu.hasValue(getRenderingMode());
+    }
+
     //##################################################
     //# convenience
     //##################################################
 
-    public KmTimestampInterval getUtcInterval()
+    public KmTimestampRange toRange()
     {
-        return KmTimestampInterval.create(getStartUtcTs(), getEndUtcTs());
+        return getStartTs().toRange(getEndTs());
     }
 
-    public KmDuration getDuration()
+    public KmDuration toDuration()
     {
-        return getUtcInterval().getDuration();
+        return toRange().toDuration();
     }
 
     public void setStartDate(KmDate e)
     {
         if ( e == null )
-            setStartUtcTs(null);
+            setStartTs(null);
         else
-            setStartUtcTs(e.getStartOfDay());
+            setStartTs(e.getStartOfDay());
     }
 
     public void setEndDate(KmDate date)
     {
         if ( date == null )
-            setEndUtcTs(null);
+            setEndTs(null);
         else
-            setEndUtcTs(date.getEndOfDay());
+            setEndTs(date.getEndOfDay());
     }
 
     //##################################################
     //# format
     //##################################################
 
-    private String getStartIsoUtcString()
+    private String getStartIsoString()
     {
-        if ( !hasStartUtcTs() )
+        if ( !hasStartTs() )
             return null;
 
         if ( isAllDay() )
-            return getStartUtcTs().getDate().formatIso();
+            return getStartTs().getDate().formatIso();
 
-        return getStartUtcTs().formatIsoUtc();
+        return getStartTs().formatIsoUtc();
     }
 
-    private String getEndIsoUtcString()
+    private String getEndIsoString()
     {
-        if ( !hasEndUtcTs() )
+        if ( !hasEndTs() )
             return null;
 
         if ( isAllDay() )
-            return getEndUtcTs().getDate().formatIso();
+            return getEndTs().getDate().formatIso();
 
-        return getEndUtcTs().formatIsoUtc();
+        return getEndTs().formatIsoUtc();
     }
 
     public KmJsonMap toJsonMap()
@@ -373,17 +474,16 @@ public class ScCalendarEvent
         map = new KmJsonMap();
         map.setString(ID, getUid());
         map.setString(TITLE, getTitle());
-        map.setString(START, getStartIsoUtcString());
+        map.setString(START, getStartIsoString());
         map.setBoolean(ALL_DAY, getAllDay());
 
-        if ( hasEndUtcTs() )
-            map.setString(END, getEndIsoUtcString());
+        if ( hasEndTs() )
+            map.setString(END, getEndIsoString());
 
         if ( hasEditable() )
             map.setBoolean(EDITABLE, getEditable());
 
-        KmCssDefaultBuilder css = css();
-        if ( css.hasValue() )
+        if ( hasCss() )
             map.setString(CSS_NAME, css().getValue());
 
         if ( hasTextColor() )
@@ -394,6 +494,9 @@ public class ScCalendarEvent
 
         if ( hasBorderColor() )
             map.setString(BORDER_COLOR, getBorderColor().getHexValue());
+
+        if ( hasRenderingMode() )
+            map.setString(RENDERING, getRenderingMode());
 
         return map;
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,10 +25,10 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 
 /**
- * I simply render my children.  
- * 
- * I do NOT provide any additional wrapping elements or layout.  
- * I do not have an htmlId, style, or css of my own. If I do not 
+ * I simply render my children.
+ *
+ * I do NOT provide any additional wrapping elements or layout.
+ * I do not have an htmlId, style, or css of my own. If I do not
  * contain any children, then I do not generate any html.
  */
 public class ScSimpleContainer

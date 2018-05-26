@@ -55,6 +55,14 @@ public class KmTuple<K, V>
         return Kmu.isEqual(getKey(), e);
     }
 
+    public Comparable<?> getComparableKey()
+    {
+        K key = getKey();
+        return key instanceof Comparable
+            ? (Comparable<?>)key
+            : key + "";
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -72,5 +80,23 @@ public class KmTuple<K, V>
     public boolean hasValue(V e)
     {
         return Kmu.isEqual(getValue(), e);
+    }
+
+    public Comparable<?> getComparableValue()
+    {
+        V value = getValue();
+        return value instanceof Comparable
+            ? (Comparable<?>)value
+            : value + "";
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String toString()
+    {
+        return Kmu.format("%s => %s", getKey(), getValue());
     }
 }

@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyOptimisticLockBase
-    extends MyAbstractDaoDomain
-    implements MyDomainIF
+    extends MyAbstractDaoDomain<MyOptimisticLock>
+    implements KmDomainIF
 {
     //##################################################
     //# static
@@ -37,6 +39,7 @@ public abstract class MyOptimisticLockBase
     public static final MyMetaOptimisticLock Meta = MyMetaOptimisticLock.instance;
     public static final MyOptimisticLockTools Tools = MyOptimisticLockTools.instance;
     public static final MyOptimisticLockValidator Validator = MyOptimisticLockValidator.instance;
+    public static final MyOptimisticLockFinder Finder = MyOptimisticLockFinder.instance;
 
     //##################################################
     //# variables
@@ -56,6 +59,54 @@ public abstract class MyOptimisticLockBase
     }
 
     //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -66,7 +117,7 @@ public abstract class MyOptimisticLockBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -106,7 +157,7 @@ public abstract class MyOptimisticLockBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -125,42 +176,21 @@ public abstract class MyOptimisticLockBase
         return Kmu.isEqual(getLockVersion(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyOptimisticLockValidator getValidator()
     {
-        Validator.validate((MyOptimisticLock)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyOptimisticLock asSubclass()
     {
-        Validator.validateWarn((MyOptimisticLock)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyOptimisticLock)this);
+        return (MyOptimisticLock)this;
     }
 
     //##################################################
@@ -189,7 +219,26 @@ public abstract class MyOptimisticLockBase
     {
         MyOptimisticLock e;
         e = new MyOptimisticLock();
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyOptimisticLock e)
+    {
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyOptimisticLock e)
+    {
     }
 
     //##################################################
@@ -220,8 +269,10 @@ public abstract class MyOptimisticLockBase
 
     public boolean isSameIgnoringKey(MyOptimisticLock e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 

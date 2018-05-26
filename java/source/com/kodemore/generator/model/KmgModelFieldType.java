@@ -15,8 +15,8 @@ public class KmgModelFieldType
     //# variables
     //##################################################
 
-    private String         _name;
-    private String         _comment;
+    private String _name;
+    private String _comment;
 
     private KmProtoType    _protoType;
     private Integer        _minimumLength;
@@ -26,11 +26,14 @@ public class KmgModelFieldType
     private KmList<String> _validCharacters;
     private Integer        _columnWidth;
 
-    private boolean        _forcesLowerCase;
-    private boolean        _forcesUpperCase;
-    private boolean        _stripsLeadingZeros;
-    private boolean        _stripsAllSpaces;
-    private boolean        _stripsAllDashes;
+    private boolean _forcesLowerCase;
+    private boolean _forcesUpperCase;
+    private boolean _stripsLeadingZeros;
+    private boolean _stripsAllSpaces;
+    private boolean _stripsAllDashes;
+
+    private String _minimumValue;
+    private String _maximumValue;
 
     //##################################################
     //# constuctor
@@ -159,6 +162,11 @@ public class KmgModelFieldType
         return hasProtoType(MONEY);
     }
 
+    public boolean isQuantity()
+    {
+        return hasProtoType(QUANTITY);
+    }
+
     public boolean isKilogram()
     {
         return hasProtoType(KILOGRAM);
@@ -263,6 +271,40 @@ public class KmgModelFieldType
     public void setRightDigits(Integer e)
     {
         _rightDigits = e;
+    }
+
+    //##################################################
+    //# min/max value
+    //##################################################
+
+    public String getMinimumValue()
+    {
+        return _minimumValue;
+    }
+
+    public void setMinimumValue(String e)
+    {
+        _minimumValue = e;
+    }
+
+    public boolean hasMinimumValue()
+    {
+        return Kmu.hasValue(_minimumValue);
+    }
+
+    public String getMaximumValue()
+    {
+        return _maximumValue;
+    }
+
+    public void setMaximumValue(String e)
+    {
+        _maximumValue = e;
+    }
+
+    public boolean hasMaximumValue()
+    {
+        return Kmu.hasValue(_maximumValue);
     }
 
     //##################################################
@@ -389,7 +431,9 @@ public class KmgModelFieldType
             "stripLeadingZeros",
             "stripAllSpaces",
             "stripAllDashes",
-            "columnWidth");
+            "columnWidth",
+            "minimumValue",
+            "maximumValue");
 
         checkAttributeValues(
             x,
@@ -420,6 +464,8 @@ public class KmgModelFieldType
         _stripsAllSpaces = parseBoolean(x, "stripAllSpaces");
         _stripsAllDashes = parseBoolean(x, "stripAllDashes");
         _columnWidth = parseInteger(x, "columnWidth", null);
+        _minimumValue = parseString(x, "minimumValue", null);
+        _maximumValue = parseString(x, "maximumValue", null);
     }
 
     @Override
@@ -437,16 +483,6 @@ public class KmgModelFieldType
     //##################################################
     //# formatting
     //##################################################
-
-    public String toSqlType()
-    {
-        return getProtoType().getDatabaseType(this);
-    }
-
-    public String toSqlGetter()
-    {
-        return getProtoType().formatSqlGetter();
-    }
 
     public String toJavaType()
     {

@@ -1,0 +1,305 @@
+//******************************
+//** variables
+//******************************
+
+$setupGuideBlueBorderColor              = #b3b2ff
+$setupGuideBlueBorder                   = 1px solid $setupGuideBlueBorderColor
+$setupGuideBlueBackground               = #f1f9ff
+
+$setupGuideDarkBlueBorderColor          = #17b
+$setupGuideDarkBlueBorder               = 1px solid $setupGuideDarkBlueBorderColor
+$setupGuideDarkBlueBackground           = #f1f9fe
+
+$setupGuideGreenBorderColor             = #76c56d
+$setupGuideGreenBorder                  = 1px solid $setupGuideGreenBorderColor
+$setupGuideGreenBackground              = #e1f6e1
+
+$setupGuideGrayBorderColor              = #ababab
+$setupGuideGrayBorder                   = 1px solid $setupGuideGrayBorderColor
+$setupGuideGrayBackground               = #eeeeee
+
+$setupGuideOrangeBorderColor            = #fb0
+$setupGuideOrangeBorder                 = 1px solid $setupGuideOrangeBorderColor
+$setupGuideOrangeBackground             = #fbf4df
+
+$setupGuidePurpleBorderColor            = #8d90ff
+$setupGuidePurpleBorder                 = 1px solid $setupGuidePurpleBorderColor
+$setupGuidePurpleBackground             = #edeeff
+
+$setupGuideLightGrayBorderColor         = #ddd
+$setupGuideLightGrayBorder              = 1px solid $setupGuideLightGrayBorderColor
+$setupGuideLightGrayBackground          = #fafafa
+
+$setupGuideEmptyCardColor               = #888
+
+$setupGroupProjectBorder                = $group-borderSize $group-borderStyle $setupGuideDarkBlueBorderColor
+$setupGroupProjectBannerColor           = $group-normal-bannerColor
+$setupGroupProjectBannerBackground      = $setupGuideDarkBlueBorderColor
+$setupGroupProjectHeaderColor           = $group-normal-headerColor
+$setupGroupProjectHeaderBackground      = $setupGuideDarkBlueBackground
+$setupGroupProjectBodyColor             = $group-normal-bodyColor
+$setupGroupProjectBodyBackground        = $setupGuideDarkBlueBackground
+$setupGroupProjectFooterColor           = $group-normal-footerColor
+$setupGroupProjectFooterBackground      = $setupGuideDarkBlueBackground
+
+$setupGroupElementBorder                = $group-borderSize $group-borderStyle $setupGuideOrangeBorderColor
+$setupGroupElementBannerColor           = $group-normal-bannerColor
+$setupGroupElementBannerBackground      = $setupGuideOrangeBorderColor
+$setupGroupElementHeaderColor           = $group-normal-headerColor
+$setupGroupElementHeaderBackground      = $setupGuideOrangeBackground
+$setupGroupElementBodyColor             = $group-normal-bodyColor
+$setupGroupElementBodyBackground        = $setupGuideOrangeBackground
+$setupGroupElementFooterColor           = $group-normal-footerColor
+$setupGroupElementFooterBackground      = $setupGuideOrangeBackground
+
+$setupGroupCatalogBorder                = $group-borderSize $group-borderStyle $setupGuidePurpleBorderColor
+$setupGroupCatalogBannerColor           = $group-normal-bannerColor
+$setupGroupCatalogBannerBackground      = $setupGuidePurpleBorderColor
+$setupGroupCatalogHeaderColor           = $group-normal-headerColor
+$setupGroupCatalogHeaderBackground      = $setupGuidePurpleBackground
+$setupGroupCatalogBodyColor             = $group-normal-bodyColor
+$setupGroupCatalogBodyBackground        = $setupGuidePurpleBackground
+$setupGroupCatalogFooterColor           = $group-normal-footerColor
+$setupGroupCatalogFooterBackground      = $setupGuidePurpleBackground
+
+$setupGroupProcessBorder                = $group-borderSize $group-borderStyle $setupGuideGreenBorderColor
+$setupGroupProcessBannerColor           = $group-normal-bannerColor
+$setupGroupProcessBannerBackground      = $setupGuideGreenBorderColor
+$setupGroupProcessHeaderColor           = $group-normal-headerColor
+$setupGroupProcessHeaderBackground      = $setupGuideGreenBackground
+$setupGroupProcessBodyColor             = $group-normal-bodyColor
+$setupGroupProcessBodyBackground        = $setupGuideGreenBackground
+$setupGroupProcessFooterColor           = $group-normal-footerColor
+$setupGroupProcessFooterBackground      = $setupGuideGreenBackground
+
+
+//******************************
+//** guide items
+//******************************
+
+
+.setupGuideItem
+    box-sizing:         border-box
+
+    overflow:           hidden
+    display:            flex
+
+
+.setupGuideItem:hover
+    box-shadow:         3px 3px 3px 0px rgba(0,0,0,0.4)
+    cursor:             pointer
+
+
+.setupGuideItem  img
+    margin:             0px
+    padding:            0px
+    height:             64px
+    width:              64px
+    border:             none
+
+
+//******************************
+//** home page
+//******************************
+
+
+.setupGuideHomeItem
+    flex-direction:     column
+    align-items:        center
+    padding:            20px
+    width:              300px
+
+
+//******************************
+//** project type
+//******************************
+
+
+.setupGuideProjectType
+    flex-direction:     column
+    align-items:        center
+    width:              400px
+
+
+.setupGuideProjectTypeSelected
+    outline:            2px solid #3988ff
+
+
+//******************************
+//** guide items :: colors
+//******************************
+
+
+.setupGuideItemBlue
+    border:             $setupGuideBlueBorder
+    background-color:   $setupGuideBlueBackground
+
+
+.setupGuideItemGreen
+    border:             $setupGuideGreenBorder
+    background-color:   $setupGuideGreenBackground
+
+
+.setupGuideItemGray
+    border:             $setupGuideGrayBorder
+    background-color:   $setupGuideGrayBackground
+
+
+//******************************
+//** guide items :: sections
+//******************************
+
+
+.setupGuideSection
+    flex-grow:          0
+    flex-shrink:        0
+    border:             $setupGuideLightGrayBorder
+    background-color:   $setupGuideLightGrayBackground
+
+
+.setupGuideProjectItem
+    border:             $setupGuideDarkBlueBorder
+    background-color:   $setupGuideDarkBlueBackground
+
+
+.setupGuideElementItem
+    border:             $setupGuideOrangeBorder
+    background-color:   $setupGuideOrangeBackground
+
+
+.setupGuideCatalogItem
+    border:             $setupGuidePurpleBorder
+    background-color:   $setupGuidePurpleBackground
+
+
+.setupGuideProcessItem
+    border:             $setupGuideGreenBorder
+    background-color:   $setupGuideGreenBackground
+
+
+//******************************
+//** group :: project
+//******************************
+
+
+.setupGroupProject
+    border:             $setupGroupProjectBorder
+
+
+.setupGroupProject > .groupBannerHeader > .groupBanner
+    color:              $setupGroupProjectBannerColor
+    background:         $setupGroupProjectBannerBackground
+
+
+.setupGroupProject > .groupBannerHeader > .groupHeader
+    color:              $setupGroupProjectHeaderColor
+    background:         $setupGroupProjectHeaderBackground
+
+
+.setupGroupProject > .groupBody
+    color:              $setupGroupProjectBodyColor
+    background:         $setupGroupProjectBodyBackground
+
+
+.setupGroupProject > .groupFooter
+    color:              $setupGroupProjectBodyColor
+    background:         $setupGroupProjectBodyBackground
+
+
+//******************************
+//** group :: elements
+//******************************
+
+
+.setupGroupElement
+    border:             $setupGroupElementBorder
+
+
+.setupGroupElement > .groupBannerHeader > .groupBanner
+    color:              $setupGroupElementBannerColor
+    background:         $setupGroupElementBannerBackground
+
+
+.setupGroupElement > .groupBannerHeader > .groupHeader
+    color:              $setupGroupElementHeaderColor
+    background:         $setupGroupElementHeaderBackground
+
+
+.setupGroupElement > .groupBody
+    color:              $setupGroupElementBodyColor
+    background:         $setupGroupElementBodyBackground
+
+
+.setupGroupElement > .groupFooter
+    color:              $setupGroupElementBodyColor
+    background:         $setupGroupElementBodyBackground
+
+
+//******************************
+//** group :: catalog
+//******************************
+
+
+.setupGroupCatalog
+    border:             $setupGroupCatalogBorder
+
+
+.setupGroupCatalog > .groupBannerHeader > .groupBanner
+    color:              $setupGroupCatalogBannerColor
+    background:         $setupGroupCatalogBannerBackground
+
+
+.setupGroupCatalog > .groupBannerHeader > .groupHeader
+    color:              $setupGroupCatalogHeaderColor
+    background:         $setupGroupCatalogHeaderBackground
+
+
+.setupGroupCatalog > .groupBody
+    color:              $setupGroupCatalogBodyColor
+    background:         $setupGroupCatalogBodyBackground
+
+
+.setupGroupCatalog > .groupFooter
+    color:              $setupGroupCatalogBodyColor
+    background:         $setupGroupCatalogBodyBackground
+
+
+//******************************
+//** group :: process
+//******************************
+
+
+.setupGroupProcess
+    border:             $setupGroupProcessBorder
+
+
+.setupGroupProcess > .groupBannerHeader > .groupBanner
+    color:              $setupGroupProcessBannerColor
+    background:         $setupGroupProcessBannerBackground
+
+
+.setupGroupProcess > .groupBannerHeader > .groupHeader
+    color:              $setupGroupProcessHeaderColor
+    background:         $setupGroupProcessHeaderBackground
+
+
+.setupGroupProcess > .groupBody
+    color:              $setupGroupProcessBodyColor
+    background:         $setupGroupProcessBodyBackground
+
+
+.setupGroupProcess > .groupFooter
+    color:              $setupGroupProcessBodyColor
+    background:         $setupGroupProcessBodyBackground
+
+
+//******************************
+//** empty card
+//******************************
+
+
+.setupGuideEmptyCard
+    color:              $setupGuideEmptyCardColor
+    border:             $setupGuideLightGrayBorder
+    background-color:   $setupGuideLightGrayBackground
+

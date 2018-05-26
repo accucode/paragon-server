@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ package com.kodemore.edi;
 import java.io.StringWriter;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
 
@@ -93,7 +94,7 @@ public class KmEdiInterchangeParserTest
             KmEdiWriter ew = new KmEdiWriter(sw);
             ew.writeInterchange(x);
             ew.flush();
-            Kmu.writeFile("c:/temp/edi/c2.dat", sw.toString());
+            KmFiles.writeString("c:/temp/edi/c2.dat", sw.toString());
         }
         catch ( Exception ex )
         {
@@ -103,8 +104,8 @@ public class KmEdiInterchangeParserTest
 
     private static void testCompare()
     {
-        String a = Kmu.readFileString("c:/temp/edi/c.dat");
-        String b = Kmu.readFileString("c:/temp/edi/c2.dat");
+        String a = KmFiles.readString("c:/temp/edi/c.dat");
+        String b = KmFiles.readString("c:/temp/edi/c2.dat");
         System.out.println("Match: " + a.equals(b));
     }
 }

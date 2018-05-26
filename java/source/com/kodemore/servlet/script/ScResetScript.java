@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import com.kodemore.string.KmStringBuilder;
 /**
  * Reset fields to their "old value".  This relies the extra 'data' attributes
  * that many of our custom fields encode into the dom.
- * E.g.: <input km-old-value='xxx'>.
+ * E.g.: <input km-old-value='sample'>.
  *
  * You can specify either a source, or a target, but should usually not specify both.
  * If neither is specified, the reset will apply to the entire page.
@@ -46,7 +46,7 @@ public class ScResetScript
      * which is then used as the target.  If no enclosing scope is
      * found reset the entire page.
      */
-    private ScControl  _source;
+    private ScControl _source;
 
     /**
      * If set, use this as the target.  Is is only used when a button

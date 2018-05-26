@@ -32,19 +32,19 @@ public class KmAuthnetTest
     //# constants
     //##################################################
 
-    private static boolean       PRINT_WARNING     = true;
+    private static boolean PRINT_WARNING = true;
 
-    private static final String  apiLogin          = null;
-    private static final String  transactionKey    = null;
-    private static final String  refId             = null;
+    private static final String apiLogin       = null;
+    private static final String transactionKey = null;
+    private static final String refId          = null;
 
     private static final Integer customerProfileId = null;
     private static final Integer paymentProfileId  = null;
 
-    private static final String  cardNumber        = "4111111111111111";
-    private static final String  cardExpiry        = "2020-12";
+    private static final String cardNumber = "4111111111111111";
+    private static final String cardExpiry = "2020-12";
 
-    private static final boolean USE_PRODUCTION    = false;
+    private static final boolean USE_PRODUCTION = false;
 
     //##################################################
     //# main

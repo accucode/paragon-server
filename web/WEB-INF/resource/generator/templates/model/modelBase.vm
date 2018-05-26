@@ -5,6 +5,7 @@ package ${package}.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -12,6 +13,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import ${package}.finder.*;
 import ${package}.model.*;
 import ${package}.model.core.*;
 import ${package}.model.meta.*;
@@ -21,11 +23,11 @@ import ${package}.utility.*;
 
 @SuppressWarnings("all")
 public abstract class $model.f_BaseClass
-    extends $model.f_Superclass
+    extends $model.f_Superclass<$model.f_Class>
 #if ( $model.hasPrimaryKeyUid() )
-    implements MyUidDomainIF
+    implements KmUidDomainIF
 #else
-    implements MyDomainIF
+    implements KmDomainIF
 #end
 #if ( $model.isSequenceIF() )
     ,KmSequenceIF
@@ -39,6 +41,9 @@ $utility.protocol("static")
     public static final ${model.f_MetaClass} Meta = ${model.f_MetaClass}.instance;
     public static final ${model.f_ToolsClass} Tools = ${model.f_ToolsClass}.instance;
     public static final ${model.f_ValidatorClass} Validator = ${model.f_ValidatorClass}.instance;
+#if ( $model.hasDatabase() )
+    public static final ${model.f_FinderClass} Finder = ${model.f_FinderClass}.instance;
+#end
 
 $utility.protocol("variables")
 
@@ -55,7 +60,12 @@ $utility.protocol("constructor")
         super();
 #foreach ( $e in $model.fields )
 #if ( $e.hasDefaultValue() )
+#if ( $e.isDefaultModeSetter() )
         ${e.f_setMethod}($e.f_defaultValue);
+#end
+#if ( $e.isDefaultModeIvar() )
+        $e.f_variable = $e.f_defaultValue;
+#end
 #end
 #end
 #foreach ( $e in $model.associations )
@@ -92,7 +102,7 @@ $utility.protocol("field (${field.Name})")
 #end
     public void ${field.f_setMethod}(${field.f_Type} e)
     {
-        e = Validator.get${field.f_Name}Validator().convertOnly(e);
+        e = Validator.get${field.f_Name}Validator().convert(e);
 #if ( $field.onChangeMethods.isEmpty() )
         ${field.f_variable} = e;
 #else
@@ -137,11 +147,6 @@ $utility.protocol("field (${field.Name})")
         if ( ${field.f_getMethod}() == null )
             return false;
         return ${field.f_getMethod}();
-    }
-
-    public boolean isNot${field.f_Name}()
-    {
-        return !is${field.f_Name}();
     }
 
     public boolean is${field.f_Name}(Boolean b)
@@ -202,11 +207,6 @@ $utility.protocol("field (${field.Name})")
     public boolean is${field.enum.f_Name}${value.f_Name}()
     {
         return ${field.enum.f_hasMethod}(${field.enum.f_Class}.${value.f_Name});
-    }
-
-    public boolean isNot${field.enum.f_Name}${value.f_Name}()
-    {
-        return !is${field.enum.f_Name}${value.f_Name}();
     }
 
 #end
@@ -398,20 +398,15 @@ $utility.protocol("on change")
 $utility.protocol("validate")
 
     @Override
-    public void validate()
+    protected final ${model.f_ValidatorClass} getValidator()
     {
-        Validator.validate((${model.f_Class})this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final ${model.f_Class} asSubclass()
     {
-        Validator.validateWarn((${model.f_Class})this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((${model.f_Class})this);
+        return (${model.f_Class})this;
     }
 
 $utility.protocol("copy")
@@ -474,6 +469,20 @@ $utility.protocol("copy")
     {
         ${model.f_Class} e;
         e = new ${model.f_Class}();
+        applyEditableFieldsTo(e);
+#if ( $model.isBasicTimestampsIF() )
+        resetBasicTimestamps();
+#end
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(${model.f_Class} e)
+    {
 #foreach ( $field in $model.editableFields )
 #if ( $field.isNotPrimaryKey() )
 #if ( $field.isNotLockVersion() )
@@ -481,10 +490,22 @@ $utility.protocol("copy")
 #end
 #end
 #end
-#if ( $model.isBasicTimestampsIF() )
-        resetBasicTimestamps();
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(${model.f_Class} e)
+    {
+#foreach ( $field in $model.editableFields )
+#if ( $field.isNotPrimaryKey() )
+#if ( $field.isNotLockVersion() )
+        ${field.f_setMethod}(e.${field.f_getMethod}());
 #end
-        return e;
+#end
+#end
     }
 
 $utility.protocol("compare")
@@ -561,6 +582,7 @@ $utility.protocol("display")
 #end
     }
 
+#if ( $model.hasDatabase() )
 #if ( $model.hasPrimaryKey() )
     /**
      * Format the primary key fields in a comma separated list.  The format
@@ -586,6 +608,7 @@ $utility.protocol("display")
 #end
     }
 
+#end
 #end
 
 $utility.protocol("convenience")

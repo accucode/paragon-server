@@ -2,7 +2,7 @@ package com.kodemore.hibernate;
 
 import com.kodemore.hibernate.basic.KmhElement;
 import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimeInterval;
+import com.kodemore.time.KmTimeRange;
 
 public class KmhTimeCondition
     extends KmhPropertyCondition<KmDate>
@@ -11,21 +11,21 @@ public class KmhTimeCondition
     //# constructor
     //##################################################
 
-    public KmhTimeCondition(KmhElement context, String property)
+    public KmhTimeCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 
     //##################################################
     //# testing
     //##################################################
 
-    public void isIn(KmTimeInterval ti)
+    public void isIn(KmTimeRange ti)
     {
         if ( ti.hasStart() )
-            context().addGreaterThanOrEqualTo(property(), ti.getStart());
+            context().addGreaterThanOrEqualTo(fullName(), ti.getStart());
 
         if ( ti.hasEnd() )
-            context().addLessThanOrEqualTo(property(), ti.getEnd());
+            context().addLessThanOrEqualTo(fullName(), ti.getEnd());
     }
 }

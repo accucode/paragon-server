@@ -2,15 +2,16 @@ package com.app.ui.layout;
 
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.ui.control.MyDialog;
+import com.app.ui.control.MyFormDialog;
 
 public class MyChangePasswordDialog
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
@@ -36,7 +37,8 @@ public class MyChangePasswordDialog
     private void install()
     {
         setLabel("Change Password");
-        getForm().setSubmitAction(this::handleSave);
+        ScForm r = getDialogRoot();
+        r.onSubmit(newUncheckedAction(this::handleSave));
 
         installHeader();
         installBody();
@@ -76,7 +78,7 @@ public class MyChangePasswordDialog
         ScDiv footer;
         footer = showFooter().addButtonBox();
         footer.addSaveButton();
-        footer.addCancelButton(this::ajaxClose);
+        footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //==================================================
@@ -126,13 +128,13 @@ public class MyChangePasswordDialog
     }
 
     //##################################################
-    //# handle
+    //# validate
     //##################################################
 
-    private void handleSave()
+    @Override
+    public void validate()
     {
-        ajaxHideAllErrors();
-        validate();
+        super.validate();
 
         String old = _oldPasswordField.getValue();
         String new1 = _newPasswordField.getValue();
@@ -142,18 +144,34 @@ public class MyChangePasswordDialog
         if ( !u.hasPassword(old) )
         {
             _oldPasswordField.ajaxFocus();
-            _oldPasswordField.error("Invalid.");
+            _oldPasswordField.addError("Invalid.");
+            return;
         }
 
         if ( Kmu.isNotEqual(new1, new2) )
         {
             _retypePasswordField.ajaxClearFieldValue();
             _retypePasswordField.ajaxFocus();
-            _retypePasswordField.error("Passwords did not match.");
+            _retypePasswordField.addError("Passwords did not match.");
         }
+    }
 
-        u.setPassword(new1);
-        daoFlush();
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleSave()
+    {
+        ajaxHideAllErrors();
+        validateAndCheck();
+
+        String password = _newPasswordField.getValue();
+
+        MyUser u;
+        u = getGlobals().getCurrentUser();
+        u.setPassword(password);
+
+        getAccess().flush();
         ajaxClose();
     }
 }

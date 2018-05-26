@@ -3,7 +3,7 @@ package com.kodemore.javaParser;
 import java.io.File;
 
 import com.kodemore.file.KmFile;
-import com.kodemore.utility.Kmu;
+import com.kodemore.utility.KmFiles;
 
 public class KmParser
 {
@@ -11,21 +11,21 @@ public class KmParser
     //# constants
     //##################################################
 
-    public static final char   QUOTE     = '"';
-    public static final char   TICK      = '\'';
-    public static final char   BACKSPACE = '\\';
+    public static final char QUOTE     = '"';
+    public static final char TICK      = '\'';
+    public static final char BACKSPACE = '\\';
 
-    public static final String CR        = "\r";
-    public static final String LF        = "\n";
-    public static final String CRLF      = CR + LF;
+    public static final String CR   = "\r";
+    public static final String LF   = "\n";
+    public static final String CRLF = CR + LF;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String             _source;
-    private char[]             _array;
-    private int                _index;
+    private String _source;
+    private char[] _array;
+    private int    _index;
 
     //##################################################
     //# accessing
@@ -45,13 +45,13 @@ public class KmParser
 
     public void setSourceFile(String path)
     {
-        String s = Kmu.readFileString(path);
+        String s = KmFiles.readString(path);
         setSource(s);
     }
 
     public void setSourceFile(File f)
     {
-        String s = Kmu.readFileString(f);
+        String s = KmFiles.readString(f);
         setSource(s);
     }
 

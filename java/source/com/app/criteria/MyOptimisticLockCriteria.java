@@ -37,17 +37,31 @@ public class MyOptimisticLockCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereNameIs(MyOptimisticLock e)
+    {
+        whereName().is(e.getName());
+    }
+
+    public void whereNameIsNot(MyOptimisticLock e)
+    {
+        whereName().isNot(e.getName());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
     public KmhStringCondition whereName()
     {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -34,17 +34,36 @@ public class ScFieldset
     //# constants
     //##################################################
 
-    private static final String PREFIX         = KmCssDefaultConstantsIF.fieldset_prefix;
-    private static final String PART_BODY      = KmCssDefaultConstantsIF.fieldset_part_body;
-    private static final String PART_LEGEND    = KmCssDefaultConstantsIF.fieldset_part_legend;
+    private static final String PREFIX      = KmCssDefaultConstantsIF.fieldset_prefix;
+    private static final String PART_BODY   = KmCssDefaultConstantsIF.fieldset_part_body;
+    private static final String PART_LEGEND = KmCssDefaultConstantsIF.fieldset_part_legend;
 
     private static final String FLAVOR_DEFAULT = KmCssDefaultConstantsIF.fieldset_flavor_default;
+    private static final String FLAVOR_WARNING = KmCssDefaultConstantsIF.fieldset_flavor_warning;
+
+    //##################################################
+    //# instance creation
+    //##################################################
+
+    public static final ScFieldset createWith(String label, ScControl c)
+    {
+        ScFieldset e;
+        e = new ScFieldset();
+        e.setLabel(label);
+        e.add(c);
+        return e;
+    }
+
+    public static final ScFieldset createWith(ScControl c)
+    {
+        return createWith(c.getLabel(), c);
+    }
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString       _flavor;
+    private ScLocalString _flavor;
 
     //##################################################
     //# constructor
@@ -73,6 +92,11 @@ public class ScFieldset
     public void setFlavorDefault()
     {
         setFlavor(FLAVOR_DEFAULT);
+    }
+
+    public void setFlavorWarning()
+    {
+        setFlavor(FLAVOR_WARNING);
     }
 
     //##################################################

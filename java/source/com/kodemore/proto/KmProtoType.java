@@ -1,8 +1,13 @@
 package com.kodemore.proto;
 
+import java.util.Iterator;
+import java.util.function.Function;
+
+import com.kodemore.collection.KmList;
 import com.kodemore.generator.model.KmgModelField;
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhPropertyCondition;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmProtoType
@@ -79,34 +84,9 @@ public abstract class KmProtoType
     //# sql
     //##################################################
 
-    public abstract String getDatabaseType(KmgModelFieldType f);
+    public abstract KmList<KmgSqlColumn> getSqlColumns();
 
-    public String getSqlSelect()
-    {
-        return "select" + format_Name();
-    }
-
-    public String formatSqlGetter()
-    {
-        return "get" + format_Name();
-    }
-
-    public String getSqlInsertAddColumn()
-    {
-        return Kmu.format("add%sColumn", format_Name());
-    }
-
-    public String getSqlInsertAddValue()
-    {
-        return Kmu.format("add%sValue", format_Name());
-    }
-
-    public String getSqlInsertSetValue()
-    {
-        return Kmu.format("set%sValue", format_Name());
-    }
-
-    public String formatSqlColumnDefinition(KmgModelField field)
+    public String formatSqlColumnDefinitions(KmgModelField field)
     {
         return formatSqlColumnDefinition(field, true);
     }
@@ -115,38 +95,72 @@ public abstract class KmProtoType
      * Create the ddl necessary for column definition.
      * The definition is typically a single line, without
      * the terminating end of line characters.  If the
-     * field creates multiple columns (e.g.: money) then
+     * field creates multiple columns then
      * each column should be separated by a new line. All
      * columns definitions should be terminated by a comma.
      */
     public String formatSqlColumnDefinition(KmgModelField field, boolean autoIncr)
     {
-        StringBuilder out;
-        out = new StringBuilder();
-        out.append("    ");
-        out.append(field.getf_sqlColumn());
-        out.append(" ");
-        out.append(field.getf_sqlType());
+        KmStringBuilder out;
+        out = new KmStringBuilder();
 
-        if ( autoIncr && field.isIdentity() )
-            out.append(" AUTO_INCREMENT");
+        Iterator<KmgSqlColumn> i = getSqlColumns().iterator();
+        while ( i.hasNext() )
+        {
+            KmgSqlColumn col = i.next();
 
-        out.append(",");
+            out.print("    ");
+            out.print(col.getf_columnDefinition(field));
+            out.print(",");
+
+            if ( autoIncr && field.isIdentity() )
+                out.append(" AUTO_INCREMENT");
+
+            if ( i.hasNext() )
+                out.println();
+        }
 
         return out.toString();
     }
 
     public String formatSqlForeignKeyDefininition(KmgModelField field, String prefix)
     {
-        StringBuilder out;
-        out = new StringBuilder();
-        out.append("    ");
-        out.append(field.getf_sqlForeignKeyColumn(prefix));
-        out.append(" ");
-        out.append(field.getf_sqlType());
-        out.append(",");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+
+        Iterator<KmgSqlColumn> i = getSqlColumns().iterator();
+        while ( i.hasNext() )
+        {
+            KmgSqlColumn col = i.next();
+
+            out.print("    ");
+            out.print(col.getf_foreignKeyColumnDefinition(field, prefix));
+            out.print(",");
+
+            if ( i.hasNext() )
+                out.println();
+        }
 
         return out.toString();
+    }
+
+    //==================================================
+    //= sql :: column
+    //==================================================
+
+    protected KmgSqlColumn newColumn(String type, String suffix)
+    {
+        return new KmgSqlColumn(type, suffix);
+    }
+
+    protected KmList<KmgSqlColumn> singleColumn(String type)
+    {
+        return KmList.createWith(new KmgSqlColumn(type));
+    }
+
+    protected KmList<KmgSqlColumn> singleColumn(Function<KmgModelField,String> typeFunction)
+    {
+        return KmList.createWith(new KmgSqlColumn(typeFunction));
     }
 
     //##################################################

@@ -1,36 +1,33 @@
 body
 {
-  font: 10pt sans-serif;
-  background-color: #fff;
+    font:               10pt sans-serif;
+    background-color:   #fff;
 }
 
 h1
 {
-  font: bold 24pt sans-serif;
-}
-
-h2
-{
-  margin: 30px 0px 0px 0px;
-  padding: 3px 3px 3px 3px;
-  font: bold 14pt sans-serif;
-  background-color: #BBBBBB;
+    font:               bold 24pt sans-serif;
 }
 
 .attributeTable
 {
-    border-collapse: collapse;
-    width: 100%;
+    border-collapse:    collapse;
+    width:              100%;
 }
 
 .attributeTable th
 {
-  font: bold 12pt sans-serif;
-  text-align: left;
-  vertical-align: top;
-  padding: 3px 3px 3px 3px;
-  background-color: yellow;
-  border: 1px solid #666;
+    font:               bold 12pt sans-serif;
+    text-align:         left;
+    vertical-align:     top;
+    padding:            3px 3px 3px 3px;
+    background-color:   yellow;
+    border:             1px solid #666;
+}
+
+.attributeTable th.header
+{
+    font:               bold 16pt sans-serif;
 }
 
 .attributeTable tr:nth-child(even)
@@ -40,16 +37,18 @@ h2
 
 .attributeTable td
 {
-  padding: 3px 3px 3px 3px;
-  font: 10pt sans-serif;
-  text-align: left;
-  vertical-align: top;
-  border: 1px solid #666;
+    padding:        5px;
+    font:           10pt sans-serif;
+    text-align:     left;
+    vertical-align: top;
+    border:         1px solid #666;
 }
 
 a, a:visited
 {
+    font:  12pt/18pt sans-serif;
     color: #00F;
+    margin: 5px;
 }
 
 a:hover

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.servlet.ajax;
 
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScContentType;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -43,7 +44,14 @@ public class ScAjaxResult
      * The length of the http output.  This is not set until
      * I am applied to the response.
      */
-    private int           _length;
+    private int _length;
+
+    /**
+     * By default, the page session is automatically updated.
+     * The script to update the session is added to the end of any
+     * existing script.
+     */
+    private boolean _pageSessionUpdate;
 
     //##################################################
     //# constructor
@@ -51,7 +59,18 @@ public class ScAjaxResult
 
     public ScAjaxResult()
     {
+        setContentType(ScContentType.Json);
         _script = ScBlockScript.create();
+        _pageSessionUpdate = true;
+    }
+
+    //##################################################
+    //# setup
+    //##################################################
+
+    public void disablePageSessionUpdate()
+    {
+        _pageSessionUpdate = false;
     }
 
     //##################################################
@@ -59,9 +78,10 @@ public class ScAjaxResult
     //##################################################
 
     @Override
-    public void applyTo(ScServletData data)
+    public void applyContentTo(ScServletData data)
     {
-        getScript().updatePageSession();
+        if ( _pageSessionUpdate )
+            getScript().updatePageSession();
 
         applyToHttpResponse(data);
         applyToLogFile(data);
@@ -73,11 +93,10 @@ public class ScAjaxResult
         json = new KmJsonMap();
         json.setString("script", getScript().formatScript());
 
-        byte[] bytes = json.toString().getBytes();
-        _length = bytes.length;
+        String result = json.formatJson();
+        _length = result.length();
 
-        setContentTypeJson();
-        data.writeBytes(bytes);
+        data.writeString(result);
     }
 
     private void applyToLogFile(ScServletData data)

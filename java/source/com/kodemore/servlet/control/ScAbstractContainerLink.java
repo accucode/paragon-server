@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ public abstract class ScAbstractContainerLink
      * If true, the default, the link may receive tab focus.
      * If false, set the tabindex = -1 to disable tab focus.
      */
-    private ScLocalBoolean    _focusable;
+    private ScLocalBoolean _focusable;
 
     //##################################################
     //# constructor

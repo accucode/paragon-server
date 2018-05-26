@@ -10,9 +10,9 @@ public class KmhDurationCondition
     //# constructor
     //##################################################
 
-    public KmhDurationCondition(KmhElement context, String property)
+    public KmhDurationCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 
 }

@@ -38,49 +38,49 @@ public class MyApplicationLogJunction
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhStringCondition whereContext()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhStringCondition(context(), alias(), CONTEXT);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereLoggerName()
-    {
-        return new KmhStringCondition(context(), fullName(LOGGER_NAME));
-    }
-
-    public KmhStringCondition whereContext()
-    {
-        return new KmhStringCondition(context(), fullName(CONTEXT));
-    }
-
-    public KmhStringCondition whereMessage()
-    {
-        return new KmhStringCondition(context(), fullName(MESSAGE));
-    }
-
-    public KmhStringCondition whereLevelName()
-    {
-        return new KmhStringCondition(context(), fullName(LEVEL_NAME));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLevelCode()
     {
-        return new KmhIntegerCondition(context(), fullName(LEVEL_CODE));
+        return new KmhIntegerCondition(context(), alias(), LEVEL_CODE);
+    }
+
+    public KmhStringCondition whereLevelName()
+    {
+        return new KmhStringCondition(context(), alias(), LEVEL_NAME);
+    }
+
+    public KmhStringCondition whereLoggerName()
+    {
+        return new KmhStringCondition(context(), alias(), LOGGER_NAME);
+    }
+
+    public KmhStringCondition whereMessage()
+    {
+        return new KmhStringCondition(context(), alias(), MESSAGE);
     }
 
     public KmhStringCondition whereThreadName()
     {
-        return new KmhStringCondition(context(), fullName(THREAD_NAME));
+        return new KmhStringCondition(context(), alias(), THREAD_NAME);
     }
 
     public KmhStringCondition whereTrace()
     {
-        return new KmhStringCondition(context(), fullName(TRACE));
+        return new KmhStringCondition(context(), alias(), TRACE);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
     //##################################################

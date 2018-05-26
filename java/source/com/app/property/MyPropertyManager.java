@@ -46,8 +46,8 @@ public class MyPropertyManager
     private static MyProperties _defaults;
     private static MyProperties _overrides;
 
-    private static long               _lastModified;
-    private static KmFile             _file;
+    private static long   _lastModified;
+    private static KmFile _file;
 
     //##################################################
     //# accessing

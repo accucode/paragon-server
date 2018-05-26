@@ -6,20 +6,17 @@ import com.kodemore.log.KmLog;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 
 import com.app.ui.core.MyServerSessionManager;
-import com.app.utility.MyUrls;
 
 /**
  * I am used by various tools to coordinate dynamic
  * server side responses to client side requests.
  *
- * Tools register a url path suffix, and a callback
- * function.  When a url is received matching the
- * path suffix, the request is passed to the
- * callback function.
+ * Tools register a url path suffix, and a callback function.
+ * When a url is received matching the path suffix,
+ * the request is passed to the callback function.
  *
- * This is an experiment and is intended as an
- * alternative to creating separate servlets and
- * web.xml entries for each new tool.
+ * This is intended as an alternative to creating separate
+ * servlets and web.xml entries for each new tool.
  */
 public class MyCallbackServlet
     extends MyServlet
@@ -82,11 +79,8 @@ public class MyCallbackServlet
     private void checkServerSession()
     {
         boolean isValid = MyServerSessionManager.hasValidSession();
-        if ( isValid )
-            return;
-
-        ajax().alert("Session Timeout.");
-        ajax().gotoUrl(MyUrls.getEntryUrl());
+        if ( !isValid )
+            ajax().showTimeoutMessage();
     }
 
     //##################################################

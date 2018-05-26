@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,27 +36,26 @@ public class MyAuditLogValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
+    private KmBooleanValidator booleanValueValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmStringValidator transactionUidValidator;
-    private KmStringValidator userNameValidator;
-    private KmStringValidator typeCodeValidator;
-    private KmStringValidator domainTypeValidator;
+    private KmDateValidator dateValueValidator;
     private KmStringValidator domainNameValidator;
+    private KmStringValidator domainTypeValidator;
     private KmStringValidator domainUidValidator;
-    private KmStringValidator domainBundleUidValidator;
+    private KmDoubleValidator doubleValueValidator;
     private KmStringValidator fieldNameValidator;
+    private KmIntegerValidator integerValueValidator;
+    private KmLongValidator longValueValidator;
+    private KmMoneyValidator moneyValueValidator;
     private KmStringValidator newValueValidator;
     private KmStringValidator oldValueValidator;
     private KmStringValidator stringValueValidator;
-    private KmIntegerValidator integerValueValidator;
-    private KmLongValidator longValueValidator;
-    private KmDoubleValidator doubleValueValidator;
-    private KmMoneyValidator moneyValueValidator;
-    private KmBooleanValidator booleanValueValidator;
-    private KmDateValidator dateValueValidator;
     private KmTimestampValidator timestampValueValidator;
+    private KmStringValidator transactionUidValidator;
+    private KmStringValidator typeCodeValidator;
+    private KmStringValidator uidValidator;
     private KmStringValidator uidValueValidator;
+    private KmStringValidator userNameValidator;
 
     //##################################################
     //# constructor
@@ -64,36 +64,35 @@ public class MyAuditLogValidatorBase
     protected MyAuditLogValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
+        booleanValueValidator = newBooleanValueValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        transactionUidValidator = newTransactionUidValidator();
-        userNameValidator = newUserNameValidator();
-        typeCodeValidator = newTypeCodeValidator();
-        domainTypeValidator = newDomainTypeValidator();
+        dateValueValidator = newDateValueValidator();
         domainNameValidator = newDomainNameValidator();
+        domainTypeValidator = newDomainTypeValidator();
         domainUidValidator = newDomainUidValidator();
-        domainBundleUidValidator = newDomainBundleUidValidator();
+        doubleValueValidator = newDoubleValueValidator();
         fieldNameValidator = newFieldNameValidator();
+        integerValueValidator = newIntegerValueValidator();
+        longValueValidator = newLongValueValidator();
+        moneyValueValidator = newMoneyValueValidator();
         newValueValidator = newNewValueValidator();
         oldValueValidator = newOldValueValidator();
         stringValueValidator = newStringValueValidator();
-        integerValueValidator = newIntegerValueValidator();
-        longValueValidator = newLongValueValidator();
-        doubleValueValidator = newDoubleValueValidator();
-        moneyValueValidator = newMoneyValueValidator();
-        booleanValueValidator = newBooleanValueValidator();
-        dateValueValidator = newDateValueValidator();
         timestampValueValidator = newTimestampValueValidator();
+        transactionUidValidator = newTransactionUidValidator();
+        typeCodeValidator = newTypeCodeValidator();
+        uidValidator = newUidValidator();
         uidValueValidator = newUidValueValidator();
+        userNameValidator = newUserNameValidator();
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmBooleanValidator getBooleanValueValidator()
     {
-        return uidValidator;
+        return booleanValueValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -101,24 +100,9 @@ public class MyAuditLogValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmStringValidator getTransactionUidValidator()
+    public KmDateValidator getDateValueValidator()
     {
-        return transactionUidValidator;
-    }
-
-    public KmStringValidator getUserNameValidator()
-    {
-        return userNameValidator;
-    }
-
-    public KmStringValidator getTypeCodeValidator()
-    {
-        return typeCodeValidator;
-    }
-
-    public KmStringValidator getDomainTypeValidator()
-    {
-        return domainTypeValidator;
+        return dateValueValidator;
     }
 
     public KmStringValidator getDomainNameValidator()
@@ -126,19 +110,39 @@ public class MyAuditLogValidatorBase
         return domainNameValidator;
     }
 
+    public KmStringValidator getDomainTypeValidator()
+    {
+        return domainTypeValidator;
+    }
+
     public KmStringValidator getDomainUidValidator()
     {
         return domainUidValidator;
     }
 
-    public KmStringValidator getDomainBundleUidValidator()
+    public KmDoubleValidator getDoubleValueValidator()
     {
-        return domainBundleUidValidator;
+        return doubleValueValidator;
     }
 
     public KmStringValidator getFieldNameValidator()
     {
         return fieldNameValidator;
+    }
+
+    public KmIntegerValidator getIntegerValueValidator()
+    {
+        return integerValueValidator;
+    }
+
+    public KmLongValidator getLongValueValidator()
+    {
+        return longValueValidator;
+    }
+
+    public KmMoneyValidator getMoneyValueValidator()
+    {
+        return moneyValueValidator;
     }
 
     public KmStringValidator getNewValueValidator()
@@ -156,44 +160,34 @@ public class MyAuditLogValidatorBase
         return stringValueValidator;
     }
 
-    public KmIntegerValidator getIntegerValueValidator()
-    {
-        return integerValueValidator;
-    }
-
-    public KmLongValidator getLongValueValidator()
-    {
-        return longValueValidator;
-    }
-
-    public KmDoubleValidator getDoubleValueValidator()
-    {
-        return doubleValueValidator;
-    }
-
-    public KmMoneyValidator getMoneyValueValidator()
-    {
-        return moneyValueValidator;
-    }
-
-    public KmBooleanValidator getBooleanValueValidator()
-    {
-        return booleanValueValidator;
-    }
-
-    public KmDateValidator getDateValueValidator()
-    {
-        return dateValueValidator;
-    }
-
     public KmTimestampValidator getTimestampValueValidator()
     {
         return timestampValueValidator;
     }
 
+    public KmStringValidator getTransactionUidValidator()
+    {
+        return transactionUidValidator;
+    }
+
+    public KmStringValidator getTypeCodeValidator()
+    {
+        return typeCodeValidator;
+    }
+
+    public KmStringValidator getUidValidator()
+    {
+        return uidValidator;
+    }
+
     public KmStringValidator getUidValueValidator()
     {
         return uidValueValidator;
+    }
+
+    public KmStringValidator getUserNameValidator()
+    {
+        return userNameValidator;
     }
 
     //##################################################
@@ -204,70 +198,67 @@ public class MyAuditLogValidatorBase
     public void convertOnly(MyAuditLog value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setTransactionUid(transactionUidValidator.convertOnly(value.getTransactionUid()));
-        value.setUserName(userNameValidator.convertOnly(value.getUserName()));
-        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
-        value.setDomainType(domainTypeValidator.convertOnly(value.getDomainType()));
-        value.setDomainName(domainNameValidator.convertOnly(value.getDomainName()));
-        value.setDomainUid(domainUidValidator.convertOnly(value.getDomainUid()));
-        value.setDomainBundleUid(domainBundleUidValidator.convertOnly(value.getDomainBundleUid()));
-        value.setFieldName(fieldNameValidator.convertOnly(value.getFieldName()));
-        value.setNewValue(newValueValidator.convertOnly(value.getNewValue()));
-        value.setOldValue(oldValueValidator.convertOnly(value.getOldValue()));
-        value.setStringValue(stringValueValidator.convertOnly(value.getStringValue()));
-        value.setIntegerValue(integerValueValidator.convertOnly(value.getIntegerValue()));
-        value.setLongValue(longValueValidator.convertOnly(value.getLongValue()));
-        value.setDoubleValue(doubleValueValidator.convertOnly(value.getDoubleValue()));
-        value.setMoneyValue(moneyValueValidator.convertOnly(value.getMoneyValue()));
-        value.setBooleanValue(booleanValueValidator.convertOnly(value.getBooleanValue()));
-        value.setDateValue(dateValueValidator.convertOnly(value.getDateValue()));
-        value.setTimestampValue(timestampValueValidator.convertOnly(value.getTimestampValue()));
-        value.setUidValue(uidValueValidator.convertOnly(value.getUidValue()));
+        value.setBooleanValue(booleanValueValidator.convert(value.getBooleanValue()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setDateValue(dateValueValidator.convert(value.getDateValue()));
+        value.setDomainName(domainNameValidator.convert(value.getDomainName()));
+        value.setDomainType(domainTypeValidator.convert(value.getDomainType()));
+        value.setDomainUid(domainUidValidator.convert(value.getDomainUid()));
+        value.setDoubleValue(doubleValueValidator.convert(value.getDoubleValue()));
+        value.setFieldName(fieldNameValidator.convert(value.getFieldName()));
+        value.setIntegerValue(integerValueValidator.convert(value.getIntegerValue()));
+        value.setLongValue(longValueValidator.convert(value.getLongValue()));
+        value.setMoneyValue(moneyValueValidator.convert(value.getMoneyValue()));
+        value.setNewValue(newValueValidator.convert(value.getNewValue()));
+        value.setOldValue(oldValueValidator.convert(value.getOldValue()));
+        value.setStringValue(stringValueValidator.convert(value.getStringValue()));
+        value.setTimestampValue(timestampValueValidator.convert(value.getTimestampValue()));
+        value.setTransactionUid(transactionUidValidator.convert(value.getTransactionUid()));
+        value.setTypeCode(typeCodeValidator.convert(value.getTypeCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUidValue(uidValueValidator.convert(value.getUidValue()));
+        value.setUserName(userNameValidator.convert(value.getUserName()));
     }
 
     @Override
-    public void validateOnly(MyAuditLog value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyAuditLog value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        transactionUidValidator.validateOnly(value.getTransactionUid(), errors);
-        userNameValidator.validateOnly(value.getUserName(), errors);
-        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
-        domainTypeValidator.validateOnly(value.getDomainType(), errors);
-        domainNameValidator.validateOnly(value.getDomainName(), errors);
-        domainUidValidator.validateOnly(value.getDomainUid(), errors);
-        domainBundleUidValidator.validateOnly(value.getDomainBundleUid(), errors);
-        fieldNameValidator.validateOnly(value.getFieldName(), errors);
-        newValueValidator.validateOnly(value.getNewValue(), errors);
-        oldValueValidator.validateOnly(value.getOldValue(), errors);
-        stringValueValidator.validateOnly(value.getStringValue(), errors);
-        integerValueValidator.validateOnly(value.getIntegerValue(), errors);
-        longValueValidator.validateOnly(value.getLongValue(), errors);
-        doubleValueValidator.validateOnly(value.getDoubleValue(), errors);
-        moneyValueValidator.validateOnly(value.getMoneyValue(), errors);
-        booleanValueValidator.validateOnly(value.getBooleanValue(), errors);
-        dateValueValidator.validateOnly(value.getDateValue(), errors);
-        timestampValueValidator.validateOnly(value.getTimestampValue(), errors);
-        uidValueValidator.validateOnly(value.getUidValue(), errors);
+        booleanValueValidator.validateOn(value.getBooleanValue(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        dateValueValidator.validateOn(value.getDateValue(), errors);
+        domainNameValidator.validateOn(value.getDomainName(), errors);
+        domainTypeValidator.validateOn(value.getDomainType(), errors);
+        domainUidValidator.validateOn(value.getDomainUid(), errors);
+        doubleValueValidator.validateOn(value.getDoubleValue(), errors);
+        fieldNameValidator.validateOn(value.getFieldName(), errors);
+        integerValueValidator.validateOn(value.getIntegerValue(), errors);
+        longValueValidator.validateOn(value.getLongValue(), errors);
+        moneyValueValidator.validateOn(value.getMoneyValue(), errors);
+        newValueValidator.validateOn(value.getNewValue(), errors);
+        oldValueValidator.validateOn(value.getOldValue(), errors);
+        stringValueValidator.validateOn(value.getStringValue(), errors);
+        timestampValueValidator.validateOn(value.getTimestampValue(), errors);
+        transactionUidValidator.validateOn(value.getTransactionUid(), errors);
+        typeCodeValidator.validateOn(value.getTypeCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        uidValueValidator.validateOn(value.getUidValue(), errors);
+        userNameValidator.validateOn(value.getUserName(), errors);
         // required associations...
+        if ( !value.hasBundle() )
+            errors.addRequiredField("auditLog", "bundle");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmBooleanValidator newBooleanValueValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("uid");
-        e.setRequired();
+        KmBooleanValidator e;
+        e = new KmBooleanValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("booleanValue");
         return e;
     }
 
@@ -275,9 +266,151 @@ public class MyAuditLogValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("auditLog");
-        e.setField("createdUtcTs");
+        e.setModelName("auditLog");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
+        return e;
+    }
+
+    public KmDateValidator newDateValueValidator()
+    {
+        KmDateValidator e;
+        e = new KmDateValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("dateValue");
+        return e;
+    }
+
+    public KmStringValidator newDomainNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("auditLog");
+        e.setFieldName("domainName");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newDomainTypeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("auditLog");
+        e.setFieldName("domainType");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newDomainUidValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("auditLog");
+        e.setFieldName("domainUid");
+        e.setRequired();
+        return e;
+    }
+
+    public KmDoubleValidator newDoubleValueValidator()
+    {
+        KmDoubleValidator e;
+        e = new KmDoubleValidator();
+        e.setAllDigits(8);
+        e.setRightDigits(2);
+        e.setModelName("auditLog");
+        e.setFieldName("doubleValue");
+        return e;
+    }
+
+    public KmStringValidator newFieldNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("auditLog");
+        e.setFieldName("fieldName");
+        e.setRequired();
+        return e;
+    }
+
+    public KmIntegerValidator newIntegerValueValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("integerValue");
+        return e;
+    }
+
+    public KmLongValidator newLongValueValidator()
+    {
+        KmLongValidator e;
+        e = new KmLongValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("longValue");
+        return e;
+    }
+
+    public KmMoneyValidator newMoneyValueValidator()
+    {
+        KmMoneyValidator e;
+        e = new KmMoneyValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("moneyValue");
+        return e;
+    }
+
+    public KmStringValidator newNewValueValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(100);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("auditLog");
+        e.setFieldName("newValue");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newOldValueValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(100);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("auditLog");
+        e.setFieldName("oldValue");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newStringValueValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1000);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("auditLog");
+        e.setFieldName("stringValue");
+        return e;
+    }
+
+    public KmTimestampValidator newTimestampValueValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("auditLog");
+        e.setFieldName("timestampValue");
         return e;
     }
 
@@ -287,20 +420,9 @@ public class MyAuditLogValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("transactionUid");
+        e.setModelName("auditLog");
+        e.setFieldName("transactionUid");
         e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newUserNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("userName");
         return e;
     }
 
@@ -313,172 +435,21 @@ public class MyAuditLogValidatorBase
         e.setAllowsDigits(true);
         e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
-        e.setModel("auditLog");
-        e.setField("typeCode");
+        e.setModelName("auditLog");
+        e.setFieldName("typeCode");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newDomainTypeValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("domainType");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newDomainNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("domainName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newDomainUidValidator()
+    public KmStringValidator newUidValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("domainUid");
+        e.setModelName("auditLog");
+        e.setFieldName("uid");
         e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newDomainBundleUidValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("domainBundleUid");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newFieldNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("fieldName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newNewValueValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(100);
-        e.setAllowsPrintable(true);
-        e.setAllowsWhitespace(true);
-        e.setModel("auditLog");
-        e.setField("newValue");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newOldValueValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(100);
-        e.setAllowsPrintable(true);
-        e.setAllowsWhitespace(true);
-        e.setModel("auditLog");
-        e.setField("oldValue");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newStringValueValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(1000);
-        e.setAllowsPrintable(true);
-        e.setAllowsWhitespace(true);
-        e.setModel("auditLog");
-        e.setField("stringValue");
-        return e;
-    }
-
-    public KmIntegerValidator newIntegerValueValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("auditLog");
-        e.setField("integerValue");
-        return e;
-    }
-
-    public KmLongValidator newLongValueValidator()
-    {
-        KmLongValidator e;
-        e = new KmLongValidator();
-        e.setModel("auditLog");
-        e.setField("longValue");
-        return e;
-    }
-
-    public KmDoubleValidator newDoubleValueValidator()
-    {
-        KmDoubleValidator e;
-        e = new KmDoubleValidator();
-        e.setAllDigits(8);
-        e.setRightDigits(2);
-        e.setModel("auditLog");
-        e.setField("doubleValue");
-        return e;
-    }
-
-    public KmMoneyValidator newMoneyValueValidator()
-    {
-        KmMoneyValidator e;
-        e = new KmMoneyValidator();
-        e.setModel("auditLog");
-        e.setField("moneyValue");
-        return e;
-    }
-
-    public KmBooleanValidator newBooleanValueValidator()
-    {
-        KmBooleanValidator e;
-        e = new KmBooleanValidator();
-        e.setModel("auditLog");
-        e.setField("booleanValue");
-        return e;
-    }
-
-    public KmDateValidator newDateValueValidator()
-    {
-        KmDateValidator e;
-        e = new KmDateValidator();
-        e.setModel("auditLog");
-        e.setField("dateValue");
-        return e;
-    }
-
-    public KmTimestampValidator newTimestampValueValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("auditLog");
-        e.setField("timestampValue");
         return e;
     }
 
@@ -488,8 +459,19 @@ public class MyAuditLogValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("auditLog");
-        e.setField("uidValue");
+        e.setModelName("auditLog");
+        e.setFieldName("uidValue");
+        return e;
+    }
+
+    public KmStringValidator newUserNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("auditLog");
+        e.setFieldName("userName");
         return e;
     }
 

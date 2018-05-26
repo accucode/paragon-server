@@ -1,6 +1,6 @@
 package com.app.ui.page.tools;
 
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
@@ -45,29 +45,12 @@ public final class MyDevDataFixPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fill().auto();
         root.css().flexColumn().columnSpacer20();
 
         installWarningOn(root);
@@ -78,10 +61,13 @@ public final class MyDevDataFixPage
     {
         ScParagraph warning;
         warning = root.addParagraph(
-            "WARNING, the tools on this page intended for"
-                + " speciallized purposes and may cause significant changes to the"
-                + " database. E.g.: these tools may be used to assist with complex"
-                + " database migrations that cannot be completed easily with sql.");
+            ""
+                + "WARNING, "
+                + "the tools on this page intended for "
+                + "specialized purposes and may cause significant changes to the "
+                + "database. E.g.: these tools may be used to assist with complex "
+                + "database migrations that cannot be completed easily with sql. "
+                + "");
         warning.css().boxRed().pad();
     }
 
@@ -89,15 +75,29 @@ public final class MyDevDataFixPage
     {
         installActionOn(
             root,
-            "Sample",
+            "Sample (YYYY-MM-DD)",
             "This is just a sample, it does NOT make any changes.",
             this::handleSample);
+
+        // Add new actions at top (below sample)
     }
 
-    private void installActionOn(ScDiv root, String title, String desc, Runnable action)
+    private void installActionOn(ScDiv root, String title, String desc, Runnable runnable)
+    {
+        boolean autoTxn = true;
+        installActionOn(root, title, desc, runnable, autoTxn);
+    }
+
+    private void installActionOn(
+        ScDiv root,
+        String title,
+        String desc,
+        Runnable runnable,
+        boolean autoTxn)
     {
         ScGroup group;
         group = root.addGroup(title);
+        group.css().flexChildStatic();
 
         ScDiv body;
         body = group.getBody();
@@ -105,11 +105,18 @@ public final class MyDevDataFixPage
         body.addText(desc);
 
         ScDiv footer;
-        footer = group.showFooter();
+        footer = group.showFooter().addButtonBox();
 
         ScActionButton button;
-        button = footer.addButtonBox().addButton(title, action);
-        button.setConfirmationMessageText("Are you sure?");
+        button = footer.addButton(title, newCheckedAction(runnable));
+        button.setConfirmationMessageText(title + "?");
+
+        ScAction action;
+        action = button.getAction();
+        action.disableSlowCommandWarning();
+
+        if ( !autoTxn )
+            action.disableTransaction();
     }
 
     //##################################################
@@ -117,7 +124,7 @@ public final class MyDevDataFixPage
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         // none
     }
@@ -128,6 +135,6 @@ public final class MyDevDataFixPage
 
     private void handleSample()
     {
-        ajax().toast("done.");
+        ajax().toast("Sample done.");
     }
 }

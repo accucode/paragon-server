@@ -1,12 +1,13 @@
 package com.app.ui.page.general;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.domain.KmUidDomainIF;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScLiteral;
 
 import com.app.dao.MyAuditLogDao;
 import com.app.model.MyAuditLog;
-import com.app.model.core.MyUidDomainIF;
 import com.app.model.support.MyAuditLogFormatter;
 import com.app.utility.MyGlobals;
 
@@ -29,7 +30,7 @@ public class MyAuditLogView
 
     public MyAuditLogView()
     {
-        css().noWrap().auto();
+        css().auto();
         _literal = addLiteral();
     }
 
@@ -38,25 +39,25 @@ public class MyAuditLogView
     //##################################################
 
     @Override
-    protected boolean applyFromModel_here(Object model, boolean skipFields)
+    protected boolean applyFromModel_here(Object model)
     {
-        MyUidDomainIF e = (MyUidDomainIF)model;
+        KmUidDomainIF e = (KmUidDomainIF)model;
         String uid = e.getUid();
-        String msg = formatAuditLog(uid);
-        _literal.setValue(msg);
+        KmHtmlBuilder html = formatAuditLog(uid);
 
-        return super.applyFromModel_here(model, skipFields);
+        _literal.setValue(html);
+
+        return super.applyFromModel_here(model);
     }
 
     //##################################################
     //# format
     //##################################################
 
-    private String formatAuditLog(String uid)
+    private KmHtmlBuilder formatAuditLog(String uid)
     {
         MyAuditLogDao dao = MyGlobals.getAccess().getAuditLogDao();
         KmList<MyAuditLog> v = dao.findDomainUid(uid);
-
         return MyAuditLogFormatter.format(v);
     }
 }

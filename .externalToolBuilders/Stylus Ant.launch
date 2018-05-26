@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ant.AntBuilderLaunchConfigurationType">
+<stringAttribute key="org.eclipse.ant.ui.ATTR_ANT_AUTO_TARGETS" value="generateThemes,"/>
+<booleanAttribute key="org.eclipse.ant.ui.ATTR_TARGETS_UPDATED" value="true"/>
+<booleanAttribute key="org.eclipse.ant.ui.DEFAULT_VM_INSTALL" value="false"/>
+<stringAttribute key="org.eclipse.debug.core.ATTR_REFRESH_SCOPE" value="${workspace}"/>
+<booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
+<booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="paragon-server"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/base/component&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/base/variables.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/blue/theme.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/blue/variables.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/default/theme.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/default/variables.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/print/theme.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/paragon-server/web/static/version/app/theme/print/variables.styl&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${project_loc}/ant/antTools.xml"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,auto,"/>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${project_loc}"/>
+</launchConfiguration>

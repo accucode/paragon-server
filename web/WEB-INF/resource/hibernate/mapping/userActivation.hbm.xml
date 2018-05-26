@@ -44,15 +44,15 @@
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
-            />
-
-        <property
             name="email"
             column="email"
             type="string"
+            />
+
+        <property
+            name="expirationUtcTs"
+            column="expirationUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
@@ -62,8 +62,8 @@
             />
 
         <property
-            name="expirationUtcTs"
-            column="expirationUtcTs"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
@@ -75,16 +75,16 @@
             />
 
         <many-to-one
-            name="updatedBy"
-            column="updatedByUid"
-            class="com.app.model.MyUser"
+            name="tenant"
+            column="tenantUid"
+            class="com.app.model.MyTenant"
             cascade="none"
             />
 
         <many-to-one
-            name="tenant"
-            column="tenantUid"
-            class="com.app.model.MyTenant"
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
             cascade="none"
             />
 

@@ -10,9 +10,9 @@ public class KmhStringCondition
     //# constructor
     //##################################################
 
-    public KmhStringCondition(KmhElement context, String property)
+    public KmhStringCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 
     //##################################################
@@ -22,25 +22,25 @@ public class KmhStringCondition
     @Override
     public void hasPrefix(String s)
     {
-        context().addPrefix(property(), s);
+        context().addPrefix(fullName(), s);
     }
 
     @Override
     public void isLike(String e)
     {
-        context().addSuffix(property(), e);
+        context().addSuffix(fullName(), e);
     }
 
     @Override
     public void hasSuffix(String s)
     {
-        context().addSuffix(property(), s);
+        context().addSuffix(fullName(), s);
     }
 
     @Override
     public void hasSubstring(String s)
     {
-        context().addSubstring(property(), s);
+        context().addSubstring(fullName(), s);
     }
 
     //##################################################

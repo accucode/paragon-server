@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.type.KmhDayFrequencyType;
 import com.kodemore.meta.KmMetaDayFrequencyProperty;
 import com.kodemore.servlet.field.ScDayFrequencyField;
@@ -23,9 +24,9 @@ public class KmProtoDayFrequency
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "char(7)";
+        return singleColumn("char(7)");
     }
 
     @Override

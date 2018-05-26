@@ -38,21 +38,39 @@
             />
 
         <property
+            name="booleanTest"
+            column="booleanTest"
+            type="yes_no"
+            />
+
+        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="dateTest"
+            column="dateTest"
+            type="com.kodemore.hibernate.type.KmhDateType"
             />
 
         <property
-            name="nameValue"
-            column="nameValue"
-            type="string"
+            name="dayFrequency"
+            column="dayFrequency"
+            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            />
+
+        <property
+            name="doubleTest"
+            column="doubleTest"
+            type="double"
+            />
+
+        <property
+            name="duration"
+            column="duration"
+            type="com.kodemore.hibernate.type.KmhDurationType"
             />
 
         <property
@@ -68,33 +86,15 @@
             />
 
         <property
-            name="doubleTest"
-            column="doubleTest"
-            type="double"
-            />
-
-        <property
             name="moneyTest"
             column="moneyTest"
             type="com.kodemore.hibernate.type.KmhMoneyType"
             />
 
         <property
-            name="booleanTest"
-            column="booleanTest"
-            type="yes_no"
-            />
-
-        <property
-            name="dateTest"
-            column="dateTest"
-            type="com.kodemore.hibernate.type.KmhDateType"
-            />
-
-        <property
-            name="timestampTest"
-            column="timestampTest"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="nameValue"
+            column="nameValue"
+            type="string"
             />
 
         <property
@@ -110,15 +110,15 @@
             />
 
         <property
-            name="duration"
-            column="duration"
-            type="com.kodemore.hibernate.type.KmhDurationType"
+            name="timestampTest"
+            column="timestampTest"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="dayFrequency"
-            column="dayFrequency"
-            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <many-to-one

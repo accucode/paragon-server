@@ -17,35 +17,29 @@ public interface MyUserDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
-    String FIRST_NAME = "firstName";
-    String LAST_NAME = "lastName";
-    String NICKNAME = "nickname";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String EMAIL = "email";
-    String PASSWORD_SALT = "passwordSalt";
-    String PASSWORD_HASH = "passwordHash";
-    String PHONE = "phone";
-    String ACTIVE = "active";
-    String TIME_ZONE_CODE = "timeZoneCode";
-    String ROLE_CODE = "roleCode";
-    String DASHBOARD_ORIENTATION_TYPE_CODE = "dashboardOrientationTypeCode";
-    String DASHBOARD_LINE_COUNT_1 = "dashboardLineCount1";
-    String DASHBOARD_LINE_COUNT_2 = "dashboardLineCount2";
-    String DASHBOARD_PANEL_CODE_A = "dashboardPanelCodeA";
-    String DASHBOARD_PANEL_CODE_B = "dashboardPanelCodeB";
-    String DASHBOARD_PANEL_CODE_C = "dashboardPanelCodeC";
-    String DASHBOARD_PANEL_CODE_D = "dashboardPanelCodeD";
-    String DASHBOARD_PANEL_CODE_E = "dashboardPanelCodeE";
-    String DASHBOARD_PANEL_CODE_F = "dashboardPanelCodeF";
-    String DASHBOARD_PANEL_CODE_G = "dashboardPanelCodeG";
-    String FULL_NAME = "fullName";
+    String ENABLED = "enabled";
+    String ENABLED_STATUS = "enabledStatus";
+    String FIRST_NAME = "firstName";
     String FORMAL_NAME = "formalName";
-    String SHORT_NAME = "shortName";
+    String FULL_NAME = "fullName";
+    String LAST_NAME = "lastName";
     String LONG_NAME = "longName";
+    String MEMO = "memo";
+    String NICKNAME = "nickname";
+    String PASSWORD_HASH = "passwordHash";
+    String PASSWORD_SALT = "passwordSalt";
+    String PHONE = "phone";
+    String ROLE_CODE = "roleCode";
+    String SHORT_NAME = "shortName";
+    String TIME_ZONE_CODE = "timeZoneCode";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String ROLE_NAME = "roleName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
@@ -63,13 +57,10 @@ public interface MyUserDaoConstantsIF
     String CREATED_BY = "createdBy";
     String CREATED_BY_UID = "createdBy.uid";
 
-    String UPDATED_BY = "updatedBy";
-    String UPDATED_BY_UID = "updatedBy.uid";
-
     String TENANT = "tenant";
     String TENANT_UID = "tenant.uid";
 
-    String LAST_PROJECT = "lastProject";
-    String LAST_PROJECT_UID = "lastProject.uid";
+    String UPDATED_BY = "updatedBy";
+    String UPDATED_BY_UID = "updatedBy.uid";
 
 }

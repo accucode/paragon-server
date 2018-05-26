@@ -1,0 +1,63 @@
+model
+: name      = vendor
+: help...
+    ---
+    Vendors are used to help organized products and services.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = name
+    : unique    = true
+    : on        = project
+    : on        = name
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project to which this vendor belongs.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The vendor's name.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+

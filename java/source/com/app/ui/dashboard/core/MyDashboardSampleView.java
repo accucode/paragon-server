@@ -74,7 +74,7 @@ public class MyDashboardSampleView
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         super.preRender();
 

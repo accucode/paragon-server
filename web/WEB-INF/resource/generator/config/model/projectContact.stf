@@ -1,0 +1,76 @@
+model
+: name      = projectContact
+: help...
+    ---
+    The contacts associated with a particular project.  These contacts
+    are primarily used to keep management informed and/or to cc all
+    outbound email to a shared account.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = projectName
+    : unique    = true
+    : on        = project
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project to which this contact belongs.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    #include personName.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = title
+    : help      = The person's business title.  E.g.: Director of Sales.
+    : type      = name
+    : required  = false
+
+
+    field
+    : name      = phone
+    : help      = The person's phone number.  E.g.: 303.555.1234.
+    : type      = phone
+    : required  = false
+
+
+    field
+    : name      = email
+    : help      = The person's email address.  E.g.: john.doe@example.net.
+    : type      = email
+    : required  = false

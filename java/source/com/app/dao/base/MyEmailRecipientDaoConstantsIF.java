@@ -17,13 +17,15 @@ public interface MyEmailRecipientDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
-    String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
     String ADDRESS = "address";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String CREATED_UTC_TS = "createdUtcTs";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String TYPE_CODE = "typeCode";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String TYPE_NAME = "typeName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
@@ -41,10 +43,10 @@ public interface MyEmailRecipientDaoConstantsIF
     String CREATED_BY = "createdBy";
     String CREATED_BY_UID = "createdBy.uid";
 
-    String UPDATED_BY = "updatedBy";
-    String UPDATED_BY_UID = "updatedBy.uid";
-
     String EMAIL = "email";
     String EMAIL_UID = "email.uid";
+
+    String UPDATED_BY = "updatedBy";
+    String UPDATED_BY_UID = "updatedBy.uid";
 
 }

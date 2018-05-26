@@ -6,6 +6,7 @@ import com.kodemore.collection.*;
 import com.kodemore.dao.*;
 
 import ${package}.dao.*;
+import ${package}.dao.core.*;
 import ${package}.model.*;
 import ${package}.model.meta.*;
 import ${package}.utility.*;
@@ -57,12 +58,21 @@ $utility.protocol("convenience")
 
     public void flush()
     {
-        ${Prefix}Globals.getDaoSession().flush();
+        getSession().flush();
     }
 
     public boolean tryFlush()
     {
-        return ${Prefix}Globals.getDaoSession().tryFlush();
+        return getSession().tryFlush();
     }
 
+    public void disableBasicTimestampsFor(MyBasicTimestampsIF e)
+    {
+        getSession().disableBasicTimestampsFor(e);
+    }
+
+    private MyDaoSession getSession()
+    {
+        return MyGlobals.getDaoSession();
+    }
 }

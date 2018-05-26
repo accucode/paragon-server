@@ -28,13 +28,19 @@ public class MyGenerator
     {
         try
         {
+            initMemory();
+
             KmLog.installConsole();
+            printMemory("Console");
+
             MyEnvironment.install();
+            printMemory("Environment");
 
             MyGenerator e;
             e = new MyGenerator();
             e.setArgs(args);
             e.generate();
+            printMemory("Generate");
         }
         catch ( KmApplicationException ex )
         {
@@ -50,6 +56,36 @@ public class MyGenerator
     }
 
     //##################################################
+    //# print memory
+    //##################################################
+
+    private static boolean _printMemoryUsage = false;
+    private static long    _initialUsedMemory;
+
+    private static void initMemory()
+    {
+        _initialUsedMemory = getUsedMemory();
+    }
+
+    private static void printMemory(String title)
+    {
+        if ( !_printMemoryUsage )
+            return;
+
+        long bytes = getUsedMemory() - _initialUsedMemory;
+        long mg = bytes / 1024;
+        System.out.printf("%s %,d Kb%n", title, mg);
+    }
+
+    private static long getUsedMemory()
+    {
+        Runtime rt;
+        rt = Runtime.getRuntime();
+        rt.gc();
+        return rt.totalMemory() - rt.freeMemory();
+    }
+
+    //##################################################
     //# constants
     //##################################################
 
@@ -58,7 +94,7 @@ public class MyGenerator
      * specific classes.  In particular this prefix is used during code
      * generation.
      */
-    private static final String APPLICATION_PREFIX  = "my";
+    private static final String APPLICATION_PREFIX = "my";
 
     /**
      * The root package that contains the application specific code.
@@ -69,13 +105,13 @@ public class MyGenerator
     //# variables
     //##################################################
 
-    private KmgRoot             _root;
-    private KmList<String>      _args;
+    private KmgRoot        _root;
+    private KmList<String> _args;
 
-    private boolean             _installedModels;
-    private boolean             _installedProperties;
-    private boolean             _installedPages;
-    private boolean             _installedCss;
+    private boolean _installedModels;
+    private boolean _installedProperties;
+    private boolean _installedPages;
+    private boolean _installedCss;
 
     //##################################################
     //# constructor
@@ -167,6 +203,8 @@ public class MyGenerator
         g.setSetupFile(setupFile);
         g.setRoot(getRoot());
         g.run();
+
+        printMemory(setupPath);
     }
 
     //##################################################
@@ -196,15 +234,21 @@ public class MyGenerator
     public KmgRoot getRoot()
     {
         if ( _root == null )
-        {
-            _root = new KmgRoot();
-            _root.setApplicationName(MyConstantsIF.APPLICATION_NAME);
-            _root.setApplicationPrefix(APPLICATION_PREFIX);
-            _root.setApplicationPackage(APPLICATION_PACKAGE);
-            _root.setDefaultDaoModelSuperClass("MyAbstractDaoDomain");
-            _root.setDefaultValueModelSuperClass("MyAbstractValueDomain");
-        }
+            _root = createRoot();
+
         return _root;
+    }
+
+    private KmgRoot createRoot()
+    {
+        KmgRoot e;
+        e = new KmgRoot();
+        e.setApplicationName(MyConstantsIF.APPLICATION_NAME);
+        e.setApplicationPrefix(APPLICATION_PREFIX);
+        e.setApplicationPackage(APPLICATION_PACKAGE);
+        e.setDefaultDaoModelSuperClass("MyAbstractDaoDomain");
+        e.setDefaultValueModelSuperClass("MyAbstractValueDomain");
+        return e;
     }
 
     //##################################################

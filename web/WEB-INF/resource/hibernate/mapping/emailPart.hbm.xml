@@ -38,15 +38,21 @@
             />
 
         <property
+            name="attachmentName"
+            column="attachmentName"
+            type="string"
+            />
+
+        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="data"
+            column="data"
+            type="com.kodemore.hibernate.type.KmhBlobType"
             />
 
         <property
@@ -62,15 +68,9 @@
             />
 
         <property
-            name="attachmentName"
-            column="attachmentName"
-            type="string"
-            />
-
-        <property
-            name="data"
-            column="data"
-            type="com.kodemore.hibernate.type.KmhBlobType"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <many-to-one
@@ -81,16 +81,16 @@
             />
 
         <many-to-one
-            name="updatedBy"
-            column="updatedByUid"
-            class="com.app.model.MyUser"
+            name="email"
+            column="emailUid"
+            class="com.app.model.MyEmail"
             cascade="none"
             />
 
         <many-to-one
-            name="email"
-            column="emailUid"
-            class="com.app.model.MyEmail"
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
             cascade="none"
             />
 

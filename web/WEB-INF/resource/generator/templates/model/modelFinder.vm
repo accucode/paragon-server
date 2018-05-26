@@ -3,6 +3,7 @@ ${javaAutoGenerationComment}
 package ${package}.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import ${package}.dao.*;
@@ -10,19 +11,18 @@ import ${package}.dao.base.*;
 import ${package}.finder.core.*;
 import ${package}.model.*;
 
-public class ${model.f_FinderClass}
+public final class ${model.f_FinderClass}
     implements KmKeyFinderIF<${model.f_Class},${model.primaryKeyField.f_Type}>
 {
-$utility.protocol("static")
+$utility.protocol("instance")
 
-    public static ${model.f_Class} staticFind(${model.primaryKeyField.f_Type} key)
-    {
-        return new ${model.f_FinderClass}().find(key);
-    }
+    public static final ${model.f_FinderClass} instance = new ${model.f_FinderClass}();
 
-    public static ${model.f_Class} staticFindDao(${model.primaryKeyField.f_Type} key)
+$utility.protocol("constructor")
+
+    private ${model.f_FinderClass}()
     {
-        return new ${model.f_FinderClass}().findDao(key);
+        // private
     }
 
 $utility.protocol("find")
@@ -35,9 +35,6 @@ $utility.protocol("find")
 
     public ${model.f_Class} findDao(${model.primaryKeyField.f_Type} key)
     {
-        MyDaoKeyFinder<${model.f_Class},${model.primaryKeyField.f_Type}> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

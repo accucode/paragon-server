@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,96 +22,108 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.json.KmJsonMap;
-import com.kodemore.servlet.ScServletData;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.servlet.script.ScActionScript;
-import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScScriptIF;
-import com.kodemore.servlet.script.ScSimpleScript;
 import com.kodemore.servlet.utility.ScJquery;
-import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.servlet.variable.ScLocalInteger;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 /**
- * I implement a tabbed notebook control using the jquery-ui toolkit.
- * https://jqueryui.com/tabs/
- *
- * Children / Tabs
- *      Each child added will be rendered as a notebook tab.
- *      The child's label is used as the tab title.
- *
- * Selected Tab Index
- *      You can specify the initially selected tab via setSelectedTabIndex.
- *
- *      The current tab index is populated during ajax requests under two
- *      distinct circumstances.
- *
- *      1) When responding to a tab change.
- *      The new tab index is always set.
- *      The notebook does NOT need to be enclosed in a form.
- *
- *      2) All other typical ajax requests.
- *      The tab index is only available if the notebook is contained
- *      in a form, and the form is part of the ajax request.
- *
- * Theming
- *      Theming is based on the jquery-ui theme.
- *      The jquery theme roller can be used to create new themes,
- *      HOWEVER care must be taken since changes likely affect other
- *      jquery controls as well. E.g.: changing a color or style on the
- *      notebook likely impacts the Dialogs, Date Pickers, etc...
+ * I am a tabbed notebook.
  */
 public class ScNotebook
-    extends ScChildContainerElement
+    extends ScDivWrapper
 {
     //##################################################
-    //# constants
+    //# flavor
     //##################################################
 
-    /**
-     * When jquery composes the notebook, it creates wrappers around the
-     * original content. The html id of each wrapper is determined by adding
-     * "-tab" to the html id of the original child. Children without an html id
-     * are allowed, but will not have an identifiable wrapper.
-     */
-    private static final String TAB_HTML_ID_SUFFIX = "-tab";
+    private static enum Flavor
+    {
+        /**
+         * Tabs are displayed horizontally.
+         */
+        Wide,
+
+        /**
+         * Tabs are displayed horizontally, but the text is displayed sideways.
+         * The tabs are relatively tall, but thin, allows a lot more tabs to be displayed,
+         * but takes up more space vertically.
+         */
+        Tall,
+
+        /**
+         * Switch between normal and tallTabs depending on the screen orientation.
+         * Show the tall tabs when in portrait.
+         */
+        Auto
+    }
 
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * When true, css styles will be applied that will stretch the
-     * notebook to fill a flexbox;
-     *
-     * The parent must use display: flex
+     * The items included in the book.
      */
-    private boolean             _flexFill;
+    private KmList<ScNotebookItem> _items;
 
     /**
-     * This can be used to set the default tab index (0-based).
-     * Although this is normally NOT populated upon subsequent
-     * ajax requests, it IS populated automatically before
-     * the tabChangedAction is handled.
+     * The token of the selected item/control.
      */
-    private ScLocalInteger      _selectedTabIndex;
+    private ScLocalString _selectedToken;
 
     /**
-     * This is the optional tab changed action.
+     * The container used to render the tabs.
      */
-    private ScAction            _tabChangedAction;
+    private ScTransientDiv _tabBox;
 
     /**
-     * If true, the default, the notebook will check the client-side
-     * dirty state and prevent the user from switching tabs.
+     * Used to overlay the spine's border below the selected tab
+     * in order to make them look connected.
      */
-    private ScLocalBoolean      _dirtyStateChecking;
+    private ScDiv _overlay;
+
+    /**
+     * The contents of each tab are displayed using a frame.
+     */
+    private ScCardFrame _frame;
+
+    /**
+     * The action that handles tab clicks.
+     * The tab's key must be passed as the argument.
+     */
+    private ScAction _tabClickAction;
+
+    /**
+     * If set, allows the client to perform setup immediately
+     * before the selected tab is rendered.
+     */
+    private Consumer<ScControl> _onTabPreRender;
+
+    /**
+     * If set, run this before a tab is changed.
+     * The tab being changed to is passed in as a parameter.
+     * Return true if the tab should be changed
+     */
+    private Function<ScControl,Boolean> _onTabChanging;
+
+    /**
+     * If set, run this when a tab changes.
+     * This is only called in response to tab changes initiated
+     * by the client side.
+     */
+    private Runnable _onTabChanged;
+
+    /**
+     * The flavor (aka style) of the tab book.
+     */
+    private ScLocalString _flavorName;
 
     //##################################################
     //# constructor
@@ -119,8 +131,196 @@ public class ScNotebook
 
     public ScNotebook()
     {
-        _selectedTabIndex = new ScLocalInteger(0);
-        _dirtyStateChecking = new ScLocalBoolean(true);
+        _items = new KmList<>();
+
+        _selectedToken = new ScLocalString();
+        _selectedToken.setAutoSave();
+
+        _tabClickAction = newCheckedAction(this::handleTabClick);
+        _tabClickAction.setChangeTrackingScopeOverride(this);
+
+        _flavorName = new ScLocalString();
+
+        setFlavorAuto();
+        install();
+    }
+
+    //##################################################
+    //# install
+    //##################################################
+
+    private void install()
+    {
+        ScDiv root;
+        root = getInner();
+        root.css().book();
+        root.add(createHeader());
+        root.add(createBody());
+    }
+
+    private ScControl createHeader()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().book_header();
+        e.add(createTabBox());
+        e.add(createTabOverlay());
+        return e;
+    }
+
+    private ScControl createTabBox()
+    {
+        ScTransientDiv e;
+        e = new ScTransientDiv();
+        e.css().book_tabBox();
+        _tabBox = e;
+        return e;
+    }
+
+    private ScControl createTabOverlay()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().book_overlay();
+        _overlay = e;
+        return e;
+    }
+
+    private ScControl createBody()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().book_body();
+        e.add(createFrame());
+        return e;
+    }
+
+    private ScControl createFrame()
+    {
+        ScCardFrame e;
+        e = new ScCardFrame();
+        e.setTransitionFade();
+        e.css().book_frame();
+        _frame = e;
+        return e;
+    }
+
+    //##################################################
+    //# flavor
+    //##################################################
+
+    public void setFlavorWide()
+    {
+        setFlavor(Flavor.Wide);
+    }
+
+    public void setFlavorTall()
+    {
+        setFlavor(Flavor.Tall);
+    }
+
+    public void setFlavorAuto()
+    {
+        setFlavor(Flavor.Auto);
+    }
+
+    private Flavor getFlavor()
+    {
+        String name = _flavorName.getValue();
+        return Flavor.valueOf(name);
+    }
+
+    private void setFlavor(Flavor e)
+    {
+        _flavorName.setValue(e.name());
+    }
+
+    //##################################################
+    //# tabs
+    //##################################################
+
+    public ScNotebookItem add(ScControl tab)
+    {
+        return addTab(tab);
+    }
+
+    public ScNotebookItem addTab(ScControl tab)
+    {
+        ScNotebookItem item;
+        item = new ScNotebookItem(tab);
+
+        _items.add(item);
+        _frame.addCard(tab);
+
+        if ( _items.isSingleton() )
+            _selectedToken.setValue(item.getKeyToken());
+
+        return item;
+    }
+
+    //##################################################
+    //# selection
+    //##################################################
+
+    public ScControl getSelectedTab()
+    {
+        return getSelectedItem().getControl();
+    }
+
+    public void setSelectedTab(ScControl tab)
+    {
+        String token = tab.getKeyToken();
+        int i = _items.indexIf(e -> e.hasKeyToken(token));
+
+        if ( i >= 0 )
+            setSelectedTabIndex(i);
+    }
+
+    //==================================================
+    //= selection :: items
+    //==================================================
+
+    private boolean isSelected(ScNotebookItem e)
+    {
+        return hasSelectedToken(e.getKeyToken());
+    }
+
+    public ScNotebookItem getSelectedItem()
+    {
+        String token = getSelectedToken();
+        return getItemForToken(token);
+    }
+
+    //==================================================
+    //= selection :: token
+    //==================================================
+
+    private String getSelectedToken()
+    {
+        return _selectedToken.getValue();
+    }
+
+    private void setSelectedToken(String e)
+    {
+        _selectedToken.setValue(e);
+    }
+
+    public boolean hasSelectedToken(String e)
+    {
+        return Kmu.isEqual(getSelectedToken(), e);
+    }
+
+    private ScNotebookItem getItemForToken(String token)
+    {
+        return _items.selectFirst(e -> e.hasKeyToken(token));
+    }
+
+    private ScControl getControlForToken(String token)
+    {
+        ScNotebookItem item = getItemForToken(token);
+        return item == null
+            ? null
+            : item.getControl();
     }
 
     //##################################################
@@ -129,121 +329,104 @@ public class ScNotebook
 
     public Integer getSelectedTabIndex()
     {
-        return _selectedTabIndex.getValue();
+        int i = _items.indexOf(getSelectedItem());
+        return i >= 0
+            ? i
+            : null;
     }
 
-    public void setSelectedTabIndex(Integer e)
+    public void setSelectedTabIndex(Integer i)
     {
-        _selectedTabIndex.setValue(e);
+        if ( i == null )
+            i = 0;
+
+        String token = _items.get(i).getKeyToken();
+        setSelectedToken(token);
     }
 
-    public boolean hasSelectedTabIndex()
+    public void selectFirstTab()
     {
-        return _selectedTabIndex.hasValue();
-    }
-
-    public void clearSelectedTabIndex()
-    {
-        _selectedTabIndex.clearValue();
-    }
-
-    //==================================================
-    //= selected tab
-    //==================================================
-
-    public ScControl getSelectedTab()
-    {
-        Integer i = getSelectedTabIndex();
-        return i == null
-            ? null
-            : getChildren().getAtSafe(i);
-    }
-
-    public void setSelectedTab(ScControl e)
-    {
-        int i = getChildren().indexOf(e);
-        if ( i > 0 )
-            setSelectedTabIndex(i);
-        else
-            clearSelectedTabIndex();
-    }
-
-    public boolean hasSelectedTab()
-    {
-        return getSelectedTab() != null;
-    }
-
-    public boolean hasSelectedTab(ScControl e)
-    {
-        return getSelectedTab() == e;
+        setSelectedTabIndex(0);
     }
 
     //##################################################
-    //# tab change
+    //# auto focus
     //##################################################
 
-    public ScAction getTabChangedAction()
+    public void setAutoFocusOnTabChange()
     {
-        return _tabChangedAction;
+        _frame.setAutoFocus();
     }
 
-    public void setTabChangedAction(ScAction e)
+    public void setAutoFocusOnTabChange(boolean e)
     {
-        _tabChangedAction = e;
-        _tabChangedAction.setWedge(this::handleSetupForTabChange);
-    }
-
-    public void setTabChangedAction(Runnable e)
-    {
-        ScAction action = newCheckedAction(e);
-        setTabChangedAction(action);
-    }
-
-    public boolean hasTabChangedAction()
-    {
-        return getTabChangedAction() != null;
-    }
-
-    //==================================================
-    //= accessing :: flex fill
-    //==================================================
-
-    public boolean getFlexFill()
-    {
-        return _flexFill;
-    }
-
-    public void setFlexFill(boolean e)
-    {
-        _flexFill = e;
-    }
-
-    public void flexFill()
-    {
-        setFlexFill(true);
-    }
-
-    //==================================================
-    //= accessing :: dirty state
-    //==================================================
-
-    public boolean getDirtyStateChecking()
-    {
-        return _dirtyStateChecking.isTrue();
-    }
-
-    public void setDirtyStateChecking(boolean e)
-    {
-        _dirtyStateChecking.setValue(e);
-    }
-
-    public void disableDirtyStateChecking()
-    {
-        setDirtyStateChecking(false);
+        _frame.setAutoFocus(e);
     }
 
     //##################################################
-    //# render
+    //# on preRender
+    //##################################################
+
+    public void onTabPreRender(Consumer<ScControl> e)
+    {
+        _onTabPreRender = e;
+    }
+
+    private void fireTabPreRender(ScControl tab)
+    {
+        fire(_onTabPreRender, tab);
+    }
+
+    //##################################################
+    //# on change
+    //##################################################
+
+    public void onTabChanging(Function<ScControl,Boolean> e)
+    {
+        _onTabChanging = e;
+    }
+
+    private boolean fireTabChanging(ScControl tab)
+    {
+        if ( _onTabChanging == null )
+            return true;
+
+        Boolean b = _onTabChanging.apply(tab);
+        return Kmu.isTrue(b);
+    }
+
+    public void onTabChanged(Runnable e)
+    {
+        _onTabChanged = e;
+    }
+
+    public void fireTabChanged()
+    {
+        fire(_onTabChanged);
+    }
+
+    //##################################################
+    //# apply model to tab
+    //##################################################
+
+    private void applyModelToTab(ScControl tab)
+    {
+        Object model = getModelForTab(tab);
+
+        if ( model != null )
+            tab.applyFromModel(model);
+    }
+
+    /**
+     * @param tab
+     */
+    protected Object getModelForTab(ScControl tab)
+    {
+        return getModel();
+    }
+
+    //##################################################
+    //# pre render
     //##################################################
 
     @Override
@@ -251,305 +434,170 @@ public class ScNotebook
     {
         super.preRender();
 
-        if ( getFlexFill() )
+        preRenderFlavor();
+        preRenderTabs();
+    }
+
+    private void preRenderFlavor()
+    {
+        Flavor flavor = getFlavor();
+        switch ( flavor )
         {
-            css().flexColumn();
-            css().flexChildFiller();
+            case Wide:
+                css().book_wide();
+                break;
+
+            case Tall:
+                css().book_tall();
+                break;
+
+            case Auto:
+                css().book_auto();
+                break;
         }
     }
+
+    //==================================================
+    //= pre render :: tabs
+    //==================================================
+
+    private void preRenderTabs()
+    {
+        _tabBox.clear();
+
+        for ( ScNotebookItem e : _items )
+            preRenderTab(e);
+    }
+
+    private void preRenderTab(ScNotebookItem e)
+    {
+        if ( !e.isVisible() )
+            return;
+
+        if ( !e.getControl().isVisible() )
+            return;
+
+        ScTransientDiv root;
+        root = _tabBox;
+
+        ScDiv tab;
+        tab = root.addDiv();
+        tab.setHtmlId(e.getTabHtmlId());
+        tab.css().book_tab();
+        tab.addTextSpan(e.getLabel());
+
+        ScForm form = findFormWrapper();
+        if ( form == null )
+            tab.setOnClick(_tabClickAction, e.getKeyToken());
+        else
+            tab.setOnClick(form, _tabClickAction, e.getKeyToken());
+
+        if ( e.isSecondary() )
+            tab.css().book_secondary();
+
+        if ( isSelected(e) )
+        {
+            tab.css().book_selected();
+
+            ScControl c;
+            c = e.getControl();
+            applyModelToTab(c);
+            _frame.setDefaultCard(c);
+            fireTabPreRender(c);
+        }
+    }
+
+    //##################################################
+    //# render
+    //##################################################
 
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        renderNotebook(out);
-        renderSelectedTabFieldOn(out);
-        renderScript(out);
+        super.renderControlOn(out);
+
+        renderOverlayScript(out);
     }
 
-    //==================================================
-    //= render :: notebook
-    //==================================================
-
-    private void renderNotebook(KmHtmlBuilder out)
+    /**
+     * Move the overlay to the correct position under the selected tab.
+     */
+    private void renderOverlayScript(KmHtmlBuilder out)
     {
-        out.open("div");
-        renderAttributesOn(out);
-        out.close();
-
-        renderChildrenOn(out);
-
-        out.end("div");
-    }
-
-    @Override
-    protected void renderChildrenOn(KmHtmlBuilder out)
-    {
-        renderTabLabelsOn(out);
-        renderTabContentsOn(out);
-    }
-
-    //==================================================
-    //= render :: labels
-    //==================================================
-
-    private void renderTabLabelsOn(KmHtmlBuilder out)
-    {
-        out.begin("ul");
-
-        for ( ScControl e : getChildren() )
-            renderTabLabel(out, e);
-
-        out.end("ul");
-    }
-
-    private void renderTabLabel(KmHtmlBuilder out, ScControl e)
-    {
-        out.begin("li");
-
-        out.open("a");
-        out.printAttribute("href", "#" + getWrapperIdFor(e));
-        out.close();
-        out.print(e.getLabel());
-        out.end("a");
-
-        out.end("li");
-    }
-
-    //==================================================
-    //= render :: contents
-    //==================================================
-
-    private void renderTabContentsOn(KmHtmlBuilder out)
-    {
-        out.open("div");
-        out.printAttribute(formatTabsWrapperCss());
-        out.close();
-
-        for ( ScControl e : getChildren() )
-            renderTabContentWrapperOn(out, e);
-
-        out.end("div");
-    }
-
-    private void renderTabContentWrapperOn(KmHtmlBuilder out, ScControl e)
-    {
-        out.openDiv();
-        out.printAttribute("id", getWrapperIdFor(e));
-        out.printAttribute(formatTabCss());
-        out.close();
-
-        renderTabContentOn(out, e);
-
-        out.endDiv();
-    }
-
-    private void renderTabContentOn(KmHtmlBuilder out, ScControl e)
-    {
-        out.openDiv();
-        out.printAttribute(formatContentCss());
-        out.close();
-        out.render(e);
-        out.endDiv();
-    }
-
-    //==================================================
-    //= render :: tab field
-    //==================================================
-
-    private void renderSelectedTabFieldOn(KmHtmlBuilder out)
-    {
-        ScControl child = getSelectedTab();
-        if ( child == null )
-        {
-            KmList<ScControl> v = getChildren();
-            if ( v.isEmpty() )
-                return;
-
-            child = v.getFirst();
-        }
-
-        String wrapperId = getWrapperIdFor(child);
-
-        out.open("input");
-        out.printAttribute("type", "hidden");
-        out.printAttribute("id", getSelectedTabFieldId());
-        out.printAttribute("name", getSelectedTabFieldName());
-        out.printAttribute("value", wrapperId);
-        out.close();
-    }
-
-    private String getSelectedTabFieldId()
-    {
-        return getHtmlId() + "-index";
-    }
-
-    private String getSelectedTabFieldName()
-    {
-        return getSelectedTabFieldId();
-    }
-
-    //==================================================
-    //= render :: script
-    //==================================================
-
-    private void renderScript(KmHtmlBuilder out)
-    {
-        String ref = getJqueryReference();
-
-        KmJsonMap options;
-        options = new KmJsonMap();
-        options.setInteger("active", getSelectedTabIndex());
-
-        ScBlockScript ajax;
-        ajax = out.getPostDom();
-        ajax.run("%s.tabs(%s);", ref, options);
-
-        renderBeforeActivateScriptOn(ajax);
-        renderActivateScriptOn(ajax);
-    }
-
-    private void renderBeforeActivateScriptOn(ScBlockScript ajax)
-    {
-        if ( !getDirtyStateChecking() )
-            return;
-
-        ScHtmlIdIF scope = findChangeTrackingScopeWrapper();
-        String scopeSel = scope == null
-            ? null
-            : scope.getJquerySelector();
-
-        String ref = getJqueryReference();
-        String script = Kmu.format("return Kmu.showNoticeIfDirty(%s);", json(scopeSel));
-
-        ajax.run("%s.on('tabsbeforeactivate',function(ev,ui){%s});", ref, script);
-    }
-
-    private void renderActivateScriptOn(ScBlockScript ajax)
-    {
-        String ref = getJqueryReference();
-
-        ScBlockScript script;
-        script = ScBlockScript.create();
-        script.run(composeTabIndexScript());
-        script.run(composeActionScript());
-
-        ajax.run("%s.on('tabsactivate',function(ev,ui){%s});", ref, script);
-    }
-
-    private ScScriptIF composeTabIndexScript()
-    {
-        String fieldId = getSelectedTabFieldId();
-        String fieldRef = ScJquery.formatIdReference(fieldId);
-
-        ScSimpleScript e;
-        e = new ScSimpleScript();
-        e.setValue("%s.val(ui.newPanel.prop('id'));", fieldRef);
-        return e;
-    }
-
-    private ScScriptIF composeActionScript()
-    {
-        ScAction action = getTabChangedAction();
-        if ( action == null )
-            return null;
-
-        ScActionScript e;
-        e = new ScActionScript();
-        e.setAction(action);
-        e.setForm(findFormWrapper());
-        e.setExtraLiteral("ui.newPanel.prop('id')");
-        return e;
-    }
-
-    //##################################################
-    //# read parameters
-    //##################################################
-
-    @Override
-    protected void readParameters_here(ScServletData data)
-    {
-        String name = getSelectedTabFieldName();
-        String tabId = getData().getParameter(name);
-
-        updateSelectedIndexFromTabId(tabId);
+        out.getPostRender().run(formatOverlayScript(getSelectedItem()));
     }
 
     //##################################################
     //# handle
     //##################################################
 
-    private void handleSetupForTabChange()
+    protected void handleTabClick()
     {
-        String tabId = getData().getExtraParameter();
-        updateSelectedIndexFromTabId(tabId);
+        String token = getData().getStringArgument();
+
+        ScControl tab = getControlForToken(token);
+        if ( !fireTabChanging(tab) )
+            return;
+
+        setSelectedToken(token);
+
+        ScNotebookItem item;
+        item = getSelectedItem();
+
+        ajaxRemoveTabSelection();
+        ajaxSelectTab(item);
+        ajaxAdjustOverlay(item);
+
+        ScControl control;
+        control = item.getControl();
+        applyModelToTab(control);
+        fireTabPreRender(control);
+
+        ajaxUpdateBody(item);
+        fireTabChanged();
     }
 
     //##################################################
-    //# tab id/index
+    //# ajax
     //##################################################
 
-    private String getWrapperIdFor(ScControl child)
+    private void ajaxRemoveTabSelection()
     {
-        return child.getKey() + TAB_HTML_ID_SUFFIX;
+        String bookSel = getJquerySelector();
+        String selectedCss = KmCssDefaultConstantsIF.book_selected;
+        String selectedSel = ScJquery.formatCssSelector(selectedCss);
+        String targetSel = Kmu.format("%s %s", bookSel, selectedSel);
+
+        _htmlIdAjax().removeCss(targetSel, selectedCss);
     }
 
-    private ScControl getChildForWrapperId(String id)
+    private void ajaxSelectTab(ScNotebookItem item)
     {
-        if ( id == null )
-            return null;
+        String tabSel = ScJquery.formatIdSelector(item.getTabHtmlId());
+        String css = KmCssDefaultConstantsIF.book_selected;
 
-        for ( ScControl e : getChildren() )
-            if ( id.equals(getWrapperIdFor(e)) )
-                return e;
+        _htmlIdAjax().addCss(tabSel, css);
+    }
 
-        return null;
+    private void ajaxAdjustOverlay(ScNotebookItem item)
+    {
+        _htmlIdAjax().run(formatOverlayScript(item));
+    }
+
+    private void ajaxUpdateBody(ScNotebookItem item)
+    {
+        _frame.ajaxPrint(item.getControl());
     }
 
     //##################################################
-    //# css
+    //# support
     //##################################################
 
-    private KmCssDefaultBuilder formatTabsWrapperCss()
+    private String formatOverlayScript(ScNotebookItem item)
     {
-        KmCssDefaultBuilder css;
-        css = newCssBuilder();
-        css.relative();
-
-        if ( getFlexFill() )
-            css.flexChildFiller();
-
-        return css;
+        String overlaySel = _overlay.getJquerySelector();
+        String tabSel = item.getTabJquerySelector();
+        return Kmu.format("Kmu.adjustTabBookOverlay('%s','%s');", overlaySel, tabSel);
     }
 
-    private KmCssDefaultBuilder formatTabCss()
-    {
-        KmCssDefaultBuilder css = newCssBuilder();
-
-        if ( getFlexFill() )
-            css.notebookTabFlexFill();
-
-        return css;
-    }
-
-    private KmCssDefaultBuilder formatContentCss()
-    {
-        KmCssDefaultBuilder css = newCssBuilder();
-
-        if ( getFlexFill() )
-        {
-            css.notebookTabContentFlexFill();
-            css.flexColumn();
-        }
-
-        return css;
-    }
-
-    private void updateSelectedIndexFromTabId(String tabId)
-    {
-        ScControl child = getChildForWrapperId(tabId);
-        int index = getChildIndexFor(child);
-
-        if ( index >= 0 )
-            _selectedTabIndex.setValue(index);
-    }
 }

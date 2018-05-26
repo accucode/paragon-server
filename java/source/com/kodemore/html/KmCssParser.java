@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
 import com.kodemore.string.KmStringTokenizer;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -65,8 +66,8 @@ public class KmCssParser
     //# variables
     //##################################################
 
-    private String            _css;
-    private CSSRuleList       _rules;
+    private String      _css;
+    private CSSRuleList _rules;
 
     //##################################################
     //# parse
@@ -74,7 +75,7 @@ public class KmCssParser
 
     public void parseFile(String path)
     {
-        String css = Kmu.readFileString(path);
+        String css = KmFiles.readString(path);
 
         if ( css == null )
             throw Kmu.newFatal("Unable to read css file: " + path);

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
-import com.kodemore.exception.error.KmGeneralValidationError;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimeConstantsIF;
 
@@ -36,26 +34,18 @@ public class KmDateValidator
     //##################################################
 
     @Override
-    public void validateModel(KmDate value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmDate value, KmErrorList errors)
     {
         validateYear(value, errors);
     }
 
-    public void validateYear(KmDate value, KmList<KmErrorIF> errors)
+    public void validateYear(KmDate value, KmErrorList errors)
     {
         if ( value.isBefore(KmTimeConstantsIF.MINIMUM_DATE) )
-            errors.add(
-                new KmGeneralValidationError(
-                    getModel(),
-                    getField(),
-                    "exceeds minimum date range."));
+            errors.addFieldError(this, "exceeds minimum date range.");
 
         if ( value.isAfter(KmTimeConstantsIF.MAXIMUM_DATE) )
-            errors.add(
-                new KmGeneralValidationError(
-                    getModel(),
-                    getField(),
-                    "exceeds maximum date range."));
+            errors.addFieldError(this, "exceeds maximum date range.");
     }
 
     //##################################################

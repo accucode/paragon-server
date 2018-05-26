@@ -3,6 +3,7 @@ package com.kodemore.generator.model;
 import com.kodemore.generator.KmgElement;
 import com.kodemore.stf.KmStfElement;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmHtmlLineEnding;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -19,14 +20,14 @@ public class KmgModelCollection
     //##################################################
 
     private enum Relation
-                    implements KmEnumIF
+        implements KmEnumIF
     {
         children(),
         weakChildren();
     }
 
     private enum OnCopy
-                    implements KmEnumIF
+        implements KmEnumIF
     {
         clear,
         copy;
@@ -363,7 +364,7 @@ public class KmgModelCollection
         if ( s == null )
             return "";
 
-        s = Kmu.escapeHtml(s, true);
+        s = Kmu.escapeHtml(s, KmHtmlLineEnding.BreakElement);
         s = Kmu.replaceAll(s, "<br>", "<br><br>");
         return s;
     }

@@ -39,27 +39,19 @@ setup
 : ifExists          = overwrite
 
 setup
+: name              = modelEnumIF
+: template          = modelEnumIF.vm
+: targetDirectory   = java/source/${packagePath}/model
+: fileMode          = oneFilePerEnum
+: fileName          = ${enum.f_Class}IF.java
+: ifExists          = skip
+
+setup
 : name              = metaModel
 : template          = metaModel.vm
 : targetDirectory   = java/source/${packagePath}/model/meta
 : fileMode          = oneFilePerModel
 : fileName          = ${model.f_MetaClass}.java
-: ifExists          = overwrite
-
-setup
-: name              = metaField
-: template          = metaField.vm
-: targetDirectory   = java/source/${packagePath}/model/meta
-: fileMode          = oneFilePerMetaFieldAndDelegate
-: fileName          = ${field.f_MetaClass}.java
-: ifExists          = overwrite
-
-setup
-: name              = metaAssociation
-: template          = metaAssociation.vm
-: targetDirectory   = java/source/${packagePath}/model/meta
-: fileMode          = oneFilePerMetaAssociation
-: fileName          = ${field.f_MetaClass}.java
 : ifExists          = overwrite
 
 setup
@@ -192,7 +184,7 @@ setup
 
 setup
 : name              = modelAssociationType
-: template          = ModelAssociationType.vm
+: template          = modelAssociationType.vm
 : targetDirectory   = java/source/${packagePath}/model/base
 : fileMode          = oneFile
 : fileName          = ${Prefix}ModelAssociationType.java

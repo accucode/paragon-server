@@ -40,12 +40,12 @@ public class MyOptimisticLockJunction
 
     public KmhStringCondition whereName()
     {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -49,7 +49,7 @@ import com.kodemore.utility.Kmu;
  * @see ScListCalendar
  *
  * This widget relies on the 3rd party Full Calendar.
- * See http://fullcalendar.io/
+ * http://fullcalendar.io/
  */
 public class ScAjaxCalendar
     extends ScCalendar
@@ -58,7 +58,7 @@ public class ScAjaxCalendar
     //# constants
     //##################################################
 
-    private static final String                               PARAMETER_TRACKED_VALUES = "myTrackedValues";
+    private static final String PARAMETER_TRACKED_VALUES = "myTrackedValues";
 
     //##################################################
     //# variables
@@ -72,7 +72,7 @@ public class ScAjaxCalendar
      * callback request url.  The values will be rebound to
      * their respective ScValue's prior to execute the filter.
      */
-    private KmList<ScEncodedValueIF>                          _trackedValues;
+    private KmList<ScEncodedValueIF> _trackedValues;
 
     //##################################################
     //# constructor
@@ -108,30 +108,34 @@ public class ScAjaxCalendar
 
     /**
      * The url used to fetch events via ajax.
+     * The suffix used here is later consumed by handleServletCallback.
+     *
+     * @see #getCalendarForPath
      */
     private String formatEventsUrl()
     {
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getCalendarCallback();
-        return c.getPath(getKey());
+        String suffix = getKeyToken();
+        return c.getPath(suffix);
     }
 
     /**
-     * Compose a function that dynamically returns the current
+     * Compose a function that dynamically returns the
      * contents of the page session and form.
      */
     private String formatEventsFunction()
     {
-        String calRef = getJqueryReference();
-
         ScForm form = findFormWrapper();
         String formRef = form == null
             ? "null"
             : form.getJqueryReference();
 
+        String calRef = getJqueryReference();
         String val = Kmu.format("Kmu.calendarGetAjaxData(%s,%s)", calRef, formRef);
-        String fun = Kmu.format("function(){return %s}", val);
-        return fun;
+        String fn = Kmu.format("function(){return %s}", val);
+
+        return fn;
     }
 
     //##################################################
@@ -183,17 +187,20 @@ public class ScAjaxCalendar
             e.composeAjaxEvents();
     }
 
-    private static ScAjaxCalendar getCalendarForPath(String suffix)
+    /**
+     * We assume the pathSuffix is the control's key since that is
+     * what we provided when composing the url.  See formatRequestUrl().
+     *
+     * @see #formatEventsUrl
+     */
+    private static ScAjaxCalendar getCalendarForPath(String pathSuffix)
     {
-        /*
-         * We assume the pathSuffix is the control's key since that is
-         * what we provided when composing the url.  See formatRequestUrl().
-         */
-        String key = suffix;
-        if ( Kmu.isEmpty(key) )
+        String token = pathSuffix;
+
+        if ( Kmu.isEmpty(token) )
             return null;
 
-        ScControl e = getRegistry().getControl(key);
+        ScControl e = getRegistry().findToken(token);
         return e instanceof ScAjaxCalendar
             ? (ScAjaxCalendar)e
             : null;

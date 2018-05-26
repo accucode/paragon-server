@@ -70,7 +70,7 @@ public class KmSqlResultFormatterHtmlSimple
             return "Too many rows.";
 
         if ( wasNull )
-            return "-null-";
+            return formatNull();
 
         return s;
     }

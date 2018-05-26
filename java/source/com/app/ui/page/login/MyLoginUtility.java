@@ -2,7 +2,6 @@ package com.app.ui.page.login;
 
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.MyGlobalSession;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.utility.Kmu;
 
@@ -12,6 +11,7 @@ import com.app.model.MyServerSession;
 import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.property.MyProperties;
+import com.app.ui.MyGlobalSession;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
@@ -31,7 +31,17 @@ public class MyLoginUtility
     //# sign in
     //##################################################
 
-    public static void logIn(MyAutoLogin auto)
+    public static MyServerSession ajaxLogIn(MyUser user)
+    {
+        MyGlobalSession gs;
+        gs = MyGlobalSession.getInstance();
+        gs.installCurrentProjectFor(user);
+
+        ajaxResetEnvironmentCssFor(user);
+        return MyServerSessionManager.logIn(user);
+    }
+
+    public static void ajaxLogIn(MyAutoLogin auto)
     {
         MyUser user = auto.getUser();
 
@@ -44,24 +54,12 @@ public class MyLoginUtility
         ajaxSetAutoLoginCookie(auto);
     }
 
-    public static MyServerSession ajaxLogIn(MyUser user)
-    {
-        MyGlobalSession gs;
-        gs = MyGlobalSession.instance;
-        gs.installCurrentProjectFor(user);
-
-        ajaxResetEnvironmentCssFor(user);
-        return MyServerSessionManager.logIn(user);
-    }
-
     public static void ajaxLogOut()
     {
-        MyTenant tenant = getData().getTenant();
+        logout();
 
         ajaxClearAutoLogin();
-        clearPageSession();
 
-        MyServerSessionManager.beginSession(tenant);
         ajaxResetEnvironmentCssFor(null);
 
         MyPageLayout layout;
@@ -70,6 +68,13 @@ public class MyLoginUtility
         layout.ajaxClearContent();
 
         MyLogoutPage.getInstance().ajaxEnter();
+    }
+
+    public static void logout()
+    {
+        clearAutoLogin();
+        clearServerSession();
+        clearPageSession();
     }
 
     //##################################################
@@ -110,14 +115,19 @@ public class MyLoginUtility
 
     public static void ajaxClearAutoLogin()
     {
-        MyServerSession ss = getServerSession();
-        if ( ss.hasAutoLogin() )
-        {
-            ss.getAutoLogin().daoDelete();
-            ss.clearAutoLogin();
-        }
-
+        clearAutoLogin();
         ajaxSetAutoLoginCookie(null);
+    }
+
+    private static void clearAutoLogin()
+    {
+        MyServerSession ss = getServerSession();
+
+        if ( !ss.hasAutoLogin() )
+            return;
+
+        ss.getAutoLogin().daoDelete();
+        ss.clearAutoLogin();
     }
 
     public static void ajaxSetAutoLoginCookie(MyAutoLogin e)
@@ -148,7 +158,7 @@ public class MyLoginUtility
         if ( !user.allowsLogin() )
             return false;
 
-        logIn(auto);
+        ajaxLogIn(auto);
         return true;
     }
 
@@ -174,7 +184,7 @@ public class MyLoginUtility
         auto.setUser(user);
         auto.daoAttach();
 
-        logIn(auto);
+        ajaxLogIn(auto);
         return true;
     }
 
@@ -249,11 +259,18 @@ public class MyLoginUtility
 
     private static void clearPageSession()
     {
-        getData().getPageSession().clearAll();
+        getData().getPageSession().resetAll();
+    }
+
+    private static void clearServerSession()
+    {
+        MyTenant tenant = getData().getTenant();
+        MyServerSessionManager.beginSession(tenant);
     }
 
     private static MyServerSession getServerSession()
     {
         return MyGlobals.getServerSession();
     }
+
 }

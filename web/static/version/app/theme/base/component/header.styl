@@ -1,19 +1,17 @@
-/*****************************
- ** page header
- *****************************/
+//******************************
+//** page header
+//******************************
 
 /**
  * The unique ID for the header box.
  * Used by javascript.
  */
 #header
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
 
 
 .header-bare
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
 
 
 .header-normal
@@ -34,21 +32,23 @@
     background:         $header-background
 
 
-/*****************************
- ** environment overrides
- *****************************/
+//******************************
+//** environment
+//******************************
 
-.environmentStage .header-normal
+
+body.environmentStage .header-normal
     background:         $header-stageBackground
 
 
-.environmentProduction .header-normal
+body.environmentProduction .header-normal
     background:         $header-productionBackground
 
 
-/*****************************
- ** left
- *****************************/
+//******************************
+//** left
+//******************************
+
 
 .header-left
     flex-shrink:        1
@@ -56,13 +56,15 @@
     flex-basis:         0px
     padding-top:        5px
 
-.header-link
-    /* noop - prevent compression */
-    content: normal
 
-/*****************************
- ** middle
- *****************************/
+.header-link
+    content: normal // prevent stylus compression
+
+
+//******************************
+//** middle
+//******************************
+
 
 .header-middle
     flex-shrink:        1
@@ -73,18 +75,23 @@
     justify-content:    center
     white-space:        nowrap
 
+
 .header-bare  > .header-middle
     display: none
+
 
 .header-middle > *
     margin-left:        20px
 
+
 .header-middle > *:first
     margin-left:        0
 
-/*****************************
- ** right
- *****************************/
+
+//******************************
+//** right
+//******************************
+
 
 .header-right
     flex-shrink:        1
@@ -103,12 +110,13 @@
     display:            none
 
 
-/*****************************
- ** logo
- *****************************/
+//******************************
+//** logo
+//******************************
+
 
 .header-logoImage
-    padding:            0 5px
+    padding:            0px 5px
 
 .header-logoText
     color:              $header-logoColor
@@ -117,37 +125,27 @@
     vertical-align:     top
 
 
-/*****************************
- ** project
- *****************************/
+//******************************
+//** project
+//******************************
+
 
 .header-project
     font:               $header-projectFont
     color:              $header-projectColor
     text-decoration:    none
 
+
 .header-project:hover
     font:               $header-projectFont
     color:              $header-projectColor
     text-decoration:    underline
 
-/*****************************
- ** depot
- *****************************/
 
-.header-depot
-    font:               $header-depotFont
-    color:              $header-depotColor
-    text-decoration:    none
+//******************************
+//** clock
+//******************************
 
-.header-depot:hover
-    font:               $header-depotFont
-    color:              $header-depotColor
-    text-decoration:    underline
-
-/*****************************
- ** clock
- *****************************/
 
 .header-clock
     display:            flex
@@ -155,43 +153,51 @@
     white-space:        nowrap
     text-decoration:    none
 
+
 .header-clock:hover
     color:              $header-timeColor
     text-decoration:    underline
+
 
 .header-time
     font:               $header-timeFont
     color:              $header-timeColor
 
+
 .header-timeZone
     font:               $header-timeZoneFont
     color:              $header-timeZoneColor
 
-/*****************************
- ** task
- *****************************/
+
+//******************************
+//** accordion
+//******************************
+
 
 .header-task
     font:               $header-taskFont
     color:              $header-taskColor
     text-decoration:    none
 
+
 .header-task:hover
     font:               $header-taskFont
     color:              $header-taskColor
     text-decoration:    underline
 
-/*****************************
- ** project
- *****************************/
+
+//******************************
+//** project
+//******************************
+
 
 .header-user
     font:               $header-userFont
     color:              $header-userColor
     text-decoration:    none
 
+
 .header-user:hover
     font:               $header-userFont
     color:              $header-userColor
     text-decoration:    underline
-

@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.meta.KmMetaKilogramProperty;
 import com.kodemore.servlet.field.ScKilogramField;
 import com.kodemore.types.KmKilogram;
@@ -22,10 +23,15 @@ public class KmProtoKilogram
         return KmKilogram.class;
     }
 
-    @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public String getDatabaseType()
     {
         return Kmu.format("decimal(%s,%s)", KmKilogram.DATABASE_PRECISION, KmKilogram.SCALE);
+    }
+
+    @Override
+    public KmList<KmgSqlColumn> getSqlColumns()
+    {
+        return singleColumn(getDatabaseType());
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,10 @@ public class KmaRangeSpinner
     //# variables
     //##################################################
 
-    private int               _value;
-    private int               _leftValue;
-    private int               _rightValue;
-    private int               _step;
+    private int _value;
+    private int _leftValue;
+    private int _rightValue;
+    private int _step;
 
     private KmList<KmaAction> _changeActions;
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,12 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.renderer.ScRenderer;
-import com.kodemore.servlet.utility.ScUrlBridge;
-import com.kodemore.servlet.utility.ScUrls;
+import com.kodemore.servlet.script.ScShowNoticeScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.KmSimpleResult;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScButton
@@ -43,12 +43,13 @@ public abstract class ScButton
     //# constants
     //##################################################
 
-    private static final String FLAVOR_NORMAL   = KmCssDefaultConstantsIF.button_normal;
-    private static final String FLAVOR_POSITIVE = KmCssDefaultConstantsIF.button_positive;
-    private static final String FLAVOR_NEGATIVE = KmCssDefaultConstantsIF.button_negative;
-    private static final String FLAVOR_DELETE   = KmCssDefaultConstantsIF.button_delete;
-    private static final String FLAVOR_DISABLED = KmCssDefaultConstantsIF.button_disabled;
-    private static final String FLAVOR_ICON     = KmCssDefaultConstantsIF.button_icon;
+    private static final String FLAVOR_NORMAL     = KmCssDefaultConstantsIF.button_normal;
+    private static final String FLAVOR_POSITIVE   = KmCssDefaultConstantsIF.button_positive;
+    private static final String FLAVOR_NEGATIVE   = KmCssDefaultConstantsIF.button_negative;
+    private static final String FLAVOR_WARN       = KmCssDefaultConstantsIF.button_warn;
+    private static final String FLAVOR_DISABLED   = KmCssDefaultConstantsIF.button_disabled;
+    private static final String FLAVOR_ICON       = KmCssDefaultConstantsIF.button_icon;
+    private static final String FLAVOR_SMALL_ICON = KmCssDefaultConstantsIF.button_smallIcon;
 
     //##################################################
     //# variables
@@ -57,43 +58,51 @@ public abstract class ScButton
     /**
      * The text to display inside the label.
      */
-    private ScLocalRenderer     _text;
+    private ScLocalRenderer _text;
 
     /**
-     * The icon to display before (to the left of) the text.
+     * The control to display before (to the left of) the text.
+     * This is typically an icon.
      */
-    private ScLocalString       _preImage;
+    private ScControl _preControl;
 
     /**
-     * The icon to display before (to the right of) the text.
+     * The control to display after (to the right of) the text.
+     * This is typically an icon.
      */
-    private ScLocalString       _postImage;
+    private ScControl _postControl;
 
     /**
      * The general 'flavor' of the button.
      * This corresponds to various style decorations defined in the css.
      * E.g.: positive, negative, etc....
      */
-    private ScLocalString       _flavor;
+    private ScLocalString _flavor;
 
     /**
      * If true, the button is expected to act as the primary/default
      * button within a form.  That is, it indicates the action that will
      * be taken if the user simply presses enter on a text field.
      */
-    private ScLocalBoolean      _primary;
+    private ScLocalBoolean _primary;
 
     /**
      * If disabled, the button cannot be clicked by the user.
      */
-    private ScLocalBoolean      _enabled;
+    private ScLocalBoolean _enabled;
 
     /**
      * If true, add the autofocus attribute to the button.
      * This is normally false.  In most cases the application automatically
      * assigns focus to the first applicable element.
      */
-    private ScLocalBoolean      _autoFocus;
+    private ScLocalBoolean _autoFocus;
+
+    /**
+     * If set, this indicates that the browser client should automatically
+     * run the onclick action every x minutes.
+     */
+    private ScLocalInteger _autoRunSeconds;
 
     //##################################################
     //# constructor
@@ -105,20 +114,9 @@ public abstract class ScButton
         _flavor = new ScLocalString(FLAVOR_NORMAL);
         _primary = new ScLocalBoolean(false);
 
-        _preImage = new ScLocalString();
-        _postImage = new ScLocalString();
-
         _enabled = new ScLocalBoolean(true);
         _autoFocus = new ScLocalBoolean(false);
-    }
-
-    //##################################################
-    //# html name
-    //##################################################
-
-    public String getHtmlName()
-    {
-        return getKey();
+        _autoRunSeconds = new ScLocalInteger();
     }
 
     //##################################################
@@ -155,14 +153,19 @@ public abstract class ScButton
         setFlavor(FLAVOR_DISABLED);
     }
 
-    public void setFlavorDelete()
+    public void setFlavorWarn()
     {
-        setFlavor(FLAVOR_DELETE);
+        setFlavor(FLAVOR_WARN);
     }
 
     public void setFlavorIcon()
     {
         setFlavor(FLAVOR_ICON);
+    }
+
+    public void setFlavorSmallIcon()
+    {
+        setFlavor(FLAVOR_SMALL_ICON);
     }
 
     public boolean hasFlavor(String e)
@@ -179,14 +182,23 @@ public abstract class ScButton
         _enabled.setValue(e);
     }
 
-    public void setEnabled()
+    public void setEnabled(KmSimpleResult allowed)
+    {
+        if ( allowed.isOk() )
+            enable();
+        else
+            disable(allowed.getError());
+    }
+
+    public void enable()
     {
         setEnabled(true);
     }
 
-    public void setDisabled()
+    public void disable(String msg)
     {
         setEnabled(false);
+        setHelp(msg);
     }
 
     public boolean isEnabled()
@@ -255,51 +267,82 @@ public abstract class ScButton
     }
 
     //##################################################
-    //# pre image
+    //# controls
     //##################################################
 
-    public String getPreImage()
+    public void clearControls()
     {
-        return _preImage.getValue();
+        _preControl = null;
+        _postControl = null;
     }
 
-    public void setPreImage(String e)
+    //==================================================
+    //= controls :: icons
+    //==================================================
+
+    public ScIcon setIcon()
     {
-        _preImage.setValue(e);
+        return setPreIcon();
     }
 
-    public void clearPreImage()
+    public ScIcon setPreIcon()
     {
-        _preImage.clearValue();
+        ScIcon e;
+        e = newIcon();
+        _preControl = e;
+        return e;
     }
 
-    public boolean hasPreImage()
+    public ScIcon setPostIcon()
     {
-        return _preImage.hasValue();
+        ScIcon e;
+        e = newIcon();
+        _postControl = e;
+        return e;
     }
 
-    //##################################################
-    //# post image
-    //##################################################
-
-    public String getPostImage()
+    public void clearIcons()
     {
-        return _postImage.getValue();
+        _preControl = null;
+        _postControl = null;
     }
 
-    public void setPostImage(String e)
+    private ScIcon newIcon()
     {
-        _postImage.setValue(e);
+        ScIcon e;
+        e = new ScIcon();
+        e.sizeButton();
+        return e;
     }
 
-    public void clearPostImage()
+    //==================================================
+    //= controls :: images
+    //==================================================
+
+    public ScImage installPreImage(String url)
     {
-        _postImage.clearValue();
+        ScImage e;
+        e = newImage(url);
+        _preControl = e;
+        return e;
     }
 
-    public boolean hasPostImage()
+    public ScImage installPostImage(String url)
     {
-        return _postImage.hasValue();
+        ScImage e;
+        e = newImage(url);
+        _postControl = e;
+        return e;
+    }
+
+    private ScImage newImage(String url)
+    {
+        ScImage e;
+        e = new ScImage();
+        e.setSource(url);
+        e.setAlt("");
+        e.css().buttonImage();
+        return e;
     }
 
     //##################################################
@@ -322,6 +365,30 @@ public abstract class ScButton
     }
 
     //##################################################
+    //# auto run
+    //##################################################
+
+    public Integer getAutoRunSeconds()
+    {
+        return _autoRunSeconds.getValue();
+    }
+
+    public void setAutoRunSeconds(Integer e)
+    {
+        _autoRunSeconds.setValue(e);
+    }
+
+    public void clearAutoRunSeconds()
+    {
+        _autoRunSeconds.clearValue();
+    }
+
+    public boolean hasAutoRunSeconds()
+    {
+        return _autoRunSeconds.hasValue();
+    }
+
+    //##################################################
     //# abstract accessing
     //##################################################
 
@@ -329,54 +396,36 @@ public abstract class ScButton
     {
         setPrimary(false);
         setFlavorNormal();
-
-        clearPreImage();
-        clearPostImage();
+        clearControls();
     }
 
     public void applyPrimaryFlavor()
     {
         setPrimary();
         setFlavorPositive();
-
-        setPreImage(ScUrls.getPrimaryButtonImage());
-        clearPostImage();
+        clearControls();
+        setIcon().nameDone().styleLight();
     }
 
     public void applyPositiveFlavor()
     {
         setFlavorPositive();
-
-        setPreImage(ScUrls.getPositiveButtonImage());
-        clearPostImage();
+        clearControls();
+        setIcon().nameDone().styleLight();
     }
 
     public void applyNegativeFlavor()
     {
         setFlavorNegative();
-        setImage(ScUrls.getNegativeButtonImage());
+        clearControls();
+        setIcon().nameClose().styleLight();
     }
 
     public void applyDeleteFlavor()
     {
-        setFlavorDelete();
-        setImage(ScUrls.getNegativeButtonImage());
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public void setImage(String e)
-    {
-        setPreImage(e);
-        clearPostImage();
-    }
-
-    public void clearImages()
-    {
-        clearPreImage();
-        clearPostImage();
+        setFlavorWarn();
+        clearControls();
+        setIcon().nameRemoveCircleOutline().styleLight();
     }
 
     //##################################################
@@ -390,9 +439,9 @@ public abstract class ScButton
         renderAttributesOn(out);
         out.close();
 
-        renderPreImageOn(out);
+        renderPreControlOn(out);
         renderTextOn(out);
-        renderPostImageOn(out);
+        renderPostControlOn(out);
         renderHelpOn(out);
 
         out.end("button");
@@ -409,8 +458,12 @@ public abstract class ScButton
         if ( getAutoFocus() )
             out.printAttribute("autofocus", "autofocus");
 
-        if ( isDisabled() )
-            out.printAttribute("disabled", "disabled");
+        // Currently shows a message instead.
+        //        if ( isDisabled() )
+        //            out.printAttribute("disabled", "disabled");
+
+        if ( hasAutoRunSeconds() )
+            out.printDataAttribute("autoRunSeconds", getAutoRunSeconds() + "");
     }
 
     @Override
@@ -428,38 +481,67 @@ public abstract class ScButton
         if ( isPrimary() )
             css.button_primary();
 
+        if ( hasAutoRunSeconds() )
+            css.autoRun();
+
         return css;
     }
 
     private void renderHelpOn(KmHtmlBuilder out)
     {
-        Integer x = 3;
+        Integer x = 0;
         Integer y = null;
         Integer z = null;
         out.printHelpImage(getHelp(), x, y, z);
     }
 
-    private void renderPreImageOn(KmHtmlBuilder out)
+    private void renderPreControlOn(KmHtmlBuilder out)
     {
-        if ( hasPreImage() )
-            out.printImage(getPreImage());
+        out.render(_preControl);
     }
 
-    private void renderPostImageOn(KmHtmlBuilder out)
+    private void renderPostControlOn(KmHtmlBuilder out)
     {
-        if ( hasPostImage() )
-            out.printImage(getPostImage());
+        out.render(_postControl);
     }
 
     private void renderTextOn(KmHtmlBuilder out)
     {
-        if ( hasText() )
-            getText().renderOn(out, this, getModel());
+        if ( !hasText() )
+            return;
+
+        out.beginSpan();
+        getText().renderOn(out, this, getModel());
+        out.endSpan();
     }
 
     protected abstract String getButtonType();
 
-    protected abstract String formatOnClick();
+    //##################################################
+    //# format on click
+    //##################################################
+
+    private String formatOnClick()
+    {
+        return isEnabled()
+            ? formatEnabledOnClick()
+            : formatDisabledOnClick();
+    }
+
+    protected abstract String formatEnabledOnClick();
+
+    private String formatDisabledOnClick()
+    {
+        String msg = hasHelp()
+            ? getHelp()
+            : "This action is currently disabled.";
+
+        ScShowNoticeScript s;
+        s = new ScShowNoticeScript();
+        s.setTitle("Disabled");
+        s.setTextMessage(msg);
+        return s.formatScript();
+    }
 
     //##################################################
     //# ajax
@@ -512,58 +594,32 @@ public abstract class ScButton
     //# style
     //##################################################
 
-    public void styleAdd()
+    public ScIcon styleAdd()
     {
-        String img = ScUrlBridge.getInstance().getAddButtonUrl();
-
-        setImage(img);
+        setFlavorIcon();
         setHoverText("Add");
+        return setIcon().nameAddCircleOutline();
     }
 
-    public void styleEdit()
+    public ScIcon styleEdit()
     {
-        String img = ScUrlBridge.getInstance().getEditButtonUrl();
-
-        setImage(img);
+        setFlavorIcon();
         setHoverText("Edit");
+        return setIcon().nameEdit();
     }
 
-    public void styleRemove()
+    public ScIcon styleDelete()
     {
-        String img = ScUrlBridge.getInstance().getRemoveButtonUrl();
-
-        setImage(img);
-        setHoverText("Remove");
+        setFlavorIcon();
+        setHoverText("Delete?");
+        return setIcon().nameDelete();
     }
 
-    public void styleDelete()
+    public ScIcon styleRefresh()
     {
-        String img = ScUrlBridge.getInstance().getDeleteButtonUrl();
-
-        setImage(img);
-        setHoverText("Delete");
-    }
-
-    public void styleRefresh()
-    {
-        String img = ScUrlBridge.getInstance().getRefreshButtonUrl();
-
-        setImage(img);
+        setFlavorIcon();
         setHoverText("Refresh");
-    }
-
-    //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory()
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-        _text.compressMemory();
+        return setIcon().nameRefresh();
     }
 
 }

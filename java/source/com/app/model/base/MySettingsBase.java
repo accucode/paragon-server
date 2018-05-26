@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MySettingsBase
-    extends MyAbstractDaoDomain
-    implements MyDomainIF
+    extends MyAbstractDaoDomain<MySettings>
+    implements KmDomainIF
 {
     //##################################################
     //# static
@@ -37,6 +39,7 @@ public abstract class MySettingsBase
     public static final MyMetaSettings Meta = MyMetaSettings.instance;
     public static final MySettingsTools Tools = MySettingsTools.instance;
     public static final MySettingsValidator Validator = MySettingsValidator.instance;
+    public static final MySettingsFinder Finder = MySettingsFinder.instance;
 
     //##################################################
     //# variables
@@ -57,6 +60,22 @@ public abstract class MySettingsBase
     }
 
     //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
     //# field (code)
     //##################################################
 
@@ -67,7 +86,7 @@ public abstract class MySettingsBase
 
     public void setCode(Integer e)
     {
-        e = Validator.getCodeValidator().convertOnly(e);
+        e = Validator.getCodeValidator().convert(e);
         code = e;
     }
 
@@ -87,6 +106,38 @@ public abstract class MySettingsBase
     }
 
     //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
     //# field (someMessage)
     //##################################################
 
@@ -97,7 +148,7 @@ public abstract class MySettingsBase
 
     public void setSomeMessage(String e)
     {
-        e = Validator.getSomeMessageValidator().convertOnly(e);
+        e = Validator.getSomeMessageValidator().convert(e);
         someMessage = e;
     }
 
@@ -137,7 +188,7 @@ public abstract class MySettingsBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -156,42 +207,21 @@ public abstract class MySettingsBase
         return Kmu.isEqual(getLockVersion(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MySettingsValidator getValidator()
     {
-        Validator.validate((MySettings)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MySettings asSubclass()
     {
-        Validator.validateWarn((MySettings)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MySettings)this);
+        return (MySettings)this;
     }
 
     //##################################################
@@ -220,8 +250,28 @@ public abstract class MySettingsBase
     {
         MySettings e;
         e = new MySettings();
-        e.setSomeMessage(getSomeMessage());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MySettings e)
+    {
+        e.setSomeMessage(getSomeMessage());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MySettings e)
+    {
+        setSomeMessage(e.getSomeMessage());
     }
 
     //##################################################
@@ -252,9 +302,11 @@ public abstract class MySettingsBase
 
     public boolean isSameIgnoringKey(MySettings e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getSomeMessage(), e.getSomeMessage()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         return true;
     }
 

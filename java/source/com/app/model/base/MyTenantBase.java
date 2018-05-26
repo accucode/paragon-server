@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,9 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyTenantBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyTenant>
+    implements KmUidDomainIF
+    ,MyBasicTimestampsIF
 {
     //##################################################
     //# static
@@ -37,20 +40,26 @@ public abstract class MyTenantBase
     public static final MyMetaTenant Meta = MyMetaTenant.instance;
     public static final MyTenantTools Tools = MyTenantTools.instance;
     public static final MyTenantValidator Validator = MyTenantValidator.instance;
+    public static final MyTenantFinder Finder = MyTenantFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
+    private KmDayFrequency businessDays;
+    private KmTime businessEndTime;
+    private KmTime businessStartTime;
     private KmTimestamp createdUtcTs;
-    private String name;
     private String hostname;
+    private String memo;
+    private String name;
     private String themeCode;
-    private String intacctCompanyId;
-    private String intacctUserId;
-    private String intacctUserPassword;
+    private String timeZoneCode;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
+    private MyUser createdBy;
+    private MyUser updatedBy;
     private List<MyProject> projects;
     private List<MyUser> users;
 
@@ -61,52 +70,125 @@ public abstract class MyTenantBase
     public MyTenantBase()
     {
         super();
-        setUid(newUid());
+        setBusinessDays(MyTenant.DEFAULT_BUSINESS_DAYS);
+        setBusinessEndTime(MyTenant.DEFAULT_BUSINESS_END);
+        setBusinessStartTime(MyTenant.DEFAULT_BUSINESS_START);
         setCreatedUtcTs(nowUtc());
         setThemeCode(MyTheme.Default.getCode());
+        setTimeZoneCode(MyTenant.DEFAULT_TIME_ZONE.getCode());
+        setUid(newUid());
+        setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
+        setCreatedBy(MyGlobals.getCurrentUser());
+        setUpdatedBy(MyGlobals.getCurrentUser());
         projects = new ArrayList<>();
         users = new ArrayList<>();
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
-    public void clearUid()
+    //##################################################
+    //# field (businessDays)
+    //##################################################
+
+    public KmDayFrequency getBusinessDays()
     {
-        setUid(null);
+        return businessDays;
     }
 
-    public boolean hasUid()
+    public void setBusinessDays(KmDayFrequency e)
     {
-        return Kmu.hasValue(getUid());
+        e = Validator.getBusinessDaysValidator().convert(e);
+        businessDays = e;
     }
 
-    public boolean hasUid(String e)
+    public void clearBusinessDays()
     {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
+        setBusinessDays(null);
     }
 
-    public void truncateUid()
+    public boolean hasBusinessDays()
     {
-        truncateUid(false);
+        return getBusinessDays() != null;
     }
 
-    public void truncateUid(boolean ellipses)
+    public boolean hasBusinessDays(KmDayFrequency e)
     {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqual(getBusinessDays(), e);
+    }
+
+    //##################################################
+    //# field (businessEndTime)
+    //##################################################
+
+    public KmTime getBusinessEndTime()
+    {
+        return businessEndTime;
+    }
+
+    public void setBusinessEndTime(KmTime e)
+    {
+        e = Validator.getBusinessEndTimeValidator().convert(e);
+        businessEndTime = e;
+    }
+
+    public void clearBusinessEndTime()
+    {
+        setBusinessEndTime(null);
+    }
+
+    public boolean hasBusinessEndTime()
+    {
+        return getBusinessEndTime() != null;
+    }
+
+    public boolean hasBusinessEndTime(KmTime e)
+    {
+        return Kmu.isEqual(getBusinessEndTime(), e);
+    }
+
+    //##################################################
+    //# field (businessStartTime)
+    //##################################################
+
+    public KmTime getBusinessStartTime()
+    {
+        return businessStartTime;
+    }
+
+    public void setBusinessStartTime(KmTime e)
+    {
+        e = Validator.getBusinessStartTimeValidator().convert(e);
+        businessStartTime = e;
+    }
+
+    public void clearBusinessStartTime()
+    {
+        setBusinessStartTime(null);
+    }
+
+    public boolean hasBusinessStartTime()
+    {
+        return getBusinessStartTime() != null;
+    }
+
+    public boolean hasBusinessStartTime(KmTime e)
+    {
+        return Kmu.isEqual(getBusinessStartTime(), e);
     }
 
     //##################################################
@@ -120,7 +202,7 @@ public abstract class MyTenantBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -140,43 +222,35 @@ public abstract class MyTenantBase
     }
 
     //##################################################
-    //# field (name)
+    //# field (domainSubtitle)
     //##################################################
 
-    public String getName()
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        return name;
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void setName(String e)
+    public boolean hasDomainSubtitle(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
-        name = e;
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
     }
 
-    public void clearName()
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
     {
-        setName(null);
+        return Kmu.hasValue(getDomainTitle());
     }
 
-    public boolean hasName()
+    public boolean hasDomainTitle(String e)
     {
-        return Kmu.hasValue(getName());
-    }
-
-    public boolean hasName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getName(), e);
-    }
-
-    public void truncateName()
-    {
-        truncateName(false);
-    }
-
-    public void truncateName(boolean ellipses)
-    {
-        name = Kmu.truncate(name, 50, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -190,7 +264,7 @@ public abstract class MyTenantBase
 
     public void setHostname(String e)
     {
-        e = Validator.getHostnameValidator().convertOnly(e);
+        e = Validator.getHostnameValidator().convert(e);
         hostname = e;
     }
 
@@ -220,6 +294,86 @@ public abstract class MyTenantBase
     }
 
     //##################################################
+    //# field (memo)
+    //##################################################
+
+    public String getMemo()
+    {
+        return memo;
+    }
+
+    public void setMemo(String e)
+    {
+        e = Validator.getMemoValidator().convert(e);
+        memo = e;
+    }
+
+    public void clearMemo()
+    {
+        setMemo(null);
+    }
+
+    public boolean hasMemo()
+    {
+        return Kmu.hasValue(getMemo());
+    }
+
+    public boolean hasMemo(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getMemo(), e);
+    }
+
+    public void truncateMemo()
+    {
+        truncateMemo(false);
+    }
+
+    public void truncateMemo(boolean ellipses)
+    {
+        memo = Kmu.truncate(memo, 1000, ellipses);
+    }
+
+    //##################################################
+    //# field (name)
+    //##################################################
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String e)
+    {
+        e = Validator.getNameValidator().convert(e);
+        name = e;
+    }
+
+    public void clearName()
+    {
+        setName(null);
+    }
+
+    public boolean hasName()
+    {
+        return Kmu.hasValue(getName());
+    }
+
+    public boolean hasName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getName(), e);
+    }
+
+    public void truncateName()
+    {
+        truncateName(false);
+    }
+
+    public void truncateName(boolean ellipses)
+    {
+        name = Kmu.truncate(name, 50, ellipses);
+    }
+
+    //##################################################
     //# field (themeCode)
     //##################################################
 
@@ -230,7 +384,7 @@ public abstract class MyTenantBase
 
     public void setThemeCode(String e)
     {
-        e = Validator.getThemeCodeValidator().convertOnly(e);
+        e = Validator.getThemeCodeValidator().convert(e);
         themeCode = e;
     }
 
@@ -260,126 +414,6 @@ public abstract class MyTenantBase
     }
 
     //##################################################
-    //# field (intacctCompanyId)
-    //##################################################
-
-    public String getIntacctCompanyId()
-    {
-        return intacctCompanyId;
-    }
-
-    public void setIntacctCompanyId(String e)
-    {
-        e = Validator.getIntacctCompanyIdValidator().convertOnly(e);
-        intacctCompanyId = e;
-    }
-
-    public void clearIntacctCompanyId()
-    {
-        setIntacctCompanyId(null);
-    }
-
-    public boolean hasIntacctCompanyId()
-    {
-        return Kmu.hasValue(getIntacctCompanyId());
-    }
-
-    public boolean hasIntacctCompanyId(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getIntacctCompanyId(), e);
-    }
-
-    public void truncateIntacctCompanyId()
-    {
-        truncateIntacctCompanyId(false);
-    }
-
-    public void truncateIntacctCompanyId(boolean ellipses)
-    {
-        intacctCompanyId = Kmu.truncate(intacctCompanyId, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (intacctUserId)
-    //##################################################
-
-    public String getIntacctUserId()
-    {
-        return intacctUserId;
-    }
-
-    public void setIntacctUserId(String e)
-    {
-        e = Validator.getIntacctUserIdValidator().convertOnly(e);
-        intacctUserId = e;
-    }
-
-    public void clearIntacctUserId()
-    {
-        setIntacctUserId(null);
-    }
-
-    public boolean hasIntacctUserId()
-    {
-        return Kmu.hasValue(getIntacctUserId());
-    }
-
-    public boolean hasIntacctUserId(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getIntacctUserId(), e);
-    }
-
-    public void truncateIntacctUserId()
-    {
-        truncateIntacctUserId(false);
-    }
-
-    public void truncateIntacctUserId(boolean ellipses)
-    {
-        intacctUserId = Kmu.truncate(intacctUserId, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (intacctUserPassword)
-    //##################################################
-
-    public String getIntacctUserPassword()
-    {
-        return intacctUserPassword;
-    }
-
-    public void setIntacctUserPassword(String e)
-    {
-        e = Validator.getIntacctUserPasswordValidator().convertOnly(e);
-        intacctUserPassword = e;
-    }
-
-    public void clearIntacctUserPassword()
-    {
-        setIntacctUserPassword(null);
-    }
-
-    public boolean hasIntacctUserPassword()
-    {
-        return Kmu.hasValue(getIntacctUserPassword());
-    }
-
-    public boolean hasIntacctUserPassword(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getIntacctUserPassword(), e);
-    }
-
-    public void truncateIntacctUserPassword()
-    {
-        truncateIntacctUserPassword(false);
-    }
-
-    public void truncateIntacctUserPassword(boolean ellipses)
-    {
-        intacctUserPassword = Kmu.truncate(intacctUserPassword, 50, ellipses);
-    }
-
-    //##################################################
     //# field (themeName)
     //##################################################
 
@@ -396,6 +430,132 @@ public abstract class MyTenantBase
     }
 
     //##################################################
+    //# field (timeZoneCode)
+    //##################################################
+
+    public String getTimeZoneCode()
+    {
+        return timeZoneCode;
+    }
+
+    public void setTimeZoneCode(String e)
+    {
+        e = Validator.getTimeZoneCodeValidator().convert(e);
+        timeZoneCode = e;
+    }
+
+    public void clearTimeZoneCode()
+    {
+        setTimeZoneCode(null);
+    }
+
+    public boolean hasTimeZoneCode()
+    {
+        return Kmu.hasValue(getTimeZoneCode());
+    }
+
+    public boolean hasTimeZoneCode(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getTimeZoneCode(), e);
+    }
+
+    public void truncateTimeZoneCode()
+    {
+        truncateTimeZoneCode(false);
+    }
+
+    public void truncateTimeZoneCode(boolean ellipses)
+    {
+        timeZoneCode = Kmu.truncate(timeZoneCode, 40, ellipses);
+    }
+
+    //##################################################
+    //# field (timeZoneName)
+    //##################################################
+
+    public abstract String getTimeZoneName();
+
+    public boolean hasTimeZoneName()
+    {
+        return Kmu.hasValue(getTimeZoneName());
+    }
+
+    public boolean hasTimeZoneName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getTimeZoneName(), e);
+    }
+
+    //##################################################
+    //# field (uid)
+    //##################################################
+
+    public String getUid()
+    {
+        return uid;
+    }
+
+    public void setUid(String e)
+    {
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
+    }
+
+    public void clearUid()
+    {
+        setUid(null);
+    }
+
+    public boolean hasUid()
+    {
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -406,7 +566,7 @@ public abstract class MyTenantBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -423,22 +583,6 @@ public abstract class MyTenantBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -515,6 +659,194 @@ public abstract class MyTenantBase
     public boolean hasCreatedLocalTime(KmTime e)
     {
         return Kmu.isEqual(getCreatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTs)
+    //##################################################
+
+    public final KmTimestamp getUpdatedLocalTs()
+    {
+        return KmTimestampUtility.toLocal(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTs()
+    {
+        return getUpdatedLocalTs() != null;
+    }
+
+    public boolean hasUpdatedLocalTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTs(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTsMessage)
+    //##################################################
+
+    public final String getUpdatedLocalTsMessage()
+    {
+        return KmTimestampUtility.formatLocalMessage(getUpdatedUtcTs());
+    }
+
+    public boolean hasUpdatedLocalTsMessage()
+    {
+        return Kmu.hasValue(getUpdatedLocalTsMessage());
+    }
+
+    public boolean hasUpdatedLocalTsMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUpdatedLocalTsMessage(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalDate)
+    //##################################################
+
+    public final KmDate getUpdatedLocalDate()
+    {
+        return KmTimestampUtility.getDate(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalDate()
+    {
+        return getUpdatedLocalDate() != null;
+    }
+
+    public boolean hasUpdatedLocalDate(KmDate e)
+    {
+        return Kmu.isEqual(getUpdatedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (updatedLocalTime)
+    //##################################################
+
+    public final KmTime getUpdatedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getUpdatedLocalTs());
+    }
+
+    public boolean hasUpdatedLocalTime()
+    {
+        return getUpdatedLocalTime() != null;
+    }
+
+    public boolean hasUpdatedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getUpdatedLocalTime(), e);
+    }
+
+    //##################################################
+    //# createdBy
+    //##################################################
+
+    public MyUser getCreatedBy()
+    {
+        return createdBy;
+    }
+
+    public void setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void _setCreatedBy(MyUser e)
+    {
+        createdBy = e;
+    }
+
+    public void clearCreatedBy()
+    {
+        setCreatedBy(null);
+    }
+
+    public boolean hasCreatedBy()
+    {
+        return getCreatedBy() != null;
+    }
+
+    public boolean hasCreatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getCreatedBy(), e);
+    }
+
+    public String getCreatedByFullName()
+    {
+        if ( hasCreatedBy() )
+            return getCreatedBy().getFullName();
+        return null;
+    }
+
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
+    }
+
+    public boolean hasCreatedByFullName()
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName();
+    }
+
+    public boolean hasCreatedByFullName(String e)
+    {
+        return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# updatedBy
+    //##################################################
+
+    public MyUser getUpdatedBy()
+    {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void _setUpdatedBy(MyUser e)
+    {
+        updatedBy = e;
+    }
+
+    public void clearUpdatedBy()
+    {
+        setUpdatedBy(null);
+    }
+
+    public boolean hasUpdatedBy()
+    {
+        return getUpdatedBy() != null;
+    }
+
+    public boolean hasUpdatedBy(MyUser e)
+    {
+        return Kmu.isEqual(getUpdatedBy(), e);
+    }
+
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
     }
 
 
@@ -657,20 +989,15 @@ public abstract class MyTenantBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyTenantValidator getValidator()
     {
-        Validator.validate((MyTenant)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyTenant asSubclass()
     {
-        Validator.validateWarn((MyTenant)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyTenant)this);
+        return (MyTenant)this;
     }
 
     //##################################################
@@ -709,14 +1036,47 @@ public abstract class MyTenantBase
     {
         MyTenant e;
         e = new MyTenant();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setName(getName());
-        e.setHostname(getHostname());
-        e.setThemeCode(getThemeCode());
-        e.setIntacctCompanyId(getIntacctCompanyId());
-        e.setIntacctUserId(getIntacctUserId());
-        e.setIntacctUserPassword(getIntacctUserPassword());
+        applyEditableFieldsTo(e);
+        resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyTenant e)
+    {
+        e.setBusinessDays(getBusinessDays());
+        e.setBusinessEndTime(getBusinessEndTime());
+        e.setBusinessStartTime(getBusinessStartTime());
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setHostname(getHostname());
+        e.setMemo(getMemo());
+        e.setName(getName());
+        e.setThemeCode(getThemeCode());
+        e.setTimeZoneCode(getTimeZoneCode());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyTenant e)
+    {
+        setBusinessDays(e.getBusinessDays());
+        setBusinessEndTime(e.getBusinessEndTime());
+        setBusinessStartTime(e.getBusinessStartTime());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setHostname(e.getHostname());
+        setMemo(e.getMemo());
+        setName(e.getName());
+        setThemeCode(e.getThemeCode());
+        setTimeZoneCode(e.getTimeZoneCode());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -747,20 +1107,30 @@ public abstract class MyTenantBase
 
     public boolean isSameIgnoringKey(MyTenant e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getBusinessDays(), e.getBusinessDays()) ) return false;
+        if ( !Kmu.isEqual(getBusinessEndTime(), e.getBusinessEndTime()) ) return false;
+        if ( !Kmu.isEqual(getBusinessStartTime(), e.getBusinessStartTime()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getHostname(), e.getHostname()) ) return false;
+        if ( !Kmu.isEqual(getMemo(), e.getMemo()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getThemeCode(), e.getThemeCode()) ) return false;
-        if ( !Kmu.isEqual(getIntacctCompanyId(), e.getIntacctCompanyId()) ) return false;
-        if ( !Kmu.isEqual(getIntacctUserId(), e.getIntacctUserId()) ) return false;
-        if ( !Kmu.isEqual(getIntacctUserPassword(), e.getIntacctUserPassword()) ) return false;
         if ( !Kmu.isEqual(getThemeName(), e.getThemeName()) ) return false;
+        if ( !Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
+        if ( !Kmu.isEqual(getTimeZoneName(), e.getTimeZoneName()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTs(), e.getUpdatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTsMessage(), e.getUpdatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalDate(), e.getUpdatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedLocalTime(), e.getUpdatedLocalTime()) ) return false;
         return true;
     }
 
@@ -794,14 +1164,17 @@ public abstract class MyTenantBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
+        System.out.println("    BusinessDays = " + businessDays);
+        System.out.println("    BusinessEndTime = " + businessEndTime);
+        System.out.println("    BusinessStartTime = " + businessStartTime);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    Name = " + name);
         System.out.println("    Hostname = " + hostname);
+        System.out.println("    Memo = " + memo);
+        System.out.println("    Name = " + name);
         System.out.println("    ThemeCode = " + themeCode);
-        System.out.println("    IntacctCompanyId = " + intacctCompanyId);
-        System.out.println("    IntacctUserId = " + intacctUserId);
-        System.out.println("    IntacctUserPassword = " + intacctUserPassword);
+        System.out.println("    TimeZoneCode = " + timeZoneCode);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

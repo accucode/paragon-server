@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,8 @@ public class ScTableRow
 
     private KmList<ScTableCell> _cells;
 
-    private ScLocalString       _horizontalAlign;
-    private ScLocalString       _verticalAlign;
+    private ScLocalString _horizontalAlign;
+    private ScLocalString _verticalAlign;
 
     //##################################################
     //# constructor
@@ -45,6 +45,7 @@ public class ScTableRow
     public ScTableRow()
     {
         _cells = new KmList<>();
+
         _horizontalAlign = new ScLocalString();
         _verticalAlign = new ScLocalString();
     }
@@ -120,6 +121,24 @@ public class ScTableRow
         return n;
     }
 
+    public ScTableCell addCell(String s)
+    {
+        ScTableCell e;
+        e = addCell();
+        e.addText(s);
+        return e;
+    }
+
+    public ScTableCell addHeader(String s)
+    {
+        ScTableCell e;
+        e = addCell();
+        e.setHeader();
+        e.css().noWrap();
+        e.addText(s);
+        return e;
+    }
+
     //##################################################
     //# print
     //##################################################
@@ -154,6 +173,11 @@ public class ScTableRow
     public final KmList<ScControl> getChildren()
     {
         return getCells().collect(e -> e.asControl());
+    }
+
+    public final int getChildCount()
+    {
+        return getCells().size();
     }
 
     //##################################################

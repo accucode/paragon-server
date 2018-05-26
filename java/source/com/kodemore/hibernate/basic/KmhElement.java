@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,9 @@ import java.util.Collection;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StringType;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmhElement
@@ -84,6 +86,11 @@ public abstract class KmhElement
     public void addEqualProperty(String property1, String property2)
     {
         _add(Restrictions.eqProperty(property1, property2));
+    }
+
+    public void addNotEqualProperty(String property1, String property2)
+    {
+        _add(Restrictions.neProperty(property1, property2));
     }
 
     public void addLessThan(String property, Object value)
@@ -160,6 +167,34 @@ public abstract class KmhElement
     public void addIsNotNull(String property)
     {
         _add(Restrictions.isNotNull(property));
+    }
+
+    //##################################################
+    //# match against fulltext
+    //##################################################
+
+    public void matches(String property, KmList<String> included)
+    {
+        KmList<String> excluded = KmList.createEmpty();
+        matches(property, included, excluded);
+    }
+
+    /**
+     * Perform a boolean fulltext search against a set of terms.
+     * The column being searched must have a FULLTEXT index.
+     */
+    public void matches(String property, KmList<String> included, KmList<String> excluded)
+    {
+        KmList<String> terms;
+        terms = new KmList<>();
+        terms.addAll(included.collect(e -> "+" + e));
+        terms.addAll(excluded.collect(e -> "-" + e));
+
+        String against = terms.join(" ");
+        String sql = Kmu.format("match({alias}.%s) against(? in boolean mode)", property);
+
+        Criterion restriction = Restrictions.sqlRestriction(sql, against, StringType.INSTANCE);
+        _add(restriction);
     }
 
     //##################################################
@@ -299,9 +334,25 @@ public abstract class KmhElement
         return Kmu.replaceAll(s, "%", "\\%");
     }
 
-    public String getFullName(String property)
+    //##################################################
+    //# property
+    //##################################################
+
+    public String getAlias()
     {
-        return property;
+        return null;
+    }
+
+    public final boolean hasAlias()
+    {
+        return getAlias() != null;
+    }
+
+    public final String getFullName(String property)
+    {
+        return hasAlias()
+            ? getAlias() + "." + property
+            : property;
     }
 
 }

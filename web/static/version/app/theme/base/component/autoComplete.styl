@@ -1,0 +1,66 @@
+//******************************
+//** auto complete
+//******************************
+
+
+.autoCompleteField
+    position:           relative
+
+
+.autoCompleteField input
+    box-sizing:         border-box
+    width:              100%
+    margin:             0
+    padding:            5px
+    font:               normal 1.5rem $fontFamily
+    border:             1px solid #aaa
+
+
+.autoCompleteField:hover input
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
+
+.autoCompleteField:focus input
+    background-color:   $fieldBackgroundColor
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2)
+
+
+.autoCompleteField-editable input
+    background-color:   $fieldBackgroundColor;
+
+
+.autoCompleteField-readonly input
+    background-color:   #ccc;
+
+
+//******************************
+//** jquery
+//******************************
+
+
+.ui-autocomplete
+    max-height:         200px
+    width:              100px
+    overflow-y:         auto
+    overflow-x:         hidden
+    background-color:   $fieldBackgroundColor;
+    border-top:         none;
+    border-left:        1px solid #999;
+    border-bottom:      1px solid #bbb;
+    border-right:       1px solid #bbb;
+
+
+.ui-autocomplete li
+    font:               normal 1.4rem $fontFamily
+    white-space:        nowrap
+    overflow:           hidden
+    text-overflow:      ellipsis
+
+
+/**
+ * IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+
+* html .ui-autocomplete
+    height: 200px

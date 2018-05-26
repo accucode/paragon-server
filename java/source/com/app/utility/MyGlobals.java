@@ -1,20 +1,24 @@
 package com.app.utility;
 
-import com.kodemore.dao.KmDaoSessionManager;
-import com.kodemore.servlet.MyGlobalSession;
+import com.kodemore.servlet.utility.ScActionRegistry;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.time.KmClock;
+import com.kodemore.time.KmTimeZone;
 import com.kodemore.time.KmTimestamp;
 
+import com.app.bridge.MyTimeZoneBridge;
 import com.app.dao.base.MyDaoAccess;
 import com.app.dao.core.MyDaoSession;
+import com.app.dao.core.MyDaoSessionManager;
+import com.app.model.MyMember;
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.property.MyProperties;
 import com.app.property.MyPropertyManager;
+import com.app.ui.MyGlobalSession;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 
@@ -24,7 +28,7 @@ public class MyGlobals
     //# singleton
     //##################################################
 
-    public static final MyGlobals instance = new MyGlobals();
+    public static MyGlobals instance = new MyGlobals();
 
     private MyGlobals()
     {
@@ -42,12 +46,12 @@ public class MyGlobals
 
     public static MyDaoSession getDaoSession()
     {
-        return (MyDaoSession)getDaoSessionManager().getDaoSession();
+        return getDaoSessionManager().getDaoSession();
     }
 
-    public static KmDaoSessionManager getDaoSessionManager()
+    public static MyDaoSessionManager getDaoSessionManager()
     {
-        return KmDaoSessionManager.getInstance();
+        return MyDaoSessionManager.getInstance();
     }
 
     //##################################################
@@ -69,7 +73,7 @@ public class MyGlobals
 
     public static MyProject getCurrentProject()
     {
-        return MyGlobalSession.instance.getCurrentProject();
+        return MyGlobalSession.getInstance().getCurrentProject();
     }
 
     public static MyUser getCurrentUser()
@@ -80,13 +84,26 @@ public class MyGlobals
             : ss.getUser();
     }
 
+    public static MyMember getCurrentMember()
+    {
+        MyProject p = getCurrentProject();
+        MyUser u = getCurrentUser();
+
+        return getAccess().getMemberDao().findMember(p, u);
+    }
+
+    public static KmTimeZone getCurrentTimeZone()
+    {
+        return MyTimeZoneBridge.getInstance().getLocalZone();
+    }
+
     //##################################################
     //# page session
     //##################################################
 
     public static MyGlobalSession getGlobalSession()
     {
-        return MyGlobalSession.instance;
+        return MyGlobalSession.getInstance();
     }
 
     //##################################################
@@ -106,6 +123,11 @@ public class MyGlobals
     public static ScControlRegistry getControlRegistry()
     {
         return ScControlRegistry.getInstance();
+    }
+
+    public static ScActionRegistry getActionRegistry()
+    {
+        return ScActionRegistry.getInstance();
     }
 
     public static ScFormatter getFormatter()

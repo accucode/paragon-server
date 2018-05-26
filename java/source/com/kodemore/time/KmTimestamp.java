@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -38,6 +39,24 @@ import com.kodemore.utility.Kmu;
 public class KmTimestamp
     implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
 {
+    //##################################################
+    //# static convenience
+    //##################################################
+
+    public static KmDate getDateFor(KmTimestamp e)
+    {
+        return e == null
+            ? null
+            : e.getDate();
+    }
+
+    public static KmTime getTimeFor(KmTimestamp e)
+    {
+        return e == null
+            ? null
+            : e.getTime();
+    }
+
     //##################################################
     //# instance creation
     //##################################################
@@ -259,6 +278,11 @@ public class KmTimestamp
         return _inner.getDayOfMonth();
     }
 
+    public KmWeekDay getWeekDay()
+    {
+        return KmWeekDay.fromDate(getDate());
+    }
+
     public int getHour()
     {
         return _inner.getHour();
@@ -353,7 +377,7 @@ public class KmTimestamp
         return compareTo(ts) < 0;
     }
 
-    public boolean isBefore(KmTimestampInterval ti)
+    public boolean isBefore(KmTimestampRange ti)
     {
         if ( ti.hasStart() )
             return isBefore(ti.getStart());
@@ -386,7 +410,7 @@ public class KmTimestamp
         return !isAfter(ts);
     }
 
-    public boolean isBetweenInclusive(KmTimestampInterval ti)
+    public boolean isBetweenInclusive(KmTimestampRange ti)
     {
         return isBetweenInclusive(ti.getStart(), ti.getEnd());
     }
@@ -634,14 +658,24 @@ public class KmTimestamp
         return getDurationSince(ts).getTotalMinutes();
     }
 
+    public int getSecondsSince(KmTimestamp ts)
+    {
+        return getDurationSince(ts).getTotalSeconds();
+    }
+
     //##################################################
     //# convert
     //##################################################
 
-    public KmTimestampInterval toInterval(KmTimestamp end)
+    public KmTimestampRange toRange(KmTimestamp end)
     {
         KmTimestamp start = this;
-        return KmTimestampInterval.create(start, end);
+        return KmTimestampRange.create(start, end);
+    }
+
+    public KmDuration toDuration(KmTimestamp end)
+    {
+        return toRange(end).toDuration();
     }
 
     //##################################################
@@ -718,6 +752,11 @@ public class KmTimestamp
         return KmTimestampUtility.format_mm_dd_yy_hh_mm_ss_am(this);
     }
 
+    public String format()
+    {
+        return ScFormatter.getInstance().formatTimestamp(this);
+    }
+
     public String format(String s)
     {
         return KmTimestampUtility.format(this, s);
@@ -792,5 +831,4 @@ public class KmTimestamp
             getMinute(),
             getSecond());
     }
-
 }

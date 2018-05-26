@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,6 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmHtmlCleaner;
 import com.kodemore.servlet.ScServletData;
@@ -33,7 +31,6 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
-import com.kodemore.validator.KmValidator;
 
 /**
  * This is a rich text editor that currently uses the CkEditor library.
@@ -49,9 +46,8 @@ public class ScRichTextEditor
     //# variables
     //##################################################
 
-    private ScLocalString       _text;
-    private ScLocalBoolean      _readOnly;
-    private KmValidator<String> _validator;
+    private ScLocalString  _text;
+    private ScLocalBoolean _readOnly;
 
     /**
      * The default functionality of the ckEditor does not support
@@ -76,7 +72,7 @@ public class ScRichTextEditor
      *
      * Fill is disabled by default.
      */
-    private boolean             _fill;
+    private boolean _fill;
 
     //##################################################
     //# constructor
@@ -96,12 +92,12 @@ public class ScRichTextEditor
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     public String getHtmlName()
     {
-        return getKey();
+        return getHtmlId();
     }
 
     //##################################################
@@ -257,6 +253,10 @@ public class ScRichTextEditor
         if ( !data.hasParameter(name) )
             return;
 
+        String raw = data.getParameter(name);
+        if ( raw == null )
+            return;
+
         KmHtmlCleaner c;
         c = new KmHtmlCleaner();
         c.setDefaultWhitelist();
@@ -264,36 +264,9 @@ public class ScRichTextEditor
         c.allowImages();
         c.allowLinks();
 
-        String raw = data.getParameter(name);
         String clean = c.clean(raw);
 
         _text.setValue(clean);
-    }
-
-    //##################################################
-    //# validate
-    //##################################################
-
-    @Override
-    public boolean validateQuietly()
-    {
-        if ( !super.validateQuietly() )
-            return false;
-
-        if ( hasErrors() )
-            return false;
-
-        if ( _validator == null )
-            return true;
-
-        KmList<KmErrorIF> errors = new KmList<>();
-
-        _validator.validateOnly(getValue(), errors);
-        if ( errors.isEmpty() )
-            return true;
-
-        setErrors(errors);
-        return false;
     }
 
     //##################################################
@@ -314,6 +287,12 @@ public class ScRichTextEditor
     public void ajaxSetFieldValue(String value)
     {
         ajaxSetFieldValue(value, getChangeTracking());
+    }
+
+    @Override
+    public void ajaxClearFieldValue()
+    {
+        ajaxSetFieldValue("");
     }
 
     @Override

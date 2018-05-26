@@ -1,15 +1,17 @@
 package com.app.ui.dashboard.core;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScActionButton;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTransientDiv;
+import com.kodemore.utility.KmResult;
 
+import com.app.model.MyMember;
 import com.app.model.MyProject;
-import com.app.model.MyUser;
 import com.app.ui.dashboard.MyEmptyPanel;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -42,7 +44,8 @@ public final class MyDashboardPage
     //# variables
     //##################################################
 
-    private ScTransientDiv    _transient;
+    private ScActionButton _refreshButton;
+    private ScTransientDiv _transient;
 
     private MyDashboardDialog _editDialog;
     private ScAction          _editAction;
@@ -58,22 +61,6 @@ public final class MyDashboardPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -81,9 +68,33 @@ public final class MyDashboardPage
     protected void installRoot(ScPageRoot root)
     {
         root.css();
-        _transient = root.addTransientDiv();
-        _transient.css().fill();
+        root.add(createRefreshButton());
+        root.add(createTransientDiv());
 
+        installEditDialog();
+    }
+
+    private ScControl createRefreshButton()
+    {
+        ScActionButton e;
+        e = new ScActionButton();
+        e.setAction(newCheckedAction(this::handleRefresh));
+        e.hide();
+        _refreshButton = e;
+        return e;
+    }
+
+    private ScControl createTransientDiv()
+    {
+        ScTransientDiv e;
+        e = new ScTransientDiv();
+        e.css().fill();
+        _transient = e;
+        return e;
+    }
+
+    private void installEditDialog()
+    {
         _editDialog = new MyDashboardDialog();
         _editAction = newCheckedAction(this::handleEdit);
     }
@@ -104,18 +115,47 @@ public final class MyDashboardPage
     @Override
     protected void preRender()
     {
-        ScTransientDiv root = _transient;
+        KmResult<MyMember> result = getMember();
 
-        MyProject project = getCurrentProject();
-        if ( project == null )
+        if ( result.hasError() )
         {
-            root.addLabel("No selected project.");
+            preRenderError(result.getError());
             return;
         }
 
-        KmList<MyDashboardPanel> panels = getPanels();
-        MyDashboardOrientationType type = getOrientationType();
+        MyMember member = result.getValue();
+        preRenderRefreshButtonFor(member);
+        preRenderPanelsFor(member);
+    }
 
+    private void preRenderError(String msg)
+    {
+        _transient.addLabel(msg);
+    }
+
+    //==================================================
+    //= render :: member
+    //==================================================
+
+    private void preRenderRefreshButtonFor(MyMember member)
+    {
+        Integer mins = member.getDashboardRefreshMinutes();
+        if ( mins == null )
+            return;
+
+        _refreshButton.setAutoRunSeconds(mins * 60);
+    }
+
+    private void preRenderPanelsFor(MyMember member)
+    {
+        preRenderCssFor(member);
+        preRenderLayout(member);
+    }
+
+    private void preRenderCssFor(MyMember member)
+    {
+        ScTransientDiv root = _transient;
+        MyDashboardOrientationType type = member.getDashboardOrientationType();
         switch ( type )
         {
             case Auto:
@@ -130,11 +170,36 @@ public final class MyDashboardPage
                 root.css().dashboard().dashboard_portrait();
                 break;
         }
+    }
+
+    private void preRenderLayout(MyMember member)
+    {
+        ScTransientDiv root = _transient;
+        KmList<MyDashboardPanel> panels = getMemberPanels(member);
 
         int index;
         index = 0;
-        index += addLineTo(root, index, getLineCount1(), panels);
-        index += addLineTo(root, index, getLineCount2(), panels);
+        index += addLineTo(root, index, member.getDashboardLineCount1(), panels);
+        index += addLineTo(root, index, member.getDashboardLineCount2(), panels);
+    }
+
+    private KmList<MyDashboardPanel> getMemberPanels(MyMember member)
+    {
+        KmList<MyDashboardPanel> v;
+        v = new KmList<>();
+        v.add(getPanel(member.getDashboardPanelTypeA()));
+        v.add(getPanel(member.getDashboardPanelTypeB()));
+        v.add(getPanel(member.getDashboardPanelTypeC()));
+        v.add(getPanel(member.getDashboardPanelTypeD()));
+        v.add(getPanel(member.getDashboardPanelTypeE()));
+        v.add(getPanel(member.getDashboardPanelTypeF()));
+        v.replaceDuplicatesWithNull();
+        return v;
+    }
+
+    private MyDashboardPanel getPanel(MyDashboardPanelType e)
+    {
+        return MyDashboardPanelRegistry.getPanel(e);
     }
 
     private int addLineTo(ScTransientDiv root, int index, int n, KmList<MyDashboardPanel> panels)
@@ -166,52 +231,39 @@ public final class MyDashboardPage
     }
 
     //##################################################
-    //# hooks
-    //##################################################
-
-    private KmList<MyDashboardPanel> getPanels()
-    {
-        MyUser user = getCurrentUser();
-
-        KmList<MyDashboardPanel> v;
-        v = new KmList<>();
-        v.add(getPanel(user.getDashboardPanelTypeA()));
-        v.add(getPanel(user.getDashboardPanelTypeB()));
-        v.add(getPanel(user.getDashboardPanelTypeC()));
-        v.add(getPanel(user.getDashboardPanelTypeD()));
-        v.add(getPanel(user.getDashboardPanelTypeE()));
-        v.add(getPanel(user.getDashboardPanelTypeF()));
-        v.replaceDuplicatesWithNull();
-        return v;
-    }
-
-    private MyDashboardPanel getPanel(MyDashboardPanelType e)
-    {
-        return MyDashboardPanelRegistry.getPanel(e);
-    }
-
-    private MyDashboardOrientationType getOrientationType()
-    {
-        return getCurrentUser().getDashboardOrientationType();
-    }
-
-    private int getLineCount1()
-    {
-        return getCurrentUser().getDashboardLineCount1();
-    }
-
-    private int getLineCount2()
-    {
-        return getCurrentUser().getDashboardLineCount2();
-    }
-
-    //##################################################
     //# handle
     //##################################################
 
     private void handleEdit()
     {
         _editDialog.ajaxOpen();
+    }
+
+    private void handleRefresh()
+    {
+        MyMember member = getCurrentMember();
+        if ( member == null )
+            return;
+
+        preRenderPanelsFor(member);
+        _transient.ajaxReplace();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private KmResult<MyMember> getMember()
+    {
+        MyProject project = getCurrentProject();
+        if ( project == null )
+            return KmResult.createError("No selected project.");
+
+        MyMember member = getCurrentMember();
+        if ( member == null )
+            return KmResult.createError("You are not a member of the current project.");
+
+        return KmResult.createValue(member);
     }
 
 }

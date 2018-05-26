@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import com.kodemore.stf.KmStfParser;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to test the parser.  
+ * I am used to test the parser.
  */
 public class KmStfTest
 {
@@ -46,8 +46,7 @@ public class KmStfTest
 
     private void run()
     {
-        String file = "sample.stf";
-        String source = readSampleFile(file);
+        String source = Kmu.readResourceString(getClass(), "sample.stf");
 
         System.out.println("Parsing...");
 
@@ -64,26 +63,6 @@ public class KmStfTest
         KmStfElement r;
         r = p.getRoot();
         r.printTree();
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    /**
-     * Read a sample file using the class loader.  Assumes
-     * the sample file is in the same package as this test
-     * program.
-     */
-    private String readSampleFile(String file)
-    {
-        String pkg;
-        pkg = Kmu.getPackageName(this);
-        pkg = Kmu.replaceAll(pkg, ".", "/");
-
-        String res = Kmu.format("%s/%s", pkg, file);
-
-        return Kmu.readResourceString(res);
     }
 
 }

@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,8 +36,8 @@ public class MyDatedCountVoValidatorBase
     //# variables
     //##################################################
 
-    private KmDateValidator dateValidator;
     private KmIntegerValidator countValidator;
+    private KmDateValidator dateValidator;
 
     //##################################################
     //# constructor
@@ -45,22 +46,22 @@ public class MyDatedCountVoValidatorBase
     protected MyDatedCountVoValidatorBase()
     {
         super();
-        dateValidator = newDateValidator();
         countValidator = newCountValidator();
+        dateValidator = newDateValidator();
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public KmDateValidator getDateValidator()
-    {
-        return dateValidator;
-    }
-
     public KmIntegerValidator getCountValidator()
     {
         return countValidator;
+    }
+
+    public KmDateValidator getDateValidator()
+    {
+        return dateValidator;
     }
 
     //##################################################
@@ -71,16 +72,16 @@ public class MyDatedCountVoValidatorBase
     public void convertOnly(MyDatedCountVo value)
     {
         // fields...
-        value.setDate(dateValidator.convertOnly(value.getDate()));
-        value.setCount(countValidator.convertOnly(value.getCount()));
+        value.setCount(countValidator.convert(value.getCount()));
+        value.setDate(dateValidator.convert(value.getDate()));
     }
 
     @Override
-    public void validateOnly(MyDatedCountVo value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyDatedCountVo value, KmErrorList errors)
     {
         // fields...
-        dateValidator.validateOnly(value.getDate(), errors);
-        countValidator.validateOnly(value.getCount(), errors);
+        countValidator.validateOn(value.getCount(), errors);
+        dateValidator.validateOn(value.getDate(), errors);
         // required associations...
     }
 
@@ -88,21 +89,21 @@ public class MyDatedCountVoValidatorBase
     //# instance creation
     //##################################################
 
-    public KmDateValidator newDateValidator()
-    {
-        KmDateValidator e;
-        e = new KmDateValidator();
-        e.setModel("datedCountVo");
-        e.setField("date");
-        return e;
-    }
-
     public KmIntegerValidator newCountValidator()
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("datedCountVo");
-        e.setField("count");
+        e.setModelName("datedCountVo");
+        e.setFieldName("count");
+        return e;
+    }
+
+    public KmDateValidator newDateValidator()
+    {
+        KmDateValidator e;
+        e = new KmDateValidator();
+        e.setModelName("datedCountVo");
+        e.setFieldName("date");
         return e;
     }
 

@@ -1,6 +1,6 @@
-/*****************************
- ** error
- *****************************/
+//******************************
+//* error
+//******************************
 
 /*
  * I am used to identify all error elements regardless of their
@@ -8,18 +8,17 @@
  * I should not contain any styling.
  */
 .error
-{
-    /* noop - no compression */
-    content: normal;
-}
+    content: normal // prevent stylus compression
 
-/*****************************
- ** attached
- *****************************/
+
+//******************************
+//* attached
+//******************************
+
 
 .error-attachedBox
-    /* Stylus Compression Hack, see comment above. */
-    content: normal;
+    content: normal // prevent stylus compression
+
 
 .error-attachedBox .error
     font:               $error-attachedFont
@@ -29,13 +28,15 @@
     padding:            $error-attachedPadding
     margin:             $error-attachedMargin
 
-/*****************************
- ** detached
- *****************************/
+
+//******************************
+//* detached
+//******************************
+
 
 .error-detachedBox
-    /* noop - no compression */
-    content: normal;
+    content: normal // prevent stylus compression
+
 
 .error-detachedBox .error
     font:               $error-detachedFont
@@ -44,3 +45,17 @@
     border:             $error-detachedBorder
     padding:            $error-detachedPadding
     margin:             $error-detachedMargin
+
+
+//******************************
+//* box
+//******************************
+
+
+.error-box
+    font:               $error-boxFont
+    color:              $error-boxColor
+    background:         $error-boxBackground
+    border:             $error-boxBorder
+    padding:            $error-boxPadding
+    margin:             $error-boxMargin

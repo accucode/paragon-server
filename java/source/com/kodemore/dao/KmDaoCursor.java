@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,10 @@ import java.util.NoSuchElementException;
 import com.kodemore.collection.KmList;
 
 /**
- * Used to iterate through the database in a batch fashion.
- *
- * NOTE! : At the end of each back, the session will automatically
- * be FLUSHED (not committed) and the in hibernate session cache will
- * be cleared.
- *
+ * Used to iterate through large result sets, such as an entire table.
+ * The cursor must be used within an existing transaction (hibernate session),
+ * but minimizes memory usage by periodically flushing the results and clearing
+ * the cache. This generally reduces memory usage at the expense of performance.
  * Elements returned are guaranteed to be non-null.
  */
 public abstract class KmDaoCursor<T>
@@ -55,27 +53,26 @@ public abstract class KmDaoCursor<T>
      * to specify 0 when the first batch has not been
      * loaded yet.
      */
-    private int       _currentBatchSize;
+    private int _currentBatchSize;
 
     /**
      * The current index within the current batch.
-     * This value associated with this index may, or may not,
-     * have already been returned depending on the state of
-     * _ready.
+     * The value associated with this index may, or may not,
+     * have already been returned depending on the state of _ready.
      */
-    private int       _index;
+    private int _index;
 
     /**
      * The index is ready to return, or not.
      */
-    private boolean   _ready;
+    private boolean _ready;
 
     /**
      * Used to indicate that the end of the cursor has been reached.
      * This is typically set to true when findNextBatch returns
      * an empty list.
      */
-    private boolean   _done;
+    private boolean _done;
 
     //##################################################
     //# constructor

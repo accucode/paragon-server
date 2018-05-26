@@ -17,9 +17,11 @@ public interface MySettingsDaoConstantsIF
     //# fields
     //##################################################
 
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String CODE = "code";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String SOME_MESSAGE = "someMessage";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
 
 }

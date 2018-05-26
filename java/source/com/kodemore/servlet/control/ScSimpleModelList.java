@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,9 +48,9 @@ import com.kodemore.utility.Kmu;
  * that will hopefully be applicable for most situations.
  *
  * The rendering is hardcoded to support a title, subtitle, and a list of links.
- * The styling is determined by the theme.css.
+ * The styling is determined by the modelList.styl.
  *
- * For customized rendering, use the ScCustomerModelList instead.
+ * For customized rendering, use the ScCustomModelList instead.
  */
 public class ScSimpleModelList<T>
     extends ScAbstractModelList<T>
@@ -92,68 +92,75 @@ public class ScSimpleModelList<T>
     //##################################################
 
     /**
-     * I am applied to each model to create a title.
+     * I am applied to each model to create a PLAIN TEXT title.
      * The title should be relatively unique, and short enough to fit on a single line.
      * This is required.
      */
-    private Function<T,String>            _titleFunction;
+    private Function<T,String> _titleFunction;
 
     /**
-     * I am applied to each model to determine whether the strikeout
-     * style should be applied. If null (the default), strikeout is NOT applied.
-     */
-    private Predicate<T>                  _childActive;
-
-    /**
-     * I am applied to each model to create a subtitle.
+     * I am applied to each model to create a PLAIN TEXT subtitle.
      * The subtitle optionally provides extra information.
      */
-    private Function<T,String>            _subtitleFunction;
+    private Function<T,String> _subtitleFunction;
 
     /**
-     * I am applied to each model to create an error message.
+     * I am applied to each model to create a PLAIN TEXT warning message.
+     * If the value has an warning, an indicator is displayed.
+     */
+    private Function<T,String> _warnFunction;
+
+    /**
+     * I am applied to each model to create a PLAIN TEXT error message.
      * If the value has an error, an indicator is displayed.
      */
-    private Function<T,String>            _errorFunction;
+    private Function<T,String> _errorFunction;
 
     /**
-     * If set, this action will be exectuted when the list item is clicked.
+     * I am applied to each model to determine whether the item
+     * is considered active. If not active, the 'inactive' style
+     * is applied.
+     */
+    private Predicate<T> _enabled;
+
+    /**
+     * If set, this action will be executed when the list item is clicked.
      * This allows the entire row to be clickable, not just the individual
      * links.  The value's key is passed as an argument.
      */
-    private ScAction                      _itemAction;
+    private ScAction _itemAction;
 
     /**
      * This is primarily used to pre-select a particular element when
      * initially rendering the list.
      */
-    private ScLocal<T>                    _initialSelection;
+    private ScLocal<T> _initialSelection;
 
     /**
      * If set, the item visibility will be defaulted based on the
      * filter. All items are rendered so that the client side script
      * can subsequently show/hide the items.
      */
-    private ScLocalString                 _initialFilter;
+    private ScLocalString _initialFilter;
 
     /**
-     * If set, this action will be exectuted when the user drag an item
+     * If set, this action will be exectuted when the user drags an item
      * to a new position. If non-null, the model list will automatically
      * include the necessary scripting and visual drag handles.
      */
-    private ScAction                      _dragAction;
+    private ScAction _dragAction;
 
     /**
-     * If true (the default), the display drag anchors when a drag action is set.
+     * If true (the default), display drag anchors when a drag action is set.
      * If false, the drag anchors are not rendered.
      */
-    private ScLocalBoolean                _showDragAnchors;
+    private ScLocalBoolean _showDragAnchors;
 
     /**
      * The list of actions to be displayed.  Each action is displayed
      * as a link, using the specified label.  Each link is dynamically
      * configured with model's key as as the argument, based on the key
-     * adapter.  The labels must be unique.
+     * adapter. The labels must be unique.
      */
     private KmOrderedMap<String,ScAction> _linkActions;
 
@@ -161,7 +168,14 @@ public class ScSimpleModelList<T>
      * The style used to display the action links.
      * This corresponds to the LinkStyle enum defined above.
      */
-    private ScLocalString                 _linkStyle;
+    private ScLocalString _linkStyle;
+
+    /**
+     * If set, this function determines if the link should be disabled.
+     * Return null, to indicate a normally enabled link.
+     * Return non-null, to provide a reason that explains why this link is currently disabled.
+     */
+    private Function<T,String> _linkDisableReason;
 
     //##################################################
     //# constructor
@@ -205,30 +219,6 @@ public class ScSimpleModelList<T>
     }
 
     //##################################################
-    //# title :: strikeout
-    //##################################################
-
-    public Predicate<T> getChildActive()
-    {
-        return _childActive;
-    }
-
-    public void setChildActive(Predicate<T> e)
-    {
-        _childActive = e;
-    }
-
-    private boolean isChildActive(T e)
-    {
-        if ( e == null )
-            return false;
-
-        return _childActive == null
-            ? true
-            : _childActive.test(e);
-    }
-
-    //##################################################
     //# subtitle
     //##################################################
 
@@ -250,6 +240,59 @@ public class ScSimpleModelList<T>
     public void clearSubtitleFunction()
     {
         _subtitleFunction = null;
+    }
+
+    //##################################################
+    //# enabled
+    //##################################################
+
+    public Predicate<T> getEnabled()
+    {
+        return _enabled;
+    }
+
+    public void setEnabled(Predicate<T> e)
+    {
+        _enabled = e;
+    }
+
+    private boolean isEnabledFor(T e)
+    {
+        if ( e == null )
+            return false;
+
+        return _enabled == null
+            ? true
+            : _enabled.test(e);
+    }
+
+    //##################################################
+    //# warn
+    //##################################################
+
+    public Function<T,String> getWarnFunction()
+    {
+        return _warnFunction;
+    }
+
+    public void setWarnFunction(Function<T,String> e)
+    {
+        _warnFunction = e;
+    }
+
+    public String getWarningFor(T e)
+    {
+        if ( e == null )
+            return null;
+
+        return _warnFunction == null
+            ? null
+            : _warnFunction.apply(e);
+    }
+
+    public void clearWarnFunction()
+    {
+        _warnFunction = null;
     }
 
     //##################################################
@@ -285,11 +328,6 @@ public class ScSimpleModelList<T>
     public void addLink(String label)
     {
         _linkActions.put(label, (ScAction)null);
-    }
-
-    public void addLink(String label, Runnable runnable)
-    {
-        _linkActions.put(label, newCheckedAction(runnable));
     }
 
     public void addLink(String label, ScAction action)
@@ -343,6 +381,25 @@ public class ScSimpleModelList<T>
         setLinkStyle(LinkStyle.hidden);
     }
 
+    //==================================================
+    //= link :: disabled reason
+    //==================================================
+
+    public Function<T,String> getLinkDisableReason()
+    {
+        return _linkDisableReason;
+    }
+
+    public void setLinkDisableReason(Function<T,String> e)
+    {
+        _linkDisableReason = e;
+    }
+
+    public boolean hasLinkDisableReason()
+    {
+        return _linkDisableReason != null;
+    }
+
     //##################################################
     //# item action
     //##################################################
@@ -355,11 +412,6 @@ public class ScSimpleModelList<T>
     public void setItemAction(ScAction e)
     {
         _itemAction = e;
-    }
-
-    public void setItemAction(Runnable e)
-    {
-        _itemAction = newCheckedAction(e);
     }
 
     public boolean hasItemAction()
@@ -379,11 +431,6 @@ public class ScSimpleModelList<T>
     public void setDragAction(ScAction e)
     {
         _dragAction = e;
-    }
-
-    public void setDragAction(Runnable e)
-    {
-        _dragAction = newCheckedAction(e);
     }
 
     public boolean hasDragAction()
@@ -422,6 +469,22 @@ public class ScSimpleModelList<T>
     public void setInitialSelection(T e)
     {
         _initialSelection.setValue(e);
+    }
+
+    public void clearInitialSelection()
+    {
+        _initialSelection.clearValue();
+    }
+
+    public boolean hasInitialSelection()
+    {
+        return _initialSelection.hasValue();
+    }
+
+    public void selectFirst()
+    {
+        T e = getValues().getFirstSafe();
+        setInitialSelection(e);
     }
 
     //##################################################
@@ -473,19 +536,24 @@ public class ScSimpleModelList<T>
     {
         super.renderPostDomOn(out);
 
-        if ( _dragAction != null )
-        {
-            ScActionScript onDrag;
-            onDrag = new ScActionScript();
-            onDrag.setAction(_dragAction);
-            onDrag.setForm(findFormWrapper());
-            onDrag.setBlockTarget(findBlockWrapper());
+        renderDragActionOn(out);
+    }
 
-            ScSortableScript sort;
-            sort = out.getPostDom().sortable(this);
-            sort.setHandleCss(KmCssDefaultConstantsIF.dragHandle);
-            sort.setUpdateScript(onDrag);
-        }
+    private void renderDragActionOn(KmHtmlBuilder out)
+    {
+        if ( _dragAction == null )
+            return;
+
+        ScActionScript onDrag;
+        onDrag = new ScActionScript();
+        onDrag.setAction(_dragAction);
+        onDrag.setForm(findFormWrapper());
+        onDrag.setBlockTarget(findBlockWrapper());
+
+        ScSortableScript sort;
+        sort = out.getPostDom().sortable(this);
+        sort.setHandleCss(KmCssDefaultConstantsIF.dragHandle);
+        sort.setUpdateScript(onDrag);
     }
 
     //##################################################
@@ -493,37 +561,32 @@ public class ScSimpleModelList<T>
     //##################################################
 
     @Override
-    protected void composeItemOn(ScDiv root, T value)
+    protected void composeItemOn(ScDiv row, T value)
     {
-        String key = getKeyFor(value);
+        row.css().modelList_item();
 
-        root.css().modelList_item();
+        if ( !isEnabledFor(value) )
+            row.css().modelList_itemInactive();
 
-        if ( !isChildActive(value) )
-            root.css().modelList_itemInactive();
+        if ( Kmu.isEqual(getInitialSelection(), value) )
+            row.css().modelList_itemSelected();
 
-        if ( getInitialSelection() == value )
-            root.css().modelList_itemSelected();
-
-        if ( hasItemAction() )
-            root.setOnClick(findFormWrapper(), getItemAction(), key);
-
-        setItemVisibilityOn(root, value);
-
-        composeItemHiddenFieldOn(root, value);
-        composeItemDragHandleOn(root, value);
-        composeItemErrorOn(root, value);
-        composeItemContentOn(root, value);
-        composeItemLinksOn(root, key);
-        composeItemIndicatorOn(root);
+        setItemVisibilityOn(row, value);
+        composeItemHiddenFieldOn(row, value);
+        composeItemDragHandleOn(row, value);
+        composeItemWarningOn(row, value);
+        composeItemErrorOn(row, value);
+        composeItemContentOn(row, value);
+        composeItemLinksOn(row, value);
+        composeItemIndicatorOn(row);
     }
 
-    private void setItemVisibilityOn(ScDiv box, T value)
+    private void setItemVisibilityOn(ScDiv row, T value)
     {
         String filter = _initialFilter.getValue();
         boolean visible = matchesFilter(filter, value);
 
-        box.setVisible(visible);
+        row.setVisible(visible);
     }
 
     private boolean matchesFilter(String filter, T value)
@@ -546,18 +609,18 @@ public class ScSimpleModelList<T>
         return false;
     }
 
-    protected void composeItemHiddenFieldOn(ScDiv root, T value)
+    protected void composeItemHiddenFieldOn(ScDiv row, T value)
     {
-        ScHiddenField<String> field;
-        field = root.addHiddenField();
-        field.setHtmlName(getHiddenFieldName());
-        field.setValue(getKeyFor(value));
+        ScHiddenField<String> e;
+        e = row.addHiddenField();
+        e.setHtmlName(getHiddenFieldName());
+        e.setValue(getKeyFor(value));
     }
 
     /**
      * @param value The domain value being dragged. Currently not used.
      */
-    protected void composeItemDragHandleOn(ScDiv root, T value)
+    protected void composeItemDragHandleOn(ScDiv row, T value)
     {
         if ( _dragAction == null )
             return;
@@ -566,32 +629,55 @@ public class ScSimpleModelList<T>
             return;
 
         ScDiv e;
-        e = root.addDiv();
-        e.css().dragHandle().flexChildStatic().marginLeft5();
+        e = row.addDiv();
+        e.css().modelList_itemDragHandle().dragHandle();
     }
 
-    private void composeItemErrorOn(ScDiv root, T value)
+    private void composeItemWarningOn(ScDiv row, T value)
     {
-        String err = getErrorFor(value);
-        if ( Kmu.isEmpty(err) )
+        String msg = getWarningFor(value);
+        if ( Kmu.isEmpty(msg) )
             return;
 
         ScDiv div;
-        div = root.addDiv();
+        div = row.addDiv();
+        div.css().modelList_itemErrorBox();
+
+        ScImage img;
+        img = div.addImage();
+        img.setSource(getUrls().getWarnUrl());
+        img.setHoverText(msg);
+        img.css().noBorder().width20().height20();
+    }
+
+    private void composeItemErrorOn(ScDiv row, T value)
+    {
+        String msg = getErrorFor(value);
+        if ( Kmu.isEmpty(msg) )
+            return;
+
+        ScDiv div;
+        div = row.addDiv();
         div.css().modelList_itemErrorBox();
 
         ScImage img;
         img = div.addImage();
         img.setSource(getUrls().getErrorUrl());
-        img.setHoverText(err);
+        img.setHoverText(msg);
         img.css().noBorder().width20().height20();
     }
 
-    private void composeItemContentOn(ScDiv root, T value)
+    private void composeItemContentOn(ScDiv row, T value)
     {
         ScDiv div;
-        div = root.addDiv();
+        div = row.addDiv();
         div.css().modelList_itemMessageBox();
+
+        if ( hasItemAction() )
+        {
+            String key = getKeyFor(value);
+            div.setOnClick(findFormWrapper(), getItemAction(), key);
+        }
 
         composeTitleOn(div, value);
         composeSubtitleOn(div, value);
@@ -615,7 +701,7 @@ public class ScSimpleModelList<T>
         p.css().modelList_itemSubtitle();
     }
 
-    protected void composeItemLinksOn(ScDiv root, String key)
+    protected void composeItemLinksOn(ScDiv row, T value)
     {
         if ( _linkActions.isEmpty() )
             return;
@@ -627,65 +713,98 @@ public class ScSimpleModelList<T>
                 return;
 
             case horizontal:
-                composeHorizontalLinksOn(root, key);
+                composeHorizontalLinksOn(row, value);
                 break;
 
             case vertical:
-                composeVerticalLinksOn(root, key);
+                composeVerticalLinksOn(row, value);
                 break;
 
             case topMenu:
-                composeTopMenuLinksOn(root, key);
+                composeTopMenuLinksOn(row, value);
                 break;
 
             case bottomMenu:
-                composeBottomMenuLinksOn(root, key);
+                composeBottomMenuLinksOn(row, value);
                 break;
         }
     }
 
-    private void composeHorizontalLinksOn(ScDiv root, String key)
+    private void composeHorizontalLinksOn(ScDiv row, T value)
     {
+        String key = getKeyFor(value);
+
         ScDiv div;
-        div = root.addDiv();
+        div = row.addDiv();
         div.css().modelList_itemMenuBoxRow();
 
+        ScForm form = findFormWrapper();
+
         for ( String label : _linkActions.getKeys() )
         {
             ScAction action = _linkActions.get(label);
-            div.addLink(label, action, key);
+
+            ScLink link;
+            link = div.addLink(label, action, key);
+            link.setActionFormOverride(form);
+
+            applyLinkEnablement(link, value, label);
         }
     }
 
-    private void composeVerticalLinksOn(ScDiv root, String key)
+    private void applyLinkEnablement(ScLink link, T value, String label)
     {
+        if ( !hasLinkDisableReason() )
+            return;
+
+        String reason = getLinkDisableReason().apply(value);
+        if ( reason == null )
+            return;
+
+        String msg = Kmu.format("Cannot %s. %s", label, reason);
+        link.disable(msg);
+    }
+
+    private void composeVerticalLinksOn(ScDiv row, T value)
+    {
+        String key = getKeyFor(value);
+
         ScDiv div;
-        div = root.addDiv();
+        div = row.addDiv();
         div.css().modelList_itemMenuBoxColumn();
 
+        ScForm form = findFormWrapper();
+
         for ( String label : _linkActions.getKeys() )
         {
             ScAction action = _linkActions.get(label);
-            div.addLink(label, action, key);
+
+            ScLink link;
+            link = div.addLink(label, action, key);
+            link.setActionFormOverride(form);
         }
     }
 
-    private void composeTopMenuLinksOn(ScDiv root, String key)
+    private void composeTopMenuLinksOn(ScDiv row, T value)
     {
+        String key = getKeyFor(value);
+
         ScPopupMenu menu;
         menu = createMenu(key);
         menu.setAlignTop();
 
-        root.add(menu);
+        row.add(menu);
     }
 
-    private void composeBottomMenuLinksOn(ScDiv root, String key)
+    private void composeBottomMenuLinksOn(ScDiv row, T value)
     {
+        String key = getKeyFor(value);
+
         ScPopupMenu menu;
         menu = createMenu(key);
         menu.setAlignBottom();
 
-        root.add(menu);
+        row.add(menu);
     }
 
     private ScPopupMenu createMenu(String key)
@@ -701,10 +820,10 @@ public class ScSimpleModelList<T>
         return menu;
     }
 
-    private void composeItemIndicatorOn(ScDiv root)
+    private void composeItemIndicatorOn(ScDiv row)
     {
         ScDiv div;
-        div = root.addDiv();
+        div = row.addDiv();
         div.css().modelListItemIndicator();
     }
 
@@ -716,6 +835,14 @@ public class ScSimpleModelList<T>
     {
         _ajaxDeselect();
         _ajaxSelect(value);
+    }
+
+    public void ajaxUpdateSelection()
+    {
+        if ( hasInitialSelection() )
+            ajaxSelect(getInitialSelection());
+        else
+            ajaxClearSelection();
     }
 
     public void ajaxScrollTo(T value)

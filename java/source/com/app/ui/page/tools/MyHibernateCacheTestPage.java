@@ -2,7 +2,6 @@ package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -61,22 +60,6 @@ public final class MyHibernateCacheTestPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -94,7 +77,7 @@ public final class MyHibernateCacheTestPage
         group = form.addGroup("Hibernate Cache Test");
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFieldTable();
+        fields = group.getBody().addPad().addFullWidthFieldTable();
         fields.add(createInsertDataBox());
         fields.add(createRunTestBox());
 
@@ -113,7 +96,7 @@ public final class MyHibernateCacheTestPage
         box.setLabel("Insert Data");
         box.css().marginRightChildren5();
         box.add(_recordCountField);
-        box.addButton("Add Records", this::handleInsertNewRecords);
+        box.addButton("Add Records", newCheckedAction(this::handleInsertNewRecords));
         return box;
     }
 
@@ -129,12 +112,12 @@ public final class MyHibernateCacheTestPage
         box.setLabel("Run Test");
         box.css().marginRightChildren5();
         box.add(_runCountField);
-        box.addButton("Run Test", this::handleTestRun);
+        box.addButton("Run Test", newCheckedAction(this::handleTestRun));
         return box;
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

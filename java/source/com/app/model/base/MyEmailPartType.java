@@ -13,8 +13,10 @@ import java.util.*;
 import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
+import com.app.model.*;
+
 public enum MyEmailPartType
-    implements KmEnumIF
+    implements MyEmailPartTypeIF
 {
     //##################################################
     //# values

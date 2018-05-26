@@ -42,10 +42,10 @@ import com.app.utility.MyUrlBridge;
  * Each tenant may use a different theme. Theme customization
  * is handled by overwriting selected files. Any file that is
  * not overwritten by the theme is redirected to the common version.
- * Thus if theme XXX does not overwrite the logo, then...
+ * Thus if theme XYZ does not overwrite the logo, then...
  *
  *      Changes: /app/static/.../[theme]/image/logo.png
- *           to: /app/static/.../theme/XXX/image/logo.png
+ *           to: /app/static/.../theme/XYZ/image/logo.png
  *           or: /app/static/.../common/image/logo.png
  */
 public class MyServletFilter
@@ -55,7 +55,7 @@ public class MyServletFilter
     //# constants
     //##################################################
 
-    private static final String                      THEME_TOKEN    = MyServletConstantsIF.THEME_TOKEN;
+    private static final String THEME_TOKEN = MyServletConstantsIF.THEME_TOKEN;
 
     //##################################################
     //# static cache
@@ -98,7 +98,7 @@ public class MyServletFilter
             return;
         }
 
-        //Assumes ROOT (implied) context
+        // Assumes ROOT (implied) context
         req.getRequestDispatcher(newUri).forward(req, res);
     }
 
@@ -108,8 +108,8 @@ public class MyServletFilter
 
     private String fixRequestUri(HttpServletRequest req, String uri)
     {
-        uri = fixRequestUriVersion(uri);
-        uri = fixRequestUriTheme(req, uri);
+        uri = fixUriVersion(uri);
+        uri = fixUriTheme(req, uri);
         return uri;
     }
 
@@ -117,7 +117,7 @@ public class MyServletFilter
      * Changes: /app/static/version-Build-120701-1/.../a.png
      *      to: /app/static/version/.../a.png
      */
-    private String fixRequestUriVersion(String uri)
+    private String fixUriVersion(String uri)
     {
         MyUrlBridge urls = MyUrlBridge.getInstance();
 
@@ -142,11 +142,11 @@ public class MyServletFilter
      * redirect to the corresponding 'base' resource. If a particular
      * tenant uses the 'blue' theme, then...
      *
-     * Change: /app/static/.../app/theme/[theme]/image/logo.png
+     * Change: /app/static/.../app/theme/__theme__/image/logo.png
      *     to: /app/static/.../app/theme/blue/image/logo.png
      *     or: /app/static/.../app/theme/base/image/logo.png
      */
-    private String fixRequestUriTheme(HttpServletRequest req, String uri)
+    private String fixUriTheme(HttpServletRequest req, String uri)
     {
         int themeIndex = uri.indexOf(THEME_TOKEN);
         return themeIndex < 0
@@ -175,10 +175,9 @@ public class MyServletFilter
         String themeUri = reqUri.replace(THEME_TOKEN, themeFolder);
 
         boolean exists = exists(req, themeUri);
-        if ( exists )
-            return themeUri;
-
-        return reqUri.replace(THEME_TOKEN, "base");
+        return exists
+            ? themeUri
+            : reqUri.replace(THEME_TOKEN, "base");
     }
 
     //==================================================
@@ -230,6 +229,5 @@ public class MyServletFilter
         {
             return false;
         }
-
     }
 }

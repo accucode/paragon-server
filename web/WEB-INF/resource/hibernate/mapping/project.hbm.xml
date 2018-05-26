@@ -38,21 +38,39 @@
             />
 
         <property
-            name="createdUtcTs"
-            column="createdUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="autoSiteNumberEnabled"
+            column="autoSiteNumberEnabled"
+            type="yes_no"
             />
 
         <property
-            name="updatedUtcTs"
-            column="updatedUtcTs"
-            type="com.kodemore.hibernate.type.KmhTimestampType"
+            name="autoSiteNumberPadding"
+            column="autoSiteNumberPadding"
+            type="integer"
             />
 
         <property
-            name="name"
-            column="name"
+            name="autoSiteNumberPrefix"
+            column="autoSiteNumberPrefix"
             type="string"
+            />
+
+        <property
+            name="businessDays"
+            column="businessDays"
+            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            />
+
+        <property
+            name="businessEndTime"
+            column="businessEndTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
+            />
+
+        <property
+            name="businessStartTime"
+            column="businessStartTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
             />
 
         <property
@@ -68,39 +86,51 @@
             />
 
         <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="description"
+            column="description"
+            type="string"
+            />
+
+        <property
+            name="enabled"
+            column="enabled"
+            type="yes_no"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="nextAutoSiteNumber"
+            column="nextAutoSiteNumber"
+            type="integer"
+            />
+
+        <property
             name="sendEmailFrom"
             column="sendEmailFrom"
             type="string"
             />
 
         <property
-            name="active"
-            column="active"
-            type="yes_no"
+            name="timeZoneCode"
+            column="timeZoneCode"
+            type="string"
             />
 
         <property
-            name="catalogVersion"
-            column="catalogVersion"
-            type="integer"
-            />
-
-        <property
-            name="businessDays"
-            column="businessDays"
-            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
-            />
-
-        <property
-            name="businessStartTime"
-            column="businessStartTime"
-            type="com.kodemore.hibernate.type.KmhTimeType"
-            />
-
-        <property
-            name="businessEndTime"
-            column="businessEndTime"
-            type="com.kodemore.hibernate.type.KmhTimeType"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <many-to-one
@@ -111,9 +141,23 @@
             />
 
         <many-to-one
-            name="updatedBy"
-            column="updatedByUid"
+            name="defaultPriority"
+            column="defaultPriorityUid"
+            class="com.app.model.MyPriority"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="supervisor"
+            column="supervisorUid"
             class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="supportContact"
+            column="supportContactUid"
+            class="com.app.model.MyProjectContact"
             cascade="none"
             />
 
@@ -123,6 +167,83 @@
             class="com.app.model.MyTenant"
             cascade="none"
             />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="blurbs"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyBlurb"/>
+        </bag>
+
+        <bag
+            name="contacts"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyProjectContact"/>
+        </bag>
+
+        <bag
+            name="customers"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyCustomer"/>
+        </bag>
+
+        <bag
+            name="emailTemplates"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyEmailTemplate"/>
+        </bag>
+
+        <bag
+            name="holidays"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyHoliday"/>
+        </bag>
+
+        <bag
+            name="members"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyMember"/>
+        </bag>
+
+        <bag
+            name="vendors"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyVendor"/>
+        </bag>
 
     </class>
 </hibernate-mapping>

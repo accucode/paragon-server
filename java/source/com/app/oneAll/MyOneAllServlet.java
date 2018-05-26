@@ -2,11 +2,7 @@ package com.app.oneAll;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDao;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.time.KmClock;
-import com.kodemore.utility.KmExceptionUtility;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
@@ -14,24 +10,18 @@ import com.app.model.MyAutoLogin;
 import com.app.model.MyTenant;
 import com.app.model.MyUser;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.login.MyLoginBookmark;
+import com.app.ui.page.login.MyLoginPage;
 import com.app.ui.page.login.MyLoginUtility;
 import com.app.ui.servlet.MyServlet;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
 
 /**
- * This provides the social login callback for OneAll.
- * OneAll is integrated with Core and is available on
- * both Stage and Production.
- *
- * Both the OneAll and Google configurations are set up
- * under the user:
- *      software@example.com
- *
- * Some additional detail may be available in the google doc:
- *      Google Special User - Software
- *      https://goo.gl/...
- *      You can request access to this document if needed.
+ * This provides the social login callback for the OneAll
+ * social login. This allows users to login using their
+ * Google credentials. Note that the users must already
+ * be defined.
  */
 public class MyOneAllServlet
     extends MyServlet
@@ -62,24 +52,16 @@ public class MyOneAllServlet
         {
             KmDao.run(this::handleTry);
         }
-        catch ( KmApplicationException ex )
+        catch ( Throwable ex )
         {
             printMessage(ex.getMessage());
-        }
-        catch ( Exception ex )
-        {
-            KmStringBuilder out;
-            out = new KmStringBuilder();
-            out.println("Authentication Failed.");
-            out.println(ex.getMessage());
-            out.println();
-            out.println(KmExceptionUtility.format(ex));
-            printMessage(out.toString());
         }
     }
 
     private void handleTry()
     {
+        checkEnabled();
+
         String connectionToken = getConnectionToken();
 
         MyOneAllConnectionRequest req;
@@ -96,6 +78,13 @@ public class MyOneAllServlet
                 res.getStatusMessage());
 
         handleOk(res);
+    }
+
+    private void checkEnabled()
+    {
+        boolean enabled = getProperties().getOneAllEnabled();
+        if ( !enabled )
+            throw Kmu.newError("OneAll is not enabled, login with your email and password.");
     }
 
     private void handleOk(MyOneAllConnectionResponse res)
@@ -126,7 +115,7 @@ public class MyOneAllServlet
         data = getData();
         data.clearCookie(MyLoginUtility.COOKIE_EMAIL);
         data.setCookie(MyLoginUtility.COOKIE_AUTO_LOGIN, auto.getUid());
-        data.redirectWithPost(MyUrls.getEntryUrl());
+        data.redirectWithPost(MyUrls.formatEntryUrl());
     }
 
     private MyDaoAccess getAccess()
@@ -140,27 +129,19 @@ public class MyOneAllServlet
 
     private void printMessage(String msg, Object... args)
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printDocType();
-
-        out.beginHtml();
-
-        out.beginHead();
-        out.printMetaCharsetUtf8();
-        out.printMetaNoCache();
-        out.endHead();
-
-        out.beginBody();
-        out.printHeader1("One All Callback");
-        out.println("Time: " + KmClock.getUtcTimestamp().toLocal());
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.println("OneAll Authentication Failed.");
         out.println();
         out.printfln(msg, args);
-        out.endBody();
 
-        out.endHtml();
+        String s = out.toString();
 
-        getData().setHtmlResult(out);
+        MyLoginBookmark b;
+        b = MyLoginPage.getInstance().newBookmark();
+        b.setError(s);
+
+        getData().redirectTo(b);
     }
 
     //##################################################

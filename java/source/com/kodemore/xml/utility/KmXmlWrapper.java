@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,6 +48,7 @@ import org.w3c.dom.NodeList;
 import com.kodemore.collection.KmList;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateParser;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -68,15 +69,8 @@ public class KmXmlWrapper
 
     public static KmXmlWrapper parseFile(String path)
     {
-        try
-        {
-            String xml = Kmu.readFileString(path);
-            return parseXml(xml);
-        }
-        catch ( Exception ex )
-        {
-            throw Kmu.toRuntime(ex);
-        }
+        String xml = KmFiles.readString(path);
+        return parseXml(xml);
     }
 
     public static KmXmlWrapper parseXml(String xml)
@@ -615,13 +609,11 @@ public class KmXmlWrapper
 
     public static void test2()
     {
-        FileInputStream in = null;
-        try
-        {
-            String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
-            String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
+        String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
+        String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
 
-            in = new FileInputStream(xml);
+        try (FileInputStream in = new FileInputStream(xml))
+        {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document d = db.parse(in);
@@ -638,10 +630,6 @@ public class KmXmlWrapper
         {
             throw Kmu.toRuntime(ex);
         }
-        finally
-        {
-            Kmu.closeSafely(in);
-        }
     }
 
     public static void test3()
@@ -650,7 +638,7 @@ public class KmXmlWrapper
         String prefix = "<!DOCTYPE model SYSTEM \"../model.dtd\">";
 
         String xml;
-        xml = Kmu.readFileString(path);
+        xml = KmFiles.readString(path);
         xml = Kmu.removePrefix(xml, prefix);
         xml = xml.trim();
 

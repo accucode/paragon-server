@@ -2,12 +2,14 @@ package com.app.utility;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.exception.KmApplicationException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScStaticDropdownField;
 import com.kodemore.servlet.utility.ScUrlBridge;
-import com.kodemore.time.KmTimeZone;
 import com.kodemore.types.KmMoney;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSha1;
 import com.kodemore.utility.Kmu;
@@ -18,6 +20,8 @@ import com.app.model.MyTenant;
 import com.app.model.core.MyProjectDomainIF;
 import com.app.model.core.MyTenantDomainIF;
 import com.app.property.MyProperties;
+import com.app.ui.dialog.MyDialogs;
+import com.app.ui.dialog.MyNotifyDialog;
 
 public class MyUtility
 {
@@ -38,11 +42,10 @@ public class MyUtility
      */
     public static String getPasswordHash(String salt, String password)
     {
-        String appSalt = MyConstantsIF.APPLICATION_SHA_SALT;
-
         if ( Kmu.isEmpty(password) )
             return null;
 
+        String appSalt = MyConstantsIF.APPLICATION_SHA_SALT;
         return KmSha1.hash(appSalt, salt, password);
     }
 
@@ -132,9 +135,10 @@ public class MyUtility
         names = states.getKeys();
         names.sort();
 
-        ScDropdownField<String> e;
-        e = new ScDropdownField<>();
+        ScStaticDropdownField<String> e;
+        e = new ScStaticDropdownField<>();
         e.setLabel("State");
+
         for ( String name : names )
         {
             String code = states.get(name);
@@ -144,25 +148,11 @@ public class MyUtility
         return e;
     }
 
-    /**
-     * Check the the new password is valid for use.  Call error if not.
-     */
-    public static void validatePassword(String password, String confirmationPassword)
-    {
-        if ( Kmu.isNotEqual(password, confirmationPassword) )
-            throw Kmu.newError("Passwords do not match.");
-
-        Integer min = MyGlobals.getProperties().getMinimumPasswordLength();
-        if ( min > 0 )
-            if ( password == null || password.length() < min )
-                throw Kmu.newError("Password must be at least %s characters.", min);
-    }
-
     public static String formatDeletedLabel(boolean deleted)
     {
-        if ( deleted )
-            return "DELETED";
-        return "";
+        return deleted
+            ? "DELETED"
+            : "";
     }
 
     public static String formatSerialNumber(String s)
@@ -193,7 +183,7 @@ public class MyUtility
      * However, the value returned by i is not guaranteed
      * to be the same each time this is called.
      *
-     * The intent is to use this for things like order
+     * The intent is to use this for things like job
      * confirmation numbers, where we want to avoid the
      * appears of sequentially generated values, but need
      * to ensure that each value is unique.  We also want
@@ -225,6 +215,28 @@ public class MyUtility
         return ii + "";
     }
 
+    public static String formatActive(Boolean e)
+    {
+        if ( e == null )
+            return "Unknown";
+
+        return e
+            ? "Active"
+            : "Inactive";
+    }
+
+    public static String formatRate(Double rate)
+    {
+        return formatRate(rate, Kmu.formatMetaValue("none"));
+    }
+
+    public static String formatRate(Double rate, String ifNull)
+    {
+        return rate == null
+            ? ifNull
+            : rate * 100.0 + "%";
+    }
+
     //##################################################
     //# price
     //##################################################
@@ -245,10 +257,9 @@ public class MyUtility
         int start = p.getMaintenancePeriodStartHour();
         int end = p.getMaintenancePeriodEndHour();
 
-        if ( start <= end )
-            return hour >= start && hour <= end;
-
-        return hour >= start || hour <= end;
+        return start <= end
+            ? hour >= start && hour <= end
+            : hour >= start || hour <= end;
     }
 
     //##################################################
@@ -275,7 +286,7 @@ public class MyUtility
         String path = MyFilePaths.getWebPath(file);
         String html = c.render().formatHtml();
 
-        Kmu.writeFile(path, html);
+        KmFiles.writeString(path, html);
     }
 
     //##################################################
@@ -296,35 +307,18 @@ public class MyUtility
     }
 
     //##################################################
-    //# time zone
-    //##################################################
-
-    public static ScDropdownField<String> newTimeZoneDropdown()
-    {
-        ScDropdownField<String> dd;
-        dd = new ScDropdownField<>();
-        dd.setLabel("Time Zone");
-
-        for ( KmTimeZone e : KmTimeZone.getCommonZones() )
-            dd.addOption(e.getCode(), e.getName());
-
-        dd.addOption(null, "--------------------");
-
-        for ( KmTimeZone e : KmTimeZone.getAllZones() )
-            dd.addOption(e.getCode(), e.getName());
-
-        return dd;
-    }
-
-    //##################################################
     //# context
     //##################################################
 
     public static MyTenant getTenantFor(Object e)
     {
-        return e instanceof MyTenantDomainIF
-            ? ((MyTenantDomainIF)e).getTenant()
-            : null;
+        if ( e instanceof MyTenantDomainIF )
+            return ((MyTenantDomainIF)e).getTenant();
+
+        if ( e instanceof MyProjectDomainIF )
+            return ((MyProjectDomainIF)e).getTenant();
+
+        return null;
     }
 
     public static MyProject getProjectFor(Object e)
@@ -332,6 +326,47 @@ public class MyUtility
         return e instanceof MyProjectDomainIF
             ? ((MyProjectDomainIF)e).getProject()
             : null;
+    }
+
+    /**
+     * Check if all of the parameters are associated with the same tenant.
+     * If any mismatch is found, throw an unchecked runtime exception.
+     */
+    public static void checkTenant(Object... arr)
+    {
+        int n = arr.length;
+        if ( n <= 1 )
+            return;
+
+        MyTenant a = getTenantFor(arr[0]);
+        for ( Object e : arr )
+        {
+            MyTenant b = getTenantFor(e);
+            if ( !Kmu.isEqual(a, b) )
+                throw Kmu.newFatal("Unexpected tenant mismatch.");
+        }
+    }
+
+    //##################################################
+    //# dialog
+    //##################################################
+
+    public static boolean tryErrorDialog(String title, Runnable r)
+    {
+        try
+        {
+            r.run();
+            return true;
+        }
+        catch ( KmApplicationException ex )
+        {
+            MyNotifyDialog e;
+            e = MyDialogs.getNotifyDialog();
+            e.setTitle(title);
+            e.setMessage(ex.getMessage());
+            e.ajaxOpen();
+            return false;
+        }
     }
 
 }

@@ -15,12 +15,12 @@ public class KmgCssBundle
     //# variables
     //##################################################
 
-    private String                  _name;
+    private String _name;
 
     /**
      * The ID style sheet selectors.  E.g.: #someId.
      */
-    private KmList<KmgCssSelector>  _idSelectors;
+    private KmList<KmgCssSelector> _idSelectors;
 
     /**
      * The CLASS style sheet selectors.  E.g.: .someClass.

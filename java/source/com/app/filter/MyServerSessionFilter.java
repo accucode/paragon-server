@@ -24,8 +24,8 @@ public class MyServerSessionFilter
     //# variables
     //##################################################
 
-    private Sort        _sort;
-    private boolean     _ascending;
+    private Sort    _sort;
+    private boolean _ascending;
 
     private KmTimestamp _minCreatedUtcTs;
     private boolean     _usesMinCreatedUtcTs;

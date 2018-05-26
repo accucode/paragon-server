@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,12 @@ package com.kodemore.servlet.utility;
 
 import java.math.BigDecimal;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.log.KmLog;
 import com.kodemore.string.KmStringTokenizer;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
 import com.kodemore.time.KmDateParser;
+import com.kodemore.time.KmDateRange;
 import com.kodemore.time.KmDuration;
 import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeFormatter;
@@ -37,6 +37,7 @@ import com.kodemore.time.KmTimeParser;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampFormatter;
 import com.kodemore.time.KmTimestampParser;
+import com.kodemore.time.KmUnitDuration;
 import com.kodemore.time.KmWeekDay;
 import com.kodemore.types.KmCost;
 import com.kodemore.types.KmDayFrequency;
@@ -340,6 +341,18 @@ public class ScFormatter
     }
 
     //##################################################
+    //# date interva;
+    //##################################################
+
+    public String formatDateInterval(KmDateRange e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return e.toString();
+    }
+
+    //##################################################
     //# time
     //##################################################
 
@@ -403,6 +416,28 @@ public class ScFormatter
     public String getDurationSample()
     {
         return "5 days 12:31:00";
+    }
+
+    //##################################################
+    //# unit duration
+    //##################################################
+
+    public String formatUnitDuration(KmUnitDuration e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return e.format();
+    }
+
+    public KmDuration parseUnitDuration(String s)
+    {
+        return KmDuration.fromString(s);
+    }
+
+    public String getUnitDurationSample()
+    {
+        return "6 Hours";
     }
 
     //##################################################
@@ -590,6 +625,9 @@ public class ScFormatter
         if ( e instanceof KmDate )
             return formatDate((KmDate)e);
 
+        if ( e instanceof KmDateRange )
+            return formatDateInterval((KmDateRange)e);
+
         if ( e instanceof KmDayFrequency )
             return formatDayFrequency((KmDayFrequency)e);
 
@@ -601,6 +639,9 @@ public class ScFormatter
 
         if ( e instanceof KmDuration )
             return formatDuration((KmDuration)e);
+
+        if ( e instanceof KmUnitDuration )
+            return formatUnitDuration((KmUnitDuration)e);
 
         if ( e instanceof KmWeight )
             return formatWeight((KmWeight)e);
@@ -628,6 +669,24 @@ public class ScFormatter
 
         KmLog.warnTrace("Unsupported format: " + e.getClass().getName());
         return "";
+    }
+
+    //##################################################
+    //# percent
+    //##################################################
+
+    public String formatPercent(Double e)
+    {
+        return formatPercent(e, 1);
+    }
+
+    public String formatPercent(Double e, int places)
+    {
+        if ( e == null )
+            return formatNull();
+
+        double p = e * 100;
+        return Kmu.format("%." + places + "f%%", p);
     }
 
     //##################################################

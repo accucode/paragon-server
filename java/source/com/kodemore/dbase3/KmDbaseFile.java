@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -151,15 +151,11 @@ public class KmDbaseFile
     public byte[] _readByteArray(int offset, int length)
     {
         String path = getPath();
-        RandomAccessFile in = null;
-        try
+        try (RandomAccessFile in = new RandomAccessFile(path, "r"))
         {
-            byte[] arr;
-            arr = new byte[length];
-
-            in = new RandomAccessFile(path, "r");
             in.seek(offset);
 
+            byte[] arr = new byte[length];
             int n = in.read(arr);
             if ( n != length )
                 throw Kmu.newFatal("Cannot read offset(%s) length(%s).", offset, length);
@@ -169,10 +165,6 @@ public class KmDbaseFile
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
         }
     }
 

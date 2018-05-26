@@ -9,12 +9,12 @@ package com.kodemore.servlet;
 public interface ScModelApplicatorIF
 {
     /**
-     * Copy some of my properties into the model.
+     * Copy my properties to the model.
      */
     void applyToModel(Object model);
 
     /**
-     * Copy some of the model's properties into myself.
+     * Copy the model's properties to myself.
      */
-    void applyFromModel(Object model, boolean skipFields);
+    void applyFromModel(Object model);
 }

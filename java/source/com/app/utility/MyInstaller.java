@@ -8,7 +8,11 @@ import com.kodemore.patch.KmPatchManager;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.control.ScDownloadDialog;
+import com.kodemore.servlet.field.ScScanBarcodeDialog;
+import com.kodemore.servlet.utility.ScActionRegistry;
 import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScLocalRegistry;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.time.KmTimeZoneBridge;
 import com.kodemore.utility.KmDeadlockMonitor;
@@ -19,19 +23,29 @@ import com.app.bridge.MyDaoBridge;
 import com.app.bridge.MyDatabaseConnectionFactory;
 import com.app.bridge.MyPatchBridge;
 import com.app.bridge.MyTimeZoneBridge;
+import com.app.chore.MyMasterChoreManager;
 import com.app.dao.core.MyDaoSessionManager;
 import com.app.file.MyFilePaths;
 import com.app.file.MyResourceFiles;
 import com.app.file.MySharedFiles;
 import com.app.hibernate.MyHibernateConfiguration;
-import com.app.job.MyMasterJobManager;
+import com.app.macro.MyMacros;
+import com.app.model.base.MyModelType;
 import com.app.property.MyPropertyManager;
-import com.app.tools.MyDomainHierarchyCheckerTool;
+import com.app.tools.MyDomainHierarchyValidatorTool;
+import com.app.ui.MyGlobalSession;
+import com.app.ui.control.MyAddNoteDialog;
 import com.app.ui.dashboard.core.MyDashboardPanelRegistry;
+import com.app.ui.dialog.MyDialogs;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
-import com.app.ui.page.MyMenuRegistry;
 import com.app.ui.page.MyPageRegistry;
+import com.app.ui.page.guide.MyAddProjectDialog;
+import com.app.ui.page.menu.MyMenuRegistry;
+import com.app.ui.selector.MyChoiceSelectorDialog;
+import com.app.ui.selector.MyCustomerSelectorDialog;
+import com.app.ui.selector.MySiteSelectorDialog;
+import com.app.ui.selector.MyVendorSelectorDialog;
 import com.app.ui.servlet.MyFormatter;
 import com.app.ui.servlet.MyScBridge;
 
@@ -44,12 +58,12 @@ import com.app.ui.servlet.MyScBridge;
 public class MyInstaller
 {
     //##################################################
-    //# logger
+    //# static
     //##################################################
 
-    private static final MyInstallerLog _logger    = new MyInstallerLog(MyInstaller.class);
+    private static final MyInstallerLog _logger = new MyInstallerLog(MyInstaller.class);
 
-    private static boolean              _installed = false;
+    private static boolean _installed = false;
 
     //##################################################
     //# public
@@ -63,6 +77,7 @@ public class MyInstaller
         long used1 = getUsedMemory();
 
         _installCore();
+
         _installUserInterface();
 
         _installJdbc();
@@ -72,7 +87,12 @@ public class MyInstaller
 
         _installAjaxLog();
         _installThreadTopics();
+
         _installJobs();
+
+        _validateDomainHierarchy();
+
+        printStats();
 
         long used2 = getUsedMemory();
         printMemory(used1, used2);
@@ -111,6 +131,18 @@ public class MyInstaller
     public static void installDatabase()
     {
         _installCore();
+        _installJdbc();
+        _installHibernate();
+        _installLog4j();
+    }
+
+    /**
+     * Perform the core install, configure the database, and install the UI.
+     */
+    public static void installDatabaseAndUi()
+    {
+        _installCore();
+        _installUserInterface();
         _installJdbc();
         _installHibernate();
         _installLog4j();
@@ -176,8 +208,6 @@ public class MyInstaller
 
         _installTimeZoneBridge();
         _installFormatter();
-
-        _validateDomainHierarchy();
     }
 
     private static void _installEnvironment()
@@ -262,7 +292,7 @@ public class MyInstaller
     private static void _installJobs()
     {
         printfHeader("Jobs");
-        MyMasterJobManager.install();
+        MyMasterChoreManager.install();
     }
 
     private static void _installJdbc()
@@ -318,18 +348,23 @@ public class MyInstaller
 
     private static void _installUserInterface()
     {
+        _installUiRegistries();
+
         _installServletCallbacks();
-        _installControlRegistry();
         _installScBridge();
         _installActions();
         _installCoders();
+        _installMacros();
+        _installNavigators();
+        _installDialogs();
+        _installSelectorDialogs();
         _installPageLayout();
         _installPages();
         _installDashboard();
         _installMenu();
 
         compressPageMemory();
-        lockControlRegistry();
+        lockUiRegistries();
     }
 
     private static void _installPageLayout()
@@ -341,15 +376,18 @@ public class MyInstaller
 
     private static void compressPageMemory()
     {
+        printfHeader("Compress Page Memory");
         KmList<ScPage> v = MyPageRegistry.getInstance().getPages();
         for ( ScPage e : v )
             e.compressMemory();
     }
 
-    private static void lockControlRegistry()
+    private static void lockUiRegistries()
     {
-        printfHeader("Lock ScRegistry");
-        ScControlRegistry.getInstance().setLocked();
+        printfHeader("Lock UI Registries");
+        ScControlRegistry.getInstance().lock();
+        ScLocalRegistry.getInstance().lock();
+        ScActionRegistry.getInstance().lock();
     }
 
     private static void _installPages()
@@ -395,10 +433,14 @@ public class MyInstaller
         MyScBridge.install();
     }
 
-    private static void _installControlRegistry()
+    private static void _installUiRegistries()
     {
-        printfHeader("ScRegistry");
+        printfHeader("UI Registries");
+
         ScControlRegistry.install();
+        ScLocalRegistry.install();
+        ScActionRegistry.install();
+        MyGlobalSession.installInstance();
     }
 
     private static void _installActions()
@@ -414,17 +456,53 @@ public class MyInstaller
         // ScCoderRegistry.instance.registerCoder(new My...Coder());
     }
 
+    private static void _installMacros()
+    {
+        printfHeader("Macros");
+        MyMacros.install();
+    }
+
+    private static void _installNavigators()
+    {
+        printfHeader("Navigators");
+    }
+
+    private static void _installDialogs()
+    {
+        printfHeader("Dialogs");
+
+        MyDialogs.install();
+        MyAddProjectDialog.installInstance();
+        MyAddNoteDialog.installInstance();
+
+        ScDownloadDialog.installInstance();
+        ScScanBarcodeDialog.installInstance();
+    }
+
+    private static void _installSelectorDialogs()
+    {
+        printfHeader("Selector Dialogs");
+
+        MyChoiceSelectorDialog.installInstance();
+        MyCustomerSelectorDialog.installInstance();
+        MySiteSelectorDialog.installInstance();
+        MyVendorSelectorDialog.installInstance();
+    }
+
     private static void _installFormatter()
     {
         printfHeader("Formatter");
         MyFormatter.install();
     }
 
+    //##################################################
+    //# validate
+    //##################################################
+
     private static void _validateDomainHierarchy()
     {
-        printfHeader("Check Domain Hierarchy");
-        MyDomainHierarchyCheckerTool.run();
-        printfln("done.");
+        printfHeader("Validate Domain Hierarchy");
+        MyDomainHierarchyValidatorTool.run();
     }
 
     //##################################################
@@ -503,30 +581,32 @@ public class MyInstaller
     //# support
     //##################################################
 
+    private static void printStats()
+    {
+        _println();
+        printfHeader("Stats");
+        printfln("models:   %,7d", MyModelType.values().length);
+        printfln("pages:    %,7d", MyPageRegistry.getInstance().getPages().size());
+        printfln("buttons:  %,7d", ScControlRegistry.getInstance().getPersistentButtonCount());
+        printfln("controls: %,7d", ScControlRegistry.getInstance().getPersistentControlCount());
+        printfln("actions:  %,7d", ScActionRegistry.getInstance().getCount());
+    }
+
     private static void printMemory(long used1, long used2)
     {
         long used = used2 - used1;
         long total = Runtime.getRuntime().totalMemory();
 
+        _println();
         printfHeader("Memory");
-        printfln("current total: %,11d", total);
-        printfln("used before:   %,11d", used1);
-        printfln("used after:    %,11d", used2);
-        printfln("used:          %,11d", used);
+        printfln("current total: %,13d", total);
+        printfln("used before:   %,13d", used1);
+        printfln("used after:    %,13d", used2);
+        printfln("used:          %,13d", used);
     }
 
     private static long getUsedMemory()
     {
         return Kmu.getUsedMemory();
-    }
-
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String[] args)
-    {
-        MyInstaller.installCore();
-        System.out.println("ok.");
     }
 }

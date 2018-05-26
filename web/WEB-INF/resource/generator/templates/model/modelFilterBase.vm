@@ -15,7 +15,7 @@ import ${package}.model.*;
 import ${package}.model.meta.*;
 
 public abstract class ${model.f_FilterBaseClass}
-    extends ${Prefix}BasicFilter<${model.f_Class}>
+    extends ${model.f_FilterSuperclass}
     implements ${model.f_DaoConstantsIF}
 {
 $utility.protocol("apply")

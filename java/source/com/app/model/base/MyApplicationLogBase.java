@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyApplicationLogBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyApplicationLog>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,20 +39,21 @@ public abstract class MyApplicationLogBase
     public static final MyMetaApplicationLog Meta = MyMetaApplicationLog.instance;
     public static final MyApplicationLogTools Tools = MyApplicationLogTools.instance;
     public static final MyApplicationLogValidator Validator = MyApplicationLogValidator.instance;
+    public static final MyApplicationLogFinder Finder = MyApplicationLogFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
-    private KmTimestamp createdUtcTs;
-    private String loggerName;
     private String context;
-    private String message;
-    private String levelName;
+    private KmTimestamp createdUtcTs;
     private Integer levelCode;
+    private String levelName;
+    private String loggerName;
+    private String message;
     private String threadName;
     private String trace;
+    private String uid;
 
     //##################################################
     //# constructor
@@ -59,118 +62,24 @@ public abstract class MyApplicationLogBase
     public MyApplicationLogBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
-    }
-
-    public void clearUid()
-    {
-        setUid(null);
-    }
-
-    public boolean hasUid()
-    {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (createdUtcTs)
-    //##################################################
-
-    public KmTimestamp getCreatedUtcTs()
-    {
-        return createdUtcTs;
-    }
-
-    public void setCreatedUtcTs(KmTimestamp e)
-    {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
-        createdUtcTs = e;
-    }
-
-    public void clearCreatedUtcTs()
-    {
-        setCreatedUtcTs(null);
-    }
-
-    public boolean hasCreatedUtcTs()
-    {
-        return getCreatedUtcTs() != null;
-    }
-
-    public boolean hasCreatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getCreatedUtcTs(), e);
-    }
-
-    //##################################################
-    //# field (loggerName)
-    //##################################################
-
-    public String getLoggerName()
-    {
-        return loggerName;
-    }
-
-    public void setLoggerName(String e)
-    {
-        e = Validator.getLoggerNameValidator().convertOnly(e);
-        loggerName = e;
-    }
-
-    public void clearLoggerName()
-    {
-        setLoggerName(null);
-    }
-
-    public boolean hasLoggerName()
-    {
-        return Kmu.hasValue(getLoggerName());
-    }
-
-    public boolean hasLoggerName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getLoggerName(), e);
-    }
-
-    public void truncateLoggerName()
-    {
-        truncateLoggerName(false);
-    }
-
-    public void truncateLoggerName(boolean ellipses)
-    {
-        loggerName = Kmu.truncate(loggerName, 100, ellipses);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -184,7 +93,7 @@ public abstract class MyApplicationLogBase
 
     public void setContext(String e)
     {
-        e = Validator.getContextValidator().convertOnly(e);
+        e = Validator.getContextValidator().convert(e);
         context = e;
     }
 
@@ -214,43 +123,95 @@ public abstract class MyApplicationLogBase
     }
 
     //##################################################
-    //# field (message)
+    //# field (createdUtcTs)
     //##################################################
 
-    public String getMessage()
+    public KmTimestamp getCreatedUtcTs()
     {
-        return message;
+        return createdUtcTs;
     }
 
-    public void setMessage(String e)
+    public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getMessageValidator().convertOnly(e);
-        message = e;
+        e = Validator.getCreatedUtcTsValidator().convert(e);
+        createdUtcTs = e;
     }
 
-    public void clearMessage()
+    public void clearCreatedUtcTs()
     {
-        setMessage(null);
+        setCreatedUtcTs(null);
     }
 
-    public boolean hasMessage()
+    public boolean hasCreatedUtcTs()
     {
-        return Kmu.hasValue(getMessage());
+        return getCreatedUtcTs() != null;
     }
 
-    public boolean hasMessage(String e)
+    public boolean hasCreatedUtcTs(KmTimestamp e)
     {
-        return Kmu.isEqualIgnoreCase(getMessage(), e);
+        return Kmu.isEqual(getCreatedUtcTs(), e);
     }
 
-    public void truncateMessage()
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        truncateMessage(false);
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void truncateMessage(boolean ellipses)
+    public boolean hasDomainSubtitle(String e)
     {
-        message = Kmu.truncate(message, 100, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (levelCode)
+    //##################################################
+
+    public Integer getLevelCode()
+    {
+        return levelCode;
+    }
+
+    public void setLevelCode(Integer e)
+    {
+        e = Validator.getLevelCodeValidator().convert(e);
+        levelCode = e;
+    }
+
+    public void clearLevelCode()
+    {
+        setLevelCode(null);
+    }
+
+    public boolean hasLevelCode()
+    {
+        return getLevelCode() != null;
+    }
+
+    public boolean hasLevelCode(Integer e)
+    {
+        return Kmu.isEqual(getLevelCode(), e);
     }
 
     //##################################################
@@ -264,7 +225,7 @@ public abstract class MyApplicationLogBase
 
     public void setLevelName(String e)
     {
-        e = Validator.getLevelNameValidator().convertOnly(e);
+        e = Validator.getLevelNameValidator().convert(e);
         levelName = e;
     }
 
@@ -294,33 +255,83 @@ public abstract class MyApplicationLogBase
     }
 
     //##################################################
-    //# field (levelCode)
+    //# field (loggerName)
     //##################################################
 
-    public Integer getLevelCode()
+    public String getLoggerName()
     {
-        return levelCode;
+        return loggerName;
     }
 
-    public void setLevelCode(Integer e)
+    public void setLoggerName(String e)
     {
-        e = Validator.getLevelCodeValidator().convertOnly(e);
-        levelCode = e;
+        e = Validator.getLoggerNameValidator().convert(e);
+        loggerName = e;
     }
 
-    public void clearLevelCode()
+    public void clearLoggerName()
     {
-        setLevelCode(null);
+        setLoggerName(null);
     }
 
-    public boolean hasLevelCode()
+    public boolean hasLoggerName()
     {
-        return getLevelCode() != null;
+        return Kmu.hasValue(getLoggerName());
     }
 
-    public boolean hasLevelCode(Integer e)
+    public boolean hasLoggerName(String e)
     {
-        return Kmu.isEqual(getLevelCode(), e);
+        return Kmu.isEqualIgnoreCase(getLoggerName(), e);
+    }
+
+    public void truncateLoggerName()
+    {
+        truncateLoggerName(false);
+    }
+
+    public void truncateLoggerName(boolean ellipses)
+    {
+        loggerName = Kmu.truncate(loggerName, 100, ellipses);
+    }
+
+    //##################################################
+    //# field (message)
+    //##################################################
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public void setMessage(String e)
+    {
+        e = Validator.getMessageValidator().convert(e);
+        message = e;
+    }
+
+    public void clearMessage()
+    {
+        setMessage(null);
+    }
+
+    public boolean hasMessage()
+    {
+        return Kmu.hasValue(getMessage());
+    }
+
+    public boolean hasMessage(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getMessage(), e);
+    }
+
+    public void truncateMessage()
+    {
+        truncateMessage(false);
+    }
+
+    public void truncateMessage(boolean ellipses)
+    {
+        message = Kmu.truncate(message, 100, ellipses);
     }
 
     //##################################################
@@ -334,7 +345,7 @@ public abstract class MyApplicationLogBase
 
     public void setThreadName(String e)
     {
-        e = Validator.getThreadNameValidator().convertOnly(e);
+        e = Validator.getThreadNameValidator().convert(e);
         threadName = e;
     }
 
@@ -374,7 +385,7 @@ public abstract class MyApplicationLogBase
 
     public void setTrace(String e)
     {
-        e = Validator.getTraceValidator().convertOnly(e);
+        e = Validator.getTraceValidator().convert(e);
         trace = e;
     }
 
@@ -404,35 +415,43 @@ public abstract class MyApplicationLogBase
     }
 
     //##################################################
-    //# field (levelCodeName)
+    //# field (uid)
     //##################################################
 
-    public abstract String getLevelCodeName();
-
-    public boolean hasLevelCodeName()
+    public String getUid()
     {
-        return Kmu.hasValue(getLevelCodeName());
+        return uid;
     }
 
-    public boolean hasLevelCodeName(String e)
+    public void setUid(String e)
     {
-        return Kmu.isEqualIgnoreCase(getLevelCodeName(), e);
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
+    public void clearUid()
     {
-        return Kmu.hasValue(getDisplayString());
+        setUid(null);
     }
 
-    public boolean hasDisplayString(String e)
+    public boolean hasUid()
     {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -517,20 +536,15 @@ public abstract class MyApplicationLogBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyApplicationLogValidator getValidator()
     {
-        Validator.validate((MyApplicationLog)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyApplicationLog asSubclass()
     {
-        Validator.validateWarn((MyApplicationLog)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyApplicationLog)this);
+        return (MyApplicationLog)this;
     }
 
     //##################################################
@@ -559,15 +573,42 @@ public abstract class MyApplicationLogBase
     {
         MyApplicationLog e;
         e = new MyApplicationLog();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setLoggerName(getLoggerName());
+        applyEditableFieldsTo(e);
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyApplicationLog e)
+    {
         e.setContext(getContext());
-        e.setMessage(getMessage());
-        e.setLevelName(getLevelName());
+        e.setCreatedUtcTs(getCreatedUtcTs());
         e.setLevelCode(getLevelCode());
+        e.setLevelName(getLevelName());
+        e.setLoggerName(getLoggerName());
+        e.setMessage(getMessage());
         e.setThreadName(getThreadName());
         e.setTrace(getTrace());
-        return e;
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyApplicationLog e)
+    {
+        setContext(e.getContext());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setLevelCode(e.getLevelCode());
+        setLevelName(e.getLevelName());
+        setLoggerName(e.getLoggerName());
+        setMessage(e.getMessage());
+        setThreadName(e.getThreadName());
+        setTrace(e.getTrace());
     }
 
     //##################################################
@@ -598,16 +639,17 @@ public abstract class MyApplicationLogBase
 
     public boolean isSameIgnoringKey(MyApplicationLog e)
     {
-        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getLoggerName(), e.getLoggerName()) ) return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getContext(), e.getContext()) ) return false;
-        if ( !Kmu.isEqual(getMessage(), e.getMessage()) ) return false;
-        if ( !Kmu.isEqual(getLevelName(), e.getLevelName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getLevelCode(), e.getLevelCode()) ) return false;
+        if ( !Kmu.isEqual(getLevelName(), e.getLevelName()) ) return false;
+        if ( !Kmu.isEqual(getLoggerName(), e.getLoggerName()) ) return false;
+        if ( !Kmu.isEqual(getMessage(), e.getMessage()) ) return false;
         if ( !Kmu.isEqual(getThreadName(), e.getThreadName()) ) return false;
         if ( !Kmu.isEqual(getTrace(), e.getTrace()) ) return false;
-        if ( !Kmu.isEqual(getLevelCodeName(), e.getLevelCodeName()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -645,15 +687,15 @@ public abstract class MyApplicationLogBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
-        System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    LoggerName = " + loggerName);
         System.out.println("    Context = " + context);
-        System.out.println("    Message = " + message);
-        System.out.println("    LevelName = " + levelName);
+        System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    LevelCode = " + levelCode);
+        System.out.println("    LevelName = " + levelName);
+        System.out.println("    LoggerName = " + loggerName);
+        System.out.println("    Message = " + message);
         System.out.println("    ThreadName = " + threadName);
         System.out.println("    Trace = " + trace);
+        System.out.println("    Uid = " + uid);
     }
 
     /**

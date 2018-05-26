@@ -1,0 +1,13 @@
+    field
+    : name      = enabled
+    : help      = Disable to hide this on various screens.
+    : type      = boolean
+    : default   = true
+    : required  = true
+
+
+    abstractField
+    : name      = enabledStatus
+    : label     = Enabled
+    : help      = Disable to hide this on various screens.
+    : type      = calculated

@@ -2,7 +2,6 @@ package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.database.KmDatabaseTool;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
@@ -11,15 +10,16 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScCheckboxField;
-import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScChoiceField;
+import com.kodemore.servlet.field.ScDynamicDropdownField;
+import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextArea;
-import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.sql.formatter.KmSqlResultComposer;
+import com.kodemore.sql.formatter.KmSqlResultFormatterExcel;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
-import com.app.utility.MyButtonUrls;
 
 public final class MyDevSqlPage
     extends MyPage
@@ -46,26 +46,17 @@ public final class MyDevSqlPage
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    private static final String     FORMAT_HTML        = "Html";
-    private static final String     FORMAT_HTML_SIMPLE = "Html Simple";
-    private static final String     FORMAT_CSV         = "Csv";
-    private static final String     FORMAT_CSV_SIMPLE  = "Csv Simple";
-
-    //##################################################
     //# variables
     //##################################################
 
-    private ScTextField             _schemaField;
-    private ScDropdownField<String> _formatField;
+    private ScDynamicDropdownField<String> _schemaField;
+    private ScDynamicDropdownField<String> _tableField;
+    private ScChoiceField<Boolean>         _showNullsField;
+    private ScChoiceField<Boolean>         _showSqlField;
 
-    private ScTextArea              _sqlField;
-    private ScCheckboxField         _allowUpdatesField;
-    private ScDiv                   _resultBox;
-
-    private ScDropdownField<String> _tableDropdown;
+    private ScTextArea      _sqlField;
+    private ScCheckboxField _commitField;
+    private ScDiv           _resultBox;
 
     //##################################################
     //# settings
@@ -77,20 +68,10 @@ public final class MyDevSqlPage
         return MySecurityLevel.developer;
     }
 
-    //##################################################
-    //# bookmark
-    //##################################################
-
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    protected boolean getAutoFocus()
     {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
+        return false;
     }
 
     //##################################################
@@ -103,8 +84,8 @@ public final class MyDevSqlPage
         root.css().fill();
 
         ScDiv col;
-        col = root.addFlexColumn();
-        col.css().fill();
+        col = root.addDiv();
+        col.css().fill().flexColumn();
 
         installQueryOn(col);
         installResultsOn(col);
@@ -114,104 +95,160 @@ public final class MyDevSqlPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleSubmit);
+        form.onSubmit(newUncheckedAction(this::handleRunHtml));
         form.css().flexChildStatic();
 
         ScGroup group;
         group = form.addGroup("Query");
 
+        installBodyOn(group);
+        installFooterOn(group);
+    }
+
+    //==================================================
+    //= install :: body
+    //==================================================
+
+    private void installBodyOn(ScGroup group)
+    {
         ScDiv body;
         body = group.getBody();
         body.css().pad();
 
-        ScFieldTable fields;
-        fields = body.addFieldTable();
-        fields.css().widthFull();
-        fields.rightCss().widthFull();
-        fields.add(createSchemaField());
-        fields.add(createQuickActionBox());
-        fields.add(createFormatField());
-        fields.add(createSqlField());
-
-        ScDiv buttons;
-        buttons = group.showFooter().addButtonBox();
-        buttons.css().flexRow();
-        buttons.addSubmitButton();
-        buttons.addFlexChildFiller();
-        buttons.add(createAllowUpdatesField());
-    }
-
-    private ScControl createAllowUpdatesField()
-    {
-        ScCheckboxField c;
-        c = new ScCheckboxField();
-        c.setLabel("Allow Updates");
-        c.setHelp("All changed to the database are disabled unless checked.");
-        _allowUpdatesField = c;
-
         ScDiv div;
-        div = new ScDiv();
-        div.css().flexColumn().flexAlignCenter().flexChildBasis0();
+        div = body.addDiv();
+        div.css().flexRow().rowSpacer20();
+        div.add(createBodyLeft());
+        div.add(createBodyRight());
 
-        ScFieldTable fields;
-        fields = new ScFieldTable();
-        fields.add(c);
-
-        div.add(fields);
-        return div;
+        body.addBreak();
+        body.addFieldLayout().add(createSqlField());
     }
 
-    private ScTextField createSchemaField()
+    private ScControl createBodyLeft()
     {
-        ScTextField e;
-        e = new ScTextField();
+        ScFieldTable e;
+        e = new ScFieldTable();
+        e.add(createSchemaRow());
+        e.add(createTableRow());
+        e.add(createQuickActions());
+        return e;
+    }
+
+    private ScControl createBodyRight()
+    {
+        ScFieldTable e;
+        e = new ScFieldTable();
+        e.add(createShowSqlField());
+        e.add(createShowNullsField());
+        return e;
+    }
+
+    private ScDiv createSchemaRow()
+    {
+        ScDiv e;
+        e = new ScDiv();
         e.setLabel("Schema");
+        e.css().flexRow().rowSpacer5();
+        e.add(createSchemaField());
+        e.add(createRefreshSchemasButton());
+        return e;
+    }
+
+    private ScControl createSchemaField()
+    {
+        ScDynamicDropdownField<String> e;
+        e = new ScDynamicDropdownField<>();
+        e.setLabel("Schema");
+        e.setNullBlankPrefix();
+        e.setOptionSupplier(this::findSchemaOptions);
         e.setValue(getProperties().getDatabaseSchema());
         e.disableChangeTracking();
-
+        e.onChange(newCheckedAction(this::handleRefreshTables));
         _schemaField = e;
         return e;
     }
 
-    private ScDropdownField<String> createFormatField()
+    private ScControl createRefreshSchemasButton()
     {
-        ScDropdownField<String> e;
-        e = new ScDropdownField<>();
-        e.setLabel("Format");
-        e.setValue(FORMAT_HTML);
-        e.disableChangeTracking();
-        e.addOption(FORMAT_HTML);
-        e.addOption(FORMAT_HTML_SIMPLE);
-        e.addOption(FORMAT_CSV);
-        e.addOption(FORMAT_CSV_SIMPLE);
-
-        _formatField = e;
+        ScActionButton e;
+        e = new ScActionButton();
+        e.setIcon().nameRefresh();
+        e.setFlavorIcon();
+        e.setAction(newCheckedAction(this::handleRefreshSchemas));
         return e;
     }
 
-    private ScDiv createQuickActionBox()
+    private ScDiv createTableRow()
     {
-        _tableDropdown = new ScDropdownField<>();
-        _tableDropdown.setNullSelectPrefix();
-        _tableDropdown.disableChangeTracking();
+        ScDiv e;
+        e = new ScDiv();
+        e.setLabel("Table");
+        e.css().flexRow().rowSpacer5();
+        e.add(createTableField());
+        e.add(createRefreshTablesButton());
+        return e;
+    }
 
-        ScDiv box;
-        box = new ScDiv();
-        box.setLabel("Table");
-        box.css().marginRightChildren5();
-        box.add(_tableDropdown);
+    private ScControl createTableField()
+    {
+        ScDynamicDropdownField<String> e;
+        e = new ScDynamicDropdownField<>();
+        e.setNullBlankPrefix();
+        e.setOptionSupplier(this::findTableOptions);
+        e.disableChangeTracking();
+        _tableField = e;
+        return e;
+    }
 
-        ScActionButton b;
-        b = box.addButton();
-        b.setImage(MyButtonUrls.refresh());
-        b.setAction(this::handleRefreshTables);
+    private ScControl createRefreshTablesButton()
+    {
+        ScActionButton e;
+        e = new ScActionButton();
+        e.setIcon().nameRefresh();
+        e.setFlavorIcon();
+        e.setAction(newCheckedAction(this::handleRefreshTables));
+        return e;
+    }
 
-        box.addButton("select *", this::handleSelectStar);
-        box.addButton("count", this::handleCount);
-        box.addButton("describe", this::handleDescribe);
-        box.addButton("indexes", this::handleIndexes);
+    private ScDiv createQuickActions()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().flexRow().rowSpacer5();
+        e.addLink("select", newCheckedAction(this::handleSelectStar));
+        e.addLink("count", newCheckedAction(this::handleCount));
+        e.addLink("describe", newCheckedAction(this::handleDescribe));
+        e.addLink("indexes", newCheckedAction(this::handleIndexes));
+        return e;
+    }
 
-        return box;
+    private ScControl createShowSqlField()
+    {
+        ScChoiceField<Boolean> e;
+        e = new ScChoiceField<>();
+        e.setLabel("Show SQL");
+        e.setHelp("Determine if the sql statement should be included in the result. ");
+        e.addOption(true, "show");
+        e.addOption(false, "hide");
+        e.setValue(true);
+        e.disableChangeTracking();
+        _showSqlField = e;
+        return e;
+    }
+
+    private ScControl createShowNullsField()
+    {
+        ScChoiceField<Boolean> e;
+        e = new ScChoiceField<>();
+        e.setLabel("Show Nulls");
+        e.setHelp("Determine if nulls should be visible as -null- or left blank.");
+        e.addOption(true, "-null-");
+        e.addOption(false, "blank");
+        e.setValue(true);
+        e.disableChangeTracking();
+        _showNullsField = e;
+        return e;
     }
 
     private ScTextArea createSqlField()
@@ -219,7 +256,7 @@ public final class MyDevSqlPage
         ScTextArea e;
         e = new ScTextArea();
         e.setLabel("Sql");
-        e.layoutBlock(150);
+        e.layoutBlock();
         e.getPostRenderScript().focus();
         e.disableChangeTracking();
 
@@ -234,38 +271,103 @@ public final class MyDevSqlPage
         _resultBox.css().auto().borderGray().marginTop().pad5();
     }
 
-    //##################################################
-    //# bookmark
-    //##################################################
+    //==================================================
+    //= install :: footer
+    //==================================================
 
-    @Override
-    protected boolean getAutoFocus()
+    private void installFooterOn(ScGroup group)
     {
-        return false;
+        ScDiv footer;
+        footer = group.showFooter();
+        footer.css().flexRow().flexCrossAlignCenter();
+        footer.add(createRunActions());
+        footer.addFlexChildFiller();
+        footer.add(createCommitBox());
     }
+
+    private ScControl createRunActions()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().buttonBox();
+        e.addSubmitButton("Html");
+        e.addButton("Csv", newCheckedAction(this::handleDownloadCsv));
+        e.addButton("Excel", newCheckedAction(this::handleDownloadExcel));
+        return e;
+    }
+
+    private ScControl createCommitBox()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.css().flexRow().flexCrossAlignCenter().rowSpacer5().pad();
+        e.add(createCommitField());
+        e.addLabel("Commit Transactions");
+        return e;
+    }
+
+    private ScCheckboxField createCommitField()
+    {
+        ScCheckboxField c;
+        c = new ScCheckboxField();
+        c.setLabel("Commit Transactions");
+        c.setHelp("All transactions are rolled back unless checked.");
+        c.disableChangeTracking();
+        _commitField = c;
+        return c;
+    }
+
+    //##################################################
+    //# render
+    //##################################################
 
     @Override
     public void preRender()
     {
-        refreshTables();
+        // none
     }
 
     //##################################################
     //# handle
     //##################################################
 
-    private void handleSubmit()
+    private void handleRunHtml()
     {
-        _sqlField.ajaxHideAllErrors();
-
+        getRoot().ajaxHideAllErrors();
         String sql = _sqlField.getValue();
-        submitSql(sql);
+        runHtml(sql);
+    }
+
+    private void handleDownloadCsv()
+    {
+        getRoot().ajaxHideAllErrors();
+        String sql = _sqlField.getValue();
+        runCsv(sql);
+    }
+
+    private void handleDownloadExcel()
+    {
+        getRoot().ajaxHideAllErrors();
+        String sql = _sqlField.getValue();
+        runExcel(sql);
+    }
+
+    private void handleRefreshSchemas()
+    {
+        _schemaField.ensureValidValue();
+        _schemaField.ajaxReplaceOptions();
+        _schemaField.ajaxUpdateFieldValues();
+
+        _tableField.ensureValidValue();
+        _tableField.ajaxReplaceOptions();
+        _tableField.ajaxUpdateFieldValues();
     }
 
     private void handleRefreshTables()
     {
-        refreshTables();
-        _tableDropdown.ajaxUpdateOptions();
+        _tableField.ensureValidValue();
+        _tableField.ajaxReplaceOptions();
+        _tableField.ajaxUpdateFieldValues();
     }
 
     private void handleSelectStar()
@@ -290,7 +392,9 @@ public final class MyDevSqlPage
 
     private void handleQuickAction(String template)
     {
-        String table = _tableDropdown.getValue();
+        getRoot().ajaxHideAllErrors();
+
+        String table = _tableField.getValue();
 
         if ( table == null )
         {
@@ -300,31 +404,65 @@ public final class MyDevSqlPage
 
         String sql = Kmu.format(template, table);
         _sqlField.ajaxSetFieldValue(sql);
-        submitSql(sql);
+        runHtml(sql);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private void submitSql(String sql)
+    private void runHtml(String sql)
+    {
+        KmSqlResultComposer c;
+        c = createComposer(sql);
+        c.formatHtmlNormal();
+
+        String result = c.run();
+        _resultBox.ajaxSetContents(result).fade();
+    }
+
+    private void runCsv(String sql)
+    {
+        KmSqlResultComposer c;
+        c = createComposer(sql);
+        c.formatCsvNormal();
+
+        String result = c.run();
+        ajax().download("sql.csv", result);
+    }
+
+    private void runExcel(String sql)
+    {
+        KmSqlResultComposer c;
+        c = createComposer(sql);
+        c.formatExcelNormal();
+        c.run();
+
+        KmSqlResultFormatterExcel formatter = (KmSqlResultFormatterExcel)c.getFormatter();
+        byte[] result = formatter.endBytes();
+        ajax().download("sql.xlsx", result);
+    }
+
+    private KmSqlResultComposer createComposer(String sql)
     {
         String schema = _schemaField.getValue();
-        KmList<String> v = getSqlStatementsFrom(sql);
+        KmList<String> sqlList = getSqlStatementsFrom(sql);
 
         KmSqlResultComposer c;
         c = new KmSqlResultComposer();
-        c.setAllowUpdates(allowsUpdates());
         c.setSchema(schema);
-        c.setSqlStatements(v);
-        installFormatter(c);
+        c.setAllowCommit(allowsCommit());
+        c.setSqlStatements(sqlList);
 
-        String result = c.run();
+        boolean useBlanks = !_showNullsField.getValue();
+        if ( useBlanks )
+            c.useBlanksForNull();
 
-        if ( isHtmlFormat() )
-            applyHtmlResult(result);
-        else
-            applyAttachmentResult(result);
+        boolean hideSql = !_showSqlField.getValue();
+        if ( hideSql )
+            c.hideSqlData();
+
+        return c;
     }
 
     private KmList<String> getSqlStatementsFrom(String sql)
@@ -340,8 +478,7 @@ public final class MyDevSqlPage
 
     private void checkUpdates(KmList<String> v)
     {
-        boolean allowsUpdates = allowsUpdates();
-
+        boolean allowsUpdates = allowsCommit();
         if ( allowsUpdates )
             return;
 
@@ -352,71 +489,62 @@ public final class MyDevSqlPage
         }
     }
 
-    private boolean allowsUpdates()
+    private boolean allowsCommit()
     {
-        return _allowUpdatesField.isChecked();
+        return _commitField.isChecked();
     }
 
     private boolean containsDdlStatements(KmList<String> v)
     {
+        if ( v.containsIf(e -> e.toLowerCase().startsWith("create")) )
+            return true;
+
         if ( v.containsIf(e -> e.toLowerCase().startsWith("alter")) )
             return true;
 
         if ( v.containsIf(e -> e.toLowerCase().startsWith("drop")) )
             return true;
 
-        if ( v.containsIf(e -> e.toLowerCase().startsWith("create")) )
-            return true;
-
         return false;
     }
 
-    private boolean isHtmlFormat()
+    //##################################################
+    //# schemas
+    //##################################################
+
+    private KmList<ScOption<String>> findSchemaOptions()
     {
-        String mode = _formatField.getValue();
-        return Kmu.matchesAny(mode, FORMAT_HTML, FORMAT_HTML_SIMPLE);
+        return findSchemaNames().collect(e -> ScOption.create(e, e));
     }
 
-    private void applyHtmlResult(String result)
+    private KmList<String> findSchemaNames()
     {
-        _resultBox.ajaxSetContents(result).fade();
-    }
+        KmDatabaseTool tool = new KmDatabaseTool();
+        try
+        {
+            tool.open();
 
-    private void applyAttachmentResult(String result)
-    {
-        ajax().download("sql.csv", result);
-    }
-
-    private void installFormatter(KmSqlResultComposer c)
-    {
-        String s = _formatField.getValue();
-        if ( s == null )
-            return;
-
-        if ( s.equals(FORMAT_HTML) )
-            c.formatHtmlNormal();
-
-        if ( s.equals(FORMAT_HTML_SIMPLE) )
-            c.formatHtmlSimple();
-
-        if ( s.equals(FORMAT_CSV) )
-            c.formatCsvNormal();
-
-        if ( s.equals(FORMAT_CSV_SIMPLE) )
-            c.formatCsvSimple();
+            KmList<String> v;
+            v = tool.getSchemaNames();
+            v.sort();
+            return v;
+        }
+        finally
+        {
+            tool.closeSafely();
+        }
     }
 
     //##################################################
-    //# table names
+    //# tables
     //##################################################
 
-    private void refreshTables()
+    private KmList<ScOption<String>> findTableOptions()
     {
-        for ( String e : getTableNames() )
-            _tableDropdown.addOption(e);
+        return findTableNames().collect(e -> ScOption.create(e, e));
     }
 
-    private KmList<String> getTableNames()
+    private KmList<String> findTableNames()
     {
         KmDatabaseTool tool = new KmDatabaseTool();
         try

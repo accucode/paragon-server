@@ -40,42 +40,42 @@ public class MyThreadTopicJunction
 
     public KmhStringCondition whereCode()
     {
-        return new KmhStringCondition(context(), fullName(CODE));
-    }
-
-    public KmhStringCondition whereOwnerUid()
-    {
-        return new KmhStringCondition(context(), fullName(OWNER_UID));
-    }
-
-    public KmhStringCondition whereHostName()
-    {
-        return new KmhStringCondition(context(), fullName(HOST_NAME));
+        return new KmhStringCondition(context(), alias(), CODE);
     }
 
     public KmhStringCondition whereHostAddress()
     {
-        return new KmhStringCondition(context(), fullName(HOST_ADDRESS));
+        return new KmhStringCondition(context(), alias(), HOST_ADDRESS);
     }
 
-    public KmhTimestampCondition whereLastStartUtcTs()
+    public KmhStringCondition whereHostName()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_START_UTC_TS));
+        return new KmhStringCondition(context(), alias(), HOST_NAME);
     }
 
     public KmhTimestampCondition whereLastEndUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_END_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_END_UTC_TS);
+    }
+
+    public KmhTimestampCondition whereLastStartUtcTs()
+    {
+        return new KmhTimestampCondition(context(), alias(), LAST_START_UTC_TS);
     }
 
     public KmhTimestampCondition whereLastTouchUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(LAST_TOUCH_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), LAST_TOUCH_UTC_TS);
+    }
+
+    public KmhStringCondition whereOwnerUid()
+    {
+        return new KmhStringCondition(context(), alias(), OWNER_UID);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################

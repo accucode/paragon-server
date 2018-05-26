@@ -14,16 +14,6 @@
     </target>
 
     <target
-        name="resetDatabase"
-        depends="init"
-        description="x">
-        <antcall
-            target="runJavaClass">
-            <param name="javaClass" value="com.app.tools.MyResetDatabaseTool"/>
-        </antcall>
-    </target>
-
-    <target
         name="configureTomcat"
         depends="init"
         description="Configure the local development tomcat.">

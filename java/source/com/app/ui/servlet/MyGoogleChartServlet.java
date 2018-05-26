@@ -33,8 +33,6 @@ public class MyGoogleChartServlet
 
     private void handle()
     {
-        InputStream in = null;
-        ByteArrayOutputStream out = null;
         try
         {
             MyServletData data = getData();
@@ -43,27 +41,12 @@ public class MyGoogleChartServlet
             int port = 80;
             String file = "/chart?" + data.getQueryString();
             URL url = new URL(scheme, host, port, file);
-
-            in = url.openStream();
-            out = new ByteArrayOutputStream();
-            while ( true )
-            {
-                int i = in.read();
-                if ( i < 0 )
-                    break;
-                out.write((byte)i);
-            }
-
-            data.writeBytes(out.toByteArray());
+            byte[] bytes = Kmu.readBytes(url);
+            data.writeBytes(bytes);
         }
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
-            Kmu.closeSafely(out);
         }
     }
 }

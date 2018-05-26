@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,9 @@
 
 package com.kodemore.servlet.variable;
 
+import com.kodemore.servlet.ScPageSession;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.servlet.utility.ScLocalRegistry;
 import com.kodemore.utility.KmValueHolderIF;
 import com.kodemore.utility.Kmu;
 
@@ -32,14 +32,13 @@ import com.kodemore.utility.Kmu;
  * See comments in ScLocalIF
  */
 public abstract class ScAbstractLocal<T>
-    implements ScLocalIF, KmValueHolderIF<T>, KmCompressMemoryIF
+    implements ScLocalIF, KmValueHolderIF<T>
 {
     //##################################################
     //# variables
     //##################################################
 
-    private String  _key;
-    private boolean _global;
+    private int     _key;
     private boolean _autoSave;
     private T       _default;
 
@@ -54,23 +53,48 @@ public abstract class ScAbstractLocal<T>
 
     public ScAbstractLocal(T def)
     {
-        _key = ScControlRegistry.getInstance().getNextKey();
+        ScLocalRegistry.getInstance().register(this);
         _autoSave = false;
-        _default = def;
+        setDefault(def);
     }
 
     //##################################################
     //# key
     //##################################################
 
-    public String getKey()
+    @Override
+    public int getKey()
     {
         return _key;
     }
 
-    public boolean hasKey(String e)
+    @Override
+    public void registerKey(int e)
     {
-        return _key.equals(e);
+        _key = e;
+    }
+
+    public boolean hasKey(int e)
+    {
+        return _key == e;
+    }
+
+    //##################################################
+    //# default
+    //##################################################
+
+    private void setDefault(T e)
+    {
+        _default = normalizeDefault(e);
+    }
+
+    /**
+     * Can be overridden by subclasses to normalize the default value.
+     * For example, default strings may be interned.
+     */
+    protected T normalizeDefault(T e)
+    {
+        return e;
     }
 
     //##################################################
@@ -79,12 +103,12 @@ public abstract class ScAbstractLocal<T>
 
     public void setGlobal()
     {
-        _global = true;
+        ScPageSession.addGlobalKey(getKey());
     }
 
-    public boolean getGlobal()
+    public boolean isGlobal()
     {
-        return _global;
+        return ScPageSession.hasGlobalKey(getKey());
     }
 
     //##################################################
@@ -110,55 +134,26 @@ public abstract class ScAbstractLocal<T>
     @Override
     public T getValue()
     {
-        if ( getGlobal() )
-            return getGlobalValue();
-
         return getSessionValue();
-    }
-
-    private T getGlobalValue()
-    {
-        ScServletData data = getData();
-
-        if ( data == null )
-            return _default;
-
-        return data.getPageSession().getGlobalValueFor(_key, _default);
     }
 
     private T getSessionValue()
     {
         ScServletData data = getData();
 
-        if ( data == null )
-            return _default;
-
-        return data.getPageSession().getValueFor(_key, _default);
+        return data == null
+            ? _default
+            : data.getPageSession().getValueFor(_key, _default);
     }
+
+    //==================================================
+    //= set value
+    //==================================================
 
     @Override
     public void setValue(T e)
     {
-        if ( getGlobal() )
-            setGlobalValue(e);
-        else
-            setSessionValue(e);
-    }
-
-    private void setGlobalValue(T e)
-    {
-        ScServletData data = getData();
-
-        if ( data == null )
-        {
-            _default = e;
-            return;
-        }
-
-        if ( Kmu.isEqual(e, _default) )
-            data.getPageSession().removeGlobalKey(_key);
-        else
-            data.getPageSession().setGlobalValueFor(_key, e);
+        setSessionValue(e);
     }
 
     private void setSessionValue(T e)
@@ -167,7 +162,7 @@ public abstract class ScAbstractLocal<T>
 
         if ( data == null )
         {
-            _default = e;
+            setDefault(e);
             return;
         }
 
@@ -198,17 +193,17 @@ public abstract class ScAbstractLocal<T>
         return isNotNull();
     }
 
-    public final boolean hasValue(Object e)
+    public final boolean hasValue(T e)
     {
         return Kmu.isEqual(getObjectValue(), e);
     }
 
-    public final boolean is(Object e)
+    public final boolean is(T e)
     {
         return hasValue(e);
     }
 
-    public final boolean isNot(Object e)
+    public final boolean isNot(T e)
     {
         return !is(e);
     }
@@ -250,11 +245,6 @@ public abstract class ScAbstractLocal<T>
     private ScServletData getData()
     {
         return ScServletData.getLocal();
-    }
-
-    private boolean hasData()
-    {
-        return getData() != null;
     }
 
     //##################################################
@@ -312,19 +302,6 @@ public abstract class ScAbstractLocal<T>
     }
 
     //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory
-     */
-    @Override
-    public void compressMemory()
-    {
-        // subclass
-    }
-
-    //##################################################
     //# support
     //##################################################
 
@@ -333,21 +310,4 @@ public abstract class ScAbstractLocal<T>
         if ( getAutoSave() )
             saveValue();
     }
-
-    //##################################################
-    //# debug
-    //##################################################
-
-    public void printDebug()
-    {
-        System.out.println("ScAbstractLocal.printDebug");
-        System.out.println("    key:      " + _key);
-        System.out.println("    autoSave: " + _autoSave);
-        System.out.println("    default:  " + _default);
-        System.out.println("    value:    " + getValue());
-
-        if ( hasData() )
-            getData().getPageSession().printDebug(getKey());
-    }
-
 }

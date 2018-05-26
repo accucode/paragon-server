@@ -7,6 +7,7 @@ import com.kodemore.utility.KmResult;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
+import com.app.model.MyAttachment;
 import com.app.model.MyDownload;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
@@ -103,6 +104,10 @@ public class MyDownloadServlet
         MyDownloadType type = e.getType();
         switch ( type )
         {
+            case Attachment:
+                downloadAttachment(e);
+                break;
+
             case Bytes:
                 downloadBytes(e);
                 break;
@@ -111,6 +116,20 @@ public class MyDownloadServlet
                 downloadFile(e);
                 break;
         }
+    }
+
+    private void downloadAttachment(MyDownload download)
+    {
+        MyAttachment attachment = download.getAttachment();
+        if ( attachment == null )
+        {
+            writeError("No Attachment");
+            return;
+        }
+
+        String name = download.getName();
+        byte[] bytes = attachment.getContentBytes();
+        writeBytes(name, bytes);
     }
 
     private void downloadBytes(MyDownload download)

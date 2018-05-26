@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,9 +50,9 @@ public class ScFilterBox
     //# variables
     //##################################################
 
-    private ScForm   _form;
-    private ScGroup  _group;
-    private ScDiv    _body;
+    private ScForm  _form;
+    private ScGroup _group;
+    private ScDiv   _body;
 
     private ScAction _action;
     private ScDiv    _leftButtons;
@@ -66,7 +66,7 @@ public class ScFilterBox
     {
         _form = new ScForm();
         _form.setParent(this);
-        _form.setSubmitAction(this::handleSearch);
+        _form.onSubmit(_form.newUncheckedAction(this::handleSearch));
 
         _group = _form.addGroup();
         _group.setTitle("Filter");
@@ -79,7 +79,7 @@ public class ScFilterBox
 
         _leftButtons = footer.addButtonBox();
         _leftButtons.addSubmitButton("Search");
-        _leftButtons.addButton("clear", this::handleClear);
+        _leftButtons.addButton("clear", _leftButtons.newCheckedAction(this::handleClear));
 
         _rightButtons = footer.addButtonBox();
     }
@@ -127,9 +127,9 @@ public class ScFilterBox
     //##################################################
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
-        return _form.getVisible();
+        return _form.isVisible();
     }
 
     @Override
@@ -158,12 +158,6 @@ public class ScFilterBox
         _action = e;
     }
 
-    public void setAction(Runnable r)
-    {
-        ScAction action = newCheckedAction(r);
-        setAction(action);
-    }
-
     private void runAction()
     {
         if ( _action != null )
@@ -176,7 +170,7 @@ public class ScFilterBox
 
     protected void handleSearch()
     {
-        validateQuietly();
+        validate();
 
         saveFieldValues();
         ajaxUpdateFieldValues();

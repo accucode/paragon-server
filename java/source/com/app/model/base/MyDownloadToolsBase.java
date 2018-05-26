@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MyDownloadToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaDownload Meta = MyDownload.Meta;
 
     public ScDomainDropdownField<MyDownload,String> newDomainDropdown()
@@ -39,10 +46,10 @@ public abstract class MyDownloadToolsBase
         ScDomainDropdownField<MyDownload,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MyDownloadFilter());
-        e.setFinder(new MyDownloadFinder());
+        e.setFinder(MyDownload.Finder);
+        e.setOptionSupplier(new MyDownloadFilter().toSupplier());
         e.setOptionKeyFunction(Meta.Uid);
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

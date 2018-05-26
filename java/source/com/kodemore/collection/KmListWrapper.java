@@ -214,9 +214,9 @@ public class KmListWrapper<T>
     }
 
     @Override
-    public <E> E[] toArray(E[] a)
+    public <E> E[] toArray(E[] arr)
     {
-        return _list.toArray(a);
+        return _list.toArray(arr);
     }
 
     /**

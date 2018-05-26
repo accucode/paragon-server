@@ -1,0 +1,57 @@
+//****************************
+//* roadmap
+//****************************
+
+
+.roadmapItem
+    border-bottom:      1px solid #ccc
+    padding:            10px
+
+
+.roadmapItem:last-child
+    border-bottom:      none
+
+
+.roadmapStatusIcon
+    width:              40px
+    height:             40px
+
+
+//****************************
+//* button
+//****************************
+
+
+.roadmapItemQuickAction
+    box-sizing:         border-box
+
+    height:             20px
+    width:              20px
+    padding:            0px
+
+    overflow:           hidden
+    display:            flex
+    position:           relative
+
+    outline:            none
+    border-radius:      $button-radius                  if $button-radius
+
+    flex-shrink:        0
+    text-transform:     $button-textTransform           if $button-textTransform
+
+    align-items:        center
+    justify-content:    center
+
+
+.roadmapItemQuickAction:focus
+    outline:            $button-focusOutline            if $button-focusOutline
+    outline-offset:     $button-focusOutlineOffset      if $button-focusOutlineOffset
+
+
+.roadmapItemQuickAction > img
+    margin:             0px
+    padding:            0px
+    height:             16px
+    width:              16px
+    border:             none
+

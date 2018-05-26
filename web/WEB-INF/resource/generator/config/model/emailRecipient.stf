@@ -2,7 +2,8 @@ model
 : name      = emailRecipient
 : help...
     ---
-    I define the recipients for a given email.  The TOs, CCs, and BCCs.
+    I define the recipients for a given email.  The TOs and CCs.
+    We do not support BCCs a this time.
     ---
 
 database
@@ -22,6 +23,7 @@ attributes
 
     #include basicUid.stf
     #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************

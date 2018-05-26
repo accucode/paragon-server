@@ -14,7 +14,7 @@ public enum ${Prefix}ModelType
 $utility.protocol("values")
 
 #foreach ( $model in $root.databaseModels )
-    ${model.f_NAME}("${model.f_Name}","${model.f_Name}"),
+    ${model.f_Name}("${model.f_Name}","${model.f_Name}"),
 #end
     ;
 
@@ -77,7 +77,7 @@ $utility.protocol("class")
         switch ( this )
         {
 #foreach ( $model in $root.databaseModels )
-            case ${model.f_NAME}:
+            case ${model.f_Name}:
                 return ${model.f_Class}.class;
 
 #end

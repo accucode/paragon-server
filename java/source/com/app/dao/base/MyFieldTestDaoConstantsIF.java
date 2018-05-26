@@ -17,23 +17,25 @@ public interface MyFieldTestDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String BOOLEAN_TEST = "booleanTest";
     String CREATED_UTC_TS = "createdUtcTs";
-    String UPDATED_UTC_TS = "updatedUtcTs";
-    String NAME_VALUE = "nameValue";
+    String DATE_TEST = "dateTest";
+    String DAY_FREQUENCY = "dayFrequency";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String DOUBLE_TEST = "doubleTest";
+    String DURATION = "duration";
     String INTEGER_VALUE = "integerValue";
     String LONG_TEST = "longTest";
-    String DOUBLE_TEST = "doubleTest";
     String MONEY_TEST = "moneyTest";
-    String BOOLEAN_TEST = "booleanTest";
-    String DATE_TEST = "dateTest";
-    String TIMESTAMP_TEST = "timestampTest";
+    String NAME_VALUE = "nameValue";
     String PIN_NUMBER_1 = "pinNumber1";
     String PIN_NUMBER_2 = "pinNumber2";
-    String DURATION = "duration";
-    String DAY_FREQUENCY = "dayFrequency";
+    String TIMESTAMP_TEST = "timestampTest";
+    String UID = "uid";
+    String UPDATED_UTC_TS = "updatedUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";

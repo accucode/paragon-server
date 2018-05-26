@@ -2,6 +2,8 @@ package com.kodemore.email;
 
 import java.util.List;
 
+import com.kodemore.types.KmStringTuple;
+
 public interface KmEmailIF
 {
     //##################################################
@@ -21,16 +23,21 @@ public interface KmEmailIF
 
     /**
      * The subject line for the email.
-     * Typically a single line of text and relatively short. 
+     * Typically a single line of text and relatively short.
      */
     String getSubject();
 
     /**
-     * The from address, as displayed.  This is not necessarily 
+     * The from address, as displayed.  This is not necessarily
      * the user that sent the email, just the from address to
      * be shows to the recipient.
      */
     String getFrom();
+
+    /**
+     * Get additional non-standard headers.
+     */
+    List<KmStringTuple> getHeaders();
 
     //##################################################
     //# recipients

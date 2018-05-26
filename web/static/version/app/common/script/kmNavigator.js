@@ -14,13 +14,10 @@ KmNavigator.defaultTitle = "";
 /**
  * Called once to initialize the navigator.
  */
-KmNavigator.init = function(options)
+KmNavigator.init = function()
 {
     KmNavigator.previousPrintDepth = undefined;
     KmNavigator.bind();
-
-    if ( options )
-        KmNavigator.pushPage(options);
 }
 
 /**
@@ -41,21 +38,21 @@ KmNavigator.init = function(options)
  *      replace
  *          If true, do a replaceState instead of a pushState.
  *
+ *      pageSession
+ *          If set, apply this to the NEW page, after pushing it onto the stack.
+ *
  *      handleStateChange
  *          By default, a push normally triggers the statechange event.
  *          If handleStateChange is false, the statechange event is temporarily ignored.
  *
- *      clearPageSession
- *          If true, clear the page session before navigation
- *          
  *      changeTracking
  *          If true (the default), check if there are any unsaved changes on the page.
  *          If unsaved changes are found, warn the user before initiating the navigation.
  *
- *		changeScope
- *			Optional string selector.
- *			If set, changes are only checked inside this container.
- *			If not set, check the entire page.
+ *      changeScope
+ *          Optional string selector.
+ *          If set, changes are only checked inside this container.
+ *          If not set, check the entire page.
  */
 KmNavigator.pushPage = function(options)
 {
@@ -69,18 +66,12 @@ KmNavigator.pushPage = function(options)
 
         var state = History.getState();
 
-        if ( options.clearPageSession )
-            KmNavigator.clearPageSession();
-            
-        if ( options.globalSession && options.pageSession )
-            KmNavigator.updatePageSession(options.globalSession,options.pageSession)
-
         var push = true;
         if ( options.replace )
             push = false;
 
-        var data = {};
-        data.globalSession = KmNavigator.getGlobalSession();
+        var data;
+        data = {};
         data.pageSession = KmNavigator.getPageSession();
 
         var inc = push && !state.url.endsWith(url);
@@ -89,6 +80,9 @@ KmNavigator.pushPage = function(options)
         else
             data.depth = state.data.depth;
 
+        if ( options.pageSession )
+            data.pageSession = options.pageSession;
+
         var handle = options.handleStateChange;
         if ( handle === undefined )
             handle = true;
@@ -96,9 +90,15 @@ KmNavigator.pushPage = function(options)
         KmNavigator.unbind();
 
         if ( push )
+        {
+            // console.log('push title(' + title + '), url(' + url + ')')
             History.pushState(data, title, url);
+        }
         else
+        {
+            // console.log('repl title(' + title + '), url(' + url + ')')
             History.replaceState(data, title, url);
+        }
 
         KmNavigator.bind();
 
@@ -108,9 +108,9 @@ KmNavigator.pushPage = function(options)
 
     Kmu.warnIfDirty(
     {
-    	fn: pushFn, 
-    	changeTracking: options.changeTracking,
-    	changeScope: options.changeScope
+        fn: pushFn,
+        changeTracking: options.changeTracking,
+        changeScope: options.changeScope
     });
 }
 
@@ -156,35 +156,12 @@ KmNavigator.getDirection = function()
 
 KmNavigator.getPageSession = function()
 {
-    var ps = History.getState().data.pageSession;
+    var e = History.getState().data.pageSession;
 
-    if ( ps === undefined )
-        ps = '';
+    if ( e === undefined )
+        e = '';
 
-    return ps;
-}
-
-KmNavigator.getGlobalSession = function()
-{
-    var gs = History.getState().data.globalSession;
-
-    if ( gs === undefined )
-        gs = '';
-
-    return gs;
-}
-
-/**
- * Clear the page session by setting it to an empty map ('m,0').
- * See ScEncoder for more info on encoded maps.
- * The global session is preserved. 
- */
-KmNavigator.clearPageSession = function()
-{
-    var globalSession = KmNavigator.getGlobalSession();
-    var pageSession = 'm,0';
-    
-    KmNavigator.updatePageSession(globalSession, pageSession);
+    return e;
 }
 
 /**
@@ -193,16 +170,33 @@ KmNavigator.clearPageSession = function()
  * This uses History.replaceState, and temporarily unbinds
  * the event listener to avoid an infinite loop.
  */
-KmNavigator.updatePageSession = function(globalSession, pageSession)
+KmNavigator.updatePageSession = function(pageSession)
 {
     var state = History.getState();
 
     var data;
     data = state.data;
-    data.globalSession = globalSession;
     data.pageSession = pageSession;
 
     var title = state.title;
+    var url = state.url;
+
+    KmNavigator.unbind();
+    History.replaceState(data, title, url);
+    KmNavigator.bind();
+}
+
+/**
+ * Update the title, but nothing else.
+ * Does NOT push a new page onto the stack.
+ * Does NOT trigger an update.
+ */
+KmNavigator.updateTitle = function(title)
+{
+    var state = History.getState();
+
+    var data = state.data;
+    var title = title;
     var url = state.url;
 
     KmNavigator.unbind();
@@ -265,6 +259,25 @@ KmNavigator.getDepth = function()
 KmNavigator.getNextDepth = function()
 {
     var i = KmNavigator.getDepth();
+
+    if ( i === undefined )
+        return 0;
+
+    return i + 1;
+}
+
+//****************************************
+//** real depth
+//****************************************
+
+KmNavigator.getRealDepth = function()
+{
+    return History.getState().data.realDepth;
+}
+
+KmNavigator.getNextRealDepth = function()
+{
+    var i = KmNavigator.getRealDepth();
 
     if ( i === undefined )
         return 0;

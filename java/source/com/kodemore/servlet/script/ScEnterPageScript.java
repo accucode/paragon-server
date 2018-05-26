@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,8 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonMap;
-import com.kodemore.servlet.ScPageIF;
+import com.kodemore.servlet.ScBookmark;
+import com.kodemore.servlet.ScPageSession;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -51,14 +52,14 @@ public class ScEnterPageScript
      * the queryString which indicates the appropriate page like so:
      *      ?page=somePage
      */
-    private String  _url;
+    private String _url;
 
     /**
      * The title to be displayed in the browser's title and/or tab.
-     * This is not well supported by browsers yet.
+     * This may not be supported by all browsers yet.
      * The default is null.
      */
-    private String  _title;
+    private String _title;
 
     /**
      * If true, do a replaceState instead of a pushState.  This replaces
@@ -82,9 +83,11 @@ public class ScEnterPageScript
     private boolean _changeTracking;
 
     /**
-     * If true, clear the page session before navigation.
+     * By default, the page session is preserved as-is when navigating
+     * to a new page. If this is set to true, the page session on the
+     * NEW page will be set to the current session.
      */
-    private boolean _clearPageSession;
+    private boolean _pageSessionOverride;
 
     //##################################################
     //# constructor
@@ -110,16 +113,10 @@ public class ScEnterPageScript
         _url = e;
     }
 
-    public void setUrl(ScPageIF page)
+    public void setUrl(ScBookmark b)
     {
-        boolean withState = true;
-        setUrl(page, withState);
-    }
-
-    public void setUrl(ScPageIF page, boolean withState)
-    {
-        String url = page.formatQueryString(withState);
-        setUrl(url);
+        setUrl(b.formatQueryString());
+        setTitle(b.getBrowserTabTitle());
     }
 
     public boolean hasUrl()
@@ -199,17 +196,22 @@ public class ScEnterPageScript
     }
 
     //##################################################
-    //# clear page session
-    //#################################################
+    //# page session override
+    //##################################################
 
-    public boolean getClearPageSession()
+    public boolean getPageSessionOverride()
     {
-        return _clearPageSession;
+        return _pageSessionOverride;
     }
 
-    public void setClearPageSession(boolean e)
+    public void setPageSessionOverride(boolean e)
     {
-        _clearPageSession = e;
+        _pageSessionOverride = e;
+    }
+
+    public void setPageSessionOverride()
+    {
+        setPageSessionOverride(true);
     }
 
     //##################################################
@@ -235,12 +237,11 @@ public class ScEnterPageScript
         if ( !getChangeTracking() )
             json.setBoolean("changeTracking", false);
 
-        if ( getClearPageSession() )
-            json.setBoolean("clearPageSession", true);
-
-        // global/page session
-        json.setString("globalSession", getData().getPageSession().formatGlobalValues());
-        json.setString("pageSession", getData().getPageSession().formatSessionValues());
+        if ( getPageSessionOverride() )
+        {
+            ScPageSession ps = getData().getPageSession();
+            json.setString("pageSession", ps.formatSessionValues());
+        }
 
         ScBlockScript s;
         s = ScBlockScript.create();

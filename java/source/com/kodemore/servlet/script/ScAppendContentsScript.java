@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -40,23 +40,23 @@ public class ScAppendContentsScript
     /**
      * The selector to which the contents will be added.
      */
-    private String           _selector;
+    private String _selector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String           _contents;
+    private String _contents;
 
     /**
      * The script to run after the dom has been replaced.
      */
-    private String           _postDomScript;
+    private String _postDomScript;
 
     /**
      * The script to run after the html has been rendered.
      * This is run AFTER any transition effects.
      */
-    private String           _postRenderScript;
+    private String _postRenderScript;
 
     /**
      * The transition to use.
@@ -67,7 +67,7 @@ public class ScAppendContentsScript
      * The speed of the transition.  Ignored if the transition
      * does not support it.
      */
-    private Integer          _speed;
+    private Integer _speed;
 
     //##################################################
     //# constructor
@@ -260,27 +260,27 @@ public class ScAppendContentsScript
 
     private void formatSimpleOn(KmStringBuilder out)
     {
-        formatCallOn(out, "Kmu.jsonReplaceSimple");
+        formatCallOn(out, "Kmu.jsonReplaceContentSimple");
     }
 
     private void formatFadeOn(KmStringBuilder out)
     {
-        formatCallOn(out, "Kmu.jsonReplaceFade");
+        formatCallOn(out, "Kmu.jsonReplaceContentFade");
     }
 
     private void formatLeftOn(KmStringBuilder out)
     {
-        formatCallOn(out, "Kmu.jsonReplaceLeft");
+        formatCallOn(out, "Kmu.jsonReplaceContentLeft");
     }
 
     private void formatRightOn(KmStringBuilder out)
     {
-        formatCallOn(out, "Kmu.jsonReplaceRight");
+        formatCallOn(out, "Kmu.jsonReplaceContentRight");
     }
 
     private void formatFlipOn(KmStringBuilder out)
     {
-        formatCallOn(out, "Kmu.jsonReplaceFlip");
+        formatCallOn(out, "Kmu.jsonReplaceContentFlip");
     }
 
     private void formatCallOn(KmStringBuilder out, String fn)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE web-app
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
@@ -6,16 +6,21 @@
 
 <web-app>
 
+
     <!-- listeners -->
+
 
     <listener>
         <listener-class>com.app.ui.servlet.MyServletContextListener</listener-class>
     </listener>
+
     <listener>
         <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
     </listener>
 
+
     <!-- filters -->
+
 
     <filter>
         <filter-name>appFilter</filter-name>
@@ -69,11 +74,18 @@
     </servlet>
 
     <servlet>
+        <servlet-name>charset</servlet-name>
+        <servlet-class>com.app.ui.servlet.MyCharsetTestServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>oneall</servlet-name>
         <servlet-class>com.app.oneAll.MyOneAllServlet</servlet-class>
     </servlet>
 
+
     <!-- mappings -->
+
 
     <servlet-mapping>
         <servlet-name>main</servlet-name>
@@ -116,11 +128,19 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>charset</servlet-name>
+        <url-pattern>/servlet/charset</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>oneall</servlet-name>
         <url-pattern>/servlet/oneall</url-pattern>
     </servlet-mapping>
 
+
     <!-- expires filter -->
+
+
     <filter>
         <filter-name>ExpiresFilter</filter-name>
         <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
@@ -129,6 +149,7 @@
            <param-value>access plus 1 years</param-value>
        </init-param>
     </filter>
+
     <filter-mapping>
        <filter-name>ExpiresFilter</filter-name>
        <url-pattern>/static/*</url-pattern>
@@ -137,4 +158,33 @@
        <dispatcher>ERROR</dispatcher>
        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+
+
+    <!-- charset filter
+         This must match ScConstantsIF.WEB_CHARSET.
+    -->
+
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignore</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>*</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+
 </web-app>

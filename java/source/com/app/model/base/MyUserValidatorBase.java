@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,29 +36,21 @@ public class MyUserValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator updatedUtcTsValidator;
-    private KmStringValidator firstNameValidator;
-    private KmStringValidator lastNameValidator;
-    private KmStringValidator nicknameValidator;
     private KmStringValidator emailValidator;
-    private KmStringValidator passwordSaltValidator;
+    private KmBooleanValidator enabledValidator;
+    private KmStringValidator firstNameValidator;
+    private KmStringValidator fullNameValidator;
+    private KmStringValidator lastNameValidator;
+    private KmStringValidator memoValidator;
+    private KmStringValidator nicknameValidator;
     private KmStringValidator passwordHashValidator;
+    private KmStringValidator passwordSaltValidator;
     private KmStringValidator phoneValidator;
-    private KmBooleanValidator activeValidator;
-    private KmStringValidator timeZoneCodeValidator;
     private KmStringValidator roleCodeValidator;
-    private KmStringValidator dashboardOrientationTypeCodeValidator;
-    private KmIntegerValidator dashboardLineCount1Validator;
-    private KmIntegerValidator dashboardLineCount2Validator;
-    private KmStringValidator dashboardPanelCodeAValidator;
-    private KmStringValidator dashboardPanelCodeBValidator;
-    private KmStringValidator dashboardPanelCodeCValidator;
-    private KmStringValidator dashboardPanelCodeDValidator;
-    private KmStringValidator dashboardPanelCodeEValidator;
-    private KmStringValidator dashboardPanelCodeFValidator;
-    private KmStringValidator dashboardPanelCodeGValidator;
+    private KmStringValidator timeZoneCodeValidator;
+    private KmStringValidator uidValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -67,29 +60,21 @@ public class MyUserValidatorBase
     protected MyUserValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        updatedUtcTsValidator = newUpdatedUtcTsValidator();
-        firstNameValidator = newFirstNameValidator();
-        lastNameValidator = newLastNameValidator();
-        nicknameValidator = newNicknameValidator();
         emailValidator = newEmailValidator();
-        passwordSaltValidator = newPasswordSaltValidator();
+        enabledValidator = newEnabledValidator();
+        firstNameValidator = newFirstNameValidator();
+        fullNameValidator = newFullNameValidator();
+        lastNameValidator = newLastNameValidator();
+        memoValidator = newMemoValidator();
+        nicknameValidator = newNicknameValidator();
         passwordHashValidator = newPasswordHashValidator();
+        passwordSaltValidator = newPasswordSaltValidator();
         phoneValidator = newPhoneValidator();
-        activeValidator = newActiveValidator();
-        timeZoneCodeValidator = newTimeZoneCodeValidator();
         roleCodeValidator = newRoleCodeValidator();
-        dashboardOrientationTypeCodeValidator = newDashboardOrientationTypeCodeValidator();
-        dashboardLineCount1Validator = newDashboardLineCount1Validator();
-        dashboardLineCount2Validator = newDashboardLineCount2Validator();
-        dashboardPanelCodeAValidator = newDashboardPanelCodeAValidator();
-        dashboardPanelCodeBValidator = newDashboardPanelCodeBValidator();
-        dashboardPanelCodeCValidator = newDashboardPanelCodeCValidator();
-        dashboardPanelCodeDValidator = newDashboardPanelCodeDValidator();
-        dashboardPanelCodeEValidator = newDashboardPanelCodeEValidator();
-        dashboardPanelCodeFValidator = newDashboardPanelCodeFValidator();
-        dashboardPanelCodeGValidator = newDashboardPanelCodeGValidator();
+        timeZoneCodeValidator = newTimeZoneCodeValidator();
+        uidValidator = newUidValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -97,34 +82,9 @@ public class MyUserValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
-    {
-        return uidValidator;
-    }
-
     public KmTimestampValidator getCreatedUtcTsValidator()
     {
         return createdUtcTsValidator;
-    }
-
-    public KmTimestampValidator getUpdatedUtcTsValidator()
-    {
-        return updatedUtcTsValidator;
-    }
-
-    public KmStringValidator getFirstNameValidator()
-    {
-        return firstNameValidator;
-    }
-
-    public KmStringValidator getLastNameValidator()
-    {
-        return lastNameValidator;
-    }
-
-    public KmStringValidator getNicknameValidator()
-    {
-        return nicknameValidator;
     }
 
     public KmStringValidator getEmailValidator()
@@ -132,9 +92,34 @@ public class MyUserValidatorBase
         return emailValidator;
     }
 
-    public KmStringValidator getPasswordSaltValidator()
+    public KmBooleanValidator getEnabledValidator()
     {
-        return passwordSaltValidator;
+        return enabledValidator;
+    }
+
+    public KmStringValidator getFirstNameValidator()
+    {
+        return firstNameValidator;
+    }
+
+    public KmStringValidator getFullNameValidator()
+    {
+        return fullNameValidator;
+    }
+
+    public KmStringValidator getLastNameValidator()
+    {
+        return lastNameValidator;
+    }
+
+    public KmStringValidator getMemoValidator()
+    {
+        return memoValidator;
+    }
+
+    public KmStringValidator getNicknameValidator()
+    {
+        return nicknameValidator;
     }
 
     public KmStringValidator getPasswordHashValidator()
@@ -142,19 +127,14 @@ public class MyUserValidatorBase
         return passwordHashValidator;
     }
 
+    public KmStringValidator getPasswordSaltValidator()
+    {
+        return passwordSaltValidator;
+    }
+
     public KmStringValidator getPhoneValidator()
     {
         return phoneValidator;
-    }
-
-    public KmBooleanValidator getActiveValidator()
-    {
-        return activeValidator;
-    }
-
-    public KmStringValidator getTimeZoneCodeValidator()
-    {
-        return timeZoneCodeValidator;
     }
 
     public KmStringValidator getRoleCodeValidator()
@@ -162,54 +142,19 @@ public class MyUserValidatorBase
         return roleCodeValidator;
     }
 
-    public KmStringValidator getDashboardOrientationTypeCodeValidator()
+    public KmStringValidator getTimeZoneCodeValidator()
     {
-        return dashboardOrientationTypeCodeValidator;
+        return timeZoneCodeValidator;
     }
 
-    public KmIntegerValidator getDashboardLineCount1Validator()
+    public KmStringValidator getUidValidator()
     {
-        return dashboardLineCount1Validator;
+        return uidValidator;
     }
 
-    public KmIntegerValidator getDashboardLineCount2Validator()
+    public KmTimestampValidator getUpdatedUtcTsValidator()
     {
-        return dashboardLineCount2Validator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeAValidator()
-    {
-        return dashboardPanelCodeAValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeBValidator()
-    {
-        return dashboardPanelCodeBValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeCValidator()
-    {
-        return dashboardPanelCodeCValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeDValidator()
-    {
-        return dashboardPanelCodeDValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeEValidator()
-    {
-        return dashboardPanelCodeEValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeFValidator()
-    {
-        return dashboardPanelCodeFValidator;
-    }
-
-    public KmStringValidator getDashboardPanelCodeGValidator()
-    {
-        return dashboardPanelCodeGValidator;
+        return updatedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -225,97 +170,83 @@ public class MyUserValidatorBase
     public void convertOnly(MyUser value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
-        value.setFirstName(firstNameValidator.convertOnly(value.getFirstName()));
-        value.setLastName(lastNameValidator.convertOnly(value.getLastName()));
-        value.setNickname(nicknameValidator.convertOnly(value.getNickname()));
-        value.setEmail(emailValidator.convertOnly(value.getEmail()));
-        value.setPasswordSalt(passwordSaltValidator.convertOnly(value.getPasswordSalt()));
-        value.setPasswordHash(passwordHashValidator.convertOnly(value.getPasswordHash()));
-        value.setPhone(phoneValidator.convertOnly(value.getPhone()));
-        value.setActive(activeValidator.convertOnly(value.getActive()));
-        value.setTimeZoneCode(timeZoneCodeValidator.convertOnly(value.getTimeZoneCode()));
-        value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
-        value.setDashboardOrientationTypeCode(dashboardOrientationTypeCodeValidator.convertOnly(value.getDashboardOrientationTypeCode()));
-        value.setDashboardLineCount1(dashboardLineCount1Validator.convertOnly(value.getDashboardLineCount1()));
-        value.setDashboardLineCount2(dashboardLineCount2Validator.convertOnly(value.getDashboardLineCount2()));
-        value.setDashboardPanelCodeA(dashboardPanelCodeAValidator.convertOnly(value.getDashboardPanelCodeA()));
-        value.setDashboardPanelCodeB(dashboardPanelCodeBValidator.convertOnly(value.getDashboardPanelCodeB()));
-        value.setDashboardPanelCodeC(dashboardPanelCodeCValidator.convertOnly(value.getDashboardPanelCodeC()));
-        value.setDashboardPanelCodeD(dashboardPanelCodeDValidator.convertOnly(value.getDashboardPanelCodeD()));
-        value.setDashboardPanelCodeE(dashboardPanelCodeEValidator.convertOnly(value.getDashboardPanelCodeE()));
-        value.setDashboardPanelCodeF(dashboardPanelCodeFValidator.convertOnly(value.getDashboardPanelCodeF()));
-        value.setDashboardPanelCodeG(dashboardPanelCodeGValidator.convertOnly(value.getDashboardPanelCodeG()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setEmail(emailValidator.convert(value.getEmail()));
+        value.setEnabled(enabledValidator.convert(value.getEnabled()));
+        value.setFirstName(firstNameValidator.convert(value.getFirstName()));
+        value.setFullName(fullNameValidator.convert(value.getFullName()));
+        value.setLastName(lastNameValidator.convert(value.getLastName()));
+        value.setMemo(memoValidator.convert(value.getMemo()));
+        value.setNickname(nicknameValidator.convert(value.getNickname()));
+        value.setPasswordHash(passwordHashValidator.convert(value.getPasswordHash()));
+        value.setPasswordSalt(passwordSaltValidator.convert(value.getPasswordSalt()));
+        value.setPhone(phoneValidator.convert(value.getPhone()));
+        value.setRoleCode(roleCodeValidator.convert(value.getRoleCode()));
+        value.setTimeZoneCode(timeZoneCodeValidator.convert(value.getTimeZoneCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convert(value.getUpdatedUtcTs()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyUser value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyUser value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
-        firstNameValidator.validateOnly(value.getFirstName(), errors);
-        lastNameValidator.validateOnly(value.getLastName(), errors);
-        nicknameValidator.validateOnly(value.getNickname(), errors);
-        emailValidator.validateOnly(value.getEmail(), errors);
-        passwordSaltValidator.validateOnly(value.getPasswordSalt(), errors);
-        passwordHashValidator.validateOnly(value.getPasswordHash(), errors);
-        phoneValidator.validateOnly(value.getPhone(), errors);
-        activeValidator.validateOnly(value.getActive(), errors);
-        timeZoneCodeValidator.validateOnly(value.getTimeZoneCode(), errors);
-        roleCodeValidator.validateOnly(value.getRoleCode(), errors);
-        dashboardOrientationTypeCodeValidator.validateOnly(value.getDashboardOrientationTypeCode(), errors);
-        dashboardLineCount1Validator.validateOnly(value.getDashboardLineCount1(), errors);
-        dashboardLineCount2Validator.validateOnly(value.getDashboardLineCount2(), errors);
-        dashboardPanelCodeAValidator.validateOnly(value.getDashboardPanelCodeA(), errors);
-        dashboardPanelCodeBValidator.validateOnly(value.getDashboardPanelCodeB(), errors);
-        dashboardPanelCodeCValidator.validateOnly(value.getDashboardPanelCodeC(), errors);
-        dashboardPanelCodeDValidator.validateOnly(value.getDashboardPanelCodeD(), errors);
-        dashboardPanelCodeEValidator.validateOnly(value.getDashboardPanelCodeE(), errors);
-        dashboardPanelCodeFValidator.validateOnly(value.getDashboardPanelCodeF(), errors);
-        dashboardPanelCodeGValidator.validateOnly(value.getDashboardPanelCodeG(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        emailValidator.validateOn(value.getEmail(), errors);
+        enabledValidator.validateOn(value.getEnabled(), errors);
+        firstNameValidator.validateOn(value.getFirstName(), errors);
+        fullNameValidator.validateOn(value.getFullName(), errors);
+        lastNameValidator.validateOn(value.getLastName(), errors);
+        memoValidator.validateOn(value.getMemo(), errors);
+        nicknameValidator.validateOn(value.getNickname(), errors);
+        passwordHashValidator.validateOn(value.getPasswordHash(), errors);
+        passwordSaltValidator.validateOn(value.getPasswordSalt(), errors);
+        phoneValidator.validateOn(value.getPhone(), errors);
+        roleCodeValidator.validateOn(value.getRoleCode(), errors);
+        timeZoneCodeValidator.validateOn(value.getTimeZoneCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        updatedUtcTsValidator.validateOn(value.getUpdatedUtcTs(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasTenant() )
-            errors.add(new KmRequiredValidationError("user", "tenant"));
+            errors.addRequiredField("user", "tenant");
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("uid");
-        e.setRequired();
-        return e;
-    }
-
     public KmTimestampValidator newCreatedUtcTsValidator()
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("user");
-        e.setField("createdUtcTs");
+        e.setModelName("user");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
         return e;
     }
 
-    public KmTimestampValidator newUpdatedUtcTsValidator()
+    public KmStringValidator newEmailValidator()
     {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("user");
-        e.setField("updatedUtcTs");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsLetters(true);
+        e.setAllowsDigits(true);
+        e.setAllowsSymbols(true);
+        e.setModelName("user");
+        e.setFieldName("email");
+        e.setRequired();
+        return e;
+    }
+
+    public KmBooleanValidator newEnabledValidator()
+    {
+        KmBooleanValidator e;
+        e = new KmBooleanValidator();
+        e.setModelName("user");
+        e.setFieldName("enabled");
         e.setRequired();
         return e;
     }
@@ -326,8 +257,20 @@ public class MyUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("firstName");
+        e.setModelName("user");
+        e.setFieldName("firstName");
+        return e;
+    }
+
+    public KmStringValidator newFullNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("user");
+        e.setFieldName("fullName");
+        e.setRequired();
         return e;
     }
 
@@ -337,8 +280,20 @@ public class MyUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("lastName");
+        e.setModelName("user");
+        e.setFieldName("lastName");
+        return e;
+    }
+
+    public KmStringValidator newMemoValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1000);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("user");
+        e.setFieldName("memo");
         return e;
     }
 
@@ -348,32 +303,8 @@ public class MyUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("nickname");
-        return e;
-    }
-
-    public KmStringValidator newEmailValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("email");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newPasswordSaltValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("passwordSalt");
-        e.setRequired();
+        e.setModelName("user");
+        e.setFieldName("nickname");
         return e;
     }
 
@@ -383,8 +314,20 @@ public class MyUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(40);
         e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("passwordHash");
+        e.setModelName("user");
+        e.setFieldName("passwordHash");
+        return e;
+    }
+
+    public KmStringValidator newPasswordSaltValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("user");
+        e.setFieldName("passwordSalt");
+        e.setRequired();
         return e;
     }
 
@@ -394,30 +337,8 @@ public class MyUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("phone");
-        return e;
-    }
-
-    public KmBooleanValidator newActiveValidator()
-    {
-        KmBooleanValidator e;
-        e = new KmBooleanValidator();
-        e.setModel("user");
-        e.setField("active");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newTimeZoneCodeValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(40);
-        e.setAllowsPrintable(true);
-        e.setModel("user");
-        e.setField("timeZoneCode");
-        e.setRequired();
+        e.setModelName("user");
+        e.setFieldName("phone");
         return e;
     }
 
@@ -430,143 +351,43 @@ public class MyUserValidatorBase
         e.setAllowsDigits(true);
         e.setAllowsSymbols(true);
         e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("roleCode");
+        e.setModelName("user");
+        e.setFieldName("roleCode");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newDashboardOrientationTypeCodeValidator()
+    public KmStringValidator newTimeZoneCodeValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardOrientationTypeCode");
+        e.setMaximumLength(40);
+        e.setAllowsPrintable(true);
+        e.setModelName("user");
+        e.setFieldName("timeZoneCode");
         e.setRequired();
         return e;
     }
 
-    public KmIntegerValidator newDashboardLineCount1Validator()
+    public KmStringValidator newUidValidator()
     {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("user");
-        e.setField("dashboardLineCount1");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("user");
+        e.setFieldName("uid");
         e.setRequired();
         return e;
     }
 
-    public KmIntegerValidator newDashboardLineCount2Validator()
+    public KmTimestampValidator newUpdatedUtcTsValidator()
     {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("user");
-        e.setField("dashboardLineCount2");
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("user");
+        e.setFieldName("updatedUtcTs");
         e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeAValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeA");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeBValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeB");
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeCValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeC");
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeDValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeD");
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeEValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeE");
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeFValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeF");
-        return e;
-    }
-
-    public KmStringValidator newDashboardPanelCodeGValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsLetters(true);
-        e.setAllowsDigits(true);
-        e.setAllowsSymbols(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("user");
-        e.setField("dashboardPanelCodeG");
         return e;
     }
 
@@ -574,8 +395,9 @@ public class MyUserValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("user");
-        e.setField("lockVersion");
+        e.setModelName("user");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

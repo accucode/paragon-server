@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<!--
+Application: ${applicationName} (mobile)
+Version: ${applicationVersion}
+-->
+
+<html lang="en">
+<head>
+    <title>${title}</title>
+
+    <meta http-equiv="Content-Type"     content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control"    content="no-cache">
+    <meta http-equiv="Pragma"           content="no-cache">
+    <meta http-equiv="Expires"          content="-1">
+
+    <!-- reset -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/common/css/reset.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- jquery (not deferred) -->
+    <script src="/static/${versionFolder}/jquery/core/jquery-1.10.2.min.js"></script>
+    <script src="/static/${versionFolder}/jquery/core/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- jquery ui -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <script defer src="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+
+    <!-- akquinet toasts -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
+    <script defer src="/static/${versionFolder}/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
+
+    <!-- block ui -->
+    <script defer src="/static/${versionFolder}/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
+
+    <!-- cookie -->
+    <script defer src="/static/${versionFolder}/jquery/js-cookie-2.1.0/js.cookie.js"></script>
+
+    <!-- json -->
+    <script defer src="/static/${versionFolder}/json-2010.11.18/json2.js"></script>
+
+    <!-- history -->
+    <script defer src="/static/${versionFolder}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
+
+    <!-- scroll to -->
+    <script defer src="/static/${versionFolder}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js"></script>
+
+    <!-- visible -->
+    <script defer src="/static/${versionFolder}/jquery/jquery-visible-master/jquery.visible.js"></script>
+
+    <!-- moment -->
+    <script defer src="/static/${versionFolder}/moment/moment-2.14.1.min.js"></script>
+    <script defer src="/static/${versionFolder}/moment/moment-timezone-with-data-0.5.5.js"></script>
+
+    <!-- full calendar 3.x -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/fullcalendar-3.0.0/fullcalendar.min.css">
+    <script defer src="/static/${versionFolder}/fullcalendar-3.0.0/fullcalendar.min.js"></script>
+
+    <!-- type watch -->
+    <script src="/static/${versionFolder}/jquery/typeWatch-170928/jquery.typewatch.js"></script>
+
+    <!-- kodemore -->
+    <script defer src="/static/${versionFolder}/app/common/script/kmExtensions.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmu.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmNavigator.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmTimeAgo.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmDateAgo.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmClock.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmAutoRun.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/${themeToken}/css/theme.css">
+
+    <script type="text/javascript">
+
+        $(function()
+        {
+            $('#pageLoadMessage').remove();
+
+            Dropzone.autoDiscover = false;
+
+            Kmu.applicationVersion = "${applicationVersion}";
+            KmDropdownMenu.installAutoClose();
+            KmTimeAgo.init();
+            KmClock.init();
+            KmAutoRun.init();
+            Kmu.initTooltip();
+
+            initNavigator();
+            initJumpToMenu();
+        });
+
+        function initNavigator()
+        {
+            KmNavigator.defaultTitle = "${loadingTabTitle}";
+            KmNavigator.init();
+            KmNavigator.updatePageSession("${initialPageSession}");
+            KmNavigator.pushPage({url: "${query}", title: "${title}"});
+        }
+
+        function initJumpToMenu()
+        {
+            document.addEventListener("keydown", function(ev)
+            {
+                // alt-slash
+                if ( ev.altKey && ev.which == 191 )
+                {
+                    var field;
+                    field = $('#${pageMenuFieldId}');
+                    field.val('');
+                    field.focus();
+                }
+            });
+        }
+
+    </script>
+
+    <style type="text/css">
+        #pageLoadMessage
+        {
+            font: italic bold 16px sans-serif;
+            position: fixed;
+            left:   0;
+            right:  0;
+            top:    0;
+            height: 30px;
+            padding: 10px;
+            background-color: #aaa;
+            z-index: 9999999;
+        }
+    </style>
+${oneAllHead}
+</head>
+
+<body class="${bodyClass}">
+    <div id="pageLoadMessage">
+       ${applicationName}, loading...
+    </div>
+
+    <!-- This is used by kmu.js => warnIfDirty() -->
+    <div id="warnIfDirtyDialog" title="Unsaved Changes!" style="display:none">
+        You have unsaved changes!
+    </div>
+
+    <!-- This is used by kmu.js => confirmAndThen() -->
+    <div id="confirmDialog" title="Confirm?" style="display:none">
+        <span id="confirmDialogMessage"></span>
+    </div>
+
+    <!-- This is used by kmu.js => showNotice() -->
+    <div id="noticeDialog" title="Notice..." style="display:none">
+        <span id="noticeDialogMessage"></span>
+    </div>
+
+    <!-- This is used by kmu.js => showAjaxError() -->
+    <div id="ajaxDialog" title="Ajax Message..." style="display:none">
+        <span id="ajaxDialogMessage"></span>
+    </div>
+
+    <!-- This is used by kmu.js => showAjaxError() -->
+    <div id="timeoutDialog" title="Session Timeout" style="display:none">
+        <span>
+            Your session has expired, or the application has been updated.
+            Please click 'Refresh' to continue.
+        </span>
+    </div>
+
+    ${html}
+</body>
+</html>

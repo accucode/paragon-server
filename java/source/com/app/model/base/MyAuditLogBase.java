@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyAuditLogBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyAuditLog>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,32 +39,33 @@ public abstract class MyAuditLogBase
     public static final MyMetaAuditLog Meta = MyMetaAuditLog.instance;
     public static final MyAuditLogTools Tools = MyAuditLogTools.instance;
     public static final MyAuditLogValidator Validator = MyAuditLogValidator.instance;
+    public static final MyAuditLogFinder Finder = MyAuditLogFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
+    private Boolean booleanValue;
     private KmTimestamp createdUtcTs;
-    private String transactionUid;
-    private String userName;
-    private String typeCode;
-    private String domainType;
+    private KmDate dateValue;
     private String domainName;
+    private String domainType;
     private String domainUid;
-    private String domainBundleUid;
+    private Double doubleValue;
     private String fieldName;
+    private Integer integerValue;
+    private Long longValue;
+    private KmMoney moneyValue;
     private String newValue;
     private String oldValue;
     private String stringValue;
-    private Integer integerValue;
-    private Long longValue;
-    private Double doubleValue;
-    private KmMoney moneyValue;
-    private Boolean booleanValue;
-    private KmDate dateValue;
     private KmTimestamp timestampValue;
+    private String transactionUid;
+    private String typeCode;
+    private String uid;
     private String uidValue;
+    private String userName;
+    private MyAuditBundle bundle;
     private MyUser user;
 
     //##################################################
@@ -72,48 +75,71 @@ public abstract class MyAuditLogBase
     public MyAuditLogBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
-    public void clearUid()
+    //##################################################
+    //# field (booleanValue)
+    //##################################################
+
+    public Boolean getBooleanValue()
     {
-        setUid(null);
+        return booleanValue;
     }
 
-    public boolean hasUid()
+    public void setBooleanValue(Boolean e)
     {
-        return Kmu.hasValue(getUid());
+        e = Validator.getBooleanValueValidator().convert(e);
+        booleanValue = e;
     }
 
-    public boolean hasUid(String e)
+    public void clearBooleanValue()
     {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
+        setBooleanValue(null);
     }
 
-    public void truncateUid()
+    public boolean hasBooleanValue()
     {
-        truncateUid(false);
+        return getBooleanValue() != null;
     }
 
-    public void truncateUid(boolean ellipses)
+    public boolean hasBooleanValue(Boolean e)
     {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqual(getBooleanValue(), e);
+    }
+
+    public boolean isBooleanValue()
+    {
+        if ( getBooleanValue() == null )
+            return false;
+        return getBooleanValue();
+    }
+
+    public boolean isBooleanValue(Boolean b)
+    {
+        return Kmu.isEqual(getBooleanValue(), b);
+    }
+
+    public void toggleBooleanValue()
+    {
+        setBooleanValue(!getBooleanValue());
     }
 
     //##################################################
@@ -127,7 +153,7 @@ public abstract class MyAuditLogBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -147,6 +173,530 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
+    //# field (dateValue)
+    //##################################################
+
+    public KmDate getDateValue()
+    {
+        return dateValue;
+    }
+
+    public void setDateValue(KmDate e)
+    {
+        e = Validator.getDateValueValidator().convert(e);
+        dateValue = e;
+    }
+
+    public void clearDateValue()
+    {
+        setDateValue(null);
+    }
+
+    public boolean hasDateValue()
+    {
+        return getDateValue() != null;
+    }
+
+    public boolean hasDateValue(KmDate e)
+    {
+        return Kmu.isEqual(getDateValue(), e);
+    }
+
+    //##################################################
+    //# field (domainName)
+    //##################################################
+
+    public String getDomainName()
+    {
+        return domainName;
+    }
+
+    public void setDomainName(String e)
+    {
+        e = Validator.getDomainNameValidator().convert(e);
+        domainName = e;
+    }
+
+    public void clearDomainName()
+    {
+        setDomainName(null);
+    }
+
+    public boolean hasDomainName()
+    {
+        return Kmu.hasValue(getDomainName());
+    }
+
+    public boolean hasDomainName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainName(), e);
+    }
+
+    public void truncateDomainName()
+    {
+        truncateDomainName(false);
+    }
+
+    public void truncateDomainName(boolean ellipses)
+    {
+        domainName = Kmu.truncate(domainName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (domainType)
+    //##################################################
+
+    public String getDomainType()
+    {
+        return domainType;
+    }
+
+    public void setDomainType(String e)
+    {
+        e = Validator.getDomainTypeValidator().convert(e);
+        domainType = e;
+    }
+
+    public void clearDomainType()
+    {
+        setDomainType(null);
+    }
+
+    public boolean hasDomainType()
+    {
+        return Kmu.hasValue(getDomainType());
+    }
+
+    public boolean hasDomainType(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainType(), e);
+    }
+
+    public void truncateDomainType()
+    {
+        truncateDomainType(false);
+    }
+
+    public void truncateDomainType(boolean ellipses)
+    {
+        domainType = Kmu.truncate(domainType, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (domainTypeLabel)
+    //##################################################
+
+    public abstract String getDomainTypeLabel();
+
+    public boolean hasDomainTypeLabel()
+    {
+        return Kmu.hasValue(getDomainTypeLabel());
+    }
+
+    public boolean hasDomainTypeLabel(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTypeLabel(), e);
+    }
+
+    //##################################################
+    //# field (domainUid)
+    //##################################################
+
+    public String getDomainUid()
+    {
+        return domainUid;
+    }
+
+    public void setDomainUid(String e)
+    {
+        e = Validator.getDomainUidValidator().convert(e);
+        domainUid = e;
+    }
+
+    public void clearDomainUid()
+    {
+        setDomainUid(null);
+    }
+
+    public boolean hasDomainUid()
+    {
+        return Kmu.hasValue(getDomainUid());
+    }
+
+    public boolean hasDomainUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainUid(), e);
+    }
+
+    public void truncateDomainUid()
+    {
+        truncateDomainUid(false);
+    }
+
+    public void truncateDomainUid(boolean ellipses)
+    {
+        domainUid = Kmu.truncate(domainUid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (doubleValue)
+    //##################################################
+
+    public Double getDoubleValue()
+    {
+        return doubleValue;
+    }
+
+    public void setDoubleValue(Double e)
+    {
+        e = Validator.getDoubleValueValidator().convert(e);
+        doubleValue = e;
+    }
+
+    public void clearDoubleValue()
+    {
+        setDoubleValue(null);
+    }
+
+    public boolean hasDoubleValue()
+    {
+        return getDoubleValue() != null;
+    }
+
+    public boolean hasDoubleValue(Double e)
+    {
+        return Kmu.isEqual(getDoubleValue(), e);
+    }
+
+    //##################################################
+    //# field (fieldName)
+    //##################################################
+
+    public String getFieldName()
+    {
+        return fieldName;
+    }
+
+    public void setFieldName(String e)
+    {
+        e = Validator.getFieldNameValidator().convert(e);
+        fieldName = e;
+    }
+
+    public void clearFieldName()
+    {
+        setFieldName(null);
+    }
+
+    public boolean hasFieldName()
+    {
+        return Kmu.hasValue(getFieldName());
+    }
+
+    public boolean hasFieldName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFieldName(), e);
+    }
+
+    public void truncateFieldName()
+    {
+        truncateFieldName(false);
+    }
+
+    public void truncateFieldName(boolean ellipses)
+    {
+        fieldName = Kmu.truncate(fieldName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (fieldNameLabel)
+    //##################################################
+
+    public abstract String getFieldNameLabel();
+
+    public boolean hasFieldNameLabel()
+    {
+        return Kmu.hasValue(getFieldNameLabel());
+    }
+
+    public boolean hasFieldNameLabel(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFieldNameLabel(), e);
+    }
+
+    //##################################################
+    //# field (integerValue)
+    //##################################################
+
+    public Integer getIntegerValue()
+    {
+        return integerValue;
+    }
+
+    public void setIntegerValue(Integer e)
+    {
+        e = Validator.getIntegerValueValidator().convert(e);
+        integerValue = e;
+    }
+
+    public void clearIntegerValue()
+    {
+        setIntegerValue(null);
+    }
+
+    public boolean hasIntegerValue()
+    {
+        return getIntegerValue() != null;
+    }
+
+    public boolean hasIntegerValue(Integer e)
+    {
+        return Kmu.isEqual(getIntegerValue(), e);
+    }
+
+    //##################################################
+    //# field (longValue)
+    //##################################################
+
+    public Long getLongValue()
+    {
+        return longValue;
+    }
+
+    public void setLongValue(Long e)
+    {
+        e = Validator.getLongValueValidator().convert(e);
+        longValue = e;
+    }
+
+    public void clearLongValue()
+    {
+        setLongValue(null);
+    }
+
+    public boolean hasLongValue()
+    {
+        return getLongValue() != null;
+    }
+
+    public boolean hasLongValue(Long e)
+    {
+        return Kmu.isEqual(getLongValue(), e);
+    }
+
+    //##################################################
+    //# field (moneyValue)
+    //##################################################
+
+    public KmMoney getMoneyValue()
+    {
+        return moneyValue;
+    }
+
+    public void setMoneyValue(KmMoney e)
+    {
+        e = Validator.getMoneyValueValidator().convert(e);
+        moneyValue = e;
+    }
+
+    public void clearMoneyValue()
+    {
+        setMoneyValue(null);
+    }
+
+    public boolean hasMoneyValue()
+    {
+        return getMoneyValue() != null;
+    }
+
+    public boolean hasMoneyValue(KmMoney e)
+    {
+        return Kmu.isEqual(getMoneyValue(), e);
+    }
+
+    //##################################################
+    //# field (newValue)
+    //##################################################
+
+    public String getNewValue()
+    {
+        return newValue;
+    }
+
+    public void setNewValue(String e)
+    {
+        e = Validator.getNewValueValidator().convert(e);
+        newValue = e;
+    }
+
+    public void clearNewValue()
+    {
+        setNewValue(null);
+    }
+
+    public boolean hasNewValue()
+    {
+        return Kmu.hasValue(getNewValue());
+    }
+
+    public boolean hasNewValue(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getNewValue(), e);
+    }
+
+    public void truncateNewValue()
+    {
+        truncateNewValue(false);
+    }
+
+    public void truncateNewValue(boolean ellipses)
+    {
+        newValue = Kmu.truncate(newValue, 100, ellipses);
+    }
+
+    //##################################################
+    //# field (oldValue)
+    //##################################################
+
+    public String getOldValue()
+    {
+        return oldValue;
+    }
+
+    public void setOldValue(String e)
+    {
+        e = Validator.getOldValueValidator().convert(e);
+        oldValue = e;
+    }
+
+    public void clearOldValue()
+    {
+        setOldValue(null);
+    }
+
+    public boolean hasOldValue()
+    {
+        return Kmu.hasValue(getOldValue());
+    }
+
+    public boolean hasOldValue(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getOldValue(), e);
+    }
+
+    public void truncateOldValue()
+    {
+        truncateOldValue(false);
+    }
+
+    public void truncateOldValue(boolean ellipses)
+    {
+        oldValue = Kmu.truncate(oldValue, 100, ellipses);
+    }
+
+    //##################################################
+    //# field (stringValue)
+    //##################################################
+
+    public String getStringValue()
+    {
+        return stringValue;
+    }
+
+    public void setStringValue(String e)
+    {
+        e = Validator.getStringValueValidator().convert(e);
+        stringValue = e;
+    }
+
+    public void clearStringValue()
+    {
+        setStringValue(null);
+    }
+
+    public boolean hasStringValue()
+    {
+        return Kmu.hasValue(getStringValue());
+    }
+
+    public boolean hasStringValue(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getStringValue(), e);
+    }
+
+    public void truncateStringValue()
+    {
+        truncateStringValue(false);
+    }
+
+    public void truncateStringValue(boolean ellipses)
+    {
+        stringValue = Kmu.truncate(stringValue, 1000, ellipses);
+    }
+
+    //##################################################
+    //# field (timestampValue)
+    //##################################################
+
+    public KmTimestamp getTimestampValue()
+    {
+        return timestampValue;
+    }
+
+    public void setTimestampValue(KmTimestamp e)
+    {
+        e = Validator.getTimestampValueValidator().convert(e);
+        timestampValue = e;
+    }
+
+    public void clearTimestampValue()
+    {
+        setTimestampValue(null);
+    }
+
+    public boolean hasTimestampValue()
+    {
+        return getTimestampValue() != null;
+    }
+
+    public boolean hasTimestampValue(KmTimestamp e)
+    {
+        return Kmu.isEqual(getTimestampValue(), e);
+    }
+
+    //##################################################
     //# field (transactionUid)
     //##################################################
 
@@ -157,7 +707,7 @@ public abstract class MyAuditLogBase
 
     public void setTransactionUid(String e)
     {
-        e = Validator.getTransactionUidValidator().convertOnly(e);
+        e = Validator.getTransactionUidValidator().convert(e);
         transactionUid = e;
     }
 
@@ -187,46 +737,6 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
-    //# field (userName)
-    //##################################################
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName(String e)
-    {
-        e = Validator.getUserNameValidator().convertOnly(e);
-        userName = e;
-    }
-
-    public void clearUserName()
-    {
-        setUserName(null);
-    }
-
-    public boolean hasUserName()
-    {
-        return Kmu.hasValue(getUserName());
-    }
-
-    public boolean hasUserName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUserName(), e);
-    }
-
-    public void truncateUserName()
-    {
-        truncateUserName(false);
-    }
-
-    public void truncateUserName(boolean ellipses)
-    {
-        userName = Kmu.truncate(userName, 50, ellipses);
-    }
-
-    //##################################################
     //# field (typeCode)
     //##################################################
 
@@ -237,7 +747,7 @@ public abstract class MyAuditLogBase
 
     public void setTypeCode(String e)
     {
-        e = Validator.getTypeCodeValidator().convertOnly(e);
+        e = Validator.getTypeCodeValidator().convert(e);
         typeCode = e;
     }
 
@@ -299,11 +809,6 @@ public abstract class MyAuditLogBase
         return hasType(MyAuditLogType.Add);
     }
 
-    public boolean isNotTypeAdd()
-    {
-        return !isTypeAdd();
-    }
-
     public void setTypeUpdate()
     {
         setType(MyAuditLogType.Update);
@@ -312,11 +817,6 @@ public abstract class MyAuditLogBase
     public boolean isTypeUpdate()
     {
         return hasType(MyAuditLogType.Update);
-    }
-
-    public boolean isNotTypeUpdate()
-    {
-        return !isTypeUpdate();
     }
 
     public void setTypeDelete()
@@ -329,561 +829,44 @@ public abstract class MyAuditLogBase
         return hasType(MyAuditLogType.Delete);
     }
 
-    public boolean isNotTypeDelete()
-    {
-        return !isTypeDelete();
-    }
-
     //##################################################
-    //# field (domainType)
+    //# field (uid)
     //##################################################
 
-    public String getDomainType()
+    public String getUid()
     {
-        return domainType;
+        return uid;
     }
 
-    public void setDomainType(String e)
+    public void setUid(String e)
     {
-        e = Validator.getDomainTypeValidator().convertOnly(e);
-        domainType = e;
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    public void clearDomainType()
+    public void clearUid()
     {
-        setDomainType(null);
+        setUid(null);
     }
 
-    public boolean hasDomainType()
+    public boolean hasUid()
     {
-        return Kmu.hasValue(getDomainType());
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasDomainType(String e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqualIgnoreCase(getDomainType(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
-    public void truncateDomainType()
+    public void truncateUid()
     {
-        truncateDomainType(false);
+        truncateUid(false);
     }
 
-    public void truncateDomainType(boolean ellipses)
+    public void truncateUid(boolean ellipses)
     {
-        domainType = Kmu.truncate(domainType, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (domainName)
-    //##################################################
-
-    public String getDomainName()
-    {
-        return domainName;
-    }
-
-    public void setDomainName(String e)
-    {
-        e = Validator.getDomainNameValidator().convertOnly(e);
-        domainName = e;
-    }
-
-    public void clearDomainName()
-    {
-        setDomainName(null);
-    }
-
-    public boolean hasDomainName()
-    {
-        return Kmu.hasValue(getDomainName());
-    }
-
-    public boolean hasDomainName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDomainName(), e);
-    }
-
-    public void truncateDomainName()
-    {
-        truncateDomainName(false);
-    }
-
-    public void truncateDomainName(boolean ellipses)
-    {
-        domainName = Kmu.truncate(domainName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (domainUid)
-    //##################################################
-
-    public String getDomainUid()
-    {
-        return domainUid;
-    }
-
-    public void setDomainUid(String e)
-    {
-        e = Validator.getDomainUidValidator().convertOnly(e);
-        domainUid = e;
-    }
-
-    public void clearDomainUid()
-    {
-        setDomainUid(null);
-    }
-
-    public boolean hasDomainUid()
-    {
-        return Kmu.hasValue(getDomainUid());
-    }
-
-    public boolean hasDomainUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDomainUid(), e);
-    }
-
-    public void truncateDomainUid()
-    {
-        truncateDomainUid(false);
-    }
-
-    public void truncateDomainUid(boolean ellipses)
-    {
-        domainUid = Kmu.truncate(domainUid, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (domainBundleUid)
-    //##################################################
-
-    public String getDomainBundleUid()
-    {
-        return domainBundleUid;
-    }
-
-    public void setDomainBundleUid(String e)
-    {
-        e = Validator.getDomainBundleUidValidator().convertOnly(e);
-        domainBundleUid = e;
-    }
-
-    public void clearDomainBundleUid()
-    {
-        setDomainBundleUid(null);
-    }
-
-    public boolean hasDomainBundleUid()
-    {
-        return Kmu.hasValue(getDomainBundleUid());
-    }
-
-    public boolean hasDomainBundleUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDomainBundleUid(), e);
-    }
-
-    public void truncateDomainBundleUid()
-    {
-        truncateDomainBundleUid(false);
-    }
-
-    public void truncateDomainBundleUid(boolean ellipses)
-    {
-        domainBundleUid = Kmu.truncate(domainBundleUid, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (fieldName)
-    //##################################################
-
-    public String getFieldName()
-    {
-        return fieldName;
-    }
-
-    public void setFieldName(String e)
-    {
-        e = Validator.getFieldNameValidator().convertOnly(e);
-        fieldName = e;
-    }
-
-    public void clearFieldName()
-    {
-        setFieldName(null);
-    }
-
-    public boolean hasFieldName()
-    {
-        return Kmu.hasValue(getFieldName());
-    }
-
-    public boolean hasFieldName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getFieldName(), e);
-    }
-
-    public void truncateFieldName()
-    {
-        truncateFieldName(false);
-    }
-
-    public void truncateFieldName(boolean ellipses)
-    {
-        fieldName = Kmu.truncate(fieldName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (newValue)
-    //##################################################
-
-    public String getNewValue()
-    {
-        return newValue;
-    }
-
-    public void setNewValue(String e)
-    {
-        e = Validator.getNewValueValidator().convertOnly(e);
-        newValue = e;
-    }
-
-    public void clearNewValue()
-    {
-        setNewValue(null);
-    }
-
-    public boolean hasNewValue()
-    {
-        return Kmu.hasValue(getNewValue());
-    }
-
-    public boolean hasNewValue(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getNewValue(), e);
-    }
-
-    public void truncateNewValue()
-    {
-        truncateNewValue(false);
-    }
-
-    public void truncateNewValue(boolean ellipses)
-    {
-        newValue = Kmu.truncate(newValue, 100, ellipses);
-    }
-
-    //##################################################
-    //# field (oldValue)
-    //##################################################
-
-    public String getOldValue()
-    {
-        return oldValue;
-    }
-
-    public void setOldValue(String e)
-    {
-        e = Validator.getOldValueValidator().convertOnly(e);
-        oldValue = e;
-    }
-
-    public void clearOldValue()
-    {
-        setOldValue(null);
-    }
-
-    public boolean hasOldValue()
-    {
-        return Kmu.hasValue(getOldValue());
-    }
-
-    public boolean hasOldValue(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getOldValue(), e);
-    }
-
-    public void truncateOldValue()
-    {
-        truncateOldValue(false);
-    }
-
-    public void truncateOldValue(boolean ellipses)
-    {
-        oldValue = Kmu.truncate(oldValue, 100, ellipses);
-    }
-
-    //##################################################
-    //# field (stringValue)
-    //##################################################
-
-    public String getStringValue()
-    {
-        return stringValue;
-    }
-
-    public void setStringValue(String e)
-    {
-        e = Validator.getStringValueValidator().convertOnly(e);
-        stringValue = e;
-    }
-
-    public void clearStringValue()
-    {
-        setStringValue(null);
-    }
-
-    public boolean hasStringValue()
-    {
-        return Kmu.hasValue(getStringValue());
-    }
-
-    public boolean hasStringValue(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getStringValue(), e);
-    }
-
-    public void truncateStringValue()
-    {
-        truncateStringValue(false);
-    }
-
-    public void truncateStringValue(boolean ellipses)
-    {
-        stringValue = Kmu.truncate(stringValue, 1000, ellipses);
-    }
-
-    //##################################################
-    //# field (integerValue)
-    //##################################################
-
-    public Integer getIntegerValue()
-    {
-        return integerValue;
-    }
-
-    public void setIntegerValue(Integer e)
-    {
-        e = Validator.getIntegerValueValidator().convertOnly(e);
-        integerValue = e;
-    }
-
-    public void clearIntegerValue()
-    {
-        setIntegerValue(null);
-    }
-
-    public boolean hasIntegerValue()
-    {
-        return getIntegerValue() != null;
-    }
-
-    public boolean hasIntegerValue(Integer e)
-    {
-        return Kmu.isEqual(getIntegerValue(), e);
-    }
-
-    //##################################################
-    //# field (longValue)
-    //##################################################
-
-    public Long getLongValue()
-    {
-        return longValue;
-    }
-
-    public void setLongValue(Long e)
-    {
-        e = Validator.getLongValueValidator().convertOnly(e);
-        longValue = e;
-    }
-
-    public void clearLongValue()
-    {
-        setLongValue(null);
-    }
-
-    public boolean hasLongValue()
-    {
-        return getLongValue() != null;
-    }
-
-    public boolean hasLongValue(Long e)
-    {
-        return Kmu.isEqual(getLongValue(), e);
-    }
-
-    //##################################################
-    //# field (doubleValue)
-    //##################################################
-
-    public Double getDoubleValue()
-    {
-        return doubleValue;
-    }
-
-    public void setDoubleValue(Double e)
-    {
-        e = Validator.getDoubleValueValidator().convertOnly(e);
-        doubleValue = e;
-    }
-
-    public void clearDoubleValue()
-    {
-        setDoubleValue(null);
-    }
-
-    public boolean hasDoubleValue()
-    {
-        return getDoubleValue() != null;
-    }
-
-    public boolean hasDoubleValue(Double e)
-    {
-        return Kmu.isEqual(getDoubleValue(), e);
-    }
-
-    //##################################################
-    //# field (moneyValue)
-    //##################################################
-
-    public KmMoney getMoneyValue()
-    {
-        return moneyValue;
-    }
-
-    public void setMoneyValue(KmMoney e)
-    {
-        e = Validator.getMoneyValueValidator().convertOnly(e);
-        moneyValue = e;
-    }
-
-    public void clearMoneyValue()
-    {
-        setMoneyValue(null);
-    }
-
-    public boolean hasMoneyValue()
-    {
-        return getMoneyValue() != null;
-    }
-
-    public boolean hasMoneyValue(KmMoney e)
-    {
-        return Kmu.isEqual(getMoneyValue(), e);
-    }
-
-    //##################################################
-    //# field (booleanValue)
-    //##################################################
-
-    public Boolean getBooleanValue()
-    {
-        return booleanValue;
-    }
-
-    public void setBooleanValue(Boolean e)
-    {
-        e = Validator.getBooleanValueValidator().convertOnly(e);
-        booleanValue = e;
-    }
-
-    public void clearBooleanValue()
-    {
-        setBooleanValue(null);
-    }
-
-    public boolean hasBooleanValue()
-    {
-        return getBooleanValue() != null;
-    }
-
-    public boolean hasBooleanValue(Boolean e)
-    {
-        return Kmu.isEqual(getBooleanValue(), e);
-    }
-
-    public boolean isBooleanValue()
-    {
-        if ( getBooleanValue() == null )
-            return false;
-        return getBooleanValue();
-    }
-
-    public boolean isNotBooleanValue()
-    {
-        return !isBooleanValue();
-    }
-
-    public boolean isBooleanValue(Boolean b)
-    {
-        return Kmu.isEqual(getBooleanValue(), b);
-    }
-
-    public void toggleBooleanValue()
-    {
-        setBooleanValue(!getBooleanValue());
-    }
-
-    //##################################################
-    //# field (dateValue)
-    //##################################################
-
-    public KmDate getDateValue()
-    {
-        return dateValue;
-    }
-
-    public void setDateValue(KmDate e)
-    {
-        e = Validator.getDateValueValidator().convertOnly(e);
-        dateValue = e;
-    }
-
-    public void clearDateValue()
-    {
-        setDateValue(null);
-    }
-
-    public boolean hasDateValue()
-    {
-        return getDateValue() != null;
-    }
-
-    public boolean hasDateValue(KmDate e)
-    {
-        return Kmu.isEqual(getDateValue(), e);
-    }
-
-    //##################################################
-    //# field (timestampValue)
-    //##################################################
-
-    public KmTimestamp getTimestampValue()
-    {
-        return timestampValue;
-    }
-
-    public void setTimestampValue(KmTimestamp e)
-    {
-        e = Validator.getTimestampValueValidator().convertOnly(e);
-        timestampValue = e;
-    }
-
-    public void clearTimestampValue()
-    {
-        setTimestampValue(null);
-    }
-
-    public boolean hasTimestampValue()
-    {
-        return getTimestampValue() != null;
-    }
-
-    public boolean hasTimestampValue(KmTimestamp e)
-    {
-        return Kmu.isEqual(getTimestampValue(), e);
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -897,7 +880,7 @@ public abstract class MyAuditLogBase
 
     public void setUidValue(String e)
     {
-        e = Validator.getUidValueValidator().convertOnly(e);
+        e = Validator.getUidValueValidator().convert(e);
         uidValue = e;
     }
 
@@ -927,51 +910,43 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
-    //# field (domainTypeLabel)
+    //# field (userName)
     //##################################################
 
-    public abstract String getDomainTypeLabel();
-
-    public boolean hasDomainTypeLabel()
+    public String getUserName()
     {
-        return Kmu.hasValue(getDomainTypeLabel());
+        return userName;
     }
 
-    public boolean hasDomainTypeLabel(String e)
+    public void setUserName(String e)
     {
-        return Kmu.isEqualIgnoreCase(getDomainTypeLabel(), e);
+        e = Validator.getUserNameValidator().convert(e);
+        userName = e;
     }
 
-    //##################################################
-    //# field (fieldNameLabel)
-    //##################################################
-
-    public abstract String getFieldNameLabel();
-
-    public boolean hasFieldNameLabel()
+    public void clearUserName()
     {
-        return Kmu.hasValue(getFieldNameLabel());
+        setUserName(null);
     }
 
-    public boolean hasFieldNameLabel(String e)
+    public boolean hasUserName()
     {
-        return Kmu.isEqualIgnoreCase(getFieldNameLabel(), e);
+        return Kmu.hasValue(getUserName());
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
+    public boolean hasUserName(String e)
     {
-        return Kmu.hasValue(getDisplayString());
+        return Kmu.isEqualIgnoreCase(getUserName(), e);
     }
 
-    public boolean hasDisplayString(String e)
+    public void truncateUserName()
     {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+        truncateUserName(false);
+    }
+
+    public void truncateUserName(boolean ellipses)
+    {
+        userName = Kmu.truncate(userName, 50, ellipses);
     }
 
     //##################################################
@@ -1070,6 +1045,40 @@ public abstract class MyAuditLogBase
     }
 
     //##################################################
+    //# bundle
+    //##################################################
+
+    public MyAuditBundle getBundle()
+    {
+        return bundle;
+    }
+
+    public void setBundle(MyAuditBundle e)
+    {
+        bundle = e;
+    }
+
+    public void _setBundle(MyAuditBundle e)
+    {
+        bundle = e;
+    }
+
+    public void clearBundle()
+    {
+        setBundle(null);
+    }
+
+    public boolean hasBundle()
+    {
+        return getBundle() != null;
+    }
+
+    public boolean hasBundle(MyAuditBundle e)
+    {
+        return Kmu.isEqual(getBundle(), e);
+    }
+
+    //##################################################
     //# user
     //##################################################
 
@@ -1116,20 +1125,15 @@ public abstract class MyAuditLogBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyAuditLogValidator getValidator()
     {
-        Validator.validate((MyAuditLog)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyAuditLog asSubclass()
     {
-        Validator.validateWarn((MyAuditLog)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyAuditLog)this);
+        return (MyAuditLog)this;
     }
 
     //##################################################
@@ -1147,6 +1151,7 @@ public abstract class MyAuditLogBase
     {
         super.postCopy();
         uid = newUid();
+        bundle = null;
     }
 
     /**
@@ -1158,27 +1163,64 @@ public abstract class MyAuditLogBase
     {
         MyAuditLog e;
         e = new MyAuditLog();
+        applyEditableFieldsTo(e);
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyAuditLog e)
+    {
+        e.setBooleanValue(getBooleanValue());
         e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setTransactionUid(getTransactionUid());
-        e.setUserName(getUserName());
-        e.setTypeCode(getTypeCode());
-        e.setDomainType(getDomainType());
+        e.setDateValue(getDateValue());
         e.setDomainName(getDomainName());
+        e.setDomainType(getDomainType());
         e.setDomainUid(getDomainUid());
-        e.setDomainBundleUid(getDomainBundleUid());
+        e.setDoubleValue(getDoubleValue());
         e.setFieldName(getFieldName());
+        e.setIntegerValue(getIntegerValue());
+        e.setLongValue(getLongValue());
+        e.setMoneyValue(getMoneyValue());
         e.setNewValue(getNewValue());
         e.setOldValue(getOldValue());
         e.setStringValue(getStringValue());
-        e.setIntegerValue(getIntegerValue());
-        e.setLongValue(getLongValue());
-        e.setDoubleValue(getDoubleValue());
-        e.setMoneyValue(getMoneyValue());
-        e.setBooleanValue(getBooleanValue());
-        e.setDateValue(getDateValue());
         e.setTimestampValue(getTimestampValue());
+        e.setTransactionUid(getTransactionUid());
+        e.setTypeCode(getTypeCode());
         e.setUidValue(getUidValue());
-        return e;
+        e.setUserName(getUserName());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyAuditLog e)
+    {
+        setBooleanValue(e.getBooleanValue());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setDateValue(e.getDateValue());
+        setDomainName(e.getDomainName());
+        setDomainType(e.getDomainType());
+        setDomainUid(e.getDomainUid());
+        setDoubleValue(e.getDoubleValue());
+        setFieldName(e.getFieldName());
+        setIntegerValue(e.getIntegerValue());
+        setLongValue(e.getLongValue());
+        setMoneyValue(e.getMoneyValue());
+        setNewValue(e.getNewValue());
+        setOldValue(e.getOldValue());
+        setStringValue(e.getStringValue());
+        setTimestampValue(e.getTimestampValue());
+        setTransactionUid(e.getTransactionUid());
+        setTypeCode(e.getTypeCode());
+        setUidValue(e.getUidValue());
+        setUserName(e.getUserName());
     }
 
     //##################################################
@@ -1209,29 +1251,30 @@ public abstract class MyAuditLogBase
 
     public boolean isSameIgnoringKey(MyAuditLog e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getBooleanValue(), e.getBooleanValue()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getTransactionUid(), e.getTransactionUid()) ) return false;
-        if ( !Kmu.isEqual(getUserName(), e.getUserName()) ) return false;
-        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getDomainType(), e.getDomainType()) ) return false;
+        if ( !Kmu.isEqual(getDateValue(), e.getDateValue()) ) return false;
         if ( !Kmu.isEqual(getDomainName(), e.getDomainName()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainType(), e.getDomainType()) ) return false;
+        if ( !Kmu.isEqual(getDomainTypeLabel(), e.getDomainTypeLabel()) ) return false;
         if ( !Kmu.isEqual(getDomainUid(), e.getDomainUid()) ) return false;
-        if ( !Kmu.isEqual(getDomainBundleUid(), e.getDomainBundleUid()) ) return false;
+        if ( !Kmu.isEqual(getDoubleValue(), e.getDoubleValue()) ) return false;
         if ( !Kmu.isEqual(getFieldName(), e.getFieldName()) ) return false;
+        if ( !Kmu.isEqual(getFieldNameLabel(), e.getFieldNameLabel()) ) return false;
+        if ( !Kmu.isEqual(getIntegerValue(), e.getIntegerValue()) ) return false;
+        if ( !Kmu.isEqual(getLongValue(), e.getLongValue()) ) return false;
+        if ( !Kmu.isEqual(getMoneyValue(), e.getMoneyValue()) ) return false;
         if ( !Kmu.isEqual(getNewValue(), e.getNewValue()) ) return false;
         if ( !Kmu.isEqual(getOldValue(), e.getOldValue()) ) return false;
         if ( !Kmu.isEqual(getStringValue(), e.getStringValue()) ) return false;
-        if ( !Kmu.isEqual(getIntegerValue(), e.getIntegerValue()) ) return false;
-        if ( !Kmu.isEqual(getLongValue(), e.getLongValue()) ) return false;
-        if ( !Kmu.isEqual(getDoubleValue(), e.getDoubleValue()) ) return false;
-        if ( !Kmu.isEqual(getMoneyValue(), e.getMoneyValue()) ) return false;
-        if ( !Kmu.isEqual(getBooleanValue(), e.getBooleanValue()) ) return false;
-        if ( !Kmu.isEqual(getDateValue(), e.getDateValue()) ) return false;
         if ( !Kmu.isEqual(getTimestampValue(), e.getTimestampValue()) ) return false;
+        if ( !Kmu.isEqual(getTransactionUid(), e.getTransactionUid()) ) return false;
+        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
         if ( !Kmu.isEqual(getUidValue(), e.getUidValue()) ) return false;
-        if ( !Kmu.isEqual(getDomainTypeLabel(), e.getDomainTypeLabel()) ) return false;
-        if ( !Kmu.isEqual(getFieldNameLabel(), e.getFieldNameLabel()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getUserName(), e.getUserName()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
@@ -1270,27 +1313,26 @@ public abstract class MyAuditLogBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
+        System.out.println("    BooleanValue = " + booleanValue);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    TransactionUid = " + transactionUid);
-        System.out.println("    UserName = " + userName);
-        System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    DomainType = " + domainType);
+        System.out.println("    DateValue = " + dateValue);
         System.out.println("    DomainName = " + domainName);
+        System.out.println("    DomainType = " + domainType);
         System.out.println("    DomainUid = " + domainUid);
-        System.out.println("    DomainBundleUid = " + domainBundleUid);
+        System.out.println("    DoubleValue = " + doubleValue);
         System.out.println("    FieldName = " + fieldName);
+        System.out.println("    IntegerValue = " + integerValue);
+        System.out.println("    LongValue = " + longValue);
+        System.out.println("    MoneyValue = " + moneyValue);
         System.out.println("    NewValue = " + newValue);
         System.out.println("    OldValue = " + oldValue);
         System.out.println("    StringValue = " + stringValue);
-        System.out.println("    IntegerValue = " + integerValue);
-        System.out.println("    LongValue = " + longValue);
-        System.out.println("    DoubleValue = " + doubleValue);
-        System.out.println("    MoneyValue = " + moneyValue);
-        System.out.println("    BooleanValue = " + booleanValue);
-        System.out.println("    DateValue = " + dateValue);
         System.out.println("    TimestampValue = " + timestampValue);
+        System.out.println("    TransactionUid = " + transactionUid);
+        System.out.println("    TypeCode = " + typeCode);
+        System.out.println("    Uid = " + uid);
         System.out.println("    UidValue = " + uidValue);
+        System.out.println("    UserName = " + userName);
     }
 
     /**

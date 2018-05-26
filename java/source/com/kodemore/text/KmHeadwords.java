@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmSet;
 import com.kodemore.collection.KmSetImpl;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -62,7 +63,7 @@ public class KmHeadwords
     /**
      * The list of all heads, including the heads that don't have alternates.
      */
-    private KmSet<String>        _heads;
+    private KmSet<String> _heads;
 
     /**
      * alternate -> head
@@ -125,32 +126,19 @@ public class KmHeadwords
 
     public void loadDefaults()
     {
-        loadFromResource(getDefaultResourcePath());
+        loadFromResource(getClass(), "headwords.txt");
     }
 
     public void loadFromFile(String path)
     {
-        KmList<String> lines = Kmu.readFileLines(path);
+        KmList<String> lines = KmFiles.readLines(path);
         loadLines(lines);
     }
 
-    public void loadFromResource(String path)
+    public void loadFromResource(Class<?> klass, String name)
     {
-        KmList<String> lines = Kmu.readResourceLines(path);
+        KmList<String> lines = Kmu.readResourceLines(klass, name);
         loadLines(lines);
-    }
-
-    //==================================================
-    //= load :: default
-    //==================================================
-
-    private String getDefaultResourcePath()
-    {
-        String pkg;
-        pkg = getClass().getPackage().getName();
-        pkg = Kmu.replaceAll(pkg, ".", "/");
-
-        return Kmu.joinFilePath(pkg, "headwords.txt");
     }
 
     //==================================================

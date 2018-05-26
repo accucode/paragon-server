@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -45,12 +45,12 @@ public class ScRepeater
      * The control to be displayed for each values.  The attributes
      * of each value is applied to the body via applyFromModel.
      */
-    private ScLocalControl      _body;
+    private ScLocalControl _body;
 
     /**
      * The split is rendered between each occurence of the body.
      */
-    private ScLocalControl      _split;
+    private ScLocalControl _split;
 
     //##################################################
     //# constructor

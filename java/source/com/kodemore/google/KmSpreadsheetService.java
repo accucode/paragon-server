@@ -47,11 +47,11 @@ public class KmSpreadsheetService
     //# variables
     //##################################################
 
-    private String             _accountId;
-    private PrivateKey         _privateKey;
-    private String             _appName;
+    private String     _accountId;
+    private PrivateKey _privateKey;
+    private String     _appName;
 
-    private GoogleCredential   _credentials;
+    private GoogleCredential _credentials;
 
     private SpreadsheetService _service;
 

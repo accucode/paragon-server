@@ -1,0 +1,106 @@
+model
+: name      = choice
+: help...
+    ---
+    A list of choices, organized by type. These choices are used
+    to facilitate consistency while simulaneously allowing users
+    to easily enter ad hoc values.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+
+    index
+    : name      = type
+    : unique    = true
+    : on        = project
+    : on        = typeCode
+    : on        = name
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project that defines this choice.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** topic
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : help...
+        ---
+        The type of choice.
+        ---
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#siteType)
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The display name of the choice.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** default
+    //*****************************************************
+
+
+    field
+    : name      = defaultValue
+    : label     = Default
+    : help...
+        ---
+        Indicates if this choice should be used as a default.
+        Topics are not required to have a default, but they should
+        not have multiple defaults.
+        ---
+    : type      = boolean
+    : default   = false
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf

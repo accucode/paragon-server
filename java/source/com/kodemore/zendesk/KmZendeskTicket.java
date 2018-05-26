@@ -18,27 +18,27 @@ public class KmZendeskTicket
     //# variables (public)
     //##################################################
 
-    private String                       _url;
-    private String                       _type;
-    private String                       _subject;
-    private String                       _description;
-    private String                       _priority;
-    private String                       _status;
-    private String                       _recipient;
+    private String _url;
+    private String _type;
+    private String _subject;
+    private String _description;
+    private String _priority;
+    private String _status;
+    private String _recipient;
 
-    private Integer                      _id;
-    private Integer                      _externalId;
-    private Integer                      _requesterId;
-    private Integer                      _submitterId;
-    private Integer                      _assigneeId;
-    private Integer                      _organizationId;
-    private Integer                      _groupId;
-    private Integer                      _forumTopicId;
-    private Integer                      _problemId;
-    private Integer                      _ticketFormId;
+    private Integer _id;
+    private Integer _externalId;
+    private Integer _requesterId;
+    private Integer _submitterId;
+    private Integer _assigneeId;
+    private Integer _organizationId;
+    private Integer _groupId;
+    private Integer _forumTopicId;
+    private Integer _problemId;
+    private Integer _ticketFormId;
 
-    private KmZendeskVia                 _via;
-    private KmZendeskSatisfactionRating  _satisfactionRating;
+    private KmZendeskVia                _via;
+    private KmZendeskSatisfactionRating _satisfactionRating;
 
     private KmList<Integer>              _collaboratorIds;
     private KmList<String>               _tags;
@@ -46,11 +46,11 @@ public class KmZendeskTicket
     private KmList<Integer>              _sharingAgreementIds;
     private KmList<Integer>              _followupIds;
 
-    private Boolean                      _hasIncidents;
+    private Boolean _hasIncidents;
 
-    private String                       _dueAt;
-    private String                       _createdAt;
-    private String                       _updatedAt;
+    private String _dueAt;
+    private String _createdAt;
+    private String _updatedAt;
 
     //##################################################
     //# accessing

@@ -38,20 +38,44 @@
             />
 
         <property
+            name="businessDays"
+            column="businessDays"
+            type="com.kodemore.hibernate.type.KmhDayFrequencyType"
+            />
+
+        <property
+            name="businessEndTime"
+            column="businessEndTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
+            />
+
+        <property
+            name="businessStartTime"
+            column="businessStartTime"
+            type="com.kodemore.hibernate.type.KmhTimeType"
+            />
+
+        <property
             name="createdUtcTs"
             column="createdUtcTs"
             type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
-            name="name"
-            column="name"
+            name="hostname"
+            column="hostname"
             type="string"
             />
 
         <property
-            name="hostname"
-            column="hostname"
+            name="memo"
+            column="memo"
+            type="string"
+            />
+
+        <property
+            name="name"
+            column="name"
             type="string"
             />
 
@@ -62,21 +86,29 @@
             />
 
         <property
-            name="intacctCompanyId"
-            column="intacctCompanyId"
+            name="timeZoneCode"
+            column="timeZoneCode"
             type="string"
             />
 
         <property
-            name="intacctUserId"
-            column="intacctUserId"
-            type="string"
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
-        <property
-            name="intacctUserPassword"
-            column="intacctUserPassword"
-            type="string"
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
             />
 
         <bag

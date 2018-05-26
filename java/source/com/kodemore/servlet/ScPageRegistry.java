@@ -2,6 +2,7 @@ package com.kodemore.servlet;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScPageRegistry
@@ -65,12 +66,7 @@ public abstract class ScPageRegistry
         return _pages.getKeys();
     }
 
-    public KmList<ScPage> getPages()
-    {
-        return _pages.getValues();
-    }
-
-    public void add(ScPage e)
+    protected void add(ScPage e)
     {
         String key = e.getKey();
 
@@ -81,6 +77,18 @@ public abstract class ScPageRegistry
             throw Kmu.newFatal("Attempt to register duplicate page key (%s)", key);
 
         _pages.put(key, e);
+    }
+
+    //==================================================
+    //= accessing :: pages
+    //==================================================
+
+    /**
+     * Returns the list of all registered pages.
+     */
+    public KmList<ScPage> getPages()
+    {
+        return _pages.getValues();
     }
 
     //##################################################
@@ -101,7 +109,19 @@ public abstract class ScPageRegistry
     private void postInstall()
     {
         for ( ScPage e : getSortedPages() )
+            postInstall(e);
+    }
+
+    private void postInstall(ScPage e)
+    {
+        try
+        {
             e.postInstall();
+        }
+        catch ( RuntimeException ex )
+        {
+            KmLog.fatal(ex, "Cannot postInstall %s.", e.getClass().getSimpleName());
+        }
     }
 
     //##################################################

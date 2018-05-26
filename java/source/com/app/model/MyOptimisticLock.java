@@ -33,9 +33,21 @@ public class MyOptimisticLock
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getName();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 
 }

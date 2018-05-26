@@ -298,20 +298,21 @@ public class KmZendeskListTickets
 
         System.out.println("Total Number of Tickets: " + v.size());
 
-        KmIndentPrintWriter out = new KmIndentPrintWriter(System.out);
-        int n = 1;
-        for ( KmZendeskTicket ticket : v )
+        try (KmIndentPrintWriter out = new KmIndentPrintWriter(System.out))
         {
-            out.println("-----------------------------------------------------");
-            out.println("Ticket # " + n);
-            out.println("-----------------------------------------------------");
-            out.indent();
-            ticket.print(out);
-            out.println();
-            out.undent();
-            out.println();
-            n++;
+            int n = 1;
+            for ( KmZendeskTicket ticket : v )
+            {
+                out.println("-----------------------------------------------------");
+                out.println("Ticket # " + n);
+                out.println("-----------------------------------------------------");
+                out.indent();
+                ticket.print(out);
+                out.println();
+                out.outdent();
+                out.println();
+                n++;
+            }
         }
-        out.flush();
     }
 }

@@ -38,15 +38,15 @@
             />
 
         <property
-            name="name"
-            column="name"
-            type="string"
-            />
-
-        <property
             name="durationMs"
             column="durationMs"
             type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
             />
 
     </class>

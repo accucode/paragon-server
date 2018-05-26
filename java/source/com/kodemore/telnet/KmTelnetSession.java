@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -39,18 +39,18 @@ public abstract class KmTelnetSession
     //# variables
     //##################################################
 
-    private Socket                _socket;
+    private Socket _socket;
 
     private Thread                _clientThread;
     private StringBuilder         _keyBuffer;
     private KmMap<Integer,String> _keys;
 
-    private int                   _x;
-    private int                   _y;
-    private int                   _windowHeight;
-    private int                   _windowWidth;
+    private int _x;
+    private int _y;
+    private int _windowHeight;
+    private int _windowWidth;
 
-    private KmMap<Object,Object>  _attributes;
+    private KmMap<Object,Object> _attributes;
 
     //##################################################
     //# constructor

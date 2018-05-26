@@ -4,6 +4,7 @@ import com.kodemore.time.KmTimestamp;
 
 import com.app.model.base.MyPasswordResetBase;
 import com.app.model.core.MyTenantDomainIF;
+import com.app.ui.page.login.MyPasswordResetBookmark;
 import com.app.ui.page.login.MyPasswordResetPage;
 
 public class MyPasswordReset
@@ -43,7 +44,10 @@ public class MyPasswordReset
 
     public String formatEntryUrl()
     {
-        return MyPasswordResetPage.getInstance().formatEntryUrl(this);
+        MyPasswordResetBookmark b;
+        b = MyPasswordResetPage.getInstance().newBookmark();
+        b.setToken(getToken());
+        return b.formatEntryUrlFor(getTenant());
     }
 
     public MyUser findUser()
@@ -56,8 +60,20 @@ public class MyPasswordReset
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getEmail();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getEmail();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return "expires: " + getExpirationUtcTs().formatLocal();
     }
 }

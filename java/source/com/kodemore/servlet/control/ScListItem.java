@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,10 @@ import com.kodemore.html.KmHtmlBuilder;
 
 /**
  * An html LI element.
- * 
+ *
  * This is used when you want fine grained control over the UL and LI elements.
  * The client is reponsible for manually adding the LI elements by hand (or not).
- * 
+ *
  * For simple cases, it may be more convenient to use the ScBullettedList class
  * with automatically wraps the contents of the UL with the required LI elements.
  */

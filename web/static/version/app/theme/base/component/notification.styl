@@ -1,0 +1,15 @@
+/*****************************
+ ** notification
+ *****************************/
+
+.notificationItem
+    color:              $modelList-itemColor                if $modelList-itemColor
+    background-color:   $modelList-itemBackground           if $modelList-itemBackground
+
+    cursor:             pointer
+    border-width:       $modelList-itemBorderWidth          if $modelList-itemBorderWidth
+    border-style:       $modelList-itemBorderStyle          if $modelList-itemBorderStyle
+    border-color:       $modelList-itemBorderColor          if $modelList-itemBorderColor
+
+.notificationItem:hover
+    background:         $modelList-itemBackground-hover     if $modelList-itemBackground-hover

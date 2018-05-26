@@ -8,4 +8,5 @@ public interface KmMetaDaoPropertyIF<T, V>
     public abstract String getDaoPropertyName();
 
     public abstract KmAbstractDao<T,?> getDao();
+
 }

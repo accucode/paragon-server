@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyPatchBase
-    extends MyAbstractDaoDomain
-    implements MyDomainIF
+    extends MyAbstractDaoDomain<MyPatch>
+    implements KmDomainIF
 {
     //##################################################
     //# static
@@ -37,13 +39,14 @@ public abstract class MyPatchBase
     public static final MyMetaPatch Meta = MyMetaPatch.instance;
     public static final MyPatchTools Tools = MyPatchTools.instance;
     public static final MyPatchValidator Validator = MyPatchValidator.instance;
+    public static final MyPatchFinder Finder = MyPatchFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String name;
     private KmTimestamp installedUtcTs;
+    private String name;
     private String source;
 
     //##################################################
@@ -57,6 +60,84 @@ public abstract class MyPatchBase
     }
 
     //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (installedUtcTs)
+    //##################################################
+
+    public KmTimestamp getInstalledUtcTs()
+    {
+        return installedUtcTs;
+    }
+
+    public void setInstalledUtcTs(KmTimestamp e)
+    {
+        e = Validator.getInstalledUtcTsValidator().convert(e);
+        installedUtcTs = e;
+    }
+
+    public void clearInstalledUtcTs()
+    {
+        setInstalledUtcTs(null);
+    }
+
+    public boolean hasInstalledUtcTs()
+    {
+        return getInstalledUtcTs() != null;
+    }
+
+    public boolean hasInstalledUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getInstalledUtcTs(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -67,7 +148,7 @@ public abstract class MyPatchBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -97,36 +178,6 @@ public abstract class MyPatchBase
     }
 
     //##################################################
-    //# field (installedUtcTs)
-    //##################################################
-
-    public KmTimestamp getInstalledUtcTs()
-    {
-        return installedUtcTs;
-    }
-
-    public void setInstalledUtcTs(KmTimestamp e)
-    {
-        e = Validator.getInstalledUtcTsValidator().convertOnly(e);
-        installedUtcTs = e;
-    }
-
-    public void clearInstalledUtcTs()
-    {
-        setInstalledUtcTs(null);
-    }
-
-    public boolean hasInstalledUtcTs()
-    {
-        return getInstalledUtcTs() != null;
-    }
-
-    public boolean hasInstalledUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getInstalledUtcTs(), e);
-    }
-
-    //##################################################
     //# field (source)
     //##################################################
 
@@ -137,7 +188,7 @@ public abstract class MyPatchBase
 
     public void setSource(String e)
     {
-        e = Validator.getSourceValidator().convertOnly(e);
+        e = Validator.getSourceValidator().convert(e);
         source = e;
     }
 
@@ -164,22 +215,6 @@ public abstract class MyPatchBase
     public void truncateSource(boolean ellipses)
     {
         source = Kmu.truncate(source, 50000, ellipses);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -264,20 +299,15 @@ public abstract class MyPatchBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyPatchValidator getValidator()
     {
-        Validator.validate((MyPatch)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyPatch asSubclass()
     {
-        Validator.validateWarn((MyPatch)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyPatch)this);
+        return (MyPatch)this;
     }
 
     //##################################################
@@ -306,9 +336,30 @@ public abstract class MyPatchBase
     {
         MyPatch e;
         e = new MyPatch();
+        applyEditableFieldsTo(e);
+        return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyPatch e)
+    {
         e.setInstalledUtcTs(getInstalledUtcTs());
         e.setSource(getSource());
-        return e;
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyPatch e)
+    {
+        setInstalledUtcTs(e.getInstalledUtcTs());
+        setSource(e.getSource());
     }
 
     //##################################################
@@ -339,9 +390,11 @@ public abstract class MyPatchBase
 
     public boolean isSameIgnoringKey(MyPatch e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getInstalledUtcTs(), e.getInstalledUtcTs()) ) return false;
         if ( !Kmu.isEqual(getSource(), e.getSource()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalTs(), e.getInstalledLocalTs()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalTsMessage(), e.getInstalledLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getInstalledLocalDate(), e.getInstalledLocalDate()) ) return false;
@@ -379,8 +432,8 @@ public abstract class MyPatchBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Name = " + name);
         System.out.println("    InstalledUtcTs = " + installedUtcTs);
+        System.out.println("    Name = " + name);
         System.out.println("    Source = " + source);
     }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -41,28 +42,28 @@ public class ScOpenWindowScript
      * If set, the new window will load its contents from this url.
      * Clients should usually set either the url or the html, but not both.
      */
-    private String  _url;
+    private String _url;
 
     /**
      * If set, the new window will load its contents from this html.
      * Clients should usually set either the url or the html, but not both.
      */
 
-    private String  _html;
+    private String _html;
 
     /**
      * The internal window name.  If left null, the window will not have a
      * name and a new window will be opened.  Specifying a window name will
      * reuse an existing window if one with the same name is available.
      */
-    private String  _name;
+    private String _name;
 
     /**
      * The parameter string used by javascript window.open(...).
      * For example: "width=480,height=300,toolbar=0,location=0,...";
      * This is usually left null.
      */
-    private String  _parameters;
+    private String _parameters;
 
     /**
      * If true, attempt to print the window after it has opened.
@@ -90,6 +91,11 @@ public class ScOpenWindowScript
     public void setUrl(String e)
     {
         _url = e;
+    }
+
+    public void setUrl(ScBookmark e)
+    {
+        setUrl(e.formatQueryString());
     }
 
     public boolean hasUrl()

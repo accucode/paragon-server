@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.kodemore.utility.KmAssociation;
-import com.kodemore.utility.KmAssociationKeyComparator;
-import com.kodemore.utility.KmAssociationValueComparator;
+import com.kodemore.types.KmTuple;
 
 public class KmOrderedMap<K, V>
     extends LinkedHashMap<K,V>
@@ -53,21 +51,21 @@ public class KmOrderedMap<K, V>
         return v;
     }
 
-    public KmList<KmAssociation<K,V>> getAssociations()
+    public KmList<KmTuple<K,V>> getTuples()
     {
-        KmList<KmAssociation<K,V>> v = new KmList<>();
+        KmList<KmTuple<K,V>> v = new KmList<>();
 
         for ( Map.Entry<K,V> e : entrySet() )
-            v.add(new KmAssociation<>(e.getKey(), e.getValue()));
+            v.add(KmTuple.create(e.getKey(), e.getValue()));
 
         return v;
     }
 
-    public void replaceAll(List<KmAssociation<K,V>> v)
+    public void replaceAll(List<KmTuple<K,V>> v)
     {
         clear();
 
-        for ( KmAssociation<K,V> e : v )
+        for ( KmTuple<K,V> e : v )
             put(e.getKey(), e.getValue());
     }
 
@@ -77,18 +75,18 @@ public class KmOrderedMap<K, V>
 
     public void sortOnKeys()
     {
-        KmList<KmAssociation<K,V>> v;
-        v = getAssociations();
-        v.sortOn(new KmAssociationKeyComparator<K,V>());
+        KmList<KmTuple<K,V>> v;
+        v = getTuples();
+        v.sortOn(KmTuple::getComparableKey);
 
         replaceAll(v);
     }
 
     public void sortOnValues()
     {
-        KmList<KmAssociation<K,V>> v;
-        v = getAssociations();
-        v.sortOn(new KmAssociationValueComparator<K,V>());
+        KmList<KmTuple<K,V>> v;
+        v = getTuples();
+        v.sortOn(KmTuple::getComparableValue);
 
         replaceAll(v);
     }

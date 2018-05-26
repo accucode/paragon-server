@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyUserBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyUser>
+    implements KmUidDomainIF
     ,MyBasicTimestampsIF
 {
     //##################################################
@@ -38,39 +40,31 @@ public abstract class MyUserBase
     public static final MyMetaUser Meta = MyMetaUser.instance;
     public static final MyUserTools Tools = MyUserTools.instance;
     public static final MyUserValidator Validator = MyUserValidator.instance;
+    public static final MyUserFinder Finder = MyUserFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp updatedUtcTs;
-    private String firstName;
-    private String lastName;
-    private String nickname;
     private String email;
-    private String passwordSalt;
+    private Boolean enabled;
+    private String firstName;
+    private String fullName;
+    private String lastName;
+    private String memo;
+    private String nickname;
     private String passwordHash;
+    private String passwordSalt;
     private String phone;
-    private Boolean active;
-    private String timeZoneCode;
     private String roleCode;
-    private String dashboardOrientationTypeCode;
-    private Integer dashboardLineCount1;
-    private Integer dashboardLineCount2;
-    private String dashboardPanelCodeA;
-    private String dashboardPanelCodeB;
-    private String dashboardPanelCodeC;
-    private String dashboardPanelCodeD;
-    private String dashboardPanelCodeE;
-    private String dashboardPanelCodeF;
-    private String dashboardPanelCodeG;
+    private String timeZoneCode;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
     private MyUser createdBy;
-    private MyUser updatedBy;
     private MyTenant tenant;
-    private MyProject lastProject;
+    private MyUser updatedBy;
 
     //##################################################
     //# constructor
@@ -79,59 +73,31 @@ public abstract class MyUserBase
     public MyUserBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
-        setUpdatedUtcTs(nowUtc());
+        setEnabled(true);
         setPasswordSalt(newUid());
-        setActive(true);
-        setRoleCode(MyUserRole.Other.getCode());
-        setDashboardOrientationTypeCode(MyDashboardOrientationType.Auto.getCode());
-        setDashboardLineCount1(1);
-        setDashboardLineCount2(0);
-        setDashboardPanelCodeA(MyDashboardPanelType.Welcome.getCode());
+        setRoleCode(MyUserRole.ProjectMember.getCode());
+        setUid(newUid());
+        setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
         setCreatedBy(MyGlobals.getCurrentUser());
         setUpdatedBy(MyGlobals.getCurrentUser());
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
-    }
-
-    public void clearUid()
-    {
-        setUid(null);
-    }
-
-    public boolean hasUid()
-    {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -145,7 +111,7 @@ public abstract class MyUserBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -165,153 +131,35 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# field (updatedUtcTs)
+    //# field (domainSubtitle)
     //##################################################
 
-    public KmTimestamp getUpdatedUtcTs()
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
     {
-        return updatedUtcTs;
+        return Kmu.hasValue(getDomainSubtitle());
     }
 
-    public void setUpdatedUtcTs(KmTimestamp e)
+    public boolean hasDomainSubtitle(String e)
     {
-        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
-        updatedUtcTs = e;
-    }
-
-    public void clearUpdatedUtcTs()
-    {
-        setUpdatedUtcTs(null);
-    }
-
-    public boolean hasUpdatedUtcTs()
-    {
-        return getUpdatedUtcTs() != null;
-    }
-
-    public boolean hasUpdatedUtcTs(KmTimestamp e)
-    {
-        return Kmu.isEqual(getUpdatedUtcTs(), e);
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
     }
 
     //##################################################
-    //# field (firstName)
+    //# field (domainTitle)
     //##################################################
 
-    public String getFirstName()
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
     {
-        return firstName;
+        return Kmu.hasValue(getDomainTitle());
     }
 
-    public void setFirstName(String e)
+    public boolean hasDomainTitle(String e)
     {
-        e = Validator.getFirstNameValidator().convertOnly(e);
-        firstName = e;
-    }
-
-    public void clearFirstName()
-    {
-        setFirstName(null);
-    }
-
-    public boolean hasFirstName()
-    {
-        return Kmu.hasValue(getFirstName());
-    }
-
-    public boolean hasFirstName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getFirstName(), e);
-    }
-
-    public void truncateFirstName()
-    {
-        truncateFirstName(false);
-    }
-
-    public void truncateFirstName(boolean ellipses)
-    {
-        firstName = Kmu.truncate(firstName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (lastName)
-    //##################################################
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-    public void setLastName(String e)
-    {
-        e = Validator.getLastNameValidator().convertOnly(e);
-        lastName = e;
-    }
-
-    public void clearLastName()
-    {
-        setLastName(null);
-    }
-
-    public boolean hasLastName()
-    {
-        return Kmu.hasValue(getLastName());
-    }
-
-    public boolean hasLastName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getLastName(), e);
-    }
-
-    public void truncateLastName()
-    {
-        truncateLastName(false);
-    }
-
-    public void truncateLastName(boolean ellipses)
-    {
-        lastName = Kmu.truncate(lastName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (nickname)
-    //##################################################
-
-    public String getNickname()
-    {
-        return nickname;
-    }
-
-    public void setNickname(String e)
-    {
-        e = Validator.getNicknameValidator().convertOnly(e);
-        nickname = e;
-    }
-
-    public void clearNickname()
-    {
-        setNickname(null);
-    }
-
-    public boolean hasNickname()
-    {
-        return Kmu.hasValue(getNickname());
-    }
-
-    public boolean hasNickname(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getNickname(), e);
-    }
-
-    public void truncateNickname()
-    {
-        truncateNickname(false);
-    }
-
-    public void truncateNickname(boolean ellipses)
-    {
-        nickname = Kmu.truncate(nickname, 50, ellipses);
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -325,7 +173,7 @@ public abstract class MyUserBase
 
     public void setEmail(String e)
     {
-        e = Validator.getEmailValidator().convertOnly(e);
+        e = Validator.getEmailValidator().convert(e);
         email = e;
     }
 
@@ -355,43 +203,313 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# field (passwordSalt)
+    //# field (enabled)
     //##################################################
 
-    public String getPasswordSalt()
+    public Boolean getEnabled()
     {
-        return passwordSalt;
+        return enabled;
     }
 
-    public void setPasswordSalt(String e)
+    public void setEnabled(Boolean e)
     {
-        e = Validator.getPasswordSaltValidator().convertOnly(e);
-        passwordSalt = e;
+        e = Validator.getEnabledValidator().convert(e);
+        enabled = e;
     }
 
-    public void clearPasswordSalt()
+    public void clearEnabled()
     {
-        setPasswordSalt(null);
+        setEnabled(null);
     }
 
-    public boolean hasPasswordSalt()
+    public boolean hasEnabled()
     {
-        return Kmu.hasValue(getPasswordSalt());
+        return getEnabled() != null;
     }
 
-    public boolean hasPasswordSalt(String e)
+    public boolean hasEnabled(Boolean e)
     {
-        return Kmu.isEqualIgnoreCase(getPasswordSalt(), e);
+        return Kmu.isEqual(getEnabled(), e);
     }
 
-    public void truncatePasswordSalt()
+    public boolean isEnabled()
     {
-        truncatePasswordSalt(false);
+        if ( getEnabled() == null )
+            return false;
+        return getEnabled();
     }
 
-    public void truncatePasswordSalt(boolean ellipses)
+    public boolean isEnabled(Boolean b)
     {
-        passwordSalt = Kmu.truncate(passwordSalt, 30, ellipses);
+        return Kmu.isEqual(getEnabled(), b);
+    }
+
+    public void toggleEnabled()
+    {
+        setEnabled(!getEnabled());
+    }
+
+    //##################################################
+    //# field (enabledStatus)
+    //##################################################
+
+    public abstract String getEnabledStatus();
+
+    public boolean hasEnabledStatus()
+    {
+        return Kmu.hasValue(getEnabledStatus());
+    }
+
+    public boolean hasEnabledStatus(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getEnabledStatus(), e);
+    }
+
+    //##################################################
+    //# field (firstName)
+    //##################################################
+
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+    public void setFirstName(String e)
+    {
+        e = Validator.getFirstNameValidator().convert(e);
+        String oldValue = firstName;
+        firstName = e;
+        if ( Kmu.isNotEqual(e, oldValue) )
+        {
+            updateFullName();
+        }
+    }
+
+    public void clearFirstName()
+    {
+        setFirstName(null);
+    }
+
+    public boolean hasFirstName()
+    {
+        return Kmu.hasValue(getFirstName());
+    }
+
+    public boolean hasFirstName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFirstName(), e);
+    }
+
+    public void truncateFirstName()
+    {
+        truncateFirstName(false);
+    }
+
+    public void truncateFirstName(boolean ellipses)
+    {
+        firstName = Kmu.truncate(firstName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (formalName)
+    //##################################################
+
+    public abstract String getFormalName();
+
+    public boolean hasFormalName()
+    {
+        return Kmu.hasValue(getFormalName());
+    }
+
+    public boolean hasFormalName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFormalName(), e);
+    }
+
+    //##################################################
+    //# field (fullName)
+    //##################################################
+
+    public String getFullName()
+    {
+        return fullName;
+    }
+
+    public void setFullName(String e)
+    {
+        e = Validator.getFullNameValidator().convert(e);
+        fullName = e;
+    }
+
+    public void clearFullName()
+    {
+        setFullName(null);
+    }
+
+    public boolean hasFullName()
+    {
+        return Kmu.hasValue(getFullName());
+    }
+
+    public boolean hasFullName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getFullName(), e);
+    }
+
+    public void truncateFullName()
+    {
+        truncateFullName(false);
+    }
+
+    public void truncateFullName(boolean ellipses)
+    {
+        fullName = Kmu.truncate(fullName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (lastName)
+    //##################################################
+
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    public void setLastName(String e)
+    {
+        e = Validator.getLastNameValidator().convert(e);
+        String oldValue = lastName;
+        lastName = e;
+        if ( Kmu.isNotEqual(e, oldValue) )
+        {
+            updateFullName();
+        }
+    }
+
+    public void clearLastName()
+    {
+        setLastName(null);
+    }
+
+    public boolean hasLastName()
+    {
+        return Kmu.hasValue(getLastName());
+    }
+
+    public boolean hasLastName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getLastName(), e);
+    }
+
+    public void truncateLastName()
+    {
+        truncateLastName(false);
+    }
+
+    public void truncateLastName(boolean ellipses)
+    {
+        lastName = Kmu.truncate(lastName, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (longName)
+    //##################################################
+
+    public abstract String getLongName();
+
+    public boolean hasLongName()
+    {
+        return Kmu.hasValue(getLongName());
+    }
+
+    public boolean hasLongName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getLongName(), e);
+    }
+
+    //##################################################
+    //# field (memo)
+    //##################################################
+
+    public String getMemo()
+    {
+        return memo;
+    }
+
+    public void setMemo(String e)
+    {
+        e = Validator.getMemoValidator().convert(e);
+        memo = e;
+    }
+
+    public void clearMemo()
+    {
+        setMemo(null);
+    }
+
+    public boolean hasMemo()
+    {
+        return Kmu.hasValue(getMemo());
+    }
+
+    public boolean hasMemo(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getMemo(), e);
+    }
+
+    public void truncateMemo()
+    {
+        truncateMemo(false);
+    }
+
+    public void truncateMemo(boolean ellipses)
+    {
+        memo = Kmu.truncate(memo, 1000, ellipses);
+    }
+
+    //##################################################
+    //# field (nickname)
+    //##################################################
+
+    public String getNickname()
+    {
+        return nickname;
+    }
+
+    public void setNickname(String e)
+    {
+        e = Validator.getNicknameValidator().convert(e);
+        String oldValue = nickname;
+        nickname = e;
+        if ( Kmu.isNotEqual(e, oldValue) )
+        {
+            updateFullName();
+        }
+    }
+
+    public void clearNickname()
+    {
+        setNickname(null);
+    }
+
+    public boolean hasNickname()
+    {
+        return Kmu.hasValue(getNickname());
+    }
+
+    public boolean hasNickname(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getNickname(), e);
+    }
+
+    public void truncateNickname()
+    {
+        truncateNickname(false);
+    }
+
+    public void truncateNickname(boolean ellipses)
+    {
+        nickname = Kmu.truncate(nickname, 50, ellipses);
     }
 
     //##################################################
@@ -405,7 +523,7 @@ public abstract class MyUserBase
 
     public void setPasswordHash(String e)
     {
-        e = Validator.getPasswordHashValidator().convertOnly(e);
+        e = Validator.getPasswordHashValidator().convert(e);
         passwordHash = e;
     }
 
@@ -435,6 +553,46 @@ public abstract class MyUserBase
     }
 
     //##################################################
+    //# field (passwordSalt)
+    //##################################################
+
+    public String getPasswordSalt()
+    {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String e)
+    {
+        e = Validator.getPasswordSaltValidator().convert(e);
+        passwordSalt = e;
+    }
+
+    public void clearPasswordSalt()
+    {
+        setPasswordSalt(null);
+    }
+
+    public boolean hasPasswordSalt()
+    {
+        return Kmu.hasValue(getPasswordSalt());
+    }
+
+    public boolean hasPasswordSalt(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getPasswordSalt(), e);
+    }
+
+    public void truncatePasswordSalt()
+    {
+        truncatePasswordSalt(false);
+    }
+
+    public void truncatePasswordSalt(boolean ellipses)
+    {
+        passwordSalt = Kmu.truncate(passwordSalt, 30, ellipses);
+    }
+
+    //##################################################
     //# field (phone)
     //##################################################
 
@@ -445,7 +603,7 @@ public abstract class MyUserBase
 
     public void setPhone(String e)
     {
-        e = Validator.getPhoneValidator().convertOnly(e);
+        e = Validator.getPhoneValidator().convert(e);
         phone = e;
     }
 
@@ -475,98 +633,6 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# field (active)
-    //##################################################
-
-    public Boolean getActive()
-    {
-        return active;
-    }
-
-    public void setActive(Boolean e)
-    {
-        e = Validator.getActiveValidator().convertOnly(e);
-        active = e;
-    }
-
-    public void clearActive()
-    {
-        setActive(null);
-    }
-
-    public boolean hasActive()
-    {
-        return getActive() != null;
-    }
-
-    public boolean hasActive(Boolean e)
-    {
-        return Kmu.isEqual(getActive(), e);
-    }
-
-    public boolean isActive()
-    {
-        if ( getActive() == null )
-            return false;
-        return getActive();
-    }
-
-    public boolean isNotActive()
-    {
-        return !isActive();
-    }
-
-    public boolean isActive(Boolean b)
-    {
-        return Kmu.isEqual(getActive(), b);
-    }
-
-    public void toggleActive()
-    {
-        setActive(!getActive());
-    }
-
-    //##################################################
-    //# field (timeZoneCode)
-    //##################################################
-
-    public String getTimeZoneCode()
-    {
-        return timeZoneCode;
-    }
-
-    public void setTimeZoneCode(String e)
-    {
-        e = Validator.getTimeZoneCodeValidator().convertOnly(e);
-        timeZoneCode = e;
-    }
-
-    public void clearTimeZoneCode()
-    {
-        setTimeZoneCode(null);
-    }
-
-    public boolean hasTimeZoneCode()
-    {
-        return Kmu.hasValue(getTimeZoneCode());
-    }
-
-    public boolean hasTimeZoneCode(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getTimeZoneCode(), e);
-    }
-
-    public void truncateTimeZoneCode()
-    {
-        truncateTimeZoneCode(false);
-    }
-
-    public void truncateTimeZoneCode(boolean ellipses)
-    {
-        timeZoneCode = Kmu.truncate(timeZoneCode, 40, ellipses);
-    }
-
-    //##################################################
     //# field (roleCode)
     //##################################################
 
@@ -577,7 +643,7 @@ public abstract class MyUserBase
 
     public void setRoleCode(String e)
     {
-        e = Validator.getRoleCodeValidator().convertOnly(e);
+        e = Validator.getRoleCodeValidator().convert(e);
         roleCode = e;
     }
 
@@ -639,451 +705,24 @@ public abstract class MyUserBase
         return hasRole(MyUserRole.Developer);
     }
 
-    public boolean isNotRoleDeveloper()
+    public void setRoleTenantAdmin()
     {
-        return !isRoleDeveloper();
+        setRole(MyUserRole.TenantAdmin);
     }
 
-    public void setRoleAdmin()
+    public boolean isRoleTenantAdmin()
     {
-        setRole(MyUserRole.Admin);
+        return hasRole(MyUserRole.TenantAdmin);
     }
 
-    public boolean isRoleAdmin()
+    public void setRoleProjectMember()
     {
-        return hasRole(MyUserRole.Admin);
+        setRole(MyUserRole.ProjectMember);
     }
 
-    public boolean isNotRoleAdmin()
+    public boolean isRoleProjectMember()
     {
-        return !isRoleAdmin();
-    }
-
-    public void setRoleOther()
-    {
-        setRole(MyUserRole.Other);
-    }
-
-    public boolean isRoleOther()
-    {
-        return hasRole(MyUserRole.Other);
-    }
-
-    public boolean isNotRoleOther()
-    {
-        return !isRoleOther();
-    }
-
-    //##################################################
-    //# field (dashboardOrientationTypeCode)
-    //##################################################
-
-    public String getDashboardOrientationTypeCode()
-    {
-        return dashboardOrientationTypeCode;
-    }
-
-    public void setDashboardOrientationTypeCode(String e)
-    {
-        e = Validator.getDashboardOrientationTypeCodeValidator().convertOnly(e);
-        dashboardOrientationTypeCode = e;
-    }
-
-    public void clearDashboardOrientationTypeCode()
-    {
-        setDashboardOrientationTypeCode(null);
-    }
-
-    public boolean hasDashboardOrientationTypeCode()
-    {
-        return Kmu.hasValue(getDashboardOrientationTypeCode());
-    }
-
-    public boolean hasDashboardOrientationTypeCode(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardOrientationTypeCode(), e);
-    }
-
-    public void truncateDashboardOrientationTypeCode()
-    {
-        truncateDashboardOrientationTypeCode(false);
-    }
-
-    public void truncateDashboardOrientationTypeCode(boolean ellipses)
-    {
-        dashboardOrientationTypeCode = Kmu.truncate(dashboardOrientationTypeCode, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardLineCount1)
-    //##################################################
-
-    public Integer getDashboardLineCount1()
-    {
-        return dashboardLineCount1;
-    }
-
-    public void setDashboardLineCount1(Integer e)
-    {
-        e = Validator.getDashboardLineCount1Validator().convertOnly(e);
-        dashboardLineCount1 = e;
-    }
-
-    public void clearDashboardLineCount1()
-    {
-        setDashboardLineCount1(null);
-    }
-
-    public boolean hasDashboardLineCount1()
-    {
-        return getDashboardLineCount1() != null;
-    }
-
-    public boolean hasDashboardLineCount1(Integer e)
-    {
-        return Kmu.isEqual(getDashboardLineCount1(), e);
-    }
-
-    //##################################################
-    //# field (dashboardLineCount2)
-    //##################################################
-
-    public Integer getDashboardLineCount2()
-    {
-        return dashboardLineCount2;
-    }
-
-    public void setDashboardLineCount2(Integer e)
-    {
-        e = Validator.getDashboardLineCount2Validator().convertOnly(e);
-        dashboardLineCount2 = e;
-    }
-
-    public void clearDashboardLineCount2()
-    {
-        setDashboardLineCount2(null);
-    }
-
-    public boolean hasDashboardLineCount2()
-    {
-        return getDashboardLineCount2() != null;
-    }
-
-    public boolean hasDashboardLineCount2(Integer e)
-    {
-        return Kmu.isEqual(getDashboardLineCount2(), e);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeA)
-    //##################################################
-
-    public String getDashboardPanelCodeA()
-    {
-        return dashboardPanelCodeA;
-    }
-
-    public void setDashboardPanelCodeA(String e)
-    {
-        e = Validator.getDashboardPanelCodeAValidator().convertOnly(e);
-        dashboardPanelCodeA = e;
-    }
-
-    public void clearDashboardPanelCodeA()
-    {
-        setDashboardPanelCodeA(null);
-    }
-
-    public boolean hasDashboardPanelCodeA()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeA());
-    }
-
-    public boolean hasDashboardPanelCodeA(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeA(), e);
-    }
-
-    public void truncateDashboardPanelCodeA()
-    {
-        truncateDashboardPanelCodeA(false);
-    }
-
-    public void truncateDashboardPanelCodeA(boolean ellipses)
-    {
-        dashboardPanelCodeA = Kmu.truncate(dashboardPanelCodeA, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeB)
-    //##################################################
-
-    public String getDashboardPanelCodeB()
-    {
-        return dashboardPanelCodeB;
-    }
-
-    public void setDashboardPanelCodeB(String e)
-    {
-        e = Validator.getDashboardPanelCodeBValidator().convertOnly(e);
-        dashboardPanelCodeB = e;
-    }
-
-    public void clearDashboardPanelCodeB()
-    {
-        setDashboardPanelCodeB(null);
-    }
-
-    public boolean hasDashboardPanelCodeB()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeB());
-    }
-
-    public boolean hasDashboardPanelCodeB(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeB(), e);
-    }
-
-    public void truncateDashboardPanelCodeB()
-    {
-        truncateDashboardPanelCodeB(false);
-    }
-
-    public void truncateDashboardPanelCodeB(boolean ellipses)
-    {
-        dashboardPanelCodeB = Kmu.truncate(dashboardPanelCodeB, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeC)
-    //##################################################
-
-    public String getDashboardPanelCodeC()
-    {
-        return dashboardPanelCodeC;
-    }
-
-    public void setDashboardPanelCodeC(String e)
-    {
-        e = Validator.getDashboardPanelCodeCValidator().convertOnly(e);
-        dashboardPanelCodeC = e;
-    }
-
-    public void clearDashboardPanelCodeC()
-    {
-        setDashboardPanelCodeC(null);
-    }
-
-    public boolean hasDashboardPanelCodeC()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeC());
-    }
-
-    public boolean hasDashboardPanelCodeC(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeC(), e);
-    }
-
-    public void truncateDashboardPanelCodeC()
-    {
-        truncateDashboardPanelCodeC(false);
-    }
-
-    public void truncateDashboardPanelCodeC(boolean ellipses)
-    {
-        dashboardPanelCodeC = Kmu.truncate(dashboardPanelCodeC, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeD)
-    //##################################################
-
-    public String getDashboardPanelCodeD()
-    {
-        return dashboardPanelCodeD;
-    }
-
-    public void setDashboardPanelCodeD(String e)
-    {
-        e = Validator.getDashboardPanelCodeDValidator().convertOnly(e);
-        dashboardPanelCodeD = e;
-    }
-
-    public void clearDashboardPanelCodeD()
-    {
-        setDashboardPanelCodeD(null);
-    }
-
-    public boolean hasDashboardPanelCodeD()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeD());
-    }
-
-    public boolean hasDashboardPanelCodeD(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeD(), e);
-    }
-
-    public void truncateDashboardPanelCodeD()
-    {
-        truncateDashboardPanelCodeD(false);
-    }
-
-    public void truncateDashboardPanelCodeD(boolean ellipses)
-    {
-        dashboardPanelCodeD = Kmu.truncate(dashboardPanelCodeD, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeE)
-    //##################################################
-
-    public String getDashboardPanelCodeE()
-    {
-        return dashboardPanelCodeE;
-    }
-
-    public void setDashboardPanelCodeE(String e)
-    {
-        e = Validator.getDashboardPanelCodeEValidator().convertOnly(e);
-        dashboardPanelCodeE = e;
-    }
-
-    public void clearDashboardPanelCodeE()
-    {
-        setDashboardPanelCodeE(null);
-    }
-
-    public boolean hasDashboardPanelCodeE()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeE());
-    }
-
-    public boolean hasDashboardPanelCodeE(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeE(), e);
-    }
-
-    public void truncateDashboardPanelCodeE()
-    {
-        truncateDashboardPanelCodeE(false);
-    }
-
-    public void truncateDashboardPanelCodeE(boolean ellipses)
-    {
-        dashboardPanelCodeE = Kmu.truncate(dashboardPanelCodeE, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeF)
-    //##################################################
-
-    public String getDashboardPanelCodeF()
-    {
-        return dashboardPanelCodeF;
-    }
-
-    public void setDashboardPanelCodeF(String e)
-    {
-        e = Validator.getDashboardPanelCodeFValidator().convertOnly(e);
-        dashboardPanelCodeF = e;
-    }
-
-    public void clearDashboardPanelCodeF()
-    {
-        setDashboardPanelCodeF(null);
-    }
-
-    public boolean hasDashboardPanelCodeF()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeF());
-    }
-
-    public boolean hasDashboardPanelCodeF(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeF(), e);
-    }
-
-    public void truncateDashboardPanelCodeF()
-    {
-        truncateDashboardPanelCodeF(false);
-    }
-
-    public void truncateDashboardPanelCodeF(boolean ellipses)
-    {
-        dashboardPanelCodeF = Kmu.truncate(dashboardPanelCodeF, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (dashboardPanelCodeG)
-    //##################################################
-
-    public String getDashboardPanelCodeG()
-    {
-        return dashboardPanelCodeG;
-    }
-
-    public void setDashboardPanelCodeG(String e)
-    {
-        e = Validator.getDashboardPanelCodeGValidator().convertOnly(e);
-        dashboardPanelCodeG = e;
-    }
-
-    public void clearDashboardPanelCodeG()
-    {
-        setDashboardPanelCodeG(null);
-    }
-
-    public boolean hasDashboardPanelCodeG()
-    {
-        return Kmu.hasValue(getDashboardPanelCodeG());
-    }
-
-    public boolean hasDashboardPanelCodeG(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDashboardPanelCodeG(), e);
-    }
-
-    public void truncateDashboardPanelCodeG()
-    {
-        truncateDashboardPanelCodeG(false);
-    }
-
-    public void truncateDashboardPanelCodeG(boolean ellipses)
-    {
-        dashboardPanelCodeG = Kmu.truncate(dashboardPanelCodeG, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (fullName)
-    //##################################################
-
-    public abstract String getFullName();
-
-    public boolean hasFullName()
-    {
-        return Kmu.hasValue(getFullName());
-    }
-
-    public boolean hasFullName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getFullName(), e);
-    }
-
-    //##################################################
-    //# field (formalName)
-    //##################################################
-
-    public abstract String getFormalName();
-
-    public boolean hasFormalName()
-    {
-        return Kmu.hasValue(getFormalName());
-    }
-
-    public boolean hasFormalName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getFormalName(), e);
+        return hasRole(MyUserRole.ProjectMember);
     }
 
     //##################################################
@@ -1103,19 +742,113 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# field (longName)
+    //# field (timeZoneCode)
     //##################################################
 
-    public abstract String getLongName();
-
-    public boolean hasLongName()
+    public String getTimeZoneCode()
     {
-        return Kmu.hasValue(getLongName());
+        return timeZoneCode;
     }
 
-    public boolean hasLongName(String e)
+    public void setTimeZoneCode(String e)
     {
-        return Kmu.isEqualIgnoreCase(getLongName(), e);
+        e = Validator.getTimeZoneCodeValidator().convert(e);
+        timeZoneCode = e;
+    }
+
+    public void clearTimeZoneCode()
+    {
+        setTimeZoneCode(null);
+    }
+
+    public boolean hasTimeZoneCode()
+    {
+        return Kmu.hasValue(getTimeZoneCode());
+    }
+
+    public boolean hasTimeZoneCode(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getTimeZoneCode(), e);
+    }
+
+    public void truncateTimeZoneCode()
+    {
+        truncateTimeZoneCode(false);
+    }
+
+    public void truncateTimeZoneCode(boolean ellipses)
+    {
+        timeZoneCode = Kmu.truncate(timeZoneCode, 40, ellipses);
+    }
+
+    //##################################################
+    //# field (uid)
+    //##################################################
+
+    public String getUid()
+    {
+        return uid;
+    }
+
+    public void setUid(String e)
+    {
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
+    }
+
+    public void clearUid()
+    {
+        setUid(null);
+    }
+
+    public boolean hasUid()
+    {
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
+    }
+
+    //##################################################
+    //# field (updatedUtcTs)
+    //##################################################
+
+    public KmTimestamp getUpdatedUtcTs()
+    {
+        return updatedUtcTs;
+    }
+
+    public void setUpdatedUtcTs(KmTimestamp e)
+    {
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
+    }
+
+    public void clearUpdatedUtcTs()
+    {
+        setUpdatedUtcTs(null);
+    }
+
+    public boolean hasUpdatedUtcTs()
+    {
+        return getUpdatedUtcTs() != null;
+    }
+
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    {
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
     }
 
     //##################################################
@@ -1129,7 +862,7 @@ public abstract class MyUserBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -1146,22 +879,6 @@ public abstract class MyUserBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -1376,6 +1093,11 @@ public abstract class MyUserBase
         return null;
     }
 
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
+    }
+
     public boolean hasCreatedByFullName()
     {
         return hasCreatedBy() && getCreatedBy().hasFullName();
@@ -1387,54 +1109,19 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# updatedBy
+    //# lastProject
     //##################################################
 
-    public MyUser getUpdatedBy()
+    public abstract MyProject getLastProject();
+
+    public boolean hasLastProject()
     {
-        return updatedBy;
+        return getLastProject() != null;
     }
 
-    public void setUpdatedBy(MyUser e)
+    public boolean hasLastProject(MyProject e)
     {
-        updatedBy = e;
-    }
-
-    public void _setUpdatedBy(MyUser e)
-    {
-        updatedBy = e;
-    }
-
-    public void clearUpdatedBy()
-    {
-        setUpdatedBy(null);
-    }
-
-    public boolean hasUpdatedBy()
-    {
-        return getUpdatedBy() != null;
-    }
-
-    public boolean hasUpdatedBy(MyUser e)
-    {
-        return Kmu.isEqual(getUpdatedBy(), e);
-    }
-
-    public String getUpdatedByFullName()
-    {
-        if ( hasUpdatedBy() )
-            return getUpdatedBy().getFullName();
-        return null;
-    }
-
-    public boolean hasUpdatedByFullName()
-    {
-        return hasUpdatedBy() && getUpdatedBy().hasFullName();
-    }
-
-    public boolean hasUpdatedByFullName(String e)
-    {
-        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+        return Kmu.isEqual(getLastProject(), e);
     }
 
     //##################################################
@@ -1494,59 +1181,82 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# lastProject
+    //# updatedBy
     //##################################################
 
-    public MyProject getLastProject()
+    public MyUser getUpdatedBy()
     {
-        return lastProject;
+        return updatedBy;
     }
 
-    public void setLastProject(MyProject e)
+    public void setUpdatedBy(MyUser e)
     {
-        lastProject = e;
+        updatedBy = e;
     }
 
-    public void _setLastProject(MyProject e)
+    public void _setUpdatedBy(MyUser e)
     {
-        lastProject = e;
+        updatedBy = e;
     }
 
-    public void clearLastProject()
+    public void clearUpdatedBy()
     {
-        setLastProject(null);
+        setUpdatedBy(null);
     }
 
-    public boolean hasLastProject()
+    public boolean hasUpdatedBy()
     {
-        return getLastProject() != null;
+        return getUpdatedBy() != null;
     }
 
-    public boolean hasLastProject(MyProject e)
+    public boolean hasUpdatedBy(MyUser e)
     {
-        return Kmu.isEqual(getLastProject(), e);
+        return Kmu.isEqual(getUpdatedBy(), e);
     }
 
+    public String getUpdatedByFullName()
+    {
+        if ( hasUpdatedBy() )
+            return getUpdatedBy().getFullName();
+        return null;
+    }
+
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
+    }
+
+    public boolean hasUpdatedByFullName()
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName();
+    }
+
+    public boolean hasUpdatedByFullName(String e)
+    {
+        return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
+    }
+
+
+    //##################################################
+    //# on change
+    //##################################################
+
+    protected abstract void updateFullName();
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyUserValidator getValidator()
     {
-        Validator.validate((MyUser)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyUser asSubclass()
     {
-        Validator.validateWarn((MyUser)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyUser)this);
+        return (MyUser)this;
     }
 
     //##################################################
@@ -1576,30 +1286,55 @@ public abstract class MyUserBase
     {
         MyUser e;
         e = new MyUser();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setUpdatedUtcTs(getUpdatedUtcTs());
-        e.setFirstName(getFirstName());
-        e.setLastName(getLastName());
-        e.setNickname(getNickname());
-        e.setEmail(getEmail());
-        e.setPasswordSalt(getPasswordSalt());
-        e.setPasswordHash(getPasswordHash());
-        e.setPhone(getPhone());
-        e.setActive(getActive());
-        e.setTimeZoneCode(getTimeZoneCode());
-        e.setRoleCode(getRoleCode());
-        e.setDashboardOrientationTypeCode(getDashboardOrientationTypeCode());
-        e.setDashboardLineCount1(getDashboardLineCount1());
-        e.setDashboardLineCount2(getDashboardLineCount2());
-        e.setDashboardPanelCodeA(getDashboardPanelCodeA());
-        e.setDashboardPanelCodeB(getDashboardPanelCodeB());
-        e.setDashboardPanelCodeC(getDashboardPanelCodeC());
-        e.setDashboardPanelCodeD(getDashboardPanelCodeD());
-        e.setDashboardPanelCodeE(getDashboardPanelCodeE());
-        e.setDashboardPanelCodeF(getDashboardPanelCodeF());
-        e.setDashboardPanelCodeG(getDashboardPanelCodeG());
+        applyEditableFieldsTo(e);
         resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyUser e)
+    {
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setEmail(getEmail());
+        e.setEnabled(getEnabled());
+        e.setFirstName(getFirstName());
+        e.setFullName(getFullName());
+        e.setLastName(getLastName());
+        e.setMemo(getMemo());
+        e.setNickname(getNickname());
+        e.setPasswordHash(getPasswordHash());
+        e.setPasswordSalt(getPasswordSalt());
+        e.setPhone(getPhone());
+        e.setRoleCode(getRoleCode());
+        e.setTimeZoneCode(getTimeZoneCode());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyUser e)
+    {
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setEmail(e.getEmail());
+        setEnabled(e.getEnabled());
+        setFirstName(e.getFirstName());
+        setFullName(e.getFullName());
+        setLastName(e.getLastName());
+        setMemo(e.getMemo());
+        setNickname(e.getNickname());
+        setPasswordHash(e.getPasswordHash());
+        setPasswordSalt(e.getPasswordSalt());
+        setPhone(e.getPhone());
+        setRoleCode(e.getRoleCode());
+        setTimeZoneCode(e.getTimeZoneCode());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -1630,34 +1365,28 @@ public abstract class MyUserBase
 
     public boolean isSameIgnoringKey(MyUser e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getFirstName(), e.getFirstName()) ) return false;
-        if ( !Kmu.isEqual(getLastName(), e.getLastName()) ) return false;
-        if ( !Kmu.isEqual(getNickname(), e.getNickname()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
-        if ( !Kmu.isEqual(getPasswordSalt(), e.getPasswordSalt()) ) return false;
-        if ( !Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
-        if ( !Kmu.isEqual(getPhone(), e.getPhone()) ) return false;
-        if ( !Kmu.isEqual(getActive(), e.getActive()) ) return false;
-        if ( !Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
-        if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
-        if ( !Kmu.isEqual(getDashboardOrientationTypeCode(), e.getDashboardOrientationTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getDashboardLineCount1(), e.getDashboardLineCount1()) ) return false;
-        if ( !Kmu.isEqual(getDashboardLineCount2(), e.getDashboardLineCount2()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeA(), e.getDashboardPanelCodeA()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeB(), e.getDashboardPanelCodeB()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeC(), e.getDashboardPanelCodeC()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeD(), e.getDashboardPanelCodeD()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeE(), e.getDashboardPanelCodeE()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeF(), e.getDashboardPanelCodeF()) ) return false;
-        if ( !Kmu.isEqual(getDashboardPanelCodeG(), e.getDashboardPanelCodeG()) ) return false;
-        if ( !Kmu.isEqual(getFullName(), e.getFullName()) ) return false;
+        if ( !Kmu.isEqual(getEnabled(), e.getEnabled()) ) return false;
+        if ( !Kmu.isEqual(getEnabledStatus(), e.getEnabledStatus()) ) return false;
+        if ( !Kmu.isEqual(getFirstName(), e.getFirstName()) ) return false;
         if ( !Kmu.isEqual(getFormalName(), e.getFormalName()) ) return false;
-        if ( !Kmu.isEqual(getShortName(), e.getShortName()) ) return false;
+        if ( !Kmu.isEqual(getFullName(), e.getFullName()) ) return false;
+        if ( !Kmu.isEqual(getLastName(), e.getLastName()) ) return false;
         if ( !Kmu.isEqual(getLongName(), e.getLongName()) ) return false;
+        if ( !Kmu.isEqual(getMemo(), e.getMemo()) ) return false;
+        if ( !Kmu.isEqual(getNickname(), e.getNickname()) ) return false;
+        if ( !Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
+        if ( !Kmu.isEqual(getPasswordSalt(), e.getPasswordSalt()) ) return false;
+        if ( !Kmu.isEqual(getPhone(), e.getPhone()) ) return false;
+        if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
+        if ( !Kmu.isEqual(getShortName(), e.getShortName()) ) return false;
+        if ( !Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
@@ -1700,29 +1429,21 @@ public abstract class MyUserBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
-        System.out.println("    FirstName = " + firstName);
-        System.out.println("    LastName = " + lastName);
-        System.out.println("    Nickname = " + nickname);
         System.out.println("    Email = " + email);
-        System.out.println("    PasswordSalt = " + passwordSalt);
+        System.out.println("    Enabled = " + enabled);
+        System.out.println("    FirstName = " + firstName);
+        System.out.println("    FullName = " + fullName);
+        System.out.println("    LastName = " + lastName);
+        System.out.println("    Memo = " + memo);
+        System.out.println("    Nickname = " + nickname);
         System.out.println("    PasswordHash = " + passwordHash);
+        System.out.println("    PasswordSalt = " + passwordSalt);
         System.out.println("    Phone = " + phone);
-        System.out.println("    Active = " + active);
-        System.out.println("    TimeZoneCode = " + timeZoneCode);
         System.out.println("    RoleCode = " + roleCode);
-        System.out.println("    DashboardOrientationTypeCode = " + dashboardOrientationTypeCode);
-        System.out.println("    DashboardLineCount1 = " + dashboardLineCount1);
-        System.out.println("    DashboardLineCount2 = " + dashboardLineCount2);
-        System.out.println("    DashboardPanelCodeA = " + dashboardPanelCodeA);
-        System.out.println("    DashboardPanelCodeB = " + dashboardPanelCodeB);
-        System.out.println("    DashboardPanelCodeC = " + dashboardPanelCodeC);
-        System.out.println("    DashboardPanelCodeD = " + dashboardPanelCodeD);
-        System.out.println("    DashboardPanelCodeE = " + dashboardPanelCodeE);
-        System.out.println("    DashboardPanelCodeF = " + dashboardPanelCodeF);
-        System.out.println("    DashboardPanelCodeG = " + dashboardPanelCodeG);
+        System.out.println("    TimeZoneCode = " + timeZoneCode);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

@@ -100,7 +100,7 @@ public class KmTwoKeyMap<K1, K2, V>
     //# abstract accessing
     //##################################################
 
-    public KmList<K1> getKeyList1()
+    public KmList<K1> getKey1List()
     {
         Set<K1> set = _values.keySet();
 
@@ -110,7 +110,7 @@ public class KmTwoKeyMap<K1, K2, V>
         return v;
     }
 
-    public KmList<K2> getKeyList2For(K1 key1)
+    public KmList<K2> getKey2ListFor(K1 key1)
     {
         Map<K2,V> map = _values.get(key1);
 
@@ -121,5 +121,28 @@ public class KmTwoKeyMap<K1, K2, V>
         v = new KmList<>();
         v.addAll(map.keySet());
         return v;
+    }
+
+    public KmList<V> getValuesFor(K1 key1)
+    {
+        Map<K2,V> map = _values.get(key1);
+
+        if ( map == null )
+            return new KmList<>();
+
+        KmList<V> v;
+        v = new KmList<>();
+        v.addAll(map.values());
+        return v;
+    }
+
+    public KmList<V> getAllValues()
+    {
+        KmList<V> values = new KmList<>();
+
+        for ( K1 k1 : getKey1List() )
+            values.addAll(getValuesFor(k1));
+
+        return values;
     }
 }

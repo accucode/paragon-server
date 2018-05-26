@@ -27,13 +27,13 @@ public class KmEdiInterchangeToHtmlUtility
 
     public static String parseReaderToHtml(String name, Reader reader)
     {
-        KmEdiInterchange e = (KmEdiInterchange)KmEdiInterchangeParser.parseReader(name, reader);
+        KmEdiInterchange e = KmEdiInterchangeParser.parseReader(name, reader);
         return toHtml(name, e);
     }
 
     public static String parseSourceToHtml(String name, String source)
     {
-        KmEdiInterchange e = (KmEdiInterchange)KmEdiInterchangeParser.parseSource(name, source);
+        KmEdiInterchange e = KmEdiInterchangeParser.parseSource(name, source);
         return toHtml(name, e);
     }
 

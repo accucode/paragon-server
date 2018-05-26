@@ -6,6 +6,7 @@ import com.kodemore.meta.KmMetaAssociation;
 import com.kodemore.meta.KmMetaDaoAssociation;
 import com.kodemore.stf.KmStfElement;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmHtmlLineEnding;
 import com.kodemore.utility.Kmu;
 
 public class KmgModelAssociation
@@ -16,7 +17,7 @@ public class KmgModelAssociation
     //##################################################
 
     private enum Relation
-                    implements KmEnumIF
+        implements KmEnumIF
     {
         child,
         parent,
@@ -26,7 +27,7 @@ public class KmgModelAssociation
     }
 
     private enum OnCopy
-                    implements KmEnumIF
+        implements KmEnumIF
     {
         clear,
         share,
@@ -42,21 +43,21 @@ public class KmgModelAssociation
      * The name of the field.  The name should be all lower case
      * using a space to separate the words.
      */
-    private String                   _name;
+    private String _name;
 
-    private String                   _label;
+    private String _label;
 
     /**
      * A description suitable for display to users.
      */
-    private String                   _help;
+    private String _help;
 
     /**
      * Additional description intended for developers.
      */
-    private String                   _comment;
+    private String _comment;
 
-    private String                   _modelReferenceName;
+    private String _modelReferenceName;
 
     private KmList<KmgModelDelegate> _delegates;
 
@@ -68,24 +69,24 @@ public class KmgModelAssociation
      *      weakReference: car -> driver
      *
      */
-    private Relation                 _relation;
+    private Relation _relation;
 
-    private boolean                  _required;
+    private boolean _required;
 
-    private boolean                  _abstract;
+    private boolean _abstract;
 
     /**
      * The list of attributes that I depend on, and what
      * to do when any of those attributes changes.
      */
-    private KmgModelDependsOn        _dependsOn;
+    private KmgModelDependsOn _dependsOn;
 
-    private KmList<String>           _onChangeMethods;
+    private KmList<String> _onChangeMethods;
 
     /**
      * The optional default value.
      */
-    private String                   _defaultValue;
+    private String _defaultValue;
 
     /**
      * There are currently three options.
@@ -93,7 +94,7 @@ public class KmgModelAssociation
      *      - false, changes are NOT logged.
      *      - mask, changes are logged but always report *** as the value.
      */
-    private String                   _auditLogMode;
+    private String _auditLogMode;
 
     //##################################################
     //# constructor
@@ -456,7 +457,8 @@ public class KmgModelAssociation
             "relation",
             "required",
             "default",
-            "auditLog");
+            "auditLog",
+            "onChange");
 
         checkChildrenNames(x, "delegate", "dependsOn");
 
@@ -468,6 +470,8 @@ public class KmgModelAssociation
         _required = parseBoolean(x, "required");
         _defaultValue = parseString(x, "default", null);
 
+        _onChangeMethods.addAll(parseStrings(x, "onChange"));
+
         _auditLogMode = parseString(x, "auditLog", "true");
         if ( !Kmu.matchesAny(_auditLogMode, "true", "false", "mask") )
             throw newError(x, "Unknown audit log: %s", _auditLogMode);
@@ -477,9 +481,14 @@ public class KmgModelAssociation
         else
         {
             String s = parseRequiredString(x, "relation");
-            _relation = Relation.valueOf(s);
-            if ( _relation == null )
+            try
+            {
+                _relation = Relation.valueOf(s);
+            }
+            catch ( IllegalArgumentException ex )
+            {
                 throw newError("Invalid relation: " + s);
+            }
         }
 
         KmList<KmStfElement> v = x.getChildren("delegate");
@@ -622,7 +631,7 @@ public class KmgModelAssociation
 
         String s;
         s = getHelp();
-        s = Kmu.escapeHtml(s, true);
+        s = Kmu.escapeHtml(s, KmHtmlLineEnding.BreakElement);
         s = Kmu.replaceAll(s, "<br>", "<br><br>");
         return s;
     }

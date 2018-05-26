@@ -12,15 +12,15 @@ import com.app.utility.MyGlobals;
  *
  * To minimize the impact on user-facing application performance,
  * performance logs are cached in memory, then subsequently flushed
- * to the database.  This avoid impacting the user transaction, and
- * also allows us to bulk insert the records which is generally more
- * efficient.
+ * to the database.  This avoids impacting the user transaction, and
+ * also allows us to consolidate details in memory, then bulk insert
+ * the initial records with improves efficiency.
  *
  * In some cases, the in-memory cache may be lost.  This is most likely
  * occurs when the application is shut down for maintenance, or when
  * the hosting environment scales down the number of active JVMs.  Since
  * the performance logs are only intended to provide general trending,
- * this imperfect logging is consdered acceptable.
+ * this imperfect logging is considered acceptable.
  */
 public class MyPerformanceLogBuffer
 {
@@ -28,7 +28,7 @@ public class MyPerformanceLogBuffer
     //# variables
     //##################################################
 
-    private static final KmList<MyPerformanceLogDetail> _list = new KmList<>();
+    private static KmList<MyPerformanceLogDetail> _list = new KmList<>();
 
     //##################################################
     //# accessing
@@ -43,7 +43,7 @@ public class MyPerformanceLogBuffer
     {
         MyProperties p = MyGlobals.getProperties();
 
-        boolean enabled = p.getPerformanceLogFlusherJobEnabled();
+        boolean enabled = p.getPerformanceLogFlusherChoreEnabled();
         if ( !enabled )
             return;
 
@@ -67,8 +67,8 @@ public class MyPerformanceLogBuffer
 
     public static synchronized KmList<MyPerformanceLogDetail> pop()
     {
-        KmList<MyPerformanceLogDetail> v = _list.getShallowCopy();
-        _list.clear();
+        KmList<MyPerformanceLogDetail> v = _list;
+        _list = new KmList<>();
         return v;
     }
 

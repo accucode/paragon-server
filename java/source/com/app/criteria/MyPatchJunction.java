@@ -38,19 +38,19 @@ public class MyPatchJunction
     //# properties
     //##################################################
 
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
-    }
-
     public KmhTimestampCondition whereInstalledUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(INSTALLED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), INSTALLED_UTC_TS);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhStringCondition whereSource()
     {
-        return new KmhStringCondition(context(), fullName(SOURCE));
+        return new KmhStringCondition(context(), alias(), SOURCE);
     }
 
     //##################################################

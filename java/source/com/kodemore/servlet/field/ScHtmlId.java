@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,9 +48,9 @@ public class ScHtmlId
      * The htmlId that uniquely identifies the element within the DOM.
      * This must correspond to the html of <someElement id="ID"...>.
      */
-    private String        _htmlId;
+    private String _htmlId;
 
-    private boolean       _visible;
+    private boolean _visible;
 
     /**
      * The script to which any ajax is delegated.
@@ -89,7 +89,7 @@ public class ScHtmlId
     //##################################################
 
     @Override
-    public boolean getVisible()
+    public boolean isVisible()
     {
         return _visible;
     }
@@ -116,4 +116,8 @@ public class ScHtmlId
         return _htmlIdAjax().show(e);
     }
 
+    public ScHtmlIdAjax ajax()
+    {
+        return _htmlIdAjax();
+    }
 }

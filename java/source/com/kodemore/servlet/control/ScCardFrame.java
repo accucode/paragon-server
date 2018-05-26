@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,20 +48,27 @@ public class ScCardFrame
     /**
      * If set, then render this card when rendering this frame.
      */
-    private ScLocalControl    _defaultCard;
+    private ScLocalControl _defaultCard;
 
     /**
      * The type of transition to be used.
      * Defaults to FLIP.
      */
-    private ScTransitionType  _transitionType;
+    private ScTransitionType _transitionType;
 
     /**
      * This controls how fast the transition animation runs.
      * This is ignored if the transition type is set to none/null.
      * Defaults to 250ms.
      */
-    private int               _transitionSpeedMs;
+    private int _transitionSpeedMs;
+
+    /**
+     * If true, attempt to set the default focus
+     * after a new card is rendered.
+     * Disabled by default.
+     */
+    private boolean _autoFocus;
 
     //##################################################
     //# constructor
@@ -73,6 +80,7 @@ public class ScCardFrame
         _defaultCard = new ScLocalControl();
         _transitionType = getBridge().getCardFrameTransitionType();
         _transitionSpeedMs = getBridge().getCardFrameTransitionSpeedMs();
+        _autoFocus = false;
     }
 
     //##################################################
@@ -193,6 +201,25 @@ public class ScCardFrame
     }
 
     //##################################################
+    //# auto focus
+    //##################################################
+
+    public boolean getAutoFocus()
+    {
+        return _autoFocus;
+    }
+
+    public void setAutoFocus(boolean e)
+    {
+        _autoFocus = e;
+    }
+
+    public void setAutoFocus()
+    {
+        setAutoFocus(true);
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -249,7 +276,8 @@ public class ScCardFrame
         r.setTransition(getTransitionType());
         r.setSpeed(getTransitionSpeedMs());
 
-        ajax.whenDone().focus(card);
+        if ( _autoFocus )
+            ajax.whenDone().focus(card);
     }
 
     public void ajaxPrintFast(ScControl card)

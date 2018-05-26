@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,40 +46,40 @@ public class ScThreePanelLayout
         root = getInner();
 
         ScDiv row;
-        row = root.addFlexRow();
-        row.css().fill().pad20();
+        row = root.addDiv();
+        row.css().flexRow().fill().pad20();
 
         // ----- columns ---------
 
         ScDiv menuColumn;
-        menuColumn = row.addFlexColumn();
-        menuColumn.css().flexChildStatic();
+        menuColumn = row.addDiv();
+        menuColumn.css().flexColumn().flexChildStatic();
         menuColumn.style().width(350);
 
         row.addFlexGap(20);
 
         ScDiv leftColumn;
-        leftColumn = row.addFlexColumn();
-        leftColumn.css().flexChildGrow().flexChildBasis0();
+        leftColumn = row.addDiv();
+        leftColumn.css().flexColumn().flexChildGrow().flexChildBasis0();
 
         row.addFlexGap(20);
 
         ScDiv rightColumn;
-        rightColumn = row.addFlexColumn();
-        rightColumn.css().flexChildGrow().flexChildBasis0();
+        rightColumn = row.addDiv();
+        rightColumn.css().flexColumn().flexChildGrow().flexChildBasis0();
 
         // ----- groups ---------
 
         _menuGroup = menuColumn.addGroup();
-        _menuGroup.setFlavorPrimary();
+        _menuGroup.setFlavorAccent();
         _menuGroup.css().flexChildGrow();
 
         _leftGroup = leftColumn.addGroup();
-        _leftGroup.setFlavorSecondary();
+        _leftGroup.setFlavorList();
         _leftGroup.css().flexChildGrow();
 
         _rightGroup = rightColumn.addGroup();
-        _rightGroup.setFlavorTertiary();
+        _rightGroup.setFlavorSummary();
         _rightGroup.css().flexChildGrow();
 
         _menuGroup.getBody().css().flexRow();

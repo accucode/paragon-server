@@ -1,0 +1,103 @@
+model
+: name      = customerContact
+: help...
+    ---
+    The contacts associated with a particular customer.  
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = customer
+    : unique    = false
+    : on        = customer
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = customer
+    : help      = The customer to which this contact belongs.
+    : modelName = customer
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    #include personName.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = title
+    : help      = The person's business title.  E.g.: Director of Sales.
+    : type      = name
+    : required  = false
+
+
+    field
+    : name      = phone
+    : help      = The person's phone number.  E.g.: 303.555.1234.
+    : type      = phone
+    : required  = false
+
+
+    field
+    : name      = email
+    : help      = The person's email address.  E.g.: john.doe@example.net.
+    : type      = email
+    : required  = false
+
+
+    //*****************************************************
+    //** roles
+    //*****************************************************
+
+
+    abstractField
+    : name      = approvalContact
+    : help      = Indicates if this is the customer's approval contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = billingContact
+    : help      = Indicates if this is the customer's billing contact.
+    : type      = boolean
+
+
+    //*****************************************************
+    //** display
+    //*****************************************************
+
+    abstractField
+    : name      = summaryMultiline
+    : help      = The contact's name, phone, and email formatted into a multiline summary.
+    : type      = calculated
+    

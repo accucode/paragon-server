@@ -30,14 +30,15 @@ attributes
 
 
     #include basicUid.stf
+    #include basicDisplay.stf
 
 
     field
     : name      = createdUtcTs
     : help      = The time this record was originally created.
     : type      = timestamp
-    : required  = true
     : default   = nowUtc()
+    : required  = true
 
 
     //*****************************************************
@@ -83,12 +84,6 @@ attributes
         that are high or lower than some level.
         ---
     : type      = integer
-
-
-    abstractField
-    : name      = levelCodeName
-    : help      = A combination of the code and name for display.
-    : type      = calculated
 
 
     //*****************************************************

@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,14 +36,17 @@ public class MyTenantValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
+    private KmDayFrequencyValidator businessDaysValidator;
+    private KmTimeValidator businessEndTimeValidator;
+    private KmTimeValidator businessStartTimeValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmStringValidator nameValidator;
     private KmStringValidator hostnameValidator;
+    private KmStringValidator memoValidator;
+    private KmStringValidator nameValidator;
     private KmStringValidator themeCodeValidator;
-    private KmStringValidator intacctCompanyIdValidator;
-    private KmStringValidator intacctUserIdValidator;
-    private KmStringValidator intacctUserPasswordValidator;
+    private KmStringValidator timeZoneCodeValidator;
+    private KmStringValidator uidValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -52,14 +56,17 @@ public class MyTenantValidatorBase
     protected MyTenantValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
+        businessDaysValidator = newBusinessDaysValidator();
+        businessEndTimeValidator = newBusinessEndTimeValidator();
+        businessStartTimeValidator = newBusinessStartTimeValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        nameValidator = newNameValidator();
         hostnameValidator = newHostnameValidator();
+        memoValidator = newMemoValidator();
+        nameValidator = newNameValidator();
         themeCodeValidator = newThemeCodeValidator();
-        intacctCompanyIdValidator = newIntacctCompanyIdValidator();
-        intacctUserIdValidator = newIntacctUserIdValidator();
-        intacctUserPasswordValidator = newIntacctUserPasswordValidator();
+        timeZoneCodeValidator = newTimeZoneCodeValidator();
+        uidValidator = newUidValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -67,9 +74,19 @@ public class MyTenantValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmDayFrequencyValidator getBusinessDaysValidator()
     {
-        return uidValidator;
+        return businessDaysValidator;
+    }
+
+    public KmTimeValidator getBusinessEndTimeValidator()
+    {
+        return businessEndTimeValidator;
+    }
+
+    public KmTimeValidator getBusinessStartTimeValidator()
+    {
+        return businessStartTimeValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -77,14 +94,19 @@ public class MyTenantValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmStringValidator getNameValidator()
-    {
-        return nameValidator;
-    }
-
     public KmStringValidator getHostnameValidator()
     {
         return hostnameValidator;
+    }
+
+    public KmStringValidator getMemoValidator()
+    {
+        return memoValidator;
+    }
+
+    public KmStringValidator getNameValidator()
+    {
+        return nameValidator;
     }
 
     public KmStringValidator getThemeCodeValidator()
@@ -92,19 +114,19 @@ public class MyTenantValidatorBase
         return themeCodeValidator;
     }
 
-    public KmStringValidator getIntacctCompanyIdValidator()
+    public KmStringValidator getTimeZoneCodeValidator()
     {
-        return intacctCompanyIdValidator;
+        return timeZoneCodeValidator;
     }
 
-    public KmStringValidator getIntacctUserIdValidator()
+    public KmStringValidator getUidValidator()
     {
-        return intacctUserIdValidator;
+        return uidValidator;
     }
 
-    public KmStringValidator getIntacctUserPasswordValidator()
+    public KmTimestampValidator getUpdatedUtcTsValidator()
     {
-        return intacctUserPasswordValidator;
+        return updatedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -120,30 +142,36 @@ public class MyTenantValidatorBase
     public void convertOnly(MyTenant value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setName(nameValidator.convertOnly(value.getName()));
-        value.setHostname(hostnameValidator.convertOnly(value.getHostname()));
-        value.setThemeCode(themeCodeValidator.convertOnly(value.getThemeCode()));
-        value.setIntacctCompanyId(intacctCompanyIdValidator.convertOnly(value.getIntacctCompanyId()));
-        value.setIntacctUserId(intacctUserIdValidator.convertOnly(value.getIntacctUserId()));
-        value.setIntacctUserPassword(intacctUserPasswordValidator.convertOnly(value.getIntacctUserPassword()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setBusinessDays(businessDaysValidator.convert(value.getBusinessDays()));
+        value.setBusinessEndTime(businessEndTimeValidator.convert(value.getBusinessEndTime()));
+        value.setBusinessStartTime(businessStartTimeValidator.convert(value.getBusinessStartTime()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setHostname(hostnameValidator.convert(value.getHostname()));
+        value.setMemo(memoValidator.convert(value.getMemo()));
+        value.setName(nameValidator.convert(value.getName()));
+        value.setThemeCode(themeCodeValidator.convert(value.getThemeCode()));
+        value.setTimeZoneCode(timeZoneCodeValidator.convert(value.getTimeZoneCode()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convert(value.getUpdatedUtcTs()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyTenant value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyTenant value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        nameValidator.validateOnly(value.getName(), errors);
-        hostnameValidator.validateOnly(value.getHostname(), errors);
-        themeCodeValidator.validateOnly(value.getThemeCode(), errors);
-        intacctCompanyIdValidator.validateOnly(value.getIntacctCompanyId(), errors);
-        intacctUserIdValidator.validateOnly(value.getIntacctUserId(), errors);
-        intacctUserPasswordValidator.validateOnly(value.getIntacctUserPassword(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        businessDaysValidator.validateOn(value.getBusinessDays(), errors);
+        businessEndTimeValidator.validateOn(value.getBusinessEndTime(), errors);
+        businessStartTimeValidator.validateOn(value.getBusinessStartTime(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        hostnameValidator.validateOn(value.getHostname(), errors);
+        memoValidator.validateOn(value.getMemo(), errors);
+        nameValidator.validateOn(value.getName(), errors);
+        themeCodeValidator.validateOn(value.getThemeCode(), errors);
+        timeZoneCodeValidator.validateOn(value.getTimeZoneCode(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        updatedUtcTsValidator.validateOn(value.getUpdatedUtcTs(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
     }
 
@@ -151,14 +179,31 @@ public class MyTenantValidatorBase
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmDayFrequencyValidator newBusinessDaysValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("uid");
+        KmDayFrequencyValidator e;
+        e = new KmDayFrequencyValidator();
+        e.setModelName("tenant");
+        e.setFieldName("businessDays");
+        return e;
+    }
+
+    public KmTimeValidator newBusinessEndTimeValidator()
+    {
+        KmTimeValidator e;
+        e = new KmTimeValidator();
+        e.setModelName("tenant");
+        e.setFieldName("businessEndTime");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimeValidator newBusinessStartTimeValidator()
+    {
+        KmTimeValidator e;
+        e = new KmTimeValidator();
+        e.setModelName("tenant");
+        e.setFieldName("businessStartTime");
         e.setRequired();
         return e;
     }
@@ -167,20 +212,8 @@ public class MyTenantValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("tenant");
-        e.setField("createdUtcTs");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("name");
+        e.setModelName("tenant");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
         return e;
     }
@@ -191,8 +224,32 @@ public class MyTenantValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("hostname");
+        e.setModelName("tenant");
+        e.setFieldName("hostname");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newMemoValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1000);
+        e.setAllowsPrintable(true);
+        e.setAllowsWhitespace(true);
+        e.setModelName("tenant");
+        e.setFieldName("memo");
+        return e;
+    }
+
+    public KmStringValidator newNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("tenant");
+        e.setFieldName("name");
         e.setRequired();
         return e;
     }
@@ -203,42 +260,43 @@ public class MyTenantValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("themeCode");
+        e.setModelName("tenant");
+        e.setFieldName("themeCode");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newIntacctCompanyIdValidator()
+    public KmStringValidator newTimeZoneCodeValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(50);
+        e.setMaximumLength(40);
         e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("intacctCompanyId");
+        e.setModelName("tenant");
+        e.setFieldName("timeZoneCode");
+        e.setRequired();
         return e;
     }
 
-    public KmStringValidator newIntacctUserIdValidator()
+    public KmStringValidator newUidValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(50);
+        e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("intacctUserId");
+        e.setModelName("tenant");
+        e.setFieldName("uid");
+        e.setRequired();
         return e;
     }
 
-    public KmStringValidator newIntacctUserPasswordValidator()
+    public KmTimestampValidator newUpdatedUtcTsValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("tenant");
-        e.setField("intacctUserPassword");
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("tenant");
+        e.setFieldName("updatedUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -246,8 +304,9 @@ public class MyTenantValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("tenant");
-        e.setField("lockVersion");
+        e.setModelName("tenant");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

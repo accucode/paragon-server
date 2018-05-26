@@ -6,43 +6,44 @@
     field
     : name      = addressStreet1
     : help      = The first line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = addressStreet2
     : help      = The second line of the street address.
-    : type      = name
+    : type      = addressStreet
 
 
     field
     : name      = addressCity
     : help      = The name of the city.
-    : type      = name
+    : type      = addressCity
 
 
     field
     : name      = addressRegion
-    : help      = The name or abbreviation of the of the region (or state).
-    : type      = name
+    : label     = State
+    : help      = The name or abbreviation of the of the state (or region).
+    : type      = addressRegion
 
 
     field
     : name      = addressPostalCode
     : help      = The zip/postal code.
-    : type      = postalCode
+    : type      = addressPostalCode
 
 
     field
     : name      = addressCountry
     : help      = The name or abbreviation of the country.
-    : type      = name
+    : type      = addressCountry
 
 
     field
     : name      = addressAttention
     : help      = The attention line of the address.
-    : type      = name
+    : type      = addressAttention
 
 
     field
@@ -58,17 +59,20 @@
 
     abstractField
     : name      = addressShortLine
+    : label     = Address
     : help      = The short format of the site address.
     : type      = calculated
 
 
     abstractField
     : name      = addressLongLine
+    : label     = Address
     : help      = The long format of the site address.
     : type      = calculated
 
 
     abstractField
     : name      = addressMultiLine
+    : label     = Address
     : help      = The multi-line format of the site address.
     : type      = calculated

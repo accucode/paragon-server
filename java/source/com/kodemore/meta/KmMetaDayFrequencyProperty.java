@@ -14,17 +14,18 @@ public abstract class KmMetaDayFrequencyProperty<T>
     @Override
     public ScDayFrequencyField newField()
     {
-        return newField(null);
+        ScDayFrequencyField e;
+        e = new ScDayFrequencyField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScDayFrequencyField newField(String label)
     {
         ScDayFrequencyField e;
-        e = new ScDayFrequencyField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
         return e;
     }
 

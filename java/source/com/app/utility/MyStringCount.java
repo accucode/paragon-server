@@ -12,11 +12,10 @@ public class MyStringCount
     private Integer _count;
 
     //##################################################
-    //# accessing
+    //# string
     //##################################################
 
     public String getString()
-
     {
         return _string;
     }
@@ -30,6 +29,10 @@ public class MyStringCount
     {
         return Kmu.isEqual(getString(), e);
     }
+
+    //##################################################
+    //# count
+    //##################################################
 
     public Integer getCount()
     {

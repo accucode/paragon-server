@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.meta.KmMetaDoubleProperty;
 import com.kodemore.servlet.field.ScDoubleField;
 import com.kodemore.validator.KmDoubleValidator;
@@ -21,9 +22,9 @@ public class KmProtoDouble
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "double";
+        return singleColumn("double");
     }
 
     @Override

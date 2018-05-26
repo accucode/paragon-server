@@ -1,0 +1,165 @@
+model
+: name      = siteContact
+: help...
+    ---
+    The contacts associated with a particular site.
+    These contacts are primarily used for notifications related to a site.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = site
+    : unique    = false
+    : on        = site
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = site
+    : help      = The job to which this contact belongs.
+    : modelName = site
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    #include personName.stf
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = title
+    : help      = The person's business title.  E.g.: Director of Sales.
+    : type      = name
+    : required  = false
+
+
+    field
+    : name      = phone
+    : help      = The person's phone number.  E.g.: 303.555.1234.
+    : type      = phone
+    : required  = false
+
+
+    field
+    : name      = email
+    : help      = The person's email address.  E.g.: john.doe@example.net.
+    : type      = email
+    : required  = false
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** roles
+    //*****************************************************
+
+
+    abstractField
+    : name      = mainContact
+    : help      = Indicates if this is the site's main contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = installContact
+    : help      = Indicates if this is the site's install contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = effectiveInstallContact
+    : help      = Indicates if this is the site's effective install contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = technicalContact
+    : help      = Indicates if this is the site's technical contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = effectiveTechnicalContact
+    : help      = Indicates if this is the site's effective technical contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = schedulingContact
+    : help      = Indicates if this is the site's scheduling contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = effectiveSchedulingContact
+    : help      = Indicates if this is the site's effective scheduling contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = salesContact
+    : help      = Indicates if this is the site's sales contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = effectiveSalesContact
+    : help      = Indicates if this is the site's effective sales contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = requesterContact
+    : help      = Indicates if this is the site's requester contact.
+    : type      = boolean
+
+
+    abstractField
+    : name      = effectiveRequesterContact
+    : help      = Indicates if this is the site's effective requester contact.
+    : type      = boolean
+
+
+    //*****************************************************
+    //** abstract
+    //*****************************************************
+
+
+    abstractField
+    : name      = summaryMultiline
+    : help      = The contact's name, phone, and email formatted into a multiline summary.
+    : type      = calculated

@@ -27,8 +27,20 @@ public class MyDatedCountVo
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getDate() + " " + getCount();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getDate() + " " + getCount();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 }

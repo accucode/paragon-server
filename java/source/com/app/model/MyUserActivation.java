@@ -4,6 +4,7 @@ import com.kodemore.time.KmTimestamp;
 
 import com.app.model.base.MyUserActivationBase;
 import com.app.model.core.MyTenantDomainIF;
+import com.app.ui.page.login.MyUserActivationBookmark;
 import com.app.ui.page.login.MyUserActivationPage;
 
 public class MyUserActivation
@@ -38,7 +39,10 @@ public class MyUserActivation
 
     public String formatEntryUrl()
     {
-        return MyUserActivationPage.getInstance().formatEntryUrl(this);
+        MyUserActivationBookmark e;
+        e = MyUserActivationPage.getInstance().newBookmark();
+        e.setToken(getToken());
+        return e.formatEntryUrlFor(getTenant());
     }
 
     //##################################################
@@ -46,8 +50,20 @@ public class MyUserActivation
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
         return getEmail();
+    }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return getEmail();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
     }
 }

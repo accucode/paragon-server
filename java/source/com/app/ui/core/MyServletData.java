@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.thread.KmThread;
 import com.kodemore.time.KmClock;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
@@ -86,6 +88,7 @@ public class MyServletData
     {
         // We manage our own session;
         // We don't use the container managed http virtual session.
+        // This is set to a low value so that it ~immediately times out.
         return 1;
     }
 
@@ -99,41 +102,14 @@ public class MyServletData
     //##################################################
 
     @Override
-    public void setHtmlResult(String value)
-    {
-        super.setHtmlResult(value);
-        writeLastReults(value, "html");
-    }
-
-    @Override
-    public void setTextResult(String value)
-    {
-        super.setTextResult(value);
-        writeLastReults(value, "txt");
-    }
-
-    @Override
-    public void setCssResult(String value)
-    {
-        super.setCssResult(value);
-        writeLastReults(value, "css");
-    }
-
-    @Override
-    public void setXmlResult(String value)
-    {
-        super.setXmlResult(value);
-        writeLastReults(value, "xml");
-    }
-
-    private void writeLastReults(String value, String ext)
+    protected void writeLastResults(CharSequence value, String ext)
     {
         MyProperties p = getProperties();
         if ( p.getWriteLastServletResults() )
         {
             String name = getLastName() + "." + ext;
             String path = MyFilePaths.getWebPath(name);
-            Kmu.writeFile(path, value);
+            KmFiles.writeString(path, value);
         }
     }
 
@@ -158,9 +134,6 @@ public class MyServletData
         if ( !enabled )
             return;
 
-        String file;
-        file = MyFilePaths.getAjaxLogFile();
-
         KmStringBuilder out;
         out = new KmStringBuilder();
         out.println();
@@ -171,7 +144,22 @@ public class MyServletData
         out.println(Kmu.dashes(80));
         out.println(s);
 
-        Kmu.appendToFile(file, out.toString());
+        writeLogFile(out.toString());
+    }
+
+    /**
+     * Append the message to a log file.
+     * This is run in a background thread to minimize the impact
+     * on the servlet timing. This only affects local development testing
+     * since the log file is not written in production.
+     */
+    private void writeLogFile(String msg)
+    {
+        String file = MyFilePaths.getAjaxLogFile();
+
+        KmThread t;
+        t = new KmThread(() -> KmFiles.appendString(file, msg));
+        t.startYield();
     }
 
     //##################################################
@@ -196,4 +184,5 @@ public class MyServletData
     {
         return MyGlobals.getProperties();
     }
+
 }

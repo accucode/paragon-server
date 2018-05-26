@@ -7,11 +7,14 @@ model
 
 attributes
 
+
+    #include basicDisplay.stf
+
+
     field
     : name          = date
     : help          = The date being counted.
     : type          = date
-    : primaryKey    = true
 
 
     field

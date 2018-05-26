@@ -37,32 +37,46 @@ public class MyEmailPartCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyEmailPart e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyEmailPart e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhStringCondition whereAttachmentName()
     {
-        return new KmhStringCondition(context(), fullName(UID));
+        return new KmhStringCondition(context(), alias(), ATTACHMENT_NAME);
     }
 
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
-    public KmhTimestampCondition whereUpdatedUtcTs()
+    public KmhPropertyCondition<KmBlob> whereData()
     {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), alias(), DATA);
     }
 
     public KmhIntegerCondition whereSequence()
     {
-        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), alias(), SEQUENCE);
     }
 
     public KmhStringCondition whereTypeCode()
     {
-        return new KmhStringCondition(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), alias(), TYPE_CODE);
     }
 
     public void whereTypeIs(MyEmailPartType e)
@@ -135,41 +149,41 @@ public class MyEmailPartCriteria
             whereTypeIsNotAttachment();
     }
 
-    public KmhStringCondition whereAttachmentName()
+    public KmhStringCondition whereUid()
     {
-        return new KmhStringCondition(context(), fullName(ATTACHMENT_NAME));
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
-    public KmhPropertyCondition<KmBlob> whereData()
+    public KmhTimestampCondition whereUpdatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(DATA));
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnUid()
+    public void sortOnAttachmentName()
     {
-        parent().sortAscending(UID);
+        parent().sortAscending(ATTACHMENT_NAME);
     }
 
-    public void sortOnUidDescending()
+    public void sortOnAttachmentNameDescending()
     {
-        parent().sortDescending(UID);
+        parent().sortDescending(ATTACHMENT_NAME);
     }
 
-    public void sortOnUid(boolean asc)
+    public void sortOnAttachmentName(boolean asc)
     {
         if ( asc )
-            sortOnUid();
+            sortOnAttachmentName();
         else
-            sortOnUidDescending();
+            sortOnAttachmentNameDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -190,22 +204,22 @@ public class MyEmailPartCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnUpdatedUtcTs()
+    public void sortOnData()
     {
-        parent().sortAscending(UPDATED_UTC_TS);
+        parent().sortAscending(DATA);
     }
 
-    public void sortOnUpdatedUtcTsDescending()
+    public void sortOnDataDescending()
     {
-        parent().sortDescending(UPDATED_UTC_TS);
+        parent().sortDescending(DATA);
     }
 
-    public void sortOnUpdatedUtcTs(boolean asc)
+    public void sortOnData(boolean asc)
     {
         if ( asc )
-            sortOnUpdatedUtcTs();
+            sortOnData();
         else
-            sortOnUpdatedUtcTsDescending();
+            sortOnDataDescending();
     }
 
     public void sortOnSequence()
@@ -244,40 +258,40 @@ public class MyEmailPartCriteria
             sortOnTypeCodeDescending();
     }
 
-    public void sortOnAttachmentName()
+    public void sortOnUid()
     {
-        parent().sortAscending(ATTACHMENT_NAME);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnAttachmentNameDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(ATTACHMENT_NAME);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnAttachmentName(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnAttachmentName();
+            sortOnUid();
         else
-            sortOnAttachmentNameDescending();
+            sortOnUidDescending();
     }
 
-    public void sortOnData()
+    public void sortOnUpdatedUtcTs()
     {
-        parent().sortAscending(DATA);
+        parent().sortAscending(UPDATED_UTC_TS);
     }
 
-    public void sortOnDataDescending()
+    public void sortOnUpdatedUtcTsDescending()
     {
-        parent().sortDescending(DATA);
+        parent().sortDescending(UPDATED_UTC_TS);
     }
 
-    public void sortOnData(boolean asc)
+    public void sortOnUpdatedUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnData();
+            sortOnUpdatedUtcTs();
         else
-            sortOnDataDescending();
+            sortOnUpdatedUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -299,47 +313,47 @@ public class MyEmailPartCriteria
     }
 
     //##################################################
-    //# projections (uid)
+    //# projections (attachmentName)
     //##################################################
 
-    public void selectUid()
+    public void selectAttachmentName()
     {
-        select(UID);
+        select(ATTACHMENT_NAME);
     }
 
-    public void selectDistinctUid()
+    public void selectDistinctAttachmentName()
     {
-        selectDistinct(UID);
+        selectDistinct(ATTACHMENT_NAME);
     }
 
-    public void selectCountDistinctUid()
+    public void selectCountDistinctAttachmentName()
     {
-        selectCountDistinct(UID);
+        selectCountDistinct(ATTACHMENT_NAME);
     }
 
-    public void selectMinimumUid()
+    public void selectMinimumAttachmentName()
     {
-        selectMinimum(UID);
+        selectMinimum(ATTACHMENT_NAME);
     }
 
-    public void selectMaximumUid()
+    public void selectMaximumAttachmentName()
     {
-        selectMaximum(UID);
+        selectMaximum(ATTACHMENT_NAME);
     }
 
-    public void selectAverageUid()
+    public void selectAverageAttachmentName()
     {
-        selectAverage(UID);
+        selectAverage(ATTACHMENT_NAME);
     }
 
-    public void selectSumUid()
+    public void selectSumAttachmentName()
     {
-        selectSum(UID);
+        selectSum(ATTACHMENT_NAME);
     }
 
-    public void groupByUid()
+    public void groupByAttachmentName()
     {
-        groupBy(UID);
+        groupBy(ATTACHMENT_NAME);
     }
 
     //##################################################
@@ -387,47 +401,47 @@ public class MyEmailPartCriteria
     }
 
     //##################################################
-    //# projections (updatedUtcTs)
+    //# projections (data)
     //##################################################
 
-    public void selectUpdatedUtcTs()
+    public void selectData()
     {
-        select(UPDATED_UTC_TS);
+        select(DATA);
     }
 
-    public void selectDistinctUpdatedUtcTs()
+    public void selectDistinctData()
     {
-        selectDistinct(UPDATED_UTC_TS);
+        selectDistinct(DATA);
     }
 
-    public void selectCountDistinctUpdatedUtcTs()
+    public void selectCountDistinctData()
     {
-        selectCountDistinct(UPDATED_UTC_TS);
+        selectCountDistinct(DATA);
     }
 
-    public void selectMinimumUpdatedUtcTs()
+    public void selectMinimumData()
     {
-        selectMinimum(UPDATED_UTC_TS);
+        selectMinimum(DATA);
     }
 
-    public void selectMaximumUpdatedUtcTs()
+    public void selectMaximumData()
     {
-        selectMaximum(UPDATED_UTC_TS);
+        selectMaximum(DATA);
     }
 
-    public void selectAverageUpdatedUtcTs()
+    public void selectAverageData()
     {
-        selectAverage(UPDATED_UTC_TS);
+        selectAverage(DATA);
     }
 
-    public void selectSumUpdatedUtcTs()
+    public void selectSumData()
     {
-        selectSum(UPDATED_UTC_TS);
+        selectSum(DATA);
     }
 
-    public void groupByUpdatedUtcTs()
+    public void groupByData()
     {
-        groupBy(UPDATED_UTC_TS);
+        groupBy(DATA);
     }
 
     //##################################################
@@ -519,91 +533,91 @@ public class MyEmailPartCriteria
     }
 
     //##################################################
-    //# projections (attachmentName)
+    //# projections (uid)
     //##################################################
 
-    public void selectAttachmentName()
+    public void selectUid()
     {
-        select(ATTACHMENT_NAME);
+        select(UID);
     }
 
-    public void selectDistinctAttachmentName()
+    public void selectDistinctUid()
     {
-        selectDistinct(ATTACHMENT_NAME);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctAttachmentName()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(ATTACHMENT_NAME);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumAttachmentName()
+    public void selectMinimumUid()
     {
-        selectMinimum(ATTACHMENT_NAME);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumAttachmentName()
+    public void selectMaximumUid()
     {
-        selectMaximum(ATTACHMENT_NAME);
+        selectMaximum(UID);
     }
 
-    public void selectAverageAttachmentName()
+    public void selectAverageUid()
     {
-        selectAverage(ATTACHMENT_NAME);
+        selectAverage(UID);
     }
 
-    public void selectSumAttachmentName()
+    public void selectSumUid()
     {
-        selectSum(ATTACHMENT_NAME);
+        selectSum(UID);
     }
 
-    public void groupByAttachmentName()
+    public void groupByUid()
     {
-        groupBy(ATTACHMENT_NAME);
+        groupBy(UID);
     }
 
     //##################################################
-    //# projections (data)
+    //# projections (updatedUtcTs)
     //##################################################
 
-    public void selectData()
+    public void selectUpdatedUtcTs()
     {
-        select(DATA);
+        select(UPDATED_UTC_TS);
     }
 
-    public void selectDistinctData()
+    public void selectDistinctUpdatedUtcTs()
     {
-        selectDistinct(DATA);
+        selectDistinct(UPDATED_UTC_TS);
     }
 
-    public void selectCountDistinctData()
+    public void selectCountDistinctUpdatedUtcTs()
     {
-        selectCountDistinct(DATA);
+        selectCountDistinct(UPDATED_UTC_TS);
     }
 
-    public void selectMinimumData()
+    public void selectMinimumUpdatedUtcTs()
     {
-        selectMinimum(DATA);
+        selectMinimum(UPDATED_UTC_TS);
     }
 
-    public void selectMaximumData()
+    public void selectMaximumUpdatedUtcTs()
     {
-        selectMaximum(DATA);
+        selectMaximum(UPDATED_UTC_TS);
     }
 
-    public void selectAverageData()
+    public void selectAverageUpdatedUtcTs()
     {
-        selectAverage(DATA);
+        selectAverage(UPDATED_UTC_TS);
     }
 
-    public void selectSumData()
+    public void selectSumUpdatedUtcTs()
     {
-        selectSum(DATA);
+        selectSum(UPDATED_UTC_TS);
     }
 
-    public void groupByData()
+    public void groupByUpdatedUtcTs()
     {
-        groupBy(DATA);
+        groupBy(UPDATED_UTC_TS);
     }
 
     //##################################################
@@ -659,6 +673,16 @@ public class MyEmailPartCriteria
         select(CREATED_BY_UID);
     }
 
+    public void selectCountDistinctCreatedByUid()
+    {
+        selectCountDistinct(CREATED_BY_UID);
+    }
+    
+    public void selectDistinctCreatedByUid()
+    {
+        selectDistinct(CREATED_BY_UID);
+    }
+
     public void selectMinimumCreatedByUid()
     {
         selectMinimum(CREATED_BY_UID);
@@ -686,7 +710,7 @@ public class MyEmailPartCriteria
 
     public KmhStringCondition whereCreatedByUid()
     {
-        return new KmhStringCondition(parent(), fullName(CREATED_BY_UID));
+        return new KmhStringCondition(parent(), alias(), CREATED_BY_UID);
     }
 
     public void whereCreatedByIs(MyUser e)
@@ -697,51 +721,12 @@ public class MyEmailPartCriteria
             whereCreatedByUid().is(e.getUid());
     }
 
-    //##################################################
-    //# association (UpdatedBy)
-    //##################################################
-
-    public void selectUpdatedByUid()
-    {
-        select(UPDATED_BY_UID);
-    }
-
-    public void selectMinimumUpdatedByUid()
-    {
-        selectMinimum(UPDATED_BY_UID);
-    }
-
-    public void selectMaximumUpdatedByUid()
-    {
-        selectMaximum(UPDATED_BY_UID);
-    }
-
-    public void groupByUpdatedByUid()
-    {
-        groupBy(UPDATED_BY_UID);
-    }
-
-    public MyUserCriteria joinToUpdatedBy()
-    {
-        return new MyUserCriteria(joinTo(UPDATED_BY));
-    }
-
-    public MyUserCriteria leftJoinToUpdatedBy()
-    {
-        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
-    }
-
-    public KmhStringCondition whereUpdatedByUid()
-    {
-        return new KmhStringCondition(parent(), fullName(UPDATED_BY_UID));
-    }
-
-    public void whereUpdatedByIs(MyUser e)
+    public void whereCreatedByIsNot(MyUser e)
     {
         if ( e == null )
-            whereUpdatedByUid().isNull();
+            whereCreatedByUid().isNotNull();
         else
-            whereUpdatedByUid().is(e.getUid());
+            whereCreatedByUid().isNot(e.getUid());
     }
 
     //##################################################
@@ -751,6 +736,16 @@ public class MyEmailPartCriteria
     public void selectEmailUid()
     {
         select(EMAIL_UID);
+    }
+
+    public void selectCountDistinctEmailUid()
+    {
+        selectCountDistinct(EMAIL_UID);
+    }
+    
+    public void selectDistinctEmailUid()
+    {
+        selectDistinct(EMAIL_UID);
     }
 
     public void selectMinimumEmailUid()
@@ -780,7 +775,7 @@ public class MyEmailPartCriteria
 
     public KmhStringCondition whereEmailUid()
     {
-        return new KmhStringCondition(parent(), fullName(EMAIL_UID));
+        return new KmhStringCondition(parent(), alias(), EMAIL_UID);
     }
 
     public void whereEmailIs(MyEmail e)
@@ -789,6 +784,79 @@ public class MyEmailPartCriteria
             whereEmailUid().isNull();
         else
             whereEmailUid().is(e.getUid());
+    }
+
+    public void whereEmailIsNot(MyEmail e)
+    {
+        if ( e == null )
+            whereEmailUid().isNotNull();
+        else
+            whereEmailUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+    public void selectUpdatedByUid()
+    {
+        select(UPDATED_BY_UID);
+    }
+
+    public void selectCountDistinctUpdatedByUid()
+    {
+        selectCountDistinct(UPDATED_BY_UID);
+    }
+    
+    public void selectDistinctUpdatedByUid()
+    {
+        selectDistinct(UPDATED_BY_UID);
+    }
+
+    public void selectMinimumUpdatedByUid()
+    {
+        selectMinimum(UPDATED_BY_UID);
+    }
+
+    public void selectMaximumUpdatedByUid()
+    {
+        selectMaximum(UPDATED_BY_UID);
+    }
+
+    public void groupByUpdatedByUid()
+    {
+        groupBy(UPDATED_BY_UID);
+    }
+
+    public MyUserCriteria joinToUpdatedBy()
+    {
+        return new MyUserCriteria(joinTo(UPDATED_BY));
+    }
+
+    public MyUserCriteria leftJoinToUpdatedBy()
+    {
+        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(parent(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
     }
 
     //##################################################

@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyFieldTestFinder
+public final class MyFieldTestFinder
     implements KmKeyFinderIF<MyFieldTest,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyFieldTest staticFind(String key)
-    {
-        return new MyFieldTestFinder().find(key);
-    }
+    public static final MyFieldTestFinder instance = new MyFieldTestFinder();
 
-    public static MyFieldTest staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyFieldTestFinder()
     {
-        return new MyFieldTestFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyFieldTestFinder
 
     public MyFieldTest findDao(String key)
     {
-        MyDaoKeyFinder<MyFieldTest,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

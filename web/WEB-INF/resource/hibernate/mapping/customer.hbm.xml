@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyCustomer"
+        table="customer"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="billingAttention"
+            column="billingAttention"
+            type="string"
+            />
+
+        <property
+            name="billingCity"
+            column="billingCity"
+            type="string"
+            />
+
+        <property
+            name="billingCountry"
+            column="billingCountry"
+            type="string"
+            />
+
+        <property
+            name="billingPhone"
+            column="billingPhone"
+            type="string"
+            />
+
+        <property
+            name="billingPostalCode"
+            column="billingPostalCode"
+            type="string"
+            />
+
+        <property
+            name="billingRegion"
+            column="billingRegion"
+            type="string"
+            />
+
+        <property
+            name="billingStreet1"
+            column="billingStreet1"
+            type="string"
+            />
+
+        <property
+            name="billingStreet2"
+            column="billingStreet2"
+            type="string"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="enabled"
+            column="enabled"
+            type="yes_no"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <many-to-one
+            name="approvalContact"
+            column="approvalContactUid"
+            class="com.app.model.MyCustomerContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="billingContact"
+            column="billingContactUid"
+            class="com.app.model.MyCustomerContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="contacts"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="customerUid"/>
+                <one-to-many class="com.app.model.MyCustomerContact"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

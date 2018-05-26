@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmHtmlLineEnding;
 import com.kodemore.utility.Kmu;
 
 public class ScToastScript
@@ -37,14 +38,14 @@ public class ScToastScript
      * This determines the general appearance; color, icon, etc.
      * The default is the 'notice' flavor.
      */
-    private String  _flavor;
+    private String _flavor;
 
     /**
      * This is the message to be displayed.  The toast allows html
      * formatting, so content such as <b> has special meaning.
      * See setText, setHtml.
      */
-    private String  _html;
+    private String _html;
 
     /**
      * If true, the message will remain on screen until the user
@@ -58,14 +59,14 @@ public class ScToastScript
      * The speed of the animation used to show new messages.
      * Clients will generally not override this.
      */
-    private int     _effectMs;
+    private int _effectMs;
 
     /**
      * This determines how long the message is displayed before
      * automatically disappearing.  This value is ignored for
      * sticky messages.
      */
-    private int     _durationMs;
+    private int _durationMs;
 
     //##################################################
     //# constructor
@@ -143,8 +144,7 @@ public class ScToastScript
      */
     public void setText(String s)
     {
-        boolean useBreaks = true;
-        _html = Kmu.escapeHtml(s, useBreaks);
+        _html = Kmu.escapeHtml(s, KmHtmlLineEnding.BreakElement);
     }
 
     public void setText(String msg, Object... args)

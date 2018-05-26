@@ -2,8 +2,8 @@ package com.app.ui.dashboard;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScPieChart;
 import com.kodemore.servlet.control.ScTransientDiv;
+import com.kodemore.servlet.control.nvd3.ScPieChart;
 
 import com.app.model.MyNamedIntegerVo;
 import com.app.ui.dashboard.core.MyDashboardPanel;

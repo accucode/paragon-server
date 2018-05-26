@@ -1,7 +1,22 @@
 <!-- copy file to ${tomcat_home}/conf/Catalina/localhost -->
 
 <Context
-    path="/"
-    docBase="c:/projects/4Work/web/"
+    path=""
+    docBase="c:/projects/paragon-server/web/"
     crossContext="false"
-    reloadable="false"/>
+    reloadable="false"
+    >
+
+    <JarScanner
+        scanClassPath="false"
+        scanManifest="false"
+        >
+
+        <JarScanFilter
+            defaultPluggabilityScan="false"
+            defaultTldScan="false"
+            />
+
+    </JarScanner>
+
+</Context>

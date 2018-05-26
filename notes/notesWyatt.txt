@@ -1,0 +1,156 @@
+========================================
+wyatt's notes
+========================================
+
+
+========================================
+sql basics
+========================================
+
+alter table [table]
+    change column [oldname] [newname] [def];
+
+alter table [table]
+    modify column [name] not null;
+
+rename table [old] to [new];
+
+set @i = 0;
+update salesOrderLine
+    set sequence = (@i := @i + 1)
+    order by uid;
+
+insert into TABLE (col1, col2, ...)
+    select ...
+
+# show collation sequence
+show full columns from [table];
+
+# show default character set
+select * from information_schema.schemata;
+
+# group concat
+group_concat(distinct wh.name order by 1 separator ', ')
+
+========================================
+sql reporting
+========================================
+
+# tables by size
+select
+     table_name as 'table',
+     round(((data_length + index_length) / 1024 / 1024), 2) MB
+from information_schema.tables
+where true
+  and table_schema = 'kodemore'
+order by 2 desc
+limit 10;
+
+
+# performance summary (seconds)
+select
+  utcDate,
+  name,
+  count,
+  round(minimumMs / 1000, 1) minimumSeconds,
+  round(maximumMs / 1000, 1) maximumSeconds,
+  round(averageMs / 1000, 1) averageSeconds,
+  round(totalMs / 1000, 1) totalSeconds
+from performanceLogSummary
+where utcDate = '2017-10-16'
+order by totalMs desc;
+
+
+# performance summary (ms)
+select
+  utcDate,
+  name,
+  count,
+  minimumMs,
+  maximumMs,
+  averageMs,
+  totalMs
+from performanceLogSummary
+where utcDate = '2017-10-16'
+order by totalMs desc;
+
+
+========================================
+integers
+========================================
+
+create table integers
+(
+    value int not null,
+    primary key (value)
+) engine = innodb;
+
+delete from integers;
+@i = 0;
+
+set @n = 100000;
+insert into integers (value) select @n*1 + value from integers where value < @n;
+insert into integers (value) select @n*2 + value from integers where value < @n;
+insert into integers (value) select @n*3 + value from integers where value < @n;
+insert into integers (value) select @n*4 + value from integers where value < @n;
+insert into integers (value) select @n*5 + value from integers where value < @n;
+insert into integers (value) select @n*6 + value from integers where value < @n;
+insert into integers (value) select @n*7 + value from integers where value < @n;
+insert into integers (value) select @n*8 + value from integers where value < @n;
+insert into integers (value) select @n*9 + value from integers where value < @n;
+select count(*) from integers;
+
+drop table integers;
+
+
+    stepItem
+where true
+    and project.uid             = taskMaster.projectUid
+    and taskMaster.uid          = taskVersion.masterUid
+    and taskVersion.uid         = stepVersion.taskVersionUid
+    and taskVersion.statusCode  = 'Published'
+    and stepVersion.uid         = stepItem.stepUid
+    and
+    (
+        false
+        or stepItem.buttonViewTypeCode      like '%charge%'
+    )
+order by project, task, taskVer, step, item
+;
+
+
+
+# task steps that refer to 'charge' tiles.
+select
+    project.name project,
+    taskMaster.name task,
+    taskVersion.sequence taskVer,
+    taskVersion.contextTypeCode context,
+    stepVersion.sequence step,
+    stepVersion.topViewTypeCode stepTop,
+    stepVersion.topViewOption stepTopOption,
+    stepVersion.bottomViewTypeCode stepBottom,
+    stepVersion.bottomViewOption stepBottomOption
+from
+    project,
+    taskMaster,
+    taskVersion,
+    stepVersion
+where true
+    and project.uid             = taskMaster.projectUid
+    and taskMaster.uid          = taskVersion.masterUid
+    and taskVersion.uid         = stepVersion.taskVersionUid
+    and taskVersion.statusCode  = 'Published'
+    and
+    (
+        false
+        or stepVersion.topViewTypeCode      like '%charge%'
+        or stepVersion.bottomViewTypeCode   like '%charge%'
+    )
+order by project, task, taskVer, step
+;
+
+
+========================================
+temp
+========================================

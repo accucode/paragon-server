@@ -14,7 +14,7 @@ public class MyAddressDelegate<T>
     //# variables
     //##################################################
 
-    private T                     _model;
+    private T _model;
 
     private KmAdaptorIF<T,String> _street1Adaptor;
     private KmAdaptorIF<T,String> _street2Adaptor;

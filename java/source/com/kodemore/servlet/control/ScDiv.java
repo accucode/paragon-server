@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -81,9 +81,41 @@ public class ScDiv
         return _htmlIdAjax().addContents();
     }
 
+    public ScAddContentScript ajaxAddContents(ScControlIF c)
+    {
+        ScAddContentScript s;
+        s = _htmlIdAjax().addContents();
+        s.setContent(c);
+        return s;
+    }
+
+    public ScAddContentScript ajaxPrependContents(ScControlIF c)
+    {
+        ScAddContentScript s;
+        s = _htmlIdAjax().addContents();
+        s.setModePrepend();
+        s.setContent(c);
+        return s;
+    }
+
     public void ajaxScrollTo(ScHtmlIdIF e)
     {
         _htmlIdAjax().scrollTo(e);
+    }
+
+    public void ajaxScrollToTop()
+    {
+        _htmlIdAjax().scrollToTop();
+    }
+
+    public void ajaxScrollToBottom()
+    {
+        _htmlIdAjax().scrollToBottom();
+    }
+
+    public void ajaxScrollToBottom(Integer speedMs)
+    {
+        _htmlIdAjax().scrollToBottom(speedMs);
     }
 
     public void ajaxPushWhenDone()
@@ -94,6 +126,16 @@ public class ScDiv
     public void ajaxSetCss(String css)
     {
         _htmlIdAjax().setCss(css);
+    }
+
+    public void ajaxRemoveCss(String css)
+    {
+        _htmlIdAjax().removeCss(css);
+    }
+
+    public void ajaxAddCss(String css)
+    {
+        _htmlIdAjax().addCss(css);
     }
 
     public void ajaxSetText(String value)
@@ -109,6 +151,11 @@ public class ScDiv
     public void ajaxSetHtml(String value)
     {
         _htmlIdAjax().setHtml(value);
+    }
+
+    public void ajaxGlow()
+    {
+        _htmlIdAjax().glow();
     }
 
 }

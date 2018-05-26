@@ -77,6 +77,8 @@ public class KmgPropertyFile
             g.parse(c);
             _groups.add(g);
         }
+
+        _groups.sortOn(x -> x.getName().toLowerCase());
     }
 
     @Override

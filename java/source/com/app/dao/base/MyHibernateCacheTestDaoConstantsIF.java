@@ -17,9 +17,11 @@ public interface MyHibernateCacheTestDaoConstantsIF
     //# fields
     //##################################################
 
-    String UID = "uid";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
     String DATA = "data";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
+    String UID = "uid";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
 
 }

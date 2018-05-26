@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,7 @@ package com.kodemore.servlet.control;
 
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
-
-import com.app.file.MyResourceFiles;
+import com.kodemore.servlet.utility.ScBridge;
 
 /**
  * Export grid data as HTML.
@@ -49,7 +48,7 @@ public class ScGridHtmlExporter<T>
     @Override
     protected byte[] export(KmFilterIF<T> filter)
     {
-        String style = MyResourceFiles.getInstance().getDataExportStyle().readString();
+        String style = ScBridge.getInstance().getDataExportStyle();
 
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -57,7 +56,7 @@ public class ScGridHtmlExporter<T>
         out.beginHtml();
 
         out.beginHead();
-        out.printMetaCharsetUtf8();
+        out.printMetaContentTypeHtml();
         out.printLiteral(style);
         out.endHead();
 

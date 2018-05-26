@@ -1,14 +1,15 @@
-/*****************************
- ** page content
- *****************************/
+//******************************
+//* page content
+//******************************
+
 
 /**
  * The unique ID for the page content box.
  * Used by javascript.
  */
 #content
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
+
 
 .content-bare
     position:   absolute
@@ -18,6 +19,11 @@
     bottom:     0
     overflow:   hidden
 
+
+.content-print
+    content: normal // prevent stylus compression
+
+
 .content-basic
     position:       absolute
     left:           0
@@ -25,6 +31,7 @@
     top:            $header-height
     bottom:         $footer-height
     overflow:       hidden
+
 
 .content-normal
     position:       absolute
@@ -35,25 +42,37 @@
     overflow:       visible
     background:     $content-background
 
-/*****************************
- ** inner
- *****************************/
+
+//******************************
+//* inner
+//******************************
+
 
 #content-inner
-    /* noop - prevent compression */
-    content: normal
+    content: normal // prevent stylus compression
 
-.appContentInner
+
+.content-bare   > #content-inner,
+.content-basic  > #content-inner,
+.content-normal > #content-inner
     position:       absolute
     left:           0
     right:          0
     top:            0
     bottom:         0
     overflow:       visible
+    display:        flex
+    flex-direction: column
 
-/*****************************
- ** page root
- *****************************/
+
+.content-print #content-inner
+    content: normal // prevent stylus compression
+
+
+//******************************
+//* page root
+//******************************
+
 
 .content-pageRoot
     position:       relative

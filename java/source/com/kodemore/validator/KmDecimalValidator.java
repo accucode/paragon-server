@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,7 @@
 
 package com.kodemore.validator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.exception.error.KmDecimalCharacteristicValidationError;
-import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.types.KmDecimal;
 
 public class KmDecimalValidator
@@ -66,24 +64,20 @@ public class KmDecimalValidator
     //##################################################
 
     @Override
-    public void validateModel(KmDecimal value, KmList<KmErrorIF> errors)
+    public void validateValueOn(KmDecimal value, KmErrorList errors)
     {
         validateLength(value, errors);
     }
 
-    public void validateLength(KmDecimal value, KmList<KmErrorIF> errors)
+    public void validateLength(KmDecimal value, KmErrorList errors)
     {
         double d = value.doubleValue();
         int i = (int)d;
         String s = i + "";
         int wholeNumberLength = _allDigits - _rightDigits;
+
         if ( s.length() > wholeNumberLength )
-            errors.add(
-                new KmDecimalCharacteristicValidationError(
-                    getModel(),
-                    getField(),
-                    d,
-                    wholeNumberLength));
+            errors.addFieldError(this, "maximum left digits is " + wholeNumberLength);
     }
 
     //##################################################

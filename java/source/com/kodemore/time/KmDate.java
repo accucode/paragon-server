@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Date;
 
+import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.types.KmDayFrequency;
 
 /**
@@ -62,7 +63,14 @@ public class KmDate
      */
     public static KmDate fromYearMonthDay(int yy, int mm, int dd)
     {
-        return fromLocalDate(LocalDate.of(yy, mm, dd));
+        try
+        {
+            return fromLocalDate(LocalDate.of(yy, mm, dd));
+        }
+        catch ( RuntimeException ex )
+        {
+            return null;
+        }
     }
 
     //##################################################
@@ -174,6 +182,20 @@ public class KmDate
     }
 
     //==================================================
+    //= conversion :: java date
+    //==================================================
+
+    /**
+     * Convert a java.sql.Date based on the UTC time zone.
+     */
+    public static KmDate fromSqlDate(java.sql.Date e)
+    {
+        return e == null
+            ? null
+            : fromEpochMs(e.getTime());
+    }
+
+    //==================================================
     //= conversion :: MySql
     //==================================================
 
@@ -226,6 +248,11 @@ public class KmDate
         return _inner.getYear();
     }
 
+    public boolean hasYear(int e)
+    {
+        return getYear() == e;
+    }
+
     /**
      * Get the two digit year.  E.g.: 2013 returns 13
      */
@@ -263,17 +290,17 @@ public class KmDate
     /**
      * Set the day, using the current year and month.
      */
-    public KmDate toDay(int dd)
+    public KmDate withDay(int dd)
     {
         return fromYearMonthDay(getYear(), getMonth(), dd);
     }
 
-    public KmDate toMonth(int mm)
+    public KmDate withMonth(int mm)
     {
         return fromYearMonthDay(getYear(), mm, getDay());
     }
 
-    public KmDate toYear(int yy)
+    public KmDate withYear(int yy)
     {
         return fromYearMonthDay(yy, getMonth(), getDay());
     }
@@ -287,7 +314,7 @@ public class KmDate
      */
     public KmDate getStartOfMonth()
     {
-        return toDay(1);
+        return withDay(1);
     }
 
     public KmDate getStartOfNextMonth()
@@ -300,7 +327,7 @@ public class KmDate
      */
     public KmDate getEndOfMonth()
     {
-        return toDay(getDaysInMonth());
+        return withDay(getDaysInMonth());
     }
 
     public boolean isStartOfMonth()
@@ -803,6 +830,11 @@ public class KmDate
         return addYears(-1);
     }
 
+    public KmDate subtractYears(int i)
+    {
+        return addYears(-i);
+    }
+
     //==================================================
     //= math :: duration
     //==================================================
@@ -878,9 +910,9 @@ public class KmDate
         return getNext().getStartOfDay().subtractSecond();
     }
 
-    public KmDateInterval toInterval(KmDate end)
+    public KmDateRange toRange(KmDate end)
     {
-        return KmDateInterval.create(this, end);
+        return KmDateRange.create(this, end);
     }
 
     public KmTimestamp toTimestamp()
@@ -888,14 +920,19 @@ public class KmDate
         return getStartOfDay();
     }
 
-    public KmTimestampInterval toTimestampInterval()
+    public KmTimestampRange toTimestampInterval()
     {
-        return KmTimestampInterval.create(getStartOfDay(), getEndOfDay());
+        return KmTimestampRange.create(getStartOfDay(), getEndOfDay());
     }
 
     public KmTimestamp toTimestamp(KmTime time)
     {
         return KmTimestamp.fromDateTime(this, time);
+    }
+
+    public KmMonth toMonth()
+    {
+        return KmMonth.fromYearMonth(getYear(), getMonth());
     }
 
     //##################################################
@@ -943,6 +980,11 @@ public class KmDate
         return KmDateUtility.format(this, format);
     }
 
+    public String format()
+    {
+        return ScFormatter.getInstance().formatDate(this);
+    }
+
     /**
      * A convenience formatter.
      */
@@ -973,6 +1015,11 @@ public class KmDate
     public String format_m_d_yyyy()
     {
         return KmDateUtility.format_m_d_yyyy(this);
+    }
+
+    public String format_m_d_yy()
+    {
+        return KmDateUtility.format_m_d_yy(this);
     }
 
     public String format_yyyymmdd()

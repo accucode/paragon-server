@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -181,6 +181,22 @@ public class KmDateUtility
             return "";
 
         return "" + d.getMonth() + DATE_SEPARATOR + d.getDay() + DATE_SEPARATOR + pad4(d.getYear());
+    }
+
+    /**
+     * Format a date, e.g.: Jan 31, 1985 -> 1/31/85
+     */
+    public static String format_m_d_yy(KmDate d)
+    {
+        if ( d == null )
+            return "";
+
+        return ""
+            + d.getMonth()
+            + DATE_SEPARATOR
+            + d.getDay()
+            + DATE_SEPARATOR
+            + pad2(d.getYear() % 100);
     }
 
     /**

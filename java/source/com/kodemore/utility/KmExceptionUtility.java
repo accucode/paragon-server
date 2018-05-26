@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,20 +42,17 @@ public class KmExceptionUtility
 
     public static void print(Throwable ex)
     {
-        System.out.println(format(ex));
+        System.err.println(formatReverse(ex));
     }
 
     //##################################################
     //# format
     //##################################################
 
-    public static String format(Throwable ex)
-    {
-        StringBuilder sb = new StringBuilder();
-        formatOn(sb, ex);
-        return sb.toString();
-    }
-
+    /**
+     * Display the stack trace in the normal order.
+     * The root cause is displayed at the end.
+     */
     public static String formatNormal(Throwable ex)
     {
         StringWriter sw = new StringWriter();
@@ -66,62 +63,83 @@ public class KmExceptionUtility
         }
     }
 
+    /**
+     * Display the root cause first.
+     */
+    public static String formatReverse(Throwable ex)
+    {
+        StringBuilder out = new StringBuilder();
+        formatReverseOn(out, ex);
+        return out.toString();
+    }
+
     //##################################################
-    //# format (support)
+    //# format reverse
     //##################################################
 
-    public static void formatOn(StringBuilder sb, Throwable ex)
+    private static void formatReverseOn(StringBuilder out, Throwable ex)
     {
-        KmList<Throwable> v = getExceptionChain(ex);
+        KmList<Throwable> v;
+        v = getExceptionChain(ex);
         v.reverse();
 
         Iterator<Throwable> i = v.iterator();
         Throwable cause = i.next();
-        formatLongOn(sb, cause);
+        formatLongOn(out, cause);
 
         while ( i.hasNext() )
-            formatShortOn(sb, i.next(), cause);
+        {
+            out.append(NEW_LINE);
+            formatShortOn(out, i.next(), cause);
+        }
     }
 
-    public static void formatLongOn(StringBuilder sb, Throwable ex)
+    private static void formatLongOn(StringBuilder out, Throwable ex)
     {
-        formatShortOn(sb, ex, ex.getStackTrace().length);
+        formatShortOn(out, ex, ex.getStackTrace().length);
     }
 
-    public static void formatShortOn(StringBuilder sb, Throwable ex, Throwable cause)
+    private static void formatShortOn(StringBuilder out, Throwable ex, Throwable cause)
     {
-        sb.append("Caused...");
-        sb.append(NEW_LINE);
+        out.append("Caused...");
+        out.append(NEW_LINE);
+
         int matches = countMatchingLines(ex, cause);
         if ( matches > 0 )
             matches--;
+
         int nonMatches = ex.getStackTrace().length - matches;
-        formatShortOn(sb, ex, nonMatches);
+        formatShortOn(out, ex, nonMatches);
+
         if ( matches > 0 )
         {
-            sb.append("        ... ");
-            sb.append(matches);
-            sb.append(" more");
-            sb.append(NEW_LINE);
+            out.append("        ... ");
+            out.append(matches);
+            out.append(" more");
+            out.append(NEW_LINE);
         }
     }
 
-    public static void formatShortOn(StringBuilder sb, Throwable ex, int lines)
+    public static void formatShortOn(StringBuilder out, Throwable ex, int lines)
     {
-        sb.append(ex.getClass().getName());
+        out.append(ex.getClass().getName());
+
         if ( ex.getMessage() != null )
         {
-            sb.append(": ");
-            sb.append(ex.getMessage());
+            out.append(": ");
+            out.append(ex.getMessage());
         }
-        sb.append(NEW_LINE);
+
+        out.append(NEW_LINE);
+        out.append(NEW_LINE);
+
         StackTraceElement[] arr = ex.getStackTrace();
         int n = Math.min(arr.length, lines);
         for ( int i = 0; i < n; i++ )
         {
-            sb.append("        at ");
-            sb.append(arr[i].toString());
-            sb.append(NEW_LINE);
+            out.append("        at ");
+            out.append(arr[i].toString());
+            out.append(NEW_LINE);
         }
     }
 

@@ -16,25 +16,59 @@
 <body>
 <h1>threadTopic</h1>
 
+
+<!--
+********************
+** Summary
+********************
+-->
+
 <table class="attributeTable">
 <tr>
-  <th>Summary</th>
+  <th class='header'>Summary</th>
 </tr>
 <tr>
   <td>I help to ensure that only one thread runs a particular activity (topic), even across multiple JVMs.
- To correctly ensure that only one JVM is running a given task, every JVM must check this table before starting a particular topic.  Additionally, once a particular JVM is assigned ownership, it must 'touch' the pertinent topic at least once a minute, updating the lastTouched time.  Without this touch, a long running task will eventually be deemed hung/dead, and another JVM will be allowed to become the new owner.  This could result in multiple threads running the same task.  To avoid this, break long running tasks into smaller database transactions, and ensure that the topic is 'touched' periodically.</td>
+ To correctly ensure that only one JVM is running a given task, every JVM must check this table before starting a particular activity. Additionally, once a particular JVM is assigned ownership, it must 'touch' the pertinent topic at least once a minute, updating the lastTouched time. Without this touch, a long running task will eventually be deemed hung/dead, and another JVM will be allowed to become the new owner.  This could result in multiple threads running the same task. To avoid this, break long running tasks into smaller database transactions, and ensure that the topic is 'touched' periodically.</td>
 </tr>
 </table>
 
 <br>
 <br>
 
+<!--
+********************
+** Fields
+********************
+-->
+
 <table class="attributeTable">
 <tr>
-  <th>Fields</th>
+  <th class='header' colspan='4'>Fields</th>
+</tr>
+<tr>
+  <th>Name</th>
   <th>Type</th>
   <th>Attributes</th>
   <th>Description</th>
+</tr>
+<tr>
+  <td>auditLogTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    This is used a the title in auditLogs&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
 </tr>
 <tr>
   <td>code&nbsp;</td>
@@ -55,9 +89,9 @@
 
 </tr>
 <tr>
-  <td>displayString&nbsp;</td>
+  <td>domainSubtitle&nbsp;</td>
 
-  <td>abstractText
+  <td>calculated
                 <br><nobr>max length: 1000</nobr>
                       <br><nobr>allows all</nobr>
             </td>
@@ -67,7 +101,25 @@
   </td>
 
   <td>
-    A human readable semi&#45;unique value used to identify each model&#46; This typically uses something like the model&#39;s name or code which is expected to be unique enough to distinish between the different values within a particular project&#46;
+    The subtitle commonly used for rows in a list&#46; This MAY be null&#44; if there is not subtitle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The title commonly used for rows in a list or dropdown field&#46; This should NEVER be null&#46;
     &nbsp;
   </td>
 
@@ -361,7 +413,7 @@
               </td>
 
   <td>
-                                  <nobr>audit disabled</nobr>            &nbsp;
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
   </td>
 
   <td>
@@ -383,7 +435,7 @@
   </td>
 
   <td>
-    The unique id of a particular JVM&#46;  This is typically generated as a random UID within the JVM rather than trying to rely on an externally generated value&#46;  It is understood that restarting a JVM will likely change the ownerUid even if it is the only JVM on that machine&#46;
+    The unique id of a particular JVM&#46; This is typically generated as a random UID within the JVM rather than trying to rely on an externally generated value&#46; It is understood that restarting a JVM will likely change the ownerUid even if it is the only JVM on that machine&#46;
     &nbsp;
   </td>
 
@@ -395,9 +447,41 @@
 <br>
 
 
+<!--
+********************
+** Associations
+********************
+-->
+
 <table class="attributeTable">
 <tr>
-  <th>Collections</th>
+  <th class='header' colspan='4'>Associations</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Collections
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='3'>Collections</th>
+</tr>
+<tr>
+  <th>Name</th>
   <th>Type</th>
   <th>Comment</th>
 </tr>

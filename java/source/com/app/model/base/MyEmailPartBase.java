@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyEmailPartBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyEmailPart>
+    implements KmUidDomainIF
     ,KmSequenceIF
     ,MyBasicTimestampsIF
 {
@@ -39,22 +41,23 @@ public abstract class MyEmailPartBase
     public static final MyMetaEmailPart Meta = MyMetaEmailPart.instance;
     public static final MyEmailPartTools Tools = MyEmailPartTools.instance;
     public static final MyEmailPartValidator Validator = MyEmailPartValidator.instance;
+    public static final MyEmailPartFinder Finder = MyEmailPartFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
+    private String attachmentName;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp updatedUtcTs;
+    private KmBlob data;
     private Integer sequence;
     private String typeCode;
-    private String attachmentName;
-    private KmBlob data;
+    private String uid;
+    private KmTimestamp updatedUtcTs;
     private Integer lockVersion;
     private MyUser createdBy;
-    private MyUser updatedBy;
     private MyEmail email;
+    private MyUser updatedBy;
 
     //##################################################
     //# constructor
@@ -63,8 +66,8 @@ public abstract class MyEmailPartBase
     public MyEmailPartBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
         setUpdatedUtcTs(nowUtc());
         setLockVersion(0);
         setCreatedBy(MyGlobals.getCurrentUser());
@@ -72,43 +75,59 @@ public abstract class MyEmailPartBase
     }
 
     //##################################################
-    //# field (uid)
+    //# field (attachmentName)
     //##################################################
 
-    public String getUid()
+    public String getAttachmentName()
     {
-        return uid;
+        return attachmentName;
     }
 
-    public void setUid(String e)
+    public void setAttachmentName(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
+        e = Validator.getAttachmentNameValidator().convert(e);
+        attachmentName = e;
     }
 
-    public void clearUid()
+    public void clearAttachmentName()
     {
-        setUid(null);
+        setAttachmentName(null);
     }
 
-    public boolean hasUid()
+    public boolean hasAttachmentName()
     {
-        return Kmu.hasValue(getUid());
+        return Kmu.hasValue(getAttachmentName());
     }
 
-    public boolean hasUid(String e)
+    public boolean hasAttachmentName(String e)
     {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getAttachmentName(), e);
     }
 
-    public void truncateUid()
+    public void truncateAttachmentName()
     {
-        truncateUid(false);
+        truncateAttachmentName(false);
     }
 
-    public void truncateUid(boolean ellipses)
+    public void truncateAttachmentName(boolean ellipses)
     {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        attachmentName = Kmu.truncate(attachmentName, 255, ellipses);
+    }
+
+    //##################################################
+    //# field (auditLogTitle)
+    //##################################################
+
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
+    {
+        return Kmu.hasValue(getAuditLogTitle());
+    }
+
+    public boolean hasAuditLogTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -122,7 +141,7 @@ public abstract class MyEmailPartBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -142,33 +161,65 @@ public abstract class MyEmailPartBase
     }
 
     //##################################################
-    //# field (updatedUtcTs)
+    //# field (data)
     //##################################################
 
-    public KmTimestamp getUpdatedUtcTs()
+    public KmBlob getData()
     {
-        return updatedUtcTs;
+        return data;
     }
 
-    public void setUpdatedUtcTs(KmTimestamp e)
+    public void setData(KmBlob e)
     {
-        e = Validator.getUpdatedUtcTsValidator().convertOnly(e);
-        updatedUtcTs = e;
+        e = Validator.getDataValidator().convert(e);
+        data = e;
     }
 
-    public void clearUpdatedUtcTs()
+    public void clearData()
     {
-        setUpdatedUtcTs(null);
+        setData(null);
     }
 
-    public boolean hasUpdatedUtcTs()
+    public boolean hasData()
     {
-        return getUpdatedUtcTs() != null;
+        return getData() != null;
     }
 
-    public boolean hasUpdatedUtcTs(KmTimestamp e)
+    public boolean hasData(KmBlob e)
     {
-        return Kmu.isEqual(getUpdatedUtcTs(), e);
+        return Kmu.isEqual(getData(), e);
+    }
+
+    //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
     }
 
     //##################################################
@@ -184,7 +235,7 @@ public abstract class MyEmailPartBase
     @Override
     public void setSequence(Integer e)
     {
-        e = Validator.getSequenceValidator().convertOnly(e);
+        e = Validator.getSequenceValidator().convert(e);
         sequence = e;
     }
 
@@ -214,7 +265,7 @@ public abstract class MyEmailPartBase
 
     public void setTypeCode(String e)
     {
-        e = Validator.getTypeCodeValidator().convertOnly(e);
+        e = Validator.getTypeCodeValidator().convert(e);
         typeCode = e;
     }
 
@@ -276,11 +327,6 @@ public abstract class MyEmailPartBase
         return hasType(MyEmailPartType.Text);
     }
 
-    public boolean isNotTypeText()
-    {
-        return !isTypeText();
-    }
-
     public void setTypeHtml()
     {
         setType(MyEmailPartType.Html);
@@ -289,11 +335,6 @@ public abstract class MyEmailPartBase
     public boolean isTypeHtml()
     {
         return hasType(MyEmailPartType.Html);
-    }
-
-    public boolean isNotTypeHtml()
-    {
-        return !isTypeHtml();
     }
 
     public void setTypeAttachment()
@@ -306,79 +347,74 @@ public abstract class MyEmailPartBase
         return hasType(MyEmailPartType.Attachment);
     }
 
-    public boolean isNotTypeAttachment()
+    //##################################################
+    //# field (uid)
+    //##################################################
+
+    public String getUid()
     {
-        return !isTypeAttachment();
+        return uid;
+    }
+
+    public void setUid(String e)
+    {
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
+    }
+
+    public void clearUid()
+    {
+        setUid(null);
+    }
+
+    public boolean hasUid()
+    {
+        return Kmu.hasValue(getUid());
+    }
+
+    public boolean hasUid(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
-    //# field (attachmentName)
+    //# field (updatedUtcTs)
     //##################################################
 
-    public String getAttachmentName()
+    public KmTimestamp getUpdatedUtcTs()
     {
-        return attachmentName;
+        return updatedUtcTs;
     }
 
-    public void setAttachmentName(String e)
+    public void setUpdatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getAttachmentNameValidator().convertOnly(e);
-        attachmentName = e;
+        e = Validator.getUpdatedUtcTsValidator().convert(e);
+        updatedUtcTs = e;
     }
 
-    public void clearAttachmentName()
+    public void clearUpdatedUtcTs()
     {
-        setAttachmentName(null);
+        setUpdatedUtcTs(null);
     }
 
-    public boolean hasAttachmentName()
+    public boolean hasUpdatedUtcTs()
     {
-        return Kmu.hasValue(getAttachmentName());
+        return getUpdatedUtcTs() != null;
     }
 
-    public boolean hasAttachmentName(String e)
+    public boolean hasUpdatedUtcTs(KmTimestamp e)
     {
-        return Kmu.isEqualIgnoreCase(getAttachmentName(), e);
-    }
-
-    public void truncateAttachmentName()
-    {
-        truncateAttachmentName(false);
-    }
-
-    public void truncateAttachmentName(boolean ellipses)
-    {
-        attachmentName = Kmu.truncate(attachmentName, 50, ellipses);
-    }
-
-    //##################################################
-    //# field (data)
-    //##################################################
-
-    public KmBlob getData()
-    {
-        return data;
-    }
-
-    public void setData(KmBlob e)
-    {
-        e = Validator.getDataValidator().convertOnly(e);
-        data = e;
-    }
-
-    public void clearData()
-    {
-        setData(null);
-    }
-
-    public boolean hasData()
-    {
-        return getData() != null;
-    }
-
-    public boolean hasData(KmBlob e)
-    {
-        return Kmu.isEqual(getData(), e);
+        return Kmu.isEqual(getUpdatedUtcTs(), e);
     }
 
     //##################################################
@@ -392,7 +428,7 @@ public abstract class MyEmailPartBase
 
     public void setLockVersion(Integer e)
     {
-        e = Validator.getLockVersionValidator().convertOnly(e);
+        e = Validator.getLockVersionValidator().convert(e);
         lockVersion = e;
     }
 
@@ -409,22 +445,6 @@ public abstract class MyEmailPartBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
-    {
-        return Kmu.hasValue(getDisplayString());
-    }
-
-    public boolean hasDisplayString(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
     }
 
     //##################################################
@@ -639,6 +659,11 @@ public abstract class MyEmailPartBase
         return null;
     }
 
+    public void setCreatedByFullName(String e)
+    {
+        getCreatedBy().setFullName(e);
+    }
+
     public boolean hasCreatedByFullName()
     {
         return hasCreatedBy() && getCreatedBy().hasFullName();
@@ -647,6 +672,40 @@ public abstract class MyEmailPartBase
     public boolean hasCreatedByFullName(String e)
     {
         return hasCreatedBy() && getCreatedBy().hasFullName(e);
+    }
+
+    //##################################################
+    //# email
+    //##################################################
+
+    public MyEmail getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(MyEmail e)
+    {
+        email = e;
+    }
+
+    public void _setEmail(MyEmail e)
+    {
+        email = e;
+    }
+
+    public void clearEmail()
+    {
+        setEmail(null);
+    }
+
+    public boolean hasEmail()
+    {
+        return getEmail() != null;
+    }
+
+    public boolean hasEmail(MyEmail e)
+    {
+        return Kmu.isEqual(getEmail(), e);
     }
 
     //##################################################
@@ -690,6 +749,11 @@ public abstract class MyEmailPartBase
         return null;
     }
 
+    public void setUpdatedByFullName(String e)
+    {
+        getUpdatedBy().setFullName(e);
+    }
+
     public boolean hasUpdatedByFullName()
     {
         return hasUpdatedBy() && getUpdatedBy().hasFullName();
@@ -700,60 +764,21 @@ public abstract class MyEmailPartBase
         return hasUpdatedBy() && getUpdatedBy().hasFullName(e);
     }
 
-    //##################################################
-    //# email
-    //##################################################
-
-    public MyEmail getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(MyEmail e)
-    {
-        email = e;
-    }
-
-    public void _setEmail(MyEmail e)
-    {
-        email = e;
-    }
-
-    public void clearEmail()
-    {
-        setEmail(null);
-    }
-
-    public boolean hasEmail()
-    {
-        return getEmail() != null;
-    }
-
-    public boolean hasEmail(MyEmail e)
-    {
-        return Kmu.isEqual(getEmail(), e);
-    }
-
 
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyEmailPartValidator getValidator()
     {
-        Validator.validate((MyEmailPart)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyEmailPart asSubclass()
     {
-        Validator.validateWarn((MyEmailPart)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyEmailPart)this);
+        return (MyEmailPart)this;
     }
 
     //##################################################
@@ -783,14 +808,39 @@ public abstract class MyEmailPartBase
     {
         MyEmailPart e;
         e = new MyEmailPart();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setUpdatedUtcTs(getUpdatedUtcTs());
-        e.setSequence(getSequence());
-        e.setTypeCode(getTypeCode());
-        e.setAttachmentName(getAttachmentName());
-        e.setData(getData());
+        applyEditableFieldsTo(e);
         resetBasicTimestamps();
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyEmailPart e)
+    {
+        e.setAttachmentName(getAttachmentName());
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setData(getData());
+        e.setSequence(getSequence());
+        e.setTypeCode(getTypeCode());
+        e.setUpdatedUtcTs(getUpdatedUtcTs());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyEmailPart e)
+    {
+        setAttachmentName(e.getAttachmentName());
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setData(e.getData());
+        setSequence(e.getSequence());
+        setTypeCode(e.getTypeCode());
+        setUpdatedUtcTs(e.getUpdatedUtcTs());
     }
 
     //##################################################
@@ -821,14 +871,16 @@ public abstract class MyEmailPartBase
 
     public boolean isSameIgnoringKey(MyEmailPart e)
     {
+        if ( !Kmu.isEqual(getAttachmentName(), e.getAttachmentName()) ) return false;
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getSequence(), e.getSequence()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getAttachmentName(), e.getAttachmentName()) ) return false;
-        if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
+        if ( !Kmu.isEqual(getUpdatedUtcTs(), e.getUpdatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
@@ -871,13 +923,13 @@ public abstract class MyEmailPartBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
+        System.out.println("    AttachmentName = " + attachmentName);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
+        System.out.println("    Data = " + data);
         System.out.println("    Sequence = " + sequence);
         System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    AttachmentName = " + attachmentName);
-        System.out.println("    Data = " + data);
+        System.out.println("    Uid = " + uid);
+        System.out.println("    UpdatedUtcTs = " + updatedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

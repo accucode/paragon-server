@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ public interface ScCoderConstantsIF
 
     String CODER_ACTION        = "a";
     String CODER_BOOLEAN       = "b";
+    String CODER_CONTROL       = "c";
     String CODER_DATE          = "d";
     String CODER_DATE_INTERVAL = "e";
     String CODER_DOUBLE        = "f";
@@ -45,5 +46,6 @@ public interface ScCoderConstantsIF
     String CODER_TIMESTAMP     = "u";
     String CODER_LIST          = "v";
     String CODER_VISIBILITY    = "y";
+    String CODER_TIME_ZONE     = "z";
 
 }

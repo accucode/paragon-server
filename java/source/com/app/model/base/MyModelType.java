@@ -21,29 +21,47 @@ public enum MyModelType
     //# values
     //##################################################
 
-    APPLICATION_LOG("ApplicationLog","ApplicationLog"),
-    AUDIT_LOG("AuditLog","AuditLog"),
-    AUTO_LOGIN("AutoLogin","AutoLogin"),
-    DOWNLOAD("Download","Download"),
-    EMAIL("Email","Email"),
-    EMAIL_PART("EmailPart","EmailPart"),
-    EMAIL_RECIPIENT("EmailRecipient","EmailRecipient"),
-    FIELD_TEST("FieldTest","FieldTest"),
-    FILE("File","File"),
-    HIBERNATE_CACHE_TEST("HibernateCacheTest","HibernateCacheTest"),
-    INVITATION("Invitation","Invitation"),
-    OPTIMISTIC_LOCK("OptimisticLock","OptimisticLock"),
-    PASSWORD_RESET("PasswordReset","PasswordReset"),
-    PATCH("Patch","Patch"),
-    PERFORMANCE_LOG_DETAIL("PerformanceLogDetail","PerformanceLogDetail"),
-    PERFORMANCE_LOG_SUMMARY("PerformanceLogSummary","PerformanceLogSummary"),
-    PROJECT("Project","Project"),
-    SERVER_SESSION("ServerSession","ServerSession"),
-    SETTINGS("Settings","Settings"),
-    TENANT("Tenant","Tenant"),
-    THREAD_TOPIC("ThreadTopic","ThreadTopic"),
-    USER("User","User"),
-    USER_ACTIVATION("UserActivation","UserActivation"),
+    ApplicationLog("ApplicationLog","ApplicationLog"),
+    Attachment("Attachment","Attachment"),
+    AuditBundle("AuditBundle","AuditBundle"),
+    AuditLog("AuditLog","AuditLog"),
+    AutoLogin("AutoLogin","AutoLogin"),
+    Blurb("Blurb","Blurb"),
+    Choice("Choice","Choice"),
+    Customer("Customer","Customer"),
+    CustomerContact("CustomerContact","CustomerContact"),
+    DefaultRecipient("DefaultRecipient","DefaultRecipient"),
+    Download("Download","Download"),
+    Email("Email","Email"),
+    EmailPart("EmailPart","EmailPart"),
+    EmailRecipient("EmailRecipient","EmailRecipient"),
+    EmailTemplate("EmailTemplate","EmailTemplate"),
+    Feedback("Feedback","Feedback"),
+    FieldTest("FieldTest","FieldTest"),
+    FilterTemplate("FilterTemplate","FilterTemplate"),
+    FilterTemplateItem("FilterTemplateItem","FilterTemplateItem"),
+    HibernateCacheTest("HibernateCacheTest","HibernateCacheTest"),
+    Holiday("Holiday","Holiday"),
+    Member("Member","Member"),
+    Note("Note","Note"),
+    OptimisticLock("OptimisticLock","OptimisticLock"),
+    PasswordReset("PasswordReset","PasswordReset"),
+    Patch("Patch","Patch"),
+    PerformanceLogDetail("PerformanceLogDetail","PerformanceLogDetail"),
+    PerformanceLogSummary("PerformanceLogSummary","PerformanceLogSummary"),
+    Priority("Priority","Priority"),
+    Project("Project","Project"),
+    ProjectContact("ProjectContact","ProjectContact"),
+    ServerSession("ServerSession","ServerSession"),
+    Settings("Settings","Settings"),
+    Site("Site","Site"),
+    SiteContact("SiteContact","SiteContact"),
+    Tenant("Tenant","Tenant"),
+    ThreadTopic("ThreadTopic","ThreadTopic"),
+    User("User","User"),
+    UserActivation("UserActivation","UserActivation"),
+    UserRecentProject("UserRecentProject","UserRecentProject"),
+    Vendor("Vendor","Vendor"),
     ;
 
     //##################################################
@@ -114,74 +132,128 @@ public enum MyModelType
     {
         switch ( this )
         {
-            case APPLICATION_LOG:
+            case ApplicationLog:
                 return MyApplicationLog.class;
 
-            case AUDIT_LOG:
+            case Attachment:
+                return MyAttachment.class;
+
+            case AuditBundle:
+                return MyAuditBundle.class;
+
+            case AuditLog:
                 return MyAuditLog.class;
 
-            case AUTO_LOGIN:
+            case AutoLogin:
                 return MyAutoLogin.class;
 
-            case DOWNLOAD:
+            case Blurb:
+                return MyBlurb.class;
+
+            case Choice:
+                return MyChoice.class;
+
+            case Customer:
+                return MyCustomer.class;
+
+            case CustomerContact:
+                return MyCustomerContact.class;
+
+            case DefaultRecipient:
+                return MyDefaultRecipient.class;
+
+            case Download:
                 return MyDownload.class;
 
-            case EMAIL:
+            case Email:
                 return MyEmail.class;
 
-            case EMAIL_PART:
+            case EmailPart:
                 return MyEmailPart.class;
 
-            case EMAIL_RECIPIENT:
+            case EmailRecipient:
                 return MyEmailRecipient.class;
 
-            case FIELD_TEST:
+            case EmailTemplate:
+                return MyEmailTemplate.class;
+
+            case Feedback:
+                return MyFeedback.class;
+
+            case FieldTest:
                 return MyFieldTest.class;
 
-            case FILE:
-                return MyFile.class;
+            case FilterTemplate:
+                return MyFilterTemplate.class;
 
-            case HIBERNATE_CACHE_TEST:
+            case FilterTemplateItem:
+                return MyFilterTemplateItem.class;
+
+            case HibernateCacheTest:
                 return MyHibernateCacheTest.class;
 
-            case INVITATION:
-                return MyInvitation.class;
+            case Holiday:
+                return MyHoliday.class;
 
-            case OPTIMISTIC_LOCK:
+            case Member:
+                return MyMember.class;
+
+            case Note:
+                return MyNote.class;
+
+            case OptimisticLock:
                 return MyOptimisticLock.class;
 
-            case PASSWORD_RESET:
+            case PasswordReset:
                 return MyPasswordReset.class;
 
-            case PATCH:
+            case Patch:
                 return MyPatch.class;
 
-            case PERFORMANCE_LOG_DETAIL:
+            case PerformanceLogDetail:
                 return MyPerformanceLogDetail.class;
 
-            case PERFORMANCE_LOG_SUMMARY:
+            case PerformanceLogSummary:
                 return MyPerformanceLogSummary.class;
 
-            case PROJECT:
+            case Priority:
+                return MyPriority.class;
+
+            case Project:
                 return MyProject.class;
 
-            case SERVER_SESSION:
+            case ProjectContact:
+                return MyProjectContact.class;
+
+            case ServerSession:
                 return MyServerSession.class;
 
-            case SETTINGS:
+            case Settings:
                 return MySettings.class;
 
-            case TENANT:
+            case Site:
+                return MySite.class;
+
+            case SiteContact:
+                return MySiteContact.class;
+
+            case Tenant:
                 return MyTenant.class;
 
-            case THREAD_TOPIC:
+            case ThreadTopic:
                 return MyThreadTopic.class;
 
-            case USER:
+            case User:
                 return MyUser.class;
 
-            case USER_ACTIVATION:
+            case UserActivation:
                 return MyUserActivation.class;
+
+            case UserRecentProject:
+                return MyUserRecentProject.class;
+
+            case Vendor:
+                return MyVendor.class;
 
         }
         throw Kmu.newEnumError(this);

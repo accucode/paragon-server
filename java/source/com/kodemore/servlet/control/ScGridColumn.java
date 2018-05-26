@@ -9,81 +9,55 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.renderer.ScRenderer;
-import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalFunction;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
 
 public class ScGridColumn<T>
 {
-    //##################################################
-    //# constants
-    //##################################################
-
-    private static final String               SORT_ASCENDING  = "asc";
-    private static final String               SORT_DESCENDING = "desc";
-
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * The unique key.
-     */
-    private String                            _key;
-
-    /**
      * The grid.
      */
-    private ScGrid<T>                         _grid;
+    private ScGrid<T> _grid;
 
     /**
      * The column header.
      */
-    private ScLocalString                     _header;
+    private ScLocalString _header;
 
     /**
      * The column width, in pixels.
      */
-    private ScLocalInteger                    _width;
+    private ScLocalInteger _width;
 
     /**
      * The horizontal alignment; left, right, center.
      */
-    private ScLocalString                     _alignment;
+    private ScLocalString _alignment;
 
     /**
      * If false the column is hidden by default.
      */
-    private ScLocalBoolean                    _visible;
-
-    /**
-     * If true, the client side grid will allow the user to
-     * select it for sorting.
-     */
-    private ScLocalBoolean                    _sortable;
-
-    /**
-     * Sort ascending (true), descending (false), or not sorted (null).
-     */
-    private ScLocalBoolean                    _defaultSort;
+    private ScLocalBoolean _visible;
 
     /**
      * Convert each row's model into a value for display in the
      * table's column.  The result must be compatible with the
      * default formatter, ScFormatter.printAny(Object)
      */
-    private ScLocalRenderer                   _displayRenderer;
+    private ScLocalRenderer _displayRenderer;
 
     /**
      * If non-null, include the column in data exports.
      */
-    private ScLocalFunction<T,Object>         _exportFunction;
+    private ScLocalFunction<T,Object> _exportFunction;
 
     /**
      * This consumer is called for each cell in order to determine
@@ -98,35 +72,17 @@ public class ScGridColumn<T>
 
     public ScGridColumn()
     {
-        _key = ScControlRegistry.getInstance().getNextKey();
+        // _key = ScControlRegistry.getInstance().getNextKey();
         _header = new ScLocalString();
         _width = new ScLocalInteger();
         _alignment = new ScLocalString();
         _visible = new ScLocalBoolean(true);
-
-        _sortable = new ScLocalBoolean(false);
-        _defaultSort = new ScLocalBoolean(null);
 
         _displayRenderer = new ScLocalRenderer();
         _exportFunction = new ScLocalFunction<>();
 
         alignLeft();
         setWidth(150);
-        setDefaultSort();
-    }
-
-    //##################################################
-    //# key
-    //##################################################
-
-    public String getKey()
-    {
-        return _key;
-    }
-
-    public boolean hasKey(String e)
-    {
-        return Kmu.isEqual(getKey(), e);
     }
 
     //##################################################
@@ -270,98 +226,6 @@ public class ScGridColumn<T>
     }
 
     //##################################################
-    //# sortable
-    //##################################################
-
-    public boolean getSortable()
-    {
-        return _sortable.getValue();
-    }
-
-    public void setSortable(boolean e)
-    {
-        _sortable.setValue(e);
-    }
-
-    public void setSortable()
-    {
-        setSortable(true);
-    }
-
-    public boolean isSortable()
-    {
-        return getSortable();
-    }
-
-    //##################################################
-    //# default sort order
-    //##################################################
-
-    public Boolean getDefaultSort()
-    {
-        return _defaultSort.getValue();
-    }
-
-    public void setDefaultSort(Boolean e)
-    {
-        if ( _grid != null )
-            _grid.clearDefaultSort();
-
-        _defaultSort.setValue(e);
-    }
-
-    public void setDefaultSort()
-    {
-        setDefaultSort(true);
-    }
-
-    public boolean hasDefaultSort()
-    {
-        return _defaultSort.hasValue();
-    }
-
-    public void clearDefaultSort()
-    {
-        _defaultSort.clearValue();
-    }
-
-    public String formatDefaultSort()
-    {
-        if ( !hasDefaultSort() )
-            return SORT_ASCENDING;
-
-        return getDefaultSort()
-            ? SORT_ASCENDING
-            : SORT_DESCENDING;
-    }
-
-    //##################################################
-    //# sort: request
-    //##################################################
-
-    /**
-     * Determine if the user requested to sort on this column.
-     */
-    public boolean isSorted()
-    {
-        return getSortOrder() != null;
-    }
-
-    /**
-     * The sort order requested by the user.
-     * Ascending (true), descending (false), not sorted (null).
-     */
-    public Boolean getSortOrder()
-    {
-        String name = getData().getParameter("sortname");
-        if ( !hasKey(name) )
-            return null;
-
-        String order = getData().getParameter("sortorder");
-        return !Kmu.isEqual(order, SORT_DESCENDING);
-    }
-
-    //##################################################
     //# display adaptor
     //##################################################
 
@@ -417,8 +281,6 @@ public class ScGridColumn<T>
     {
         KmJsonMap map;
         map = cells.addMap();
-        map.setString("name", getKey());
-
         map.setString("display", formatHeader());
 
         if ( hasWidth() )
@@ -427,7 +289,6 @@ public class ScGridColumn<T>
         if ( isHidden() )
             map.setBoolean("hide", true);
 
-        map.setBoolean("sortable", getSortable());
         map.setString("align", getAlignment());
     }
 
@@ -473,14 +334,4 @@ public class ScGridColumn<T>
             ? getHeader()
             : "";
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private ScServletData getData()
-    {
-        return ScServletData.getLocal();
-    }
-
 }

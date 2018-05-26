@@ -2,7 +2,7 @@ model
 : name      = performanceLogDetail
 : help...
     ---
-    A log for performance metrics.  We track a number of performance metrics on the active
+    A log for performance metrics.  We track a number of performance metrics on the
     system.  This is primarily used as a tool in production to identify hotspots that may
     require tuning and optimization.  Some care needs to be taken to avoid enabling so many
     metrics that the performance logging itself becomes a bottleneck.
@@ -15,6 +15,8 @@ database
     index
     : name  = name
     : on    = name
+    : on    = createdUtcTs
+    : on    = durationMs
 
     index
     : name  = createdUtcTs
@@ -30,6 +32,7 @@ attributes
 
 
     #include basicUid.stf
+    #include basicDisplay.stf
 
 
     field

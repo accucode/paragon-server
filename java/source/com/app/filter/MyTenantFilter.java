@@ -1,9 +1,9 @@
 package com.app.filter;
 
-import com.kodemore.utility.*;
+import com.kodemore.utility.KmEnumIF;
 
-import com.app.criteria.*;
-import com.app.filter.base.*;
+import com.app.criteria.MyTenantCriteria;
+import com.app.filter.base.MyTenantFilterBase;
 
 public class MyTenantFilter
     extends MyTenantFilterBase

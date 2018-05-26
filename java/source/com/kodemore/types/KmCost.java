@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,10 @@ public class KmCost
     //# constants
     //##################################################
 
-    public static final KmCost ZERO               = new KmCost(0);
+    public static final KmCost ZERO = new KmCost(0);
 
-    public static final int    DATABASE_PRECISION = 20;
-    public static final int    SCALE              = 5;
+    public static final int DATABASE_PRECISION = 20;
+    public static final int SCALE              = 5;
 
     //##################################################
     //# constructor

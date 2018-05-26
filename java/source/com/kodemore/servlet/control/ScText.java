@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.variable.ScLocalRenderer;
-import com.kodemore.utility.KmCompressMemoryIF;
 
 /**
  * I represent simple html text.
@@ -57,6 +56,15 @@ public class ScText
     public ScText()
     {
         _value = new ScLocalRenderer();
+    }
+
+    //##################################################
+    //# empty text
+    //##################################################
+
+    public void setEmptyText(String e)
+    {
+        _value.setEmptyText(e);
     }
 
     //##################################################
@@ -102,20 +110,4 @@ public class ScText
     {
         _value.renderOn(out, this, getModel());
     }
-
-    //##################################################
-    //# compress
-    //##################################################
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory()
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-
-        _value.compressMemory();
-    }
-
 }

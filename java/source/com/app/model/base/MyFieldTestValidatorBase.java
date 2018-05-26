@@ -12,6 +12,7 @@ import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.exception.error.*;
 import com.kodemore.time.*;
+import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
@@ -35,21 +36,21 @@ public class MyFieldTestValidatorBase
     //# variables
     //##################################################
 
-    private KmStringValidator uidValidator;
+    private KmBooleanValidator booleanTestValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator updatedUtcTsValidator;
-    private KmStringValidator nameValueValidator;
+    private KmDateValidator dateTestValidator;
+    private KmDayFrequencyValidator dayFrequencyValidator;
+    private KmDoubleValidator doubleTestValidator;
+    private KmDurationValidator durationValidator;
     private KmIntegerValidator integerValueValidator;
     private KmLongValidator longTestValidator;
-    private KmDoubleValidator doubleTestValidator;
     private KmMoneyValidator moneyTestValidator;
-    private KmBooleanValidator booleanTestValidator;
-    private KmDateValidator dateTestValidator;
-    private KmTimestampValidator timestampTestValidator;
+    private KmStringValidator nameValueValidator;
     private KmStringValidator pinNumber1Validator;
     private KmStringValidator pinNumber2Validator;
-    private KmDurationValidator durationValidator;
-    private KmDayFrequencyValidator dayFrequencyValidator;
+    private KmTimestampValidator timestampTestValidator;
+    private KmStringValidator uidValidator;
+    private KmTimestampValidator updatedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -59,21 +60,21 @@ public class MyFieldTestValidatorBase
     protected MyFieldTestValidatorBase()
     {
         super();
-        uidValidator = newUidValidator();
+        booleanTestValidator = newBooleanTestValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        updatedUtcTsValidator = newUpdatedUtcTsValidator();
-        nameValueValidator = newNameValueValidator();
+        dateTestValidator = newDateTestValidator();
+        dayFrequencyValidator = newDayFrequencyValidator();
+        doubleTestValidator = newDoubleTestValidator();
+        durationValidator = newDurationValidator();
         integerValueValidator = newIntegerValueValidator();
         longTestValidator = newLongTestValidator();
-        doubleTestValidator = newDoubleTestValidator();
         moneyTestValidator = newMoneyTestValidator();
-        booleanTestValidator = newBooleanTestValidator();
-        dateTestValidator = newDateTestValidator();
-        timestampTestValidator = newTimestampTestValidator();
+        nameValueValidator = newNameValueValidator();
         pinNumber1Validator = newPinNumber1Validator();
         pinNumber2Validator = newPinNumber2Validator();
-        durationValidator = newDurationValidator();
-        dayFrequencyValidator = newDayFrequencyValidator();
+        timestampTestValidator = newTimestampTestValidator();
+        uidValidator = newUidValidator();
+        updatedUtcTsValidator = newUpdatedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -81,9 +82,9 @@ public class MyFieldTestValidatorBase
     //# accessing
     //##################################################
 
-    public KmStringValidator getUidValidator()
+    public KmBooleanValidator getBooleanTestValidator()
     {
-        return uidValidator;
+        return booleanTestValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -91,14 +92,24 @@ public class MyFieldTestValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmTimestampValidator getUpdatedUtcTsValidator()
+    public KmDateValidator getDateTestValidator()
     {
-        return updatedUtcTsValidator;
+        return dateTestValidator;
     }
 
-    public KmStringValidator getNameValueValidator()
+    public KmDayFrequencyValidator getDayFrequencyValidator()
     {
-        return nameValueValidator;
+        return dayFrequencyValidator;
+    }
+
+    public KmDoubleValidator getDoubleTestValidator()
+    {
+        return doubleTestValidator;
+    }
+
+    public KmDurationValidator getDurationValidator()
+    {
+        return durationValidator;
     }
 
     public KmIntegerValidator getIntegerValueValidator()
@@ -111,29 +122,14 @@ public class MyFieldTestValidatorBase
         return longTestValidator;
     }
 
-    public KmDoubleValidator getDoubleTestValidator()
-    {
-        return doubleTestValidator;
-    }
-
     public KmMoneyValidator getMoneyTestValidator()
     {
         return moneyTestValidator;
     }
 
-    public KmBooleanValidator getBooleanTestValidator()
+    public KmStringValidator getNameValueValidator()
     {
-        return booleanTestValidator;
-    }
-
-    public KmDateValidator getDateTestValidator()
-    {
-        return dateTestValidator;
-    }
-
-    public KmTimestampValidator getTimestampTestValidator()
-    {
-        return timestampTestValidator;
+        return nameValueValidator;
     }
 
     public KmStringValidator getPinNumber1Validator()
@@ -146,14 +142,19 @@ public class MyFieldTestValidatorBase
         return pinNumber2Validator;
     }
 
-    public KmDurationValidator getDurationValidator()
+    public KmTimestampValidator getTimestampTestValidator()
     {
-        return durationValidator;
+        return timestampTestValidator;
     }
 
-    public KmDayFrequencyValidator getDayFrequencyValidator()
+    public KmStringValidator getUidValidator()
     {
-        return dayFrequencyValidator;
+        return uidValidator;
+    }
+
+    public KmTimestampValidator getUpdatedUtcTsValidator()
+    {
+        return updatedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -169,44 +170,44 @@ public class MyFieldTestValidatorBase
     public void convertOnly(MyFieldTest value)
     {
         // fields...
-        value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setUpdatedUtcTs(updatedUtcTsValidator.convertOnly(value.getUpdatedUtcTs()));
-        value.setNameValue(nameValueValidator.convertOnly(value.getNameValue()));
-        value.setIntegerValue(integerValueValidator.convertOnly(value.getIntegerValue()));
-        value.setLongTest(longTestValidator.convertOnly(value.getLongTest()));
-        value.setDoubleTest(doubleTestValidator.convertOnly(value.getDoubleTest()));
-        value.setMoneyTest(moneyTestValidator.convertOnly(value.getMoneyTest()));
-        value.setBooleanTest(booleanTestValidator.convertOnly(value.getBooleanTest()));
-        value.setDateTest(dateTestValidator.convertOnly(value.getDateTest()));
-        value.setTimestampTest(timestampTestValidator.convertOnly(value.getTimestampTest()));
-        value.setPinNumber1(pinNumber1Validator.convertOnly(value.getPinNumber1()));
-        value.setPinNumber2(pinNumber2Validator.convertOnly(value.getPinNumber2()));
-        value.setDuration(durationValidator.convertOnly(value.getDuration()));
-        value.setDayFrequency(dayFrequencyValidator.convertOnly(value.getDayFrequency()));
-        value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
+        value.setBooleanTest(booleanTestValidator.convert(value.getBooleanTest()));
+        value.setCreatedUtcTs(createdUtcTsValidator.convert(value.getCreatedUtcTs()));
+        value.setDateTest(dateTestValidator.convert(value.getDateTest()));
+        value.setDayFrequency(dayFrequencyValidator.convert(value.getDayFrequency()));
+        value.setDoubleTest(doubleTestValidator.convert(value.getDoubleTest()));
+        value.setDuration(durationValidator.convert(value.getDuration()));
+        value.setIntegerValue(integerValueValidator.convert(value.getIntegerValue()));
+        value.setLongTest(longTestValidator.convert(value.getLongTest()));
+        value.setMoneyTest(moneyTestValidator.convert(value.getMoneyTest()));
+        value.setNameValue(nameValueValidator.convert(value.getNameValue()));
+        value.setPinNumber1(pinNumber1Validator.convert(value.getPinNumber1()));
+        value.setPinNumber2(pinNumber2Validator.convert(value.getPinNumber2()));
+        value.setTimestampTest(timestampTestValidator.convert(value.getTimestampTest()));
+        value.setUid(uidValidator.convert(value.getUid()));
+        value.setUpdatedUtcTs(updatedUtcTsValidator.convert(value.getUpdatedUtcTs()));
+        value.setLockVersion(lockVersionValidator.convert(value.getLockVersion()));
     }
 
     @Override
-    public void validateOnly(MyFieldTest value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyFieldTest value, KmErrorList errors)
     {
         // fields...
-        uidValidator.validateOnly(value.getUid(), errors);
-        createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        updatedUtcTsValidator.validateOnly(value.getUpdatedUtcTs(), errors);
-        nameValueValidator.validateOnly(value.getNameValue(), errors);
-        integerValueValidator.validateOnly(value.getIntegerValue(), errors);
-        longTestValidator.validateOnly(value.getLongTest(), errors);
-        doubleTestValidator.validateOnly(value.getDoubleTest(), errors);
-        moneyTestValidator.validateOnly(value.getMoneyTest(), errors);
-        booleanTestValidator.validateOnly(value.getBooleanTest(), errors);
-        dateTestValidator.validateOnly(value.getDateTest(), errors);
-        timestampTestValidator.validateOnly(value.getTimestampTest(), errors);
-        pinNumber1Validator.validateOnly(value.getPinNumber1(), errors);
-        pinNumber2Validator.validateOnly(value.getPinNumber2(), errors);
-        durationValidator.validateOnly(value.getDuration(), errors);
-        dayFrequencyValidator.validateOnly(value.getDayFrequency(), errors);
-        lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        booleanTestValidator.validateOn(value.getBooleanTest(), errors);
+        createdUtcTsValidator.validateOn(value.getCreatedUtcTs(), errors);
+        dateTestValidator.validateOn(value.getDateTest(), errors);
+        dayFrequencyValidator.validateOn(value.getDayFrequency(), errors);
+        doubleTestValidator.validateOn(value.getDoubleTest(), errors);
+        durationValidator.validateOn(value.getDuration(), errors);
+        integerValueValidator.validateOn(value.getIntegerValue(), errors);
+        longTestValidator.validateOn(value.getLongTest(), errors);
+        moneyTestValidator.validateOn(value.getMoneyTest(), errors);
+        nameValueValidator.validateOn(value.getNameValue(), errors);
+        pinNumber1Validator.validateOn(value.getPinNumber1(), errors);
+        pinNumber2Validator.validateOn(value.getPinNumber2(), errors);
+        timestampTestValidator.validateOn(value.getTimestampTest(), errors);
+        uidValidator.validateOn(value.getUid(), errors);
+        updatedUtcTsValidator.validateOn(value.getUpdatedUtcTs(), errors);
+        lockVersionValidator.validateOn(value.getLockVersion(), errors);
         // required associations...
     }
 
@@ -214,15 +215,12 @@ public class MyFieldTestValidatorBase
     //# instance creation
     //##################################################
 
-    public KmStringValidator newUidValidator()
+    public KmBooleanValidator newBooleanTestValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("fieldTest");
-        e.setField("uid");
-        e.setRequired();
+        KmBooleanValidator e;
+        e = new KmBooleanValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("booleanTest");
         return e;
     }
 
@@ -230,48 +228,27 @@ public class MyFieldTestValidatorBase
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
-        e.setModel("fieldTest");
-        e.setField("createdUtcTs");
+        e.setModelName("fieldTest");
+        e.setFieldName("createdUtcTs");
         e.setRequired();
         return e;
     }
 
-    public KmTimestampValidator newUpdatedUtcTsValidator()
+    public KmDateValidator newDateTestValidator()
     {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("fieldTest");
-        e.setField("updatedUtcTs");
-        e.setRequired();
+        KmDateValidator e;
+        e = new KmDateValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("dateTest");
         return e;
     }
 
-    public KmStringValidator newNameValueValidator()
+    public KmDayFrequencyValidator newDayFrequencyValidator()
     {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("fieldTest");
-        e.setField("nameValue");
-        return e;
-    }
-
-    public KmIntegerValidator newIntegerValueValidator()
-    {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
-        e.setModel("fieldTest");
-        e.setField("integerValue");
-        return e;
-    }
-
-    public KmLongValidator newLongTestValidator()
-    {
-        KmLongValidator e;
-        e = new KmLongValidator();
-        e.setModel("fieldTest");
-        e.setField("longTest");
+        KmDayFrequencyValidator e;
+        e = new KmDayFrequencyValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("dayFrequency");
         return e;
     }
 
@@ -281,8 +258,35 @@ public class MyFieldTestValidatorBase
         e = new KmDoubleValidator();
         e.setAllDigits(8);
         e.setRightDigits(2);
-        e.setModel("fieldTest");
-        e.setField("doubleTest");
+        e.setModelName("fieldTest");
+        e.setFieldName("doubleTest");
+        return e;
+    }
+
+    public KmDurationValidator newDurationValidator()
+    {
+        KmDurationValidator e;
+        e = new KmDurationValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("duration");
+        return e;
+    }
+
+    public KmIntegerValidator newIntegerValueValidator()
+    {
+        KmIntegerValidator e;
+        e = new KmIntegerValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("integerValue");
+        return e;
+    }
+
+    public KmLongValidator newLongTestValidator()
+    {
+        KmLongValidator e;
+        e = new KmLongValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("longTest");
         return e;
     }
 
@@ -290,35 +294,19 @@ public class MyFieldTestValidatorBase
     {
         KmMoneyValidator e;
         e = new KmMoneyValidator();
-        e.setModel("fieldTest");
-        e.setField("moneyTest");
+        e.setModelName("fieldTest");
+        e.setFieldName("moneyTest");
         return e;
     }
 
-    public KmBooleanValidator newBooleanTestValidator()
+    public KmStringValidator newNameValueValidator()
     {
-        KmBooleanValidator e;
-        e = new KmBooleanValidator();
-        e.setModel("fieldTest");
-        e.setField("booleanTest");
-        return e;
-    }
-
-    public KmDateValidator newDateTestValidator()
-    {
-        KmDateValidator e;
-        e = new KmDateValidator();
-        e.setModel("fieldTest");
-        e.setField("dateTest");
-        return e;
-    }
-
-    public KmTimestampValidator newTimestampTestValidator()
-    {
-        KmTimestampValidator e;
-        e = new KmTimestampValidator();
-        e.setModel("fieldTest");
-        e.setField("timestampTest");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModelName("fieldTest");
+        e.setFieldName("nameValue");
         return e;
     }
 
@@ -328,8 +316,8 @@ public class MyFieldTestValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(5);
         e.setAllowsPrintable(true);
-        e.setModel("fieldTest");
-        e.setField("pinNumber1");
+        e.setModelName("fieldTest");
+        e.setFieldName("pinNumber1");
         return e;
     }
 
@@ -339,26 +327,39 @@ public class MyFieldTestValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(5);
         e.setAllowsPrintable(true);
-        e.setModel("fieldTest");
-        e.setField("pinNumber2");
+        e.setModelName("fieldTest");
+        e.setFieldName("pinNumber2");
         return e;
     }
 
-    public KmDurationValidator newDurationValidator()
+    public KmTimestampValidator newTimestampTestValidator()
     {
-        KmDurationValidator e;
-        e = new KmDurationValidator();
-        e.setModel("fieldTest");
-        e.setField("duration");
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("timestampTest");
         return e;
     }
 
-    public KmDayFrequencyValidator newDayFrequencyValidator()
+    public KmStringValidator newUidValidator()
     {
-        KmDayFrequencyValidator e;
-        e = new KmDayFrequencyValidator();
-        e.setModel("fieldTest");
-        e.setField("dayFrequency");
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModelName("fieldTest");
+        e.setFieldName("uid");
+        e.setRequired();
+        return e;
+    }
+
+    public KmTimestampValidator newUpdatedUtcTsValidator()
+    {
+        KmTimestampValidator e;
+        e = new KmTimestampValidator();
+        e.setModelName("fieldTest");
+        e.setFieldName("updatedUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -366,8 +367,9 @@ public class MyFieldTestValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("fieldTest");
-        e.setField("lockVersion");
+        e.setModelName("fieldTest");
+        e.setFieldName("lockVersion");
+        e.setRequired();
         return e;
     }
 

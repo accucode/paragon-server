@@ -17,6 +17,8 @@ public abstract class KmMetaAttribute<T, V>
 
     public abstract String getHelp();
 
+    public abstract boolean isRequired();
+
     //##################################################
     //# tools
     //##################################################

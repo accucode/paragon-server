@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,12 @@
 
 package com.kodemore.html;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -34,6 +36,7 @@ import com.kodemore.servlet.script.ScSimpleBlockScript;
 import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmHtmlLineEnding;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -46,12 +49,12 @@ public class KmHtmlBuilder
     //# static
     //##################################################
 
-    private static final char   CHAR_CR               = '\r';
-    private static final char   CHAR_LF               = '\n';
+    private static final char CHAR_CR = '\r';
+    private static final char CHAR_LF = '\n';
 
-    private static final String CR                    = "" + CHAR_CR;
-    private static final String LF                    = "" + CHAR_LF;
-    private static final String CRLF                  = CR + LF;
+    private static final String CR   = "" + CHAR_CR;
+    private static final String LF   = "" + CHAR_LF;
+    private static final String CRLF = CR + LF;
 
     private static final String DATA_ATTRIBUTE_PREFIX = "data-";
 
@@ -62,7 +65,7 @@ public class KmHtmlBuilder
     /**
      * The buffer onto which the content is rendered.
      */
-    private KmStringBuilder     _buffer;
+    private KmStringBuilder _buffer;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -71,7 +74,7 @@ public class KmHtmlBuilder
      * offscreen, or hidden. This allows us to render and
      * initialize complex html before its made visible.
      */
-    private ScBlockScript       _postDom;
+    private ScBlockScript _postDom;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -81,7 +84,7 @@ public class KmHtmlBuilder
      * But a some scripts must be delayed until after the
      * html is visible; such as setFocus.
      */
-    private ScBlockScript       _postRender;
+    private ScBlockScript _postRender;
 
     //##################################################
     //# constructor
@@ -209,6 +212,11 @@ public class KmHtmlBuilder
 
     public void printAttribute(String key, String value)
     {
+        printAttribute(key, value, KmHtmlLineEnding.EncodedLineFeed);
+    }
+
+    public void printAttribute(String key, String value, KmHtmlLineEnding lineEnding)
+    {
         if ( value == null )
             return;
 
@@ -216,13 +224,8 @@ public class KmHtmlBuilder
         _buffer.append(key);
         _buffer.append("=");
         _buffer.append(KmConstantsIF.TICK);
-        _buffer.append(escapeAttribute(value));
+        _buffer.append(Kmu.escapeHtml(value, lineEnding));
         _buffer.append(KmConstantsIF.TICK);
-    }
-
-    private String escapeAttribute(String value)
-    {
-        return Kmu.escapeHtml(value, false);
     }
 
     public void printAttribute(String key, Integer i)
@@ -287,6 +290,14 @@ public class KmHtmlBuilder
     {
         if ( value == null )
             value = false;
+
+        printAttribute(DATA_ATTRIBUTE_PREFIX + key, value);
+    }
+
+    public void printDataAttribute(String key, Integer value)
+    {
+        if ( value == null )
+            value = 0;
 
         printAttribute(DATA_ATTRIBUTE_PREFIX + key, value);
     }
@@ -480,7 +491,7 @@ public class KmHtmlBuilder
 
     public void printMetaCharset(String charset)
     {
-        String content = "text/html;charset=" + charset;
+        String content = "text/html; charset=" + charset;
 
         open("meta");
         printAttribute("http-equiv", "content-type");
@@ -490,9 +501,28 @@ public class KmHtmlBuilder
         printLiteralLine();
     }
 
-    public void printMetaCharsetUtf8()
+    public void printMetaContentTypeHtml()
     {
-        printMetaCharset("UTF-8");
+        String type = "text/html";
+        printMetaContentType(type);
+    }
+
+    public void printMetaContentType(String type)
+    {
+        Charset charset = ScConstantsIF.WEB_CHARSET;
+        printMetaContentType(type, charset);
+    }
+
+    public void printMetaContentType(String type, Charset charset)
+    {
+        String content = Kmu.format("%s; %s", type, charset.name());
+
+        open("meta");
+        printAttribute("http-equiv", "content-type");
+        printAttribute("content", content);
+        close();
+
+        printLiteralLine();
     }
 
     //##################################################
@@ -653,15 +683,13 @@ public class KmHtmlBuilder
 
     public void print(Object e)
     {
-        boolean useBreaks = true;
-        String s = format(e, useBreaks);
+        String s = format(e, KmHtmlLineEnding.BreakElement);
         _buffer.append(s);
     }
 
     public void printNoBreaks(Object e)
     {
-        boolean useBreaks = false;
-        String s = format(e, useBreaks);
+        String s = format(e, KmHtmlLineEnding.LineFeed);
         _buffer.append(s);
     }
 
@@ -695,8 +723,7 @@ public class KmHtmlBuilder
 
     public void printNonBreaking(Object e)
     {
-        boolean useBreaks = true;
-        String s = format(e, useBreaks);
+        String s = format(e, KmHtmlLineEnding.BreakElement);
         s = Kmu.replaceAll(s, " ", "&nbsp;");
         _buffer.append(s);
     }
@@ -939,7 +966,7 @@ public class KmHtmlBuilder
      * Print the help triangle in the upper right corner of the container.
      * This uses absolute position; the container must have a non-static position.
      *
-     * @param msg The message to display.  Do nothing if this is empty.
+     * @param msg The plain text message to display. Do nothing if this is empty.
      * @param x If non-null, adjust the x position; positive moves right.
      * @param y If non-null, adjust the y position; positive moves up.
      * @param z If non-null, override the z-index.
@@ -949,7 +976,7 @@ public class KmHtmlBuilder
         if ( Kmu.isEmpty(msg) )
             return;
 
-        String url = ScUrlBridge.getInstance().getHelpIndicatorUrl();
+        String url = ScUrlBridge.getInstance().getHelpTriangleUrl();
 
         KmCssDefaultBuilder css;
         css = new KmCssDefaultBuilder();
@@ -1235,14 +1262,13 @@ public class KmHtmlBuilder
     /**
      * Convert e to a string.
      * Encode the string as html.
-     * If useBreaks is true, convert line-endings to break-tags.
      */
-    private String format(Object e, boolean useBreaks)
+    private String format(Object e, KmHtmlLineEnding lineEnding)
     {
         if ( e == null )
             return "";
 
-        return Kmu.escapeHtml(e.toString(), useBreaks);
+        return Kmu.escapeHtml(e.toString(), lineEnding);
     }
 
     //##################################################

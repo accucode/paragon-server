@@ -20,21 +20,22 @@ public class MyAddressField
     //# variables
     //##################################################
 
-    private ScLocalBoolean      _readonly;
+    private ScLocalBoolean _readonly;
 
-    private ScTextField         _attentionField;
-    private ScTextField         _phoneField;
-    private ScTextField         _street1Field;
-    private ScTextField         _street2Field;
-    private ScTextField         _cityField;
-    private ScTextField         _regionField;
-    private ScTextField         _postalCodeField;
-    private ScTextField         _countryField;
+    private ScTextField _usAttentionField;
+    private ScTextField _usStreet1Field;
+    private ScTextField _usStreet2Field;
+    private ScTextField _usCityField;
+    private ScTextField _usRegionField;
+    private ScTextField _usPostalCodeField;
+    private ScTextField _usCountryField;
+    private ScTextField _usPhoneField;
 
     /**
-     * The list of fields used in the address.
+     * If set the applyFromModel and applyToModel will use this adaptor
+     * to get/set the address.
      */
-    private KmList<ScTextField> _fields;
+    private ScLocalAdaptor _valueAdaptor;
 
     /**
      * If true (the default), the value is encoded into an html data- attribute
@@ -44,13 +45,7 @@ public class MyAddressField
      * Change tracking should be set during initial page initialization, and should
      * NOT be modified while processing a page.
      */
-    private boolean             _changeTracking;
-
-    /**
-     * If set the applyFromModel and applyToModel will use this adaptor
-     * to get/set the address.
-     */
-    private ScLocalAdaptor      _valueAdaptor;
+    private boolean _changeTracking;
 
     //##################################################
     //# constructor
@@ -59,138 +54,135 @@ public class MyAddressField
     public MyAddressField()
     {
         _readonly = new ScLocalBoolean();
-
-        _changeTracking = true;
         _valueAdaptor = new ScLocalAdaptor();
+        _changeTracking = true;
 
-        installFields();
-        installLayout();
+        install();
     }
 
     //##################################################
     //# install
     //##################################################
 
-    private void installFields()
-    {
-        _attentionField = createAttentionField();
-        _street1Field = createStreet1Field();
-        _street2Field = createStreet2Field();
-        _cityField = createCityField();
-        _regionField = createRegionField();
-        _postalCodeField = createPostalCodeField();
-        _countryField = createCountryField();
-        _phoneField = createPhoneField();
-
-        _fields = new KmList<>();
-        _fields.add(_attentionField);
-        _fields.add(_street1Field);
-        _fields.add(_street2Field);
-        _fields.add(_cityField);
-        _fields.add(_regionField);
-        _fields.add(_postalCodeField);
-        _fields.add(_countryField);
-        _fields.add(_phoneField);
-    }
-
-    private void installLayout()
+    private void install()
     {
         ScFieldTable fields;
         fields = getInner().addFieldTable();
-        fields.css().widthFull();
+        fields.add(createAttentionField());
+        fields.add(createStreet1Field());
+        fields.add(createStreet2Field());
+        fields.add(createCityField());
+        fields.add(createRegionField());
+        fields.add(createPostalCodeField());
+        fields.add(createCountryField());
+        fields.add(createPhoneField());
+    }
 
-        fields.add(_attentionField);
-        fields.add(_street1Field);
-        fields.add(_street2Field);
-        fields.add(_cityField);
-        fields.add(_regionField);
-        fields.add(_postalCodeField);
-        fields.add(_countryField);
-        fields.add(_phoneField);
+    private KmList<ScTextField> getFields()
+    {
+        KmList<ScTextField> v;
+        v = new KmList<>();
+        v.add(_usAttentionField);
+        v.add(_usStreet1Field);
+        v.add(_usStreet2Field);
+        v.add(_usCityField);
+        v.add(_usRegionField);
+        v.add(_usPostalCodeField);
+        v.add(_usCountryField);
+        v.add(_usPhoneField);
+        return v;
     }
 
     //==================================================
-    //= install :: create fields
+    //= install :: fields
     //==================================================
 
     private ScTextField createAttentionField()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Attention");
-        field.setWidthFull();
-        field.setHelp("The name of the person this is addressed to.  Example: John Doe");
-        return field;
-    }
-
-    private ScTextField createPhoneField()
-    {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Phone");
-        field.setWidthFull();
-        field.setHelp("The Phone number.  Example: 303-123-4567");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Attention");
+        e.setHelp("The name of the person this is addressed to.  Example: John Doe");
+        e.layoutInline(200);
+        _usAttentionField = e;
+        return e;
     }
 
     private ScTextField createStreet1Field()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Street 1");
-        field.setWidthFull();
-        field.setHelp("House number and street name.  Example: 1234 N Main Street");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Street 1");
+        e.setHelp("House number and street name. Example: 1234 N Main Street");
+        e.layoutInline(300);
+        _usStreet1Field = e;
+        return e;
     }
 
     private ScTextField createStreet2Field()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Street 2");
-        field.setWidthFull();
-        field.setHelp("Apartment or suite number.  Example: Suite 200");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Street 2");
+        e.setHelp("Apartment or suite number. Example: Suite 200");
+        e.layoutInline(300);
+        _usStreet2Field = e;
+        return e;
     }
 
     private ScTextField createCityField()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("City");
-        field.setWidthFull();
-        field.setHelp("Example: Denver");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("City");
+        e.setHelp("Example: Denver");
+        e.layoutInline(200);
+        _usCityField = e;
+        return e;
     }
 
     private ScTextField createRegionField()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Region");
-        field.setWidthFull();
-        field.setHelp("For US addresses, this is the state. Example: Colorado");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("State");
+        e.setHelp("For US addresses, this is the state. Example: Colorado");
+        e.layoutInline(100);
+        _usRegionField = e;
+        return e;
     }
 
     private ScTextField createPostalCodeField()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Postal Code");
-        field.setWidthFull();
-        field.setHelp("For US addresses, this is ZIP code.  Example: 80111");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Zip Code");
+        e.setHelp("For US addresses, this is ZIP code.  Example: 80111");
+        e.layoutInline(100);
+        _usPostalCodeField = e;
+        return e;
     }
 
     private ScTextField createCountryField()
     {
-        ScTextField field;
-        field = new ScTextField();
-        field.setLabel("Country");
-        field.setWidthFull();
-        field.setHelp("Example: USA");
-        return field;
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Country");
+        e.setHelp("Example: USA");
+        e.layoutInline(200);
+        _usCountryField = e;
+        return e;
+    }
+
+    private ScTextField createPhoneField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Phone");
+        e.setHelp("The Phone number.  Example: 303-123-4567");
+        e.layoutInline(200);
+        _usPhoneField = e;
+        return e;
     }
 
     //##################################################
@@ -226,47 +218,56 @@ public class MyAddressField
     @Override
     public MyAddressIF getValue()
     {
-        MyAddressVo value;
-        value = new MyAddressVo();
-        value.setAttention(_attentionField.getValue());
-        value.setStreet1(_street1Field.getValue());
-        value.setStreet2(_street2Field.getValue());
-        value.setCity(_cityField.getValue());
-        value.setRegion(_regionField.getValue());
-        value.setPostalCode(_postalCodeField.getValue());
-        value.setCountry(_countryField.getValue());
-        value.setPhone(_phoneField.getValue());
-        return value;
+        MyAddressVo e;
+        e = new MyAddressVo();
+        e.setAttention(_usAttentionField.getValue());
+        e.setStreet1(_usStreet1Field.getValue());
+        e.setStreet2(_usStreet2Field.getValue());
+        e.setCity(_usCityField.getValue());
+        e.setRegion(_usRegionField.getValue());
+        e.setPostalCode(_usPostalCodeField.getValue());
+        e.setCountry(_usCountryField.getValue());
+        e.setPhone(_usPhoneField.getValue());
+        return e;
     }
 
     @Override
-    public void setValue(MyAddressIF value)
+    public void setValue(MyAddressIF e)
     {
-        _attentionField.setValue(value.getAttention());
-        _street1Field.setValue(value.getStreet1());
-        _street2Field.setValue(value.getStreet2());
-        _cityField.setValue(value.getCity());
-        _regionField.setValue(value.getRegion());
-        _postalCodeField.setValue(value.getPostalCode());
-        _countryField.setValue(value.getCountry());
-        _phoneField.setValue(value.getPhone());
+        if ( e == null )
+        {
+            clearValue();
+            return;
+        }
+
+        _usAttentionField.setValue(e.getAttention());
+        _usStreet1Field.setValue(e.getStreet1());
+        _usStreet2Field.setValue(e.getStreet2());
+        _usCityField.setValue(e.getCity());
+        _usRegionField.setValue(e.getRegion());
+        _usPostalCodeField.setValue(e.getPostalCode());
+        _usCountryField.setValue(e.getCountry());
+        _usPhoneField.setValue(e.getPhone());
     }
 
     @Override
     public void saveValue()
     {
-        _fields.forEach(e -> e.saveValue());
+        for ( ScTextField e : getFields() )
+            e.saveValue();
     }
 
     @Override
     public void resetValue()
     {
-        _fields.forEach(e -> e.resetValue());
+        for ( ScTextField e : getFields() )
+            e.resetValue();
     }
 
     public void clearValue()
     {
-        _fields.forEach(e -> e.clearValue());
+        for ( ScTextField e : getFields() )
+            e.clearValue();
     }
 
     //##################################################
@@ -300,7 +301,7 @@ public class MyAddressField
     //##################################################
 
     @Override
-    protected boolean applyFromModel_here(Object model, boolean skipFields)
+    protected boolean applyFromModel_here(Object model)
     {
         if ( !hasValueAdaptor() )
             return true;
@@ -331,10 +332,12 @@ public class MyAddressField
         setReadonly(true);
     }
 
-    public void setReadonly(boolean e)
+    public void setReadonly(boolean b)
     {
-        _readonly.setValue(e);
-        _fields.forEach(x -> x.setReadOnly(e));
+        _readonly.setValue(b);
+
+        for ( ScTextField e : getFields() )
+            e.setReadOnly(b);
     }
 
     public void enable()
@@ -371,7 +374,7 @@ public class MyAddressField
     {
         warnIfInstalled();
         _changeTracking = e;
-        _fields.forEach(x -> x.setChangeTracking(e));
+        getFields().forEach(x -> x.setChangeTracking(e));
     }
 
     public void disableChangeTracking()

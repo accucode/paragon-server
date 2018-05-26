@@ -37,52 +37,174 @@ public class MyPerformanceLogSummaryCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereUidIs(MyPerformanceLogSummary e)
+    {
+        whereUid().is(e.getUid());
+    }
+
+    public void whereUidIsNot(MyPerformanceLogSummary e)
+    {
+        whereUid().isNot(e.getUid());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
+    public KmhIntegerCondition whereAverageMs()
     {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
-    public KmhDateCondition whereUtcDate()
-    {
-        return new KmhDateCondition(context(), fullName(UTC_DATE));
-    }
-
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
+        return new KmhIntegerCondition(context(), alias(), AVERAGE_MS);
     }
 
     public KmhIntegerCondition whereCount()
     {
-        return new KmhIntegerCondition(context(), fullName(COUNT));
-    }
-
-    public KmhIntegerCondition whereMinimumMs()
-    {
-        return new KmhIntegerCondition(context(), fullName(MINIMUM_MS));
+        return new KmhIntegerCondition(context(), alias(), COUNT);
     }
 
     public KmhIntegerCondition whereMaximumMs()
     {
-        return new KmhIntegerCondition(context(), fullName(MAXIMUM_MS));
+        return new KmhIntegerCondition(context(), alias(), MAXIMUM_MS);
     }
 
-    public KmhIntegerCondition whereAverageMs()
+    public KmhIntegerCondition whereMinimumMs()
     {
-        return new KmhIntegerCondition(context(), fullName(AVERAGE_MS));
+        return new KmhIntegerCondition(context(), alias(), MINIMUM_MS);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhIntegerCondition whereTotalMs()
     {
-        return new KmhIntegerCondition(context(), fullName(TOTAL_MS));
+        return new KmhIntegerCondition(context(), alias(), TOTAL_MS);
+    }
+
+    public KmhStringCondition whereUid()
+    {
+        return new KmhStringCondition(context(), alias(), UID);
+    }
+
+    public KmhDateCondition whereUtcDate()
+    {
+        return new KmhDateCondition(context(), alias(), UTC_DATE);
     }
 
     //##################################################
     //# sorts
     //##################################################
+
+    public void sortOnAverageMs()
+    {
+        parent().sortAscending(AVERAGE_MS);
+    }
+
+    public void sortOnAverageMsDescending()
+    {
+        parent().sortDescending(AVERAGE_MS);
+    }
+
+    public void sortOnAverageMs(boolean asc)
+    {
+        if ( asc )
+            sortOnAverageMs();
+        else
+            sortOnAverageMsDescending();
+    }
+
+    public void sortOnCount()
+    {
+        parent().sortAscending(COUNT);
+    }
+
+    public void sortOnCountDescending()
+    {
+        parent().sortDescending(COUNT);
+    }
+
+    public void sortOnCount(boolean asc)
+    {
+        if ( asc )
+            sortOnCount();
+        else
+            sortOnCountDescending();
+    }
+
+    public void sortOnMaximumMs()
+    {
+        parent().sortAscending(MAXIMUM_MS);
+    }
+
+    public void sortOnMaximumMsDescending()
+    {
+        parent().sortDescending(MAXIMUM_MS);
+    }
+
+    public void sortOnMaximumMs(boolean asc)
+    {
+        if ( asc )
+            sortOnMaximumMs();
+        else
+            sortOnMaximumMsDescending();
+    }
+
+    public void sortOnMinimumMs()
+    {
+        parent().sortAscending(MINIMUM_MS);
+    }
+
+    public void sortOnMinimumMsDescending()
+    {
+        parent().sortDescending(MINIMUM_MS);
+    }
+
+    public void sortOnMinimumMs(boolean asc)
+    {
+        if ( asc )
+            sortOnMinimumMs();
+        else
+            sortOnMinimumMsDescending();
+    }
+
+    public void sortOnName()
+    {
+        parent().sortAscending(NAME);
+    }
+
+    public void sortOnNameDescending()
+    {
+        parent().sortDescending(NAME);
+    }
+
+    public void sortOnName(boolean asc)
+    {
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
+    }
+
+    public void sortOnTotalMs()
+    {
+        parent().sortAscending(TOTAL_MS);
+    }
+
+    public void sortOnTotalMsDescending()
+    {
+        parent().sortDescending(TOTAL_MS);
+    }
+
+    public void sortOnTotalMs(boolean asc)
+    {
+        if ( asc )
+            sortOnTotalMs();
+        else
+            sortOnTotalMsDescending();
+    }
 
     public void sortOnUid()
     {
@@ -120,112 +242,268 @@ public class MyPerformanceLogSummaryCriteria
             sortOnUtcDateDescending();
     }
 
-    public void sortOnName()
+    //##################################################
+    //# projections (averageMs)
+    //##################################################
+
+    public void selectAverageMs()
     {
-        parent().sortAscending(NAME);
+        select(AVERAGE_MS);
     }
 
-    public void sortOnNameDescending()
+    public void selectDistinctAverageMs()
     {
-        parent().sortDescending(NAME);
+        selectDistinct(AVERAGE_MS);
     }
 
-    public void sortOnName(boolean asc)
+    public void selectCountDistinctAverageMs()
     {
-        if ( asc )
-            sortOnName();
-        else
-            sortOnNameDescending();
+        selectCountDistinct(AVERAGE_MS);
     }
 
-    public void sortOnCount()
+    public void selectMinimumAverageMs()
     {
-        parent().sortAscending(COUNT);
+        selectMinimum(AVERAGE_MS);
     }
 
-    public void sortOnCountDescending()
+    public void selectMaximumAverageMs()
     {
-        parent().sortDescending(COUNT);
+        selectMaximum(AVERAGE_MS);
     }
 
-    public void sortOnCount(boolean asc)
+    public void selectAverageAverageMs()
     {
-        if ( asc )
-            sortOnCount();
-        else
-            sortOnCountDescending();
+        selectAverage(AVERAGE_MS);
     }
 
-    public void sortOnMinimumMs()
+    public void selectSumAverageMs()
     {
-        parent().sortAscending(MINIMUM_MS);
+        selectSum(AVERAGE_MS);
     }
 
-    public void sortOnMinimumMsDescending()
+    public void groupByAverageMs()
     {
-        parent().sortDescending(MINIMUM_MS);
+        groupBy(AVERAGE_MS);
     }
 
-    public void sortOnMinimumMs(boolean asc)
+    //##################################################
+    //# projections (count)
+    //##################################################
+
+    public void selectCount()
     {
-        if ( asc )
-            sortOnMinimumMs();
-        else
-            sortOnMinimumMsDescending();
+        select(COUNT);
     }
 
-    public void sortOnMaximumMs()
+    public void selectDistinctCount()
     {
-        parent().sortAscending(MAXIMUM_MS);
+        selectDistinct(COUNT);
     }
 
-    public void sortOnMaximumMsDescending()
+    public void selectCountDistinctCount()
     {
-        parent().sortDescending(MAXIMUM_MS);
+        selectCountDistinct(COUNT);
     }
 
-    public void sortOnMaximumMs(boolean asc)
+    public void selectMinimumCount()
     {
-        if ( asc )
-            sortOnMaximumMs();
-        else
-            sortOnMaximumMsDescending();
+        selectMinimum(COUNT);
     }
 
-    public void sortOnAverageMs()
+    public void selectMaximumCount()
     {
-        parent().sortAscending(AVERAGE_MS);
+        selectMaximum(COUNT);
     }
 
-    public void sortOnAverageMsDescending()
+    public void selectAverageCount()
     {
-        parent().sortDescending(AVERAGE_MS);
+        selectAverage(COUNT);
     }
 
-    public void sortOnAverageMs(boolean asc)
+    public void selectSumCount()
     {
-        if ( asc )
-            sortOnAverageMs();
-        else
-            sortOnAverageMsDescending();
+        selectSum(COUNT);
     }
 
-    public void sortOnTotalMs()
+    public void groupByCount()
     {
-        parent().sortAscending(TOTAL_MS);
+        groupBy(COUNT);
     }
 
-    public void sortOnTotalMsDescending()
+    //##################################################
+    //# projections (maximumMs)
+    //##################################################
+
+    public void selectMaximumMs()
     {
-        parent().sortDescending(TOTAL_MS);
+        select(MAXIMUM_MS);
     }
 
-    public void sortOnTotalMs(boolean asc)
+    public void selectDistinctMaximumMs()
     {
-        if ( asc )
-            sortOnTotalMs();
-        else
-            sortOnTotalMsDescending();
+        selectDistinct(MAXIMUM_MS);
+    }
+
+    public void selectCountDistinctMaximumMs()
+    {
+        selectCountDistinct(MAXIMUM_MS);
+    }
+
+    public void selectMinimumMaximumMs()
+    {
+        selectMinimum(MAXIMUM_MS);
+    }
+
+    public void selectMaximumMaximumMs()
+    {
+        selectMaximum(MAXIMUM_MS);
+    }
+
+    public void selectAverageMaximumMs()
+    {
+        selectAverage(MAXIMUM_MS);
+    }
+
+    public void selectSumMaximumMs()
+    {
+        selectSum(MAXIMUM_MS);
+    }
+
+    public void groupByMaximumMs()
+    {
+        groupBy(MAXIMUM_MS);
+    }
+
+    //##################################################
+    //# projections (minimumMs)
+    //##################################################
+
+    public void selectMinimumMs()
+    {
+        select(MINIMUM_MS);
+    }
+
+    public void selectDistinctMinimumMs()
+    {
+        selectDistinct(MINIMUM_MS);
+    }
+
+    public void selectCountDistinctMinimumMs()
+    {
+        selectCountDistinct(MINIMUM_MS);
+    }
+
+    public void selectMinimumMinimumMs()
+    {
+        selectMinimum(MINIMUM_MS);
+    }
+
+    public void selectMaximumMinimumMs()
+    {
+        selectMaximum(MINIMUM_MS);
+    }
+
+    public void selectAverageMinimumMs()
+    {
+        selectAverage(MINIMUM_MS);
+    }
+
+    public void selectSumMinimumMs()
+    {
+        selectSum(MINIMUM_MS);
+    }
+
+    public void groupByMinimumMs()
+    {
+        groupBy(MINIMUM_MS);
+    }
+
+    //##################################################
+    //# projections (name)
+    //##################################################
+
+    public void selectName()
+    {
+        select(NAME);
+    }
+
+    public void selectDistinctName()
+    {
+        selectDistinct(NAME);
+    }
+
+    public void selectCountDistinctName()
+    {
+        selectCountDistinct(NAME);
+    }
+
+    public void selectMinimumName()
+    {
+        selectMinimum(NAME);
+    }
+
+    public void selectMaximumName()
+    {
+        selectMaximum(NAME);
+    }
+
+    public void selectAverageName()
+    {
+        selectAverage(NAME);
+    }
+
+    public void selectSumName()
+    {
+        selectSum(NAME);
+    }
+
+    public void groupByName()
+    {
+        groupBy(NAME);
+    }
+
+    //##################################################
+    //# projections (totalMs)
+    //##################################################
+
+    public void selectTotalMs()
+    {
+        select(TOTAL_MS);
+    }
+
+    public void selectDistinctTotalMs()
+    {
+        selectDistinct(TOTAL_MS);
+    }
+
+    public void selectCountDistinctTotalMs()
+    {
+        selectCountDistinct(TOTAL_MS);
+    }
+
+    public void selectMinimumTotalMs()
+    {
+        selectMinimum(TOTAL_MS);
+    }
+
+    public void selectMaximumTotalMs()
+    {
+        selectMaximum(TOTAL_MS);
+    }
+
+    public void selectAverageTotalMs()
+    {
+        selectAverage(TOTAL_MS);
+    }
+
+    public void selectSumTotalMs()
+    {
+        selectSum(TOTAL_MS);
+    }
+
+    public void groupByTotalMs()
+    {
+        groupBy(TOTAL_MS);
     }
 
     //##################################################
@@ -314,270 +592,6 @@ public class MyPerformanceLogSummaryCriteria
     public void groupByUtcDate()
     {
         groupBy(UTC_DATE);
-    }
-
-    //##################################################
-    //# projections (name)
-    //##################################################
-
-    public void selectName()
-    {
-        select(NAME);
-    }
-
-    public void selectDistinctName()
-    {
-        selectDistinct(NAME);
-    }
-
-    public void selectCountDistinctName()
-    {
-        selectCountDistinct(NAME);
-    }
-
-    public void selectMinimumName()
-    {
-        selectMinimum(NAME);
-    }
-
-    public void selectMaximumName()
-    {
-        selectMaximum(NAME);
-    }
-
-    public void selectAverageName()
-    {
-        selectAverage(NAME);
-    }
-
-    public void selectSumName()
-    {
-        selectSum(NAME);
-    }
-
-    public void groupByName()
-    {
-        groupBy(NAME);
-    }
-
-    //##################################################
-    //# projections (count)
-    //##################################################
-
-    public void selectCount()
-    {
-        select(COUNT);
-    }
-
-    public void selectDistinctCount()
-    {
-        selectDistinct(COUNT);
-    }
-
-    public void selectCountDistinctCount()
-    {
-        selectCountDistinct(COUNT);
-    }
-
-    public void selectMinimumCount()
-    {
-        selectMinimum(COUNT);
-    }
-
-    public void selectMaximumCount()
-    {
-        selectMaximum(COUNT);
-    }
-
-    public void selectAverageCount()
-    {
-        selectAverage(COUNT);
-    }
-
-    public void selectSumCount()
-    {
-        selectSum(COUNT);
-    }
-
-    public void groupByCount()
-    {
-        groupBy(COUNT);
-    }
-
-    //##################################################
-    //# projections (minimumMs)
-    //##################################################
-
-    public void selectMinimumMs()
-    {
-        select(MINIMUM_MS);
-    }
-
-    public void selectDistinctMinimumMs()
-    {
-        selectDistinct(MINIMUM_MS);
-    }
-
-    public void selectCountDistinctMinimumMs()
-    {
-        selectCountDistinct(MINIMUM_MS);
-    }
-
-    public void selectMinimumMinimumMs()
-    {
-        selectMinimum(MINIMUM_MS);
-    }
-
-    public void selectMaximumMinimumMs()
-    {
-        selectMaximum(MINIMUM_MS);
-    }
-
-    public void selectAverageMinimumMs()
-    {
-        selectAverage(MINIMUM_MS);
-    }
-
-    public void selectSumMinimumMs()
-    {
-        selectSum(MINIMUM_MS);
-    }
-
-    public void groupByMinimumMs()
-    {
-        groupBy(MINIMUM_MS);
-    }
-
-    //##################################################
-    //# projections (maximumMs)
-    //##################################################
-
-    public void selectMaximumMs()
-    {
-        select(MAXIMUM_MS);
-    }
-
-    public void selectDistinctMaximumMs()
-    {
-        selectDistinct(MAXIMUM_MS);
-    }
-
-    public void selectCountDistinctMaximumMs()
-    {
-        selectCountDistinct(MAXIMUM_MS);
-    }
-
-    public void selectMinimumMaximumMs()
-    {
-        selectMinimum(MAXIMUM_MS);
-    }
-
-    public void selectMaximumMaximumMs()
-    {
-        selectMaximum(MAXIMUM_MS);
-    }
-
-    public void selectAverageMaximumMs()
-    {
-        selectAverage(MAXIMUM_MS);
-    }
-
-    public void selectSumMaximumMs()
-    {
-        selectSum(MAXIMUM_MS);
-    }
-
-    public void groupByMaximumMs()
-    {
-        groupBy(MAXIMUM_MS);
-    }
-
-    //##################################################
-    //# projections (averageMs)
-    //##################################################
-
-    public void selectAverageMs()
-    {
-        select(AVERAGE_MS);
-    }
-
-    public void selectDistinctAverageMs()
-    {
-        selectDistinct(AVERAGE_MS);
-    }
-
-    public void selectCountDistinctAverageMs()
-    {
-        selectCountDistinct(AVERAGE_MS);
-    }
-
-    public void selectMinimumAverageMs()
-    {
-        selectMinimum(AVERAGE_MS);
-    }
-
-    public void selectMaximumAverageMs()
-    {
-        selectMaximum(AVERAGE_MS);
-    }
-
-    public void selectAverageAverageMs()
-    {
-        selectAverage(AVERAGE_MS);
-    }
-
-    public void selectSumAverageMs()
-    {
-        selectSum(AVERAGE_MS);
-    }
-
-    public void groupByAverageMs()
-    {
-        groupBy(AVERAGE_MS);
-    }
-
-    //##################################################
-    //# projections (totalMs)
-    //##################################################
-
-    public void selectTotalMs()
-    {
-        select(TOTAL_MS);
-    }
-
-    public void selectDistinctTotalMs()
-    {
-        selectDistinct(TOTAL_MS);
-    }
-
-    public void selectCountDistinctTotalMs()
-    {
-        selectCountDistinct(TOTAL_MS);
-    }
-
-    public void selectMinimumTotalMs()
-    {
-        selectMinimum(TOTAL_MS);
-    }
-
-    public void selectMaximumTotalMs()
-    {
-        selectMaximum(TOTAL_MS);
-    }
-
-    public void selectAverageTotalMs()
-    {
-        selectAverage(TOTAL_MS);
-    }
-
-    public void selectSumTotalMs()
-    {
-        selectSum(TOTAL_MS);
-    }
-
-    public void groupByTotalMs()
-    {
-        groupBy(TOTAL_MS);
     }
 
     //##################################################

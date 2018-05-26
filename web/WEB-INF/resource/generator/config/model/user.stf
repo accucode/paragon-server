@@ -28,6 +28,7 @@ attributes
 
     #include basicUid.stf
     #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************
@@ -49,6 +50,7 @@ attributes
     //*****************************************************
     //** name
     //*****************************************************
+
 
     #include personName.stf
 
@@ -76,6 +78,7 @@ attributes
     : type      = uid
     : default   = newUid()
     : required  = true
+    : auditLog  = mask
 
 
     field
@@ -87,6 +90,15 @@ attributes
         If the user has no password the hash is set to empty string.
         ---
     : type      = shaHash
+    : auditLog  = mask
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
 
 
     //*****************************************************
@@ -102,19 +114,6 @@ attributes
 
 
     field
-    : name      = active
-    : help...
-        ---
-        Indicates if this user is allowed to log in.
-        New users are active by default, but can be de-activated to easily
-        restrict access to the entire system.
-        ---
-    : type      = boolean
-    : required  = true
-    : default   = true
-
-
-    field
     : name      = timeZoneCode
     : label     = Time Zone
     : help      = The user's preferred time zone.
@@ -122,12 +121,10 @@ attributes
     : required  = true
 
 
-    association
+    abstractAssociation
     : name      = lastProject
     : help      = The last project this user was working on.
-    : comment   =
     : modelName = project
-    : relation  = reference
 
 
     //*****************************************************
@@ -144,95 +141,30 @@ attributes
 
         Developer, has full access to all data and functions in the app.
 
-        Admin, has access to admin functions e.g. adding/editing users and projects.
+        Tenant Admin, the user has access to administration functions that affect the
+        entire tenant. The user can add new users and projects.
 
-        Other, any other user.
+        Project Member, the user is limited to specific projects. Project-specific
+        permissions are determined by the project's manager via the member
+        setup.
         ---
     : type      = longEnumCode
+    : default   = MyUserRole.ProjectMember.getCode()
     : required  = true
-    : default   = MyUserRole.Other.getCode()
 
         enum
             value(#Developer)
-            value(#Admin)
-            value(#Other)
+            value(#TenantAdmin)
+            value(#ProjectMember)
 
 
     //*****************************************************
-    //** dashboard
+    //** memo
     //*****************************************************
 
 
     field
-    : name      = dashboardOrientationTypeCode
-    : help...
-        ---
-        Indicates whether the dashboard should be organized for portrait or landscape.
-        The 'Auto' mode will attempt to update the layout automatically depending
-        on the orientation of your screen.
-        ---
-    : type      = longEnumCode
-    : default   = MyDashboardOrientationType.Auto.getCode()
-    : required  = true
-
-
-    field
-    : name      = dashboardLineCount1
-    : help      = The number of panels to display on the first line, 0-3.
-    : type      = integer
-    : default   = 1
-    : required  = true
-
-
-    field
-    : name      = dashboardLineCount2
-    : help      = The number of panels to display on the second line, 0-3.
-    : type      = integer
-    : default   = 0
-    : required  = true
-
-
-    field
-    : name      = dashboardPanelCodeA
-    : help      = The panel to display in position A.
-    : type      = longEnumCode
-    : default   = MyDashboardPanelType.Welcome.getCode()
-    : required  = true
-
-
-    field
-    : name      = dashboardPanelCodeB
-    : help      = The panel to display in position B.
-    : type      = longEnumCode
-
-
-    field
-    : name      = dashboardPanelCodeC
-    : help      = The panel to display in position B.
-    : type      = longEnumCode
-
-
-    field
-    : name      = dashboardPanelCodeD
-    : help      = The panel to display in position D.
-    : type      = longEnumCode
-
-
-    field
-    : name      = dashboardPanelCodeE
-    : help      = The panel to display in position E.
-    : type      = longEnumCode
-
-
-    field
-    : name      = dashboardPanelCodeF
-    : help      = The panel to display in position F.
-    : type      = longEnumCode
-
-
-    field
-    : name      = dashboardPanelCodeG
-    : help      = The panel to display in position G.
-    : type      = longEnumCode
-
-
+    : name      = memo
+    : label     = Memo
+    : help      = A free form memo.
+    : type      = memo

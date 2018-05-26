@@ -68,7 +68,7 @@ public class KmSpreadsheetApiTest
      * The p12 file that defines the security tokens and private keys.
      * This is the .P12 file downloaded when you create the Service Account.
      */
-    private static final String P12_PATH          = "/temp/LifeCycle-eaf2070c1aa2.p12";
+    private static final String P12_PATH = "/temp/LifeCycle-eaf2070c1aa2.p12";
 
     /**
      * The account id.  This is the email address associated with the Service Account.
@@ -76,7 +76,7 @@ public class KmSpreadsheetApiTest
      * as for any other user.  Simply open the spreadsheet, and Share it with this
      * email.
      */
-    private static final String ACCOUNT_ID        = "732718102431-p6ssejt62n8pdf4appin6cd8rk0l8he9@developer.gserviceaccount.com";
+    private static final String ACCOUNT_ID = "732718102431-p6ssejt62n8pdf4appin6cd8rk0l8he9@developer.gserviceaccount.com";
 
     /**
      * The name used by the client library.  The purpose of this value is unclear,
@@ -84,22 +84,21 @@ public class KmSpreadsheetApiTest
      * any of the credentials or keys.  It does not need to match the project name
      * created in the developer console.
      */
-    private static final String APP_NAME          = "NOT USED";
+    private static final String APP_NAME = "NOT USED";
 
     /**
      * The title of the spreadsheet to be read.
      * This is the human readable title displayed in Google Drive,
      * and at the top of the spreadsheet when you open it.
      */
-    // private static final String SPREADSHEET_TITLE = "Purchasing Activity Log 2015";
-    private static final String SPREADSHEET_TITLE = "PAL - Purchasing Activity Log 2015 (COPY)";
+    private static final String SPREADSHEET_TITLE = "Doc title";
 
     /**
      * The title of the worksheet (tab) to be read.
      * This is the human readable title displayed on the worksheet tab
      * within the spreadsheet.
      */
-    private static final String WORKSHEET_TITLE   = "Activity Log";
+    private static final String WORKSHEET_TITLE = "Tab name";
 
     //##################################################
     //# main
@@ -117,16 +116,16 @@ public class KmSpreadsheetApiTest
     /**
      * The Google wrapper for OAuth2 credentials.
      */
-    private GoogleCredential   _credentials;
+    private GoogleCredential _credentials;
 
     /**
      * The Google wrapper for accessing spreadsheet data.
      */
     private SpreadsheetService _service;
 
-    private SpreadsheetEntry   _spreadsheet;
+    private SpreadsheetEntry _spreadsheet;
 
-    private WorksheetEntry     _worksheet;
+    private WorksheetEntry _worksheet;
 
     //##################################################
     //# run
@@ -172,16 +171,16 @@ public class KmSpreadsheetApiTest
         scopes.add("https://spreadsheets.google.com/feeds");
         scopes.add("https://spreadsheets.google.com/feeds/spreadsheets/private/basic");
 
-        InputStream p12Stream;
-        p12Stream = new FileInputStream(P12_PATH);
-        // p12Stream = this.getClass().getResourceAsStream("Credentials.p12");
-
         String p12Password = "notasecret";
         String privateKeyAlias = "privatekey";
 
         KeyStore keystore;
         keystore = KeyStore.getInstance("PKCS12");
-        keystore.load(p12Stream, p12Password.toCharArray());
+
+        try (InputStream p12Stream = new FileInputStream(P12_PATH))
+        {
+            keystore.load(p12Stream, p12Password.toCharArray());
+        }
 
         PrivateKey privateKey;
         privateKey = (PrivateKey)keystore.getKey(privateKeyAlias, p12Password.toCharArray());

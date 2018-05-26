@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -84,11 +84,9 @@ public class KmDbaseHeader
 
     public void read(String path)
     {
-        RandomAccessFile in = null;
-        try
+        try (RandomAccessFile in = new RandomAccessFile(path, "r"))
         {
             byte[] arr = new byte[32];
-            in = new RandomAccessFile(path, "r");
 
             int n = in.read(arr);
             if ( n != arr.length )
@@ -100,10 +98,6 @@ public class KmDbaseHeader
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
         }
     }
 

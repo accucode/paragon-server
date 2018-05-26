@@ -1,0 +1,202 @@
+model
+: name      = member
+: help...
+    ---
+    The list of members determines which users have access to a specific project.
+    Although users are global, their roles, skills, and access may vary by project.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = projectUser
+    : unique    = true
+    : on        = project
+    : on        = user
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name          = project
+    : help          = The project to which this member belongs.
+    : modelName     = project
+    : relation      = parent
+    : required      = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** user
+    //*****************************************************
+
+
+    association
+    : name          = user
+    : help          = The user being granted access.
+    : modelName     = user
+    : relation      = reference
+    : required      = true
+
+        delegate
+        : field = fullName
+        : label = Name
+
+        delegate
+        : field = email
+        : label = Email
+
+        delegate
+        : field = timeZoneCode
+        : label = Time Zone
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** role
+    //*****************************************************
+
+
+    field
+    : name      = roleCode
+    : label     = Role
+    : help...
+        ---
+        The member's role.
+
+        Manager, is allowed to manage project wide settings like members, the item catalog,
+        and task setup.
+
+        Worker, has basic project access.  Can view and update job, perform tasks, etc.
+        ---
+    : type      = longEnumCode
+    : default   = MyMemberRole.Worker.getCode()
+    : required  = true
+
+        enum
+            value(#Manager)
+            value(#Worker)
+
+
+    abstractField
+    : name          = roleDescription
+    : label         = Role
+    : help          = The role'e name along with additional details such as the customer name.
+    : type          = calculated
+
+
+    //*****************************************************
+    //** dashboard
+    //*****************************************************
+
+
+    field
+    : name      = dashboardRefreshMinutes
+    : help...
+        ---
+        If set, the dashboard will be automatically refreshed
+        every x minutes.
+        ---
+    : type      = integer
+    : default   = 5
+    : required  = false
+
+
+    field
+    : name      = dashboardOrientationTypeCode
+    : help...
+        ---
+        Indicates whether the dashboard should be organized for portrait or landscape.
+        The 'Auto' mode will attempt to update the layout automatically depending
+        on the orientation of your screen.
+        ---
+    : type      = longEnumCode
+    : default   = MyDashboardOrientationType.Auto.getCode()
+    : required  = true
+
+
+    field
+    : name      = dashboardLineCount1
+    : help      = The number of panels to display on the first line, 0-3.
+    : type      = integer
+    : default   = 1
+    : required  = true
+
+
+    field
+    : name      = dashboardLineCount2
+    : help      = The number of panels to display on the second line, 0-3.
+    : type      = integer
+    : default   = 0
+    : required  = true
+
+
+    field
+    : name      = dashboardPanelCodeA
+    : help      = The panel to display in position A.
+    : type      = longEnumCode
+    : default   = MyDashboardPanelType.Welcome.getCode()
+    : required  = true
+
+
+    field
+    : name      = dashboardPanelCodeB
+    : help      = The panel to display in position B.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeC
+    : help      = The panel to display in position B.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeD
+    : help      = The panel to display in position D.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeE
+    : help      = The panel to display in position E.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeF
+    : help      = The panel to display in position F.
+    : type      = longEnumCode
+
+
+    field
+    : name      = dashboardPanelCodeG
+    : help      = The panel to display in position G.
+    : type      = longEnumCode

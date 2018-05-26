@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MySite"
+        table="site"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="addressAttention"
+            column="addressAttention"
+            type="string"
+            />
+
+        <property
+            name="addressCity"
+            column="addressCity"
+            type="string"
+            />
+
+        <property
+            name="addressCountry"
+            column="addressCountry"
+            type="string"
+            />
+
+        <property
+            name="addressPhone"
+            column="addressPhone"
+            type="string"
+            />
+
+        <property
+            name="addressPostalCode"
+            column="addressPostalCode"
+            type="string"
+            />
+
+        <property
+            name="addressRegion"
+            column="addressRegion"
+            type="string"
+            />
+
+        <property
+            name="addressStreet1"
+            column="addressStreet1"
+            type="string"
+            />
+
+        <property
+            name="addressStreet2"
+            column="addressStreet2"
+            type="string"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="enabled"
+            column="enabled"
+            type="yes_no"
+            />
+
+        <property
+            name="fullName"
+            column="fullName"
+            type="string"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="number"
+            column="number"
+            type="string"
+            />
+
+        <property
+            name="timeZoneCode"
+            column="timeZoneCode"
+            type="string"
+            />
+
+        <property
+            name="updatedUtcTs"
+            column="updatedUtcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <many-to-one
+            name="createdBy"
+            column="createdByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="customer"
+            column="customerUid"
+            class="com.app.model.MyCustomer"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="installContact"
+            column="installContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="mainContact"
+            column="mainContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="priority"
+            column="priorityUid"
+            class="com.app.model.MyPriority"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="requesterContact"
+            column="requesterContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="salesContact"
+            column="salesContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="schedulingContact"
+            column="schedulingContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="technicalContact"
+            column="technicalContactUid"
+            class="com.app.model.MySiteContact"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="type"
+            column="typeUid"
+            class="com.app.model.MyChoice"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="updatedBy"
+            column="updatedByUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <bag
+            name="contacts"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="siteUid"/>
+                <one-to-many class="com.app.model.MySiteContact"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

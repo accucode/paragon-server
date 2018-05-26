@@ -1,6 +1,6 @@
 package com.app.ui.page.login;
 
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
@@ -45,28 +45,22 @@ public final class MyPasswordResetPage
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    private static final String PARAM_TOKEN = "token";
-
-    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString       _token;
+    private ScLocalString _token;
 
-    private ScCardFrame         _frame;
+    private ScCardFrame _frame;
 
-    private ScCard              _entryCard;
-    private ScTextSpan          _emailText;
-    private ScPasswordField     _password1Field;
-    private ScPasswordField     _password2Field;
+    private ScCard          _entryCard;
+    private ScTextSpan      _emailText;
+    private ScPasswordField _password1Field;
+    private ScPasswordField _password2Field;
 
-    private ScCard              _successCard;
+    private ScCard _successCard;
 
-    private ScCard              _errorCard;
-    private ScText              _errorMessage;
+    private ScCard _errorCard;
+    private ScText _errorMessage;
 
     //##################################################
     //# settings
@@ -79,30 +73,38 @@ public final class MyPasswordResetPage
     }
 
     //##################################################
-    //# url
-    //##################################################
-
-    public String formatEntryUrl(MyPasswordReset e)
-    {
-        setToken(e.getToken());
-
-        return formatEntryUrl();
-    }
-
-    //##################################################
     //# bookmark
     //##################################################
 
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    public MyPasswordResetBookmark newBookmark()
     {
-        v.setValue(PARAM_TOKEN, getToken());
+        return new MyPasswordResetBookmark(this);
+    }
+
+    private MyPasswordResetBookmark castBookmark(ScBookmark e)
+    {
+        return (MyPasswordResetBookmark)e;
     }
 
     @Override
-    public void applyBookmark(ScParameterList v)
+    protected void readStateFrom(ScBookmark o)
     {
-        setToken(v.getValue(PARAM_TOKEN));
+        super.readStateFrom(o);
+
+        MyPasswordResetBookmark e;
+        e = castBookmark(o);
+        setToken(e.getToken());
+    }
+
+    @Override
+    protected void writeStateTo(ScBookmark o)
+    {
+        super.writeStateTo(o);
+
+        MyPasswordResetBookmark e;
+        e = castBookmark(o);
+        e.setToken(getToken());
     }
 
     //##################################################
@@ -159,7 +161,7 @@ public final class MyPasswordResetPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleResetPassword);
+        form.onSubmit(newUncheckedAction(this::handleResetPassword));
 
         ScGroup group;
         group = form.addGroup();
@@ -204,9 +206,10 @@ public final class MyPasswordResetPage
         ScDiv body;
         body = group.getBody().addDiv();
         body.css().pad();
-        body.addText(""
-            + "Success! Your password has been reset. "
-            + "Please click the button below to sign in.");
+        body.addText(
+            ""
+                + "Success! Your password has been reset. "
+                + "Please click the button below to sign in.");
 
         group.addBodyDivider();
 
@@ -246,7 +249,7 @@ public final class MyPasswordResetPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
@@ -283,9 +286,10 @@ public final class MyPasswordResetPage
         MyPasswordReset pr = getPasswordReset();
         if ( pr == null || pr.isExpired() )
         {
-            printError(""
-                + "The requested password reset is invalid or has expired. "
-                + "Please return to the sign in page to try again.");
+            printError(
+                ""
+                    + "The requested password reset is invalid or has expired. "
+                    + "Please return to the sign in page to try again.");
             return;
         }
 
@@ -294,13 +298,13 @@ public final class MyPasswordResetPage
         _password1Field.ajaxClearFieldValue();
         _password2Field.ajaxClearFieldValue();
 
-        _entryCard.validate();
+        _entryCard.validateAndCheck();
 
         String pw1 = _password1Field.getValue();
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-            _password1Field.error("Passwords did not match.");
+            _password1Field.addErrorAndCheck("Passwords did not match.");
 
         MyUser user = pr.findUser();
         if ( user == null )

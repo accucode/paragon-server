@@ -1,0 +1,156 @@
+model
+: name      = filterTemplate
+: help...
+    ---
+    The list of attributes associated with a particular filter. 
+    This is used to store a specific configuration of a filter 
+    so that it can be easily reused.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = project
+    : on        = contextTypeCode
+    : on        = name
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project that defines this filter.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** context type
+    //*****************************************************
+
+
+    field
+    : name      = contextTypeCode
+    : label     = Type
+    : help...
+        ---
+        The type of list that this template is used for.
+        ---
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Site)
+
+
+    //*****************************************************
+    //** name
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The display name of this specific definition.
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** type
+    //*****************************************************
+
+
+    field
+    : name      = typeCode
+    : label     = Type
+    : help...
+        ---
+        The type of template.
+
+        predefined:
+        The template is predefined by the application and cannot be changed.
+
+        shared:
+        A user-defined template that is shared with the entire project.
+        ---
+    : type      = longEnumCode
+    : required  = true
+
+        enum
+            value(#Predefined)
+            value(#Shared)
+
+
+    //*****************************************************
+    //** modified
+    //*****************************************************
+
+
+    field
+    : name      = modified
+    : help      = Indicates that this template is currently in a modified status.
+    : type      = boolean
+    : required  = true
+
+
+    //*****************************************************
+    //** preferred
+    //*****************************************************
+
+
+    field
+    : name      = preferred
+    : help      = Indicates which template should be used as the default.
+    : type      = boolean
+    : default   = false
+    : required  = true
+
+
+    //*****************************************************
+    //** deleted
+    //*****************************************************
+
+
+    field
+    : name      = deleted
+    : help      = Indicates which a template that has been marked for deletion.
+    : type      = boolean
+    : default   = false
+    : required  = true
+
+
+    //*****************************************************
+    //** items
+    //*****************************************************
+
+
+    collection
+    : name          = item
+    : comment       = The individual items within this t; e.g.: city = denver.
+    : relation      = children
+    : elementModel  = filterTemplateItem
+    : elementField  = template

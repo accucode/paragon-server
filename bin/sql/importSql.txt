@@ -1,0 +1,16 @@
+# This outlines the minimum process to import a production database
+# for local testing and development.
+
+# Start with a clean schema, assumes 'paragon'.
+drop database if exists paragon;
+create database paragon;
+use paragon;
+
+# Import the dump file exported from production.
+source c:/temp/dump.sql;
+
+# Clear the passwords so you can log in.
+update user set passwordHash = null;
+
+# Reset the host of the System tenant.
+update tenant set hostname = 'system.localhost' where uid = 'system';

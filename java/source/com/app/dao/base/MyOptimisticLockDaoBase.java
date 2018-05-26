@@ -13,6 +13,7 @@ import com.kodemore.dao.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
+import com.app.dao.base.*;
 import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
@@ -20,7 +21,7 @@ import com.app.model.meta.*;
 import com.app.utility.*;
 
 public abstract class MyOptimisticLockDaoBase
-    extends KmAbstractDao<MyOptimisticLock,String>
+    extends MyAbstractDao<MyOptimisticLock,String>
     implements MyOptimisticLockDaoConstantsIF
 {
     //##################################################
@@ -74,6 +75,36 @@ public abstract class MyOptimisticLockDaoBase
         return getKey(e);
     }
 
+    /**
+     * Find the keys.
+     * The resulting list may have a DIFFERENT size and sequence.
+     */
+    public KmList<MyOptimisticLock> findNames(KmList<String> names)
+    {
+        return findNames(names, false);
+    }
+
+    /**
+     * Find the keys.
+     * The resulting list will have the SAME size and sequence.
+     */
+    public KmList<MyOptimisticLock> findOrderedNames(KmList<String> names)
+    {
+        return findNames(names, true);
+    }
+
+    public KmList<MyOptimisticLock> findNames(KmList<String> names, boolean ordered)
+    {
+        MyOptimisticLockCriteria c;
+        c = createCriteria();
+        c.whereName().isIn(names);
+        KmList<MyOptimisticLock> v = c.findAll();
+
+        return ordered
+            ? v.toOrderedList(names, e -> e.getName())
+            : v;
+    }
+
     //##################################################
     //# delete
     //##################################################
@@ -86,14 +117,5 @@ public abstract class MyOptimisticLockDaoBase
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
 
         delete(m);
-    }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    protected MyDaoAccess getAccess()
-    {
-        return MyGlobals.getAccess();
     }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ import com.kodemore.utility.Kmu;
 /**
  * I am used to a folder to make sure that it is active.
  * That is, that it has files being added and removed from it.
- * 
+ *
  * I may be used to monitor a folder used to coordinate
  * files that are shared via ftp, and to make sure that files
  * are moving back and forth, and that no files are getting
@@ -46,10 +46,10 @@ public class KmStaleFolderMonitor
     //# variables
     //##################################################
 
-    private String                    _folderPath;
-    private int                       _staleMinutes;
-    private int                       _inactiveMinutes;
-    private boolean                   _logResults;
+    private String  _folderPath;
+    private int     _staleMinutes;
+    private int     _inactiveMinutes;
+    private boolean _logResults;
 
     private File                      _folder;
     private KmMap<String,KmTimestamp> _lastFilenameUtsTs;

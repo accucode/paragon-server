@@ -1,0 +1,948 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>site</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>site</h1>
+
+
+<!--
+********************
+** Summary
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header'>Summary</th>
+</tr>
+<tr>
+  <td>The sites associated with each customer. Each site typically identifes a physical building with a distinct mailing address.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<!--
+********************
+** Fields
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Fields</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>addressAttention&nbsp;</td>
+
+  <td>addressAttention
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The attention line of the address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressCity&nbsp;</td>
+
+  <td>addressCity
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The name of the city&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressCountry&nbsp;</td>
+
+  <td>addressCountry
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The name or abbreviation of the country&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressLongLine&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The long format of the site address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressMultiLine&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The multi&#45;line format of the site address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressPhone&nbsp;</td>
+
+  <td>phone
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The phone number&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressPostalCode&nbsp;</td>
+
+  <td>addressPostalCode
+                <br><nobr>max length: 20</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The zip&#47;postal code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressRegion&nbsp;</td>
+
+  <td>addressRegion
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The name or abbreviation of the of the state &#40;or region&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressShortLine&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The short format of the site address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressStreet1&nbsp;</td>
+
+  <td>addressStreet
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The first line of the street address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>addressStreet2&nbsp;</td>
+
+  <td>addressStreet
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The second line of the street address&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>auditLogTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    This is used a the title in auditLogs&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was originally created&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainSubtitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The subtitle commonly used for rows in a list&#46; This MAY be null&#44; if there is not subtitle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The title commonly used for rows in a list or dropdown field&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>enabled&nbsp;</td>
+
+  <td>boolean
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    Disable to hide this on various screens&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>enabledStatus&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    Disable to hide this on various screens&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>fullName&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The site number and name&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+
+  <td>lockVersion
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    This is used to coordinate optimistic locking in the database&#46; This is usually not displayed&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The site&#39;s name&#46;  E&#46;g&#46;&#58; Denver North&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>number&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The site&#39;s number&#46;  E&#46;g&#46;&#58; 0001&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>priorityName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    This is used to prioritize important tasks&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>timeZoneCode&nbsp;</td>
+
+  <td>timeZoneCode
+                <br><nobr>max length: 40</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time zone for this site&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>timeZoneName&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The time zone for this site&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The updated timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                  <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The time this record was last updated&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Associations
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Associations</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>createdBy&nbsp;</td>
+
+  <td>user</td>
+
+  <td>
+                   <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The user that originally created this record&#44; if known&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>customer&nbsp;</td>
+
+  <td>customer</td>
+
+  <td>
+                      <nobr>required</nobr><br>                   &nbsp;
+  </td>
+
+  <td>
+    The customer that owns this site&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveInstallContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The primary contact for installations&#46; This defaults to the main contact if not set&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveRequesterContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The contact that originally requested the job&#46; This defaults to the main contact if not set&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveSalesContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The primary contact for sales or distributor support&#46; This defaults to the main contact if not set&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveSchedulingContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The primary contact for scheduling on&#45;site visits&#46; This defaults to the main contact if not set&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>effectiveTechnicalContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The primary contact for IT support and technical questions&#46; This defaults to the main contact if not set&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>installContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The primary contact for installations&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>mainContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The primary contact for this site&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>priority&nbsp;</td>
+
+  <td>priority</td>
+
+  <td>
+                      <nobr>required</nobr><br>                   &nbsp;
+  </td>
+
+  <td>
+    This is used to prioritize important tasks&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>requesterContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The contact that originally requested the job&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>salesContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The primary contact for sales or distributor support&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>schedulingContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The primary contact for scheduling on&#45;site visits&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>technicalContact&nbsp;</td>
+
+  <td>siteContact</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The primary contact for IT support and technical questions&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>type&nbsp;</td>
+
+  <td>choice</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The site&#39;s type&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>updatedBy&nbsp;</td>
+
+  <td>user</td>
+
+  <td>
+                   <nobr>audit disabled</nobr>            &nbsp;
+  </td>
+
+  <td>
+    The user that last updated this record&#44; if known&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Collections
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='3'>Collections</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Comment</th>
+</tr>
+<tr>
+  <td>contacts&nbsp;</td>
+
+  <td>
+      List<MySiteContact>
+      <br>KmCollection&#60;MySiteContact&#62;
+        </td>
+
+  <td>
+    These contacts are primarily used for notifications&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+</body>
+</html>

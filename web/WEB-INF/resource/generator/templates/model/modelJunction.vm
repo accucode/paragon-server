@@ -32,12 +32,51 @@ $utility.protocol("properties")
 #if ( $field.isDaoProperty() )
     public ${field.f_CriteriaClass} where${field.f_Name}()
     {
-        return new ${field.f_CriteriaClass_NoGeneric}(context(), fullName(${field.f_NAME}));
+        return new ${field.f_CriteriaClass_NoGeneric}(context(), alias(), ${field.f_NAME});
     }
 
 #end
 #end
 $utility.protocol("associations")
+#foreach ( $ass in $model.associations )
+#if ( $ass.isMetaDao() )
+#if ( $ass.isEditable() )
+$utility.protocol("association (${ass.f_Name})")
+
+//    public ${ass.modelReference.f_CriteriaClass} joinTo${ass.f_Name}()
+//    {
+//        return new ${ass.modelReference.f_CriteriaClass}(joinTo(${ass.f_NAME}));
+//    }
+//
+//    public ${ass.modelReference.f_CriteriaClass} leftJoinTo${ass.f_Name}()
+//    {
+//        return new ${ass.modelReference.f_CriteriaClass}(leftJoinTo(${ass.f_NAME}));
+//    }
+
+    public ${ass.modelReference.primaryKeyField.f_CriteriaClass} where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}()
+    {
+        return new ${ass.modelReference.primaryKeyField.f_CriteriaClass}(context(), alias(), ${ass.f_PK_NAME});
+    }
+
+    public void where${ass.f_Name}Is(${ass.modelReference.f_Class} e)
+    {
+        if ( e == null )
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNull();
+        else
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().is(e.${ass.modelReference.primaryKeyField.f_getMethod}());
+    }
+
+    public void where${ass.f_Name}IsNot(${ass.modelReference.f_Class} e)
+    {
+        if ( e == null )
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNotNull();
+        else
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNot(e.${ass.modelReference.primaryKeyField.f_getMethod}());
+    }
+
+#end
+#end
+#end
 
 $utility.protocol("junction")
 

@@ -20,7 +20,7 @@ public final class MyDevSystemPropertiesPage
     //# variables
     //##################################################
 
-    private ScTransientContainer             _container;
+    private ScTransientContainer _container;
 
     //##################################################
     //# singleton
@@ -54,22 +54,6 @@ public final class MyDevSystemPropertiesPage
     }
 
     //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
-    }
-
-    //##################################################
     //# install
     //##################################################
 
@@ -82,7 +66,7 @@ public final class MyDevSystemPropertiesPage
     }
 
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override

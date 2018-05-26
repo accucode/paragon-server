@@ -14,11 +14,13 @@ import com.kodemore.utility.Kmu;
 import com.app.dao.base.MyDaoAccess;
 import com.app.model.MyPerformanceLogBuffer;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyBookmark;
+import com.app.ui.page.MyPage;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.login.MyLoginPage;
 import com.app.utility.MyAppNavigator;
+import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -30,7 +32,7 @@ public class MyAjaxServlet
     @Override
     protected void doGet()
     {
-        toastFatal("GET is not allowed for HTTP AJAX requests.  Use POST.");
+        toastFatal("GET is not allowed for HTTP AJAX requests. Use POST.");
     }
 
     @Override
@@ -49,18 +51,36 @@ public class MyAjaxServlet
         MyServletData data = getData();
         try
         {
+            checkApplicationVersion();
+            if ( data.hasResult() )
+                return;
+
             checkServerSession();
             if ( data.hasResult() )
                 return;
 
-            checkSpecialAction(data);
+            String keyParam = data.getActionParameter();
+            if ( Kmu.isEmpty(keyParam) )
+            {
+                toastFatal("No Action Parameter.");
+                return;
+            }
+
+            checkSpecialAction(keyParam);
             if ( data.hasResult() )
                 return;
 
-            ScAction action = getAction(data);
-            if ( action == null )
+            Integer key = Kmu.parseInteger(keyParam);
+            if ( key == null )
             {
                 toastFatal("Invalid Action Key.");
+                return;
+            }
+
+            ScAction action = MyGlobals.getActionRegistry().findKey(key);
+            if ( action == null )
+            {
+                toastFatal("Unknown Action Key.");
                 return;
             }
 
@@ -86,18 +106,12 @@ public class MyAjaxServlet
         }
     }
 
-    private ScAction getAction(MyServletData data)
-    {
-        String key = data.getActionKey();
-
-        return MyGlobals.getControlRegistry().getAction(key);
-    }
-
     private void runAction(ScAction e)
     {
         KmTimer t = KmTimer.run();
         try
         {
+            initializeAjax();
             e.run();
         }
         finally
@@ -107,37 +121,54 @@ public class MyAjaxServlet
         }
     }
 
+    /**
+     * Ensure the result is initialized for ajax.
+     * In most cases, we perform some explicit action that updates
+     * the ajax response. But in some rare cases, we may not do anything
+     * with the response directly. This ensures that an ajaxResult is
+     * configured even if we don't directly access ajax() as part of
+     * handle() methods.
+     */
+    private void initializeAjax()
+    {
+        getData().ajax();
+    }
+
     //##################################################
-    //# server session
+    //# check version/session
     //##################################################
+
+    private void checkApplicationVersion()
+    {
+        String expected = MyConstantsIF.APPLICATION_VERSION;
+        String actual = getData().getApplicationVersion();
+
+        boolean ok = Kmu.isEqual(expected, actual);
+        if ( !ok )
+            ajax().showTimeoutMessage();
+    }
 
     private void checkServerSession()
     {
-        if ( touchServerSession() )
-            return;
-
-        String url = MyUrls.getEntryUrl();
-
-        ajax().alert("Session Timeout.");
-        ajax().gotoUrl(url);
+        boolean ok = touchServerSession();
+        if ( !ok )
+            ajax().showTimeoutMessage();
     }
 
     //##################################################
     //# special action
     //##################################################
 
-    private void checkSpecialAction(MyServletData data)
+    private void checkSpecialAction(String keyParam)
     {
-        String key = data.getActionKey();
-
-        if ( key.equals(ScConstantsIF.PRINT_WINDOW_LOCATION) )
+        if ( keyParam.equals(ScConstantsIF.ACTION_PRINT_WINDOW_LOCATION) )
             printWindowLocation();
     }
 
     private void printWindowLocation()
     {
         KmTimer t = KmTimer.run();
-        ScPage page = getEntryPage();
+        MyPage page = getEntryPage();
         try
         {
             KmDao.run(this::printWindowLocation, page);
@@ -149,7 +180,7 @@ public class MyAjaxServlet
         }
     }
 
-    private void printWindowLocation(ScPage page)
+    private void printWindowLocation(MyPage page)
     {
         if ( requiresLoginFor(page) )
         {
@@ -159,25 +190,28 @@ public class MyAjaxServlet
 
         if ( !page.checkSecuritySilently() )
         {
-            KmLog.debug("Entry page; security check: %s.", page.getClass().getSimpleName());
-            getDefaultEntryPage().ajaxEnter();
+            getDefaultEntryPage().ajaxPrint();
             return;
         }
 
-        ScParameterList params = getData().getWindowParameters();
+        MyBookmark b;
+        b = page.newBookmark();
+        b.readFromWindowLocation();
 
-        page.applyBookmark(params);
+        page.setBookmark(b);
         page.ajaxPrint();
+
+        ajax().setBrowserTabTitle(page.getBrowserTabTitle());
     }
 
-    private ScPage getEntryPage()
+    private MyPage getEntryPage()
     {
         ScParameterList params = getData().getWindowParameters();
-        String key = params.getValue(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY);
+        String key = params.getString(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY);
 
         MyPageRegistry registry = MyPageRegistry.getInstance();
 
-        ScPage page = registry.findKey(key);
+        MyPage page = registry.findKey(key);
         if ( page != null )
             return page;
 
@@ -185,7 +219,7 @@ public class MyAjaxServlet
         return getDefaultEntryPage();
     }
 
-    public ScPage getDefaultEntryPage()
+    public MyPage getDefaultEntryPage()
     {
         return MyAppNavigator.getEntryPage();
     }

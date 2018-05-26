@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MyEmailPartToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaEmailPart Meta = MyEmailPart.Meta;
 
     public ScDomainDropdownField<MyEmailPart,String> newDomainDropdown()
@@ -39,10 +46,10 @@ public abstract class MyEmailPartToolsBase
         ScDomainDropdownField<MyEmailPart,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MyEmailPartFilter());
-        e.setFinder(new MyEmailPartFinder());
+        e.setFinder(MyEmailPart.Finder);
+        e.setOptionSupplier(new MyEmailPartFilter().toSupplier());
         e.setOptionKeyFunction(Meta.Uid);
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

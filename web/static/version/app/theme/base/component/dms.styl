@@ -1,164 +1,176 @@
-/*******************************************************************
- ** draggable multi select
- **
- ** These styles are tied to the ScDraggableMultiSelect widget.
- ** Also, javascript in Kmu.dmsToggle() relies on these selectors.
- *******************************************************************/
+//******************************
+//** draggable multi select
+//**
+//** These styles are tied to the ScDraggableMultiSelect widget.
+//** Also, javascript in Kmu.dmsToggle() relies on these selectors.
+//******************************
+
+
+//******************************
+//** variables
+//******************************
+
+
+$dms-headerBackgroundColor  = #eed
+$dms-listBackgroundColor    = #fff
+
+
+//******************************
+//** container
+//******************************
+
 
 .dmsContainer
-{
-    overflow: hidden;
-}
+    overflow:           hidden
+
+
+//******************************
+//** header
+//******************************
+
 
 .dmsSelectedHeader
-{
-    box-sizing: border-box;
-    position:   absolute;
-    left:       0;
-    width:      50%;
-    top:        0;
-    height:     30px;
+    box-sizing:         border-box
+    position:           absolute
+    left:               0
+    width:              50%
+    top:                0
+    height:             30px
 
-    border: 1px outset #fff;
-    background-color: #eed;
-    font: bold 1.5rem $fontFamily;
-    padding: 5px;
-    overflow: hidden;
-}
+    border:             1px outset #fff
+    background-color:   $dms-headerBackgroundColor
+    font:               bold 1.5rem $fontFamily
+    padding:            5px
+    overflow:           hidden
+
 
 .dmsAvailableHeader
-{
-    box-sizing: border-box;
-    position:   absolute;
-    left:       50%;
-    right:      0;
-    top:        0;
-    height:     30px;
+    box-sizing:         border-box
+    position:           absolute
+    left:               50%
+    right:              0
+    top:                0
+    height:             30px
 
-    border: 1px outset #fff;
-    background-color: #eed;
-    font: bold 1.5rem $fontFamily;
-    padding: 5px;
-    overflow: hidden;
-}
+    border:             1px outset #fff
+    background-color:   $dms-headerBackgroundColor
+    font:               bold 1.5rem $fontFamily
+    padding:            5px
+    overflow:           hidden
+
+
+//******************************
+//** lists
+//******************************
+
 
 .dmsSelectedList
-{
-    box-sizing: border-box;
-    position:   absolute;
-    left:       0;
-    width:      50%;
-    top:        30px;
-    bottom:     0;
+    box-sizing:         border-box
+    position:           absolute
+    left:               0
+    width:              50%
+    top:                30px
+    bottom:             0
 
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-x:         hidden
+    overflow-y:         scroll
 
-    border: 1px outset #fff;
-    background-color: #aaa;
-    background-image: url("../image/bgLightTexture.png");
-}
+    border:             1px outset #fff
+    background-color:   $dms-listBackgroundColor
+
 
 .dmsAvailableList
-{
-    box-sizing: border-box;
-    position:   absolute;
-    left:       50%;
-    right:      0;
-    top:        30px;
-    bottom:     0;
+    box-sizing:         border-box
+    position:           absolute
+    left:               50%
+    right:              0
+    top:                30px
+    bottom:             0
 
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-x:         hidden
+    overflow-y:         scroll
 
-    border: 1px outset #fff;
-    background-color: #aaa;
-    background-image: url("../image/bgLightTexture.png");
-}
+    border:             1px outset #fff
+    background-color:   $dms-listBackgroundColor
+
+
+//******************************
+//** items
+//******************************
+
 
 .dmsItem
-{
-    display:     flex;
-    align-items: center;
+    display:            flex
+    align-items:        center
+    padding:            5px
+    border:             1px outset #fff
+    background-color:   #eee
+    background-image:   linear-gradient(to bottom, #eee, #ddd)
 
-    padding: 5px;
-    border: 1px outset #fff;
-    background-color: #eee;
-    background-image: linear-gradient(to bottom, #eee, #ddd);
-}
+
 .dmsItem:first-child
-{
-    border-top: none;
-}
+    border-top:         none
+
+
 .dmsItem:hover
-{
-    background-color: #ddd;
-    background-image: linear-gradient(to bottom, #ddd, #ccc);
-}
+    background-color:   #ddd
+    background-image:   linear-gradient(to bottom, #ddd, #ccc)
+
 
 .dmsSelectedList .dmsItemHandle
-{
-    flex-grow:   0;
-    flex-shrink: 0;
+    flex-grow:          0
+    flex-shrink:        0
+    box-sizing:         border-box
+    width:              15px
+    height:             16px
+    cursor:             move
+    display:            inline-block
+    background:         transparent url("../image/drag.png") no-repeat center
 
-    box-sizing: border-box;
-    width:   15px;
-    height:  16px;
 
-    cursor: move;
-    display: inline-block;
-    background: transparent url("../image/drag.png") no-repeat center;
-}
 .dmsAvailableList .dmsItemHandle
-{
-    display: none;
-}
+    display:            none
+
 
 .dmsSelectedList .dmsItemPriority
-{
-    flex-grow:   0;
-    flex-shrink: 0;
+    flex-grow:          0
+    flex-shrink:        0
+    box-sizing:         border-box
+    width:              20px
+    margin-left:        5px
+    font:               bold 1.4rem $fontFamily
+    padding-bottom:     4px
 
-    box-sizing: border-box;
-    width: 20px;
-    margin-left: 5px;
-    font: bold 1.4rem $fontFamily;
-    padding-bottom: 4px;
-}
+
 .dmsAvailableList .dmsItemPriority
-{
-    display: none;
-}
+    display:            none
+
 
 .dmsItemText
-{
-    flex-grow:   1;
-    flex-shrink: 1;
-    margin-left: 5px;
-    font: normal 1.4rem $fontFamily;
-    padding-bottom: 2px;
-}
+    flex-grow:          1
+    flex-shrink:        1
+    margin-left:        5px
+    font:               normal 1.4rem $fontFamily
+    padding-bottom:     2px
+
 
 .dmsItemToggle
-{
-    flex-grow:   0;
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    border: 1px outset #fff;
-    cursor: pointer;
-}
+    flex-grow:          0
+    flex-shrink:        0
+    width:              20px
+    height:             20px
+    border:             1px outset #fff
+    cursor:             pointer
+
+
 .dmsSelectedList .dmsItemToggle
-{
-    background: transparent url("../image/dmsRemove.png") no-repeat center;
-}
+    background:         transparent url("../image/dmsRemove.png") no-repeat center
+
+
 .dmsAvailableList .dmsItemToggle
-{
-    background: transparent url("../image/dmsAdd.png") no-repeat center;
-}
+    background:         transparent url("../image/dmsAdd.png") no-repeat center
+
 
 .dmsItemField
-{
-    content: normal; /* Stylus Compression Hack, see comment above. */
-}
+    content: normal // prevent stylus compression
 

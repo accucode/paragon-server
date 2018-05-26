@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,10 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
-import com.kodemore.servlet.control.ScTransitionType;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
@@ -88,7 +86,6 @@ public class ScHtmlIdAjax
      * This is that target that my locally defined convenience methods
      * operate on.  For example, htmlIdAjax.hide() is effectively the same
      * as htmlIdAjax.hide(_target).
-
      */
     private ScHtmlIdIF _target;
 
@@ -231,6 +228,11 @@ public class ScHtmlIdAjax
         prependContents(getTarget(), html);
     }
 
+    public void prependContents(ScControl e)
+    {
+        prependContents(getTarget(), e.renderHtml());
+    }
+
     public void insertContentsAfter(CharSequence html)
     {
         insertContentsAfter(getTarget(), html);
@@ -271,36 +273,14 @@ public class ScHtmlIdAjax
             remove();
     }
 
-    /**
-     * Attempt to replace the element identified by the target htmlId
-     * with the current version of itself using a fade transition.
-     *
-     * NOTE: HtmlIds are not necessarily renderable.  This only works if
-     * the target HtmlId is also an instance of ScControlIF.  Otherwise,
-     * the element will simply be removed.
-     */
-    public final void replaceFade()
+    public final ScReplaceFadeScript replaceFade()
     {
-        ScHtmlIdIF target = getTarget();
-
-        if ( !(target instanceof ScControlIF) )
-        {
-            remove();
-            return;
-        }
-
-        ScControlIF with = (ScControlIF)target;
-
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.render(with);
-
-        ScReplaceContentsScript r;
-        r = setContents();
-        r.setInnerSelector(getTarget().getJquerySelector());
-        r.setContents(out);
-        r.setTransition(ScTransitionType.Fade);
-        r.setSpeed(ScConstantsIF.DEFAULT_SPEED_MS);
+        ScReplaceFadeScript e;
+        e = new ScReplaceFadeScript();
+        e.setTarget(getTarget());
+        e.setReplacement((ScControlIF)getTarget());
+        run(e);
+        return e;
     }
 
     //##################################################
@@ -460,9 +440,9 @@ public class ScHtmlIdAjax
         onChange(getTarget(), e);
     }
 
-    public void fireOnChange()
+    public void fireChanged()
     {
-        fireOnChange(getTarget());
+        fireChanged(getTarget());
     }
 
     //##################################################
@@ -527,6 +507,16 @@ public class ScHtmlIdAjax
     public void scrollToTop()
     {
         scrollToTop(getTarget());
+    }
+
+    public void scrollToBottom()
+    {
+        scrollToBottom(getTarget());
+    }
+
+    public void scrollToBottom(Integer speedMs)
+    {
+        scrollToBottom(getTarget(), speedMs);
     }
 
     public void scrollToIfOffScreen(String childSel)

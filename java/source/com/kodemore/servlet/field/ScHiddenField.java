@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,7 @@ public class ScHiddenField<T>
      * However, in rare cases, we may use css classes to coordinate
      * certain types of business logic.
      */
-    private ScLocalCss     _cssHidden;
+    private ScLocalCss _cssHidden;
 
     //##################################################
     //# constructor
@@ -68,7 +68,7 @@ public class ScHiddenField<T>
     @Override
     public String getHtmlId()
     {
-        return getKey();
+        return getKeyToken();
     }
 
     //==================================================
@@ -186,6 +186,11 @@ public class ScHiddenField<T>
     //##################################################
     //# ajax
     //##################################################
+
+    public void ajaxUpdateValue()
+    {
+        ajaxSetFieldValue(getValue());
+    }
 
     @Override
     public void ajaxSetFieldValue(T e)

@@ -9,9 +9,9 @@ public class KmhBooleanCondition
     //# constructor
     //##################################################
 
-    public KmhBooleanCondition(KmhElement context, String property)
+    public KmhBooleanCondition(KmhElement context, String parentAlias, String property)
     {
-        super(context, property);
+        super(context, parentAlias, property);
     }
 
     //##################################################
@@ -20,12 +20,12 @@ public class KmhBooleanCondition
 
     public void isTrue()
     {
-        context().addTrue(property());
+        context().addTrue(fullName());
     }
 
     public void isFalse()
     {
-        context().addFalse(property());
+        context().addFalse(fullName());
     }
 
 }

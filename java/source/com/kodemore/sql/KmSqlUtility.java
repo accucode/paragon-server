@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,7 @@ public abstract class KmSqlUtility
      * driver: "COM.ibm.db2.jdbc.app.DB2Driver"
      * url:    "jdbc:db2:d_hs"
      */
+    @SuppressWarnings("resource")
     public static KmSqlConnection openDriverConnection(
         String driver,
         String url,
@@ -88,6 +89,7 @@ public abstract class KmSqlUtility
         }
     }
 
+    @SuppressWarnings("resource")
     public static KmSqlConnection openDataSourceConnection(
         String path,
         String factory,

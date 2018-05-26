@@ -26,34 +26,34 @@ public class KmLinkedInConnection
     //# constants
     //##################################################
 
-    private static String               HOST                 = "api.linkedin.com";
-    private static String               HTTP_METHOD          = "GET";
-    private static String               OAUTH_VERSION        = "2.0";
+    private static String HOST          = "api.linkedin.com";
+    private static String HTTP_METHOD   = "GET";
+    private static String OAUTH_VERSION = "2.0";
 
     //##################################################
     //# constants (encryption)
     //##################################################
 
     /**
-     * The encryption method specified in the message header. 
+     * The encryption method specified in the message header.
      * This should correspond to the CRYPTO_METHOD.
      */
-    private static String               AUTHORIZATION_METHOD = "HMAC-SHA1";
+    private static String AUTHORIZATION_METHOD = "HMAC-SHA1";
 
     /**
      * The encryption method actually used by the javax.crypto.spec.SecretKeySpec.
      * This should correspond to the AUTHORIZATION_METHOD.
      */
-    private static String               CRYPTO_METHOD        = "HmacSHA1";
+    private static String CRYPTO_METHOD = "HmacSHA1";
 
     //##################################################
     //# variables (public)
     //##################################################
 
-    private String                      _consumerKey;
-    private String                      _consumerSecret;
-    private String                      _authToken;
-    private String                      _authSecret;
+    private String _consumerKey;
+    private String _consumerSecret;
+    private String _authToken;
+    private String _authSecret;
 
     private String                      _path;
     private KmOrderedMap<String,String> _parameters;
@@ -65,23 +65,23 @@ public class KmLinkedInConnection
     /**
      * "Number used Once".
      * http://hueniverse.com/2008/10/beginners-guide-to-oauth-part-iii-security-architecture/
-     * 
-     * Each request should use a different nonce. 
+     *
+     * Each request should use a different nonce.
      * Any relatively random alphanumeric string will work here.
      * In this case we use a standard UUID but strip the dashes.
      */
-    private String                      _nonce;
+    private String _nonce;
 
     /**
      * The timestamp is used as part of the authentication process.
      * It is updated for each submit, but not guarnateed to be unique.
      */
-    private String                      _timestamp;
+    private String _timestamp;
 
     /**
      * The http request wrapper.
      */
-    private KmHttpRequest               _request;
+    private KmHttpRequest _request;
 
     //##################################################
     //# constructor
@@ -268,7 +268,7 @@ public class KmLinkedInConnection
     //##################################################
 
     /**
-     * Get the encrypted signature as a base-64 string. 
+     * Get the encrypted signature as a base-64 string.
      */
     private String getSignature()
     {

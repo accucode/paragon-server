@@ -54,6 +54,7 @@ public class ScGlobalContext
     public void handleError(KmApplicationException ex)
     {
         KmLog.error(ex, "Application error in global context.");
+        throw Kmu.newRollbackException();
     }
 
     //##################################################

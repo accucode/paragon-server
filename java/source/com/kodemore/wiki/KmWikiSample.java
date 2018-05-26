@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,11 @@
 
 package com.kodemore.wiki;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -42,7 +41,7 @@ public class KmWikiSample
 
     public static void main(String... args)
     {
-        Kmu.writeFile("/temp/test.html", getSample());
+        KmFiles.writeString("/temp/test.html", getSample());
     }
 
     public static String getSample()
@@ -55,10 +54,6 @@ public class KmWikiSample
     //##################################################
 
     private KmOrderedMap<String,String> _samples;
-
-    private String                      _name;
-    private StringWriter                _stringWriter;
-    private PrintWriter                 _printWriter;
 
     //##################################################
     //# run
@@ -165,8 +160,8 @@ public class KmWikiSample
 
     private void addSimpleSample()
     {
-        PrintWriter out;
-        out = startSample("Simple");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("This is normal text.");
         out.println("This is **bold** text.");
         out.println("This is //italic// text.");
@@ -175,35 +170,38 @@ public class KmWikiSample
         out.println();
         out.println("Simple formats can be nested...");
         out.println("**bold //italic// bold**.");
-        endSample();
+
+        addSample("Simple", out);
     }
 
     private void addHeaderSample()
     {
-        PrintWriter out;
-        out = startSample("Headers");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("= Header 1 =");
         out.println("== Header 2 ==");
         out.println("=== Header 3 ===");
         out.println("==== Header 4 ====");
         out.println("===== Header 5 =====");
-        endSample();
+
+        addSample("Headers", out);
     }
 
     private void addRuleSample()
     {
-        PrintWriter out;
-        out = startSample("Rule");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("before");
         out.println("---");
         out.println("after");
-        endSample();
+
+        addSample("Rule", out);
     }
 
     private void addQuoteSample()
     {
-        PrintWriter out;
-        out = startSample("Quote");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("before");
         out.println(">>>");
         out.println("This is a block quote.");
@@ -213,13 +211,14 @@ public class KmWikiSample
         out.println("* three");
         out.println("<<<");
         out.println("after");
-        endSample();
+
+        addSample("Quote", out);
     }
 
     private void addBulletListSample()
     {
-        PrintWriter out;
-        out = startSample("Bullet List");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("before");
         out.println("* apple");
         out.println("* bannana");
@@ -227,13 +226,14 @@ public class KmWikiSample
         out.println("** grape");
         out.println("* orange");
         out.println("after");
-        endSample();
+
+        addSample("Bullet List", out);
     }
 
     private void addNumberedListSample()
     {
-        PrintWriter out;
-        out = startSample("Numbered List");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("before");
         out.println("# apple");
         out.println("# bannana");
@@ -241,34 +241,25 @@ public class KmWikiSample
         out.println("## grape");
         out.println("# orange");
         out.println("after");
-        endSample();
+
+        addSample("Numbered List", out);
     }
 
     private void addNoWikiSample()
     {
-        PrintWriter out;
-        out = startSample("No Wiki");
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("The 'no wiki' can be used to wrap text that");
         out.println("would otherwise be interpreted as a wiki format.");
         out.println("This is **bold**.");
         out.println("This is {{{**not bold**}}}.");
-        endSample();
+
+        addSample("No Wiki", out);
     }
 
-    private PrintWriter startSample(String name)
+    private void addSample(String name, CharSequence out)
     {
-        _name = name;
-        _stringWriter = new StringWriter();
-        _printWriter = new PrintWriter(_stringWriter);
-        return _printWriter;
-    }
-
-    private void endSample()
-    {
-        String wiki = _stringWriter.toString();
-
-        _printWriter.close();
-        _samples.put(_name, wiki);
+        _samples.put(name, out.toString());
     }
 
 }

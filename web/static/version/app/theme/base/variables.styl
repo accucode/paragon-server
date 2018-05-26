@@ -1,14 +1,16 @@
-/*******************************************************************
- * Theme: base
- *
- * The general structure of the css is shared in stylus files
- * that are common to all themes. This file specifies various
- * variables and overrides specific css as needed.
- *******************************************************************/
+//*******************************************************************
+//* Theme: base
+//*
+//* The general structure of the css is shared in stylus files
+//* that are common to all themes. This file specifies various
+//* variables and overrides specific css as needed.
+//*******************************************************************
+
 
 //******************************
 //** general
 //******************************
+
 
 $fontFamily                             = roboto, sans-serif
 
@@ -18,19 +20,22 @@ $shadowColor-dark                       = rgba(0, 0, 0, 0.4)
 $shadow                                 = 4px 4px 4px $shadowColor
 $shadow-dark                            = 4px 4px 4px $shadowColor-dark
 
+
 //******************************
 //** html
 //******************************
+
 
 $body-font                              = normal 1.4rem $fontFamily
 $body-color                             = #000000
 $body-background                        = #ffffff
 
+
 //******************************
 //** header
 //******************************
 
-$header-height                          = 50px
+$header-height                          = 5rem
 
 $header-background                      = #000
 $header-productionBackground            = #f00
@@ -62,35 +67,44 @@ $header-userColor                       = #fff
 //** title
 //******************************
 
-$title-height                           = 40px
+
+$title-height                           = 4rem
+
 $title-background                       = #FFFFFF
 $title-nameColor                        = #0D70AC
 $title-nameFont                         = bold 2.2rem $fontFamily
+
 
 //******************************
 //** footer
 //******************************
 
-$footer-height                          = 20px
+
+$footer-height                          = 2rem
+
 $footer-font                            = normal 1.1rem $fontFamily
 $footer-color                           = rgba(0, 0, 0, 0.6)
 $footer-background                      = transparent
 $footer-border                          = none
 $footer-padding                         = 5px
 
+
 //******************************
 //** content
 //******************************
+
 
 $content-background                     = #FFFFFF
 $content-leftMargin                     = 20px
 $content-rightMargin                    = 20px
 
+
 //******************************
 //** menu
 //******************************
 
-$menu-height                            = 40px
+
+$menu-height                            = 4rem
 
 $menu-background                        = #0d70ac
 $menu-background-open                   = #eee
@@ -121,7 +135,9 @@ $menu-borderRadius                      = 5px
 
 $group-shadow                           = 4px 4px 4px rgba(0, 0, 0, 0.2)
 
-$group-titleFont                        = bold 2.0rem $fontFamily
+$group-bannerHeight                     = 3rem
+
+$group-titleFont                        = bold 2rem $fontFamily
 $group-titlePadding                     = 0px 10px
 
 $group-borderStyle                      = solid
@@ -130,9 +146,11 @@ $group-borderInnerSize                  = 1px
 
 $groupFade                              = 95%
 
+
 //------------------------------
-//-- group :: normal
+//-- group :: normal (blue)
 //------------------------------
+
 
 $group-normal-bannerColor               = #fff
 $group-normal-bannerBackground          = #17b
@@ -148,64 +166,111 @@ $group-normal-footerBackground          = lighten($group-normal-bannerBackground
 
 $group-normal-borderColor               = $group-normal-bannerBackground
 
-//------------------------------
-//-- group :: primary
-//------------------------------
-
-$group-primary-bannerColor              = #fff
-$group-primary-bannerBackground         = #1b7
-
-$group-primary-headerColor              = #000
-$group-primary-headerBackground         = lighten($group-primary-bannerBackground, $groupFade)
-
-$group-primary-bodyColor                = #000
-$group-primary-bodyBackground           = lighten($group-primary-bannerBackground, $groupFade)
-
-$group-primary-footerColor              = #000
-$group-primary-footerBackground         = lighten($group-primary-bannerBackground, $groupFade)
-
-$group-primary-borderColor              = $group-primary-bannerBackground
 
 //------------------------------
-//-- group :: secondary
+//-- group :: accent (green)
 //------------------------------
 
-$group-secondary-bannerColor            = #fff
-$group-secondary-bannerBackground       = #fb0
 
-$group-secondary-headerColor            = #000
-$group-secondary-headerBackground       = lighten($group-secondary-bannerBackground, $groupFade)
+$group-accent-bannerColor               = #fff
+$group-accent-bannerBackground          = #1b7
 
-$group-secondary-bodyColor              = #000
-$group-secondary-bodyBackground         = lighten($group-secondary-bannerBackground, $groupFade)
+$group-accent-headerColor               = #000
+$group-accent-headerBackground          = lighten($group-accent-bannerBackground, $groupFade)
 
-$group-secondary-footerColor            = #000
-$group-secondary-footerBackground       = lighten($group-secondary-bannerBackground, $groupFade)
+$group-accent-bodyColor                 = #000
+$group-accent-bodyBackground            = lighten($group-accent-bannerBackground, $groupFade)
 
-$group-secondary-borderColor            = $group-secondary-bannerBackground
+$group-accent-footerColor               = #000
+$group-accent-footerBackground          = lighten($group-accent-bannerBackground, $groupFade)
+
+$group-accent-borderColor               = $group-accent-bannerBackground
+
 
 //------------------------------
-//-- group :: tertiary
+//-- group :: list (yellow)
 //------------------------------
 
-$group-tertiary-bannerColor             = #fff
-$group-tertiary-bannerBackground        = #1af
 
-$group-tertiary-headerColor             = #000
-$group-tertiary-headerBackground        = lighten($group-tertiary-bannerBackground, $groupFade)
+$group-list-bannerColor                 = #fff
+$group-list-bannerBackground            = #fb0
 
-$group-tertiary-bodyColor               = #000
-$group-tertiary-bodyBackground          = lighten($group-tertiary-bannerBackground, $groupFade)
+$group-list-headerColor                 = #000
+$group-list-headerBackground            = lighten($group-list-bannerBackground, $groupFade)
 
-$group-tertiary-footerColor             = #000
-$group-tertiary-footerBackground        = lighten($group-tertiary-bannerBackground, $groupFade)
+$group-list-bodyColor                   = #000
+$group-list-bodyBackground              = lighten($group-list-bannerBackground, $groupFade)
 
-$group-tertiary-borderColor             = $group-tertiary-bannerBackground
+$group-list-footerColor                 = #000
+$group-list-footerBackground            = lighten($group-list-bannerBackground, $groupFade)
+
+$group-list-borderColor                 = $group-list-bannerBackground
+
+
+//------------------------------
+//-- group :: detail (yellow)
+//------------------------------
+
+
+$group-detail-bannerColor               = #fff
+$group-detail-bannerBackground          = #fb0
+
+$group-detail-headerColor               = #000
+$group-detail-headerBackground          = lighten($group-detail-bannerBackground, $groupFade)
+
+$group-detail-bodyColor                 = #000
+$group-detail-bodyBackground            = lighten($group-detail-bannerBackground, $groupFade)
+
+$group-detail-footerColor               = #000
+$group-detail-footerBackground          = lighten($group-detail-bannerBackground, $groupFade)
+
+$group-detail-borderColor               = $group-detail-bannerBackground
+
+
+//------------------------------
+//-- group :: summary
+//------------------------------
+
+
+$group-summary-bannerColor             = #fff
+$group-summary-bannerBackground        = #1af
+
+$group-summary-headerColor             = #000
+$group-summary-headerBackground        = lighten($group-summary-bannerBackground, $groupFade)
+
+$group-summary-bodyColor               = #000
+$group-summary-bodyBackground          = lighten($group-summary-bannerBackground, $groupFade)
+
+$group-summary-footerColor             = #000
+$group-summary-footerBackground        = lighten($group-summary-bannerBackground, $groupFade)
+
+$group-summary-borderColor             = $group-summary-bannerBackground
+
+
+//------------------------------
+//-- group :: minor
+//------------------------------
+
+
+$group-minor-bannerColor                = #fff
+$group-minor-bannerBackground           = #aaa
+
+$group-minor-headerColor                = #000
+$group-minor-headerBackground           = lighten($group-minor-bannerBackground, $groupFade)
+
+$group-minor-bodyColor                  = #000
+$group-minor-bodyBackground             = lighten($group-minor-bannerBackground, $groupFade)
+
+$group-minor-footerColor                = #000
+$group-minor-footerBackground           = lighten($group-minor-bannerBackground, $groupFade)
+
+$group-minor-borderColor                = $group-minor-bannerBackground
 
 
 //------------------------------
 //-- group :: alert
 //------------------------------
+
 
 $group-alert-bannerColor                = #fff
 $group-alert-bannerBackground           = #e00
@@ -226,6 +291,7 @@ $group-alert-borderColor                = #e00
 //** form filter
 //******************************
 
+
 $formFilterLineTextColor                = #fff
 $formFilterLineBackgroundColor          = #f8f8f8
 $formFilterLineBorderColor              = #EBECEE
@@ -236,9 +302,11 @@ $formFilterIndicatorColorSearch         = #fff
 
 $formFilterLineSelectionColor           = #242A36
 
+
 //******************************
 //** field
 //******************************
+
 
 $fieldBackgroundColor                   = #fff
 
@@ -246,6 +314,7 @@ $fieldBackgroundColor                   = #fff
 //******************************
 //** fieldset
 //******************************
+
 
 $fieldset-legendFont                    = normal 1.6rem $fontFamily
 $fieldset-legendPadding                 = 2px 14px
@@ -260,14 +329,16 @@ $fieldset-bodyBackground                = #f8f8f8
 $fieldset-bodyBorder                    = 1px solid #69b
 $fieldset-bodyRadius                    = 0
 
+
 //******************************
 //** button
 //******************************
 
-$button-height                          = 30px
+
+$button-height                          = 3rem
 $button-minimumWidth                    = 30px
-$button-padding                         = 3px 7px
-$button-radius                          = 3px
+$button-padding                         = 0.3rem 0.7rem
+$button-radius                          = 0.3rem
 
 $button-font                            = normal 1.6rem $fontFamily
 $button-primaryFont                     = bold   1.6rem $fontFamily
@@ -280,21 +351,25 @@ $button-shadow                          = 2px 2px 2px $shadowColor
 $button-shadow-hover                    = 2px 2px 2px $shadowColor-dark
 $button-shadow-active                   = $button-shadow-hover
 
-$button-imageMargin                     = 0px 2px -3px 1px
-$button-imageWidth                      = 16px
-$button-imageHeight                     = 16px
-$button-imagePadding                    = 0px
+$button-imageMargin                     = 0
+$button-imageMargin                     = 0
 
-$button-focusOutline                    = 1px dotted rgba(0, 0, 255, 0.2)
+$button-imageWidth                      = 2.0rem
+$button-imageHeight                     = 2.0rem
+$button-imagePadding                    = 0
+
+$button-focusOutline                    = 1px solid rgba(0, 0, 255, 0.4)
 $button-focusOutlineOffset              = -4px
+
 
 //------------------------------
 //-- button :: normal
 //------------------------------
 
+
 $tempColor = #ddd
-$tempLight = lighten($tempColor, 10)
-$tempDark  = darken($tempColor,  10)
+$tempLight = lighten($tempColor, 20)
+$tempDark  = darken($tempColor,  20)
 
 $button-normalColor                     = #369
 $button-normalBackground                = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
@@ -308,13 +383,15 @@ $button-normalColor-active              = ()
 $button-normalBackground-active         = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
 $button-normalBorder-active             = ()
 
+
 //------------------------------
 //-- button :: positive
 //------------------------------
 
+
 $tempColor = #5b7
-$tempLight = lighten($tempColor, 10)
-$tempDark  = darken($tempColor,  10)
+$tempLight = lighten($tempColor, 20)
+$tempDark  = darken($tempColor,  20)
 
 $button-positiveColor                   = #fff
 $button-positiveBackground              = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
@@ -328,13 +405,15 @@ $button-positiveColor-active            = ()
 $button-positiveBackground-active       = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
 $button-positiveBorder-active           = ()
 
+
 //------------------------------
 //-- button :: negative
 //------------------------------
 
+
 $tempColor = #e91
-$tempLight = lighten($tempColor, 10)
-$tempDark  = darken($tempColor,  10)
+$tempLight = lighten($tempColor, 20)
+$tempDark  = darken($tempColor,  20)
 
 $button-negativeColor                   = #fff
 $button-negativeBackground              = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
@@ -348,33 +427,37 @@ $button-negativeColor-active            = ()
 $button-negativeBackground-active       = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
 $button-negativeBorder-active           = ()
 
+
 //------------------------------
 //-- button :: delete
 //------------------------------
 
+
 $tempColor = #e00
-$tempLight = lighten($tempColor, 10)
-$tempDark  = darken($tempColor,  10)
+$tempLight = lighten($tempColor, 15)
+$tempDark  = darken($tempColor,  15)
 
-$button-deleteColor                     = #fff
-$button-deleteBackground                = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
-$button-deleteBorder                    = 1px solid $tempDark
+$button-warnColor                       = #fff
+$button-warnBackground                  = linear-gradient(to bottom, $tempLight 0%, $tempColor 100%)
+$button-warnBorder                      = 1px solid $tempDark
 
-$button-deleteColor-hover               = ()
-$button-deleteBackground-hover          = ()
-$button-deleteBorder-hover              = ()
+$button-warnColor-hover                 = ()
+$button-warnBackground-hover            = ()
+$button-warnBorder-hover                = ()
 
-$button-deleteColor-active              = ()
-$button-deleteBackground-active         = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
-$button-deleteBorder-active             = ()
+$button-warnColor-active                = ()
+$button-warnBackground-active           = linear-gradient(to bottom, $tempColor 0%, $tempLight 100%)
+$button-warnBorder-active               = ()
+
 
 //------------------------------
 //-- button :: icon
 //------------------------------
 
+
 $tempColor = rgba(208, 208, 208, 0.2)
-$tempLight = lighten($tempColor, 20)
-$tempDark  = darken($tempColor,  20)
+$tempLight = lighten($tempColor, 15)
+$tempDark  = darken($tempColor,  15)
 
 $button-iconColor                       = transparent
 $button-iconBackground                  = transparent
@@ -388,11 +471,13 @@ $button-iconColor-active                = ()
 $button-iconBackground-active           = $tempLight
 $button-iconBorder-active               = 1px solid $tempDark
 
+
 //------------------------------
 //-- button :: disabled
 //------------------------------
 
-$button-disabledColor                   = #d81
+
+$button-disabledColor                   = #369
 $button-disabledBackground              = #ddd
 $button-disabledBorder                  = 1px solid #bbb
 
@@ -404,9 +489,11 @@ $button-disabledColor-active            = ()
 $button-disabledBackground-active       = ()
 $button-disabledBorder-active           = ()
 
+
 //******************************
 //** tooltip
 //******************************
+
 
 $tooltip-font                           = normal 1.4rem $fontFamily
 $tooltip-padding                        = 10px
@@ -416,44 +503,46 @@ $tooltip-width                          = 300px
 $tooltip-shadow                         = 0px 0px 20px 4px rgba(0,0,0,0.75)
 $tooltip-triangleSize                   = 0.8rem
 
+
 //******************************
 //** dialog
 //******************************
+
 
 $dialog-overlayOpacity                  = 0.5
 $dialog-shadow                          = 0px 0px 10px 10px rgba(0, 0, 0, 0.4)
 $dialog-titleFont                       = bold 2.0rem $fontFamily
 
 $dialog-titleBackground                 = #ccc
-$dialog-titleBorder                     = 1px solid #aaa
+$dialog-border                          = 1px solid #aaa
 
-$dialog-headerBackground                = #fff
-$dialog-headerBorder                    = 1px solid #aaa
-
+$dialog-headerBackground                = #eee
 $dialog-footerBackground                = #eee
-$dialog-footerBorder                    = 1px solid #aaa
 
-$dialog-bodyBackground                  = #fff
 
 //******************************
 //** active task
 //******************************
 
 $activeTask-padding                     = 5px
-$activeTask-border                      = 1px solid #ccc
+$activeTask-border                      = none
 $activeTask-backgroundColor             = #0d70ac
 $activeTask-dividerHeight               = 25px
+
 
 //******************************
 //** scrollbar
 //******************************
 
+
 $scrollbar-useCustom                    = true
 $scrollbar-barSize                      = 20px
+
 
 //------------------------------
 //-- scrollbar :: track
 //------------------------------
+
 
 $scrollbar-trackBackground              = transparent
 $scrollbar-trackBackgroundClip          = border-box
@@ -470,9 +559,11 @@ $scrollbar-trackBackgroundClip-active   = border-box
 $scrollbar-trackBorder-active           = none
 $scrollbar-trackRadius-active           = 0
 
+
 //------------------------------
 //-- scrollbar :: thumb
 //------------------------------
+
 
 $scrollbar-thumbBackground              = rgba(0, 0, 0, 0.2)
 $scrollbar-thumbBackgroundClip          = padding-box
@@ -489,16 +580,20 @@ $scrollbar-thumbBackgroundClip-active   = padding-box
 $scrollbar-thumbBorder-active           = 5px solid rgba(0, 0, 0, 0)
 $scrollbar-thumbRadius-active           = 10px
 
+
 //------------------------------
 //-- scrollbar :: button
 //------------------------------
 
+
 $scrollbar-buttonSize                   = 0
 $scrollbar-buttonBackground             = transparent
+
 
 //******************************
 //** calendar
 //******************************
+
 
 $calendar-eventSelectionColor           = #000
 $calendar-eventSelectionBackground      = #00f
@@ -520,9 +615,23 @@ $calendar-eventCColor                   = #000
 $calendar-eventCBackground              = #ccf
 $calendar-eventCBorder                  = 1px solid #000
 
+$calendar-eventDColor                   = #000
+$calendar-eventDBackground              = #ffc
+$calendar-eventDBorder                  = 1px solid #000
+
+$calendar-eventEColor                   = #000
+$calendar-eventEBackground              = #fc6
+$calendar-eventEBorder                  = 1px solid #000
+
+$calendar-eventFColor                   = #000
+$calendar-eventFBackground              = #cff
+$calendar-eventFBorder                  = 1px solid #000
+
+
 //******************************
 //** dashboard
 //******************************
+
 
 $dashboard-gap                          = 20px
 
@@ -534,9 +643,11 @@ $dashboard-sampleBackground             = #eee
 $dashboard-sampleBorder                 = 1px solid black
 $dashboard-samplePadding                = 10px
 
+
 //******************************
 //** error
 //******************************
+
 
 $error-attachedFont                     = normal 1.2rem $fontFamily
 $error-attachedColor                    = red
@@ -552,31 +663,42 @@ $error-detachedBorder                   = 1px solid red
 $error-detachedPadding                  = 2px 5px
 $error-detachedMargin                   = 1px 0 4px 0
 
+$error-boxFont                          = normal 1.2rem $fontFamily
+$error-boxColor                         = red
+$error-boxBackground                    = white
+$error-boxBorder                        = 1px solid red
+$error-boxPadding                       = 2px 5px
+$error-boxMargin                        = 0
+
+
 //******************************
 //** model list
 //******************************
 
+
 $modelList-background                   = transparent
+
 
 //------------------------------
 //-- model list :: item
 //------------------------------
 
-$modelList-itemHeight                   = 50px
+
+$modelList-itemHeight                   = 5rem
 $modelList-itemMargin                   = 0px
 $modelList-itemBackground-hover         = #ddd
+
+$modelList-itemTitleFont                = bold 1.6rem $fontFamily
+$modelList-itemTitleColor               = #000
+
+$modelList-itemSubtitleFont             = normal 1.4rem $fontFamily
+$modelList-itemSubtitleColor            = #000
 
 $modelList-itemColor                    = #444
 $modelList-itemBackground               = #fff
 $modelList-itemBorderWidth              = 0px 1px 1px 1px
 $modelList-itemBorderStyle              = solid
-$modelList-itemBorderColor              = #ddd
-
-$modelList-itemColor-select             = #444
-$modelList-itemBackground-select        = #ee8
-$modelList-itemBorderWidth-select       = $modelList-itemBorderWidth
-$modelList-itemBorderStyle-select       = $modelList-itemBorderStyle
-$modelList-itemBorderColor-select       = $modelList-itemBorderColor
+$modelList-itemBorderColor              = #ccc
 
 $modelList-itemColor-inactive           = #888
 $modelList-itemBackground-inactive      = #eee
@@ -585,25 +707,26 @@ $modelList-itemBorderWidth-inactive     = $modelList-itemBorderWidth
 $modelList-itemBorderStyle-inactive     = $modelList-itemBorderStyle
 $modelList-itemBorderColor-inactive     = $modelList-itemBorderColor
 
+$modelList-itemColor-select             = #444
+$modelList-itemBackground-select        = #fcf8e3
+$modelList-itemBackground-selectHover   = #ece9d5
+$modelList-itemBorderWidth-select       = $modelList-itemBorderWidth
+$modelList-itemBorderStyle-select       = $modelList-itemBorderStyle
+$modelList-itemBorderColor-select       = $modelList-itemBorderColor
+
 $modelList-itemMessageBoxPadding        = 5px
 $modelList-itemMenuBoxPadding           = 5px
-
-$modelList-itemTitleFont                = bold 1.6rem $fontFamily
-$modelList-itemTitleColor               = #000
-
-$modelList-itemSubtitleFont             = normal 1.4rem $fontFamily
-$modelList-itemSubtitleColor            = #000
 
 $modelList-indicatorVisible             = false
 $modelList-indicatorWidth               = 2px
 $modelList-indicatorHeight              = 30px
 $modelList-indicatorMargin              = 5px
 
-// left right
 
 //******************************
 //** link
 //******************************
+
 
 $link-color                            = #00f
 $link-font                             = normal 1.6rem $fontFamily
@@ -613,9 +736,11 @@ $link-color-hover                      = $link-color
 $link-font-hover                       = $link-font
 $link-textDecoration-hover             = underline
 
+
 //******************************
 //** popr
 //******************************
+
 
 $popr-font                      = normal 1.6rem $fontFamily
 $popr-color                     = #000
@@ -624,6 +749,7 @@ $popr-backgroundColor-hover     = #ddd
 $popr-borderSize                = 2px
 $popr-borderColor               = #888
 $popr-shadow                    = 4px 4px 4px rgba(0, 0, 0, 0.4)
+
 
 //******************************
 //** end

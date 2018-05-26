@@ -27,6 +27,70 @@ public abstract class KmSqlResultFormatter
     }
 
     //##################################################
+    //# variables
+    //##################################################
+
+    /**
+     * If true, null values will be formatted as a blank instead of "-null-"
+     */
+    private boolean _useBlanksForNull;
+
+    /**
+     * IF true, the header above the result set containing the statement will be hidden
+     */
+    private boolean _hideSqlData;
+
+    //##################################################
+    //# nulls
+    //##################################################
+
+    public void useBlanksForNull(boolean e)
+    {
+        _useBlanksForNull = e;
+    }
+
+    public void useBlanksForNull()
+    {
+        useBlanksForNull(true);
+    }
+
+    protected boolean usesBlanksForNulls()
+    {
+        return _useBlanksForNull;
+    }
+
+    protected String formatNull()
+    {
+        return usesBlanksForNulls()
+            ? ""
+            : "-null-";
+    }
+
+    //##################################################
+    //# sql data
+    //##################################################
+
+    public void hideSqlData(boolean e)
+    {
+        _hideSqlData = e;
+    }
+
+    public void hideSqlData()
+    {
+        hideSqlData(true);
+    }
+
+    protected boolean isSqlDataHidden()
+    {
+        return _hideSqlData;
+    }
+
+    protected boolean showsSqlData()
+    {
+        return !isSqlDataHidden();
+    }
+
+    //##################################################
     //# begin / end
     //##################################################
 
@@ -62,10 +126,13 @@ public abstract class KmSqlResultFormatter
         try
         {
             KmList<String> v = new KmList<>();
+
             ResultSetMetaData m = rs.getMetaData();
             int n = m.getColumnCount();
+
             for ( int i = 1; i < n + 1; i++ )
-                v.add(m.getColumnName(i));
+                v.add(m.getColumnLabel(i));
+
             return v;
         }
         catch ( Exception ex )

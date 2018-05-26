@@ -28,4 +28,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'Anchor,Underline,About';
 
 	config.removeDialogTabs = 'link:advanced';
+	
+	config.disableNativeSpellChecker = false;
 };

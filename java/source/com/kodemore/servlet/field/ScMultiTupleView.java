@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import com.kodemore.servlet.control.ScFieldIF;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldText;
 import com.kodemore.servlet.control.ScTransientContainer;
+import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalList;
 import com.kodemore.servlet.variable.ScLocalOptionList;
@@ -66,13 +67,13 @@ public class ScMultiTupleView
      * The option's text is used for the field's label.
      *      This is not required to be unique, and may be null.
      */
-    private ScLocalOptionList<String>  _options;
+    private ScLocalOptionList<String> _options;
 
     /**
      * The transient container that holds all of the dynamically generated
      * attribute fields.
      */
-    private ScTransientContainer       _container;
+    private ScTransientContainer _container;
 
     /**
      * The list of transient text fields.
@@ -80,19 +81,19 @@ public class ScMultiTupleView
      * It is temporarily populated in conjunction with the transient container
      * to provide convenience access to the list of transient fields.
      */
-    private ScLocalList<ScTextField>   _fields;
+    private ScLocalList<ScTextField> _fields;
 
     /**
      * If set this validator is applied to ALL of the attributes.
      */
-    private KmStringValidator          _validator;
+    private ScLocal<KmStringValidator> _validator;
 
     /**
      * If true, the checkbox button is disabled.
      * Bear in mind that disabled fields are NOT submitted with the form.
      * False by default.
      */
-    private ScLocalBoolean             _readOnly;
+    private ScLocalBoolean _readOnly;
 
     /**
      * If true (the default), the value is encoded into an html data- attribute
@@ -102,7 +103,7 @@ public class ScMultiTupleView
      * Change tracking should be set during initial page initialization, and should
      * NOT be modified while processing a page.
      */
-    private boolean                    _changeTracking;
+    private boolean _changeTracking;
 
     //##################################################
     //# constructor
@@ -118,6 +119,7 @@ public class ScMultiTupleView
         _container = getInner().addTransientContainer();
         _fields = new ScLocalList<>();
 
+        _validator = new ScLocal<>();
         _readOnly = new ScLocalBoolean(false);
         _changeTracking = true;
     }
@@ -202,17 +204,17 @@ public class ScMultiTupleView
 
     public KmStringValidator getValidator()
     {
-        return _validator;
+        return _validator.getValue();
     }
 
     public void setValidator(KmStringValidator e)
     {
-        _validator = e;
+        _validator.setValue(e);
     }
 
     public boolean hasValidator()
     {
-        return _validator != null;
+        return _validator.hasValue();
     }
 
     //##################################################
@@ -349,7 +351,7 @@ public class ScMultiTupleView
         _fields.clear();
 
         ScFieldTable fields;
-        fields = _container.addFieldTable();
+        fields = _container.addFullWidthFieldTable();
         fields.css().widthFull();
 
         for ( ScOption<String> opt : getOptions() )

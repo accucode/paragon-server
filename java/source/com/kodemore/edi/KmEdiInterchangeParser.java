@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import java.io.Reader;
 import java.io.StringReader;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.utility.KmReaderProcessorIF;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -51,18 +51,18 @@ public class KmEdiInterchangeParser
     //# public (static)
     //##################################################
 
-    public static Object parseSource(String name, String source)
+    public static KmEdiInterchange parseSource(String name, String source)
     {
         StringReader r = new StringReader(source);
         return parseReader(name, r);
     }
 
-    public static Object parseReader(String name, Reader r)
+    public static KmEdiInterchange parseReader(String name, Reader r)
     {
         return new KmEdiInterchangeParser().process(name, r);
     }
 
-    public static Object parseFile(String name, File f)
+    public static KmEdiInterchange parseFile(String name, File f)
     {
         return parseFile(name, f.getPath());
     }
@@ -75,16 +75,9 @@ public class KmEdiInterchangeParser
 
     public static KmEdiInterchange parseFile(String name, String path)
     {
-        KmReaderProcessorIF p = new KmReaderProcessorIF()
-        {
-            @Override
-            public Object process(Reader r, Object... args)
-            {
-                String s = (String)args[0];
-                return parseReader(s, r);
-            }
-        };
-        return (KmEdiInterchange)Kmu.process(path, p, name);
+        String s = KmFiles.readString(path);
+        StringReader r = new StringReader(s);
+        return parseReader(name, r);
     }
 
     //##################################################
@@ -100,12 +93,12 @@ public class KmEdiInterchangeParser
     //# variables
     //##################################################
 
-    private String              _name;
-    private Reader              _reader;
-    private KmEdiInterchange    _interchange;
+    private String           _name;
+    private Reader           _reader;
+    private KmEdiInterchange _interchange;
 
-    public char                 _next;
-    public boolean              _escape;
+    public char    _next;
+    public boolean _escape;
 
     public KmList<KmEdiElement> _elements;
     public KmList<String>       _values;
@@ -115,7 +108,7 @@ public class KmEdiInterchangeParser
     //# process
     //##################################################
 
-    public Object process(String name, Reader r)
+    public KmEdiInterchange process(String name, Reader r)
     {
         _name = name;
         _reader = r;

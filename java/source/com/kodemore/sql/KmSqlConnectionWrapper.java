@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -131,7 +131,8 @@ public class KmSqlConnectionWrapper
     public Statement createStatement(
         int resultSetType,
         int resultSetConcurrency,
-        int resultSetHoldability) throws SQLException
+        int resultSetHoldability)
+        throws SQLException
     {
         return getJavaConnection().createStatement(
             resultSetType,
@@ -211,7 +212,8 @@ public class KmSqlConnectionWrapper
         String sql,
         int resultSetType,
         int resultSetConcurrency,
-        int resultSetHoldability) throws SQLException
+        int resultSetHoldability)
+        throws SQLException
     {
         return getJavaConnection().prepareCall(
             sql,
@@ -248,7 +250,8 @@ public class KmSqlConnectionWrapper
     public PreparedStatement prepareStatement(
         String sql,
         int resultSetType,
-        int resultSetConcurrency) throws SQLException
+        int resultSetConcurrency)
+        throws SQLException
     {
         return getJavaConnection().prepareStatement(sql, resultSetType, resultSetConcurrency);
     }
@@ -258,7 +261,8 @@ public class KmSqlConnectionWrapper
         String sql,
         int resultSetType,
         int resultSetConcurrency,
-        int resultSetHoldability) throws SQLException
+        int resultSetHoldability)
+        throws SQLException
     {
         return getJavaConnection().prepareStatement(
             sql,

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.ScPageIF;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.script.ScBlockScript;
 
 /**
@@ -37,7 +37,7 @@ public class ScPageLink
     //# variables
     //##################################################
 
-    private ScPageIF _page;
+    private ScPage _page;
 
     //##################################################
     //# constructor
@@ -52,12 +52,12 @@ public class ScPageLink
     //# accessing
     //##################################################
 
-    public ScPageIF getPage()
+    public ScPage getPage()
     {
         return _page;
     }
 
-    public void setPage(ScPageIF e)
+    public void setPage(ScPage e)
     {
         _page = e;
     }
@@ -86,7 +86,7 @@ public class ScPageLink
     }
 
     @Override
-    protected String formatHref()
+    protected String formatEnabledHref()
     {
         ScBlockScript s;
         s = ScBlockScript.create();
@@ -96,7 +96,7 @@ public class ScPageLink
     }
 
     @Override
-    protected String formatOnClick()
+    protected String formatEnabledOnClick()
     {
         return null;
     }

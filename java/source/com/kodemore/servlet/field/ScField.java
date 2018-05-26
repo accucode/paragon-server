@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,14 @@ package com.kodemore.servlet.field;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.exception.error.KmErrorList;
+import com.kodemore.meta.KmMetaAssociation;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldIF;
 import com.kodemore.servlet.control.ScUtility;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalStringList;
@@ -50,25 +53,25 @@ public abstract class ScField<T>
      * In practice, adapters work best when all of the fields in a given container
      * (e.g.: a form or group) are associated with the same model.
      */
-    private ScLocalAdaptor    _valueAdaptor;
+    private ScLocalAdaptor _valueAdaptor;
 
     /**
      * A type specific validator.
      */
-    private KmValidator<T>    _validator;
+    private ScLocal<KmValidator<T>> _validator;
 
     /**
      * If true (by default), the original value is included in the html data- attribute
      * and the client-side browser uses javascript to track if changes are made.
      */
-    private boolean           _changeTracking;
+    private boolean _changeTracking;
 
     /**
      * The list of errors currently associated with this field.
      */
     private ScLocalStringList _errors;
 
-    private ScLocalBoolean    _visible;
+    private ScLocalBoolean _visible;
 
     //##################################################
     //# constructor
@@ -77,6 +80,7 @@ public abstract class ScField<T>
     public ScField()
     {
         _valueAdaptor = new ScLocalAdaptor();
+        _validator = new ScLocal<>();
         _errors = new ScLocalStringList();
         _changeTracking = true;
         _visible = new ScLocalBoolean(true);
@@ -128,6 +132,26 @@ public abstract class ScField<T>
     public abstract void resetValue();
 
     //##################################################
+    //# meta
+    //##################################################
+
+    public void setMeta(KmMetaAssociation<?,T> x)
+    {
+        setLabel(x);
+        setHelp(x);
+        setValueAdaptor(x);
+        setRequired(x.isRequired());
+    }
+
+    public void setMeta(KmMetaProperty<?,T> x)
+    {
+        setLabel(x);
+        setHelp(x);
+        setValueAdaptor(x);
+        setValidator(x);
+    }
+
+    //##################################################
     //# EncodedValueIF
     //##################################################
 
@@ -148,14 +172,13 @@ public abstract class ScField<T>
     //# value adaptor
     //##################################################
 
-    @SuppressWarnings("rawtypes")
-    public final KmAdaptorIF getValueAdaptor()
+    @SuppressWarnings("unchecked")
+    public final KmAdaptorIF<?,T> getValueAdaptor()
     {
         return _valueAdaptor.getValue();
     }
 
-    @SuppressWarnings("rawtypes")
-    public final void setValueAdaptor(KmAdaptorIF e)
+    public final void setValueAdaptor(KmAdaptorIF<?,T> e)
     {
         _valueAdaptor.setValue(e);
     }
@@ -176,12 +199,12 @@ public abstract class ScField<T>
 
     public final KmValidator<T> getValidator()
     {
-        return _validator;
+        return _validator.getValue();
     }
 
     public final void setValidator(KmValidator<T> e)
     {
-        _validator = e;
+        _validator.setValue(e);
     }
 
     public final void setValidator(KmMetaProperty<?,T> p)
@@ -191,12 +214,12 @@ public abstract class ScField<T>
 
     public final void clearValidator()
     {
-        _validator = null;
+        _validator.clearValue();
     }
 
     public final boolean hasValidator()
     {
-        return _validator != null;
+        return _validator.hasValue();
     }
 
     public final void setRequired(boolean e)
@@ -230,18 +253,17 @@ public abstract class ScField<T>
     //##################################################
 
     @Override
-    public boolean validateQuietly()
+    public void validate()
     {
-        if ( !super.validateQuietly() )
-            return false;
-
+        super.validate();
         if ( hasErrors() )
-            return false;
+            return;
 
-        if ( !validateParse() )
-            return false;
+        validateParse();
+        if ( hasErrors() )
+            return;
 
-        return validateValidator();
+        validateValidator();
     }
 
     /**
@@ -249,27 +271,21 @@ public abstract class ScField<T>
      * fields to validate the parsing of text-to-value BEFORE the
      * subsequent value is validated.
      *
-     * This returns true by default.
+     * Does nothing by default.
      * Most classes do not need to override this.
      */
-    protected boolean validateParse()
+    protected void validateParse()
     {
-        return true;
+        // none
     }
 
-    private boolean validateValidator()
+    protected void validateValidator()
     {
         if ( !hasValidator() )
-            return true;
+            return;
 
-        KmList<KmErrorIF> errors = new KmList<>();
-        getValidator().validateOnly(getValue(), errors);
-
-        if ( errors.isEmpty() )
-            return true;
-
+        KmErrorList errors = getValidator().getValidationErrors(getValue());
         setErrors(errors);
-        return false;
     }
 
     //##################################################
@@ -284,7 +300,6 @@ public abstract class ScField<T>
 
     public void setChangeTracking(boolean e)
     {
-        warnIfInstalled();
         _setChangeTracking(e);
     }
 
@@ -315,12 +330,9 @@ public abstract class ScField<T>
 
     @Override
     @SuppressWarnings("unchecked")
-    protected boolean applyFromModel_here(Object model, boolean skipEditableFields)
+    protected boolean applyFromModel_here(Object model)
     {
-        if ( skipEditableFields && isEditable() )
-            return true;
-
-        super.applyFromModel_here(model, skipEditableFields);
+        super.applyFromModel_here(model);
 
         if ( _valueAdaptor.hasValue() )
         {
@@ -375,10 +387,10 @@ public abstract class ScField<T>
         _errors.resetValue();
     }
 
-    public final void setErrors(KmList<KmErrorIF> v)
+    public final void setErrors(KmErrorList errors)
     {
         clearErrors();
-        addErrors(v);
+        addErrors(errors);
     }
 
     public final void setError(String msg, Object... args)
@@ -387,9 +399,9 @@ public abstract class ScField<T>
         addError(msg, args);
     }
 
-    public final void addErrors(KmList<KmErrorIF> v)
+    public final void addErrors(KmErrorList errors)
     {
-        for ( KmErrorIF e : v )
+        for ( KmErrorIF e : errors )
             addError(e);
     }
 
@@ -406,7 +418,7 @@ public abstract class ScField<T>
         v.addAll(_errors.getValue());
     }
 
-    public final void error(String msg, Object... args)
+    public final void addErrorAndCheck(String msg, Object... args)
     {
         addError(msg, args);
         checkErrors();
@@ -455,7 +467,7 @@ public abstract class ScField<T>
     }
 
     @Override
-    public final boolean getVisible()
+    public final boolean isVisible()
     {
         return _visible.isTrue();
     }

@@ -20,7 +20,6 @@ import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
 import com.app.filter.*;
-import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -32,6 +31,14 @@ import com.app.utility.*;
 public abstract class MyPatchToolsBase
     extends MyAbstractDomainTools
 {
+//###############################################################
+//###############################################################
+//##
+//##  AUTO GENERATED - DO NOT EDIT
+//##
+//###############################################################
+//###############################################################
+
     public static final MyMetaPatch Meta = MyPatch.Meta;
 
     public ScDomainDropdownField<MyPatch,String> newDomainDropdown()
@@ -39,10 +46,10 @@ public abstract class MyPatchToolsBase
         ScDomainDropdownField<MyPatch,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MyPatchFilter());
-        e.setFinder(new MyPatchFinder());
+        e.setFinder(MyPatch.Finder);
+        e.setOptionSupplier(new MyPatchFilter().toSupplier());
         e.setOptionKeyFunction(Meta.Name);
-        e.setOptionLabelFunction(Meta.DisplayString);
+        e.setOptionLabelFunction(Meta.DomainTitle);
         e.setHelp(Meta.getHelp());
         return e;
     }

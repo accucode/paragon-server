@@ -75,7 +75,7 @@ public class MyPerformanceLogDetailDao
      */
     public boolean deleteOldLogs()
     {
-        int limit = 1000;
+        int limit = 500;
         KmTimestamp latest = getNowUtc().subtractWeek().getStartOfDay();
 
         MyPerformanceLogDetailFilter f;

@@ -1,0 +1,162 @@
+model
+: name      = emailTemplate
+: help...
+    ---
+    Email templates are used to automatically compose standard emails.
+    Templates support basic formattings (e.g.: bold, italics) and allow
+    for a number of predefined variables which are automatically substituted
+    when the real email is subsequent created.
+
+    Email templates can be defined for different domain subjects such as
+    Job, or Visit; and the specific variables that are available
+    vary depending on the subject.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = project
+    : on        = createdUtcTs
+
+    index
+    : name      = projectName
+    : unique    = true
+    : on        = project
+    : on        = name
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project that contains this template.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help...
+        ---
+        The display name used to identify this template within a project.
+        ---
+    : type      = name
+    : required  = true
+
+
+    //*****************************************************
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** subject
+    //*****************************************************
+
+
+    field
+    : name      = contextTypeCode
+    : label     = Context
+    : help...
+        ---
+        The type of domain model used to generate emails from this
+        template. E.g.: project or customer. The context type 
+        determines which macros are available.
+        ---
+    : type      = longEnumCode
+    : required  = true
+    
+        enum
+            value(#Project)
+            value(#Site)
+
+    
+    //*****************************************************
+    //** collections
+    //*****************************************************
+
+
+    collection
+    : name          = defaultRecipient
+    : comment       = The default recipients for this email template.
+    : relation      = children
+    : elementModel  = defaultRecipient
+    : elementField  = emailTemplate
+
+
+    //*****************************************************
+    //** content
+    //*****************************************************
+
+
+    field
+    : name      = subjectText
+    : label     = Subject
+    : help...
+        ---
+        The subject line of the email. This should be a short, single line
+        of text. It supports same variables as the body, but does NOT
+        allow formatting.
+        ---
+    : type      = text200
+    : required  = false
+
+
+    field
+    : name      = bodyHtml
+    : label     = Body
+    : help...
+        ---
+        The html template for the body.  This supports basic html formattings
+        such as bold and italics; and also supports a number of variable
+        substitutions.
+        ---
+    : type      = bigText
+    : required  = false
+
+
+    //*****************************************************
+    //** samples
+    //*****************************************************
+
+
+    abstractField
+    : name      = sampleSubjectText
+    : label     = Sample Subject
+    : help      = An example of the subject text using default sample data.
+    : type      = calculated
+
+
+    abstractField
+    : name      = sampleBodyHtml
+    : label     = Sample Body
+    : help      = An example of the body html using default sample data.
+    : type      = calculated

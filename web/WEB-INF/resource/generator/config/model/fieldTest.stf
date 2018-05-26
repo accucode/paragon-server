@@ -20,6 +20,7 @@ attributes
 
     #include basicUid.stf
     #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************
@@ -29,7 +30,7 @@ attributes
 
     field
     : name      = nameValue
-    : help      =
+    : help      = A sample name. 
     : type      = name
     : required  = false
 
@@ -85,7 +86,7 @@ attributes
 
     association
     : name      = userTest
-    : help      =
+    : help      = An optional associated to the user.
     : modelName = user
     : relation  = reference
     : required  = false
@@ -93,7 +94,7 @@ attributes
 
     field
     : name      = pinNumber1
-    : help      = Included in the auditLog , but masked.
+    : help      = Included in the auditLog, but masked.
     : type      = text5
     : required  = false
     : auditLog  = mask

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -122,6 +122,12 @@ public class KmStringTokenizer
     {
         addDelimiter(KmConstantsIF.CHAR_SPACE);
         addDelimiter(KmConstantsIF.CHAR_TAB);
+        addDelimiter(KmConstantsIF.CHAR_CR);
+        addDelimiter(KmConstantsIF.CHAR_LF);
+    }
+
+    public void addLineDelimiters()
+    {
         addDelimiter(KmConstantsIF.CHAR_CR);
         addDelimiter(KmConstantsIF.CHAR_LF);
     }

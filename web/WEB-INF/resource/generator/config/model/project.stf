@@ -3,9 +3,7 @@ model
 : help...
     ---
     Almost everything is managed within the context of a project.
-    For example: the depots, product catalogs, and orders are all managed by project.  Although
-    two projects may define depots with the same name, each project will actually have their
-    own separate depot.
+    For example, each project manages its own list of customers and sites.
     ---
 
 database
@@ -35,6 +33,7 @@ attributes
 
     #include basicUid.stf
     #include basicTimestamps.stf
+    #include basicDisplay.stf
 
 
     //*****************************************************
@@ -65,22 +64,23 @@ attributes
     : required  = true
 
 
+    field
+    : name      = description
+    : help      = A short description of this project.
+    : type      = memo
+    : required  = false
+
+
     //*****************************************************
     //** code
     //*****************************************************
+
 
     field
     : name      = code
     : help...
         ---
         The unique code that identifies this project.
-
-        Also, this code is used as a prefix for various numbers within the
-        project. For example: sales orders and tickets.
-
-        The code can be modified, but this is generally not recommended.
-        Preexisting numbers are NOT updated when the code is updated and this
-        can result in long confusion long term.
         ---
     : type      = projectCode
     : required  = true
@@ -93,9 +93,10 @@ attributes
 
     field
     : name      = companyName
+    : label     = Company
     : help...
         ---
-        The name of the company resposible for this project.
+        The name of the company responsible for this project.
         This may be used on various documents such as emails and pick lists.
         ---
     : type      = name
@@ -118,39 +119,80 @@ attributes
 
 
     //*****************************************************
-    //** active
+    //** enabled
+    //*****************************************************
+
+
+    #include enabled.stf
+
+
+    //*****************************************************
+    //** supervisor
+    //*****************************************************
+
+
+    association
+    : name      = supervisor
+    : help...
+        ---
+        The project's primary supervisor.
+        ---
+    : modelName = user
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = fullName
+        : label = Supervisor
+
+
+    //*****************************************************
+    //** contact
+    //*****************************************************
+
+
+    association
+    : name      = supportContact
+    : help...
+        ---
+        The contact to be used for support notifications and as a general mailingl list.
+        ---
+    : modelName = projectContact
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : field = fullName
+        : label = Support Contact
+
+        delegate
+        : field = email
+
+        delegate
+        : field = phone
+
+
+    //*****************************************************
+    //** time zone
     //*****************************************************
 
 
     field
-    : name      = active
+    : name      = timeZoneCode
+    : label     = Time Zone
     : help...
         ---
-        Inactive projects are generally hidden from view, however, they are
-        still visible to administrators.
+        The primary time zone associated with this project.
         ---
-    : type      = boolean
-    : default   = true
+    : type      = timeZoneCode
     : required  = true
 
 
-    //*****************************************************
-    //** catalog
-    //*****************************************************
-
-
-    field
-    : name      = catalogVersion
-    : help...
-        ---
-        An internal version number for the product catalog.  This is incremented
-        any time a new version of a product or price sheet is published.  This
-        provides a simple way to coordinate in-memory caches.
-        ---
-    : type      = integer
-    : default   = 1
-    : required  = true
-    : auditLog  = false
+    abstractField
+    : name      = timeZoneName
+    : label     = Time Zone
+    : help      = The time zone associated with the depot's location.
+    : type      = calculated
 
 
     //*****************************************************
@@ -166,7 +208,7 @@ attributes
         This may be displayed to customers.
         ---
     : type      = dayFrequency
-    : default   = MyProject.DEFAULT_BUSINESS_DAYS
+    : required  = false
 
 
     field
@@ -177,7 +219,6 @@ attributes
         This may be displayed to customers.
         ---
     : type      = time
-    : default   = MyProject.DEFAULT_BUSINESS_START_TIME
     : required  = true
 
 
@@ -189,6 +230,141 @@ attributes
         This may be displayed to customers.
         ---
     : type      = time
-    : default   = MyProject.DEFAULT_BUSINESS_END_TIME
     : required  = true
 
+
+    //*****************************************************
+    //** default priority
+    //*****************************************************
+
+
+    association
+    : name      = defaultPriority
+    : help      = This is default priority for the project.
+    : modelName = priority
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : field = name
+
+
+    //*****************************************************
+    //** site numbers
+    //*****************************************************
+
+
+    field
+    : name      = autoSiteNumberEnabled
+    : help...
+        ---
+        Determine if site numbers should be automatically generated.
+        Site numbers are generated by combining the site number prefix
+        with a padded numeric value. Although the generated numbers will
+        generally start at 1 and increment, the number are not guaranteed
+        to be contiguous. In other words, there may be gaps. E.g.: S001,
+        S002, S004 (S003 was skipped).
+        ---
+    : type      = boolean
+    : default   = false
+    : required  = true
+
+
+    field
+    : name      = autoSiteNumberPrefix
+    : help...
+        ---
+        The prefix to add at the beginning of auto-generated site numbers.
+        Although not required, it is recommend to include a non-numeric
+        prefix such as "S" in order to improve compatibility with external
+        tools such as spreadsheets.
+        ---
+    : type      = text5
+    : default   = "S"
+    : required  = false
+
+
+    field
+    : name      = autoSiteNumberPadding
+    : help...
+        ---
+        The number of digits to pad each number.
+        For example, a value of 3 will generate numbers like 001, 002, 003.
+        ---
+    : type      = integerMin0
+    : default   = 3
+    : required  = true
+
+
+    field
+    : name      = nextAutoSiteNumber
+    : help...
+        ---
+        The next automatic site number to be assigned.
+        The current prefix is added dynamically as needed.
+        ---
+    : type      = integer
+    : default   = 1
+    : required  = true
+
+
+    //*****************************************************
+    //** collections
+    //*****************************************************
+
+
+    collection
+    : name          = member
+    : comment       = The members (users) assigned to this project.
+    : relation      = children
+    : elementModel  = member
+    : elementField  = project
+
+
+    collection
+    : name          = vendor
+    : comment       = The vendors for this project.
+    : relation      = children
+    : elementModel  = vendor
+    : elementField  = project
+
+
+    collection
+    : name          = customer
+    : comment       = The customers.
+    : relation      = children
+    : elementModel  = customer
+    : elementField  = project
+
+
+    collection
+    : name          = emailTemplate
+    : comment       = The email templates.
+    : relation      = children
+    : elementModel  = emailTemplate
+    : elementField  = project
+
+
+    collection
+    : name          = blurb
+    : comment       = The message blurbs for this project.
+    : relation      = children
+    : elementModel  = blurb
+    : elementField  = project
+
+
+    collection
+    : name          = contact
+    : comment       = These contacts are primarily used for notifications.
+    : relation      = children
+    : elementModel  = projectContact
+    : elementField  = project
+
+
+    collection
+    : name          = holiday
+    : comment       = The holidays defined by this project.
+    : relation      = children
+    : elementModel  = holiday
+    : elementField  = project
+    

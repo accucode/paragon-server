@@ -5,27 +5,31 @@ import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaIntegerProperty;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScChoiceField;
 import com.kodemore.servlet.field.ScEnumChoiceField;
-import com.kodemore.servlet.field.ScEnumDropdownField;
+import com.kodemore.servlet.field.ScIntegerField;
+import com.kodemore.servlet.field.ScStaticEnumDropdownField;
 import com.kodemore.utility.KmEnumIF;
 
+import com.app.model.MyMember;
+import com.app.model.MyProject;
 import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
-import com.app.ui.control.MyDialog;
+import com.app.model.meta.MyMetaMember;
+import com.app.ui.control.MyFormDialog;
 
 public class MyDashboardDialog
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScAction               _updateSampleAction;
-    private MyDashboardSampleView  _sampleView;
+    private ScAction              _updateSampleAction;
+    private MyDashboardSampleView _sampleView;
 
     private ScFieldTable           _lineCountFieldTable;
     private ScChoiceField<Integer> _lineCountField1;
@@ -58,8 +62,8 @@ public class MyDashboardDialog
     private void installForm()
     {
         ScForm form;
-        form = getForm();
-        form.setSubmitAction(this::handleSave);
+        form = getDialogRoot();
+        form.onSubmit(newUncheckedAction(this::handleSave));
     }
 
     private void installBody()
@@ -74,31 +78,31 @@ public class MyDashboardDialog
 
     private void installDashboardFieldsOn(ScDiv root)
     {
-        MyMetaUser x = MyUser.Meta;
+        MyMetaMember x = MyMember.Meta;
 
         ScDiv col;
-        col = root.addFlexColumn();
-        col.css().columnSpacer20();
+        col = root.addDiv();
+        col.css().flexColumn().columnSpacer20();
 
         ScFieldTable fields;
         fields = col.addFieldTable();
-        fields.setFullWidth(false);
         fields.add(createDashboardOrientationField());
 
         fields = col.addFieldTable();
-        fields.setFullWidth(false);
         _lineCountField1 = fields.add(newDashboardLineCountField("Line 1", x.DashboardLineCount1));
         _lineCountField2 = fields.add(newDashboardLineCountField("Line 2", x.DashboardLineCount2));
         _lineCountFieldTable = fields;
 
         fields = col.addFieldTable();
-        fields.setFullWidth(false);
         fields.add(createDashboardPanelField("Panel A", x.DashboardPanelCodeA));
         fields.add(createDashboardPanelField("Panel B", x.DashboardPanelCodeB));
         fields.add(createDashboardPanelField("Panel C", x.DashboardPanelCodeC));
         fields.add(createDashboardPanelField("Panel D", x.DashboardPanelCodeD));
         fields.add(createDashboardPanelField("Panel E", x.DashboardPanelCodeE));
         fields.add(createDashboardPanelField("Panel F", x.DashboardPanelCodeF));
+
+        fields = col.addFieldTable();
+        fields.add(createRefreshField());
     }
 
     private void installDashboardSampleOn(ScDiv root)
@@ -118,7 +122,7 @@ public class MyDashboardDialog
         ScDiv buttons;
         buttons = footer.addButtonBox();
         buttons.addSaveButton();
-        buttons.addCancelButton(this::ajaxClose);
+        buttons.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     //==================================================
@@ -127,7 +131,7 @@ public class MyDashboardDialog
 
     private ScEnumChoiceField createDashboardOrientationField()
     {
-        MyMetaUser x = MyUser.Meta;
+        MyMetaMember x = MyMember.Meta;
 
         ScEnumChoiceField e;
         e = new ScEnumChoiceField();
@@ -144,7 +148,7 @@ public class MyDashboardDialog
 
     private ScChoiceField<Integer> newDashboardLineCountField(
         String label,
-        KmMetaIntegerProperty<MyUser> prop)
+        KmMetaIntegerProperty<MyMember> prop)
     {
         ScChoiceField<Integer> e;
         e = new ScChoiceField<>();
@@ -161,12 +165,12 @@ public class MyDashboardDialog
         return e;
     }
 
-    private ScEnumDropdownField createDashboardPanelField(
+    private ScStaticEnumDropdownField createDashboardPanelField(
         String label,
-        KmMetaStringProperty<MyUser> prop)
+        KmMetaStringProperty<MyMember> prop)
     {
-        ScEnumDropdownField e;
-        e = new ScEnumDropdownField();
+        ScStaticEnumDropdownField e;
+        e = new ScStaticEnumDropdownField();
         e.setLabel(label);
         e.setHelp(prop);
         e.setValueAdaptor(prop);
@@ -188,21 +192,34 @@ public class MyDashboardDialog
         return MyDashboardPanelType.getValues().select(e -> e.isPublic());
     }
 
+    private ScControl createRefreshField()
+    {
+        MyMetaMember x = MyMember.Meta;
+
+        ScIntegerField e;
+        e = new ScIntegerField();
+        e.setLabel("Refresh Minutes");
+        e.setHelp(x.DashboardRefreshMinutes);
+        e.setValueAdaptor(x.DashboardRefreshMinutes);
+        e.setValidator(x.DashboardRefreshMinutes);
+        return e;
+    }
+
     //##################################################
-    //# print
+    //# render
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         super.preRender();
 
-        MyUser user = getUser();
+        MyMember member = getMember();
 
-        configureLineCountLabels(user);
-        configureSample(user);
+        configureLineCountLabels(member);
+        configureSample(member);
 
-        applyFromModel(user);
+        applyFromModel(member);
     }
 
     //##################################################
@@ -211,8 +228,8 @@ public class MyDashboardDialog
 
     private void handleDashboardChanged()
     {
-        MyUser temp;
-        temp = new MyUser();
+        MyMember temp;
+        temp = new MyMember();
         temp.applyFrom(this);
 
         configureLineCountLabels(temp);
@@ -224,10 +241,10 @@ public class MyDashboardDialog
 
     private void handleSave()
     {
-        MyUser e;
-        e = getUser();
+        MyMember e;
+        e = getMember();
         e.applyFrom(this);
-        e.validate();
+        e.validateAndCheck();
 
         ajaxClose();
         getData().getCurrentPage().ajaxPrint();
@@ -237,29 +254,32 @@ public class MyDashboardDialog
     //# support
     //##################################################
 
-    private MyUser getUser()
+    private MyMember getMember()
     {
-        return getGlobals().getCurrentUser();
+        MyProject project = getGlobals().getCurrentProject();
+        MyUser user = getGlobals().getCurrentUser();
+
+        return project.getMemberFor(user);
     }
 
-    private void configureLineCountLabels(MyUser u)
+    private void configureLineCountLabels(MyMember m)
     {
-        _lineCountField1.setLabel(formatLineLabel(u, 1));
-        _lineCountField2.setLabel(formatLineLabel(u, 2));
+        _lineCountField1.setLabel(formatLineLabel(m, 1));
+        _lineCountField2.setLabel(formatLineLabel(m, 2));
     }
 
-    private void configureSample(MyUser e)
+    private void configureSample(MyMember e)
     {
         _sampleView.setOrientationType(e.getDashboardOrientationType());
         _sampleView.setLineCount1(e.getDashboardLineCount1());
         _sampleView.setLineCount2(e.getDashboardLineCount2());
     }
 
-    private String formatLineLabel(MyUser u, int line)
+    private String formatLineLabel(MyMember m, int line)
     {
         String prefix = "Line";
 
-        MyDashboardOrientationType type = u.getDashboardOrientationType();
+        MyDashboardOrientationType type = m.getDashboardOrientationType();
         switch ( type )
         {
             case Auto:

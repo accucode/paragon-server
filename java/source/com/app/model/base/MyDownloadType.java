@@ -13,14 +13,17 @@ import java.util.*;
 import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
+import com.app.model.*;
+
 public enum MyDownloadType
-    implements KmEnumIF
+    implements MyDownloadTypeIF
 {
     //##################################################
     //# values
     //##################################################
 
     File("File", "File"),
+    Attachment("Attachment", "Attachment"),
     Bytes("Bytes", "Bytes"),
     ;
 
@@ -91,6 +94,11 @@ public enum MyDownloadType
     public boolean isFile()
     {
         return this == File;
+    }
+
+    public boolean isAttachment()
+    {
+        return this == Attachment;
     }
 
     public boolean isBytes()

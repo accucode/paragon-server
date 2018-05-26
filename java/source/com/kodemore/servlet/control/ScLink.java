@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -41,9 +41,29 @@ public class ScLink
     //# variables
     //##################################################
 
-    private ScLocalAction      _action;
+    /**
+     * The action to run when the link is clicked.
+     */
+    private ScLocalAction _action;
+
+    /**
+     * The optional argument. This must be an encodeable values (ScEncoder).
+     */
     private ScLocalRawFunction _argument;
-    private ScLocalString      _confirmationMessage;
+
+    /**
+     * If set, prompt the user to confirm the action before submitting it.
+     * The confirmation is handled via client-side javascript before
+     * the action is submitted via ajax.
+     */
+    private ScLocalString _confirmationMessage;
+
+    /**
+     * By default, the action form is automatically detected
+     * based on the parent hierarchy. However, in some cases
+     * it is useful to set the form manually.
+     */
+    private ScForm _actionFormOverride;
 
     //##################################################
     //# constructor
@@ -76,17 +96,6 @@ public class ScLink
         setArgument(arg);
     }
 
-    public void setAction(Runnable r)
-    {
-        setAction(newCheckedAction(r));
-    }
-
-    public void setAction(Runnable r, Object arg)
-    {
-        setAction(r);
-        setArgument(arg);
-    }
-
     @SuppressWarnings("rawtypes")
     public void setArgument(Object e)
     {
@@ -111,6 +120,25 @@ public class ScLink
     }
 
     //##################################################
+    //# action form override
+    //##################################################
+
+    public ScForm getActionFormOverride()
+    {
+        return _actionFormOverride;
+    }
+
+    public void setActionFormOverride(ScForm e)
+    {
+        _actionFormOverride = e;
+    }
+
+    public boolean hasActionFormOverride()
+    {
+        return _actionFormOverride != null;
+    }
+
+    //##################################################
     //# override
     //##################################################
 
@@ -121,33 +149,35 @@ public class ScLink
     }
 
     @Override
-    protected String formatHref()
+    protected String formatEnabledHref()
     {
         return "#";
     }
 
     @Override
-    protected String formatOnClick()
+    protected String formatEnabledOnClick()
     {
-        String suffix = "return false;";
-
-        ScForm form;
-        form = findFormWrapper();
-
         ScActionScript s;
         s = new ScActionScript();
-        s.setForm(form);
+        s.setForm(getActionForm());
         s.setAction(getAction());
         s.setArgument(getArgument());
         s.setModel(getModel());
         s.setConfirmationMessage(getConfirmationMessage());
 
-        String prefix;
-        prefix = s.formatScript();
+        String prefix = s.formatScript();
+        String suffix = "return false;";
 
-        return Kmu.isEmpty(prefix)
-            ? suffix
-            : prefix + suffix;
+        return Kmu.hasValue(prefix)
+            ? prefix + suffix
+            : suffix;
+    }
+
+    private ScForm getActionForm()
+    {
+        return hasActionFormOverride()
+            ? getActionFormOverride()
+            : findFormWrapper();
     }
 
 }

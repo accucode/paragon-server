@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,7 @@ public class ScClockField
      *
      * See kmClock.js
      */
-    private static final String HTML_TAG   = "div";
+    private static final String HTML_TAG = "div";
 
     /**
      * The client-side script relies on this attribute to identify
@@ -62,7 +62,7 @@ public class ScClockField
      * a specific field. This should be all lowercase for compatibility
      * with html attributes.
      */
-    private static final String TIME_ZONE  = "timezone";
+    private static final String TIME_ZONE = "timezone";
 
     //##################################################
     //# variables
@@ -71,7 +71,7 @@ public class ScClockField
     /**
      * The time zone to use for the clock.
      */
-    private ScLocalString       _timeZoneCode;
+    private ScLocalString _timeZoneCode;
 
     //##################################################
     //# constructor

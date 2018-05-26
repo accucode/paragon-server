@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -32,11 +32,6 @@ import com.kodemore.utility.KmEnumIF;
 public class KmEnumException
     extends RuntimeException
 {
-    public KmEnumException()
-    {
-        super("Unhandled enum");
-    }
-
     public KmEnumException(KmEnumIF e)
     {
         this(e.name());

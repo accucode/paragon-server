@@ -22,10 +22,10 @@ public class KmFacebookActivity
     //# variables
     //##################################################
 
-    private String              _id;
-    private String              _name;
-    private String              _category;
-    private KmTimestamp         _createTime;
+    private String      _id;
+    private String      _name;
+    private String      _category;
+    private KmTimestamp _createTime;
 
     //##################################################
     //# accessing

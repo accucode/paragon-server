@@ -14,18 +14,18 @@ public abstract class KmMetaDurationProperty<T>
     @Override
     public ScDurationField newField()
     {
-        return newField(getLabel());
+        ScDurationField e;
+        e = new ScDurationField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScDurationField newField(String label)
     {
         ScDurationField e;
-        e = new ScDurationField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValidator(getValidator());
-        e.setValueAdaptor(this);
         return e;
     }
 

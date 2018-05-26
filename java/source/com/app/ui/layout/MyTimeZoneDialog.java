@@ -1,21 +1,22 @@
 package com.app.ui.layout;
 
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScTimeZoneCodeField;
 import com.kodemore.time.KmTimeZone;
 
-import com.app.ui.control.MyDialog;
+import com.app.ui.control.MyFormDialog;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyUtility;
 
 public class MyTimeZoneDialog
-    extends MyDialog
+    extends MyFormDialog
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScDropdownField<String> _timeZoneField;
+    private ScTimeZoneCodeField _timeZoneField;
 
     //##################################################
     //# constructor
@@ -33,7 +34,8 @@ public class MyTimeZoneDialog
     private void install()
     {
         setLabel("Change Time Zone");
-        getForm().setSubmitAction(this::handleSave);
+        ScForm r = getDialogRoot();
+        r.onSubmit(newUncheckedAction(this::handleSave));
 
         installBody();
         installFooter();
@@ -46,8 +48,8 @@ public class MyTimeZoneDialog
         body.css().pad20();
 
         ScDiv row;
-        row = body.addFlexRow();
-        row.css().flexCrossAlignCenter().rowSpacer5();
+        row = body.addDiv();
+        row.css().flexRow().rowSpacer5().flexCrossAlignCenter();
         row.addLabel("Time Zone");
         row.add(createDropdown());
     }
@@ -57,16 +59,15 @@ public class MyTimeZoneDialog
         ScDiv footer;
         footer = showFooter().addButtonBox();
         footer.addSaveButton();
-        footer.addCancelButton(this::ajaxClose);
+        footer.addCancelButton(newUncheckedAction(this::ajaxClose));
     }
 
     private ScDropdownField<String> createDropdown()
     {
-        ScDropdownField<String> e;
-        e = MyUtility.newTimeZoneDropdown();
+        ScTimeZoneCodeField e;
+        e = new ScTimeZoneCodeField();
         e.setNullSelectPrefix();
         e.setRequired();
-        e.setLabel("Time Zone");
         _timeZoneField = e;
         return e;
     }
@@ -80,9 +81,7 @@ public class MyTimeZoneDialog
     {
         super.preRender();
 
-        KmTimeZone zone = getCurrentTimeZone();
-        if ( zone != null )
-            _timeZoneField.setValue(zone.getCode());
+        _timeZoneField.setTimeZone(getCurrentTimeZone());
     }
 
     //##################################################
@@ -92,10 +91,9 @@ public class MyTimeZoneDialog
     private void handleSave()
     {
         ajaxHideAllErrors();
-        validate();
+        validateAndCheck();
 
-        String code = _timeZoneField.getValue();
-        KmTimeZone zone = KmTimeZone.findCode(code);
+        KmTimeZone zone = _timeZoneField.getTimeZone();
 
         MyGlobals.getCurrentUser().setTimeZone(zone);
         getAccess().flush();

@@ -1,4 +1,4 @@
-set km_project_home=%~dp0%..\..
+set km_project_home=%~dp0%\..
 set km_project_bin=%~dp0%
 set km_project_java=%km_project_home%\java\source
 set km_project_lib=%km_project_home%\web\WEB-INF\lib

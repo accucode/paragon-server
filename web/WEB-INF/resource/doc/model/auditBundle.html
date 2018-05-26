@@ -1,0 +1,431 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>auditBundle</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>auditBundle</h1>
+
+
+<!--
+********************
+** Summary
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header'>Summary</th>
+</tr>
+<tr>
+  <td>Each bundle identifies a group of related audit logs for a particular domain model. In some cases, there may be multiple domain bundles for the same domain object within a given transaction.</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<!--
+********************
+** Fields
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Fields</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>auditLogTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    This is used a the title in auditLogs&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>changeTypeCode&nbsp;</td>
+
+  <td>longEnumCode
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows letters</nobr>
+              <br><nobr>allows digits</nobr>
+              <br><nobr>allows symbols</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        <nobr>enum</nobr><br>                       &nbsp;
+  </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>changeTypeName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The type of change&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+
+  <td>date
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created date based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+
+  <td>time
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created time of day based on the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+
+  <td>text100
+                <br><nobr>max length: 100</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The created timestamp converted to the user&#39;s local timezone&#44; and formatted as a string that includes the timezone code&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+
+  <td>timestamp
+              </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The time this change was made&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The common&#44; but non&#45;unique name of the domain&#46; Models generally rely on long UIDs as their unique identifier so we also store a domain&#39;s display string as a &#39;name&#39;&#46; Although this name is not guaranteed to be unique&#44; it is generally human&#45;readable and is usually sufficient to identify which domain was affected&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainSubtitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The subtitle commonly used for rows in a list&#46; This MAY be null&#44; if there is not subtitle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTitle&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    The title commonly used for rows in a list or dropdown field&#46; This should NEVER be null&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainType&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The type of domain&#59; e&#46;g&#46;&#58; project&#44; job&#44; depot&#44; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainTypeLabel&nbsp;</td>
+
+  <td>calculated
+                <br><nobr>max length: 1000</nobr>
+                      <br><nobr>allows all</nobr>
+            </td>
+
+  <td>
+                 <nobr>abstract</nobr><br>                                       &nbsp;
+  </td>
+
+  <td>
+    A more friendly format of the domain type&#46; E&#46;g&#46;&#58; project &#61;&#62; Project&#59; jobLine &#61;&#62; Job Line&#59; etc&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>domainUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The unique id of the domain model&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>transactionUid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    This is used to identify all bundles within a given transaction&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+
+  <td>uid
+                <br><nobr>max length: 30</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                         <nobr>primary key</nobr><br>                  <nobr>required</nobr><br>                        &nbsp;
+  </td>
+
+  <td>
+    The global unique key&#46;  This is a large hex&#45;encoded number&#44; and is usually not displayed to users&#46;  This is currently NOT a standard format&#44; but is instead a format that we use internally&#46;
+    &nbsp;
+  </td>
+
+</tr>
+<tr>
+  <td>userName&nbsp;</td>
+
+  <td>name
+                <br><nobr>max length: 50</nobr>
+                      <br><nobr>allows printable</nobr>
+            </td>
+
+  <td>
+                                        &nbsp;
+  </td>
+
+  <td>
+    The user&#39;s name &#40;denormalized&#41;&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Associations
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='4'>Associations</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Attributes</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>user&nbsp;</td>
+
+  <td>user</td>
+
+  <td>
+                         &nbsp;
+  </td>
+
+  <td>
+    The user that made this change&#46;  May be null for automated updates&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+
+<br>
+<br>
+
+
+<!--
+********************
+** Collections
+********************
+-->
+
+<table class="attributeTable">
+<tr>
+  <th class='header' colspan='3'>Collections</th>
+</tr>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Comment</th>
+</tr>
+<tr>
+  <td>logs&nbsp;</td>
+
+  <td>
+      List<MyAuditLog>
+      <br>KmCollection&#60;MyAuditLog&#62;
+        </td>
+
+  <td>
+    The detailed logs for each bundle&#46;
+    &nbsp;
+  </td>
+
+</tr>
+</table>
+
+</body>
+</html>

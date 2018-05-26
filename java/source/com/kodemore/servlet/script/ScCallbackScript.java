@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,9 @@ import com.kodemore.string.KmStringBuilder;
 
 /**
  * I represent a simple callback function in the form:
- * 
+ *
  *      function() { ... }
- *      
+ *
  * The contents of my block are managed by my superclass.
  */
 public class ScCallbackScript

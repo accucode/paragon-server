@@ -17,8 +17,10 @@ public interface MyOptimisticLockDaoConstantsIF
     //# fields
     //##################################################
 
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String NAME = "name";
     String LOCK_VERSION = "lockVersion";
-    String DISPLAY_STRING = "displayString";
 
 }

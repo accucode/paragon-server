@@ -61,6 +61,11 @@ public class KmhModelJunction
     //# support
     //##################################################
 
+    protected String alias()
+    {
+        return context().getAlias();
+    }
+
     protected String fullName(String property)
     {
         return context().getFullName(property);

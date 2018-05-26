@@ -9,7 +9,7 @@ import com.app.model.MyUser;
 //##
 //##   WARNING WARNING WARNING
 //##
-//##   If thise methods/attributes are renamed
+//##   If these methods/attributes are renamed
 //##   you must update MyHibernateInterceptor.
 //##
 //##############################################
@@ -37,10 +37,13 @@ public interface MyBasicTimestampsIF
      */
     default void resetBasicTimestamps()
     {
-        setCreatedUtcTs(KmClock.getUtcTimestamp());
-        setCreatedBy(MyGlobals.getCurrentUser());
+        KmTimestamp now = KmClock.getUtcTimestamp();
+        MyUser user = MyGlobals.getCurrentUser();
 
-        setUpdatedUtcTs(KmClock.getUtcTimestamp());
-        setUpdatedBy(MyGlobals.getCurrentUser());
+        setCreatedUtcTs(now);
+        setCreatedBy(user);
+
+        setUpdatedUtcTs(now);
+        setUpdatedBy(user);
     }
 }

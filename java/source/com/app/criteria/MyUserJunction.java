@@ -38,129 +38,194 @@ public class MyUserJunction
     //# properties
     //##################################################
 
-    public KmhStringCondition whereUid()
-    {
-        return new KmhStringCondition(context(), fullName(UID));
-    }
-
     public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
-    }
-
-    public KmhTimestampCondition whereUpdatedUtcTs()
-    {
-        return new KmhTimestampCondition(context(), fullName(UPDATED_UTC_TS));
-    }
-
-    public KmhStringCondition whereFirstName()
-    {
-        return new KmhStringCondition(context(), fullName(FIRST_NAME));
-    }
-
-    public KmhStringCondition whereLastName()
-    {
-        return new KmhStringCondition(context(), fullName(LAST_NAME));
-    }
-
-    public KmhStringCondition whereNickname()
-    {
-        return new KmhStringCondition(context(), fullName(NICKNAME));
+        return new KmhTimestampCondition(context(), alias(), CREATED_UTC_TS);
     }
 
     public KmhStringCondition whereEmail()
     {
-        return new KmhStringCondition(context(), fullName(EMAIL));
+        return new KmhStringCondition(context(), alias(), EMAIL);
     }
 
-    public KmhStringCondition wherePasswordSalt()
+    public KmhBooleanCondition whereEnabled()
     {
-        return new KmhStringCondition(context(), fullName(PASSWORD_SALT));
+        return new KmhBooleanCondition(context(), alias(), ENABLED);
+    }
+
+    public KmhStringCondition whereFirstName()
+    {
+        return new KmhStringCondition(context(), alias(), FIRST_NAME);
+    }
+
+    public KmhStringCondition whereFullName()
+    {
+        return new KmhStringCondition(context(), alias(), FULL_NAME);
+    }
+
+    public KmhStringCondition whereLastName()
+    {
+        return new KmhStringCondition(context(), alias(), LAST_NAME);
+    }
+
+    public KmhStringCondition whereMemo()
+    {
+        return new KmhStringCondition(context(), alias(), MEMO);
+    }
+
+    public KmhStringCondition whereNickname()
+    {
+        return new KmhStringCondition(context(), alias(), NICKNAME);
     }
 
     public KmhStringCondition wherePasswordHash()
     {
-        return new KmhStringCondition(context(), fullName(PASSWORD_HASH));
+        return new KmhStringCondition(context(), alias(), PASSWORD_HASH);
+    }
+
+    public KmhStringCondition wherePasswordSalt()
+    {
+        return new KmhStringCondition(context(), alias(), PASSWORD_SALT);
     }
 
     public KmhStringCondition wherePhone()
     {
-        return new KmhStringCondition(context(), fullName(PHONE));
-    }
-
-    public KmhBooleanCondition whereActive()
-    {
-        return new KmhBooleanCondition(context(), fullName(ACTIVE));
-    }
-
-    public KmhStringCondition whereTimeZoneCode()
-    {
-        return new KmhStringCondition(context(), fullName(TIME_ZONE_CODE));
+        return new KmhStringCondition(context(), alias(), PHONE);
     }
 
     public KmhStringCondition whereRoleCode()
     {
-        return new KmhStringCondition(context(), fullName(ROLE_CODE));
+        return new KmhStringCondition(context(), alias(), ROLE_CODE);
     }
 
-    public KmhStringCondition whereDashboardOrientationTypeCode()
+    public KmhStringCondition whereTimeZoneCode()
     {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_ORIENTATION_TYPE_CODE));
+        return new KmhStringCondition(context(), alias(), TIME_ZONE_CODE);
     }
 
-    public KmhIntegerCondition whereDashboardLineCount1()
+    public KmhStringCondition whereUid()
     {
-        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_1));
+        return new KmhStringCondition(context(), alias(), UID);
     }
 
-    public KmhIntegerCondition whereDashboardLineCount2()
+    public KmhTimestampCondition whereUpdatedUtcTs()
     {
-        return new KmhIntegerCondition(context(), fullName(DASHBOARD_LINE_COUNT_2));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeA()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_A));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeB()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_B));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeC()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_C));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeD()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_D));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeE()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_E));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeF()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_F));
-    }
-
-    public KmhStringCondition whereDashboardPanelCodeG()
-    {
-        return new KmhStringCondition(context(), fullName(DASHBOARD_PANEL_CODE_G));
+        return new KmhTimestampCondition(context(), alias(), UPDATED_UTC_TS);
     }
 
     public KmhIntegerCondition whereLockVersion()
     {
-        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), alias(), LOCK_VERSION);
     }
 
     //##################################################
     //# associations
     //##################################################
+    //##################################################
+    //# association (CreatedBy)
+    //##################################################
+
+//    public MyUserCriteria joinToCreatedBy()
+//    {
+//        return new MyUserCriteria(joinTo(CREATED_BY));
+//    }
+//
+//    public MyUserCriteria leftJoinToCreatedBy()
+//    {
+//        return new MyUserCriteria(leftJoinTo(CREATED_BY));
+//    }
+
+    public KmhStringCondition whereCreatedByUid()
+    {
+        return new KmhStringCondition(context(), alias(), CREATED_BY_UID);
+    }
+
+    public void whereCreatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNull();
+        else
+            whereCreatedByUid().is(e.getUid());
+    }
+
+    public void whereCreatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereCreatedByUid().isNotNull();
+        else
+            whereCreatedByUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (Tenant)
+    //##################################################
+
+//    public MyTenantCriteria joinToTenant()
+//    {
+//        return new MyTenantCriteria(joinTo(TENANT));
+//    }
+//
+//    public MyTenantCriteria leftJoinToTenant()
+//    {
+//        return new MyTenantCriteria(leftJoinTo(TENANT));
+//    }
+
+    public KmhStringCondition whereTenantUid()
+    {
+        return new KmhStringCondition(context(), alias(), TENANT_UID);
+    }
+
+    public void whereTenantIs(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNull();
+        else
+            whereTenantUid().is(e.getUid());
+    }
+
+    public void whereTenantIsNot(MyTenant e)
+    {
+        if ( e == null )
+            whereTenantUid().isNotNull();
+        else
+            whereTenantUid().isNot(e.getUid());
+    }
+
+    //##################################################
+    //# association (UpdatedBy)
+    //##################################################
+
+//    public MyUserCriteria joinToUpdatedBy()
+//    {
+//        return new MyUserCriteria(joinTo(UPDATED_BY));
+//    }
+//
+//    public MyUserCriteria leftJoinToUpdatedBy()
+//    {
+//        return new MyUserCriteria(leftJoinTo(UPDATED_BY));
+//    }
+
+    public KmhStringCondition whereUpdatedByUid()
+    {
+        return new KmhStringCondition(context(), alias(), UPDATED_BY_UID);
+    }
+
+    public void whereUpdatedByIs(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNull();
+        else
+            whereUpdatedByUid().is(e.getUid());
+    }
+
+    public void whereUpdatedByIsNot(MyUser e)
+    {
+        if ( e == null )
+            whereUpdatedByUid().isNotNull();
+        else
+            whereUpdatedByUid().isNot(e.getUid());
+    }
+
 
     //##################################################
     //# junction

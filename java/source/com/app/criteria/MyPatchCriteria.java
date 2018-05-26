@@ -37,45 +37,41 @@ public class MyPatchCriteria
     }
 
     //##################################################
+    //# primary key
+    //##################################################
+
+    public void whereNameIs(MyPatch e)
+    {
+        whereName().is(e.getName());
+    }
+
+    public void whereNameIsNot(MyPatch e)
+    {
+        whereName().isNot(e.getName());
+    }
+
+    //##################################################
     //# properties
     //##################################################
 
-    public KmhStringCondition whereName()
-    {
-        return new KmhStringCondition(context(), fullName(NAME));
-    }
-
     public KmhTimestampCondition whereInstalledUtcTs()
     {
-        return new KmhTimestampCondition(context(), fullName(INSTALLED_UTC_TS));
+        return new KmhTimestampCondition(context(), alias(), INSTALLED_UTC_TS);
+    }
+
+    public KmhStringCondition whereName()
+    {
+        return new KmhStringCondition(context(), alias(), NAME);
     }
 
     public KmhStringCondition whereSource()
     {
-        return new KmhStringCondition(context(), fullName(SOURCE));
+        return new KmhStringCondition(context(), alias(), SOURCE);
     }
 
     //##################################################
     //# sorts
     //##################################################
-
-    public void sortOnName()
-    {
-        parent().sortAscending(NAME);
-    }
-
-    public void sortOnNameDescending()
-    {
-        parent().sortDescending(NAME);
-    }
-
-    public void sortOnName(boolean asc)
-    {
-        if ( asc )
-            sortOnName();
-        else
-            sortOnNameDescending();
-    }
 
     public void sortOnInstalledUtcTs()
     {
@@ -95,6 +91,24 @@ public class MyPatchCriteria
             sortOnInstalledUtcTsDescending();
     }
 
+    public void sortOnName()
+    {
+        parent().sortAscending(NAME);
+    }
+
+    public void sortOnNameDescending()
+    {
+        parent().sortDescending(NAME);
+    }
+
+    public void sortOnName(boolean asc)
+    {
+        if ( asc )
+            sortOnName();
+        else
+            sortOnNameDescending();
+    }
+
     public void sortOnSource()
     {
         parent().sortAscending(SOURCE);
@@ -111,50 +125,6 @@ public class MyPatchCriteria
             sortOnSource();
         else
             sortOnSourceDescending();
-    }
-
-    //##################################################
-    //# projections (name)
-    //##################################################
-
-    public void selectName()
-    {
-        select(NAME);
-    }
-
-    public void selectDistinctName()
-    {
-        selectDistinct(NAME);
-    }
-
-    public void selectCountDistinctName()
-    {
-        selectCountDistinct(NAME);
-    }
-
-    public void selectMinimumName()
-    {
-        selectMinimum(NAME);
-    }
-
-    public void selectMaximumName()
-    {
-        selectMaximum(NAME);
-    }
-
-    public void selectAverageName()
-    {
-        selectAverage(NAME);
-    }
-
-    public void selectSumName()
-    {
-        selectSum(NAME);
-    }
-
-    public void groupByName()
-    {
-        groupBy(NAME);
     }
 
     //##################################################
@@ -199,6 +169,50 @@ public class MyPatchCriteria
     public void groupByInstalledUtcTs()
     {
         groupBy(INSTALLED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (name)
+    //##################################################
+
+    public void selectName()
+    {
+        select(NAME);
+    }
+
+    public void selectDistinctName()
+    {
+        selectDistinct(NAME);
+    }
+
+    public void selectCountDistinctName()
+    {
+        selectCountDistinct(NAME);
+    }
+
+    public void selectMinimumName()
+    {
+        selectMinimum(NAME);
+    }
+
+    public void selectMaximumName()
+    {
+        selectMaximum(NAME);
+    }
+
+    public void selectAverageName()
+    {
+        selectAverage(NAME);
+    }
+
+    public void selectSumName()
+    {
+        selectSum(NAME);
+    }
+
+    public void groupByName()
+    {
+        groupBy(NAME);
     }
 
     //##################################################

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,11 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 import com.kodemore.servlet.variable.ScLocalRawFunction;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmHtmlLineEnding;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -49,6 +51,15 @@ public class ScActionButton
     private ScLocalHtmlId      _blockTarget;
     private ScLocalString      _confirmationMessageHtml;
 
+    /**
+     * By default, the button automatically determines the form
+     * to use when composing the action script. If ignoresForm is true,
+     * the script's form parameter will be left null. This is useful
+     * when you have a button that is inside a form, but you do do NOT
+     * want to submit the context of the form with the ajax request.
+     */
+    private ScLocalBoolean _ignoresForm;
+
     //##################################################
     //# constructor
     //##################################################
@@ -60,6 +71,7 @@ public class ScActionButton
         _extra = new ScLocalString();
         _blockTarget = new ScLocalHtmlId();
         _confirmationMessageHtml = new ScLocalString();
+        _ignoresForm = new ScLocalBoolean(false);
     }
 
     //##################################################
@@ -84,13 +96,6 @@ public class ScActionButton
     public void setAction(ScAction e)
     {
         _action.setValue(e);
-    }
-
-    public ScAction setAction(Runnable r)
-    {
-        ScAction a = newCheckedAction(r);
-        _action.setValue(a);
-        return a;
     }
 
     public void setAction(ScAction e, Object arg)
@@ -139,8 +144,22 @@ public class ScActionButton
 
     public void setConfirmationMessageText(String text)
     {
-        String html = Kmu.escapeHtml(text, true);
+        String html = Kmu.escapeHtml(text, KmHtmlLineEnding.BreakElement);
         setConfirmationMessageHtml(html);
+    }
+
+    //##################################################
+    //# ignores form
+    //##################################################
+
+    public boolean ignoresForm()
+    {
+        return _ignoresForm.isTrue();
+    }
+
+    public void ignoreForm()
+    {
+        _ignoresForm.setTrue();
     }
 
     //##################################################
@@ -167,27 +186,35 @@ public class ScActionButton
     //##################################################
 
     @Override
-    protected String formatOnClick()
+    protected String formatEnabledOnClick()
     {
         if ( !hasAction() )
             return null;
-
-        ScForm form;
-        form = findFormWrapper();
-
-        ScHtmlIdIF block = hasBlockTarget()
-            ? getBlockTarget()
-            : findBlockWrapper();
 
         ScActionScript s;
         s = new ScActionScript();
         s.setAction(getAction());
         s.setArgument(getArgument());
         s.setExtra(getExtra());
-        s.setForm(form);
+        s.setForm(getActionForm());
         s.setModel(getModel());
-        s.setBlockTarget(block);
+        s.setBlockTarget(getActionBlockTarget());
         s.setConfirmationMessage(getConfirmationMessageHtml());
         return s.formatScript();
     }
+
+    private ScForm getActionForm()
+    {
+        return ignoresForm()
+            ? null
+            : findFormWrapper();
+    }
+
+    private ScHtmlIdIF getActionBlockTarget()
+    {
+        return hasBlockTarget()
+            ? getBlockTarget()
+            : findBlockWrapper();
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,20 @@ public class KmXmlUtility
         s = Kmu.replaceAll(s, ">", "&gt;");
         s = Kmu.replaceAll(s, "'", "&apos;");
         s = Kmu.replaceAll(s, "\"", "&quot;");
-        return s;
+
+        char[] arr = s.toCharArray();
+        int n = arr.length;
+        StringBuilder out = new StringBuilder(n);
+        for ( int i = 0; i < n; i++ )
+        {
+            int code = Character.codePointAt(arr, i);
+            if ( code >= 128 )
+                out.append("&#x" + Integer.toHexString(code) + ";");
+            else
+                out.append(arr[i]);
+        }
+
+        return out.toString();
     }
 
     public static boolean isWhitespace(String s)

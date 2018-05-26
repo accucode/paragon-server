@@ -9,6 +9,7 @@
 package com.app.finder;
 
 import com.kodemore.collection.*;
+import com.kodemore.command.*;
 import com.kodemore.utility.*;
 
 import com.app.dao.*;
@@ -16,21 +17,22 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyPatchFinder
+public final class MyPatchFinder
     implements KmKeyFinderIF<MyPatch,String>
 {
     //##################################################
-    //# static
+    //# instance
     //##################################################
 
-    public static MyPatch staticFind(String key)
-    {
-        return new MyPatchFinder().find(key);
-    }
+    public static final MyPatchFinder instance = new MyPatchFinder();
 
-    public static MyPatch staticFindDao(String key)
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private MyPatchFinder()
     {
-        return new MyPatchFinder().findDao(key);
+        // private
     }
 
     //##################################################
@@ -45,9 +47,6 @@ public class MyPatchFinder
 
     public MyPatch findDao(String key)
     {
-        MyDaoKeyFinder<MyPatch,String> e;
-        e = new MyDaoKeyFinder<>(this, key);
-        e.run();
-        return e.getValue();
+        return KmDao.fetch(this::find, key);
     }
 }

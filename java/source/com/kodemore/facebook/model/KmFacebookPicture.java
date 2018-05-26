@@ -22,13 +22,13 @@ public class KmFacebookPicture
     /**
      * The url of the photo
      */
-    private String             _url;
+    private String _url;
 
     /**
      * Is true if the user has not selected a profile picture
      * and a silouette placeholder is displayed instead.
      */
-    private Boolean            _isSilouette;
+    private Boolean _isSilouette;
 
     //##################################################
     //# accessing

@@ -11,6 +11,7 @@ package com.app.model.base;
 import java.util.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.domain.*;
 import com.kodemore.exception.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.utility.*;
@@ -18,6 +19,7 @@ import com.kodemore.time.*;
 import com.kodemore.types.*;
 import com.kodemore.utility.*;
 
+import com.app.finder.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.model.meta.*;
@@ -27,8 +29,8 @@ import com.app.utility.*;
 
 @SuppressWarnings("all")
 public abstract class MyPerformanceLogDetailBase
-    extends MyAbstractDaoDomain
-    implements MyUidDomainIF
+    extends MyAbstractDaoDomain<MyPerformanceLogDetail>
+    implements KmUidDomainIF
 {
     //##################################################
     //# static
@@ -37,15 +39,16 @@ public abstract class MyPerformanceLogDetailBase
     public static final MyMetaPerformanceLogDetail Meta = MyMetaPerformanceLogDetail.instance;
     public static final MyPerformanceLogDetailTools Tools = MyPerformanceLogDetailTools.instance;
     public static final MyPerformanceLogDetailValidator Validator = MyPerformanceLogDetailValidator.instance;
+    public static final MyPerformanceLogDetailFinder Finder = MyPerformanceLogDetailFinder.instance;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String uid;
     private KmTimestamp createdUtcTs;
-    private String name;
     private Integer durationMs;
+    private String name;
+    private String uid;
 
     //##################################################
     //# constructor
@@ -54,48 +57,24 @@ public abstract class MyPerformanceLogDetailBase
     public MyPerformanceLogDetailBase()
     {
         super();
-        setUid(newUid());
         setCreatedUtcTs(nowUtc());
+        setUid(newUid());
     }
 
     //##################################################
-    //# field (uid)
+    //# field (auditLogTitle)
     //##################################################
 
-    public String getUid()
+    public abstract String getAuditLogTitle();
+
+    public boolean hasAuditLogTitle()
     {
-        return uid;
+        return Kmu.hasValue(getAuditLogTitle());
     }
 
-    public void setUid(String e)
+    public boolean hasAuditLogTitle(String e)
     {
-        e = Validator.getUidValidator().convertOnly(e);
-        uid = e;
-    }
-
-    public void clearUid()
-    {
-        setUid(null);
-    }
-
-    public boolean hasUid()
-    {
-        return Kmu.hasValue(getUid());
-    }
-
-    public boolean hasUid(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getUid(), e);
-    }
-
-    public void truncateUid()
-    {
-        truncateUid(false);
-    }
-
-    public void truncateUid(boolean ellipses)
-    {
-        uid = Kmu.truncate(uid, 30, ellipses);
+        return Kmu.isEqualIgnoreCase(getAuditLogTitle(), e);
     }
 
     //##################################################
@@ -109,7 +88,7 @@ public abstract class MyPerformanceLogDetailBase
 
     public void setCreatedUtcTs(KmTimestamp e)
     {
-        e = Validator.getCreatedUtcTsValidator().convertOnly(e);
+        e = Validator.getCreatedUtcTsValidator().convert(e);
         createdUtcTs = e;
     }
 
@@ -129,6 +108,68 @@ public abstract class MyPerformanceLogDetailBase
     }
 
     //##################################################
+    //# field (domainSubtitle)
+    //##################################################
+
+    public abstract String getDomainSubtitle();
+
+    public boolean hasDomainSubtitle()
+    {
+        return Kmu.hasValue(getDomainSubtitle());
+    }
+
+    public boolean hasDomainSubtitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainSubtitle(), e);
+    }
+
+    //##################################################
+    //# field (domainTitle)
+    //##################################################
+
+    public abstract String getDomainTitle();
+
+    public boolean hasDomainTitle()
+    {
+        return Kmu.hasValue(getDomainTitle());
+    }
+
+    public boolean hasDomainTitle(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getDomainTitle(), e);
+    }
+
+    //##################################################
+    //# field (durationMs)
+    //##################################################
+
+    public Integer getDurationMs()
+    {
+        return durationMs;
+    }
+
+    public void setDurationMs(Integer e)
+    {
+        e = Validator.getDurationMsValidator().convert(e);
+        durationMs = e;
+    }
+
+    public void clearDurationMs()
+    {
+        setDurationMs(null);
+    }
+
+    public boolean hasDurationMs()
+    {
+        return getDurationMs() != null;
+    }
+
+    public boolean hasDurationMs(Integer e)
+    {
+        return Kmu.isEqual(getDurationMs(), e);
+    }
+
+    //##################################################
     //# field (name)
     //##################################################
 
@@ -139,7 +180,7 @@ public abstract class MyPerformanceLogDetailBase
 
     public void setName(String e)
     {
-        e = Validator.getNameValidator().convertOnly(e);
+        e = Validator.getNameValidator().convert(e);
         name = e;
     }
 
@@ -169,49 +210,43 @@ public abstract class MyPerformanceLogDetailBase
     }
 
     //##################################################
-    //# field (durationMs)
+    //# field (uid)
     //##################################################
 
-    public Integer getDurationMs()
+    public String getUid()
     {
-        return durationMs;
+        return uid;
     }
 
-    public void setDurationMs(Integer e)
+    public void setUid(String e)
     {
-        e = Validator.getDurationMsValidator().convertOnly(e);
-        durationMs = e;
+        e = Validator.getUidValidator().convert(e);
+        uid = e;
     }
 
-    public void clearDurationMs()
+    public void clearUid()
     {
-        setDurationMs(null);
+        setUid(null);
     }
 
-    public boolean hasDurationMs()
+    public boolean hasUid()
     {
-        return getDurationMs() != null;
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasDurationMs(Integer e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getDurationMs(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
-    //##################################################
-    //# field (displayString)
-    //##################################################
-
-    public abstract String getDisplayString();
-
-    public boolean hasDisplayString()
+    public void truncateUid()
     {
-        return Kmu.hasValue(getDisplayString());
+        truncateUid(false);
     }
 
-    public boolean hasDisplayString(String e)
+    public void truncateUid(boolean ellipses)
     {
-        return Kmu.isEqualIgnoreCase(getDisplayString(), e);
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -296,20 +331,15 @@ public abstract class MyPerformanceLogDetailBase
     //##################################################
 
     @Override
-    public void validate()
+    protected final MyPerformanceLogDetailValidator getValidator()
     {
-        Validator.validate((MyPerformanceLogDetail)this);
+        return Validator;
     }
 
     @Override
-    public void validateWarn()
+    protected final MyPerformanceLogDetail asSubclass()
     {
-        Validator.validateWarn((MyPerformanceLogDetail)this);
-    }
-
-    public boolean isValid()
-    {
-        return Validator.isValid((MyPerformanceLogDetail)this);
+        return (MyPerformanceLogDetail)this;
     }
 
     //##################################################
@@ -338,10 +368,32 @@ public abstract class MyPerformanceLogDetailBase
     {
         MyPerformanceLogDetail e;
         e = new MyPerformanceLogDetail();
-        e.setCreatedUtcTs(getCreatedUtcTs());
-        e.setName(getName());
-        e.setDurationMs(getDurationMs());
+        applyEditableFieldsTo(e);
         return e;
+    }
+
+    /**
+     * Apply the editable fields TO another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsTo(MyPerformanceLogDetail e)
+    {
+        e.setCreatedUtcTs(getCreatedUtcTs());
+        e.setDurationMs(getDurationMs());
+        e.setName(getName());
+    }
+
+    /**
+     * Apply the editable fields FROM another model.
+     * The primary key and lock version are not applied.
+     * Associations and collections are NOT applied.
+     */
+    public final void applyEditableFieldsFrom(MyPerformanceLogDetail e)
+    {
+        setCreatedUtcTs(e.getCreatedUtcTs());
+        setDurationMs(e.getDurationMs());
+        setName(e.getName());
     }
 
     //##################################################
@@ -372,10 +424,12 @@ public abstract class MyPerformanceLogDetailBase
 
     public boolean isSameIgnoringKey(MyPerformanceLogDetail e)
     {
+        if ( !Kmu.isEqual(getAuditLogTitle(), e.getAuditLogTitle()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getDomainSubtitle(), e.getDomainSubtitle()) ) return false;
+        if ( !Kmu.isEqual(getDomainTitle(), e.getDomainTitle()) ) return false;
         if ( !Kmu.isEqual(getDurationMs(), e.getDurationMs()) ) return false;
-        if ( !Kmu.isEqual(getDisplayString(), e.getDisplayString()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -413,10 +467,10 @@ public abstract class MyPerformanceLogDetailBase
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    Name = " + name);
         System.out.println("    DurationMs = " + durationMs);
+        System.out.println("    Name = " + name);
+        System.out.println("    Uid = " + uid);
     }
 
     /**

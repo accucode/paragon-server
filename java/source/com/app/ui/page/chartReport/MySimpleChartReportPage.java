@@ -5,44 +5,62 @@ import com.kodemore.collection.KmList;
 import com.app.criteria.core.MyAbstractCriteria;
 import com.app.model.MyNamedDoubleVo;
 import com.app.model.core.MyAbstractDomain;
+import com.app.ui.page.chartReport.group.MyChartReportSection;
+import com.app.ui.page.chartReport.value.MyChartReportValue;
 
-public abstract class MySimpleChartReportPage<T extends MyAbstractDomain, C extends MyAbstractCriteria<T>>
+public abstract class MySimpleChartReportPage<T extends MyAbstractDomain<?>, C extends MyAbstractCriteria<T>>
     extends MyChartReportPage<T,C>
 {
     //##################################################
     //# chart :: value
     //##################################################
 
-    protected abstract MyChartReportValue<T,C>[] getChartValueOptions();
+    protected final KmList<MyChartReportValue<T,C>> getChartValues()
+    {
+        KmList<MyChartReportValue<T,C>> v;
+        v = new KmList<>();
+        defineChartValues(v);
+        return v;
+    }
+
+    protected abstract void defineChartValues(KmList<MyChartReportValue<T,C>> v);
 
     @Override
-    protected final MyChartReportValue<T,C>[] getPieChartValueOptions()
+    protected final KmList<MyChartReportValue<T,C>> getPieChartValues()
     {
-        return getChartValueOptions();
+        return getChartValues();
     }
 
     @Override
-    protected final MyChartReportValue<T,C>[] getBarChartValueOptions()
+    protected final KmList<MyChartReportValue<T,C>> getBarChartValues()
     {
-        return getChartValueOptions();
+        return getChartValues();
     }
 
     //##################################################
     //# chart :: group
     //##################################################
 
-    protected abstract MyChartReportGroup<T,C>[] getChartGroupOptions();
+    protected final KmList<MyChartReportSection<T,C>> getChartGroups()
+    {
+        KmList<MyChartReportSection<T,C>> v;
+        v = new KmList<>();
+        defineChartSections(v);
+        return v;
+    }
+
+    protected abstract void defineChartSections(KmList<MyChartReportSection<T,C>> v);
 
     @Override
-    protected final MyChartReportGroup<T,C>[] getPieChartGroupOptions()
+    protected final KmList<MyChartReportSection<T,C>> getPieChartGroups()
     {
-        return getChartGroupOptions();
+        return getChartGroups();
     }
 
     @Override
-    protected final MyChartReportGroup<T,C>[] getBarChartGroupOptions()
+    protected final KmList<MyChartReportSection<T,C>> getBarChartGroups()
     {
-        return getChartGroupOptions();
+        return getChartGroups();
     }
 
     //##################################################

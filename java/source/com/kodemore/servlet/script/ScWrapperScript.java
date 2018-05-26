@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
  * I provide the basis for extending someone else's block script.
  * Although I extend from BlockScript, I delegate all options to
  * my "inner" script rather than implementing the operations directly.
- * 
+ *
  * This allows my subclasses to enhance, or extend, the functionality
  * of another block script without affecting the class hierarchy.
  */

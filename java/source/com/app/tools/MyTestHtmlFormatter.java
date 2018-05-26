@@ -13,10 +13,10 @@ public class MyTestHtmlFormatter
     //# constants
     //##################################################
 
-    private static final String HTML_EXTENSION        = "html";
-    private static final String HTML_TEST_FOLDER      = "test";
+    private static final String HTML_EXTENSION   = "html";
+    private static final String HTML_TEST_FOLDER = "test";
 
-    private static final String STANDARD_HEADER_FILE  = "testStandardHeader.html";
+    private static final String STANDARD_HEADER_FILE = "testStandardHeader.html";
 
     private static final String BEGIN_STANDARD_HEADER = "<!-- BEGIN_STANDARD_HEADER -->";
     private static final String END_STANDARD_HEADER   = "<!-- END_STANDARD_HEADER -->";

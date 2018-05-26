@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
-import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhTimeCondition;
 import com.kodemore.hibernate.type.KmhTimeType;
 import com.kodemore.meta.KmMetaTimeProperty;
@@ -24,9 +25,9 @@ public class KmProtoTime
     }
 
     @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public KmList<KmgSqlColumn> getSqlColumns()
     {
-        return "time";
+        return singleColumn("time");
     }
 
     @Override

@@ -1,13 +1,13 @@
 package com.app.ui.page.general;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.model.MyProject;
+import com.app.model.MyTenant;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
-import com.app.ui.page.manage.crud.MyCrudViewCard;
-import com.app.ui.page.manage.project.MyProjectBuilder;
+import com.app.ui.page.crud.abstractBase.MyCrudFrame;
+import com.app.ui.page.crud.project.MyProjectBuilder;
 
 public final class MyProjectPage
     extends MyPage
@@ -37,7 +37,7 @@ public final class MyProjectPage
     //# variables
     //##################################################
 
-    private MyCrudViewCard<MyProject> _view;
+    private MyCrudFrame<MyTenant,MyProject> _view;
 
     //##################################################
     //# settings
@@ -52,23 +52,7 @@ public final class MyProjectPage
     @Override
     public final MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.user;
-    }
-
-    //##################################################
-    //# bookmark
-    //##################################################
-
-    @Override
-    public void composeBookmarkOn(ScParameterList v)
-    {
-        // none
-    }
-
-    @Override
-    public void applyBookmark(ScParameterList v)
-    {
-        // none
+        return MySecurityLevel.projectWorker;
     }
 
     //##################################################
@@ -80,8 +64,7 @@ public final class MyProjectPage
     {
         MyProjectBuilder b;
         b = new MyProjectBuilder();
-        b.setEditCard(null);
-        _view = b.getViewCard();
+        _view = b.getFrame();
         _view.css().fill();
 
         root.css().fill().flexRow().rowSpacer20();
@@ -97,7 +80,7 @@ public final class MyProjectPage
     {
         MyProject e = getCurrentProject();
         if ( e != null )
-            _view.applyFromModel(e);
+            _view.setDefaultViewCard(e);
     }
 
 }

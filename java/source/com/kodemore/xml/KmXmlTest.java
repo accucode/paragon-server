@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 import com.kodemore.xml.utility.KmXmlBuilder;
 
@@ -244,7 +245,7 @@ public class KmXmlTest
             String xsdFile = Kmu.getHardcodedPath("/temp/xml/person.xsd");
 
             System.out.println("parsing xml...");
-            String xml = Kmu.readFileString(xmlFile);
+            String xml = KmFiles.readString(xmlFile);
             Document doc = parseXml(xml);
             DOMSource ds = new DOMSource(doc);
 

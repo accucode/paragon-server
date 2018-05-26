@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
-import com.kodemore.utility.KmCompressMemoryIF;
+import com.kodemore.utility.KmHtmlLineEnding;
 
 /**
  * I am used as a common superclass for elements that do
@@ -50,6 +50,10 @@ public abstract class ScElement
     private ScLocalString _htmlId;
     private ScLocalCss    _css;
     private ScLocalStyle  _style;
+
+    /**
+     * The PLAIN TEXT message to display as the hover text (tooltip).
+     */
     private ScLocalString _hoverText;
 
     //##################################################
@@ -58,7 +62,7 @@ public abstract class ScElement
 
     public ScElement()
     {
-        _htmlId = new ScLocalString(getKey());
+        _htmlId = new ScLocalString(getKeyToken());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
         _hoverText = new ScLocalString();
@@ -108,6 +112,11 @@ public abstract class ScElement
     public void ajaxSetAttribute(String key, String value)
     {
         _htmlIdAjax().setAttribute(key, value);
+    }
+
+    public ScHtmlIdAjax createDetachedAjax()
+    {
+        return ScHtmlIdAjax.createDetached(this);
     }
 
     //##################################################
@@ -189,21 +198,7 @@ public abstract class ScElement
         out.printAttribute("id", getHtmlId());
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
-        out.printAttribute("title", getHoverText());
-    }
-
-    /**
-     * @see KmCompressMemoryIF#compressMemory
-     */
-    @Override
-    public void compressMemory()
-    {
-        super.compressMemory();
-
-        _htmlId.compressMemory();
-        _css.compressMemory();
-        _style.compressMemory();
-        _hoverText.compressMemory();
+        out.printAttribute("title", getHoverText(), KmHtmlLineEnding.BreakElement);
     }
 
     //##################################################
@@ -217,8 +212,9 @@ public abstract class ScElement
     }
 
     @Override
-    public final boolean getVisible()
+    public final boolean isVisible()
     {
         return !style().hasHide();
     }
+
 }

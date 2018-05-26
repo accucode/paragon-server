@@ -1,6 +1,6 @@
 package com.app.ui.page.login;
 
-import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.ScBookmark;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -14,7 +14,6 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAutoLogin;
 import com.app.model.MyTenant;
-import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAutoLogin;
 import com.app.ui.layout.MyPageLayoutType;
 import com.app.ui.page.MyPage;
@@ -46,21 +45,15 @@ public final class MyProxyPage
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    private static final String   PARAM_AUTO_LOGIN_UID = "uid";
-
-    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString         _autoLoginUid;
+    private ScLocalString _autoLoginUid;
 
     private ScForm                _proxyForm;
     private ScHiddenField<String> _autoLoginUidField;
 
-    private ScGroup               _errorGroup;
+    private ScGroup _errorGroup;
 
     //##################################################
     //# settings
@@ -78,38 +71,45 @@ public final class MyProxyPage
         return MyPageLayoutType.basic;
     }
 
+    @Override
+    public boolean allowsJumpTo()
+    {
+        return false;
+    }
+
     //##################################################
     //# bookmark
     //##################################################
 
-    public final String formatEntryUrl(MyUser user)
+    @Override
+    public MyProxyBookmark newBookmark()
     {
-        MyAutoLogin e;
-        e = new MyAutoLogin();
-        e.setUser(user);
-        e.daoAttach();
+        return new MyProxyBookmark(this);
+    }
 
-        _autoLoginUid.setValue(e.getUid());
-
-        MyTenant tenant = user.getTenant();
-        ScParameterList params = composeBookmark(true);
-
-        return MyUrls.getEntryUrl(tenant, params);
+    private MyProxyBookmark castBookmark(ScBookmark e)
+    {
+        return (MyProxyBookmark)e;
     }
 
     @Override
-    public void composeBookmarkOn(ScParameterList v)
+    protected void readStateFrom(ScBookmark o)
     {
-        if ( _autoLoginUid.hasValue() )
-            v.setValue(PARAM_AUTO_LOGIN_UID, _autoLoginUid.getValue());
+        super.readStateFrom(o);
+
+        MyProxyBookmark e;
+        e = castBookmark(o);
+        _autoLoginUid.setValue(e.getAutoLoginUid());
     }
 
     @Override
-    public void applyBookmark(ScParameterList params)
+    protected void writeStateTo(ScBookmark o)
     {
-        String query = params.getValue(PARAM_AUTO_LOGIN_UID);
-        if ( Kmu.hasValue(query) )
-            _autoLoginUid.setValue(query);
+        super.writeStateTo(o);
+
+        MyProxyBookmark e;
+        e = castBookmark(o);
+        e.setAutoLoginUid(_autoLoginUid.getValue());
     }
 
     //##################################################
@@ -134,7 +134,7 @@ public final class MyProxyPage
         ScForm form;
         form = root.addForm();
         form.add(createUidField());
-        form.setSubmitAction(this::handleContinue);
+        form.onSubmit(newUncheckedAction(this::handleContinue));
         form.hide();
         _proxyForm = form;
 
@@ -147,7 +147,7 @@ public final class MyProxyPage
         body.css().pad20();
 
         ScFieldTable fields;
-        fields = body.addFieldTable();
+        fields = body.addFullWidthFieldTable();
         fields.addFieldText(x.TenantName);
         fields.addFieldText(x.UserFullName);
 
@@ -155,7 +155,7 @@ public final class MyProxyPage
         footer = group.showFooter();
         footer.css().buttonBox();
         footer.addSubmitButton("Continue");
-        footer.addCancelButton("Logout", this::handleLogout);
+        footer.addCancelButton("Logout", newUncheckedAction(this::handleLogout));
     }
 
     private void installErrorGroupOn(ScContainer root)
@@ -193,7 +193,7 @@ public final class MyProxyPage
     //##################################################
 
     @Override
-    public void preRender()
+    protected void preRender()
     {
         KmResult<MyAutoLogin> result = findAutoLogin(_autoLoginUid.getValue());
         if ( result.hasError() )
@@ -222,8 +222,8 @@ public final class MyProxyPage
         }
 
         MyAutoLogin login = result.getValue();
-        MyLoginUtility.logIn(login);
-        String url = MyUrls.getEntryUrl();
+        MyLoginUtility.ajaxLogIn(login);
+        String url = MyUrls.formatEntryUrl();
         ajax().gotoUrl(url);
     }
 

@@ -6,10 +6,10 @@ import com.kodemore.utility.KmEnumIF;
 
 /**
  * I define the supported IP Address types; e.g.: None, Dhcp, Static.
- * These types are shared across multiple domain models; e.g.: Product, Device, Order Line.
+ * These types are shared across multiple domain models; e.g.: Product, Device, Job Line.
  */
 public enum MyIpAddressType
-                implements KmEnumIF
+    implements KmEnumIF
 {
     //##################################################
     //# values

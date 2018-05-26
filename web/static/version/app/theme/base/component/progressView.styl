@@ -1,0 +1,97 @@
+//****************************
+//* progress view
+//****************************
+
+//****************************
+//* variables
+//****************************
+
+$progressView-box-border            = 2px solid gray
+$progressView-box-padding           = 2px
+$progressView-box-background        = white
+
+$progressView-progress-borderColor  = blue
+$progressView-progress-background   = lightBlue
+$progressView-progress-border       = 1px solid $progressView-progress-borderColor
+
+$progressView-today-borderWidth     = 3px
+$progressView-today-top             = $progressView-today-borderWidth / 2
+$progressView-today-marginTop       = - $progressView-today-borderWidth
+$progressView-today-marginLeft      = - $progressView-today-borderWidth
+$progressView-today-borderColor     = #888;
+$progressView-today-border          = $progressView-today-borderWidth solid;
+
+$progressView-todayEarly-borderColor = transparent;
+$progressView-todayEarly-border      = $progressView-today-borderWidth solid;
+
+
+//****************************
+//* css
+//****************************
+
+.progressView-box
+    min-height:         16px;
+    min-width           100px;
+    position:           relative;
+    overflow:           hidden;
+    border:             $progressView-box-border;
+    background-color:   $progressView-box-background;
+    display:            inline-block
+    border-radius:      2px;
+
+
+.progressView-progress
+    position:       absolute;
+    left:           $progressView-box-padding;
+    top:            $progressView-box-padding;
+    bottom:         $progressView-box-padding;
+    border:         $progressView-progress-border;
+    background:     $progressView-progress-background;
+
+
+.progressView-today
+    position:       absolute;
+    height:         0px;
+    width:          0px;
+    top:            50%;
+    border:         $progressView-today-border;
+    border-color:   $progressView-today-borderColor;
+    border-radius:  50%;
+    margin-top:     $progressView-today-marginTop;
+    margin-left:    $progressView-today-marginLeft;
+    box-shadow:     0px 0px 0px 2px #555;
+
+
+.progressView-today-before
+    position:           absolute;
+    height:             0px;
+    width:              0px;
+    top:                50%;
+    border:             $progressView-todayEarly-border;
+    border-color:       $progressView-todayEarly-borderColor;
+    border-right-color: #555;
+    margin-top:         $progressView-today-marginTop;
+    margin-left:        $progressView-today-marginLeft;
+
+
+.progressView-today-after
+    position:           absolute;
+    height:             0px;
+    width:              0px;
+    top:                50%;
+    border:             $progressView-todayEarly-border;
+    border-color:       $progressView-todayEarly-borderColor;
+    border-left-color:  #555;
+    margin-top:         $progressView-today-marginTop;
+    margin-left:        $progressView-today-marginLeft;
+
+
+.progressView-due
+    position:       absolute;
+    top:            0px;
+    bottom:         0px;
+    right:          0px;
+    border-left:    4px solid black;
+    margin-left:    -2px;
+
+

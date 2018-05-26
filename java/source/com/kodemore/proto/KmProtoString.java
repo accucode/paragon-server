@@ -1,6 +1,9 @@
 package com.kodemore.proto;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.generator.model.KmgModelField;
 import com.kodemore.generator.model.KmgModelFieldType;
+import com.kodemore.generator.model.KmgSqlColumn;
 import com.kodemore.hibernate.KmhStringCondition;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.field.ScTextField;
@@ -21,21 +24,28 @@ public class KmProtoString
         return String.class;
     }
 
-    @Override
-    public String getDatabaseType(KmgModelFieldType e)
+    public String getDatabaseType(KmgModelField e)
     {
+        KmgModelFieldType fieldType = e.getType();
+
         String type = "varchar";
-        int n = e.getMaximumLength();
+        int n = fieldType.getMaximumLength();
 
         if ( n >= 10000 )
             return "text";
 
-        boolean fixed = e.hasFixedLength();
+        boolean fixed = fieldType.hasFixedLength();
 
         if ( fixed || n <= 10 )
             type = "char";
 
         return type + "(" + n + ")";
+    }
+
+    @Override
+    public KmList<KmgSqlColumn> getSqlColumns()
+    {
+        return singleColumn(e -> getDatabaseType(e));
     }
 
     @Override

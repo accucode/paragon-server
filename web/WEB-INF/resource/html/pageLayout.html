@@ -7,7 +7,7 @@ Version: ${applicationVersion}
 
 <html lang="en">
 <head>
-    <title>${applicationName}</title>
+    <title>${title}</title>
 
     <meta http-equiv="Content-Type"     content="text/html; charset=UTF-8">
     <meta http-equiv="Cache-Control"    content="no-cache">
@@ -18,14 +18,15 @@ Version: ${applicationVersion}
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/common/css/reset.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- jquery (not deferred) -->
     <script src="/static/${versionFolder}/jquery/core/jquery-1.10.2.min.js"></script>
     <script src="/static/${versionFolder}/jquery/core/jquery-migrate-1.2.1.min.js"></script>
 
     <!-- jquery ui -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
-    <script defer src="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jquery-ui-1.11.4/jquery-ui.min.css">
+    <script defer src="/static/${versionFolder}/jquery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
     <!-- color picker -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/colorpicker-09.05.23/css/colorpicker.css">
@@ -70,13 +71,13 @@ Version: ${applicationVersion}
     <style>
         @font-face
         {
-        font-family: Code39AzaleaFont;
-        src: url('/static/${versionFolder}/azaleaCode39/Code39Azalea.eot') format('embedded-opentype'), /* IE9 Compat Modes */
-           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.woff') format('woff'), /* Modern Browsers */
-           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.ttf') format('truetype'), /* Safari, Android, iOS */
-           url('/static/${versionFolder}/azaleaCode39/Code39Azalea.svg#Code39Azalea') format('svg'); /* Legacy iOS */
-        font-weight: normal;
-        font-style: normal;
+            font-family: Code39AzaleaFont;
+            src: url('/static/${versionFolder}/azaleaCode39/Code39Azalea.eot') format('embedded-opentype'), /* IE9 Compat Modes */
+               url('/static/${versionFolder}/azaleaCode39/Code39Azalea.woff') format('woff'), /* Modern Browsers */
+               url('/static/${versionFolder}/azaleaCode39/Code39Azalea.ttf') format('truetype'), /* Safari, Android, iOS */
+               url('/static/${versionFolder}/azaleaCode39/Code39Azalea.svg#Code39Azalea') format('svg'); /* Legacy iOS */
+            font-weight: normal;
+            font-style: normal;
         }
     </style>
     -->
@@ -94,7 +95,9 @@ Version: ${applicationVersion}
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jcubic-splitter-0.14.0/css/jquery.splitter.css">
     <script defer src="/static/${versionFolder}/jquery/jcubic-splitter-0.14.0/js/jquery.splitter-0.14.0.js"></script>
 
+
     <!-- nvd3 charts 1.1.10 -->
+    <!--
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/nvd3-1.1.10/src/nv.d3.css">
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/lib/d3.v3.js"></script>
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/nv.d3.js"></script>
@@ -105,6 +108,15 @@ Version: ${applicationVersion}
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/axis.js"></script>
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/line.js"></script>
     <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/lineChart.js"></script>
+    -->
+
+    <!-- nvd3 charts 1.8.1 -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/nvd3-1.8.1/nv.d3.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.8.1/nv.d3.js"></script>
+
+
+
 
     <!-- ckEditor -->
     <script defer src="/static/${versionFolder}/ckeditor-4.5.11/ckeditor.js"></script>
@@ -128,11 +140,20 @@ Version: ${applicationVersion}
 
     <!-- popr -->
     <!--
-    use popr.styl instead, included in stylus theme.
+    We use popr.styl instead, which is included in the application stylus theme.
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/popr-1.0.0/popr.css">
     -->
     <script src="/static/${versionFolder}/jquery/popr-1.0.0/popr.js"></script>
 
+    <!-- chosen -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/chosen-1.8.5/chosen.css">
+    <script src="/static/${versionFolder}/jquery/chosen-1.8.5/chosen.jquery.js"></script>
+
+    <!-- type watch -->
+    <script src="/static/${versionFolder}/jquery/typeWatch-170928/jquery.typewatch.js"></script>
+
+    <!-- google map api -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_WTy8rgoCU_yoGesX86t7tfpDyGsQWjw" async defer></script>
 
     <!-- kodemore -->
     <script defer src="/static/${versionFolder}/app/common/script/kmExtensions.js"></script>
@@ -142,42 +163,46 @@ Version: ${applicationVersion}
     <script defer src="/static/${versionFolder}/app/common/script/kmTimeAgo.js"></script>
     <script defer src="/static/${versionFolder}/app/common/script/kmDateAgo.js"></script>
     <script defer src="/static/${versionFolder}/app/common/script/kmClock.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmAutoRun.js"></script>
 
     <!-- app -->
-    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/${themeToken}/css/theme.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/${versionFolder}/app/theme/${themeToken}/css/theme.css">
+    <link rel="stylesheet" type="text/css" media="print"  href="/static/${versionFolder}/app/theme/print/css/theme.css">
 
 
     <script type="text/javascript">
+
         $(function()
         {
             $('#pageLoadMessage').remove();
 
             Dropzone.autoDiscover = false;
 
+            Kmu.applicationVersion = "${applicationVersion}";
             KmDropdownMenu.installAutoClose();
             KmTimeAgo.init();
             KmClock.init();
+            KmAutoRun.init();
             Kmu.initTooltip();
 
             initNavigator();
             initJumpToMenu();
+            // initResize();
         });
 
         function initNavigator()
         {
-            KmNavigator.defaultTitle = "${applicationName}";
-            KmNavigator.init(
-            {
-                url: "${query}",
-                globalSession: "${initialGlobalSession}",
-                pageSession: "${initialPageSession}"
-            });
+            KmNavigator.defaultTitle = "${loadingTabTitle}";
+            KmNavigator.init();
+            KmNavigator.updatePageSession("${initialPageSession}");
+            KmNavigator.pushPage({url: "${query}", title: "${title}"});
         }
 
         function initJumpToMenu()
         {
             document.addEventListener("keydown", function(ev)
             {
+                // alt-slash
                 if ( ev.altKey && ev.which == 191 )
                 {
                     var field;
@@ -185,6 +210,22 @@ Version: ${applicationVersion}
                     field.val('');
                     field.focus();
                 }
+            });
+        }
+
+        function initResize()
+        {
+            $(window).resize(function()
+            {
+                var w = window.innerWidth
+                    || document.documentElement.clientWidth
+                    || document.body.clientWidth;
+
+                var h = window.innerHeight
+                    || document.documentElement.clientHeight
+                    || document.body.clientHeight;
+
+                console.log('innerSize = ' + w + ' x ' + h);
             });
         }
 
@@ -227,6 +268,21 @@ ${oneAllHead}
         <span id="noticeDialogMessage"></span>
     </div>
 
+    <!-- This is used by kmu.js => showAjaxError() -->
+    <div id="ajaxDialog" title="Ajax Message..." style="display:none">
+        <span id="ajaxDialogMessage"></span>
+    </div>
+
+    <!-- This is used by kmu.js => showAjaxError() -->
+    <div id="timeoutDialog" title="Session Timeout" style="display:none">
+        <span>
+            Your session has expired, or the application has been updated.
+            Please click 'Refresh' to continue.
+        </span>
+    </div>
+
     ${html}
+
+    <div id="sizeBox"></div>
 </body>
 </html>

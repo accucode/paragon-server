@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ public class KmDayFrequency
     //##################################################
 
     public static KmDayFrequency EMPTY                 = new KmDayFrequency("");
-
+    public static KmDayFrequency ALL                   = EMPTY.addAll();
     public static KmDayFrequency MONDAY_THROUGH_FRIDAY = EMPTY.addMondayThroughFriday();
 
     //##################################################
@@ -103,7 +103,7 @@ public class KmDayFrequency
         return removeDayCode(e.getCode());
     }
 
-    private boolean hasWeekDay(KmWeekDay e)
+    public boolean hasWeekDay(KmWeekDay e)
     {
         return hasDayCode(e.getCode());
     }
@@ -323,8 +323,38 @@ public class KmDayFrequency
     }
 
     //##################################################
+    //# testing
+    //##################################################
+
+    public boolean hasValue()
+    {
+        return hasMonday()
+            || hasTuesday()
+            || hasWednesday()
+            || hasThursday()
+            || hasFriday()
+            || hasSaturday()
+            || hasSunday();
+    }
+
+    public boolean isEmpty()
+    {
+        return !hasValue();
+    }
+
+    //##################################################
     //# convenience
     //##################################################
+
+    public KmDayFrequency addAll()
+    {
+        return addMonday().addTuesday()
+            .addWednesday()
+            .addThursday()
+            .addFriday()
+            .addSaturday()
+            .addSunday();
+    }
 
     public KmDayFrequency addMondayThroughFriday()
     {

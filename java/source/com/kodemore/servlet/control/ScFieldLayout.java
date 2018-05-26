@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,18 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 public class ScFieldLayout
     extends ScChildContainerElement
 {
+    //##################################################
+    //# instance creation
+    //##################################################
+
+    public static ScFieldLayout createWith(ScControl c)
+    {
+        ScFieldLayout e;
+        e = new ScFieldLayout();
+        e.add(c);
+        return e;
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -71,7 +83,7 @@ public class ScFieldLayout
     @Override
     public final <T extends ScControl> T add(T e)
     {
-        addWrapper(e);
+        addErrorWrapper(e);
         return e;
     }
 
@@ -80,7 +92,7 @@ public class ScFieldLayout
      * to myself. This is the same behavior as the more standard
      * add() method, but this returns the errorWrapper.
      */
-    public final <T extends ScControl> ScErrorWrapper addWrapper(T e)
+    public final <T extends ScControl> ScErrorWrapper addErrorWrapper(T e)
     {
         ScErrorWrapper w = e instanceof ScErrorWrapper
             ? (ScErrorWrapper)e
@@ -151,7 +163,7 @@ public class ScFieldLayout
     private boolean isVisible(ScControl e)
     {
         if ( e instanceof ScVisibleIF )
-            return ((ScVisibleIF)e).getVisible();
+            return ((ScVisibleIF)e).isVisible();
 
         return true;
     }

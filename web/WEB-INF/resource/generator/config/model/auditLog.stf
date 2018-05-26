@@ -2,8 +2,8 @@ model
 : name      = auditLog
 : help...
     ---
-    I maintain a log of changes made to the domain.  Each record identify a single
-    attribute that has been modified on a given model.  For example, a single
+    I maintain a log of changes made to the domain. Each record identify a single
+    attribute that has been modified on a given model. For example, a single
     record may record that the user John Doe changed the Widget's price to $13.00
     on Jan 1, 2015.
 
@@ -26,7 +26,7 @@ database
     index
     : name      = bundle
     : unique    = false
-    : on        = domainBundleUid
+    : on        = bundle
     : on        = uid
 
     index
@@ -44,6 +44,7 @@ attributes
 
 
     #include basicUid.stf
+    #include basicDisplay.stf
 
 
     field
@@ -55,15 +56,28 @@ attributes
 
 
     //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = bundle
+    : help      = The bundle that contains this log.
+    : modelName = auditBundle
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
     //** transaction
     //*****************************************************
 
 
     field
-    : name          = transactionUid
-    : help          = A unique identifier of the database transaction.
-    : type          = uid
-    : required      = true
+    : name      = transactionUid
+    : help      = A unique identifier of the database transaction.
+    : type      = uid
+    : required  = true
 
 
     //*****************************************************
@@ -113,7 +127,7 @@ attributes
 
     field
     : name      = domainType
-    : help      = The type of domain; e.g.: project, depot, etc.
+    : help      = The type of domain; e.g.: project, depot, jobLine, etc.
     : type      = name
     : required  = true
 
@@ -123,7 +137,7 @@ attributes
     : help...
         ---
         A more friendly format of the domain type.
-        E.g.: project => Project; salesOrderLine => Sales Order Line; etc.
+        E.g.: project => Project; jobLine => Job Line; etc.
         ---
     : type      = calculated
 
@@ -145,19 +159,6 @@ attributes
     field
     : name      = domainUid
     : help      = The unique id of the domain model.
-    : type      = uid
-    : required  = true
-
-
-    field
-    : name      = domainBundleUid
-    : help...
-        ---
-        I am used to identity a bundle of logs related to a particular domain.
-        In many cases, a particular domain will have multiple fields modified at the
-        same time.  The bundle identifies this group of changes.  Sometimes multiple
-        bundles may occur within the same transaction for the same domain.
-        ---
     : type      = uid
     : required  = true
 
@@ -211,7 +212,7 @@ attributes
     field
     : name      = stringValue
     : help      = The truncated string value, if applicable.
-    : type      = multiline1000
+    : type      = memo
     : required  = false
 
 

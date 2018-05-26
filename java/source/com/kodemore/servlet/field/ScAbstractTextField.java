@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.html.KmCssMarginBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -32,6 +31,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScWidthFullIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScTypeWatchScript;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -88,7 +88,7 @@ public abstract class ScAbstractTextField<T>
     /**
      * The ID of the outer html element.
      */
-    private ScLocalString  _htmlId;
+    private ScLocalString _htmlId;
 
     /**
      * If false (the default) client-side autocompletion is disabled.
@@ -99,33 +99,47 @@ public abstract class ScAbstractTextField<T>
     /**
      * The type of layout to apply. Because this is a composite with multiple
      * pieces (wrapper, input, image) it is not safe for clients to directly
-     * set the layout via css.  Instead, clients use one of the layout*() methods
+     * set the layout via css. Instead, clients use one of the layout*() methods
      * that ensure the different elements are coordinated correctly.
      */
-    private Layout         _layout;
+    private Layout _layout;
 
     /**
      * Used in conjuction with the layoutFixed.
      */
-    private int            _layoutWidth;
+    private int _layoutWidth;
 
     /**
      * Clients are not allowed directly access to the css since that will likely
      * cause problems.  However, clients are allowed to directly adjust the margin
      * for minor layout adjustments.
      */
-    private ScLocalCss     _cssMargin;
+    private ScLocalCss _cssMargin;
 
     /**
      * If set, run this script when the field's input changes.
-     * This uses the fields 'oninput' attribute.
+     * This uses the field's "onchange" attribute.
      */
-    private ScAction       _inputAction;
+    private ScAction _onChangeAction;
+
+    /**
+     * If set, run this script when the field's input changes.
+     * This uses the field's "oninput" attribute.
+     */
+    private ScAction _onInputAction;
 
     /**
      * Enable/disable spellchecking. Enabled by default.
      */
     private ScLocalBoolean _spellCheck;
+
+    /**
+     * If set, install the typeWatch script to notify the server when
+     * the user stops typing.
+     */
+    private ScAction _typeWatchAction;
+
+    private int _typeWatchDelayMs;
 
     //##################################################
     //# constructor
@@ -133,7 +147,7 @@ public abstract class ScAbstractTextField<T>
 
     public ScAbstractTextField()
     {
-        _htmlId = new ScLocalString(getKey());
+        _htmlId = new ScLocalString(getKeyToken());
         _text = new ScLocalString();
         _placeholder = new ScLocalString();
         _hoverText = new ScLocalString();
@@ -159,18 +173,13 @@ public abstract class ScAbstractTextField<T>
         _htmlId.setValue(e);
     }
 
-    public boolean hasHtmlId(String e)
-    {
-        return Kmu.isEqual(getHtmlId(), e);
-    }
-
     //##################################################
     //# css
     //##################################################
 
-    public KmCssMarginBuilder cssMargin()
+    public KmCssDefaultBuilder outerCss()
     {
-        return _cssMargin.toMarginBuilder();
+        return _cssMargin.toBuilder();
     }
 
     //##################################################
@@ -239,33 +248,78 @@ public abstract class ScAbstractTextField<T>
         _text.resetValue();
     }
 
+    public void onChange(ScAction e)
+    {
+        setOnChangeAction(e);
+    }
+
+    public void setOnChangeAction(ScAction e)
+    {
+        _onChangeAction = e;
+    }
+
+    public ScAction getOnChangeAction()
+    {
+        return _onChangeAction;
+    }
+
+    public boolean hasOnChangeAction()
+    {
+        return _onChangeAction != null;
+    }
+
     //##################################################
     //# on input
     //##################################################
 
-    public void onInput(Runnable e)
-    {
-        onInput(newCheckedAction(e));
-    }
-
     public void onInput(ScAction e)
     {
-        setInputAction(e);
+        setOnInputAction(e);
     }
 
-    public void setInputAction(ScAction e)
+    public void setOnInputAction(ScAction e)
     {
-        _inputAction = e;
+        _onInputAction = e;
     }
 
-    public ScAction getInputAction()
+    public ScAction getOnInputAction()
     {
-        return _inputAction;
+        return _onInputAction;
     }
 
-    public boolean hasInputAction()
+    public boolean hasOnInputAction()
     {
-        return _inputAction != null;
+        return _onInputAction != null;
+    }
+
+    //##################################################
+    //# on type watch
+    //##################################################
+
+    public void onTypeWatch(ScAction e)
+    {
+        onTypeWatch(e, 350);
+    }
+
+    public void onTypeWatch(ScAction action, int delayMs)
+    {
+        _typeWatchAction = action;
+        _typeWatchDelayMs = delayMs;
+    }
+
+    public ScAction getTypeWatchAction()
+    {
+        return _typeWatchAction;
+    }
+
+    public boolean hasTypeWatchAction()
+    {
+        return _typeWatchAction != null;
+    }
+
+    public int getTypeWatchDelayMs()
+    {
+        return _typeWatchDelayMs;
     }
 
     //##################################################
@@ -292,15 +346,11 @@ public abstract class ScAbstractTextField<T>
     //##################################################
 
     @Override
-    protected final boolean validateParse()
+    protected final void validateParse()
     {
         T value = getValue();
         if ( hasText() && value == null )
-        {
             addError(getInvalidMessage());
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -457,7 +507,7 @@ public abstract class ScAbstractTextField<T>
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        KmCssDefaultBuilder css = getCss();
+        KmCssDefaultBuilder css = formatCss();
         KmStyleBuilder style = new KmStyleBuilder();
         applyLayoutTo(css, style);
 
@@ -504,17 +554,44 @@ public abstract class ScAbstractTextField<T>
         if ( !getSpellCheck() )
             out.printAttribute("spellcheck", false);
 
-        if ( hasInputAction() )
+        if ( hasOnChangeAction() )
         {
             ScActionScript s;
             s = new ScActionScript();
-            s.setAction(getInputAction());
+            s.setAction(getOnChangeAction());
+            s.setForm(findFormWrapper());
+            s.setBlockTarget(findBlockWrapper());
+            out.printAttribute("onchange", s.formatScript());
+        }
+
+        if ( hasOnInputAction() )
+        {
+            ScActionScript s;
+            s = new ScActionScript();
+            s.setAction(getOnInputAction());
             s.setForm(findFormWrapper());
             s.setBlockTarget(findBlockWrapper());
             out.printAttribute("oninput", s.formatScript());
         }
 
         out.close();
+
+        if ( hasTypeWatchAction() )
+        {
+            ScActionScript action;
+            action = new ScActionScript();
+            action.setAction(getTypeWatchAction());
+            action.setForm(findFormWrapper());
+            action.setBlockTarget(findBlockWrapper());
+
+            ScTypeWatchScript watch;
+            watch = new ScTypeWatchScript();
+            watch.setSelector(getInputSelector());
+            watch.setCallback(action.formatScript());
+            watch.setDelayMs(getTypeWatchDelayMs());
+
+            out.getPostDom().run(watch);
+        }
     }
 
     //==================================================
@@ -529,6 +606,11 @@ public abstract class ScAbstractTextField<T>
     public String getInputSelector()
     {
         return ScJquery.formatIdSelector(getInputHtmlId());
+    }
+
+    public String getInputReference()
+    {
+        return ScJquery.formatIdReference(getInputHtmlId());
     }
 
     private String getInputName()
@@ -557,12 +639,13 @@ public abstract class ScAbstractTextField<T>
         return false;
     }
 
-    private KmCssDefaultBuilder getCss()
+    private KmCssDefaultBuilder formatCss()
     {
         KmCssDefaultBuilder css;
         css = new KmCssDefaultBuilder();
         css.textField();
-        css.addAll(cssMargin().getSelectors());
+        css.addAll(outerCss().getSelectors());
+        css.flexRow();
 
         if ( isEditable() )
             css.textField_editable();
@@ -574,7 +657,7 @@ public abstract class ScAbstractTextField<T>
 
     private void applyLayoutTo(KmCssDefaultBuilder css, KmStyleBuilder style)
     {
-        if ( !getVisible() )
+        if ( !isVisible() )
             style.hide();
 
         switch ( _layout )

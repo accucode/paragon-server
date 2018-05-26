@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package com.kodemore.servlet.control;
 
 import java.util.Collections;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -52,20 +53,22 @@ import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScToastScript;
 import com.kodemore.servlet.utility.ScBridge;
+import com.kodemore.servlet.utility.ScControlKeys;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.servlet.utility.ScKeyIF;
 import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.servlet.variable.ScLocalControl;
 import com.kodemore.servlet.variable.ScLocalObject;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.time.KmClock;
+import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmCompressMemoryIF;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScControl
-    implements ScControlIF, ScKeyIF, ScModelApplicatorIF, ScContextSupplierIF, KmCompressMemoryIF
+    implements ScControlIF, ScModelApplicatorIF, ScContextSupplierIF, KmCompressMemoryIF
 {
     //##################################################
     //# constants
@@ -78,12 +81,11 @@ public abstract class ScControl
     //##################################################
 
     /**
-     * This key uniquely identifies the control within the application.
-     * Keys are expected to remain consistent across applicatino restarts,
-     * but NOT across different application versions.  Keys are typically
-     * assigned automatically when the control is created.
+     * Uniquely identify this control.
+     *
+     * @see ScControlKeys
      */
-    private String                           _key;
+    private int _key;
 
     /**
      * Controls organized in a simple tree hierarchy.
@@ -94,7 +96,7 @@ public abstract class ScControl
      * - Find the containing ScForm.
      * - Find the containing ScContextIF.
      */
-    private ScLocalControl                   _parent;
+    private ScLocalControl _parent;
 
     /**
      * The label attribute is strictly an application feature,
@@ -103,15 +105,15 @@ public abstract class ScControl
      * conveniently manage the layout.  Although all controls
      * have the label attribute, the actual usage varies widely.
      */
-    private ScLocalString                    _label;
+    private ScLocalString _label;
 
     /**
-     * The help text associated with this control.  This is primarily
+     * The PLAIN TEXT help message for this control. This is primarily
      * used for fields, but may also be associated with other controls.
      * Some of the layout controls such as ScFieldLayout, ScFieldTable,
      * use the help (if present) to display a on screen tooltips.
      */
-    private ScLocalString                    _help;
+    private ScLocalString _help;
 
     /**
      * Many controls support dynamic content based on the current
@@ -121,7 +123,7 @@ public abstract class ScControl
      * that Person in different ways - one control may apply
      * the person's name.
      */
-    private ScLocalObject                    _model;
+    private ScLocalObject _model;
 
     /**
      * The scripts to run after the dom has been updated.
@@ -132,7 +134,7 @@ public abstract class ScControl
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScBlockScript                    _postDomScript;
+    private ScBlockScript _postDomScript;
 
     /**
      * The scripts to run after the display has been rendered.
@@ -141,7 +143,7 @@ public abstract class ScControl
      * after the dom has been updated, and must wait until after
      * the display has been fully rendered.
      */
-    private ScBlockScript                    _postRenderScript;
+    private ScBlockScript _postRenderScript;
 
     //##################################################
     //# constructor
@@ -153,9 +155,7 @@ public abstract class ScControl
      */
     public ScControl()
     {
-        ScControlRegistry r = getRegistry();
-        _key = r.getNextKey();
-        r.register(this);
+        getRegistry().register(this);
 
         _parent = new ScLocalControl();
         _label = new ScLocalString();
@@ -187,36 +187,38 @@ public abstract class ScControl
     //# key
     //##################################################
 
-    @Override
-    public final String getKey()
+    /**
+     * The system wide unique identifier for this control.
+     *
+     * @see ScControlKeys
+     */
+    public final int getKey()
     {
         return _key;
     }
 
     /**
-     * Set the key to a new unique, non-null value; and re-register
-     * this control for the new key.  This is typically only used
-     * for debuggering and should NOT be used as part of normal
-     * application development.
+     * DO NOT USE.
+     * This should only be used by the ScControlRegistry.
      */
-    public void _setKey(String e)
+    public final void registerKey(int e)
     {
-        ScControlRegistry r;
-        r = getRegistry();
-        r.unregister(this);
-
         _key = e;
-        r.register(this);
     }
 
-    public boolean hasKey()
+    public boolean hasKey(int e)
     {
-        return _key != null;
+        return _key == e;
     }
 
-    public boolean hasKey(String e)
+    public String getKeyToken()
     {
-        return Kmu.isEqual(getKey(), e);
+        return ScControlKeys.keyToToken(getKey());
+    }
+
+    public boolean hasKeyToken(String token)
+    {
+        return Kmu.isEqual(token, getKeyToken());
     }
 
     //##################################################
@@ -373,9 +375,11 @@ public abstract class ScControl
         int i = 0;
         for ( ScControl e : getParentHierarchy() )
         {
-            String prefix = Kmu.repeat("  ", i);
+            String indent = Kmu.repeat("  ", i);
             String name = e.getClass().getSimpleName();
-            KmLog.info(prefix + name);
+            if ( e instanceof ScPageRoot )
+                name += " => " + ((ScPageRoot)e).getSecurityManager().getClass().getSimpleName();
+            KmLog.info(indent + name);
             i++;
         }
     }
@@ -420,17 +424,16 @@ public abstract class ScControl
      * This is normally the ScPageRoot, but in some special cases we root
      * error handling at a lower container such as an ScDialog.
      */
-    public ScControl getErrorRoot()
+    public final ScControl getErrorRoot()
     {
-        if ( hasParent() )
-            return getParent().getErrorRoot();
-
-        return this;
+        return isErrorRoot()
+            ? this
+            : getParent().getErrorRoot();
     }
 
     public boolean isErrorRoot()
     {
-        return this == getErrorRoot();
+        return isRoot();
     }
 
     //##################################################
@@ -480,8 +483,12 @@ public abstract class ScControl
     @Override
     public final void readParameters()
     {
-        ScServletData data = getData();
-        visitAll(e -> e.readParameters_here(data));
+        readParameters_here(getData());
+
+        for ( ScControl e : getChildren() )
+            e.readParameters();
+
+        readParameters_after();
     }
 
     /**
@@ -496,6 +503,17 @@ public abstract class ScControl
         // subclass
     }
 
+    /**
+     * A hook for additional processing that may need to be done after
+     * all parameters for myself and my children have been read.
+     * Subclasses override this to implement internal functionality.
+     * Clients should generally call readParameters.
+     */
+    protected void readParameters_after()
+    {
+        // subclass
+    }
+
     //##################################################
     //# validate
     //##################################################
@@ -504,22 +522,17 @@ public abstract class ScControl
      * Validate
      */
     @Override
-    public final void validate()
+    public final void validateAndCheck()
     {
-        validateQuietly();
+        validate();
         getErrorRoot().checkErrors();
     }
 
     @Override
-    public boolean validateQuietly()
+    public void validate()
     {
-        boolean ok = true;
-
         for ( ScControl e : getChildren() )
-            if ( !e.validateQuietly() )
-                ok = false;
-
-        return ok;
+            e.validate();
     }
 
     public RuntimeException newRollbackException()
@@ -671,7 +684,7 @@ public abstract class ScControl
     /**
      * This is the method that is actually responsible for
      * rendering this individual control on the specified
-     * buffer.  This method should generally NOT be called
+     * buffer. This method should generally NOT be called
      * directly, instead call renderOn(out).
      */
     protected abstract void renderControlOn(KmHtmlBuilder out);
@@ -700,25 +713,14 @@ public abstract class ScControl
 
     /**
      * Apply the model to this control and all descendants.
-     * By default, this skips (editable) fields if there are currently any errors.
-     */
-    public final void applyFromModel(Object model)
-    {
-        boolean skipFields = getData().hasErrors();
-        applyFromModel(model, skipFields);
-    }
-
-    /**
-     * Apply the model to this control and all descendants.
-     * If skipFields is true, then EDITABLE fields should not be updated.
      */
     @Override
-    public final void applyFromModel(Object model, boolean skipFields)
+    public final void applyFromModel(Object model)
     {
-        boolean downcast = applyFromModel_here(model, skipFields);
+        boolean downcast = applyFromModel_here(model);
         if ( downcast )
             for ( ScControl e : getChildren() )
-                e.applyFromModel(model, skipFields);
+                e.applyFromModel(model);
     }
 
     /**
@@ -731,10 +733,8 @@ public abstract class ScControl
      * Subclasses should usually call super, but this is not strictly required
      * if the subclass can guarantee than neither it nor it's descendants need
      * the model.
-     *
-     * @param skipFields Indicates if (editable) fields should be skipped.
      */
-    protected boolean applyFromModel_here(Object model, boolean skipFields)
+    protected boolean applyFromModel_here(Object model)
     {
         _model.setValue(model);
         return true;
@@ -881,6 +881,11 @@ public abstract class ScControl
         _help.setValue(e);
     }
 
+    public void clearHelp()
+    {
+        _help.clearValue();
+    }
+
     public void prependHelp(String e)
     {
         if ( !hasHelp() )
@@ -966,6 +971,12 @@ public abstract class ScControl
     {
         if ( c != null )
             c.accept(arg);
+    }
+
+    protected <E, F> void fire(BiConsumer<E,F> c, E e, F f)
+    {
+        if ( c != null )
+            c.accept(e, f);
     }
 
     //##################################################
@@ -1125,7 +1136,7 @@ public abstract class ScControl
      * The search order is not guaranteed (e.g. depth-first vs breadth-first).
      * Return null if no match is found.
      */
-    protected final ScControl find(Predicate<ScControl> p)
+    public final ScControl find(Predicate<ScControl> p)
     {
         if ( p.test(this) )
             return this;
@@ -1208,6 +1219,27 @@ public abstract class ScControl
     }
 
     //##################################################
+    //# html id
+    //##################################################
+
+    public boolean isHtmlId()
+    {
+        return this instanceof ScHtmlIdIF;
+    }
+
+    public boolean isHtmlId(String id)
+    {
+        return isHtmlId()
+            ? asHtmlId().hasHtmlId(id)
+            : false;
+    }
+
+    public ScHtmlIdIF asHtmlId()
+    {
+        return (ScHtmlIdIF)this;
+    }
+
+    //##################################################
     //# focus target
     //##################################################
 
@@ -1235,9 +1267,6 @@ public abstract class ScControl
     @Override
     public void compressMemory()
     {
-        _label.compressMemory();
-        _help.compressMemory();
-
         KmList<ScControl> v = getChildren();
         for ( ScControl e : v )
             e.compressMemory();
@@ -1266,4 +1295,72 @@ public abstract class ScControl
     {
         return (ScHtmlIdIF)this;
     }
+
+    //##################################################
+    //# in wrapper
+    //##################################################
+
+    public ScDiv inDiv()
+    {
+        ScDiv e;
+        e = new ScDiv();
+        e.setLabel(getLabel());
+        e.add(this);
+        return e;
+    }
+
+    public ScFieldset inFieldset()
+    {
+        ScFieldset e;
+        e = new ScFieldset();
+        e.setLabel(getLabel());
+        e.add(this);
+        return e;
+    }
+
+    public ScFieldLayout inFieldLayout()
+    {
+        ScFieldLayout e;
+        e = new ScFieldLayout();
+        e.setLabel(getLabel());
+        e.add(this);
+        return e;
+    }
+
+    public ScGroup inNotebookTab(String tab)
+    {
+        ScGroup e;
+        e = new ScGroup();
+        e.setNotebookTab(tab);
+        e.getBody().add(this);
+        return e;
+    }
+
+    public ScGroup inNotebookTab(String tab, String title)
+    {
+        ScGroup e;
+        e = new ScGroup();
+        e.setNotebookTab(tab, title);
+        e.getBody().add(this);
+        return e;
+    }
+
+    //##################################################
+    //# visible
+    //##################################################
+
+    public boolean isVisible()
+    {
+        return true;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    protected KmTimestamp getNowUtcTs()
+    {
+        return KmClock.getUtcTimestamp();
+    }
+
 }

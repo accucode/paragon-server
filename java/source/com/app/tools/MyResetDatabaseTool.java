@@ -94,13 +94,11 @@ public class MyResetDatabaseTool
 
     private void installSystemTenant()
     {
-        String host = MyGlobals.getProperties().getBootstrapSystemHostname();
-
         MyTenant e;
         e = new MyTenant();
         e.setUid(MyTenant.SYSTEM_UID);
         e.setName("System");
-        e.setHostname(host);
+        e.setHostname(MyGlobals.getProperties().getBootstrapSystemHostname());
         e.daoAttach();
     }
 

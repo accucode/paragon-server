@@ -1,0 +1,67 @@
+model
+: name      = holiday
+: help...
+    ---
+    Project specific holidays.
+    ---
+
+database
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = name
+    : unique    = false
+    : on        = project
+    : on        = name
+
+    index
+    : name      = day
+    : unique    = false
+    : on        = project
+    : on        = day
+
+
+attributes
+
+
+    //*****************************************************
+    //** basics
+    //*****************************************************
+
+
+    #include basicUid.stf
+    #include basicTimestamps.stf
+    #include basicDisplay.stf
+
+
+    //*****************************************************
+    //** context
+    //*****************************************************
+
+
+    association
+    : name      = project
+    : help      = The project that defines this holiday.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+
+    //*****************************************************
+    //** details
+    //*****************************************************
+
+
+    field
+    : name      = name
+    : help      = The display name. This should be unique within a project.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = day
+    : help      = The date of the holiday.
+    : type      = date
+    : required  = true

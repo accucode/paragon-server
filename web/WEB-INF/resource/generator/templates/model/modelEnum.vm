@@ -7,8 +7,10 @@ import java.util.*;
 import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
+import ${package}.model.*;
+
 public enum ${enum.f_Class}
-    implements KmEnumIF
+    implements ${enum.f_Class}IF
 {
 $utility.protocol("values")
 

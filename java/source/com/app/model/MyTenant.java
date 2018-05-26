@@ -1,14 +1,16 @@
 package com.app.model;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.intacct.KmIntacctRequest;
+import com.kodemore.time.KmTime;
+import com.kodemore.time.KmTimeZone;
+import com.kodemore.types.KmDayFrequency;
+import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyTenantBase;
 import com.app.model.core.MyTenantDomainIF;
 import com.app.model.support.MyTheme;
-import com.app.property.MyProperties;
-import com.app.utility.MyGlobals;
 
 public class MyTenant
     extends MyTenantBase
@@ -20,6 +22,11 @@ public class MyTenant
 
     public static final String SYSTEM_UID = "system";
 
+    public static final KmTimeZone     DEFAULT_TIME_ZONE      = KmTimeZone.Mountain;
+    public static final KmDayFrequency DEFAULT_BUSINESS_DAYS  = KmDayFrequency.MONDAY_THROUGH_FRIDAY;
+    public static final KmTime         DEFAULT_BUSINESS_START = KmTime.fromHour(8);
+    public static final KmTime         DEFAULT_BUSINESS_END   = KmTime.fromHour(17);
+
     //##################################################
     //# constructor
     //##################################################
@@ -30,7 +37,7 @@ public class MyTenant
     }
 
     //##################################################
-    //# tenant
+    //# constructor
     //##################################################
 
     @Override
@@ -60,26 +67,35 @@ public class MyTenant
     }
 
     //##################################################
-    //# intacct
+    //# time zone
     //##################################################
 
-    public boolean hasIntacctConfiguration()
+    public KmTimeZone getTimeZone()
     {
-        return hasIntacctCompanyId() && hasIntacctUserId() && hasIntacctUserPassword();
+        return KmTimeZone.findCode(getTimeZoneCode());
     }
 
-    public KmIntacctRequest createIntacctRequest()
+    public void setTimeZone(KmTimeZone e)
     {
-        MyProperties p = MyGlobals.getProperties();
+        setTimeZoneCode(KmTimeZone.getCodeFor(e));
+    }
 
-        KmIntacctRequest e;
-        e = new KmIntacctRequest();
-        e.setSenderId(p.getIntacctSenderId());
-        e.setSenderPassword(p.getIntacctSenderPassword());
-        e.setCompanyId(getIntacctCompanyId());
-        e.setUserId(getIntacctUserId());
-        e.setUserPassword(getIntacctUserPassword());
-        return e;
+    public boolean hasTimeZone()
+    {
+        return getTimeZone() != null;
+    }
+
+    public boolean hasTimeZone(KmTimeZone e)
+    {
+        return Kmu.isEqual(getTimeZone(), e);
+    }
+
+    @Override
+    public String getTimeZoneName()
+    {
+        return hasTimeZone()
+            ? getTimeZone().getName()
+            : null;
     }
 
     //##################################################
@@ -91,6 +107,11 @@ public class MyTenant
         return getUsers().toList(e -> e.getFullName());
     }
 
+    public KmList<MyUser> getEnabledUsersByFullName()
+    {
+        return getUsersByFullName().select(e -> e.isEnabled());
+    }
+
     public MyUser findUserEmail(String email)
     {
         for ( MyUser e : getBaseUsers() )
@@ -100,7 +121,7 @@ public class MyTenant
     }
 
     //##################################################
-    //# convenience
+    //# projects
     //##################################################
 
     public KmList<MyProject> getProjectsByName()
@@ -108,15 +129,42 @@ public class MyTenant
         return getProjects().toList(e -> e.getName().toLowerCase());
     }
 
+    public KmList<MyProject> getEnabledProjectsByName()
+    {
+        return getProjectsByName().select(e -> e.isEnabled());
+    }
+
+    //##################################################
+    //# format
+    //##################################################
+
+    private String formatName()
+    {
+        return hasName()
+            ? getName()
+            : KmConstantsIF.NONE;
+    }
+
     //##################################################
     //# display
     //##################################################
 
     @Override
-    public String getDisplayString()
+    public String getAuditLogTitle()
     {
-        return hasName()
-            ? getName()
-            : "<none>";
+        return formatName();
     }
+
+    @Override
+    public String getDomainTitle()
+    {
+        return formatName();
+    }
+
+    @Override
+    public String getDomainSubtitle()
+    {
+        return null;
+    }
+
 }

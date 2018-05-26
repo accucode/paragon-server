@@ -1,9 +1,10 @@
 package com.kodemore.meta;
 
-import com.kodemore.servlet.field.ScDropdownField;
+import com.kodemore.servlet.field.ScBarcodeField;
+import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.time.KmTimeZone;
+import com.kodemore.servlet.field.ScTimeZoneCodeField;
 import com.kodemore.validator.KmStringValidator;
 
 public abstract class KmMetaStringProperty<T>
@@ -16,61 +17,60 @@ public abstract class KmMetaStringProperty<T>
     @Override
     public ScTextField newField()
     {
-        return newField(getLabel());
+        ScTextField e;
+        e = new ScTextField();
+        e.setMeta(this);
+        return e;
     }
 
     @Override
     public ScTextField newField(String label)
     {
         ScTextField e;
-        e = new ScTextField();
+        e = newField();
         e.setLabel(label);
-        e.setHelp(getHelp());
+        return e;
+    }
+
+    public ScHiddenField<String> newHiddenField()
+    {
+        ScHiddenField<String> e;
+        e = new ScHiddenField<>();
         e.setValueAdaptor(this);
-        e.setValidator(getValidator());
         return e;
     }
 
     public ScTextArea newMultilineField()
     {
-        return newMultilineField(getLabel());
+        ScTextArea e;
+        e = new ScTextArea();
+        e.setMeta(this);
+        e.layoutBlock();
+        return e;
     }
 
     public ScTextArea newMultilineField(String label)
     {
         ScTextArea e;
-        e = new ScTextArea();
+        e = newMultilineField();
         e.setLabel(label);
-        e.setHelp(getHelp());
-        e.setValueAdaptor(this);
-        e.setValidator(getValidator());
-        e.layoutBlock(65);
         return e;
     }
 
-    public ScDropdownField<String> newTimeZoneDropdown()
+    public ScTimeZoneCodeField newTimeZoneDropdown()
     {
-        ScDropdownField<String> dd;
-        dd = new ScDropdownField<>();
-        dd.setLabel(getLabel());
-        dd.setHelp(getHelp());
-        dd.setValueAdaptor(this);
-        dd.setValidator(getValidator());
+        ScTimeZoneCodeField e;
+        e = new ScTimeZoneCodeField();
+        e.setMeta(this);
+        return e;
+    }
 
-        if ( getValidator().isRequired() )
-            dd.setNullSelectPrefix();
-        else
-            dd.setNullNonePrefix();
-
-        for ( KmTimeZone e : KmTimeZone.getCommonZones() )
-            dd.addOption(e.getCode(), e.getName());
-
-        dd.addOption(null, "--------------------");
-
-        for ( KmTimeZone e : KmTimeZone.getAllZones() )
-            dd.addOption(e.getCode(), e.getName());
-
-        return dd;
+    public ScBarcodeField newBarcodeField()
+    {
+        ScBarcodeField e;
+        e = new ScBarcodeField();
+        e.setMeta(this);
+        return e;
     }
 
     //##################################################

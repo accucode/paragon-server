@@ -17,10 +17,12 @@ public interface MyPatchDaoConstantsIF
     //# fields
     //##################################################
 
-    String NAME = "name";
+    String AUDIT_LOG_TITLE = "auditLogTitle";
+    String DOMAIN_SUBTITLE = "domainSubtitle";
+    String DOMAIN_TITLE = "domainTitle";
     String INSTALLED_UTC_TS = "installedUtcTs";
+    String NAME = "name";
     String SOURCE = "source";
-    String DISPLAY_STRING = "displayString";
     String INSTALLED_LOCAL_TS = "installedLocalTs";
     String INSTALLED_LOCAL_TS_MESSAGE = "installedLocalTsMessage";
     String INSTALLED_LOCAL_DATE = "installedLocalDate";

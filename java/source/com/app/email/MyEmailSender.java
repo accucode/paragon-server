@@ -233,7 +233,7 @@ public class MyEmailSender
         for ( KmEmailResult r : _results )
         {
             String uid = (String)r.getEmailKey();
-            MyEmail email = MyEmailFinder.staticFind(uid);
+            MyEmail email = MyEmailFinder.instance.find(uid);
 
             if ( r.isOk() )
                 email.markSent();

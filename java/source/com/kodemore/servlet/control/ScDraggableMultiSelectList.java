@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2016 www.kodemore.com
+  Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,12 +50,12 @@ public class ScDraggableMultiSelectList<T>
     /**
      * I am used to get the unique key for each value.
      */
-    private Function<T,String>   _keyFunction;
+    private Function<T,String> _keyFunction;
 
     /**
      * I am used to get the display text for each value.
      */
-    private Function<T,String>   _titleFunction;
+    private Function<T,String> _titleFunction;
 
     /**
      * The currently selected values.
@@ -64,7 +64,7 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T>       _selectedValues;
+    private ScLocalList<T> _selectedValues;
 
     /**
      * The list of available values.  This should generally include the selected values
@@ -74,7 +74,7 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T>       _availableValues;
+    private ScLocalList<T> _availableValues;
 
     //==================================================
     //= variables :: components

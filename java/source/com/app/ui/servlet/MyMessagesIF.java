@@ -6,9 +6,9 @@ package com.app.ui.servlet;
  */
 public interface MyMessagesIF
 {
-    String STEP_ITEM_DOMAIN_HELP    = "This determines the domain model to be used.";
+    String STEP_ITEM_DOMAIN_HELP = "This determines the domain model to be used.";
 
     String STEP_ITEM_VIEW_TYPE_HELP = ""
-                                        + "This determines what type of view should be "
-                                        + "displayed for the select domain model.";
+        + "This determines what type of view should be "
+        + "displayed for the select domain model.";
 }
