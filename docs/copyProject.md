@@ -2,19 +2,19 @@ Copy Project Guide
 ==================
 
 
-#Purpose
+# Purpose
 The purpose of this document is to provide instructions
 for cloning the Paragon repository into a new project.
 
 
-#Copy
+# Copy
 Copy the entire project folder.
 This is typically located somewhere like:
 
     /projects/paragon
 
 
-#Rename Project
+# Rename Project
 There are several resources that need to be manually adjusted to
 accommodate the new project name. For the sake of illustration, we
 assume that your new project is named "sample".
@@ -55,12 +55,12 @@ Stylus Ant Builder
         Replace:    sample
 
 
-#Start Eclipse
+# Start Eclipse
 At this point, you should be able to start the Eclipse IDE
 with the new project. Everything should compile.
 
 
-#Application Constants
+# Application Constants
 There are a few application constants that should be updated.
 These are located in:
 
@@ -89,7 +89,7 @@ Copyright
     but it does not affect the application functionality.
 
 
-#Personal Settings
+# Personal Settings
 There are some settings that are specific to each individual user
 since they may vary for each workstation. If you copied an existing
 project, then many of these settings will already be correct. But
@@ -139,7 +139,7 @@ It should copy ~4 files, each of which you should review.
             docBase="c:/projects/sample/web/"
 
 
-#Personal Settings (resave)
+# Personal Settings (resave)
 You probably changed some of the settings.
 So you should export them again, so that they will be persisted in git.
 Use the same ant script:
@@ -147,13 +147,13 @@ Use the same ant script:
     => antSetup.xml > exportSettings
 
 
-#Delete Patches
+# Delete Patches
 Delete any existing patch files before importing the database.
 
     $project/web/WEB-INF/resource/db/patch/patch*
 
 
-#Install Database
+# Install Database
 Before you install the database, double check your overrides.txt file
 (above) and MAKE SURE you updated the databaseSchema. When you install
 the database, is will DROP the entire database schema. Once the schame
@@ -162,7 +162,7 @@ is set, just use the ant script:
     => antSetup.xml > installDatabase
 
 
-#External Tools
+# External Tools
 Fix the external tool configuration in Eclipse.
 Open the configuration window:
 
@@ -181,7 +181,7 @@ intend to use for this project.
     TOMCAT_HOME
 
 
-#ROOT.xml
+# ROOT.xml
 Now that you have updated your settings and the external tool
 configuration, you can intall the ROOT.xml file in tomcat.
 Use the ant script:
@@ -192,7 +192,7 @@ Carefully read the output message to make sure there were no errors
 and that the file was copied to the correct folder.
 
 
-#Tomcat Script
+# Tomcat Script
 Copy the batch script used to start tomcat. This typically looks like:
 
     @setlocal
@@ -203,14 +203,14 @@ Copy the batch script used to start tomcat. This typically looks like:
     call %TOMCAT_HOME%\bin\startup.bat
 
 
-#Production Environment
+# Production Environment
 Review the deployment scripts and remove/change any references
 to the original project.
 
     $project/ant/antDeployProduction.xml
 
 
-#Delete Settings
+# Delete Settings
 Delete any old settings that have not been updated for the new project.
 In particular, make sure you delete any settings for the production or stage
 environments, as these may have sensitive passwords.
@@ -218,14 +218,14 @@ environments, as these may have sensitive passwords.
     $project/web/WEB-INF/settings/*
 
 
-#Search Project
+# Search Project
 Search the project for any references that may need to be updated.
 Things to search for:
 
     The old project name.
 
 
-#Run Application
+# Run Application
 You can now start the application for the first time. Run the tomcat script,
 and review the startup messages. Make sure there are no errors and that nothing
 references the original project. A successful startup should display a message
@@ -242,9 +242,9 @@ block similar to the following with your project name:
 Once started, log in via a web browser and make sure the application is working.
 
 
-#Make it Yours
+# Make it Yours
 At this point, you should commit the initial project to a new git project.
 You can then begin making whatever enhancements and changes are appropriate
 for your project.
 
-#[end]
+# [end]

@@ -1,14 +1,14 @@
 Installation Guide
 ========================
 
-Purpose
--------
+# Purpose
+
 The purpose of this document is to provide instructions
 for setting up a development environment.
 
 
-How To Use This
----------------
+# How To Use This
+
 If you are performing an install for the first time,
 you should follow the instructions from top to bottom.
 
@@ -16,8 +16,8 @@ If anything seems wrong or confusing, get help!
 Don't guess. Don't skips steps.
 
 
-Git App
--------
+# Git App
+
 The application is hosted on Git.
 
 Install the git gui client, 2.11+.
@@ -31,8 +31,8 @@ When installing, accept the defaults, in particular:
     Configuring the line endings => Checkout Windows-style, commit Unix-style.
 
 
-Git Credentials
----------------
+# Git Credentials
+
 In order to exchange data with the remote Git Hub repository
 you must establish credentials. This is done with SSH keys
 rather than a user/password prompt.
@@ -60,8 +60,8 @@ Configure your public key in git hub.
         Key: copy-and-paste the public key generated above.
 
 
-Git User
----------------
+# Git User
+
 Update your user identity. This used when you commit code.
 The name and email should be changed to your own.
 
@@ -69,8 +69,8 @@ The name and email should be changed to your own.
     $ git config --global user.email johndoe@example.net
 
 
-Git Clone Project
------------------
+# Git Clone Project
+
 Create a folder for git projects if you do not already have one.
 
     c:\projects
@@ -89,8 +89,8 @@ Clone the repository:
     git clone git@github.com:???/paragon.git
 
 
-Java 1.8.x
-----------
+# Java 1.8.x
+
 Install a full JDK (not just the JRE).
 Use the 64 bit version.
 
@@ -101,8 +101,8 @@ For example:
     c:/tools/jdk180_11_64x
 
 
-Node.js
--------
+# Node.js
+
 This project relies on Node.js.
 In particular, we use it for the Stylus css preprocessor.
 Install Node with NPM (package manager).
@@ -115,8 +115,8 @@ Install the 64-bit version.
     https://nodejs.org/en/download/
 
 
-Stylus
-------
+# Stylus
+
 We use Stylus as a css preprocessor.
 https://learnboost.github.io/stylus/
 
@@ -126,8 +126,8 @@ Stylus from a command shell using:
     npm install stylus -g
 
 
-Eclipse
--------
+# Eclipse
+
 We use Eclipse as the primary IDE and code editor.
 We typically use the latest version, e.g.: Oxygen c. 2018.
 
@@ -144,8 +144,8 @@ Recommended installation folder:
     c:/tools/eclipse
 
 
-Eclipse.ini
------------
+# Eclipse.ini
+
 Increase the memory allocation.
 Open the config file:
 
@@ -158,8 +158,8 @@ For larger projects, you may increase this.
     -Xmx4096m
 
 
-Eclipse Plugins
----------------
+# Eclipse Plugins
+
 The following plugins should be installed.
 
 Menu > Help > Eclipse Marketplace
@@ -189,8 +189,8 @@ Menu > Help > Eclipse Marketplace
             "Keep my installation the same..."
 
 
-Eclipse JRE
--------------------
+# Eclipse JRE
+
 The eclipse JRE(s) need to be configured the same way
 across all developers.
 
@@ -204,8 +204,8 @@ Menu > Window > Preferences
     jdk180      c:\java\jdk180_11_64x   Standard VM
 
 
-Eclipse Task Tags
--------------------
+# Eclipse Task Tags
+
 The task tags need to be configured consistently by all developers.
 
 Menu > Window > Preferences
@@ -219,8 +219,8 @@ Menu > Window > Preferences
         todo_john
 
 
-Eclipse Preferences
--------------------
+# Eclipse Preferences
+
 These preferences are not strictly necessary but are recommended
 for new developers. They can be tweaked later if needed.
 
@@ -292,8 +292,8 @@ Java > Editor > Mark Occurrences
     Enable all
 
 
-Ant 1.9.x
------------------
+# Ant 1.9.x
+
 We use Ant to automate a number of scripts for development
 and deployment. Download ant from:
 
@@ -326,8 +326,8 @@ Eclipse Integration
     You can then run specific targets by clicking on them.
 
 
-Local Environment
------------------
+# Local Environment
+
 There are several project files that need to be updated to
 match your local environment.
 
@@ -372,8 +372,8 @@ should export them so that they can be saved to the git repo.
         The recommended policy is something like jsmith (for John Smith).
 
 
-Tomcat 8.x
-----------
+# Tomcat 8.x
+
 Install the 64-bit version.
 We use tomcat for the Servlet container.
 We typically install by downloading the zip file from:
@@ -387,8 +387,8 @@ installation for each project. For example:
     c:/java/tomcat-8-x64-paragon
 
 
-Link Tomcat
------------
+# Link Tomcat
+
 Tomcat must be configured to point to our application.
 
 Update the eclipse environment via menu:
@@ -415,8 +415,8 @@ The script should print a message indicating that:
     ROOT.xml was copied to location of your tomcat folder.
 
 
-MySql Database 5.6.x
---------------------
+# MySql Database 5.6.x
+
 The MySql download page is here:
 
     https://dev.mysql.com/downloads/mysql/
@@ -447,8 +447,8 @@ Product Configuration
         Root password: root
 
 
-MySql Config
-------------
+# MySql Config
+
 After MySql has installed you need to configure some
 options manually.
 
@@ -491,8 +491,8 @@ Confirm the changes took affect in an SQL Shell:
     > select @@global.wait_timeout;
 
 
-Hosts
------
+# Hosts
+
 This application implements multi-tenant support by using
 diffent host names for each tenant. For example when using
 the tenant 'system' the corresponding host name is:
@@ -513,8 +513,8 @@ For example
 Reboot for the settings to take effect.
 
 
-Bootstrap Database
-------------------
+# Bootstrap Database
+
 This installs an empty database with the bare minimum necessary to
 start the application. You can alternatively Import a Database Dump (below)
 to load a larger amount of sample data from production.
@@ -532,8 +532,8 @@ the necessary tables and data:
     antSetup.xml installDatabase
 
 
-Import a Database Dump
--------------------------
+# Import a Database Dump
+
 This installs data based on a dump created from production.
 This is useful for creating a large amount of sample data.
 However, importing all data from production can be slow.
@@ -566,7 +566,7 @@ additional clean up steps to make it run smoothly.
     Do NOT use production passwords for local development.
     To clear all passwords, open an sql shell and enter:
 
-    use kodremo;
+    use paragon;
     update user set passwordHash = null;
 
 
@@ -590,8 +590,8 @@ additional clean up steps to make it run smoothly.
     Fix Windows hosts file as needed (see above).
 
 
-Create Tomcat Script
---------------------
+# Create Tomcat Script
+
 Create a batch script to start tomcat.
 You can create this on your desktop. E.g.:
 
@@ -608,8 +608,8 @@ but adjusted to match your environment:
     call %TOMCAT_HOME%\bin\startup.bat
 
 
-Run / Test
-----------
+# Run / Test
+
 Test the application locally.
 
 Double click the tomcat start script.
@@ -635,5 +635,4 @@ The default login is:
     pass: [none]
 
 
-[end]
------
+# [end]

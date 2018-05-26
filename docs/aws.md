@@ -1,18 +1,18 @@
 Amazon Web Services (AWS)
 =============================
 
-#Purpose
+# Purpose
 The purpose of this document is to provide background and instructions
 for connecting to AWS.
 
 
-#Background
+# Background
 Our production environment is hosted using Amazon Web Services (AWS).
 AWS configuration is generally NOT necessary for normal development,
 but it is required in order to deploy updates.
 
 
-#Install the AWS CLI
+# Install the AWS CLI
 Install the Command Line Interface (CLI).
 
 1. Download the MSI setup tool.
@@ -24,7 +24,7 @@ Install the Command Line Interface (CLI).
     c:\tools\awscli
 
 
-#Configure Permissions
+# Configure Permissions
 1. Request AWS credentials from your team leader.
 
 2. In cmd shell, go to the directory where the AWS Cli is installed.
@@ -41,4 +41,4 @@ Install the Command Line Interface (CLI).
     set awscli_home=C:\tools\awscli
 
 
-#[end]
+# [end]

@@ -1,4 +1,4 @@
-Kodemore (server)
+Paragon (server)
 ======================
 
 

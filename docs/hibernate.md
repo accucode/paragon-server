@@ -8,8 +8,7 @@ Hibernate
     http://hibernate.org/
 
     
-License
-========
+# License
 
     Hibernate is dual licensed under either the LGPL or ASL.
     In short, this means we can use it for commercial projects.
@@ -17,8 +16,7 @@ License
     http://hibernate.org/community/license/
 
 
-Auto-gen
-========
+# Auto-gen
 
     On top of the core hibernate library, we generate our own layer
     of code.  The code generation allows us to more safely and easily
@@ -56,8 +54,7 @@ Auto-gen
             List<MyLine> result = c.findAll();
 
 
-.stf files
-==========
+# .stf files
     
     Code generation is primarily based on model definition files.  The
     model files are located here:
@@ -68,8 +65,7 @@ Auto-gen
     The stf files are structurally similar to xml, but formatting in a 
     way that is (hopefully) easier to read and edit by hand.    
 
-Auto-save
-=========
+# Auto-save
    
     Hibernate automatically saves any changes to domain models.
     If you retrieve a model from the database and modify it, those 
@@ -78,8 +74,7 @@ Auto-save
     You do NOT have to call "save" every time you make a change.
 
 
-Attaching Models
-================
+# Attaching Models
 
     Hibernate does not attempt to save every instance to the database.
     To begin saving a particular instance you must tell hibernate about
@@ -94,15 +89,13 @@ Attaching Models
     Once the instance has been attached to hibernate, any subsequent changes
     will be automatically persisted without needing to call save again.
     
-Deferred SQL
-====================
+# Deferred SQL
 
     In many cases, Hibernate does NOT execute sql immediately.  When
     possible, Hibernate defers multiple updates until the end of the 
     transaction and then runs then all at the same time.
 
-Caching, first-level
-====================
+# Caching, first-level
 
     One of the advantages of using Hibernate is automatic caching.
     The first type of caching occurs WITHIN a single transaction.
@@ -114,16 +107,14 @@ Caching, first-level
         MyProduct b = hibernate.findProductByKey("123");
         System.println(a == b); // always true.
     
-Caching, second-level
-=====================
+# Caching, second-level
 
     Hibernate supports a second level cache that works across transactions.
     However, to use this you must either: 1) use a single server, 2) set
     up cross-server caching.  This is disabled by default.
     
 
-Order of Operation
-==================
+# Order of Operation
 
     There is generally little to no relationship between the order in which
     you make changes, and the order in which Hibernate executes the SQL.
@@ -132,8 +123,7 @@ Order of Operation
     HOWEVER... there are some cases where this is important.
     
 
-Inserts before Deletes
-======================
+# Inserts before Deletes
 
     Deletions are NOT guaranteed to be performed before inserts.  We don't
     usually do a lot of deletions so this rarely matters.  However, suppose
@@ -161,4 +151,4 @@ Inserts before Deletes
     just a lot of hassle and you're better off just manually forcing the
     flush.
 
-[end]
+# [end]
