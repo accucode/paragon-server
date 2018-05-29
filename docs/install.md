@@ -158,140 +158,6 @@ For larger projects, you may increase this.
     -Xmx4096m
 
 
-# Eclipse Plugins
-
-The following plugins should be installed.
-
-Menu > Help > Eclipse Marketplace
-  Search > Find...
-
-    AnyEdit
-
-        Windows Preferences > General > Editors > AnyEdit Tools
-            Most of the defaults are fine.
-            Confirm/set the following:
-
-            Auto-Convert
-            (yes) Remove trailing whitespace.
-            (yes) Create new line at end of the file.
-            (yes) Convert tabs to spaces.
-
-            Convert...
-            (4) tab width/number of spaces for tab
-            (yes) Replace All tables (not only leading)...
-
-
-    HTML Editor (WTP)
-        In Eclipse Oxygen, installing this prompts the user with the a warning:
-            "The installation cannot be completed as requested."
-
-        Choose the default solution:
-            "Keep my installation the same..."
-
-
-# Eclipse JRE
-
-The eclipse JRE(s) need to be configured the same way
-across all developers.
-
-Menu > Window > Preferences
-    Java > Installed JREs
-
-    The name must match exactly.
-    The location should be adjusted to match your installation.
-
-    Name        Location                Type
-    jdk180      c:\java\jdk180_11_64x   Standard VM
-
-
-# Eclipse Task Tags
-
-The task tags need to be configured consistently by all developers.
-
-Menu > Window > Preferences
-    Java > Compiler > Task Tags
-
-    Create task tags that correspond to your own name.
-    Use the exact tags provided here, substituted with your name:
-        fixme_john
-        remove_john
-        review_john
-        todo_john
-
-
-# Eclipse Preferences
-
-These preferences are not strictly necessary but are recommended
-for new developers. They can be tweaked later if needed.
-
-General > Editors
-
-    Close Editors Automatically (4)
-    When all editors are dirty or pinned, open new editor
-
-General > Editors > Text Editors
-
-    Insert spaces for tabs
-    Highlight current line
-    Show print margin (100)
-    DISable drag and drop of text
-
-General > Editors > Text Editors > Annotations
-
-    Change the two occurrences colors to a brighter color.
-    Change both:
-        Occurrences
-        Write Occurrences
-    Overview rules = yes
-    Text as highlighted = first green on first row.
-
-General > Editors > Text Editors > Quick Diff
-
-    Disable
-
-General > Editors > Text Editors > Spelling
-
-    Disable
-
-General > Startup and Shutdown
-
-    Disable the Mylyn and Oomph tools.
-
-General > Web Browser
-
-    Use external web browser (Chrome)
-
-Genral > Workspace
-
-    Build automatically
-    Refresh on access
-    Save automatically before build
-
-Java
-
-    Save all modified resources automatically prior to refactoring
-    Do NOT rename in editor without dialog.
-
-Java > Editor > Content Assist
-
-    Completion overwrites
-    Fill method arguments... insert parameter names
-
-Java > Editor > Fold
-
-    Disable
-
-Java > Editor > Templates
-
-    Delete oem defaults
-    Import our common templates from
-        $project/eclipse/templates.xml
-
-Java > Editor > Mark Occurrences
-
-    Enable all
-
-
 # Ant 1.9.x
 
 We use Ant to automate a number of scripts for development
@@ -367,7 +233,7 @@ After you updated these files to match your local environment, you
 should export them so that they can be saved to the git repo.
 
     antSetup.xml > exportSettings
-    
+
         Enter your local developer id when prompted.
         The recommended policy is something like jsmith (for John Smith).
 
@@ -393,7 +259,7 @@ Tomcat must be configured to point to our application.
 
 Update the eclipse environment via menu:
 
-    Run 
+    Run
       External Tools (at very bottom of menu)
         External Tools Configurations
 
@@ -540,7 +406,7 @@ However, importing all data from production can be slow.
 For a quick install with the minimum database, use the Bootstrap
 Database (above).
 
-The dump file(s) are located in... 
+The dump file(s) are located in...
 
     [your location]
 
@@ -571,8 +437,8 @@ additional clean up steps to make it run smoothly.
 
 
 4) Fix the system tenant hostname.
-    The multi-tenant environment relies on hostnames configured 
-    in the database. First, fix the System hostname manually via 
+    The multi-tenant environment relies on hostnames configured
+    in the database. First, fix the System hostname manually via
     an sql shell:
 
     use paragon;
