@@ -57,10 +57,18 @@ public class KmBusinessHourCalculator
     //##################################################
 
     /**
-     * The policy determines the business hours to be used in calculations.
+     * The policy determines the rules used in calculations.
      * By default, the policy is Monday-Friday, 9am-5pm, with no holidays.
      */
     private KmBusinessHourPolicy _policy;
+
+    /**
+     * The current value, in the policy's time zone.
+     * This is updated as the calculator adds and subtracts periods.
+     * This must be explicitly set to some default before any calculations.
+     * This is defaulted to the current time.
+     */
+    private KmTimestamp _value;
 
     //##################################################
     //# constructor
@@ -68,16 +76,17 @@ public class KmBusinessHourCalculator
 
     public KmBusinessHourCalculator()
     {
-        _policy = KmBusinessHourPolicy.DEFAULT;
+        this(KmBusinessHourPolicy.createDefault());
     }
 
-    public KmBusinessHourCalculator(KmBusinessHourPolicy policy)
+    public KmBusinessHourCalculator(KmBusinessHourPolicy e)
     {
-        _policy = policy;
+        _policy = e;
+        setValueNow();
     }
 
     //##################################################
-    //# accessing
+    //# policy
     //##################################################
 
     public KmBusinessHourPolicy getPolicy()
@@ -91,159 +100,226 @@ public class KmBusinessHourCalculator
     }
 
     //##################################################
+    //# value :: policy time zone
+    //##################################################
+
+    public KmTimestamp getValue()
+    {
+        return _value;
+    }
+
+    public KmBusinessHourCalculator setValue(KmTimestamp e)
+    {
+        _value = e;
+        return this;
+    }
+
+    public KmBusinessHourCalculator adjustValue()
+    {
+        adjustForAdd();
+        return this;
+    }
+
+    //==================================================
+    //= value :: utc time zone
+    //==================================================
+
+    public KmTimestamp getValueUtc()
+    {
+        KmTimeZone zone = getPolicy().getTimeZone();
+        return getValue().toUtc(zone);
+    }
+
+    public void setValueUtc(KmTimestamp e)
+    {
+        KmTimeZone zone = getPolicy().getTimeZone();
+        setValue(e.toLocal(zone));
+    }
+
+    //==================================================
+    //= value :: no time zone
+    //==================================================
+
+    public boolean hasValue()
+    {
+        return getValue() != null;
+    }
+
+    public void setValueNow()
+    {
+        setValueUtc(KmClock.getUtcTimestamp());
+    }
+
+    //##################################################
     //# add
     //##################################################
 
     /**
-     * Add a unit duration to the timestamp. The logic used depends on
-     * the unit of the duration.
-     *
-     * @see KmBusinessHourCalculator
+     * Add a unit duration to the timestamp.
+     * The logic used depends on the unit of the duration.
      */
-    public KmTimestamp add(KmTimestamp ts, KmUnitDuration duration)
+    public KmBusinessHourCalculator add(KmUnitDuration e)
     {
         validatePolicy();
 
-        KmTimeUnit unit = duration.getUnit();
+        int value = round(e.getValue());
+
+        KmTimeUnit unit = e.getUnit();
         switch ( unit )
         {
             case Second:
+                return addSeconds(value);
+
             case Minute:
+                return addMinutes(value);
+
             case Hour:
-                return addAsSeconds(ts, duration);
+                return addHours(value);
 
             case Day:
-                return addAsDays(ts, duration);
+                return addDays(value);
 
             case Week:
-                return addAsWeeks(ts, duration);
+                return addWeeks(value);
 
             case Month:
-                return addAsMonths(ts, duration);
+                return addMonths(value);
 
             case Year:
-                return addAsYears(ts, duration);
+                return addYears(value);
         }
         throw Kmu.newEnumError(unit);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addSeconds(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator addSeconds(int i)
+    {
+        return i > 0
+            ? _addSeconds(i)
+            : _subtractSeconds(-i);
+    }
+
+    public KmBusinessHourCalculator addMinutes(int i)
+    {
+        return i > 0
+            ? _addMinutes(i)
+            : _subtractMinutes(-i);
+    }
+
+    public KmBusinessHourCalculator addHours(int i)
+    {
+        return i > 0
+            ? _addHours(i)
+            : _subtractHours(-i);
+    }
+
+    public KmBusinessHourCalculator addDays(int i)
+    {
+        return i > 0
+            ? _addDays(i)
+            : _subtractDays(-i);
+    }
+
+    public KmBusinessHourCalculator addWeeks(int i)
+    {
+        return i > 0
+            ? _addWeeks(i)
+            : _subtractWeeks(-i);
+
+    }
+
+    public KmBusinessHourCalculator addMonths(int i)
+    {
+        return i > 0
+            ? _addMonths(i)
+            : _subtractMonths(-i);
+
+    }
+
+    public KmBusinessHourCalculator addYears(int i)
+    {
+        return i > 0
+            ? _addYears(i)
+            : _subtractYears(-i);
+    }
+
+    //==================================================
+    //= add :: private
+    //==================================================
+
+    private KmBusinessHourCalculator _addSeconds(int i)
     {
         validatePolicy();
+        adjustForAdd();
 
-        ts = ensureValidTimestampForAdd(ts);
-
-        int secsUntilEnd = getSecsUntilEnd(ts);
-        while ( i >= secsUntilEnd )
+        while ( true )
         {
-            ts = findStartOfNextBusinessDay(ts);
+            int secsUntilEnd = getSecondsUntilEnd();
+            if ( i < secsUntilEnd )
+                break;
+
+            gotoStartOfNextDay();
             i = i - secsUntilEnd;
-            secsUntilEnd = getSecsUntilEnd(ts);
         }
 
-        return ts.addSeconds(i);
+        _value = _value.addSeconds(i);
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addMinutes(KmTimestamp ts, int i)
+    private KmBusinessHourCalculator _addMinutes(int i)
     {
-        validatePolicy();
-
         int secs = i * SECONDS_PER_MINUTE;
-        return addSeconds(ts, secs);
+        return addSeconds(secs);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addHours(KmTimestamp ts, int i)
+    private KmBusinessHourCalculator _addHours(int i)
     {
-        validatePolicy();
-
         int secs = i * SECONDS_PER_HOUR;
-        return addSeconds(ts, secs);
+        return addSeconds(secs);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addDays(KmTimestamp ts, int n)
+    private KmBusinessHourCalculator _addDays(int n)
     {
         validatePolicy();
-
-        ts = ensureValidTimestampForAdd(ts);
-
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
+        adjustForAdd();
 
         for ( int i = 0; i < n; i++ )
-            date = nextBusinessDay(date);
+            gotoNextDay();
 
-        return toValidTimestampForAdd(time, date);
+        adjustForAdd();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addWeeks(KmTimestamp ts, int i)
+    private KmBusinessHourCalculator _addWeeks(int i)
     {
         validatePolicy();
+        adjustForAdd();
 
-        ts = ensureValidTimestampForAdd(ts);
+        _value = _value.addWeeks(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.addWeeks(i);
-
-        return toValidTimestampForAdd(time, date);
+        adjustForAdd();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addMonths(KmTimestamp ts, int i)
+    private KmBusinessHourCalculator _addMonths(int i)
     {
         validatePolicy();
+        adjustForAdd();
 
-        ts = ensureValidTimestampForAdd(ts);
+        _value = _value.addMonths(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.addMonths(i);
-
-        return toValidTimestampForAdd(time, date);
+        adjustForAdd();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp addYears(KmTimestamp ts, int i)
+    private KmBusinessHourCalculator _addYears(int i)
     {
         validatePolicy();
+        adjustForAdd();
 
-        ts = ensureValidTimestampForAdd(ts);
+        _value = _value.addYears(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.addYears(i);
-
-        return toValidTimestampForAdd(time, date);
-    }
-
-    private KmTimestamp toValidTimestampForAdd(KmTime time, KmDate date)
-    {
-        KmTimestamp resultTs;
-        resultTs = KmTimestamp.fromDateTime(date, time);
-        resultTs = ensureValidTimestampForAdd(resultTs);
-        return resultTs;
+        adjustForAdd();
+        return this;
     }
 
     //##################################################
@@ -251,264 +327,185 @@ public class KmBusinessHourCalculator
     //##################################################
 
     /**
-     * Subtract a unit duration to the timestamp. The logic used depends on
-     * the unit of the duration.
+     * Subtract a unit duration to the timestamp.
+     * The logic used depends on the unit of the duration.
      *
      * @see KmBusinessHourCalculator
      */
-    public KmTimestamp subtract(KmTimestamp ts, KmUnitDuration duration)
+    public KmBusinessHourCalculator subtract(KmUnitDuration e)
     {
-        validatePolicy();
+        int value = round(e.getValue());
 
-        KmTimeUnit unit = duration.getUnit();
+        KmTimeUnit unit = e.getUnit();
         switch ( unit )
         {
             case Second:
+                return subtractSeconds(value);
+
             case Minute:
+                return subtractMinutes(value);
+
             case Hour:
-                return subtractAsSeconds(ts, duration);
+                return subtractHours(value);
 
             case Day:
-                return subtractAsDays(ts, duration);
+                return subtractDays(value);
 
             case Week:
-                return subtractAsWeeks(ts, duration);
+                return subtractWeeks(value);
 
             case Month:
-                return subtractAsMonths(ts, duration);
+                return subtractMonths(value);
 
             case Year:
-                return subtractAsYears(ts, duration);
+                return subtractYears(value);
         }
         throw Kmu.newEnumError(unit);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractSeconds(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator subtractSeconds(int i)
+    {
+        return i > 0
+            ? _subtractSeconds(i)
+            : _addSeconds(-i);
+    }
+
+    public KmBusinessHourCalculator subtractMinutes(int i)
+    {
+        return i > 0
+            ? _subtractMinutes(i)
+            : _addMinutes(-i);
+    }
+
+    public KmBusinessHourCalculator subtractHours(int i)
+    {
+        return i > 0
+            ? _subtractHours(i)
+            : _addHours(-i);
+    }
+
+    public KmBusinessHourCalculator subtractDays(int i)
+    {
+        return i > 0
+            ? _subtractDays(i)
+            : _addDays(-i);
+    }
+
+    public KmBusinessHourCalculator subtractWeeks(int i)
+    {
+        return i > 0
+            ? _subtractWeeks(i)
+            : _addWeeks(-i);
+    }
+
+    public KmBusinessHourCalculator subtractMonths(int i)
+    {
+        return i > 0
+            ? _subtractMonths(i)
+            : _addMonths(-i);
+    }
+
+    public KmBusinessHourCalculator subtractYears(int i)
+    {
+        return i > 0
+            ? _subtractYears(i)
+            : _addYears(-i);
+    }
+
+    //==================================================
+    //= subtract :: private
+    //==================================================
+
+    public KmBusinessHourCalculator _subtractSeconds(int i)
     {
         validatePolicy();
+        adjustForSubtract();
 
-        ts = ensureValidTimestampForSubtract(ts);
-
-        int secsFromStart = getSecsFromStart(ts);
-        while ( i > secsFromStart )
+        while ( true )
         {
-            ts = findEndOfPreviousBusinessDay(ts);
+            int secsFromStart = getSecondsFromStart();
+            if ( i <= secsFromStart )
+                break;
+
+            gotoEndOfPreviousDay();
             i = i - secsFromStart;
-            secsFromStart = getSecsFromStart(ts);
         }
 
-        return ts.subtractSeconds(i);
+        _value = _value.subtractSeconds(i);
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractMinutes(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator _subtractMinutes(int i)
     {
-        validatePolicy();
-
         int secs = i * SECONDS_PER_MINUTE;
-        return subtractSeconds(ts, secs);
+        return subtractSeconds(secs);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractHours(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator _subtractHours(int i)
     {
-        validatePolicy();
-
         int secs = i * SECONDS_PER_HOUR;
-        return subtractSeconds(ts, secs);
+        return subtractSeconds(secs);
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractDays(KmTimestamp ts, int n)
+    public KmBusinessHourCalculator _subtractDays(int n)
     {
         validatePolicy();
-
-        ts = ensureValidTimestampForSubtract(ts);
-
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
+        adjustForSubtract();
 
         for ( int i = 0; i < n; i++ )
-            date = previousBusinessDay(date);
+            gotoPreviousDay();
 
-        return toValidTimestampForSubtract(time, date);
+        adjustForSubtract();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractWeeks(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator _subtractWeeks(int i)
     {
         validatePolicy();
+        adjustForSubtract();
 
-        ts = ensureValidTimestampForSubtract(ts);
+        _value = _value.subtractWeeks(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.subtractWeeks(i);
-
-        return toValidTimestampForSubtract(time, date);
+        adjustForSubtract();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractMonths(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator _subtractMonths(int i)
     {
         validatePolicy();
+        adjustForSubtract();
 
-        ts = ensureValidTimestampForSubtract(ts);
+        _value = _value.subtractMonths(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.subtractMonths(i);
-
-        return toValidTimestampForSubtract(time, date);
+        adjustForSubtract();
+        return this;
     }
 
-    /**
-     * @see KmBusinessHourCalculator
-     */
-    public KmTimestamp subtractYears(KmTimestamp ts, int i)
+    public KmBusinessHourCalculator _subtractYears(int i)
     {
         validatePolicy();
+        adjustForSubtract();
 
-        ts = ensureValidTimestampForSubtract(ts);
+        _value = _value.subtractYears(i);
 
-        KmTime time = ts.getTime();
-        KmDate date = ts.getDate();
-
-        date = date.subtractYears(i);
-
-        return toValidTimestampForSubtract(time, date);
-    }
-
-    private KmTimestamp toValidTimestampForSubtract(KmTime time, KmDate date)
-    {
-        KmTimestamp resultTs;
-        resultTs = KmTimestamp.fromDateTime(date, time);
-        resultTs = ensureValidTimestampForSubtract(resultTs);
-        return resultTs;
+        adjustForSubtract();
+        return this;
     }
 
     //##################################################
-    //# private
+    //# testing
     //##################################################
 
-    private KmTimestamp addAsSeconds(KmTimestamp ts, KmUnitDuration duration)
+    public boolean isDuringBusinessHours()
     {
-        int secs = duration.toSeconds();
-        return addSeconds(ts, secs);
-    }
-
-    private KmTimestamp addAsDays(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int days = Kmu.round(duration.getValue());
-        return addDays(ts, days);
-    }
-
-    private KmTimestamp addAsWeeks(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return addWeeks(ts, i);
-    }
-
-    private KmTimestamp addAsMonths(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return addMonths(ts, i);
-    }
-
-    private KmTimestamp addAsYears(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return addYears(ts, i);
-    }
-
-    //==================================================
-    //= private :: subtract
-    //==================================================
-
-    private KmTimestamp subtractAsSeconds(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int secs = duration.toSeconds();
-        return subtractSeconds(ts, secs);
-    }
-
-    private KmTimestamp subtractAsDays(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int days = Kmu.round(duration.getValue());
-        return subtractDays(ts, days);
-    }
-
-    private KmTimestamp subtractAsWeeks(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return subtractWeeks(ts, i);
-    }
-
-    private KmTimestamp subtractAsMonths(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return subtractMonths(ts, i);
-    }
-
-    private KmTimestamp subtractAsYears(KmTimestamp ts, KmUnitDuration duration)
-    {
-        int i = Kmu.round(duration.getValue());
-        return subtractYears(ts, i);
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private KmTimestamp findStartOfNextBusinessDay(KmTimestamp ts)
-    {
-        KmDate date = nextBusinessDay(ts.getDate());
-        return getStartOfBusinessDay(date);
-    }
-
-    private KmTimestamp findEndOfPreviousBusinessDay(KmTimestamp ts)
-    {
-        KmDate date = previousBusinessDay(ts.getDate());
-        return getEndOfBusinessDay(date);
-    }
-
-    private KmTimestamp getStartOfBusinessDay(KmDate date)
-    {
-        KmTime startTime = getPolicy().getStartTime();
-        return KmTimestamp.fromDateTime(date, startTime);
-    }
-
-    private KmTimestamp getEndOfBusinessDay(KmDate date)
-    {
-        KmTime end = getPolicy().getEndTime();
-        return KmTimestamp.fromDateTime(date, end);
-    }
-
-    private boolean isDuringBusinessDay(KmTimestamp ts)
-    {
-        KmDate date = ts.getDate();
-        if ( !isBusinessDay(date) )
+        if ( !isBusinessDay() )
             return false;
 
-        KmTime time = ts.getTime();
-        KmTime startTime = getPolicy().getStartTime();
-        KmTime endTime = getPolicy().getEndTime();
+        KmTime time = _value.getTime();
+        KmTime start = getPolicy().getStartTime();
+        KmTime end = getPolicy().getEndTime();
 
-        return time.isOnOrAfter(startTime) && time.isBefore(endTime);
+        return time.isOnOrAfter(start) && time.isBefore(end);
     }
 
     private boolean isBeforeBusinessHours(KmTime time)
@@ -517,94 +514,146 @@ public class KmBusinessHourCalculator
         return time.isBefore(startTime);
     }
 
-    private boolean isAfterBusinessHours(KmTime time)
+    private boolean isAfterBusinessHours()
     {
-        KmTime endTime = getPolicy().getEndTime();
-        return time.isOnOrAfter(endTime);
-    }
-
-    private boolean isBusinessDay(KmDate date)
-    {
-        return getPolicy().isBusinessDay(date);
-    }
-
-    private KmDate nextBusinessDay(KmDate date)
-    {
-        // The policy is guaranteed to have at least 1 business day.
-        while ( true )
-        {
-            date = date.addDay();
-
-            if ( isBusinessDay(date) )
-                return date;
-        }
-    }
-
-    private KmDate previousBusinessDay(KmDate date)
-    {
-        // The policy is guaranteed to have at least 1 business day.
-        while ( true )
-        {
-            date = date.subtractDay();
-
-            if ( isBusinessDay(date) )
-                return date;
-        }
-    }
-
-    private int getSecsUntilEnd(KmTimestamp ts)
-    {
+        KmTime time = _value.getTime();
         KmTime end = getPolicy().getEndTime();
-        KmTime time = ts.getTime();
-        KmDuration durationUntilEnd = time.getDurationUntil(end);
-        return durationUntilEnd.getTotalSeconds();
+
+        return time.isOnOrAfter(end);
     }
 
-    private int getSecsFromStart(KmTimestamp ts)
+    private boolean isBusinessDay()
+    {
+        return getPolicy().isBusinessDay(_value.getDate());
+    }
+
+    //##################################################
+    //# goto
+    //##################################################
+
+    private void gotoNextDay()
+    {
+        // The policy is guaranteed to have at least 1 business day.
+        while ( true )
+        {
+            _value = _value.addDay();
+
+            if ( isBusinessDay() )
+                return;
+        }
+    }
+
+    private void gotoPreviousDay()
+    {
+        // The policy is guaranteed to have at least 1 business day.
+        while ( true )
+        {
+            _value = _value.subtractDay();
+
+            if ( isBusinessDay() )
+                return;
+        }
+    }
+
+    private void gotoStartOfDay()
+    {
+        _value = _value.withTime(getPolicy().getStartTime());
+    }
+
+    private void gotoEndOfDay()
+    {
+        _value = _value.withTime(getPolicy().getEndTime());
+    }
+
+    private void gotoStartOfNextDay()
+    {
+        gotoNextDay();
+        gotoStartOfDay();
+    }
+
+    private void gotoEndOfPreviousDay()
+    {
+        gotoPreviousDay();
+        gotoEndOfDay();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private int getSecondsUntilEnd()
+    {
+        KmTime now = _value.getTime();
+        KmTime end = getPolicy().getEndTime();
+
+        return now.getDurationUntil(end).getTotalSeconds();
+    }
+
+    private int getSecondsFromStart()
     {
         KmTime start = getPolicy().getStartTime();
-        KmTime time = ts.getTime();
-        KmDuration durationFromStart = start.getDurationUntil(time);
-        return durationFromStart.getTotalSeconds();
+        KmTime now = _value.getTime();
+
+        return start.getDurationUntil(now).getTotalSeconds();
     }
 
-    private KmTimestamp ensureValidTimestampForAdd(KmTimestamp ts)
+    //##################################################
+    //# adjust
+    //##################################################
+
+    private void adjustForAdd()
     {
-        if ( isDuringBusinessDay(ts) )
-            return ts;
+        if ( isDuringBusinessHours() )
+            return;
 
-        if ( !isBusinessDay(ts.getDate()) )
-            return findStartOfNextBusinessDay(ts);
+        if ( !isBusinessDay() )
+        {
+            gotoStartOfNextDay();
+            return;
+        }
 
-        KmTime time = ts.getTime();
+        KmTime time = _value.getTime();
         if ( isBeforeBusinessHours(time) )
-            return getStartOfBusinessDay(ts.getDate());
+        {
+            gotoStartOfDay();
+            return;
+        }
 
-        return findStartOfNextBusinessDay(ts);
+        gotoStartOfNextDay();
     }
 
-    private KmTimestamp ensureValidTimestampForSubtract(KmTimestamp ts)
+    private void adjustForSubtract()
     {
-        if ( isDuringBusinessDay(ts) )
-            return ts;
+        if ( isDuringBusinessHours() )
+            return;
 
-        if ( !isBusinessDay(ts.getDate()) )
-            return findEndOfPreviousBusinessDay(ts);
+        if ( !isBusinessDay() )
+        {
+            gotoEndOfPreviousDay();
+            return;
+        }
 
-        KmTime time = ts.getTime();
-        if ( isAfterBusinessHours(time) )
-            return getEndOfBusinessDay(ts.getDate());
+        if ( isAfterBusinessHours() )
+        {
+            gotoEndOfDay();
+            return;
+        }
 
-        return findEndOfPreviousBusinessDay(ts);
+        gotoEndOfPreviousDay();
     }
 
-    //==================================================
-    //= support :: conversion
-    //==================================================
+    //##################################################
+    //# support
+    //##################################################
 
     private void validatePolicy()
     {
         getPolicy().validate();
+    }
+
+    private int round(double e)
+    {
+        return Kmu.round(e);
     }
 
     //##################################################
@@ -613,16 +662,7 @@ public class KmBusinessHourCalculator
 
     public static void main(String[] args)
     {
-        KmTimestamp ts = KmTimestampParser.parseTimestamp("3/13/18 5:30 am");
-        KmUnitDuration d = KmUnitDuration.fromDays(3);
-
-        KmBusinessHourCalculator c;
-        c = new KmBusinessHourCalculator();
-        KmTimestamp result = c.subtract(ts, d);
-
-        System.out.println("    Start:    " + ts.getWeekDay() + ", " + ts);
-        System.out.println("    Duration: " + d);
-        System.out.println("");
-        System.out.println("    Result:   " + result.getWeekDay() + ", " + result);
+        KmBusinessHourCalculatorTest.main(args);
     }
+
 }

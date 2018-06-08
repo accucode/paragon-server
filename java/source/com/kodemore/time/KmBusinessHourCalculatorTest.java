@@ -24,7 +24,6 @@ package com.kodemore.time;
 
 import com.kodemore.types.KmDayFrequency;
 import com.kodemore.utility.KmRandom;
-import com.kodemore.utility.Kmu;
 
 /**
  * Simple tests for the business hour calculator.
@@ -59,12 +58,13 @@ public class KmBusinessHourCalculatorTest
         testFromJanToFeb();
         testFromMarToFeb();
         testFromLeapYear();
-        testAddSubtractSame();
+        testRandom();
     }
 
     private void testFromJan29()
     {
         setPolicyMF95();
+
         setStart("1/29/2018 10a");
 
         test("hours.a", addHours(1), "1/29/2018 11a");
@@ -82,7 +82,6 @@ public class KmBusinessHourCalculatorTest
         test("days.d", subtractDays(4), "1/23/2018 10a");
 
         test("weeks.a", addWeeks(1), "2/5/2018 10a");
-
         test("weeks.b", subtractWeeks(1), "1/22/2018 10a");
 
         test("months.a", addMonths(1), "2/28/2018 10a");
@@ -99,6 +98,7 @@ public class KmBusinessHourCalculatorTest
 
         KmBusinessHourPolicy policy;
         policy = new KmBusinessHourPolicy();
+        policy.setTimeZone(KmTimeZone.SYSTEM_DEFAULT);
         policy.setStartTime(KmTimeParser.parseTime("9a"));
         policy.setEndTime(KmTimeParser.parseTime("5p"));
         policy.setDays(days);
@@ -115,6 +115,7 @@ public class KmBusinessHourCalculatorTest
 
         KmBusinessHourPolicy policy;
         policy = new KmBusinessHourPolicy();
+        policy.setTimeZone(KmTimeZone.SYSTEM_DEFAULT);
         policy.setStartTime(KmTimeParser.parseTime("9a"));
         policy.setEndTime(KmTimeParser.parseTime("5p"));
         policy.setDays(days);
@@ -136,39 +137,45 @@ public class KmBusinessHourCalculatorTest
         test("learYear.d", subtractYears(4), "2/29/1996 10a");
     }
 
-    private void testAddSubtractSame()
+    private void testRandom()
     {
         System.out.println("addSubtract, starting...");
 
-        KmTimestamp start;
-        KmTimestamp added;
-        KmTimestamp subtracted;
-
-        setPolicyMF95();
-
         int n = 10000;
         for ( int i = 0; i < n; i++ )
-        {
-            start = createRandomBusinessTimestamp();
-            KmUnitDuration d = createRandomDuration();
-            added = _calculator.add(start, d);
-            subtracted = _calculator.subtract(added, d);
-
-            if ( !Kmu.isEqual(start, subtracted) )
-            {
-                System.out.println("ERROR!");
-                System.out.println("    duration  : " + d);
-                System.out.println("    start     : " + start);
-                System.out.println("    added     : " + added);
-                System.out.println("    subtracted: " + subtracted);
+            if ( !_testRandom() )
                 break;
-            }
-        }
+
         System.out.println("addSubtract, done.");
     }
 
+    private boolean _testRandom()
+    {
+        setPolicyMF95();
+        setStartRandom();
+
+        KmTimestamp start = _calculator.getValue();
+        KmUnitDuration duration = createRandomDuration();
+        KmTimestamp add = _calculator.add(duration).getValue();
+        KmTimestamp addNegative = _calculator.add(duration.negate()).getValue();
+        KmTimestamp subtract = _calculator.subtract(duration).getValue();
+        KmTimestamp end = _calculator.subtract(duration.negate()).getValue();
+
+        if ( start.equals(end) )
+            return true;
+
+        System.out.println("ERROR!");
+        System.out.println("    duration     : " + duration);
+        System.out.println("    start        : " + start);
+        System.out.println("    add(d)       : " + add);
+        System.out.println("    add(-d)      : " + addNegative);
+        System.out.println("    subtract(d)  : " + subtract);
+        System.out.println("    subtract(-d) : " + end);
+        return false;
+    }
+
     //##################################################
-    //# support
+    //# test
     //##################################################
 
     private void test(String msg, KmTimestamp actualTs, String expected)
@@ -176,7 +183,7 @@ public class KmBusinessHourCalculatorTest
         KmTimestamp expectedTs;
         expectedTs = KmTimestampParser.parseTimestamp(expected);
 
-        if ( expectedTs.equals(actualTs) )
+        if ( actualTs.equals(expectedTs) )
         {
             System.out.println(msg + ", ok.");
             return;
@@ -193,27 +200,27 @@ public class KmBusinessHourCalculatorTest
 
     private KmTimestamp addHours(int i)
     {
-        return _calculator.addHours(_start, i);
+        return _calculator.setValue(_start).addHours(i).getValue();
     }
 
     private KmTimestamp addDays(int i)
     {
-        return _calculator.addDays(_start, i);
+        return _calculator.setValue(_start).addDays(i).getValue();
     }
 
     private KmTimestamp addWeeks(int i)
     {
-        return _calculator.addWeeks(_start, i);
+        return _calculator.setValue(_start).addWeeks(i).getValue();
     }
 
     private KmTimestamp addMonths(int i)
     {
-        return _calculator.addMonths(_start, i);
+        return _calculator.setValue(_start).addMonths(i).getValue();
     }
 
     private KmTimestamp addYears(int i)
     {
-        return _calculator.addYears(_start, i);
+        return _calculator.setValue(_start).addYears(i).getValue();
     }
 
     //##################################################
@@ -222,27 +229,27 @@ public class KmBusinessHourCalculatorTest
 
     private KmTimestamp subtractHours(int i)
     {
-        return _calculator.subtractHours(_start, i);
+        return _calculator.setValue(_start).subtractHours(i).getValue();
     }
 
     private KmTimestamp subtractDays(int i)
     {
-        return _calculator.subtractDays(_start, i);
+        return _calculator.setValue(_start).subtractDays(i).getValue();
     }
 
     private KmTimestamp subtractWeeks(int i)
     {
-        return _calculator.subtractWeeks(_start, i);
+        return _calculator.setValue(_start).subtractWeeks(i).getValue();
     }
 
     private KmTimestamp subtractMonths(int i)
     {
-        return _calculator.subtractMonths(_start, i);
+        return _calculator.setValue(_start).subtractMonths(i).getValue();
     }
 
     private KmTimestamp subtractYears(int i)
     {
-        return _calculator.subtractYears(_start, i);
+        return _calculator.setValue(_start).subtractYears(i).getValue();
     }
 
     //##################################################
@@ -264,12 +271,18 @@ public class KmBusinessHourCalculatorTest
      */
     private void setPolicyMF95()
     {
+        setPolicy(createPolicyMF95());
+    }
+
+    private KmBusinessHourPolicy createPolicyMF95()
+    {
         KmBusinessHourPolicy e;
         e = new KmBusinessHourPolicy();
+        e.setTimeZone(KmTimeZone.SYSTEM_DEFAULT);
         e.setStartTime(KmTimeParser.parseTime("9a"));
         e.setEndTime(KmTimeParser.parseTime("5p"));
         e.setDays(KmDayFrequency.MONDAY_THROUGH_FRIDAY);
-        setPolicy(e);
+        return e;
     }
 
     /**
@@ -279,6 +292,7 @@ public class KmBusinessHourCalculatorTest
     {
         KmBusinessHourPolicy e;
         e = new KmBusinessHourPolicy();
+        e.setTimeZone(KmTimeZone.SYSTEM_DEFAULT);
         e.setStartTime(KmTimeParser.parseTime("9a"));
         e.setEndTime(KmTimeParser.parseTime("5p"));
         e.setDays(KmDayFrequency.ALL);
@@ -294,30 +308,29 @@ public class KmBusinessHourCalculatorTest
         _start = KmTimestampParser.parseTimestamp(s);
     }
 
+    private void setStartRandom()
+    {
+        KmRandom r = KmRandom.getInstance();
+        int secs = r.getInteger(KmTimeConstantsIF.SECONDS_PER_YEAR_APPROXIMATE);
+
+        _calculator.setValueNow();
+        _calculator.addSeconds(secs);
+        _calculator.adjustValue();
+    }
+
     //##################################################
     //# support
     //##################################################
 
-    private KmTimestamp createRandomBusinessTimestamp()
-    {
-        KmTimestamp now = KmClock.getUtcTimestamp();
-
-        int secs;
-        secs = KmRandom.getInstance().getInteger(KmTimeConstantsIF.SECONDS_PER_YEAR_APPROXIMATE);
-        KmUnitDuration d = KmUnitDuration.fromSeconds(secs);
-
-        return _calculator.add(now, d);
-    }
-
     private KmUnitDuration createRandomDuration()
     {
-        // Secs-Weeks
+        // Secs..Weeks
         KmTimeUnit unit = KmTimeUnit.getValues(KmTimeUnit.Second, KmTimeUnit.Week).getRandom();
 
-        // Months-Years
-        //        KmTimeUnit unit = KmTimeUnit.getValues(KmTimeUnit.Month, KmTimeUnit.Year).getRandom();
+        // Months..Years
+        // KmTimeUnit unit = KmTimeUnit.getValues(KmTimeUnit.Month, KmTimeUnit.Year).getRandom();
 
-        int value = KmRandom.getInstance().getInteger(12);
+        int value = KmRandom.getInstance().getInteger(100);
         return new KmUnitDuration(value, unit);
     }
 }

@@ -580,6 +580,16 @@ public class KmTimestamp
         return addWeeks(-i);
     }
 
+    public KmTimestamp subtractMonths(int i)
+    {
+        return addMonths(-i);
+    }
+
+    public KmTimestamp subtractYears(int i)
+    {
+        return addYears(-i);
+    }
+
     public KmTimestamp subtractHour()
     {
         return subtractHours(1);

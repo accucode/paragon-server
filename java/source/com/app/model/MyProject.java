@@ -121,7 +121,7 @@ public class MyProject
     public KmBusinessHourPolicy getBusinessHourPolicy()
     {
         KmBusinessHourPolicy p;
-        p = KmBusinessHourPolicy.DEFAULT;
+        p = KmBusinessHourPolicy.createDefault();
 
         if ( hasBusinessDays() )
             p.setDays(getBusinessDays());

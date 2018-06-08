@@ -148,6 +148,11 @@ public class KmUnitDuration
         return getValue() == 0;
     }
 
+    public KmUnitDuration negate()
+    {
+        return new KmUnitDuration(-getValue(), getUnit());
+    }
+
     //##################################################
     //# display
     //##################################################

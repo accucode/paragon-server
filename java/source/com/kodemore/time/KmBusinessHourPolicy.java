@@ -32,26 +32,26 @@ public class KmBusinessHourPolicy
     //# constants
     //##################################################
 
-    public static final KmDayFrequency DEFAULT_DAYS       = KmDayFrequency.MONDAY_THROUGH_FRIDAY;
-    public static final KmTime         DEFAULT_START_TIME = KmTime.fromHour(9);
-    public static final KmTime         DEFAULT_END_TIME   = KmTime.fromHour(17);
-
-    /**
-     * Monday-Friday, 9am-5pm, no holidays.
-     */
-    public static final KmBusinessHourPolicy DEFAULT = createDefault();
+    private static final KmDayFrequency DEFAULT_DAYS       = KmDayFrequency.MONDAY_THROUGH_FRIDAY;
+    private static final KmTime         DEFAULT_START_TIME = KmTime.fromHour(9);
+    private static final KmTime         DEFAULT_END_TIME   = KmTime.fromHour(17);
+    private static final KmTimeZone     DEFAULT_TIME_ZONE  = KmTimeZone.SYSTEM_DEFAULT;
 
     //##################################################
     //# instance creation
     //##################################################
 
-    private static final KmBusinessHourPolicy createDefault()
+    /**
+     * Monday-Friday, 9am-5pm, no holidays.
+     */
+    public static final KmBusinessHourPolicy createDefault()
     {
         KmBusinessHourPolicy e;
         e = new KmBusinessHourPolicy();
-        e.setDays(DEFAULT_DAYS);
+        e.setTimeZone(DEFAULT_TIME_ZONE);
         e.setStartTime(DEFAULT_START_TIME);
         e.setEndTime(DEFAULT_END_TIME);
+        e.setDays(DEFAULT_DAYS);
         return e;
     }
 
@@ -63,6 +63,11 @@ public class KmBusinessHourPolicy
      * The days of the week that are considered business days.
      */
     private KmDayFrequency _days;
+
+    /**
+     * The time zone in which the start and end times are expressed.
+     */
+    private KmTimeZone _timeZone;
 
     /**
      * The time business hours start.
@@ -108,17 +113,36 @@ public class KmBusinessHourPolicy
     }
 
     //==================================================
-    //= accessing :: start time
+    //= accessing :: time zone
     //==================================================
 
-    public void setStartTime(KmTime e)
+    public KmTimeZone getTimeZone()
     {
-        _startTime = e;
+        return _timeZone;
     }
+
+    public void setTimeZone(KmTimeZone e)
+    {
+        _timeZone = e;
+    }
+
+    public void setDefaultTimeZone()
+    {
+        setTimeZone(DEFAULT_TIME_ZONE);
+    }
+
+    //==================================================
+    //= accessing :: start time
+    //==================================================
 
     public KmTime getStartTime()
     {
         return _startTime;
+    }
+
+    public void setStartTime(KmTime e)
+    {
+        _startTime = e;
     }
 
     public void setDefaultStartTime()
@@ -195,7 +219,7 @@ public class KmBusinessHourPolicy
     {
         KmDayFrequency days = getDays();
         if ( days.isEmpty() )
-            throw Kmu.newFatal("Invalid business hour policy: must have at least 1 business day.");
+            throw newPolicyError("must have at least one business day.");
     }
 
     private void validateTimes()
@@ -203,14 +227,22 @@ public class KmBusinessHourPolicy
         KmTime start = getStartTime();
         KmTime end = getEndTime();
 
+        if ( _timeZone == null )
+            throw newPolicyError("time zone is required.");
+
         if ( start == null )
-            throw Kmu.newFatal("Invalid business hour policy: start time is required.");
+            throw newPolicyError("start time is required.");
 
         if ( end == null )
-            throw Kmu.newFatal("Invalid business hour policy: end time is required.");
+            throw newPolicyError("end time is required.");
 
-        if ( end.isBefore(start) )
-            throw Kmu.newFatal("Invalid business hour policy: start must be before end.");
+        if ( start.isOnOrAfter(end) )
+            throw newPolicyError("start must be before end.");
+    }
+
+    private RuntimeException newPolicyError(String msg)
+    {
+        return Kmu.newFatal("Invalid business hour policy: " + msg);
     }
 
     //##################################################
@@ -220,6 +252,7 @@ public class KmBusinessHourPolicy
     public void printDetails()
     {
         System.out.println(getClass().getSimpleName());
+        System.out.println("    TimeZone: " + getTimeZone());
         System.out.println("    Start:    " + getStartTime());
         System.out.println("    End:      " + getEndTime());
         System.out.println("    Days:     " + getDays());
