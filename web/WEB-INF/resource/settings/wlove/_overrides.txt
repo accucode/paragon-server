@@ -1,0 +1,133 @@
+#######################################
+## environment
+#######################################
+
+# environment = stage
+# environment = production
+environment = development
+
+#######################################
+## login
+#######################################
+
+autoLoginEmail                              =
+
+#######################################
+## web versioning
+#######################################
+
+webResourceVersioning                       = none
+webResourceVersioning                       = deploy
+webResourceVersioning                       = dev
+
+#######################################
+## servlet
+#######################################
+
+servletSslRedirect                          = n
+serverSessionTimeoutSeconds                 = 36000
+
+#######################################
+## database
+#######################################
+
+bootstrapSystemHostname                     = system.localhost
+
+databaseSchema                              = paragon
+databaseDriver                              = com.mysql.jdbc.Driver
+databaseUri                                 = jdbc:mysql://localhost:3306/
+databaseUser                                = root
+databasePassword                            = root
+
+
+#######################################
+## google chart
+#######################################
+
+googleChartScheme                           = http
+googleChartHost                             = localhost
+googleChartPort                             = 8080
+googleChartPath                             = app/servlet/chart
+
+
+#######################################
+## email
+#######################################
+
+sendEmailEnabled                            = y
+sendEmailOverrideTo                         =
+
+sendEmailMethod                             = smtp
+sendEmailMethod                             = noop
+sendEmailMethod                             = print
+
+sendEmailChoreEnabled                       = y
+sendEmailChoreActiveSeconds                 = 1
+sendEmailChoreIdleSeconds                   = 1
+
+smtpScheme                                  = http
+smtpHost                                    = smtp.sendgrid.net
+smtpPort                                    = 587
+smtpUser                                    =
+smtpPassword                                =
+smtpUseSsl                                  = false
+
+
+#######################################
+## ftp
+#######################################
+
+ftpEnabled                                  = n
+
+
+#######################################
+## chores
+#######################################
+
+monitorChoreEnabled                         = y
+monitorChoreActiveSeconds                   = 3600
+monitorChoreIdleSeconds                     = 3600
+
+overridesReloaderChoreEnabled               = y
+overridesReloaderChoreActiveSeconds         = 1
+overridesReloaderChoreIdleSeconds           = 1
+
+performanceLogFlusherChoreEnabled           = y
+performanceLogFlusherChoreActiveSeconds     = 1
+performanceLogFlusherChoreIdleSeconds       = 1
+
+applicationLogFlusherChoreEnabled           = y
+applicationLogFlusherChoreActiveSeconds     = 1
+applicationLogFlusherChoreIdleSeconds       = 1
+
+
+#######################################
+## misc
+#######################################
+
+printAuditLog                               = n
+printAjaxTime                               = y
+deleteThreadTopicsOnStart                   = y
+chorePerformanceLogEnabled                  = y
+
+showHibernateSql                            = n
+daoCommandWarningThresholdMs                = 5000
+
+writeLastServletResults                     = n
+writeLastServletResultsCounter              = n
+
+contextFormatterEnabled                     = y
+contextFormatterLines                       = 25
+
+maintenanceChoreEnabled                     = y
+maintenanceChoreActiveSeconds               = 1
+maintenanceChoreIdleSeconds                 = 1
+maintenancePeriodStartHour                  = 0
+maintenancePeriodEndHour                    = 23
+
+ajaxLogEnabled                              = y
+ajaxLogDeleteOnStart                        = y
+
+oneAllEnabled                               = n
+renderDebugDomComments                      = y
+developerEmailCsv                           = me@example.net
