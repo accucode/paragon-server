@@ -7,6 +7,7 @@ import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScTextSpan;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.dialog.MyDialogs;
@@ -99,7 +100,7 @@ public class MyPageTitle
             MyPage e = (MyPage)page;
 
             String name = e.hasModuleName()
-                ? Kmu.formatMetaValue(e.getModuleName())
+                ? KmVirtualOptions.format(e.getModuleName())
                 : null;
 
             _pageModuleName.setValue(name);

@@ -6,6 +6,7 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAuditLog;
@@ -127,7 +128,7 @@ public class MyAuditLogFormatter
 
         MyUser user = e.getUser();
         return user == null
-            ? Kmu.formatMetaValue("system")
+            ? KmVirtualOptions.format("system")
             : user.getFullName();
     }
 

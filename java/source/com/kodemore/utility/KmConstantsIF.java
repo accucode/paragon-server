@@ -129,10 +129,4 @@ public interface KmConstantsIF
 
     double KILOGRAMS_PER_POUND = 0.4535924;
     double POUNDS_PER_KILOGRAM = 1 / KILOGRAMS_PER_POUND;
-
-    //##################################################
-    //# message
-    //##################################################
-
-    String NONE = Kmu.formatMetaValue("none");
 }

@@ -6,6 +6,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScStaticDropdownField;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.criteria.MyFeedbackCriteria;
@@ -22,8 +23,8 @@ public class MyFeedbackSearchView
     //# constants
     //##################################################
 
-    private static final String STATUS_CODE_OPEN   = Kmu.formatMetaValue("open");
-    private static final String STATUS_CODE_CLOSED = Kmu.formatMetaValue("closed");
+    private static final String STATUS_CODE_OPEN   = KmVirtualOptions.format("open");
+    private static final String STATUS_CODE_CLOSED = KmVirtualOptions.format("closed");
 
     //##################################################
     //# variables

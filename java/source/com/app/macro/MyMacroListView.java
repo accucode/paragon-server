@@ -12,8 +12,8 @@ import com.kodemore.servlet.field.ScStaticListField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyProject;
@@ -448,7 +448,7 @@ public class MyMacroListView
     {
         _fieldList.clearValue();
         _fieldList.clearOptions();
-        _fieldList.addOption(null, KmConstantsIF.NONE);
+        _fieldList.addOption(null, KmVirtualOptions.NONE);
 
         KmList<MyMacro> v;
         v = getFilteredMacros();

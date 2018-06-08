@@ -4,8 +4,8 @@ import com.kodemore.collection.KmList;
 import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeZone;
 import com.kodemore.types.KmDayFrequency;
-import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyTenantBase;
@@ -142,7 +142,7 @@ public class MyTenant
     {
         return hasName()
             ? getName()
-            : KmConstantsIF.NONE;
+            : KmVirtualOptions.NONE;
     }
 
     //##################################################

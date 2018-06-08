@@ -26,7 +26,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.utility.KmCompressMemoryIF;
-import com.kodemore.utility.Kmu;
+import com.kodemore.utility.KmVirtualOptions;
 
 public abstract class ScRenderer
     implements KmCompressMemoryIF
@@ -35,8 +35,8 @@ public abstract class ScRenderer
     //# constants
     //##################################################
 
-    private static final String NONE = Kmu.formatMetaValue("none");
-    private static final String ANY  = Kmu.formatMetaValue("any");
+    private static final String NONE = KmVirtualOptions.NONE;
+    private static final String ANY  = KmVirtualOptions.ANY;
 
     //##################################################
     //# accessing

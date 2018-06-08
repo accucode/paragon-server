@@ -1,6 +1,7 @@
 package com.app.model;
 
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyMemberBase;
@@ -112,7 +113,7 @@ public class MyMember
     {
         return hasRole()
             ? getRoleName()
-            : Kmu.formatMetaValue("none");
+            : KmVirtualOptions.NONE;
     }
 
     //##################################################

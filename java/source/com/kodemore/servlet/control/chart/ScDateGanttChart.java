@@ -26,6 +26,7 @@ import java.util.function.Function;
 
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmDate;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -38,7 +39,7 @@ public class ScDateGanttChart
     //# constants
     //##################################################
 
-    private static final String NONE = Kmu.formatMetaValue("none");
+    private static final String NONE = KmVirtualOptions.NONE;
 
     //##################################################
     //# setup

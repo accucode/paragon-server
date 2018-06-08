@@ -31,6 +31,7 @@ import javax.swing.JTree;
 
 import com.kodemore.awt.KmaFrame;
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -203,7 +204,7 @@ public class KmProfileReader
     {
         KmProfileTraceNode root;
         root = new KmProfileTraceNode();
-        root.setName(Kmu.formatMetaValue("System Root"));
+        root.setName(KmVirtualOptions.format("System Root"));
 
         Iterator<KmProfileTrace> i = getTraces().iterator();
         while ( i.hasNext() )

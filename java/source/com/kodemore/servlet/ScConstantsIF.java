@@ -26,6 +26,7 @@ import java.nio.charset.Charset;
 
 import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.utility.ScEasing;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -257,12 +258,12 @@ public interface ScConstantsIF
     //##################################################
 
     String NULL_PREFIX_BLANK   = "";
-    String NULL_PREFIX_ALL     = Kmu.formatMetaValue("all");
-    String NULL_PREFIX_ANY     = Kmu.formatMetaValue("any");
-    String NULL_PREFIX_DEFAULT = Kmu.formatMetaValue("default");
-    String NULL_PREFIX_NONE    = Kmu.formatMetaValue("none");
-    String NULL_PREFIX_UNKNOWN = Kmu.formatMetaValue("unknown");
-    String NULL_PREFIX_SELECT  = Kmu.formatMetaValue("select");
+    String NULL_PREFIX_ALL     = KmVirtualOptions.format("all");
+    String NULL_PREFIX_ANY     = KmVirtualOptions.format("any");
+    String NULL_PREFIX_DEFAULT = KmVirtualOptions.format("default");
+    String NULL_PREFIX_NONE    = KmVirtualOptions.format("none");
+    String NULL_PREFIX_UNKNOWN = KmVirtualOptions.format("unknown");
+    String NULL_PREFIX_SELECT  = KmVirtualOptions.format("select");
 
     //##################################################
     //# auto complete

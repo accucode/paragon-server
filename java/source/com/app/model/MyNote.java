@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyNoteBase;
@@ -45,7 +46,7 @@ public class MyNote
     {
         MyNoteOwnerIF e = getOwner();
         return e == null
-            ? Kmu.formatMetaValue("none")
+            ? KmVirtualOptions.NONE
             : e.getDomainTitle();
     }
 

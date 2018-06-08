@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyDefaultRecipientBase;
@@ -59,7 +60,7 @@ public class MyDefaultRecipient
             case Sales:
             case Scheduling:
             case Technical:
-                return Kmu.formatMetaValue(type.getLabel());
+                return KmVirtualOptions.format(type.getLabel());
         }
         throw Kmu.newEnumError(type);
     }

@@ -39,7 +39,7 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalOptionList;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -192,7 +192,7 @@ public class ScChoiceField<T>
     public void addOption(T value)
     {
         String label = value == null
-            ? KmConstantsIF.NONE
+            ? KmVirtualOptions.NONE
             : getFormatter().formatAny(value);
 
         addOption(value, label);

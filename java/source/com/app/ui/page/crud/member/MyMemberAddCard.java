@@ -8,6 +8,7 @@ import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.layout.ScLayout;
 import com.kodemore.servlet.field.ScDropdownField;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyMember;
@@ -95,7 +96,7 @@ public class MyMemberAddCard
         e.setChildrenFunction(this::findUsers);
         e.setValueAdaptor(x.User);
         e.onChange(newUncheckedAction(this::handleUserChanged));
-        e.setNullPrefix(Kmu.formatMetaValue("new user"));
+        e.setNullPrefix(KmVirtualOptions.format("new user"));
         _userField = e;
         return e;
     }

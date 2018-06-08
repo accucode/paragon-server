@@ -5903,7 +5903,7 @@ public class Kmu
 
     public static String formatEnabled(Boolean b)
     {
-        return formatBoolean(b, "enabled", "disabled", formatMetaValue("unknown"));
+        return formatBoolean(b, "enabled", "disabled", KmVirtualOptions.UNKNOWN);
     }
 
     //##################################################
@@ -6134,21 +6134,5 @@ public class Kmu
         return t == null
             ? null
             : fn.apply(t);
-    }
-
-    //##################################################
-    //# format
-    //##################################################
-
-    /**
-     * Format a string for use as a meta/category label.
-     * For example, the user may be presented with the choice of selecting
-     * one of several values: Red, Blue, Green. But the user is also allowed to
-     * select. This formats meta values in a consistent way. It is recommend
-     * to use a format that does not require escaping in html, xml, or sql.
-     */
-    public static String formatMetaValue(String e)
-    {
-        return "[" + e + "]";
     }
 }

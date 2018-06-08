@@ -16,8 +16,8 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScToastScript;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.types.KmTuple;
-import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmEnumIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
@@ -140,7 +140,7 @@ public class MyEmailComposerForm
     {
         ScFieldText e;
         e = new ScFieldText();
-        e.setValue(KmConstantsIF.NONE);
+        e.setValue(KmVirtualOptions.NONE);
         _attachmentText = e;
         return e;
     }
@@ -1006,7 +1006,7 @@ public class MyEmailComposerForm
         String help = v.join(e -> e.getName());
 
         if ( count == 0 )
-            msg = KmConstantsIF.NONE;
+            msg = KmVirtualOptions.NONE;
 
         if ( count == 1 )
             msg = "1 Attachment";

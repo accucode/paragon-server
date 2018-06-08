@@ -2,7 +2,7 @@ package com.app.macro;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAttachment;
@@ -22,7 +22,7 @@ public class MyMacroDocument
     //# constant
     //##################################################
 
-    private static final String NONE = KmConstantsIF.NONE;
+    private static final String NONE = KmVirtualOptions.NONE;
 
     //##################################################
     //# variables

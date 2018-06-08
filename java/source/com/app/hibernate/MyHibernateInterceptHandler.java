@@ -19,6 +19,7 @@ import com.kodemore.types.KmMoney;
 import com.kodemore.types.KmQuantity;
 import com.kodemore.types.KmRate;
 import com.kodemore.utility.KmDisplayStringIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.core.MyDaoSession;
@@ -49,8 +50,8 @@ public class MyHibernateInterceptHandler
     //# constants
     //##################################################
 
-    private static final String NULL_VALUE  = Kmu.formatMetaValue("null");
-    private static final String EMPTY_VALUE = Kmu.formatMetaValue("empty");
+    private static final String NULL_VALUE  = KmVirtualOptions.NULL;
+    private static final String EMPTY_VALUE = KmVirtualOptions.EMPTY;
 
     //##################################################
     //# static

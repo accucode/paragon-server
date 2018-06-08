@@ -7,6 +7,7 @@ import com.kodemore.time.KmDate;
 import com.kodemore.types.KmMoney;
 import com.kodemore.types.KmQuantity;
 import com.kodemore.utility.KmResult;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
@@ -409,7 +410,7 @@ public abstract class MyImporter
     protected void addRecordError(MyImporterColumn<?> col, String msg, Object... args)
     {
         String name = col == null
-            ? Kmu.formatMetaValue("unknown")
+            ? KmVirtualOptions.UNKNOWN
             : col.getName();
 
         MyImporterError e;

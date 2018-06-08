@@ -140,7 +140,7 @@ public class KmEmailAddress
         if ( hasSource() )
             return getSource();
 
-        return Kmu.formatMetaValue("none");
+        return KmVirtualOptions.format("none");
     }
 
     /**

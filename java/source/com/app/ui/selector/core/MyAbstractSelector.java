@@ -17,6 +17,7 @@ import com.kodemore.servlet.control.ScPopupMenuItem;
 import com.kodemore.servlet.field.ScDynamicDropdownField;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScOption;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoAccess;
@@ -543,7 +544,7 @@ public abstract class MyAbstractSelector<P extends KmUidDomainIF, C extends KmUi
             return;
 
         String msg = Kmu.format("select a %s", getDomainParentName().toLowerCase());
-        String prefix = Kmu.formatMetaValue(msg);
+        String prefix = KmVirtualOptions.format(msg);
         _dropdown.setNullPrefix(prefix);
     }
 

@@ -65,6 +65,7 @@ import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.thread.KmThreadLocalManager;
 import com.kodemore.time.KmDate;
 import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -680,7 +681,7 @@ public class ScServletData
         Cookie[] arr = _getRequest().getCookies();
         if ( arr == null )
         {
-            System.out.println("    " + KmConstantsIF.NONE);
+            System.out.println("    " + KmVirtualOptions.NONE);
             return;
         }
 

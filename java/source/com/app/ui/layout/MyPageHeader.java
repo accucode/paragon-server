@@ -9,7 +9,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScTextSpan;
-import com.kodemore.utility.KmConstantsIF;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyProject;
@@ -303,7 +303,7 @@ public class MyPageHeader
     {
         MyProject e = getCurrentProject();
         return e == null
-            ? KmConstantsIF.NONE
+            ? KmVirtualOptions.NONE
             : e.getName();
     }
 
@@ -363,7 +363,7 @@ public class MyPageHeader
     {
         return hasCurrentUser()
             ? getCurrentUser().getFullName()
-            : KmConstantsIF.NONE;
+            : KmVirtualOptions.NONE;
     }
 
     //##################################################

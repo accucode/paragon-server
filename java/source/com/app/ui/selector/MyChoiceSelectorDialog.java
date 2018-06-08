@@ -5,7 +5,7 @@ import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEnumIF;
-import com.kodemore.utility.Kmu;
+import com.kodemore.utility.KmVirtualOptions;
 
 import com.app.model.MyChoice;
 import com.app.model.MyProject;
@@ -113,7 +113,7 @@ public class MyChoiceSelectorDialog
     {
         return hasChoiceType()
             ? getChoiceType().getLabel()
-            : Kmu.formatMetaValue("unknown type");
+            : KmVirtualOptions.UNKNOWN;
     }
 
     //##################################################

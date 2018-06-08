@@ -12,6 +12,7 @@ import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSha1;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
@@ -227,7 +228,7 @@ public class MyUtility
 
     public static String formatRate(Double rate)
     {
-        return formatRate(rate, Kmu.formatMetaValue("none"));
+        return formatRate(rate, KmVirtualOptions.NONE);
     }
 
     public static String formatRate(Double rate, String ifNull)

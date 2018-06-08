@@ -34,6 +34,7 @@ import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalList;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmVirtualOptions;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -51,7 +52,7 @@ public class ScGanttChart
     private static final String LEGEND_ID_SUFFIX = "-legend";
     private static final String CHART_ID_SUFFIX  = "-chart";
 
-    private static final String NONE = Kmu.formatMetaValue("none");
+    private static final String NONE = KmVirtualOptions.NONE;
 
     //##################################################
     //# variables
