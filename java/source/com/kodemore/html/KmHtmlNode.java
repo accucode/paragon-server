@@ -22,6 +22,8 @@
 
 package com.kodemore.html;
 
+import java.util.Map.Entry;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 
@@ -158,8 +160,10 @@ public class KmHtmlNode
         if ( hasTag() )
         {
             out.open(_tag);
-            for ( String k : _attributes.keySet() )
-                out.printAttribute(k, _attributes.get(k));
+
+            for ( Entry<String,String> e : _attributes.entrySet() )
+                out.printAttribute(e.getKey(), e.getValue());
+
             out.close();
         }
 

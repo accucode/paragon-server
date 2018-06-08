@@ -64,7 +64,7 @@ public abstract class ScDropdownField<T>
      * Options
      * https://harvesthq.github.io/chosen/options.html
      */
-    private static final boolean USES_CHOSEN = false;
+    private static boolean USES_CHOSEN = false;
 
     //##################################################
     //# static :: layout enum

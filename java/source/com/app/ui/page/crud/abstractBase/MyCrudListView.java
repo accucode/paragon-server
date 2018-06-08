@@ -470,14 +470,9 @@ public class MyCrudListView<P extends KmUidDomainIF, C extends KmUidDomainIF>
     //# support
     //##################################################
 
-    protected final MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected final MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     protected int getDepth()

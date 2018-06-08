@@ -215,6 +215,6 @@ public class KmPropertyRegistry
         int max = Kmu.getMaximumLength(keys);
 
         for ( String key : keys )
-            System.out.printf("%s = %s\n", Kmu.rightPad(key, max), _getRawValue(key));
+            System.out.printf("%s = %s%n", Kmu.rightPad(key, max), _getRawValue(key));
     }
 }

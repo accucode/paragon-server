@@ -13,14 +13,9 @@ public class MyFormDialog
     //# convenience
     //##################################################
 
-    protected MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     protected MyProperties getProperties()

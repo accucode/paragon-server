@@ -12,6 +12,7 @@ import com.app.ui.page.crud.abstractBase.MyCrudFrame;
 import com.app.ui.page.crud.abstractBase.MyCrudListView;
 import com.app.ui.page.crud.abstractBase.MyCrudSearchViewIF;
 import com.app.ui.page.crud.abstractBase.MyCrudViewCard;
+import com.app.utility.MyGlobals;
 
 public class MyUserBuilder
     extends MyCrudBuilder<MyTenant,MyUser>
@@ -100,7 +101,7 @@ public class MyUserBuilder
     protected boolean showsEditFor(MyUser e)
     {
         return e.isRoleDeveloper()
-            ? getGlobals().getCurrentUser().allowsManageDevelopers()
+            ? MyGlobals.getCurrentUser().allowsManageDevelopers()
             : super.showsEditFor(e);
     }
 }

@@ -47,7 +47,7 @@ public class KmProfileTraceNode
             {
                 double d1 = n1.getTotalPercent();
                 double d2 = n2.getTotalPercent();
-                return -Kmu.compare(d1, d2);
+                return Kmu.compare(d2, d1);
             }
         };
     }

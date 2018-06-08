@@ -59,6 +59,7 @@ import java.util.Base64;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -172,7 +173,7 @@ public class Kmu
             if ( s.length() == 0 )
                 return 0;
 
-            return new Integer(s);
+            return Integer.valueOf(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -251,7 +252,7 @@ public class Kmu
 
             s = s.trim();
             s = stripLeadingZeros(s);
-            return new Long(s);
+            return Long.valueOf(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -1736,7 +1737,7 @@ public class Kmu
 
         String result = out.toString();
         result = replaceAll(result, '_', ' ');
-        result.trim();
+        result = result.trim();
         return result;
     }
 
@@ -3368,11 +3369,7 @@ public class Kmu
 
     public static int getHashCodeFor(Object... arr)
     {
-        int i = 0;
-        for ( Object e : arr )
-            i = i ^ getHashCode(e);
-
-        return i;
+        return Objects.hash(arr);
     }
 
     //##################################################

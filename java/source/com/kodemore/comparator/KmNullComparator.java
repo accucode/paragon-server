@@ -53,7 +53,8 @@ public class KmNullComparator<T>
     @Override
     public int compare(T a, T b)
     {
-        KmCompareUtility.compareNulls(a, b, getNullsOnTop());
+        if ( a == null || b == null )
+            return KmCompareUtility.compareNulls(a, b, getNullsOnTop());
 
         return _comparator.compare(a, b);
     }

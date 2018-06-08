@@ -451,6 +451,6 @@ public abstract class MyCrudGridSearchView<P extends KmUidDomainIF, C extends Km
 
     protected final MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 }

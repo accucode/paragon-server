@@ -177,8 +177,11 @@ public class KmFile
 
     public KmList<KmFile> getChildren()
     {
-        KmList<KmFile> v = new KmList<>();
         File[] files = getRealFile().listFiles();
+        if ( files == null )
+            return KmList.createEmpty();
+
+        KmList<KmFile> v = new KmList<>();
 
         for ( File file : files )
             v.add(newFile(file));
@@ -203,9 +206,12 @@ public class KmFile
 
     public KmList<KmFile> getFiles()
     {
+        File[] files = getRealFile().listFiles();
+        if ( files == null )
+            return KmList.createEmpty();
+
         KmList<KmFile> v = new KmList<>();
 
-        File[] files = getRealFile().listFiles();
         for ( File file : files )
             if ( file.isFile() )
                 v.add(newFile(file));
@@ -239,8 +245,11 @@ public class KmFile
 
     public KmList<KmFile> getFolders()
     {
-        KmList<KmFile> v = new KmList<>();
         File[] files = getRealFile().listFiles();
+        if ( files == null )
+            return KmList.createEmpty();
+
+        KmList<KmFile> v = new KmList<>();
 
         for ( File file : files )
             if ( file.isDirectory() )

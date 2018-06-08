@@ -1,6 +1,8 @@
 package com.kodemore.yelp;
 
 import java.util.Calendar;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -235,12 +237,9 @@ public class KmYelpConnection
     {
         KmStringBuilder out = new KmStringBuilder();
 
-        KmOrderedMap<String,String> m = getAuthorizationParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendAuthorizationParameter(out, key, value);
-        }
+        Set<Entry<String,String>> set = getAuthorizationParameters().entrySet();
+        for ( Entry<String,String> e : set )
+            appendAuthorizationParameter(out, e.getKey(), e.getValue());
 
         return "OAuth " + out.toString();
     }
@@ -295,12 +294,9 @@ public class KmYelpConnection
     {
         KmStringBuilder out = new KmStringBuilder();
 
-        KmOrderedMap<String,String> m = getSignatureParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendSignatureParameter(out, key, value);
-        }
+        Set<Entry<String,String>> set = getSignatureParameters().entrySet();
+        for ( Entry<String,String> e : set )
+            appendSignatureParameter(out, e.getKey(), e.getValue());
 
         return out.toString();
     }

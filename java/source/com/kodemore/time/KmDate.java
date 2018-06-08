@@ -47,6 +47,13 @@ public class KmDate
     implements KmTimeConstantsIF, Comparable<KmDate>, Serializable
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    public static final KmDate MINIMUM = fromYearMonthDay(1800, 1, 1);
+    public static final KmDate MAXIMUM = fromYearMonthDay(2100, 1, 1);
+
+    //##################################################
     //# instance creation :: misc
     //##################################################
 
@@ -154,7 +161,7 @@ public class KmDate
 
     public long toEpochMs()
     {
-        return toEpochDays() * MS_PER_DAY;
+        return (long)toEpochDays() * MS_PER_DAY;
     }
 
     //==================================================

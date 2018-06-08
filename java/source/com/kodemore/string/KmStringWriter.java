@@ -122,12 +122,11 @@ public class KmStringWriter
     public void _checkCapacity(int addLength)
     {
         int newLength = _length + addLength;
-        if ( newLength > _buffer.length )
-        {
-            char[] arr = new char[newLength + _growSize];
-            int n = _length;
-            for ( int i = 0; i < n; i++ )
-                arr[i] = _buffer[i];
-        }
+        if ( newLength <= _buffer.length )
+            return;
+
+        char[] arr = new char[newLength + _growSize];
+        System.arraycopy(_buffer, 0, arr, 0, _length);
+        _buffer = arr;
     }
 }

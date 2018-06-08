@@ -126,8 +126,10 @@ public class KmaImageViewerPanel
         File dir = new File(path);
         File[] arr = dir.listFiles();
 
-        KmList<File> v;
-        v = new KmList<>(arr);
+        KmList<File> v = arr == null
+            ? KmList.createEmpty()
+            : KmList.createWith(arr);
+
         v.sort();
 
         KmaImageViewerPanel p;

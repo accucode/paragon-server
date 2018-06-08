@@ -103,7 +103,7 @@ public class MyDashboardSampleView
         char c;
         c = 'A';
         c += preRenderLine(c, getLineCount1());
-        c += preRenderLine(c, getLineCount2());
+        preRenderLine(c, getLineCount2());
     }
 
     private int preRenderLine(char letter, int n)

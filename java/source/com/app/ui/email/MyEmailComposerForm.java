@@ -1041,14 +1041,9 @@ public class MyEmailComposerForm
     //# support
     //##################################################
 
-    private MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     private MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     private ScToastScript ajaxToastWarn(String msg, Object... args)

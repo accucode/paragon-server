@@ -17,6 +17,7 @@ import com.app.model.base.MyUserRole;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.page.crud.abstractBase.MyCrudEditCard;
 import com.app.ui.page.crud.abstractBase.MyCrudLayout;
+import com.app.utility.MyGlobals;
 
 public class MyUserEditCard
     extends MyCrudEditCard<MyUser>
@@ -361,7 +362,7 @@ public class MyUserEditCard
 
     private MyUser getCurrentUser()
     {
-        return getGlobals().getCurrentUser();
+        return MyGlobals.getCurrentUser();
     }
 
 }

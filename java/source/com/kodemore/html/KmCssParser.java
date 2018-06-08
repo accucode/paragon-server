@@ -86,10 +86,6 @@ public class KmCssParser
     public void parseFile(KmFile file) throws Exception
     {
         String css = file.readString();
-
-        if ( css == null )
-            throw Kmu.newFatal("Unable to read css file: " + file);
-
         parseCss(css);
     }
 

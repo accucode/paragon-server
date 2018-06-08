@@ -50,28 +50,21 @@ public class KmaGridKeyModel
     public void keyPressed(KeyEvent ev)
     {
         int c = ev.getKeyCode();
-        switch ( c )
-        {
-            case KeyEvent.VK_LEFT:
-                moveLeft(ev);
-                break;
 
-            case KeyEvent.VK_RIGHT:
-                moveRight(ev);
-                break;
+        if ( c == KeyEvent.VK_LEFT )
+            moveLeft(ev);
 
-            case KeyEvent.VK_UP:
-                moveUp(ev);
-                break;
+        if ( c == KeyEvent.VK_RIGHT )
+            moveRight(ev);
 
-            case KeyEvent.VK_DOWN:
-                moveDown(ev);
-                break;
+        if ( c == KeyEvent.VK_UP )
+            moveUp(ev);
 
-            case KeyEvent.VK_SPACE:
-                space(ev);
-                break;
-        }
+        if ( c == KeyEvent.VK_DOWN )
+            moveDown(ev);
+
+        if ( c == KeyEvent.VK_SPACE )
+            space(ev);
     }
 
     @Override

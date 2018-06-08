@@ -1,6 +1,7 @@
 package com.kodemore.linkedIn;
 
 import java.util.Calendar;
+import java.util.Map.Entry;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -234,23 +235,19 @@ public class KmLinkedInConnection
     {
         KmStringBuilder out = new KmStringBuilder();
 
-        KmOrderedMap<String,String> m = getAuthorizationParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendAuthorizationParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : getAuthorizationParameters().entrySet() )
+            appendAuthorizationParameter(out, e.getKey(), e.getValue());
 
         return "OAuth " + out.toString();
     }
 
     private KmOrderedMap<String,String> getAuthorizationParameters()
     {
-        KmOrderedMap<String,String> m;
-        m = new KmOrderedMap<>();
-        m.putAll(getOauthParameters());
-        m.put("oauth_signature", getSignature());
-        return m;
+        KmOrderedMap<String,String> e;
+        e = new KmOrderedMap<>();
+        e.putAll(getOauthParameters());
+        e.put("oauth_signature", getSignature());
+        return e;
     }
 
     private void appendAuthorizationParameter(KmStringBuilder out, String key, String value)
@@ -294,12 +291,8 @@ public class KmLinkedInConnection
     {
         KmStringBuilder out = new KmStringBuilder();
 
-        KmOrderedMap<String,String> m = getSignatureParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendSignatureParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : getSignatureParameters().entrySet() )
+            appendSignatureParameter(out, e.getKey(), e.getValue());
 
         return out.toString();
     }

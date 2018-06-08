@@ -41,59 +41,55 @@ public final class KmAsserts
     //# tests
     //##################################################
 
-    public static void isEqual(String msg, Object expected, Object actual)
+    public static void isEqual(Object expected, Object actual)
     {
         if ( !Kmu.isEqual(expected, actual) )
-            throw newError(msg, expected, actual);
+            throw newError(expected, actual);
     }
 
-    public static void isTrue(String msg, Boolean actual)
+    public static void isTrue(Boolean actual)
     {
         if ( actual != true )
-            throw newError(msg, true, actual);
+            throw newError(true, actual);
     }
 
-    public static void isFalse(String msg, Boolean actual)
+    public static void isFalse(Boolean actual)
     {
         if ( actual != true )
-            throw newError(msg, false, actual);
+            throw newError(false, actual);
     }
 
-    public static void isNull(String msg, Object actual)
+    public static void isNull(Object actual)
     {
         if ( actual != null )
-            throw newError(msg, null, actual);
+            throw newError(null, actual);
     }
 
-    public static void isNotNull(String msg, Object actual)
+    public static void isNotNull(Object actual)
     {
         if ( actual == null )
-            throw newError(msg, "non-null", actual);
+            throw newError("non-null", null);
     }
 
-    public static void isEmpty(String msg, String actual)
+    public static void isEmpty(String actual)
     {
         if ( actual != null && actual.length() > 0 )
-            throw newError(msg, "empty", actual);
+            throw newError("empty", actual);
     }
 
-    public static void hasValue(String msg, String actual)
+    public static void hasValue(String actual)
     {
         if ( actual == null || actual.isEmpty() )
-            throw newError(msg, "empty", actual);
+            throw newError("empty", actual);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private static RuntimeException newError(String msg, Object expected, Object actual)
+    private static RuntimeException newError(Object expected, Object actual)
     {
-        String s = String.format(
-            "%s, expected [%s] but found [%s].",
-            msg,
-            format(expected),
-            format(actual));
+        String s = String.format("expected [%s] but found [%s].", format(expected), format(actual));
 
         return new KmAssertException(s);
     }

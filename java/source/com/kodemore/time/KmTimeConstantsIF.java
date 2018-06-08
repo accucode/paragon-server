@@ -78,14 +78,4 @@ public interface KmTimeConstantsIF
      */
     int MY_SQL_EPOCH_DAY_OFFSET = 719528;
 
-    //##################################################
-    //# sql limits
-    //##################################################
-
-    KmTimestamp MINIMUM_TIMESTAMP = KmTimestamp.fromYearMonthDay(1800, 1, 1);
-    KmTimestamp MAXIMUM_TIMESTAMP = KmTimestamp.fromYearMonthDay(2100, 1, 1);
-
-    KmDate MINIMUM_DATE = KmDate.fromYearMonthDay(1800, 1, 1);
-    KmDate MAXIMUM_DATE = KmDate.fromYearMonthDay(2100, 1, 1);
-
 }

@@ -192,8 +192,6 @@ public class KmgModelCollection
 
         String s = parseRequiredString(e, "relation");
         _relation = Relation.valueOf(s);
-        if ( _relation == null )
-            throw newError("Unknown relation: " + s);
 
         String elementModel = parseRequiredString(e, "elementModel");
         String elementField = parseRequiredString(e, "elementField");
@@ -209,9 +207,6 @@ public class KmgModelCollection
         _associationReference.validate();
 
         KmgModelHibernateCollectionType ctype = getHibernateCollectionType();
-
-        if ( ctype == null )
-            throw newError("Unknown hibernate collection type(%s).", getType());
 
         if ( ctype.getUsesSequence() )
         {

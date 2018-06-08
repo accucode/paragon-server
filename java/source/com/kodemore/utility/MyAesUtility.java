@@ -110,12 +110,12 @@ public class MyAesUtility
         boolean brief = false;
 
         if ( brief )
-            System.out.printf("%s: %s\n", original, original.equals(result));
+            System.out.printf("%s: %s%n", original, original.equals(result));
         else
         {
-            System.out.printf("Original: %s (%s)\n", original, original.length());
-            System.out.printf("Hex:      %s (%s)\n", hex, hex.length());
-            System.out.printf("Result:   %s\n", result);
+            System.out.printf("Original: %s (%s)%n", original, original.length());
+            System.out.printf("Hex:      %s (%s)%n", hex, hex.length());
+            System.out.printf("Result:   %s%n", result);
             System.out.println(
                 original.equals(result)
                     ? "ok"

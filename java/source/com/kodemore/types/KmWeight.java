@@ -134,16 +134,7 @@ public class KmWeight
     @Override
     public int compareTo(KmWeight e)
     {
-        double d1 = _value;
-        double d2 = _unit.toLocal(e);
-
-        if ( d1 < d2 )
-            return -1;
-
-        if ( d1 > d2 )
-            return 1;
-
-        return 0;
+        return Double.compare(_value, _unit.toLocal(e));
     }
 
     //##################################################

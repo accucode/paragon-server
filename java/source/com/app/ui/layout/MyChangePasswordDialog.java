@@ -9,6 +9,7 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.control.MyFormDialog;
+import com.app.utility.MyGlobals;
 
 public class MyChangePasswordDialog
     extends MyFormDialog
@@ -123,7 +124,7 @@ public class MyChangePasswordDialog
     {
         super.preRender();
 
-        MyUser u = getGlobals().getCurrentUser();
+        MyUser u = MyGlobals.getCurrentUser();
         applyFromModel(u);
     }
 
@@ -140,7 +141,7 @@ public class MyChangePasswordDialog
         String new1 = _newPasswordField.getValue();
         String new2 = _retypePasswordField.getValue();
 
-        MyUser u = getGlobals().getCurrentUser();
+        MyUser u = MyGlobals.getCurrentUser();
         if ( !u.hasPassword(old) )
         {
             _oldPasswordField.ajaxFocus();
@@ -168,7 +169,7 @@ public class MyChangePasswordDialog
         String password = _newPasswordField.getValue();
 
         MyUser u;
-        u = getGlobals().getCurrentUser();
+        u = MyGlobals.getCurrentUser();
         u.setPassword(password);
 
         getAccess().flush();

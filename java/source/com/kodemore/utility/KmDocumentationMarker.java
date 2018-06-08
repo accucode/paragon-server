@@ -1,4 +1,5 @@
 /*
+  MIT License
   Copyright (c) 2005-2018 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,28 +21,17 @@
   THE SOFTWARE.
  */
 
-package com.kodemore.phonetic;
+package com.kodemore.utility;
 
 /**
- * A simple example of the default behavior.
+ * I am used to mark methods used for documentation. This prevents
+ * those methods from being flagged by static analysis tools as
+ * useless.
  */
-public class KmPhoneticTest
+public final class KmDocumentationMarker
 {
-    public static void main(String args[])
+    public static final void mark()
     {
-        KmPhoneticEncoder e;
-        e = new KmPhoneticEncoder();
-        e.loadDefaultRules();
-
-        print(e, "elephant");
-        print(e, "tiger");
-        print(e, "lepard");
-        print(e, "leapt");
+        System.out.println("documentation");
     }
-
-    public static void print(KmPhoneticEncoder e, String s)
-    {
-        System.out.printf("%s => %s%n", s, e.encode(s));
-    }
-
 }

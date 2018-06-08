@@ -123,11 +123,6 @@ public abstract class MyAbstractTest
     //# support
     //##################################################
 
-    protected final MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected final MyDaoAccess getAccess()
     {
         return MyGlobals.getAccess();

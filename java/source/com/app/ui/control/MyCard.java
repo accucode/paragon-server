@@ -17,11 +17,6 @@ import com.app.utility.MyGlobals;
 public class MyCard
     extends ScCard
 {
-    public MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     public static MyDaoAccess getAccess()
     {
         return MyDaoAccess.getInstance();

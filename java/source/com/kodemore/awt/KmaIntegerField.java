@@ -156,7 +156,7 @@ public class KmaIntegerField
     {
         try
         {
-            return new Integer(s);
+            return Integer.valueOf(s);
         }
         catch ( Exception ex )
         {

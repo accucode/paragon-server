@@ -40,6 +40,13 @@ public class KmTimestamp
     implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    public static final KmTimestamp MINIMUM = KmTimestamp.fromYearMonthDay(1800, 1, 1);
+    public static final KmTimestamp MAXIMUM = KmTimestamp.fromYearMonthDay(2100, 1, 1);
+
+    //##################################################
     //# static convenience
     //##################################################
 

@@ -1163,14 +1163,9 @@ public abstract class MyCrudGeneralSearchView<P extends KmUidDomainIF, C extends
     //# support
     //##################################################
 
-    protected final MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected final MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     private String getPluralDomainName()

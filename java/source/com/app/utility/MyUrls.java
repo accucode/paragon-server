@@ -50,7 +50,7 @@ public class MyUrls
      */
     public static String formatEntryUrl(MyTenant tenant, ScParameterList params)
     {
-        KmAsserts.isNotNull("Tenant is required.", tenant);
+        KmAsserts.isNotNull(tenant);
 
         MyUrlInfo e;
         e = getDefaultInfo();

@@ -24,7 +24,6 @@ package com.kodemore.validator;
 
 import com.kodemore.exception.error.KmErrorList;
 import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimeConstantsIF;
 
 public class KmDateValidator
     extends KmValidator<KmDate>
@@ -41,10 +40,10 @@ public class KmDateValidator
 
     public void validateYear(KmDate value, KmErrorList errors)
     {
-        if ( value.isBefore(KmTimeConstantsIF.MINIMUM_DATE) )
+        if ( value.isBefore(KmDate.MINIMUM) )
             errors.addFieldError(this, "exceeds minimum date range.");
 
-        if ( value.isAfter(KmTimeConstantsIF.MAXIMUM_DATE) )
+        if ( value.isAfter(KmDate.MAXIMUM) )
             errors.addFieldError(this, "exceeds maximum date range.");
     }
 

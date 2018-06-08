@@ -396,35 +396,33 @@ public class KmDuration
      */
     public String formatEstimatedTime()
     {
-        StringBuilder out = new StringBuilder();
-
-        if ( isNegative() )
-            out.append("-");
-
         KmDuration abs = abs();
+        String sign = isNegative()
+            ? "-"
+            : "";
 
         double dd = abs.getTotalDaysExact();
         double yy = dd / 365.25;
         if ( yy > 1 )
-            return formatUnit(yy, "year");
+            return sign + formatUnit(yy, "year");
 
         double mm = dd / 30.4;
         if ( mm > 1 )
-            return formatUnit(mm, "month");
+            return sign + formatUnit(mm, "month");
 
         if ( dd > 1 )
-            return formatUnit(dd, "day");
+            return sign + formatUnit(dd, "day");
 
         double h = abs.getTotalHoursExact();
         if ( h > 1 )
-            return formatUnit(h, "hour");
+            return sign + formatUnit(h, "hour");
 
         double m = abs.getTotalMinutesExact();
         if ( m > 1 )
-            return formatUnit(m, "minute");
+            return sign + formatUnit(m, "minute");
 
         int s = abs.getTotalSeconds();
-        return formatUnit(s, "second");
+        return sign + formatUnit(s, "second");
     }
 
     /**
@@ -433,12 +431,10 @@ public class KmDuration
      */
     public String formatEstimatedWork()
     {
-        StringBuilder out = new StringBuilder();
-
-        if ( isNegative() )
-            out.append("-");
-
         KmDuration abs = abs();
+        String sign = isNegative()
+            ? "-"
+            : "";
 
         final double hoursPerDay = 8;
         final double hoursPerMonth = hoursPerDay * 20;
@@ -447,26 +443,26 @@ public class KmDuration
         double hours = abs.getTotalHoursExact();
         double yy = hours / hoursPerYear;
         if ( yy > 1 )
-            return formatUnit(yy, "year");
+            return sign + formatUnit(yy, "year");
 
         double mm = hours / hoursPerMonth;
         if ( mm > 1 )
-            return formatUnit(mm, "month");
+            return sign + formatUnit(mm, "month");
 
         double dd = hours / hoursPerDay;
         if ( dd > 1 )
-            return formatUnit(dd, "day");
+            return sign + formatUnit(dd, "day");
 
         double h = hours;
         if ( h > 1 )
-            return formatUnit(h, "hour");
+            return sign + formatUnit(h, "hour");
 
         double m = abs.getTotalMinutesExact();
         if ( m > 1 )
-            return formatUnit(m, "minute");
+            return sign + formatUnit(m, "minute");
 
         int s = abs.getTotalSeconds();
-        return formatUnit(s, "second");
+        return sign + formatUnit(s, "second");
     }
 
     public String formatExact()

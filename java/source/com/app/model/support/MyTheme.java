@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.utility.KmDocumentationMarker;
 import com.kodemore.utility.KmEnumIF;
 
 public enum MyTheme
@@ -98,6 +99,7 @@ public enum MyTheme
     @SuppressWarnings("unused")
     private void _README()
     {
+        KmDocumentationMarker.mark();
         switch ( this )
         {
             case Blue:

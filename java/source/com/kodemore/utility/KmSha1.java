@@ -102,8 +102,7 @@ public class KmSha1
     {
         state = new int[5];
         count = 0;
-        if ( block == null )
-            block = new int[16];
+        block = new int[16];
         digestBits = new byte[20];
         digestValid = false;
     }

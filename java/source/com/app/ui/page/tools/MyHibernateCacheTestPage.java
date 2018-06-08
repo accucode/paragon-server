@@ -164,6 +164,14 @@ public final class MyHibernateCacheTestPage
     {
         KmList<MyHibernateCacheTest> v = MyDaoAccess.getInstance().findAllHibernateCacheTests();
         for ( MyHibernateCacheTest e : v )
-            e.getData();
+            processData(e.getData());
+    }
+
+    /**
+     * @param e placeholder for testing.
+     */
+    protected void processData(String e)
+    {
+        // none
     }
 }

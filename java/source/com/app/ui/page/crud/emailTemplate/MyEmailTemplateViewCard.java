@@ -20,6 +20,7 @@ import com.app.model.MyProject;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaEmailTemplate;
 import com.app.ui.page.crud.abstractBase.MyCrudViewCard;
+import com.app.utility.MyGlobals;
 
 public class MyEmailTemplateViewCard
     extends MyCrudViewCard<MyEmailTemplate>
@@ -288,7 +289,7 @@ public class MyEmailTemplateViewCard
 
     private void handleToMe()
     {
-        MyUser user = getGlobals().getCurrentUser();
+        MyUser user = MyGlobals.getCurrentUser();
         String email = user.getEmail();
 
         _sendForm.ajaxHideAllErrors();

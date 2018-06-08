@@ -95,8 +95,8 @@ public class KmDateParser
     {
         _separator = '/';
         _centurySplitYear = 30;
-        _minimumYear = KmTimeConstantsIF.MINIMUM_DATE.getYear();
-        _maximumYear = KmTimeConstantsIF.MAXIMUM_DATE.getYear();
+        _minimumYear = KmDate.MINIMUM.getYear();
+        _maximumYear = KmDate.MAXIMUM.getYear();
         _oneNumberMode = ONE_NUMBER_MODE_DAY_OFFSET;
         _twoNumberMode = TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR;
         _threeNumberMode = THREE_NUMBER_MODE_MONTH_DAY_YEAR;

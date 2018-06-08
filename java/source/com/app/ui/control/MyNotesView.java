@@ -366,14 +366,9 @@ public class MyNotesView
     //# support
     //##################################################
 
-    private MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     private MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     private KmList<MyNote> findNotes()

@@ -67,7 +67,6 @@ public final class MyDashboardPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css();
         root.add(createRefreshButton());
         root.add(createTransientDiv());
 
@@ -180,7 +179,7 @@ public final class MyDashboardPage
         int index;
         index = 0;
         index += addLineTo(root, index, member.getDashboardLineCount1(), panels);
-        index += addLineTo(root, index, member.getDashboardLineCount2(), panels);
+        addLineTo(root, index, member.getDashboardLineCount2(), panels);
     }
 
     private KmList<MyDashboardPanel> getMemberPanels(MyMember member)

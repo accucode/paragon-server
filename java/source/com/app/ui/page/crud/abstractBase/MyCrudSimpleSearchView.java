@@ -511,14 +511,9 @@ public abstract class MyCrudSimpleSearchView<P extends KmUidDomainIF, C extends 
     //# convenience
     //##################################################
 
-    protected final MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected final MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     //##################################################

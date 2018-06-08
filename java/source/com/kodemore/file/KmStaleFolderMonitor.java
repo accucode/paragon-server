@@ -29,6 +29,7 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
 import com.kodemore.time.KmClock;
 import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmFiles;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -121,9 +122,6 @@ public class KmStaleFolderMonitor
         if ( _folder == null )
             _folder = new File(_folderPath);
 
-        if ( _folder == null )
-            return;
-
         if ( !_folder.exists() )
             return;
 
@@ -134,7 +132,7 @@ public class KmStaleFolderMonitor
 
     private void updateState(KmTimestamp now)
     {
-        KmList<String> current = KmList.createStrings(_folder.list());
+        KmList<String> current = KmFiles.getFolderList(_folder);
         KmList<String> last = _lastFilenameUtsTs.getKeys();
         KmList<String> added = getNotInListFirstNotLast(current, last);
         KmList<String> removed = getNotInListFirstNotLast(last, current);

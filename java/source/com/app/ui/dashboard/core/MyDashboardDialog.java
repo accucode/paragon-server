@@ -20,6 +20,7 @@ import com.app.model.MyProject;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaMember;
 import com.app.ui.control.MyFormDialog;
+import com.app.utility.MyGlobals;
 
 public class MyDashboardDialog
     extends MyFormDialog
@@ -256,8 +257,8 @@ public class MyDashboardDialog
 
     private MyMember getMember()
     {
-        MyProject project = getGlobals().getCurrentProject();
-        MyUser user = getGlobals().getCurrentUser();
+        MyProject project = MyGlobals.getCurrentProject();
+        MyUser user = MyGlobals.getCurrentUser();
 
         return project.getMemberFor(user);
     }

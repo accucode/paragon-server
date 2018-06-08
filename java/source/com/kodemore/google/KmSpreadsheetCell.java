@@ -1,6 +1,7 @@
 package com.kodemore.google;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.google.gdata.data.spreadsheet.CellEntry;
 
@@ -105,15 +106,11 @@ public class KmSpreadsheetCell
      */
     public Double getDoubleValue()
     {
-        String s = getValue();
-
-        if ( s == null )
-            return null;
-
+        String s;
+        s = getValue();
         s = s.trim();
         s = Kmu.removePrefix(s, "$");
         s = Kmu.stripCharacters(s, ',');
-
         return Kmu.parseDouble(s);
     }
 
@@ -123,16 +120,35 @@ public class KmSpreadsheetCell
      */
     public Integer getIntegerValue()
     {
-        String s = getValue();
-
-        if ( s == null )
-            return null;
-
+        String s;
+        s = getValue();
         s = s.trim();
         s = Kmu.removePrefix(s, "$");
         s = Kmu.stripCharacters(s, ',');
 
         return Kmu.parseInteger(s);
+    }
+
+    //##################################################
+    //# equals
+    //##################################################
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if ( !(o instanceof KmSpreadsheetCell) )
+            return false;
+
+        KmSpreadsheetCell e = (KmSpreadsheetCell)o;
+
+        return Objects.equals(getRowPosition(), e.getRowPosition())
+            && Objects.equals(getColumnPosition(), e.getColumnPosition());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getRowPosition(), getColumnPosition());
     }
 
     //##################################################

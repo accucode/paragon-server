@@ -248,14 +248,19 @@ public class KmZendeskListTickets
     private KmList<KmZendeskCustomField> getCustomFields(KmJsonArray array)
     {
         KmList<KmZendeskCustomField> v = new KmList<>();
+
         int n = array.size();
         for ( int i = 0; i < n; i++ )
         {
-            KmZendeskCustomField via = new KmZendeskCustomField();
             KmJsonMap map = array.getMapAt(i);
-            via.setId(map.getInteger("id"));
-            via.setValue(map.getString("value"));
+
+            KmZendeskCustomField e;
+            e = new KmZendeskCustomField();
+            e.setId(map.getInteger("id"));
+            e.setValue(map.getString("value"));
+            v.add(e);
         }
+
         return v;
     }
 

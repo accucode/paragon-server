@@ -196,25 +196,18 @@ public class MyBlurbGroup
         setOwnerUid(owner.getUid());
     }
 
-    public void _setOwner(Object e)
+    public void _setOwner(Object o)
     {
-        if ( !(e instanceof MyBlurbOwnerIF) )
+        if ( !(o instanceof MyBlurbOwnerIF) )
             return;
 
-        MyBlurbOwnerIF owner;
-        owner = (MyBlurbOwnerIF)e;
+        MyBlurbOwnerIF e = (MyBlurbOwnerIF)o;
 
-        MyBlurbOwnerType type;
-        type = owner.getBlurbOwnerType();
-
-        if ( type == null )
-            clearOwner();
-
-        setOwnerType(type);
-        setOwnerUid(owner.getUid());
+        setOwnerType(e.getBlurbOwnerType());
+        setOwnerUid(e.getUid());
     }
 
-    private void clearOwner()
+    public void clearOwner()
     {
         _ownerTypeCode.clearValue();
         _ownerUid.clearValue();
@@ -500,13 +493,8 @@ public class MyBlurbGroup
     //# support
     //##################################################
 
-    private MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     private MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 }

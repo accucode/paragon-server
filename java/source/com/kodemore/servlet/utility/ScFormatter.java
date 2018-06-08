@@ -307,7 +307,7 @@ public class ScFormatter
         {
             KmWeekDay day = KmWeekDay.fromToken(token);
             if ( day != null )
-                f.addDay(day);
+                f = f.addDay(day);
         }
 
         return f;

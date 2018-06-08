@@ -438,9 +438,9 @@ public class ScProgressBar
         Double totalTaskDaysDouble = new Double(totalTaskDays);
 
         Integer taskDays = computeTaskStartDays();
-        Double taskStartDouble = taskDays == null
+        double taskStartDouble = taskDays == null
             ? 0.0
-            : new Double(taskDays);
+            : taskDays;
 
         Double progressDecimal = getProgressDecimal();
         Double percent = (progressDecimal * totalTaskDaysDouble + taskStartDouble)
@@ -516,7 +516,7 @@ public class ScProgressBar
             ? getHeight()
             : 16;
 
-        int borderWidth = new Double(0.5 * height / 2).intValue();
+        int borderWidth = (int)(0.5 * height / 2);
 
         if ( isTodayBeforePeriod() )
         {

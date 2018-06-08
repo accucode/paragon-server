@@ -86,24 +86,19 @@ public abstract class MyDashboardPanel
     //# support
     //##################################################
 
-    protected MyGlobals getGlobals()
-    {
-        return MyGlobals.instance;
-    }
-
     protected MyDaoAccess getAccess()
     {
-        return getGlobals().getAccess();
+        return MyGlobals.getAccess();
     }
 
     protected MyProject getProject()
     {
-        return getGlobals().getCurrentProject();
+        return MyGlobals.getCurrentProject();
     }
 
     protected MyUser getUser()
     {
-        return getGlobals().getCurrentUser();
+        return MyGlobals.getCurrentUser();
     }
 
     protected MyMember getMember()

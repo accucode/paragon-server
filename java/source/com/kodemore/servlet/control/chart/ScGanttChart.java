@@ -553,7 +553,7 @@ public class ScGanttChart
         }
 
         // Add last axis label
-        item = addAxisItemTo(topAxis, max);
+        addAxisItemTo(topAxis, max);
     }
 
     private ScSpan addAxisItemTo(ScDiv topAxis, int i)

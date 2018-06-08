@@ -25,6 +25,7 @@ package com.kodemore.generator;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map.Entry;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -337,8 +338,8 @@ public class KmgGenerator
         c.put("ddlAutoGenerationComment", getDdlAutoGenerationComment());
         c.put("utility", new KmgUtility());
 
-        for ( String key : _extraContext.keySet() )
-            c.put(key, _extraContext.get(key));
+        for ( Entry<String,Object> e : _extraContext.entrySet() )
+            c.put(e.getKey(), e.getValue());
 
         return c;
     }
